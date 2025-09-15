@@ -1,0 +1,80 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_kerberos_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:13
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_kerberos_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_kerberos_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_kerberos_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_kerberos_CLRaw ingestion json mapping 'Corelight_v2_kerberos_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_kerberos_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+client_cert_fuid_s:string,
+client_cert_subject_s:string,
+renewable_b:bool,
+forwardable_b:bool,
+cipher_s:string,
+till_t:datetime,
+from_t:datetime,
+error_msg_s:string,
+success_b:bool,
+service_s:string,
+client_s:string,
+request_type_s:string,
+id_resp_p_d:real,
+id_resp_h_s:string,
+id_orig_p_d:real,
+id_orig_h_s:string,
+uid_s:string,
+server_cert_subject_s:string,
+server_cert_fuid_s:string,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_kerberos_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_kerberos_CLExpand() {
+Corelight_v2_kerberos_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+client_cert_fuid_s=tostring(events.client_cert_fuid_s),
+client_cert_subject_s=tostring(events.client_cert_subject_s),
+renewable_b=tobool(events.renewable_b),
+forwardable_b=tobool(events.forwardable_b),
+cipher_s=tostring(events.cipher_s),
+till_t=todatetime(events.till_t),
+from_t=todatetime(events.from_t),
+error_msg_s=tostring(events.error_msg_s),
+success_b=tobool(events.success_b),
+service_s=tostring(events.service_s),
+client_s=tostring(events.client_s),
+request_type_s=tostring(events.request_type_s),
+id_resp_p_d=toreal(events.id_resp_p_d),
+id_resp_h_s=tostring(events.id_resp_h_s),
+id_orig_p_d=toreal(events.id_orig_p_d),
+id_orig_h_s=tostring(events.id_orig_h_s),
+uid_s=tostring(events.uid_s),
+server_cert_subject_s=tostring(events.server_cert_subject_s),
+server_cert_fuid_s=tostring(events.server_cert_fuid_s),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_kerberos_CL policy update @'[{"Source": "Corelight_v2_kerberos_CLRaw", "Query": "Corelight_v2_kerberos_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

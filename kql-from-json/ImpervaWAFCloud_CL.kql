@@ -1,0 +1,108 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ImpervaWAFCloud_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table ImpervaWAFCloud_CLRaw (records:dynamic)
+
+.alter-merge table ImpervaWAFCloud_CLRaw policy retention softdelete = 1d
+
+.alter table ImpervaWAFCloud_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ImpervaWAFCloud_CLRaw ingestion json mapping 'ImpervaWAFCloud_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ImpervaWAFCloud_CL(
+TimeGenerated:datetime,
+EventVendor_s:string,
+requestMethod_s:string,
+sip_s:string,
+siteid_s:string,
+sourceServiceName_s:string,
+spt_s:string,
+src_s:string,
+start_s:string,
+suid_s:string,
+ver_s:string,
+xff_s:string,
+CapSupport_s:string,
+clapp_s:string,
+clappsig_s:string,
+COSupport_s:string,
+latitude_s:string,
+requestClientApplication_s:string,
+longitude_s:string,
+request_s:string,
+postbody_s:string,
+EventProduct_s:string,
+EventType_s:string,
+severity_s:string,
+act_s:string,
+app_s:string,
+ccode_s:string,
+cicode_s:string,
+cn1_s:string,
+cpt_s:string,
+Customer_s:string,
+deviceExternalId_s:string,
+deviceFacility_s:string,
+dproc_s:string,
+end_s:string,
+fileId_s:string,
+qstr_s:string,
+VID_g:string,
+_TimeReceived:datetime)
+
+.alter table ImpervaWAFCloud_CL policy caching hot = 1d
+
+.create-or-alter function ImpervaWAFCloud_CLExpand() {
+ImpervaWAFCloud_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+EventVendor_s=tostring(events.EventVendor_s),
+requestMethod_s=tostring(events.requestMethod_s),
+sip_s=tostring(events.sip_s),
+siteid_s=tostring(events.siteid_s),
+sourceServiceName_s=tostring(events.sourceServiceName_s),
+spt_s=tostring(events.spt_s),
+src_s=tostring(events.src_s),
+start_s=tostring(events.start_s),
+suid_s=tostring(events.suid_s),
+ver_s=tostring(events.ver_s),
+xff_s=tostring(events.xff_s),
+CapSupport_s=tostring(events.CapSupport_s),
+clapp_s=tostring(events.clapp_s),
+clappsig_s=tostring(events.clappsig_s),
+COSupport_s=tostring(events.COSupport_s),
+latitude_s=tostring(events.latitude_s),
+requestClientApplication_s=tostring(events.requestClientApplication_s),
+longitude_s=tostring(events.longitude_s),
+request_s=tostring(events.request_s),
+postbody_s=tostring(events.postbody_s),
+EventProduct_s=tostring(events.EventProduct_s),
+EventType_s=tostring(events.EventType_s),
+severity_s=tostring(events.severity_s),
+act_s=tostring(events.act_s),
+app_s=tostring(events.app_s),
+ccode_s=tostring(events.ccode_s),
+cicode_s=tostring(events.cicode_s),
+cn1_s=tostring(events.cn1_s),
+cpt_s=tostring(events.cpt_s),
+Customer_s=tostring(events.Customer_s),
+deviceExternalId_s=tostring(events.deviceExternalId_s),
+deviceFacility_s=tostring(events.deviceFacility_s),
+dproc_s=tostring(events.dproc_s),
+end_s=tostring(events.end_s),
+fileId_s=tostring(events.fileId_s),
+qstr_s=tostring(events.qstr_s),
+VID_g=tostring(events.VID_g),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ImpervaWAFCloud_CL policy update @'[{"Source": "ImpervaWAFCloud_CLRaw", "Query": "ImpervaWAFCloud_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

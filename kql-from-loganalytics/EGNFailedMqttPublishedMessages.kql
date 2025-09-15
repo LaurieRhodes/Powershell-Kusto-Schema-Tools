@@ -1,0 +1,61 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for EGNFailedMqttPublishedMessages - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:13:44
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 13, Final columns: 13
+// ============================================================================
+
+.create-merge table EGNFailedMqttPublishedMessagesRaw (records:dynamic)
+
+.alter-merge table EGNFailedMqttPublishedMessagesRaw policy retention softdelete = 1d
+
+.alter table EGNFailedMqttPublishedMessagesRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table EGNFailedMqttPublishedMessagesRaw ingestion json mapping 'EGNFailedMqttPublishedMessagesRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table EGNFailedMqttPublishedMessages(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+ResultSignature:string,
+ResultDescription:string,
+ClientIdentity:string,
+SessionName:string,
+Protocol:string,
+Qos:int,
+TopicName:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table EGNFailedMqttPublishedMessages policy caching hot = 1d
+
+.create-or-alter function EGNFailedMqttPublishedMessagesExpand() {
+EGNFailedMqttPublishedMessagesRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+ResultSignature=tostring(events.ResultSignature),
+ResultDescription=tostring(events.ResultDescription),
+ClientIdentity=tostring(events.ClientIdentity),
+SessionName=tostring(events.SessionName),
+Protocol=tostring(events.Protocol),
+Qos=toint(events.Qos),
+TopicName=tostring(events.TopicName),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table EGNFailedMqttPublishedMessages policy update @'[{"Source": "EGNFailedMqttPublishedMessagesRaw", "Query": "EGNFailedMqttPublishedMessagesExpand()", "IsEnabled": "True", "IsTransactional": true}]'

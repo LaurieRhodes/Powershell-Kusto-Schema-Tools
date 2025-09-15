@@ -1,0 +1,46 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ZeroFox_CTI_discord_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table ZeroFox_CTI_discord_CLRaw (records:dynamic)
+
+.alter-merge table ZeroFox_CTI_discord_CLRaw policy retention softdelete = 1d
+
+.alter table ZeroFox_CTI_discord_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ZeroFox_CTI_discord_CLRaw ingestion json mapping 'ZeroFox_CTI_discord_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ZeroFox_CTI_discord_CL(
+TimeGenerated:datetime,
+author_id_s:string,
+author_username_s:string,
+channel_name_s:string,
+content_s:string,
+server_name_s:string,
+timestamp_t:datetime,
+_TimeReceived:datetime)
+
+.alter table ZeroFox_CTI_discord_CL policy caching hot = 1d
+
+.create-or-alter function ZeroFox_CTI_discord_CLExpand() {
+ZeroFox_CTI_discord_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+author_id_s=tostring(events.author_id_s),
+author_username_s=tostring(events.author_username_s),
+channel_name_s=tostring(events.channel_name_s),
+content_s=tostring(events.content_s),
+server_name_s=tostring(events.server_name_s),
+timestamp_t=todatetime(events.timestamp_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ZeroFox_CTI_discord_CL policy update @'[{"Source": "ZeroFox_CTI_discord_CLRaw", "Query": "ZeroFox_CTI_discord_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

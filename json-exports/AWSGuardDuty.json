@@ -1,0 +1,73 @@
+﻿{
+  "Name": "AWSGuardDuty",
+  "Properties": [
+    {
+      "Name": "TenantId",
+      "Type": "guid"
+    },
+    {
+      "Name": "TimeGenerated",
+      "Type": "datetime"
+    },
+    {
+      "Name": "SchemaVersion",
+      "Type": "string"
+    },
+    {
+      "Name": "AccountId",
+      "Type": "string"
+    },
+    {
+      "Name": "Region",
+      "Type": "string"
+    },
+    {
+      "Name": "Partition",
+      "Type": "string"
+    },
+    {
+      "Name": "Id",
+      "Type": "string"
+    },
+    {
+      "Name": "Arn",
+      "Type": "string"
+    },
+    {
+      "Name": "ActivityType",
+      "Type": "string"
+    },
+    {
+      "Name": "ResourceDetails",
+      "Type": "dynamic"
+    },
+    {
+      "Name": "ServiceDetails",
+      "Type": "dynamic"
+    },
+    {
+      "Name": "Severity",
+      "Type": "int"
+    },
+    {
+      "Name": "TimeCreated",
+      "Type": "datetime"
+    },
+    {
+      "Name": "Title",
+      "Type": "string"
+    },
+    {
+      "Name": "Description",
+      "Type": "string"
+    },
+    {
+      "Name": "SourceSystem",
+      "Type": "string"
+    },
+    {
+      "Name": "Type",
+      "Type": "string"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for TheHive_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table TheHive_CLRaw (records:dynamic)
+
+.alter-merge table TheHive_CLRaw policy retention softdelete = 1d
+
+.alter table TheHive_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table TheHive_CLRaw ingestion json mapping 'TheHive_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table TheHive_CL(
+TimeGenerated:datetime,
+iobject_updatedBy_s:string,
+object_startDate_d:real,
+object_tlp_d:real,
+object_severity_d:real,
+object_caseId_d:real,
+object_createdAt_d:real,
+object_owner_s:string,
+object_status_s:string,
+object_title_s:string,
+object_user_s:string,
+object_flag_b:bool,
+object_description_s:string,
+object_createdBy_s:string,
+rootId_s:string,
+base_b:bool,
+object_tags_s:string,
+details_tags_s:string,
+details_tlp_d:real,
+details_severity_d:real,
+details_caseId_d:real,
+details_owner_s:string,
+details_status_s:string,
+details_title_s:string,
+details_flag_b:bool,
+details_description_s:string,
+requestId_s:string,
+startDate_d:real,
+object_id_s:string,
+object__type_s:string,
+operation_s:string,
+object_updatedAt_d:real,
+details_startDate_d:real,
+objectType_s:string,
+_TimeReceived:datetime)
+
+.alter table TheHive_CL policy caching hot = 1d
+
+.create-or-alter function TheHive_CLExpand() {
+TheHive_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+iobject_updatedBy_s=tostring(events.iobject_updatedBy_s),
+object_startDate_d=toreal(events.object_startDate_d),
+object_tlp_d=toreal(events.object_tlp_d),
+object_severity_d=toreal(events.object_severity_d),
+object_caseId_d=toreal(events.object_caseId_d),
+object_createdAt_d=toreal(events.object_createdAt_d),
+object_owner_s=tostring(events.object_owner_s),
+object_status_s=tostring(events.object_status_s),
+object_title_s=tostring(events.object_title_s),
+object_user_s=tostring(events.object_user_s),
+object_flag_b=tobool(events.object_flag_b),
+object_description_s=tostring(events.object_description_s),
+object_createdBy_s=tostring(events.object_createdBy_s),
+rootId_s=tostring(events.rootId_s),
+base_b=tobool(events.base_b),
+object_tags_s=tostring(events.object_tags_s),
+details_tags_s=tostring(events.details_tags_s),
+details_tlp_d=toreal(events.details_tlp_d),
+details_severity_d=toreal(events.details_severity_d),
+details_caseId_d=toreal(events.details_caseId_d),
+details_owner_s=tostring(events.details_owner_s),
+details_status_s=tostring(events.details_status_s),
+details_title_s=tostring(events.details_title_s),
+details_flag_b=tobool(events.details_flag_b),
+details_description_s=tostring(events.details_description_s),
+requestId_s=tostring(events.requestId_s),
+startDate_d=toreal(events.startDate_d),
+object_id_s=tostring(events.object_id_s),
+object__type_s=tostring(events.object__type_s),
+operation_s=tostring(events.operation_s),
+object_updatedAt_d=toreal(events.object_updatedAt_d),
+details_startDate_d=toreal(events.details_startDate_d),
+objectType_s=tostring(events.objectType_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table TheHive_CL policy update @'[{"Source": "TheHive_CLRaw", "Query": "TheHive_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

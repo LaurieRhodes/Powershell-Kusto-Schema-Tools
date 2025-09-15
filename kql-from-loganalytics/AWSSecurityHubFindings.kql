@@ -1,0 +1,99 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AWSSecurityHubFindings - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:23:51
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 32, Final columns: 32
+// ============================================================================
+
+.create-merge table AWSSecurityHubFindingsRaw (records:dynamic)
+
+.alter-merge table AWSSecurityHubFindingsRaw policy retention softdelete = 1d
+
+.alter table AWSSecurityHubFindingsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AWSSecurityHubFindingsRaw ingestion json mapping 'AWSSecurityHubFindingsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AWSSecurityHubFindings(
+TimeGenerated:datetime,
+TenantId:guid,
+WorkflowState:string,
+RecordState:string,
+Resources:dynamic,
+SchemaVersion:string,
+Remediation:dynamic,
+AwsSecurityFindingSeverity:dynamic,
+AwsSecurityFindingProductFields:dynamic,
+AwsSecurityFindingProductName:string,
+AwsSecurityFindingProductArn:string,
+AwsSecurityFindingGeneratorId:string,
+AwsSecurityFindingProcessedAt:datetime,
+AwsSecurityFindingLastObservedAt:datetime,
+AwsSecurityFindingUpdatedAt:datetime,
+AwsSecurityFindingFirstObservedAt:datetime,
+AwsSecurityFindingCreatedAt:datetime,
+AwsSecurityFindingTypes:dynamic,
+AwsSecurityFindingDescription:string,
+AwsSecurityFindingId:string,
+AwsSecurityFindingTitle:string,
+ComplianceAssociatedStandards:dynamic,
+ComplianceRelatedRequirements:dynamic,
+ComplianceSecurityControlParameters:dynamic,
+ComplianceSecurityControlId:string,
+ComplianceStatusReasons:dynamic,
+ComplianceStatus:string,
+AwsAccountId:string,
+AwsRegion:string,
+RawData:dynamic,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table AWSSecurityHubFindings policy caching hot = 1d
+
+.create-or-alter function AWSSecurityHubFindingsExpand() {
+AWSSecurityHubFindingsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+WorkflowState=tostring(events.WorkflowState),
+RecordState=tostring(events.RecordState),
+Resources=todynamic(events.Resources),
+SchemaVersion=tostring(events.SchemaVersion),
+Remediation=todynamic(events.Remediation),
+AwsSecurityFindingSeverity=todynamic(events.AwsSecurityFindingSeverity),
+AwsSecurityFindingProductFields=todynamic(events.AwsSecurityFindingProductFields),
+AwsSecurityFindingProductName=tostring(events.AwsSecurityFindingProductName),
+AwsSecurityFindingProductArn=tostring(events.AwsSecurityFindingProductArn),
+AwsSecurityFindingGeneratorId=tostring(events.AwsSecurityFindingGeneratorId),
+AwsSecurityFindingProcessedAt=todatetime(events.AwsSecurityFindingProcessedAt),
+AwsSecurityFindingLastObservedAt=todatetime(events.AwsSecurityFindingLastObservedAt),
+AwsSecurityFindingUpdatedAt=todatetime(events.AwsSecurityFindingUpdatedAt),
+AwsSecurityFindingFirstObservedAt=todatetime(events.AwsSecurityFindingFirstObservedAt),
+AwsSecurityFindingCreatedAt=todatetime(events.AwsSecurityFindingCreatedAt),
+AwsSecurityFindingTypes=todynamic(events.AwsSecurityFindingTypes),
+AwsSecurityFindingDescription=tostring(events.AwsSecurityFindingDescription),
+AwsSecurityFindingId=tostring(events.AwsSecurityFindingId),
+AwsSecurityFindingTitle=tostring(events.AwsSecurityFindingTitle),
+ComplianceAssociatedStandards=todynamic(events.ComplianceAssociatedStandards),
+ComplianceRelatedRequirements=todynamic(events.ComplianceRelatedRequirements),
+ComplianceSecurityControlParameters=todynamic(events.ComplianceSecurityControlParameters),
+ComplianceSecurityControlId=tostring(events.ComplianceSecurityControlId),
+ComplianceStatusReasons=todynamic(events.ComplianceStatusReasons),
+ComplianceStatus=tostring(events.ComplianceStatus),
+AwsAccountId=tostring(events.AwsAccountId),
+AwsRegion=tostring(events.AwsRegion),
+RawData=todynamic(events.RawData),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AWSSecurityHubFindings policy update @'[{"Source": "AWSSecurityHubFindingsRaw", "Query": "AWSSecurityHubFindingsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

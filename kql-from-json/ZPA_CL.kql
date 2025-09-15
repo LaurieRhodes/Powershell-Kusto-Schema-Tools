@@ -1,0 +1,46 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ZPA_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table ZPA_CLRaw (records:dynamic)
+
+.alter-merge table ZPA_CLRaw policy retention softdelete = 1d
+
+.alter table ZPA_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ZPA_CLRaw ingestion json mapping 'ZPA_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ZPA_CL(
+TimeGenerated:datetime,
+Computer:string,
+RawData:string,
+Message:string,
+Type:string,
+_ResourceId:string,
+_SubscriptionId:string,
+_TimeReceived:datetime)
+
+.alter table ZPA_CL policy caching hot = 1d
+
+.create-or-alter function ZPA_CLExpand() {
+ZPA_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+Computer=tostring(events.Computer),
+RawData=tostring(events.RawData),
+Message=tostring(events.Message),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_SubscriptionId=tostring(events._SubscriptionId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ZPA_CL policy update @'[{"Source": "ZPA_CLRaw", "Query": "ZPA_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

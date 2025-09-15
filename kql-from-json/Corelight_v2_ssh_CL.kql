@@ -1,0 +1,98 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_ssh_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:13
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_ssh_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_ssh_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_ssh_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_ssh_CLRaw ingestion json mapping 'Corelight_v2_ssh_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_ssh_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+sshka_s:string,
+hasshAlgorithms_s:string,
+cshka_s:string,
+hasshVersion_s:string,
+remote_location_longitude_d:real,
+remote_location_latitude_d:real,
+remote_location_city_s:string,
+remote_location_region_s:string,
+remote_location_country_code_s:string,
+host_key_s:string,
+host_key_alg_s:string,
+kex_alg_s:string,
+hasshServerAlgorithms_s:string,
+compression_alg_s:string,
+cipher_alg_s:string,
+server_s:string,
+client_s:string,
+direction_s:string,
+auth_attempts_d:real,
+auth_success_b:bool,
+version_d:real,
+id_resp_p_d:real,
+id_resp_h_s:string,
+id_orig_p_d:real,
+id_orig_h_s:string,
+uid_s:string,
+mac_alg_s:string,
+inferences_s:string,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_ssh_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_ssh_CLExpand() {
+Corelight_v2_ssh_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+sshka_s=tostring(events.sshka_s),
+hasshAlgorithms_s=tostring(events.hasshAlgorithms_s),
+cshka_s=tostring(events.cshka_s),
+hasshVersion_s=tostring(events.hasshVersion_s),
+remote_location_longitude_d=toreal(events.remote_location_longitude_d),
+remote_location_latitude_d=toreal(events.remote_location_latitude_d),
+remote_location_city_s=tostring(events.remote_location_city_s),
+remote_location_region_s=tostring(events.remote_location_region_s),
+remote_location_country_code_s=tostring(events.remote_location_country_code_s),
+host_key_s=tostring(events.host_key_s),
+host_key_alg_s=tostring(events.host_key_alg_s),
+kex_alg_s=tostring(events.kex_alg_s),
+hasshServerAlgorithms_s=tostring(events.hasshServerAlgorithms_s),
+compression_alg_s=tostring(events.compression_alg_s),
+cipher_alg_s=tostring(events.cipher_alg_s),
+server_s=tostring(events.server_s),
+client_s=tostring(events.client_s),
+direction_s=tostring(events.direction_s),
+auth_attempts_d=toreal(events.auth_attempts_d),
+auth_success_b=tobool(events.auth_success_b),
+version_d=toreal(events.version_d),
+id_resp_p_d=toreal(events.id_resp_p_d),
+id_resp_h_s=tostring(events.id_resp_h_s),
+id_orig_p_d=toreal(events.id_orig_p_d),
+id_orig_h_s=tostring(events.id_orig_h_s),
+uid_s=tostring(events.uid_s),
+mac_alg_s=tostring(events.mac_alg_s),
+inferences_s=tostring(events.inferences_s),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_ssh_CL policy update @'[{"Source": "Corelight_v2_ssh_CLRaw", "Query": "Corelight_v2_ssh_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

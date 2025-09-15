@@ -1,0 +1,119 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for CrowdStrikeAlerts - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:25:58
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 42, Final columns: 42
+// ============================================================================
+
+.create-merge table CrowdStrikeAlertsRaw (records:dynamic)
+
+.alter-merge table CrowdStrikeAlertsRaw policy retention softdelete = 1d
+
+.alter table CrowdStrikeAlertsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table CrowdStrikeAlertsRaw ingestion json mapping 'CrowdStrikeAlertsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table CrowdStrikeAlerts(
+TimeGenerated:datetime,
+TenantId:guid,
+Scenario:string,
+SecondsToResolved:int,
+SecondsToTriaged:int,
+Severity:int,
+SeverityName:string,
+ShowInUi:bool,
+SourceProducts:dynamic,
+Product:string,
+SourceVendors:dynamic,
+Tactic:string,
+TacticId:string,
+Tags:dynamic,
+Technique:string,
+TechniqueId:string,
+Timestamp:datetime,
+AlertType:string,
+Status:string,
+Platform:string,
+PatternId:int,
+Objective:string,
+AgentId:string,
+AggregateId:string,
+AssignedToName:string,
+AssignedToUid:string,
+AssignedToUuid:string,
+Cid:string,
+CompositeId:string,
+Confidence:int,
+CrawledTimestamp:datetime,
+CreatedTimestamp:datetime,
+DataDomains:dynamic,
+Description:string,
+DisplayName:string,
+EmailSent:bool,
+External:bool,
+Id:string,
+Name:string,
+UpdatedTimestamp:datetime,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table CrowdStrikeAlerts policy caching hot = 1d
+
+.create-or-alter function CrowdStrikeAlertsExpand() {
+CrowdStrikeAlertsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Scenario=tostring(events.Scenario),
+SecondsToResolved=toint(events.SecondsToResolved),
+SecondsToTriaged=toint(events.SecondsToTriaged),
+Severity=toint(events.Severity),
+SeverityName=tostring(events.SeverityName),
+ShowInUi=tobool(events.ShowInUi),
+SourceProducts=todynamic(events.SourceProducts),
+Product=tostring(events.Product),
+SourceVendors=todynamic(events.SourceVendors),
+Tactic=tostring(events.Tactic),
+TacticId=tostring(events.TacticId),
+Tags=todynamic(events.Tags),
+Technique=tostring(events.Technique),
+TechniqueId=tostring(events.TechniqueId),
+Timestamp=todatetime(events.Timestamp),
+AlertType=tostring(events.AlertType),
+Status=tostring(events.Status),
+Platform=tostring(events.Platform),
+PatternId=toint(events.PatternId),
+Objective=tostring(events.Objective),
+AgentId=tostring(events.AgentId),
+AggregateId=tostring(events.AggregateId),
+AssignedToName=tostring(events.AssignedToName),
+AssignedToUid=tostring(events.AssignedToUid),
+AssignedToUuid=tostring(events.AssignedToUuid),
+Cid=tostring(events.Cid),
+CompositeId=tostring(events.CompositeId),
+Confidence=toint(events.Confidence),
+CrawledTimestamp=todatetime(events.CrawledTimestamp),
+CreatedTimestamp=todatetime(events.CreatedTimestamp),
+DataDomains=todynamic(events.DataDomains),
+Description=tostring(events.Description),
+DisplayName=tostring(events.DisplayName),
+EmailSent=tobool(events.EmailSent),
+External=tobool(events.External),
+Id=tostring(events.Id),
+Name=tostring(events.Name),
+UpdatedTimestamp=todatetime(events.UpdatedTimestamp),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table CrowdStrikeAlerts policy update @'[{"Source": "CrowdStrikeAlertsRaw", "Query": "CrowdStrikeAlertsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,74 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ESIExchangeConfig_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table ESIExchangeConfig_CLRaw (records:dynamic)
+
+.alter-merge table ESIExchangeConfig_CLRaw policy retention softdelete = 1d
+
+.alter table ESIExchangeConfig_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ESIExchangeConfig_CLRaw ingestion json mapping 'ESIExchangeConfig_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ESIExchangeConfig_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+ExecutionResult_s:string,
+WhenChanged_s:string,
+WhenCreated_s:string,
+Identity_s:string,
+Name_s:string,
+PSCmdL_s:string,
+Section_s:string,
+EntryDate_s:string,
+ESIEnvironment_s:string,
+GenerationInstanceID_g:string,
+RawData:string,
+Computer:string,
+ManagementGroupName:string,
+MG:string,
+SourceSystem:string,
+rawData_s:string,
+IdentityString_s:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ESIExchangeConfig_CL policy caching hot = 1d
+
+.create-or-alter function ESIExchangeConfig_CLExpand() {
+ESIExchangeConfig_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ExecutionResult_s=tostring(events.ExecutionResult_s),
+WhenChanged_s=tostring(events.WhenChanged_s),
+WhenCreated_s=tostring(events.WhenCreated_s),
+Identity_s=tostring(events.Identity_s),
+Name_s=tostring(events.Name_s),
+PSCmdL_s=tostring(events.PSCmdL_s),
+Section_s=tostring(events.Section_s),
+EntryDate_s=tostring(events.EntryDate_s),
+ESIEnvironment_s=tostring(events.ESIEnvironment_s),
+GenerationInstanceID_g=tostring(events.GenerationInstanceID_g),
+RawData=tostring(events.RawData),
+Computer=tostring(events.Computer),
+ManagementGroupName=tostring(events.ManagementGroupName),
+MG=tostring(events.MG),
+SourceSystem=tostring(events.SourceSystem),
+rawData_s=tostring(events.rawData_s),
+IdentityString_s=tostring(events.IdentityString_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ESIExchangeConfig_CL policy update @'[{"Source": "ESIExchangeConfig_CLRaw", "Query": "ESIExchangeConfig_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,72 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for GWorkspace_ReportsAPI_token_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table GWorkspace_ReportsAPI_token_CLRaw (records:dynamic)
+
+.alter-merge table GWorkspace_ReportsAPI_token_CLRaw policy retention softdelete = 1d
+
+.alter table GWorkspace_ReportsAPI_token_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table GWorkspace_ReportsAPI_token_CLRaw ingestion json mapping 'GWorkspace_ReportsAPI_token_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table GWorkspace_ReportsAPI_token_CL(
+TimeGenerated:datetime,
+EventVendor:string,
+IPAddress:string,
+actor_profileId_s:string,
+actor_email_s:string,
+etag_s:string,
+id_customerId_s:string,
+id_applicationName_s:string,
+id_uniqueQualifier_s:string,
+events_s:string,
+id_time_t:datetime,
+client_type_s:string,
+app_name_s:string,
+client_id_s:string,
+event_name_s:string,
+scope_s:string,
+scope_data_s:string,
+EventProduct:string,
+kind_s:string,
+event_type_s:string,
+_TimeReceived:datetime)
+
+.alter table GWorkspace_ReportsAPI_token_CL policy caching hot = 1d
+
+.create-or-alter function GWorkspace_ReportsAPI_token_CLExpand() {
+GWorkspace_ReportsAPI_token_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+EventVendor=tostring(events.EventVendor),
+IPAddress=tostring(events.IPAddress),
+actor_profileId_s=tostring(events.actor_profileId_s),
+actor_email_s=tostring(events.actor_email_s),
+etag_s=tostring(events.etag_s),
+id_customerId_s=tostring(events.id_customerId_s),
+id_applicationName_s=tostring(events.id_applicationName_s),
+id_uniqueQualifier_s=tostring(events.id_uniqueQualifier_s),
+events_s=tostring(events.events_s),
+id_time_t=todatetime(events.id_time_t),
+client_type_s=tostring(events.client_type_s),
+app_name_s=tostring(events.app_name_s),
+client_id_s=tostring(events.client_id_s),
+event_name_s=tostring(events.event_name_s),
+scope_s=tostring(events.scope_s),
+scope_data_s=tostring(events.scope_data_s),
+EventProduct=tostring(events.EventProduct),
+kind_s=tostring(events.kind_s),
+event_type_s=tostring(events.event_type_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table GWorkspace_ReportsAPI_token_CL policy update @'[{"Source": "GWorkspace_ReportsAPI_token_CLRaw", "Query": "GWorkspace_ReportsAPI_token_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

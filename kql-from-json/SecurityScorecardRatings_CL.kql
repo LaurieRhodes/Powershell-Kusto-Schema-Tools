@@ -1,0 +1,80 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for SecurityScorecardRatings_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table SecurityScorecardRatings_CLRaw (records:dynamic)
+
+.alter-merge table SecurityScorecardRatings_CLRaw policy retention softdelete = 1d
+
+.alter table SecurityScorecardRatings_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table SecurityScorecardRatings_CLRaw ingestion json mapping 'SecurityScorecardRatings_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table SecurityScorecardRatings_CL(
+TimeGenerated:datetime,
+TimeGenerated:datetime,
+TenantId:guid,
+portfolioId_g:string,
+severity_s:string,
+industry_s:string,
+scoreChange_d:real,
+scoreToday_d:real,
+scoreYesterday_d:real,
+dateToday_t:datetime,
+dateYesterday_t:datetime,
+subject_s:string,
+src_s:string,
+body_s:string,
+portfolioId_s:string,
+RawData:string,
+Computer:string,
+ManagementGroupName:string,
+MG:string,
+SourceSystem:string,
+portfolioName_s:string,
+portfolioId_g_s:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table SecurityScorecardRatings_CL policy caching hot = 1d
+
+.create-or-alter function SecurityScorecardRatings_CLExpand() {
+SecurityScorecardRatings_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+portfolioId_g=tostring(events.portfolioId_g),
+severity_s=tostring(events.severity_s),
+industry_s=tostring(events.industry_s),
+scoreChange_d=toreal(events.scoreChange_d),
+scoreToday_d=toreal(events.scoreToday_d),
+scoreYesterday_d=toreal(events.scoreYesterday_d),
+dateToday_t=todatetime(events.dateToday_t),
+dateYesterday_t=todatetime(events.dateYesterday_t),
+subject_s=tostring(events.subject_s),
+src_s=tostring(events.src_s),
+body_s=tostring(events.body_s),
+portfolioId_s=tostring(events.portfolioId_s),
+RawData=tostring(events.RawData),
+Computer=tostring(events.Computer),
+ManagementGroupName=tostring(events.ManagementGroupName),
+MG=tostring(events.MG),
+SourceSystem=tostring(events.SourceSystem),
+portfolioName_s=tostring(events.portfolioName_s),
+portfolioId_g_s=tostring(events.portfolioId_g_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table SecurityScorecardRatings_CL policy update @'[{"Source": "SecurityScorecardRatings_CLRaw", "Query": "SecurityScorecardRatings_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

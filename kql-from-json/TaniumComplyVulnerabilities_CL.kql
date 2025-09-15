@@ -1,0 +1,56 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for TaniumComplyVulnerabilities_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table TaniumComplyVulnerabilities_CLRaw (records:dynamic)
+
+.alter-merge table TaniumComplyVulnerabilities_CLRaw policy retention softdelete = 1d
+
+.alter table TaniumComplyVulnerabilities_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table TaniumComplyVulnerabilities_CLRaw ingestion json mapping 'TaniumComplyVulnerabilities_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table TaniumComplyVulnerabilities_CL(
+TimeGenerated:datetime,
+Computer:string,
+Computer_Name_s:string,
+CVE_s:string,
+CVE_Year_s:string,
+CVSS_Score_s:string,
+IP_Address_s:string,
+Operating_System_Generation_s:string,
+RawData:string,
+Severity_s:string,
+Title_s:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table TaniumComplyVulnerabilities_CL policy caching hot = 1d
+
+.create-or-alter function TaniumComplyVulnerabilities_CLExpand() {
+TaniumComplyVulnerabilities_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+Computer=tostring(events.Computer),
+Computer_Name_s=tostring(events.Computer_Name_s),
+CVE_s=tostring(events.CVE_s),
+CVE_Year_s=tostring(events.CVE_Year_s),
+CVSS_Score_s=tostring(events.CVSS_Score_s),
+IP_Address_s=tostring(events.IP_Address_s),
+Operating_System_Generation_s=tostring(events.Operating_System_Generation_s),
+RawData=tostring(events.RawData),
+Severity_s=tostring(events.Severity_s),
+Title_s=tostring(events.Title_s),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table TaniumComplyVulnerabilities_CL policy update @'[{"Source": "TaniumComplyVulnerabilities_CLRaw", "Query": "TaniumComplyVulnerabilities_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,52 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ZeroFox_CTI_credit_cards_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table ZeroFox_CTI_credit_cards_CLRaw (records:dynamic)
+
+.alter-merge table ZeroFox_CTI_credit_cards_CLRaw policy retention softdelete = 1d
+
+.alter table ZeroFox_CTI_credit_cards_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ZeroFox_CTI_credit_cards_CLRaw ingestion json mapping 'ZeroFox_CTI_credit_cards_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ZeroFox_CTI_credit_cards_CL(
+TimeGenerated:datetime,
+cc_num_s:string,
+month_s:string,
+year_s:string,
+cvv_s:real,
+issuer_s:string,
+source_s:string,
+cc_bin_s:string,
+breach_name_s:string,
+created_at_t:datetime,
+_TimeReceived:datetime)
+
+.alter table ZeroFox_CTI_credit_cards_CL policy caching hot = 1d
+
+.create-or-alter function ZeroFox_CTI_credit_cards_CLExpand() {
+ZeroFox_CTI_credit_cards_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+cc_num_s=tostring(events.cc_num_s),
+month_s=tostring(events.month_s),
+year_s=tostring(events.year_s),
+cvv_s=toreal(events.cvv_s),
+issuer_s=tostring(events.issuer_s),
+source_s=tostring(events.source_s),
+cc_bin_s=tostring(events.cc_bin_s),
+breach_name_s=tostring(events.breach_name_s),
+created_at_t=todatetime(events.created_at_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ZeroFox_CTI_credit_cards_CL policy update @'[{"Source": "ZeroFox_CTI_credit_cards_CLRaw", "Query": "ZeroFox_CTI_credit_cards_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

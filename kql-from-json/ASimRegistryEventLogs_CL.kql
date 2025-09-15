@@ -1,0 +1,152 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ASimRegistryEventLogs_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:11
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table ASimRegistryEventLogs_CLRaw (records:dynamic)
+
+.alter-merge table ASimRegistryEventLogs_CLRaw policy retention softdelete = 1d
+
+.alter table ASimRegistryEventLogs_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ASimRegistryEventLogs_CLRaw ingestion json mapping 'ASimRegistryEventLogs_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ASimRegistryEventLogs_CL(
+TimeGenerated:datetime,
+AdditionalFields:dynamic,
+DvcOs:string,
+DvcOsVersion:string,
+DvcAction:string,
+DvcOriginalAction:string,
+DvcInterface:string,
+DvcScopeId:string,
+DvcScope:string,
+ActorUserId:string,
+ActorUserIdType:string,
+ActorScopeId:string,
+ActorScope:string,
+ActorUsername:string,
+DvcZone:string,
+ActorUsernameType:string,
+ActingProcessName:string,
+ActingProcessId:string,
+ActingProcessGuid:string,
+ParentProcessName:string,
+ParentProcessId:string,
+ParentProcessGuid:string,
+RegistryKey:string,
+RegistryValue:string,
+RegistryValueType:string,
+RegistryValueData:string,
+RegistryPreviousKey:string,
+RegistryPreviousValue:string,
+ActorSessionId:string,
+RegistryPreviousValueType:string,
+DvcMacAddr:string,
+DvcId:string,
+EventMessage:string,
+EventCount:int,
+EventStartTime:datetime,
+EventEndTime:datetime,
+EventType:string,
+EventSubType:string,
+EventResult:string,
+EventResultDetails:string,
+EventOriginalUid:string,
+EventOriginalType:string,
+EventOriginalSubType:string,
+EventOriginalResultDetails:string,
+DvcIdType:string,
+EventSeverity:string,
+EventProduct:string,
+EventProductVersion:string,
+EventVendor:string,
+EventSchemaVersion:string,
+EventOwner:string,
+EventReportUrl:string,
+DvcIpAddr:string,
+DvcHostname:string,
+DvcDomain:string,
+DvcDomainType:string,
+DvcFQDN:string,
+DvcDescription:string,
+EventOriginalSeverity:string,
+RegistryPreviousValueData:string,
+_TimeReceived:datetime)
+
+.alter table ASimRegistryEventLogs_CL policy caching hot = 1d
+
+.create-or-alter function ASimRegistryEventLogs_CLExpand() {
+ASimRegistryEventLogs_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+AdditionalFields=todynamic(events.AdditionalFields),
+DvcOs=tostring(events.DvcOs),
+DvcOsVersion=tostring(events.DvcOsVersion),
+DvcAction=tostring(events.DvcAction),
+DvcOriginalAction=tostring(events.DvcOriginalAction),
+DvcInterface=tostring(events.DvcInterface),
+DvcScopeId=tostring(events.DvcScopeId),
+DvcScope=tostring(events.DvcScope),
+ActorUserId=tostring(events.ActorUserId),
+ActorUserIdType=tostring(events.ActorUserIdType),
+ActorScopeId=tostring(events.ActorScopeId),
+ActorScope=tostring(events.ActorScope),
+ActorUsername=tostring(events.ActorUsername),
+DvcZone=tostring(events.DvcZone),
+ActorUsernameType=tostring(events.ActorUsernameType),
+ActingProcessName=tostring(events.ActingProcessName),
+ActingProcessId=tostring(events.ActingProcessId),
+ActingProcessGuid=tostring(events.ActingProcessGuid),
+ParentProcessName=tostring(events.ParentProcessName),
+ParentProcessId=tostring(events.ParentProcessId),
+ParentProcessGuid=tostring(events.ParentProcessGuid),
+RegistryKey=tostring(events.RegistryKey),
+RegistryValue=tostring(events.RegistryValue),
+RegistryValueType=tostring(events.RegistryValueType),
+RegistryValueData=tostring(events.RegistryValueData),
+RegistryPreviousKey=tostring(events.RegistryPreviousKey),
+RegistryPreviousValue=tostring(events.RegistryPreviousValue),
+ActorSessionId=tostring(events.ActorSessionId),
+RegistryPreviousValueType=tostring(events.RegistryPreviousValueType),
+DvcMacAddr=tostring(events.DvcMacAddr),
+DvcId=tostring(events.DvcId),
+EventMessage=tostring(events.EventMessage),
+EventCount=toint(events.EventCount),
+EventStartTime=todatetime(events.EventStartTime),
+EventEndTime=todatetime(events.EventEndTime),
+EventType=tostring(events.EventType),
+EventSubType=tostring(events.EventSubType),
+EventResult=tostring(events.EventResult),
+EventResultDetails=tostring(events.EventResultDetails),
+EventOriginalUid=tostring(events.EventOriginalUid),
+EventOriginalType=tostring(events.EventOriginalType),
+EventOriginalSubType=tostring(events.EventOriginalSubType),
+EventOriginalResultDetails=tostring(events.EventOriginalResultDetails),
+DvcIdType=tostring(events.DvcIdType),
+EventSeverity=tostring(events.EventSeverity),
+EventProduct=tostring(events.EventProduct),
+EventProductVersion=tostring(events.EventProductVersion),
+EventVendor=tostring(events.EventVendor),
+EventSchemaVersion=tostring(events.EventSchemaVersion),
+EventOwner=tostring(events.EventOwner),
+EventReportUrl=tostring(events.EventReportUrl),
+DvcIpAddr=tostring(events.DvcIpAddr),
+DvcHostname=tostring(events.DvcHostname),
+DvcDomain=tostring(events.DvcDomain),
+DvcDomainType=tostring(events.DvcDomainType),
+DvcFQDN=tostring(events.DvcFQDN),
+DvcDescription=tostring(events.DvcDescription),
+EventOriginalSeverity=tostring(events.EventOriginalSeverity),
+RegistryPreviousValueData=tostring(events.RegistryPreviousValueData),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ASimRegistryEventLogs_CL policy update @'[{"Source": "ASimRegistryEventLogs_CLRaw", "Query": "ASimRegistryEventLogs_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

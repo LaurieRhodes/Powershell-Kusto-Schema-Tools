@@ -1,0 +1,101 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AppPerformanceCounters - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:22:25
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 33, Final columns: 33
+// ============================================================================
+
+.create-merge table AppPerformanceCountersRaw (records:dynamic)
+
+.alter-merge table AppPerformanceCountersRaw policy retention softdelete = 1d
+
+.alter table AppPerformanceCountersRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AppPerformanceCountersRaw ingestion json mapping 'AppPerformanceCountersRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AppPerformanceCounters(
+TimeGenerated:datetime,
+TenantId:guid,
+IKey:string,
+ResourceGUID:string,
+ClientBrowser:string,
+ClientCountryOrRegion:string,
+ClientStateOrProvince:string,
+ClientCity:string,
+ClientIP:string,
+ClientOS:string,
+ClientModel:string,
+ClientType:string,
+AppRoleInstance:string,
+AppRoleName:string,
+AppVersion:string,
+UserAccountId:string,
+UserAuthenticatedId:string,
+UserId:string,
+SessionId:string,
+SyntheticSource:string,
+ParentId:string,
+OperationId:string,
+OperationName:string,
+Properties:dynamic,
+Value:real,
+Instance:string,
+Counter:string,
+Category:string,
+Name:string,
+SDKVersion:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AppPerformanceCounters policy caching hot = 1d
+
+.create-or-alter function AppPerformanceCountersExpand() {
+AppPerformanceCountersRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+IKey=tostring(events.IKey),
+ResourceGUID=tostring(events.ResourceGUID),
+ClientBrowser=tostring(events.ClientBrowser),
+ClientCountryOrRegion=tostring(events.ClientCountryOrRegion),
+ClientStateOrProvince=tostring(events.ClientStateOrProvince),
+ClientCity=tostring(events.ClientCity),
+ClientIP=tostring(events.ClientIP),
+ClientOS=tostring(events.ClientOS),
+ClientModel=tostring(events.ClientModel),
+ClientType=tostring(events.ClientType),
+AppRoleInstance=tostring(events.AppRoleInstance),
+AppRoleName=tostring(events.AppRoleName),
+AppVersion=tostring(events.AppVersion),
+UserAccountId=tostring(events.UserAccountId),
+UserAuthenticatedId=tostring(events.UserAuthenticatedId),
+UserId=tostring(events.UserId),
+SessionId=tostring(events.SessionId),
+SyntheticSource=tostring(events.SyntheticSource),
+ParentId=tostring(events.ParentId),
+OperationId=tostring(events.OperationId),
+OperationName=tostring(events.OperationName),
+Properties=todynamic(events.Properties),
+Value=toreal(events.Value),
+Instance=tostring(events.Instance),
+Counter=tostring(events.Counter),
+Category=tostring(events.Category),
+Name=tostring(events.Name),
+SDKVersion=tostring(events.SDKVersion),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AppPerformanceCounters policy update @'[{"Source": "AppPerformanceCountersRaw", "Query": "AppPerformanceCountersExpand()", "IsEnabled": "True", "IsTransactional": true}]'

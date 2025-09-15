@@ -1,0 +1,164 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for SailPointIDN_Events_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table SailPointIDN_Events_CLRaw (records:dynamic)
+
+.alter-merge table SailPointIDN_Events_CLRaw policy retention softdelete = 1d
+
+.alter table SailPointIDN_Events_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table SailPointIDN_Events_CLRaw ingestion json mapping 'SailPointIDN_Events_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table SailPointIDN_Events_CL(
+TimeGenerated:datetime,
+action_s:string,
+attributes_provisioningResult_s:string,
+attributes_requestable_after_s:string,
+attributes_requestable_before_s:string,
+attributes_requestedAppId_s:string,
+attributes_requestedAppName_s:string,
+attributes_requestedAppRoleId_g:string,
+attributes_requestedObjectType_s:string,
+attributes_reviewerComment_s:string,
+attributes_sourceId_s:string,
+attributes_sourceName_s:string,
+attributes_synchronizeFrom_s:string,
+attributes_synchronizeTo_s:string,
+attributes_taskResultId_g:string,
+attributes_userId_s:string,
+created_t:datetime,
+details_g:string,
+details_s:string,
+id_g:string,
+name_s:string,
+objects_s:string,
+operation_s:string,
+org_s:string,
+pod_s:string,
+stack_s:string,
+status_s:string,
+synced_t:datetime,
+target_name_g:string,
+target_name_s:string,
+technicalName_s:string,
+attributes_previousValue_s:string,
+trackingNumber_g:string,
+attributes_preventativeSODResultsJSON_s:string,
+attributes_org_s:string,
+actor_name_g :string,
+actor_name_s:string,
+attributes_accessItemId_g:string,
+attributes_accessItemName_s:string,
+attributes_accessItemType_s:string,
+attributes_accessProfileIds_after_s:string,
+attributes_accessProfileIds_before_s:string,
+attributes_accountActivityId_g:string,
+attributes_accountName_s:string,
+attributes_appId_g:string,
+attributes_approvalSchemes_after_s:string,
+attributes_approvalSchemes_before_s:string,
+attributes_attributeName_s:string,
+attributes_attributeValue_s:string,
+attributes_cloudAppName_s:string,
+attributes_comments_s:string,
+attributes_comment_s:string,
+attributes_disabled_after_s:string,
+attributes_disabled_before_s:string,
+attributes_displayName_after_s:string,
+attributes_displayName_before_s:string,
+attributes_errors_s:string,
+attributes_flow_s:string,
+attributes_hostName_s:string,
+attributes_IdnAccessRequestAttributes_s:string,
+attributes_info_g:string,
+attributes_info_s:string,
+attributes_interface_s:string,
+attributes_operation_s:string,
+attributes_pod_s:string,
+type_s:string,
+_TimeReceived:datetime)
+
+.alter table SailPointIDN_Events_CL policy caching hot = 1d
+
+.create-or-alter function SailPointIDN_Events_CLExpand() {
+SailPointIDN_Events_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+action_s=tostring(events.action_s),
+attributes_provisioningResult_s=tostring(events.attributes_provisioningResult_s),
+attributes_requestable_after_s=tostring(events.attributes_requestable_after_s),
+attributes_requestable_before_s=tostring(events.attributes_requestable_before_s),
+attributes_requestedAppId_s=tostring(events.attributes_requestedAppId_s),
+attributes_requestedAppName_s=tostring(events.attributes_requestedAppName_s),
+attributes_requestedAppRoleId_g=tostring(events.attributes_requestedAppRoleId_g),
+attributes_requestedObjectType_s=tostring(events.attributes_requestedObjectType_s),
+attributes_reviewerComment_s=tostring(events.attributes_reviewerComment_s),
+attributes_sourceId_s=tostring(events.attributes_sourceId_s),
+attributes_sourceName_s=tostring(events.attributes_sourceName_s),
+attributes_synchronizeFrom_s=tostring(events.attributes_synchronizeFrom_s),
+attributes_synchronizeTo_s=tostring(events.attributes_synchronizeTo_s),
+attributes_taskResultId_g=tostring(events.attributes_taskResultId_g),
+attributes_userId_s=tostring(events.attributes_userId_s),
+created_t=todatetime(events.created_t),
+details_g=tostring(events.details_g),
+details_s=tostring(events.details_s),
+id_g=tostring(events.id_g),
+name_s=tostring(events.name_s),
+objects_s=tostring(events.objects_s),
+operation_s=tostring(events.operation_s),
+org_s=tostring(events.org_s),
+pod_s=tostring(events.pod_s),
+stack_s=tostring(events.stack_s),
+status_s=tostring(events.status_s),
+synced_t=todatetime(events.synced_t),
+target_name_g=tostring(events.target_name_g),
+target_name_s=tostring(events.target_name_s),
+technicalName_s=tostring(events.technicalName_s),
+attributes_previousValue_s=tostring(events.attributes_previousValue_s),
+trackingNumber_g=tostring(events.trackingNumber_g),
+attributes_preventativeSODResultsJSON_s=tostring(events.attributes_preventativeSODResultsJSON_s),
+attributes_org_s=tostring(events.attributes_org_s),
+actor_name_g =tostring(events.actor_name_g ),
+actor_name_s=tostring(events.actor_name_s),
+attributes_accessItemId_g=tostring(events.attributes_accessItemId_g),
+attributes_accessItemName_s=tostring(events.attributes_accessItemName_s),
+attributes_accessItemType_s=tostring(events.attributes_accessItemType_s),
+attributes_accessProfileIds_after_s=tostring(events.attributes_accessProfileIds_after_s),
+attributes_accessProfileIds_before_s=tostring(events.attributes_accessProfileIds_before_s),
+attributes_accountActivityId_g=tostring(events.attributes_accountActivityId_g),
+attributes_accountName_s=tostring(events.attributes_accountName_s),
+attributes_appId_g=tostring(events.attributes_appId_g),
+attributes_approvalSchemes_after_s=tostring(events.attributes_approvalSchemes_after_s),
+attributes_approvalSchemes_before_s=tostring(events.attributes_approvalSchemes_before_s),
+attributes_attributeName_s=tostring(events.attributes_attributeName_s),
+attributes_attributeValue_s=tostring(events.attributes_attributeValue_s),
+attributes_cloudAppName_s=tostring(events.attributes_cloudAppName_s),
+attributes_comments_s=tostring(events.attributes_comments_s),
+attributes_comment_s=tostring(events.attributes_comment_s),
+attributes_disabled_after_s=tostring(events.attributes_disabled_after_s),
+attributes_disabled_before_s=tostring(events.attributes_disabled_before_s),
+attributes_displayName_after_s=tostring(events.attributes_displayName_after_s),
+attributes_displayName_before_s=tostring(events.attributes_displayName_before_s),
+attributes_errors_s=tostring(events.attributes_errors_s),
+attributes_flow_s=tostring(events.attributes_flow_s),
+attributes_hostName_s=tostring(events.attributes_hostName_s),
+attributes_IdnAccessRequestAttributes_s=tostring(events.attributes_IdnAccessRequestAttributes_s),
+attributes_info_g=tostring(events.attributes_info_g),
+attributes_info_s=tostring(events.attributes_info_s),
+attributes_interface_s=tostring(events.attributes_interface_s),
+attributes_operation_s=tostring(events.attributes_operation_s),
+attributes_pod_s=tostring(events.attributes_pod_s),
+type_s=tostring(events.type_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table SailPointIDN_Events_CL policy update @'[{"Source": "SailPointIDN_Events_CLRaw", "Query": "SailPointIDN_Events_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

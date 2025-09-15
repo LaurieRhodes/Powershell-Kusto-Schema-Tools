@@ -1,0 +1,65 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ThreatIntelExportOperation - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:21:48
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 15, Final columns: 15
+// ============================================================================
+
+.create-merge table ThreatIntelExportOperationRaw (records:dynamic)
+
+.alter-merge table ThreatIntelExportOperationRaw policy retention softdelete = 1d
+
+.alter table ThreatIntelExportOperationRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ThreatIntelExportOperationRaw ingestion json mapping 'ThreatIntelExportOperationRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ThreatIntelExportOperation(
+TimeGenerated:datetime,
+TenantId:guid,
+TimeExported:datetime,
+Id:string,
+StixId:string,
+SourceSystem:string,
+ExportedBy:string,
+ExportDuration:int,
+ExportId:guid,
+ExportType:string,
+Status:string,
+ErrorDetails:string,
+DestinationInfo:dynamic,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ThreatIntelExportOperation policy caching hot = 1d
+
+.create-or-alter function ThreatIntelExportOperationExpand() {
+ThreatIntelExportOperationRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+TimeExported=todatetime(events.TimeExported),
+Id=tostring(events.Id),
+StixId=tostring(events.StixId),
+SourceSystem=tostring(events.SourceSystem),
+ExportedBy=tostring(events.ExportedBy),
+ExportDuration=toint(events.ExportDuration),
+ExportId=toguid(events.ExportId),
+ExportType=tostring(events.ExportType),
+Status=tostring(events.Status),
+ErrorDetails=tostring(events.ErrorDetails),
+DestinationInfo=todynamic(events.DestinationInfo),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ThreatIntelExportOperation policy update @'[{"Source": "ThreatIntelExportOperationRaw", "Query": "ThreatIntelExportOperationExpand()", "IsEnabled": "True", "IsTransactional": true}]'

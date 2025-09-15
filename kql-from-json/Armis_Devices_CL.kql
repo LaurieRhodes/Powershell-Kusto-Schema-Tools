@@ -1,0 +1,98 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Armis_Devices_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:10
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Armis_Devices_CLRaw (records:dynamic)
+
+.alter-merge table Armis_Devices_CLRaw policy retention softdelete = 1d
+
+.alter table Armis_Devices_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Armis_Devices_CLRaw ingestion json mapping 'Armis_Devices_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Armis_Devices_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+Tags:string,
+SiteName:string,
+SiteLocation:string,
+SensorType:string,
+SensorName:string,
+RiskLevel:string,
+PurdueLevel:string,
+PlcModule:string,
+OperatingSystem:string,
+OperatingSystemVersion:string,
+Manufacturer:string,
+Model:string,
+Visibility:string,
+MacAddress:string,
+IPAddress:string,
+Id:string,
+FirstSeen:string,
+FirmwareVersion:string,
+Category:string,
+EventProduct:string,
+EventVendor:string,
+RawData:string,
+Computer:string,
+ManagementGroupName:string,
+MG:string,
+SourceSystem:string,
+LastSeen:string,
+Name:string,
+Type:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table Armis_Devices_CL policy caching hot = 1d
+
+.create-or-alter function Armis_Devices_CLExpand() {
+Armis_Devices_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Tags=tostring(events.Tags),
+SiteName=tostring(events.SiteName),
+SiteLocation=tostring(events.SiteLocation),
+SensorType=tostring(events.SensorType),
+SensorName=tostring(events.SensorName),
+RiskLevel=tostring(events.RiskLevel),
+PurdueLevel=tostring(events.PurdueLevel),
+PlcModule=tostring(events.PlcModule),
+OperatingSystem=tostring(events.OperatingSystem),
+OperatingSystemVersion=tostring(events.OperatingSystemVersion),
+Manufacturer=tostring(events.Manufacturer),
+Model=tostring(events.Model),
+Visibility=tostring(events.Visibility),
+MacAddress=tostring(events.MacAddress),
+IPAddress=tostring(events.IPAddress),
+Id=tostring(events.Id),
+FirstSeen=tostring(events.FirstSeen),
+FirmwareVersion=tostring(events.FirmwareVersion),
+Category=tostring(events.Category),
+EventProduct=tostring(events.EventProduct),
+EventVendor=tostring(events.EventVendor),
+RawData=tostring(events.RawData),
+Computer=tostring(events.Computer),
+ManagementGroupName=tostring(events.ManagementGroupName),
+MG=tostring(events.MG),
+SourceSystem=tostring(events.SourceSystem),
+LastSeen=tostring(events.LastSeen),
+Name=tostring(events.Name),
+Type=tostring(events.Type),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Armis_Devices_CL policy update @'[{"Source": "Armis_Devices_CLRaw", "Query": "Armis_Devices_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

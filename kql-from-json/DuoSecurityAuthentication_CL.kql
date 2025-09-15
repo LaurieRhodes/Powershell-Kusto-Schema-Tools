@@ -1,0 +1,86 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for DuoSecurityAuthentication_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table DuoSecurityAuthentication_CLRaw (records:dynamic)
+
+.alter-merge table DuoSecurityAuthentication_CLRaw policy retention softdelete = 1d
+
+.alter table DuoSecurityAuthentication_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table DuoSecurityAuthentication_CLRaw ingestion json mapping 'DuoSecurityAuthentication_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table DuoSecurityAuthentication_CL(
+TimeGenerated:datetime,
+access_device_browser_s:string,
+user_name_s:string,
+user_key_s:string,
+user_groups_s:string,
+txid_g:string,
+timestamp_d:real,
+result_s:string,
+reason_s:string,
+isotimestamp_t:datetime,
+event_type_s:string,
+email_s:string,
+application_name_s:string,
+application_key_s:string,
+alias_s:string,
+access_device_os_version_s:string,
+access_device_os_s:string,
+access_device_location_state_s:string,
+access_device_location_country_s:string,
+access_device_location_city_s:string,
+access_device_is_password_set_s:string,
+access_device_is_firewall_enabled_s:string,
+access_device_is_encryption_enabled_s:string,
+access_device_ip_s:string,
+access_device_browser_version_s:string,
+auth_device_name_s:string,
+factor_s:string,
+_TimeReceived:datetime)
+
+.alter table DuoSecurityAuthentication_CL policy caching hot = 1d
+
+.create-or-alter function DuoSecurityAuthentication_CLExpand() {
+DuoSecurityAuthentication_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+access_device_browser_s=tostring(events.access_device_browser_s),
+user_name_s=tostring(events.user_name_s),
+user_key_s=tostring(events.user_key_s),
+user_groups_s=tostring(events.user_groups_s),
+txid_g=tostring(events.txid_g),
+timestamp_d=toreal(events.timestamp_d),
+result_s=tostring(events.result_s),
+reason_s=tostring(events.reason_s),
+isotimestamp_t=todatetime(events.isotimestamp_t),
+event_type_s=tostring(events.event_type_s),
+email_s=tostring(events.email_s),
+application_name_s=tostring(events.application_name_s),
+application_key_s=tostring(events.application_key_s),
+alias_s=tostring(events.alias_s),
+access_device_os_version_s=tostring(events.access_device_os_version_s),
+access_device_os_s=tostring(events.access_device_os_s),
+access_device_location_state_s=tostring(events.access_device_location_state_s),
+access_device_location_country_s=tostring(events.access_device_location_country_s),
+access_device_location_city_s=tostring(events.access_device_location_city_s),
+access_device_is_password_set_s=tostring(events.access_device_is_password_set_s),
+access_device_is_firewall_enabled_s=tostring(events.access_device_is_firewall_enabled_s),
+access_device_is_encryption_enabled_s=tostring(events.access_device_is_encryption_enabled_s),
+access_device_ip_s=tostring(events.access_device_ip_s),
+access_device_browser_version_s=tostring(events.access_device_browser_version_s),
+auth_device_name_s=tostring(events.auth_device_name_s),
+factor_s=tostring(events.factor_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table DuoSecurityAuthentication_CL policy update @'[{"Source": "DuoSecurityAuthentication_CLRaw", "Query": "DuoSecurityAuthentication_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

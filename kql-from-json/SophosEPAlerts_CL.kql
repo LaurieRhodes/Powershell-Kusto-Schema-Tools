@@ -1,0 +1,68 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for SophosEPAlerts_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table SophosEPAlerts_CLRaw (records:dynamic)
+
+.alter-merge table SophosEPAlerts_CLRaw policy retention softdelete = 1d
+
+.alter table SophosEPAlerts_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table SophosEPAlerts_CLRaw ingestion json mapping 'SophosEPAlerts_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table SophosEPAlerts_CL(
+TimeGenerated:datetime,
+CustomerId:string,
+ThreatName:string,
+info:dynamic,
+Source:string,
+data:dynamic,
+EventOriginalUid:string,
+DvcHostname:string,
+threat_cleanable:bool,
+description:string,
+EventEndTime:datetime,
+event_service_event_id:string,
+EventProduct:string,
+EventType:string,
+EventVendor:string,
+EventSeverity:string,
+DvcAction:string,
+Created:datetime,
+_TimeReceived:datetime)
+
+.alter table SophosEPAlerts_CL policy caching hot = 1d
+
+.create-or-alter function SophosEPAlerts_CLExpand() {
+SophosEPAlerts_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+CustomerId=tostring(events.CustomerId),
+ThreatName=tostring(events.ThreatName),
+info=todynamic(events.info),
+Source=tostring(events.Source),
+data=todynamic(events.data),
+EventOriginalUid=tostring(events.EventOriginalUid),
+DvcHostname=tostring(events.DvcHostname),
+threat_cleanable=tobool(events.threat_cleanable),
+description=tostring(events.description),
+EventEndTime=todatetime(events.EventEndTime),
+event_service_event_id=tostring(events.event_service_event_id),
+EventProduct=tostring(events.EventProduct),
+EventType=tostring(events.EventType),
+EventVendor=tostring(events.EventVendor),
+EventSeverity=tostring(events.EventSeverity),
+DvcAction=tostring(events.DvcAction),
+Created=todatetime(events.Created),
+_TimeReceived=todatetime(now())
+}
+
+.alter table SophosEPAlerts_CL policy update @'[{"Source": "SophosEPAlerts_CLRaw", "Query": "SophosEPAlerts_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

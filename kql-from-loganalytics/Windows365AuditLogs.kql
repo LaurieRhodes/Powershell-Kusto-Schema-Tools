@@ -1,0 +1,85 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Windows365AuditLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:22:41
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 25, Final columns: 25
+// ============================================================================
+
+.create-merge table Windows365AuditLogsRaw (records:dynamic)
+
+.alter-merge table Windows365AuditLogsRaw policy retention softdelete = 1d
+
+.alter table Windows365AuditLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Windows365AuditLogsRaw ingestion json mapping 'Windows365AuditLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Windows365AuditLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+ResourceExtendedProperties:string,
+Tid:string,
+Pid:string,
+BuildVersion:string,
+ApplicationName:string,
+ServiceName:string,
+ScenarioInstanceId:string,
+ScenarioId:string,
+SessionId:string,
+RelatedActivityId:string,
+ActivityId:string,
+OtherAuditEventProperties:string,
+ComponentName:string,
+OtherIdentityProperties:string,
+UserId:string,
+UserPrincipalName:string,
+ApplicationId:string,
+Result:string,
+OperationName:string,
+CallerExtendedProperties:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table Windows365AuditLogs policy caching hot = 1d
+
+.create-or-alter function Windows365AuditLogsExpand() {
+Windows365AuditLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ResourceExtendedProperties=tostring(events.ResourceExtendedProperties),
+Tid=tostring(events.Tid),
+Pid=tostring(events.Pid),
+BuildVersion=tostring(events.BuildVersion),
+ApplicationName=tostring(events.ApplicationName),
+ServiceName=tostring(events.ServiceName),
+ScenarioInstanceId=tostring(events.ScenarioInstanceId),
+ScenarioId=tostring(events.ScenarioId),
+SessionId=tostring(events.SessionId),
+RelatedActivityId=tostring(events.RelatedActivityId),
+ActivityId=tostring(events.ActivityId),
+OtherAuditEventProperties=tostring(events.OtherAuditEventProperties),
+ComponentName=tostring(events.ComponentName),
+OtherIdentityProperties=tostring(events.OtherIdentityProperties),
+UserId=tostring(events.UserId),
+UserPrincipalName=tostring(events.UserPrincipalName),
+ApplicationId=tostring(events.ApplicationId),
+Result=tostring(events.Result),
+OperationName=tostring(events.OperationName),
+CallerExtendedProperties=tostring(events.CallerExtendedProperties),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Windows365AuditLogs policy update @'[{"Source": "Windows365AuditLogsRaw", "Query": "Windows365AuditLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

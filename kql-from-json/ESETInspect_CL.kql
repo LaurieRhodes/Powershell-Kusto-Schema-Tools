@@ -1,0 +1,112 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ESETInspect_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table ESETInspect_CLRaw (records:dynamic)
+
+.alter-merge table ESETInspect_CLRaw policy retention softdelete = 1d
+
+.alter table ESETInspect_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ESETInspect_CLRaw ingestion json mapping 'ESETInspect_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ESETInspect_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+moduleLgReputation_d:real,
+moduleName_s:string,
+moduleSha1_s:string,
+moduleSignatureType_s:string,
+moduleSigner_s:string,
+priority_d:real,
+processCommandLine_s:string,
+processId_d:real,
+processPath_s:string,
+processUser_s:string,
+resolved_b:bool,
+ruleName_s:string,
+severityScore_d:real,
+threatName_s:string,
+threatUri_s:string,
+moduleLgPopularity_d:real,
+type_s:string,
+moduleLgAge_d:real,
+moduleId_d:real,
+SourceSystem:string,
+Computer:string,
+MG:string,
+ManagementGroupName:string,
+RawData:string,
+Severity:string,
+TableName:string,
+computerId_d:real,
+computerName_s:string,
+computerUuid_g:string,
+creationTime_t:datetime,
+deepLink_s:string,
+handled_d:real,
+id_d:real,
+moduleFirstSeenLocally_t:string,
+moduleLastExecutedLocally_t:string,
+uuid_g:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ESETInspect_CL policy caching hot = 1d
+
+.create-or-alter function ESETInspect_CLExpand() {
+ESETInspect_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+moduleLgReputation_d=toreal(events.moduleLgReputation_d),
+moduleName_s=tostring(events.moduleName_s),
+moduleSha1_s=tostring(events.moduleSha1_s),
+moduleSignatureType_s=tostring(events.moduleSignatureType_s),
+moduleSigner_s=tostring(events.moduleSigner_s),
+priority_d=toreal(events.priority_d),
+processCommandLine_s=tostring(events.processCommandLine_s),
+processId_d=toreal(events.processId_d),
+processPath_s=tostring(events.processPath_s),
+processUser_s=tostring(events.processUser_s),
+resolved_b=tobool(events.resolved_b),
+ruleName_s=tostring(events.ruleName_s),
+severityScore_d=toreal(events.severityScore_d),
+threatName_s=tostring(events.threatName_s),
+threatUri_s=tostring(events.threatUri_s),
+moduleLgPopularity_d=toreal(events.moduleLgPopularity_d),
+type_s=tostring(events.type_s),
+moduleLgAge_d=toreal(events.moduleLgAge_d),
+moduleId_d=toreal(events.moduleId_d),
+SourceSystem=tostring(events.SourceSystem),
+Computer=tostring(events.Computer),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+RawData=tostring(events.RawData),
+Severity=tostring(events.Severity),
+TableName=tostring(events.TableName),
+computerId_d=toreal(events.computerId_d),
+computerName_s=tostring(events.computerName_s),
+computerUuid_g=tostring(events.computerUuid_g),
+creationTime_t=todatetime(events.creationTime_t),
+deepLink_s=tostring(events.deepLink_s),
+handled_d=toreal(events.handled_d),
+id_d=toreal(events.id_d),
+moduleFirstSeenLocally_t=tostring(events.moduleFirstSeenLocally_t),
+moduleLastExecutedLocally_t=tostring(events.moduleLastExecutedLocally_t),
+uuid_g=tostring(events.uuid_g),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ESETInspect_CL policy update @'[{"Source": "ESETInspect_CLRaw", "Query": "ESETInspect_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

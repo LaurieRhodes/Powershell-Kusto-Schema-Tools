@@ -1,0 +1,937 @@
+﻿{
+  "Name": "SecurityEvent",
+  "Properties": [
+    {
+      "Name": "TenantId",
+      "Type": "guid"
+    },
+    {
+      "Name": "TimeGenerated",
+      "Type": "datetime"
+    },
+    {
+      "Name": "SourceSystem",
+      "Type": "string"
+    },
+    {
+      "Name": "Account",
+      "Type": "string"
+    },
+    {
+      "Name": "AccountType",
+      "Type": "string"
+    },
+    {
+      "Name": "Computer",
+      "Type": "string"
+    },
+    {
+      "Name": "EventSourceName",
+      "Type": "string"
+    },
+    {
+      "Name": "Channel",
+      "Type": "string"
+    },
+    {
+      "Name": "Task",
+      "Type": "int"
+    },
+    {
+      "Name": "Level",
+      "Type": "string"
+    },
+    {
+      "Name": "EventLevelName",
+      "Type": "string"
+    },
+    {
+      "Name": "EventData",
+      "Type": "string"
+    },
+    {
+      "Name": "EventID",
+      "Type": "int"
+    },
+    {
+      "Name": "Activity",
+      "Type": "string"
+    },
+    {
+      "Name": "SourceComputerId",
+      "Type": "guid"
+    },
+    {
+      "Name": "EventOriginId",
+      "Type": "string"
+    },
+    {
+      "Name": "MG",
+      "Type": "guid"
+    },
+    {
+      "Name": "TimeCollected",
+      "Type": "datetime"
+    },
+    {
+      "Name": "ManagementGroupName",
+      "Type": "string"
+    },
+    {
+      "Name": "PartitionKey",
+      "Type": "string"
+    },
+    {
+      "Name": "RowKey",
+      "Type": "string"
+    },
+    {
+      "Name": "StorageAccount",
+      "Type": "string"
+    },
+    {
+      "Name": "AzureDeploymentID",
+      "Type": "string"
+    },
+    {
+      "Name": "AzureTableName",
+      "Type": "string"
+    },
+    {
+      "Name": "AccessList",
+      "Type": "string"
+    },
+    {
+      "Name": "AccessMask",
+      "Type": "string"
+    },
+    {
+      "Name": "AccessReason",
+      "Type": "string"
+    },
+    {
+      "Name": "AccountDomain",
+      "Type": "string"
+    },
+    {
+      "Name": "AccountExpires",
+      "Type": "string"
+    },
+    {
+      "Name": "AccountName",
+      "Type": "string"
+    },
+    {
+      "Name": "AccountSessionIdentifier",
+      "Type": "string"
+    },
+    {
+      "Name": "AdditionalInfo",
+      "Type": "string"
+    },
+    {
+      "Name": "AdditionalInfo2",
+      "Type": "string"
+    },
+    {
+      "Name": "AllowedToDelegateTo",
+      "Type": "string"
+    },
+    {
+      "Name": "Attributes",
+      "Type": "string"
+    },
+    {
+      "Name": "AuditPolicyChanges",
+      "Type": "string"
+    },
+    {
+      "Name": "AuditsDiscarded",
+      "Type": "int"
+    },
+    {
+      "Name": "AuthenticationLevel",
+      "Type": "int"
+    },
+    {
+      "Name": "AuthenticationPackageName",
+      "Type": "string"
+    },
+    {
+      "Name": "AuthenticationProvider",
+      "Type": "string"
+    },
+    {
+      "Name": "AuthenticationServer",
+      "Type": "string"
+    },
+    {
+      "Name": "AuthenticationService",
+      "Type": "int"
+    },
+    {
+      "Name": "AuthenticationType",
+      "Type": "string"
+    },
+    {
+      "Name": "CACertificateHash",
+      "Type": "string"
+    },
+    {
+      "Name": "CalledStationID",
+      "Type": "string"
+    },
+    {
+      "Name": "CallerProcessId",
+      "Type": "string"
+    },
+    {
+      "Name": "CallerProcessName",
+      "Type": "string"
+    },
+    {
+      "Name": "CallingStationID",
+      "Type": "string"
+    },
+    {
+      "Name": "CAPublicKeyHash",
+      "Type": "string"
+    },
+    {
+      "Name": "CategoryId",
+      "Type": "string"
+    },
+    {
+      "Name": "CertificateDatabaseHash",
+      "Type": "string"
+    },
+    {
+      "Name": "ClassId",
+      "Type": "string"
+    },
+    {
+      "Name": "ClassName",
+      "Type": "string"
+    },
+    {
+      "Name": "ClientAddress",
+      "Type": "string"
+    },
+    {
+      "Name": "ClientIPAddress",
+      "Type": "string"
+    },
+    {
+      "Name": "ClientName",
+      "Type": "string"
+    },
+    {
+      "Name": "CommandLine",
+      "Type": "string"
+    },
+    {
+      "Name": "CompatibleIds",
+      "Type": "string"
+    },
+    {
+      "Name": "DCDNSName",
+      "Type": "string"
+    },
+    {
+      "Name": "DeviceDescription",
+      "Type": "string"
+    },
+    {
+      "Name": "DeviceId",
+      "Type": "string"
+    },
+    {
+      "Name": "DisplayName",
+      "Type": "string"
+    },
+    {
+      "Name": "Disposition",
+      "Type": "string"
+    },
+    {
+      "Name": "DomainBehaviorVersion",
+      "Type": "string"
+    },
+    {
+      "Name": "DomainName",
+      "Type": "string"
+    },
+    {
+      "Name": "DomainPolicyChanged",
+      "Type": "string"
+    },
+    {
+      "Name": "DomainSid",
+      "Type": "string"
+    },
+    {
+      "Name": "EAPType",
+      "Type": "string"
+    },
+    {
+      "Name": "ElevatedToken",
+      "Type": "string"
+    },
+    {
+      "Name": "ErrorCode",
+      "Type": "int"
+    },
+    {
+      "Name": "ExtendedQuarantineState",
+      "Type": "string"
+    },
+    {
+      "Name": "FailureReason",
+      "Type": "string"
+    },
+    {
+      "Name": "FileHash",
+      "Type": "string"
+    },
+    {
+      "Name": "FilePath",
+      "Type": "string"
+    },
+    {
+      "Name": "FilePathNoUser",
+      "Type": "string"
+    },
+    {
+      "Name": "Filter",
+      "Type": "string"
+    },
+    {
+      "Name": "ForceLogoff",
+      "Type": "string"
+    },
+    {
+      "Name": "Fqbn",
+      "Type": "string"
+    },
+    {
+      "Name": "FullyQualifiedSubjectMachineName",
+      "Type": "string"
+    },
+    {
+      "Name": "FullyQualifiedSubjectUserName",
+      "Type": "string"
+    },
+    {
+      "Name": "GroupMembership",
+      "Type": "string"
+    },
+    {
+      "Name": "HandleId",
+      "Type": "string"
+    },
+    {
+      "Name": "HardwareIds",
+      "Type": "string"
+    },
+    {
+      "Name": "HomeDirectory",
+      "Type": "string"
+    },
+    {
+      "Name": "HomePath",
+      "Type": "string"
+    },
+    {
+      "Name": "ImpersonationLevel",
+      "Type": "string"
+    },
+    {
+      "Name": "InterfaceUuid",
+      "Type": "guid"
+    },
+    {
+      "Name": "IpAddress",
+      "Type": "string"
+    },
+    {
+      "Name": "IpPort",
+      "Type": "string"
+    },
+    {
+      "Name": "KeyLength",
+      "Type": "int"
+    },
+    {
+      "Name": "LmPackageName",
+      "Type": "string"
+    },
+    {
+      "Name": "LocationInformation",
+      "Type": "string"
+    },
+    {
+      "Name": "LockoutDuration",
+      "Type": "string"
+    },
+    {
+      "Name": "LockoutObservationWindow",
+      "Type": "string"
+    },
+    {
+      "Name": "LockoutThreshold",
+      "Type": "string"
+    },
+    {
+      "Name": "LoggingResult",
+      "Type": "string"
+    },
+    {
+      "Name": "LogonGuid",
+      "Type": "guid"
+    },
+    {
+      "Name": "LogonHours",
+      "Type": "string"
+    },
+    {
+      "Name": "LogonID",
+      "Type": "string"
+    },
+    {
+      "Name": "LogonProcessName",
+      "Type": "string"
+    },
+    {
+      "Name": "LogonType",
+      "Type": "int"
+    },
+    {
+      "Name": "LogonTypeName",
+      "Type": "string"
+    },
+    {
+      "Name": "MachineAccountQuota",
+      "Type": "string"
+    },
+    {
+      "Name": "MachineInventory",
+      "Type": "string"
+    },
+    {
+      "Name": "MachineLogon",
+      "Type": "string"
+    },
+    {
+      "Name": "MandatoryLabel",
+      "Type": "string"
+    },
+    {
+      "Name": "MaxPasswordAge",
+      "Type": "string"
+    },
+    {
+      "Name": "MemberName",
+      "Type": "string"
+    },
+    {
+      "Name": "MemberSid",
+      "Type": "string"
+    },
+    {
+      "Name": "MinPasswordAge",
+      "Type": "string"
+    },
+    {
+      "Name": "MinPasswordLength",
+      "Type": "string"
+    },
+    {
+      "Name": "MixedDomainMode",
+      "Type": "string"
+    },
+    {
+      "Name": "NASIdentifier",
+      "Type": "string"
+    },
+    {
+      "Name": "NASIPv4Address",
+      "Type": "string"
+    },
+    {
+      "Name": "NASIPv6Address",
+      "Type": "string"
+    },
+    {
+      "Name": "NASPort",
+      "Type": "string"
+    },
+    {
+      "Name": "NASPortType",
+      "Type": "string"
+    },
+    {
+      "Name": "NetworkPolicyName",
+      "Type": "string"
+    },
+    {
+      "Name": "NewDate",
+      "Type": "string"
+    },
+    {
+      "Name": "NewMaxUsers",
+      "Type": "string"
+    },
+    {
+      "Name": "NewProcessId",
+      "Type": "string"
+    },
+    {
+      "Name": "NewProcessName",
+      "Type": "string"
+    },
+    {
+      "Name": "NewRemark",
+      "Type": "string"
+    },
+    {
+      "Name": "NewShareFlags",
+      "Type": "string"
+    },
+    {
+      "Name": "NewTime",
+      "Type": "string"
+    },
+    {
+      "Name": "NewUacValue",
+      "Type": "string"
+    },
+    {
+      "Name": "NewValue",
+      "Type": "string"
+    },
+    {
+      "Name": "NewValueType",
+      "Type": "string"
+    },
+    {
+      "Name": "ObjectName",
+      "Type": "string"
+    },
+    {
+      "Name": "ObjectServer",
+      "Type": "string"
+    },
+    {
+      "Name": "ObjectType",
+      "Type": "string"
+    },
+    {
+      "Name": "ObjectValueName",
+      "Type": "string"
+    },
+    {
+      "Name": "OemInformation",
+      "Type": "string"
+    },
+    {
+      "Name": "OldMaxUsers",
+      "Type": "string"
+    },
+    {
+      "Name": "OldRemark",
+      "Type": "string"
+    },
+    {
+      "Name": "OldShareFlags",
+      "Type": "string"
+    },
+    {
+      "Name": "OldUacValue",
+      "Type": "string"
+    },
+    {
+      "Name": "OldValue",
+      "Type": "string"
+    },
+    {
+      "Name": "OldValueType",
+      "Type": "string"
+    },
+    {
+      "Name": "OperationType",
+      "Type": "string"
+    },
+    {
+      "Name": "PackageName",
+      "Type": "string"
+    },
+    {
+      "Name": "ParentProcessName",
+      "Type": "string"
+    },
+    {
+      "Name": "PasswordHistoryLength",
+      "Type": "string"
+    },
+    {
+      "Name": "PasswordLastSet",
+      "Type": "string"
+    },
+    {
+      "Name": "PasswordProperties",
+      "Type": "string"
+    },
+    {
+      "Name": "PreviousDate",
+      "Type": "string"
+    },
+    {
+      "Name": "PreviousTime",
+      "Type": "string"
+    },
+    {
+      "Name": "PrimaryGroupId",
+      "Type": "string"
+    },
+    {
+      "Name": "PrivateKeyUsageCount",
+      "Type": "string"
+    },
+    {
+      "Name": "PrivilegeList",
+      "Type": "string"
+    },
+    {
+      "Name": "Process",
+      "Type": "string"
+    },
+    {
+      "Name": "ProcessId",
+      "Type": "string"
+    },
+    {
+      "Name": "ProcessName",
+      "Type": "string"
+    },
+    {
+      "Name": "Properties",
+      "Type": "string"
+    },
+    {
+      "Name": "ProfilePath",
+      "Type": "string"
+    },
+    {
+      "Name": "ProtocolSequence",
+      "Type": "string"
+    },
+    {
+      "Name": "ProxyPolicyName",
+      "Type": "string"
+    },
+    {
+      "Name": "QuarantineHelpURL",
+      "Type": "string"
+    },
+    {
+      "Name": "QuarantineSessionID",
+      "Type": "string"
+    },
+    {
+      "Name": "QuarantineSessionIdentifier",
+      "Type": "string"
+    },
+    {
+      "Name": "QuarantineState",
+      "Type": "string"
+    },
+    {
+      "Name": "QuarantineSystemHealthResult",
+      "Type": "string"
+    },
+    {
+      "Name": "RelativeTargetName",
+      "Type": "string"
+    },
+    {
+      "Name": "RemoteIpAddress",
+      "Type": "string"
+    },
+    {
+      "Name": "RemotePort",
+      "Type": "string"
+    },
+    {
+      "Name": "Requester",
+      "Type": "string"
+    },
+    {
+      "Name": "RequestId",
+      "Type": "string"
+    },
+    {
+      "Name": "RestrictedAdminMode",
+      "Type": "string"
+    },
+    {
+      "Name": "RowsDeleted",
+      "Type": "string"
+    },
+    {
+      "Name": "SamAccountName",
+      "Type": "string"
+    },
+    {
+      "Name": "ScriptPath",
+      "Type": "string"
+    },
+    {
+      "Name": "SecurityDescriptor",
+      "Type": "string"
+    },
+    {
+      "Name": "ServiceAccount",
+      "Type": "string"
+    },
+    {
+      "Name": "ServiceFileName",
+      "Type": "string"
+    },
+    {
+      "Name": "ServiceName",
+      "Type": "string"
+    },
+    {
+      "Name": "ServiceStartType",
+      "Type": "int"
+    },
+    {
+      "Name": "ServiceType",
+      "Type": "string"
+    },
+    {
+      "Name": "SessionName",
+      "Type": "string"
+    },
+    {
+      "Name": "ShareLocalPath",
+      "Type": "string"
+    },
+    {
+      "Name": "ShareName",
+      "Type": "string"
+    },
+    {
+      "Name": "SidHistory",
+      "Type": "string"
+    },
+    {
+      "Name": "Status",
+      "Type": "string"
+    },
+    {
+      "Name": "SubjectAccount",
+      "Type": "string"
+    },
+    {
+      "Name": "SubcategoryGuid",
+      "Type": "guid"
+    },
+    {
+      "Name": "SubcategoryId",
+      "Type": "string"
+    },
+    {
+      "Name": "Subject",
+      "Type": "string"
+    },
+    {
+      "Name": "SubjectDomainName",
+      "Type": "string"
+    },
+    {
+      "Name": "SubjectKeyIdentifier",
+      "Type": "string"
+    },
+    {
+      "Name": "SubjectLogonId",
+      "Type": "string"
+    },
+    {
+      "Name": "SubjectMachineName",
+      "Type": "string"
+    },
+    {
+      "Name": "SubjectMachineSID",
+      "Type": "string"
+    },
+    {
+      "Name": "SubjectUserName",
+      "Type": "string"
+    },
+    {
+      "Name": "SubjectUserSid",
+      "Type": "string"
+    },
+    {
+      "Name": "SubStatus",
+      "Type": "string"
+    },
+    {
+      "Name": "TableId",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetAccount",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetDomainName",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetInfo",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetLinkedLogonId",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetLogonGuid",
+      "Type": "guid"
+    },
+    {
+      "Name": "TargetLogonId",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetOutboundDomainName",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetOutboundUserName",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetServerName",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetSid",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetUser",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetUserName",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetUserSid",
+      "Type": "string"
+    },
+    {
+      "Name": "TemplateContent",
+      "Type": "string"
+    },
+    {
+      "Name": "TemplateDSObjectFQDN",
+      "Type": "string"
+    },
+    {
+      "Name": "TemplateInternalName",
+      "Type": "string"
+    },
+    {
+      "Name": "TemplateOID",
+      "Type": "string"
+    },
+    {
+      "Name": "TemplateSchemaVersion",
+      "Type": "string"
+    },
+    {
+      "Name": "TemplateVersion",
+      "Type": "string"
+    },
+    {
+      "Name": "TokenElevationType",
+      "Type": "string"
+    },
+    {
+      "Name": "TransmittedServices",
+      "Type": "string"
+    },
+    {
+      "Name": "UserAccountControl",
+      "Type": "string"
+    },
+    {
+      "Name": "UserParameters",
+      "Type": "string"
+    },
+    {
+      "Name": "UserPrincipalName",
+      "Type": "string"
+    },
+    {
+      "Name": "UserWorkstations",
+      "Type": "string"
+    },
+    {
+      "Name": "VirtualAccount",
+      "Type": "string"
+    },
+    {
+      "Name": "VendorIds",
+      "Type": "string"
+    },
+    {
+      "Name": "Workstation",
+      "Type": "string"
+    },
+    {
+      "Name": "WorkstationName",
+      "Type": "string"
+    },
+    {
+      "Name": "SystemUserId",
+      "Type": "string"
+    },
+    {
+      "Name": "Version",
+      "Type": "int"
+    },
+    {
+      "Name": "Opcode",
+      "Type": "string"
+    },
+    {
+      "Name": "Keywords",
+      "Type": "string"
+    },
+    {
+      "Name": "Correlation",
+      "Type": "string"
+    },
+    {
+      "Name": "SystemProcessId",
+      "Type": "int"
+    },
+    {
+      "Name": "SystemThreadId",
+      "Type": "int"
+    },
+    {
+      "Name": "EventRecordId",
+      "Type": "string"
+    },
+    {
+      "Name": "Type",
+      "Type": "string"
+    }
+  ]
+}

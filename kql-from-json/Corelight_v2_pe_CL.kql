@@ -1,0 +1,74 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_pe_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:13
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_pe_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_pe_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_pe_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_pe_CLRaw ingestion json mapping 'Corelight_v2_pe_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_pe_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+has_cert_table_b:bool,
+has_export_table_b:bool,
+has_import_table_b:bool,
+uses_seh_b:bool,
+uses_code_integrity_b:bool,
+uses_dep_b:bool,
+has_debug_data_b:bool,
+uses_aslr_b:bool,
+is_exe_b:bool,
+subsystem_s:string,
+os_s:string,
+compile_ts_t:datetime,
+machine_s:string,
+id_s:string,
+is_64bit_b:bool,
+section_names_s:string,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_pe_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_pe_CLExpand() {
+Corelight_v2_pe_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+has_cert_table_b=tobool(events.has_cert_table_b),
+has_export_table_b=tobool(events.has_export_table_b),
+has_import_table_b=tobool(events.has_import_table_b),
+uses_seh_b=tobool(events.uses_seh_b),
+uses_code_integrity_b=tobool(events.uses_code_integrity_b),
+uses_dep_b=tobool(events.uses_dep_b),
+has_debug_data_b=tobool(events.has_debug_data_b),
+uses_aslr_b=tobool(events.uses_aslr_b),
+is_exe_b=tobool(events.is_exe_b),
+subsystem_s=tostring(events.subsystem_s),
+os_s=tostring(events.os_s),
+compile_ts_t=todatetime(events.compile_ts_t),
+machine_s=tostring(events.machine_s),
+id_s=tostring(events.id_s),
+is_64bit_b=tobool(events.is_64bit_b),
+section_names_s=tostring(events.section_names_s),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_pe_CL policy update @'[{"Source": "Corelight_v2_pe_CLRaw", "Query": "Corelight_v2_pe_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

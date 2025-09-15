@@ -1,0 +1,107 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for SecurityDetection - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:20:08
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 36, Final columns: 36
+// ============================================================================
+
+.create-merge table SecurityDetectionRaw (records:dynamic)
+
+.alter-merge table SecurityDetectionRaw policy retention softdelete = 1d
+
+.alter table SecurityDetectionRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table SecurityDetectionRaw ingestion json mapping 'SecurityDetectionRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table SecurityDetection(
+TimeGenerated:datetime,
+TenantId:guid,
+ReportingSystem:string,
+IsFirstParty:bool,
+ServiceId:guid,
+SubscriptionId:guid,
+ExtendedProperties:string,
+ParentProcess:string,
+ChildProcess:string,
+FullPath:string,
+SuspiciousProcess:string,
+AccountsSeen:int,
+FailedAttempts:int,
+SuccessfulLogins:int,
+ValidAccountsSeen:int,
+InvalidAccountsSeen:int,
+OccuringDatacenter:string,
+Duration:string,
+CommandLine:string,
+ProcessName:string,
+SubjectDomainName:string,
+SubjectUserName:string,
+DetectionID:string,
+OriginalSeverity:string,
+RemediationSteps:string,
+Description:string,
+AlertSeverity:string,
+AlertType:string,
+AlertTitle:string,
+Provider:string,
+Computer:string,
+SourceSystem:string,
+LogChannel:string,
+AssociatedResource:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table SecurityDetection policy caching hot = 1d
+
+.create-or-alter function SecurityDetectionExpand() {
+SecurityDetectionRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ReportingSystem=tostring(events.ReportingSystem),
+IsFirstParty=tobool(events.IsFirstParty),
+ServiceId=toguid(events.ServiceId),
+SubscriptionId=toguid(events.SubscriptionId),
+ExtendedProperties=tostring(events.ExtendedProperties),
+ParentProcess=tostring(events.ParentProcess),
+ChildProcess=tostring(events.ChildProcess),
+FullPath=tostring(events.FullPath),
+SuspiciousProcess=tostring(events.SuspiciousProcess),
+AccountsSeen=toint(events.AccountsSeen),
+FailedAttempts=toint(events.FailedAttempts),
+SuccessfulLogins=toint(events.SuccessfulLogins),
+ValidAccountsSeen=toint(events.ValidAccountsSeen),
+InvalidAccountsSeen=toint(events.InvalidAccountsSeen),
+OccuringDatacenter=tostring(events.OccuringDatacenter),
+Duration=tostring(events.Duration),
+CommandLine=tostring(events.CommandLine),
+ProcessName=tostring(events.ProcessName),
+SubjectDomainName=tostring(events.SubjectDomainName),
+SubjectUserName=tostring(events.SubjectUserName),
+DetectionID=tostring(events.DetectionID),
+OriginalSeverity=tostring(events.OriginalSeverity),
+RemediationSteps=tostring(events.RemediationSteps),
+Description=tostring(events.Description),
+AlertSeverity=tostring(events.AlertSeverity),
+AlertType=tostring(events.AlertType),
+AlertTitle=tostring(events.AlertTitle),
+Provider=tostring(events.Provider),
+Computer=tostring(events.Computer),
+SourceSystem=tostring(events.SourceSystem),
+LogChannel=tostring(events.LogChannel),
+AssociatedResource=tostring(events.AssociatedResource),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table SecurityDetection policy update @'[{"Source": "SecurityDetectionRaw", "Query": "SecurityDetectionExpand()", "IsEnabled": "True", "IsTransactional": true}]'

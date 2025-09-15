@@ -1,0 +1,105 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ACSCallDiagnostics - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:18:55
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 35, Final columns: 35
+// ============================================================================
+
+.create-merge table ACSCallDiagnosticsRaw (records:dynamic)
+
+.alter-merge table ACSCallDiagnosticsRaw policy retention softdelete = 1d
+
+.alter table ACSCallDiagnosticsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ACSCallDiagnosticsRaw ingestion json mapping 'ACSCallDiagnosticsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ACSCallDiagnostics(
+TimeGenerated:datetime,
+TenantId:guid,
+CodecName:string,
+StreamDirection:string,
+VideoBitRateMax:int,
+VideoBitRateAvg:int,
+PacketUtilization:int,
+JitterBufferSizeMax:int,
+JitterBufferSizeAvg:int,
+VideoFrameRateAvg:real,
+RecvFreezeDurationPerMinuteInMs:real,
+RecvResolutionHeight:int,
+HealedDataRatioMax:real,
+HealedDataRatioAvg:real,
+PacketLossRateMax:real,
+PacketLossRateAvg:real,
+JitterMax:int,
+JitterAvg:int,
+RoundTripTimeMax:int,
+RoundTripTimeAvg:int,
+TransportType:string,
+StreamId:long,
+MediaType:string,
+EndpointType:string,
+EndpointId:string,
+ParticipantId:string,
+Identifier:string,
+CorrelationId:string,
+Category:string,
+OperationVersion:string,
+OperationName:string,
+TPE:bool,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ACSCallDiagnostics policy caching hot = 1d
+
+.create-or-alter function ACSCallDiagnosticsExpand() {
+ACSCallDiagnosticsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+CodecName=tostring(events.CodecName),
+StreamDirection=tostring(events.StreamDirection),
+VideoBitRateMax=toint(events.VideoBitRateMax),
+VideoBitRateAvg=toint(events.VideoBitRateAvg),
+PacketUtilization=toint(events.PacketUtilization),
+JitterBufferSizeMax=toint(events.JitterBufferSizeMax),
+JitterBufferSizeAvg=toint(events.JitterBufferSizeAvg),
+VideoFrameRateAvg=toreal(events.VideoFrameRateAvg),
+RecvFreezeDurationPerMinuteInMs=toreal(events.RecvFreezeDurationPerMinuteInMs),
+RecvResolutionHeight=toint(events.RecvResolutionHeight),
+HealedDataRatioMax=toreal(events.HealedDataRatioMax),
+HealedDataRatioAvg=toreal(events.HealedDataRatioAvg),
+PacketLossRateMax=toreal(events.PacketLossRateMax),
+PacketLossRateAvg=toreal(events.PacketLossRateAvg),
+JitterMax=toint(events.JitterMax),
+JitterAvg=toint(events.JitterAvg),
+RoundTripTimeMax=toint(events.RoundTripTimeMax),
+RoundTripTimeAvg=toint(events.RoundTripTimeAvg),
+TransportType=tostring(events.TransportType),
+StreamId=tolong(events.StreamId),
+MediaType=tostring(events.MediaType),
+EndpointType=tostring(events.EndpointType),
+EndpointId=tostring(events.EndpointId),
+ParticipantId=tostring(events.ParticipantId),
+Identifier=tostring(events.Identifier),
+CorrelationId=tostring(events.CorrelationId),
+Category=tostring(events.Category),
+OperationVersion=tostring(events.OperationVersion),
+OperationName=tostring(events.OperationName),
+TPE=tobool(events.TPE),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ACSCallDiagnostics policy update @'[{"Source": "ACSCallDiagnosticsRaw", "Query": "ACSCallDiagnosticsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

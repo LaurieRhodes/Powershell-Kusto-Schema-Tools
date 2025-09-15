@@ -1,0 +1,92 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for MarkLogicAudit_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table MarkLogicAudit_CLRaw (records:dynamic)
+
+.alter-merge table MarkLogicAudit_CLRaw policy retention softdelete = 1d
+
+.alter table MarkLogicAudit_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table MarkLogicAudit_CLRaw ingestion json mapping 'MarkLogicAudit_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table MarkLogicAudit_CL(
+TimeGenerated:datetime,
+EventVendor:string,
+EventSubType:string,
+Roles:string,
+Function:string,
+Expr:string,
+Database:string,
+Computer:string,
+EventSeverity:string,
+EventOriginalResult:string,
+HttpUserAgentOriginal:string,
+HttpReferrerOriginal:string,
+HttpResponseBodyBytes:string,
+HttpStatusCode:string,
+HttpVersion:string,
+HttpRequestMethod:string,
+SrcUserName:string,
+ClientIdentity:string,
+SrcIpAddr:string,
+EventResult:string,
+EventType:string,
+SourseSystem:string,
+TenanId:string,
+EventStartTime:datetime,
+EventCount:string,
+EventSchemaVersion:string,
+EventProduct:string,
+ActorUsername:string,
+UrlOriginal:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table MarkLogicAudit_CL policy caching hot = 1d
+
+.create-or-alter function MarkLogicAudit_CLExpand() {
+MarkLogicAudit_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+EventVendor=tostring(events.EventVendor),
+EventSubType=tostring(events.EventSubType),
+Roles=tostring(events.Roles),
+Function=tostring(events.Function),
+Expr=tostring(events.Expr),
+Database=tostring(events.Database),
+Computer=tostring(events.Computer),
+EventSeverity=tostring(events.EventSeverity),
+EventOriginalResult=tostring(events.EventOriginalResult),
+HttpUserAgentOriginal=tostring(events.HttpUserAgentOriginal),
+HttpReferrerOriginal=tostring(events.HttpReferrerOriginal),
+HttpResponseBodyBytes=tostring(events.HttpResponseBodyBytes),
+HttpStatusCode=tostring(events.HttpStatusCode),
+HttpVersion=tostring(events.HttpVersion),
+HttpRequestMethod=tostring(events.HttpRequestMethod),
+SrcUserName=tostring(events.SrcUserName),
+ClientIdentity=tostring(events.ClientIdentity),
+SrcIpAddr=tostring(events.SrcIpAddr),
+EventResult=tostring(events.EventResult),
+EventType=tostring(events.EventType),
+SourseSystem=tostring(events.SourseSystem),
+TenanId=tostring(events.TenanId),
+EventStartTime=todatetime(events.EventStartTime),
+EventCount=tostring(events.EventCount),
+EventSchemaVersion=tostring(events.EventSchemaVersion),
+EventProduct=tostring(events.EventProduct),
+ActorUsername=tostring(events.ActorUsername),
+UrlOriginal=tostring(events.UrlOriginal),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table MarkLogicAudit_CL policy update @'[{"Source": "MarkLogicAudit_CLRaw", "Query": "MarkLogicAudit_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

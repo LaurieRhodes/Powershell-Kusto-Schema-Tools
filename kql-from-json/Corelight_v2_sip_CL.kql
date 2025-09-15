@@ -1,0 +1,94 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_sip_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:13
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_sip_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_sip_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_sip_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_sip_CLRaw ingestion json mapping 'Corelight_v2_sip_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_sip_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+request_body_len_d:real,
+warning_s:string,
+status_msg_s:string,
+status_code_d:real,
+user_agent_s:string,
+response_path_s:string,
+request_path_s:string,
+subject_s:string,
+seq_s:string,
+call_id_s:string,
+reply_to_s:string,
+response_body_len_d:real,
+response_to_s:string,
+request_to_s:string,
+request_from_s:string,
+date_s:string,
+uri_s:string,
+method_s:string,
+trans_depth_d:real,
+id_resp_p_d:real,
+id_resp_h_s:string,
+id_orig_p_d:real,
+id_orig_h_s:string,
+uid_s:string,
+response_from_s:string,
+content_type_s:string,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_sip_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_sip_CLExpand() {
+Corelight_v2_sip_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+request_body_len_d=toreal(events.request_body_len_d),
+warning_s=tostring(events.warning_s),
+status_msg_s=tostring(events.status_msg_s),
+status_code_d=toreal(events.status_code_d),
+user_agent_s=tostring(events.user_agent_s),
+response_path_s=tostring(events.response_path_s),
+request_path_s=tostring(events.request_path_s),
+subject_s=tostring(events.subject_s),
+seq_s=tostring(events.seq_s),
+call_id_s=tostring(events.call_id_s),
+reply_to_s=tostring(events.reply_to_s),
+response_body_len_d=toreal(events.response_body_len_d),
+response_to_s=tostring(events.response_to_s),
+request_to_s=tostring(events.request_to_s),
+request_from_s=tostring(events.request_from_s),
+date_s=tostring(events.date_s),
+uri_s=tostring(events.uri_s),
+method_s=tostring(events.method_s),
+trans_depth_d=toreal(events.trans_depth_d),
+id_resp_p_d=toreal(events.id_resp_p_d),
+id_resp_h_s=tostring(events.id_resp_h_s),
+id_orig_p_d=toreal(events.id_orig_p_d),
+id_orig_h_s=tostring(events.id_orig_h_s),
+uid_s=tostring(events.uid_s),
+response_from_s=tostring(events.response_from_s),
+content_type_s=tostring(events.content_type_s),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_sip_CL policy update @'[{"Source": "Corelight_v2_sip_CLRaw", "Query": "Corelight_v2_sip_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

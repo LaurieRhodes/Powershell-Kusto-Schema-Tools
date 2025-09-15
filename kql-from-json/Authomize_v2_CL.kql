@@ -1,0 +1,92 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Authomize_v2_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:11
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Authomize_v2_CLRaw (records:dynamic)
+
+.alter-merge table Authomize_v2_CLRaw policy retention softdelete = 1d
+
+.alter table Authomize_v2_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Authomize_v2_CLRaw ingestion json mapping 'Authomize_v2_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Authomize_v2_CL(
+TimeGenerated:datetime,
+app_s:string,
+updatedAt_t:datetime,
+techniques_s:string,
+tactics_s:string,
+status_s:string,
+slot_ID_d:real,
+severity_s:string,
+recommendation_s:string,
+policyId_s:string,
+policy_templateId_s:string,
+policy_name_s:string,
+policy_id_s:string,
+performance_Value_d:real,
+url_s:string,
+measurement_Name_s:string,
+IsActive_s:string,
+id_s:string,
+ID_g:guid,
+entities_s:string,
+duration_d:real,
+description_s:string,
+critical_Threshold_d:real,
+createdAt_t:datetime,
+compliance_s:string,
+Category:string,
+availability_Value_d:real,
+assigneeId_s:string,
+isResolved_b:bool,
+warning_Threshold_d:real,
+_TimeReceived:datetime)
+
+.alter table Authomize_v2_CL policy caching hot = 1d
+
+.create-or-alter function Authomize_v2_CLExpand() {
+Authomize_v2_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+app_s=tostring(events.app_s),
+updatedAt_t=todatetime(events.updatedAt_t),
+techniques_s=tostring(events.techniques_s),
+tactics_s=tostring(events.tactics_s),
+status_s=tostring(events.status_s),
+slot_ID_d=toreal(events.slot_ID_d),
+severity_s=tostring(events.severity_s),
+recommendation_s=tostring(events.recommendation_s),
+policyId_s=tostring(events.policyId_s),
+policy_templateId_s=tostring(events.policy_templateId_s),
+policy_name_s=tostring(events.policy_name_s),
+policy_id_s=tostring(events.policy_id_s),
+performance_Value_d=toreal(events.performance_Value_d),
+url_s=tostring(events.url_s),
+measurement_Name_s=tostring(events.measurement_Name_s),
+IsActive_s=tostring(events.IsActive_s),
+id_s=tostring(events.id_s),
+ID_g=toguid(events.ID_g),
+entities_s=tostring(events.entities_s),
+duration_d=toreal(events.duration_d),
+description_s=tostring(events.description_s),
+critical_Threshold_d=toreal(events.critical_Threshold_d),
+createdAt_t=todatetime(events.createdAt_t),
+compliance_s=tostring(events.compliance_s),
+Category=tostring(events.Category),
+availability_Value_d=toreal(events.availability_Value_d),
+assigneeId_s=tostring(events.assigneeId_s),
+isResolved_b=tobool(events.isResolved_b),
+warning_Threshold_d=toreal(events.warning_Threshold_d),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Authomize_v2_CL policy update @'[{"Source": "Authomize_v2_CLRaw", "Query": "Authomize_v2_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

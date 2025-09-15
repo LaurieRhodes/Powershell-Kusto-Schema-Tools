@@ -1,0 +1,83 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for PGSQLServerLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:19:24
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 24, Final columns: 24
+// ============================================================================
+
+.create-merge table PGSQLServerLogsRaw (records:dynamic)
+
+.alter-merge table PGSQLServerLogsRaw policy retention softdelete = 1d
+
+.alter table PGSQLServerLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table PGSQLServerLogsRaw ingestion json mapping 'PGSQLServerLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table PGSQLServerLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+BackendType:string,
+ConstraintName:string,
+DatatypeName:string,
+ColumnName:string,
+TableName:string,
+SchemaName:string,
+Statement:string,
+Context:string,
+Location:string,
+Query:string,
+DetailLog:string,
+Detail:string,
+Message:string,
+SqlErrorCode:string,
+ErrorLevel:string,
+ProcessId:int,
+ReplicaRole:string,
+LogicalServerName:string,
+Hint:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table PGSQLServerLogs policy caching hot = 1d
+
+.create-or-alter function PGSQLServerLogsExpand() {
+PGSQLServerLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+BackendType=tostring(events.BackendType),
+ConstraintName=tostring(events.ConstraintName),
+DatatypeName=tostring(events.DatatypeName),
+ColumnName=tostring(events.ColumnName),
+TableName=tostring(events.TableName),
+SchemaName=tostring(events.SchemaName),
+Statement=tostring(events.Statement),
+Context=tostring(events.Context),
+Location=tostring(events.Location),
+Query=tostring(events.Query),
+DetailLog=tostring(events.DetailLog),
+Detail=tostring(events.Detail),
+Message=tostring(events.Message),
+SqlErrorCode=tostring(events.SqlErrorCode),
+ErrorLevel=tostring(events.ErrorLevel),
+ProcessId=toint(events.ProcessId),
+ReplicaRole=tostring(events.ReplicaRole),
+LogicalServerName=tostring(events.LogicalServerName),
+Hint=tostring(events.Hint),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table PGSQLServerLogs policy update @'[{"Source": "PGSQLServerLogsRaw", "Query": "PGSQLServerLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

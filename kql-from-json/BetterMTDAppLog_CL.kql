@@ -1,0 +1,68 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for BetterMTDAppLog_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:11
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table BetterMTDAppLog_CLRaw (records:dynamic)
+
+.alter-merge table BetterMTDAppLog_CLRaw policy retention softdelete = 1d
+
+.alter table BetterMTDAppLog_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table BetterMTDAppLog_CLRaw ingestion json mapping 'BetterMTDAppLog_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table BetterMTDAppLog_CL(
+TimeGenerated:datetime,
+AppName:string,
+AppStatus_s:string,
+BundleId:string,
+CompanyId:real,
+Computer:string,
+DateAdded:datetime,
+DeviceUDID:string,
+IsMdm:real,
+ManagementGroupName:string,
+MG:string,
+Platform:string,
+RawData:string,
+SourceSystem:string,
+TenantId:guid,
+Version:real,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table BetterMTDAppLog_CL policy caching hot = 1d
+
+.create-or-alter function BetterMTDAppLog_CLExpand() {
+BetterMTDAppLog_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+AppName=tostring(events.AppName),
+AppStatus_s=tostring(events.AppStatus_s),
+BundleId=tostring(events.BundleId),
+CompanyId=toreal(events.CompanyId),
+Computer=tostring(events.Computer),
+DateAdded=todatetime(events.DateAdded),
+DeviceUDID=tostring(events.DeviceUDID),
+IsMdm=toreal(events.IsMdm),
+ManagementGroupName=tostring(events.ManagementGroupName),
+MG=tostring(events.MG),
+Platform=tostring(events.Platform),
+RawData=tostring(events.RawData),
+SourceSystem=tostring(events.SourceSystem),
+TenantId=toguid(events.TenantId),
+Version=toreal(events.Version),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table BetterMTDAppLog_CL policy update @'[{"Source": "BetterMTDAppLog_CLRaw", "Query": "BetterMTDAppLog_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

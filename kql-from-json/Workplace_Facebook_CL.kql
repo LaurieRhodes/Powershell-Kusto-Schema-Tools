@@ -1,0 +1,46 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Workplace_Facebook_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Workplace_Facebook_CLRaw (records:dynamic)
+
+.alter-merge table Workplace_Facebook_CLRaw policy retention softdelete = 1d
+
+.alter table Workplace_Facebook_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Workplace_Facebook_CLRaw ingestion json mapping 'Workplace_Facebook_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Workplace_Facebook_CL(
+TimeGenerated:datetime,
+EventVendor:string,
+EventProduct:string,
+EventUid:string,
+EventEndTime:datetime,
+Changes:dynamic,
+EventType:string,
+_TimeReceived:datetime)
+
+.alter table Workplace_Facebook_CL policy caching hot = 1d
+
+.create-or-alter function Workplace_Facebook_CLExpand() {
+Workplace_Facebook_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+EventVendor=tostring(events.EventVendor),
+EventProduct=tostring(events.EventProduct),
+EventUid=tostring(events.EventUid),
+EventEndTime=todatetime(events.EventEndTime),
+Changes=todynamic(events.Changes),
+EventType=tostring(events.EventType),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Workplace_Facebook_CL policy update @'[{"Source": "Workplace_Facebook_CLRaw", "Query": "Workplace_Facebook_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

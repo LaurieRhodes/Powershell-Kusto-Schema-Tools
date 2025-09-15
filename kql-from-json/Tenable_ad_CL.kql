@@ -1,0 +1,50 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Tenable_ad_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Tenable_ad_CLRaw (records:dynamic)
+
+.alter-merge table Tenable_ad_CLRaw policy retention softdelete = 1d
+
+.alter table Tenable_ad_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Tenable_ad_CLRaw ingestion json mapping 'Tenable_ad_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Tenable_ad_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+SourceSystem:string,
+MG:string,
+ManagementGroupName:string,
+Computer:string,
+RawData:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table Tenable_ad_CL policy caching hot = 1d
+
+.create-or-alter function Tenable_ad_CLExpand() {
+Tenable_ad_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SourceSystem=tostring(events.SourceSystem),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+Computer=tostring(events.Computer),
+RawData=tostring(events.RawData),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Tenable_ad_CL policy update @'[{"Source": "Tenable_ad_CLRaw", "Query": "Tenable_ad_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

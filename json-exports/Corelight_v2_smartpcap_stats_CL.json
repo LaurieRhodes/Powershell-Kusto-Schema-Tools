@@ -1,0 +1,109 @@
+﻿{
+    "Name":  "Corelight_v2_smartpcap_stats_CL",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "_path_s",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_system_name_s",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_write_ts_t",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ts_t",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "cap_bytes_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "cap_flows_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "flows_buffered_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "socket_errors_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "packet_drops_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "socket_timeouts_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "socket_closes_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "flow_pauses_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "flow_resumes_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "byte_drops_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "packet_writes_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "byte_writes_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "socket_writes_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "socket_connects_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "unknown_packets_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "unknown_bytes_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "lever_triggers_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "lever_failures_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "uncap_flows_buflimit_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "uncap_flows_closed_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "rule_stats_s",
+                           "Type":  "String"
+                       }
+                   ]
+}

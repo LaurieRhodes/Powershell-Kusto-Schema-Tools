@@ -1,0 +1,63 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AppServiceIPSecAuditLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:22:44
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 14, Final columns: 14
+// ============================================================================
+
+.create-merge table AppServiceIPSecAuditLogsRaw (records:dynamic)
+
+.alter-merge table AppServiceIPSecAuditLogsRaw policy retention softdelete = 1d
+
+.alter table AppServiceIPSecAuditLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AppServiceIPSecAuditLogsRaw ingestion json mapping 'AppServiceIPSecAuditLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AppServiceIPSecAuditLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+Result:string,
+CsHost:string,
+ServiceEndpoint:string,
+CIp:string,
+XForwardedFor:string,
+XForwardedHost:string,
+XAzureFDID:string,
+XFDHealthProbe:string,
+Details:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AppServiceIPSecAuditLogs policy caching hot = 1d
+
+.create-or-alter function AppServiceIPSecAuditLogsExpand() {
+AppServiceIPSecAuditLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Result=tostring(events.Result),
+CsHost=tostring(events.CsHost),
+ServiceEndpoint=tostring(events.ServiceEndpoint),
+CIp=tostring(events.CIp),
+XForwardedFor=tostring(events.XForwardedFor),
+XForwardedHost=tostring(events.XForwardedHost),
+XAzureFDID=tostring(events.XAzureFDID),
+XFDHealthProbe=tostring(events.XFDHealthProbe),
+Details=tostring(events.Details),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AppServiceIPSecAuditLogs policy update @'[{"Source": "AppServiceIPSecAuditLogsRaw", "Query": "AppServiceIPSecAuditLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

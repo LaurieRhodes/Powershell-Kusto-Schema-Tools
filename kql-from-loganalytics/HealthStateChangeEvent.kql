@@ -1,0 +1,75 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for HealthStateChangeEvent - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:15:51
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 20, Final columns: 20
+// ============================================================================
+
+.create-merge table HealthStateChangeEventRaw (records:dynamic)
+
+.alter-merge table HealthStateChangeEventRaw policy retention softdelete = 1d
+
+.alter table HealthStateChangeEventRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table HealthStateChangeEventRaw ingestion json mapping 'HealthStateChangeEventRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table HealthStateChangeEvent(
+TimeGenerated:datetime,
+TenantId:guid,
+MonitorConfiguration:dynamic,
+Evidence:dynamic,
+MonitoredObject:string,
+MonitorType:string,
+CurrentStateFirstObservedTimestamp:datetime,
+ImpactStartTimestamp:datetime,
+InstrumentationData:dynamic,
+ParentMonitorName:string,
+MonitorResourceId:string,
+CurrentMonitorState:string,
+PreviousMonitorState:string,
+EvaluationTimestamp:datetime,
+StateChangePayload:string,
+CorrelationId:guid,
+MonitorName:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table HealthStateChangeEvent policy caching hot = 1d
+
+.create-or-alter function HealthStateChangeEventExpand() {
+HealthStateChangeEventRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+MonitorConfiguration=todynamic(events.MonitorConfiguration),
+Evidence=todynamic(events.Evidence),
+MonitoredObject=tostring(events.MonitoredObject),
+MonitorType=tostring(events.MonitorType),
+CurrentStateFirstObservedTimestamp=todatetime(events.CurrentStateFirstObservedTimestamp),
+ImpactStartTimestamp=todatetime(events.ImpactStartTimestamp),
+InstrumentationData=todynamic(events.InstrumentationData),
+ParentMonitorName=tostring(events.ParentMonitorName),
+MonitorResourceId=tostring(events.MonitorResourceId),
+CurrentMonitorState=tostring(events.CurrentMonitorState),
+PreviousMonitorState=tostring(events.PreviousMonitorState),
+EvaluationTimestamp=todatetime(events.EvaluationTimestamp),
+StateChangePayload=tostring(events.StateChangePayload),
+CorrelationId=toguid(events.CorrelationId),
+MonitorName=tostring(events.MonitorName),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table HealthStateChangeEvent policy update @'[{"Source": "HealthStateChangeEventRaw", "Query": "HealthStateChangeEventExpand()", "IsEnabled": "True", "IsTransactional": true}]'

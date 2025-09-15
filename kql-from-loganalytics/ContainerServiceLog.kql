@@ -1,0 +1,59 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ContainerServiceLog - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:25:55
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 12, Final columns: 12
+// ============================================================================
+
+.create-merge table ContainerServiceLogRaw (records:dynamic)
+
+.alter-merge table ContainerServiceLogRaw policy retention softdelete = 1d
+
+.alter table ContainerServiceLogRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ContainerServiceLogRaw ingestion json mapping 'ContainerServiceLogRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ContainerServiceLog(
+TimeGenerated:datetime,
+TenantId:guid,
+SourceSystem:string,
+Computer:string,
+TimeOfCommand:datetime,
+ContainerID:string,
+Image:string,
+ImageTag:string,
+Repository:string,
+Command:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ContainerServiceLog policy caching hot = 1d
+
+.create-or-alter function ContainerServiceLogExpand() {
+ContainerServiceLogRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SourceSystem=tostring(events.SourceSystem),
+Computer=tostring(events.Computer),
+TimeOfCommand=todatetime(events.TimeOfCommand),
+ContainerID=tostring(events.ContainerID),
+Image=tostring(events.Image),
+ImageTag=tostring(events.ImageTag),
+Repository=tostring(events.Repository),
+Command=tostring(events.Command),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ContainerServiceLog policy update @'[{"Source": "ContainerServiceLogRaw", "Query": "ContainerServiceLogExpand()", "IsEnabled": "True", "IsTransactional": true}]'

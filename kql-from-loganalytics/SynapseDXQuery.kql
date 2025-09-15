@@ -1,0 +1,115 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for SynapseDXQuery - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:21:23
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 40, Final columns: 40
+// ============================================================================
+
+.create-merge table SynapseDXQueryRaw (records:dynamic)
+
+.alter-merge table SynapseDXQueryRaw policy retention softdelete = 1d
+
+.alter table SynapseDXQueryRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table SynapseDXQueryRaw ingestion json mapping 'SynapseDXQueryRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table SynapseDXQuery(
+TimeGenerated:datetime,
+TenantId:guid,
+ScannedRowsCount:long,
+CacheMemoryHits:long,
+CacheMemoryMisses:long,
+CacheDiskHits:long,
+CacheDiskMisses:long,
+CacheShardsHotHits:long,
+CacheShardsHotMisses:long,
+CacheShardsColdHits:long,
+CacheShardsColdMisses:long,
+CacheShardsBypassBytes:long,
+TableCount:int,
+TablesStatistics:dynamic,
+WorkloadGroup:string,
+Text:string,
+SourceSystem:string,
+TotalRowsCount:long,
+ExtentsMinDataScannedTime:datetime,
+ScannedExtentsCount:long,
+MaxDataScannedTime:datetime,
+Category:string,
+CorrelationId:string,
+RootActivityId:string,
+StartedOn:datetime,
+LastUpdatedOn:datetime,
+DatabaseName:string,
+State:string,
+FailureReason:string,
+TotalCPU:string,
+ApplicationName:string,
+MemoryPeak:long,
+Duration:string,
+User:string,
+Principal:string,
+MinDataScannedTime:datetime,
+TotalExtentsCount:long,
+ExtentsMaxDataScannedTime:datetime,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table SynapseDXQuery policy caching hot = 1d
+
+.create-or-alter function SynapseDXQueryExpand() {
+SynapseDXQueryRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ScannedRowsCount=tolong(events.ScannedRowsCount),
+CacheMemoryHits=tolong(events.CacheMemoryHits),
+CacheMemoryMisses=tolong(events.CacheMemoryMisses),
+CacheDiskHits=tolong(events.CacheDiskHits),
+CacheDiskMisses=tolong(events.CacheDiskMisses),
+CacheShardsHotHits=tolong(events.CacheShardsHotHits),
+CacheShardsHotMisses=tolong(events.CacheShardsHotMisses),
+CacheShardsColdHits=tolong(events.CacheShardsColdHits),
+CacheShardsColdMisses=tolong(events.CacheShardsColdMisses),
+CacheShardsBypassBytes=tolong(events.CacheShardsBypassBytes),
+TableCount=toint(events.TableCount),
+TablesStatistics=todynamic(events.TablesStatistics),
+WorkloadGroup=tostring(events.WorkloadGroup),
+Text=tostring(events.Text),
+SourceSystem=tostring(events.SourceSystem),
+TotalRowsCount=tolong(events.TotalRowsCount),
+ExtentsMinDataScannedTime=todatetime(events.ExtentsMinDataScannedTime),
+ScannedExtentsCount=tolong(events.ScannedExtentsCount),
+MaxDataScannedTime=todatetime(events.MaxDataScannedTime),
+Category=tostring(events.Category),
+CorrelationId=tostring(events.CorrelationId),
+RootActivityId=tostring(events.RootActivityId),
+StartedOn=todatetime(events.StartedOn),
+LastUpdatedOn=todatetime(events.LastUpdatedOn),
+DatabaseName=tostring(events.DatabaseName),
+State=tostring(events.State),
+FailureReason=tostring(events.FailureReason),
+TotalCPU=tostring(events.TotalCPU),
+ApplicationName=tostring(events.ApplicationName),
+MemoryPeak=tolong(events.MemoryPeak),
+Duration=tostring(events.Duration),
+User=tostring(events.User),
+Principal=tostring(events.Principal),
+MinDataScannedTime=todatetime(events.MinDataScannedTime),
+TotalExtentsCount=tolong(events.TotalExtentsCount),
+ExtentsMaxDataScannedTime=todatetime(events.ExtentsMaxDataScannedTime),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table SynapseDXQuery policy update @'[{"Source": "SynapseDXQueryRaw", "Query": "SynapseDXQueryExpand()", "IsEnabled": "True", "IsTransactional": true}]'

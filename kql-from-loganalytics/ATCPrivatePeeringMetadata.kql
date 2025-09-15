@@ -1,0 +1,73 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ATCPrivatePeeringMetadata - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:23:22
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 19, Final columns: 19
+// ============================================================================
+
+.create-merge table ATCPrivatePeeringMetadataRaw (records:dynamic)
+
+.alter-merge table ATCPrivatePeeringMetadataRaw policy retention softdelete = 1d
+
+.alter table ATCPrivatePeeringMetadataRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ATCPrivatePeeringMetadataRaw ingestion json mapping 'ATCPrivatePeeringMetadataRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ATCPrivatePeeringMetadata(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+ATCResourceId:string,
+ATCRegion:string,
+SchemaVersion:string,
+ExRCircuitId:string,
+ExRCircuitServiceKey:string,
+VnetId:string,
+VnetSubscriptionId:string,
+VnetResourceGroup:string,
+VnetName:string,
+VnetLocation:string,
+VnetAddressPrefix:string,
+IpMask:int,
+IpSubnet:dynamic,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ATCPrivatePeeringMetadata policy caching hot = 1d
+
+.create-or-alter function ATCPrivatePeeringMetadataExpand() {
+ATCPrivatePeeringMetadataRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+ATCResourceId=tostring(events.ATCResourceId),
+ATCRegion=tostring(events.ATCRegion),
+SchemaVersion=tostring(events.SchemaVersion),
+ExRCircuitId=tostring(events.ExRCircuitId),
+ExRCircuitServiceKey=tostring(events.ExRCircuitServiceKey),
+VnetId=tostring(events.VnetId),
+VnetSubscriptionId=tostring(events.VnetSubscriptionId),
+VnetResourceGroup=tostring(events.VnetResourceGroup),
+VnetName=tostring(events.VnetName),
+VnetLocation=tostring(events.VnetLocation),
+VnetAddressPrefix=tostring(events.VnetAddressPrefix),
+IpMask=toint(events.IpMask),
+IpSubnet=todynamic(events.IpSubnet),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ATCPrivatePeeringMetadata policy update @'[{"Source": "ATCPrivatePeeringMetadataRaw", "Query": "ATCPrivatePeeringMetadataExpand()", "IsEnabled": "True", "IsTransactional": true}]'

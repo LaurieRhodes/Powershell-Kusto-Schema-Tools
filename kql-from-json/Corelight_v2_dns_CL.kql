@@ -1,0 +1,88 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_dns_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:12
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_dns_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_dns_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_dns_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_dns_CLRaw ingestion json mapping 'Corelight_v2_dns_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_dns_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+answers_s:string,
+Z_d:real,
+RA_b:bool,
+RD_b:bool,
+TC_b:bool,
+AA_b:bool,
+rcode_name_s:string,
+rcode_d:real,
+qtype_name_s:string,
+qtype_d:real,
+qclass_name_s:string,
+qclass_d:real,
+query_s:string,
+rtt_d:real,
+trans_id_d:real,
+proto_s:string,
+id_resp_p_d:real,
+id_resp_h_s:string,
+id_orig_p_d:real,
+id_orig_h_s:string,
+uid_s:string,
+TTLs_s:string,
+rejected_b:bool,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_dns_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_dns_CLExpand() {
+Corelight_v2_dns_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+answers_s=tostring(events.answers_s),
+Z_d=toreal(events.Z_d),
+RA_b=tobool(events.RA_b),
+RD_b=tobool(events.RD_b),
+TC_b=tobool(events.TC_b),
+AA_b=tobool(events.AA_b),
+rcode_name_s=tostring(events.rcode_name_s),
+rcode_d=toreal(events.rcode_d),
+qtype_name_s=tostring(events.qtype_name_s),
+qtype_d=toreal(events.qtype_d),
+qclass_name_s=tostring(events.qclass_name_s),
+qclass_d=toreal(events.qclass_d),
+query_s=tostring(events.query_s),
+rtt_d=toreal(events.rtt_d),
+trans_id_d=toreal(events.trans_id_d),
+proto_s=tostring(events.proto_s),
+id_resp_p_d=toreal(events.id_resp_p_d),
+id_resp_h_s=tostring(events.id_resp_h_s),
+id_orig_p_d=toreal(events.id_orig_p_d),
+id_orig_h_s=tostring(events.id_orig_h_s),
+uid_s=tostring(events.uid_s),
+TTLs_s=tostring(events.TTLs_s),
+rejected_b=tobool(events.rejected_b),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_dns_CL policy update @'[{"Source": "Corelight_v2_dns_CLRaw", "Query": "Corelight_v2_dns_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,83 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ADXCommand - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:20:11
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 24, Final columns: 24
+// ============================================================================
+
+.create-merge table ADXCommandRaw (records:dynamic)
+
+.alter-merge table ADXCommandRaw policy retention softdelete = 1d
+
+.alter table ADXCommandRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ADXCommandRaw ingestion json mapping 'ADXCommandRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ADXCommand(
+TimeGenerated:datetime,
+TenantId:guid,
+Text:string,
+WorkloadGroup:string,
+Principal:string,
+User:string,
+Duration:string,
+ResourceUtilization:dynamic,
+ApplicationName:string,
+CommandType:string,
+ClientRequestProperties:dynamic,
+TotalCPU:string,
+State:string,
+DatabaseName:string,
+LastUpdatedOn:datetime,
+StartedOn:datetime,
+RootActivityId:string,
+CorrelationId:string,
+Category:string,
+OperationName:string,
+FailureReason:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ADXCommand policy caching hot = 1d
+
+.create-or-alter function ADXCommandExpand() {
+ADXCommandRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Text=tostring(events.Text),
+WorkloadGroup=tostring(events.WorkloadGroup),
+Principal=tostring(events.Principal),
+User=tostring(events.User),
+Duration=tostring(events.Duration),
+ResourceUtilization=todynamic(events.ResourceUtilization),
+ApplicationName=tostring(events.ApplicationName),
+CommandType=tostring(events.CommandType),
+ClientRequestProperties=todynamic(events.ClientRequestProperties),
+TotalCPU=tostring(events.TotalCPU),
+State=tostring(events.State),
+DatabaseName=tostring(events.DatabaseName),
+LastUpdatedOn=todatetime(events.LastUpdatedOn),
+StartedOn=todatetime(events.StartedOn),
+RootActivityId=tostring(events.RootActivityId),
+CorrelationId=tostring(events.CorrelationId),
+Category=tostring(events.Category),
+OperationName=tostring(events.OperationName),
+FailureReason=tostring(events.FailureReason),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ADXCommand policy update @'[{"Source": "ADXCommandRaw", "Query": "ADXCommandExpand()", "IsEnabled": "True", "IsTransactional": true}]'

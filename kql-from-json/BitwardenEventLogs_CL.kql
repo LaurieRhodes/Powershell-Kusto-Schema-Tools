@@ -1,0 +1,54 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for BitwardenEventLogs_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:11
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table BitwardenEventLogs_CLRaw (records:dynamic)
+
+.alter-merge table BitwardenEventLogs_CLRaw policy retention softdelete = 1d
+
+.alter table BitwardenEventLogs_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table BitwardenEventLogs_CLRaw ingestion json mapping 'BitwardenEventLogs_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table BitwardenEventLogs_CL(
+TimeGenerated:datetime,
+eventType:int,
+itemId:string,
+collectionId:string,
+groupId:string,
+policyId:string,
+memberId:string,
+actingUserId:string,
+installationId:string,
+device:int,
+ipAddress:string,
+_TimeReceived:datetime)
+
+.alter table BitwardenEventLogs_CL policy caching hot = 1d
+
+.create-or-alter function BitwardenEventLogs_CLExpand() {
+BitwardenEventLogs_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+eventType=toint(events.eventType),
+itemId=tostring(events.itemId),
+collectionId=tostring(events.collectionId),
+groupId=tostring(events.groupId),
+policyId=tostring(events.policyId),
+memberId=tostring(events.memberId),
+actingUserId=tostring(events.actingUserId),
+installationId=tostring(events.installationId),
+device=toint(events.device),
+ipAddress=tostring(events.ipAddress),
+_TimeReceived=todatetime(now())
+}
+
+.alter table BitwardenEventLogs_CL policy update @'[{"Source": "BitwardenEventLogs_CLRaw", "Query": "BitwardenEventLogs_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

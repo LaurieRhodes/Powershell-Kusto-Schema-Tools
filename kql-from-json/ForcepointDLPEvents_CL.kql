@@ -1,0 +1,90 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ForcepointDLPEvents_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table ForcepointDLPEvents_CLRaw (records:dynamic)
+
+.alter-merge table ForcepointDLPEvents_CLRaw policy retention softdelete = 1d
+
+.alter table ForcepointDLPEvents_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ForcepointDLPEvents_CLRaw ingestion json mapping 'ForcepointDLPEvents_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ForcepointDLPEvents_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+ForcepointDLPSourceIP:string,
+Title:string,
+SourceDomain:string,
+DestinationIpV4:real,
+DestinationCommonName:real,
+Text:real,
+SourceIpV4_s:string,
+ExternalId:string,
+DestinationHostname:string,
+UpdatedAt:string,
+Severity_s:string,
+RuleName_1_s:string,
+Id:string,
+GeneratorId:string,
+PolicyCategoryId:string,
+Protocol:string,
+CreatedAt_t:datetime,
+DestinationDomain:string,
+RawData:string,
+ManagementGroupName:string,
+MG:string,
+Computer:string,
+SourceSystem:string,
+UpdatedBy:string,
+Description:real,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ForcepointDLPEvents_CL policy caching hot = 1d
+
+.create-or-alter function ForcepointDLPEvents_CLExpand() {
+ForcepointDLPEvents_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ForcepointDLPSourceIP=tostring(events.ForcepointDLPSourceIP),
+Title=tostring(events.Title),
+SourceDomain=tostring(events.SourceDomain),
+DestinationIpV4=toreal(events.DestinationIpV4),
+DestinationCommonName=toreal(events.DestinationCommonName),
+Text=toreal(events.Text),
+SourceIpV4_s=tostring(events.SourceIpV4_s),
+ExternalId=tostring(events.ExternalId),
+DestinationHostname=tostring(events.DestinationHostname),
+UpdatedAt=tostring(events.UpdatedAt),
+Severity_s=tostring(events.Severity_s),
+RuleName_1_s=tostring(events.RuleName_1_s),
+Id=tostring(events.Id),
+GeneratorId=tostring(events.GeneratorId),
+PolicyCategoryId=tostring(events.PolicyCategoryId),
+Protocol=tostring(events.Protocol),
+CreatedAt_t=todatetime(events.CreatedAt_t),
+DestinationDomain=tostring(events.DestinationDomain),
+RawData=tostring(events.RawData),
+ManagementGroupName=tostring(events.ManagementGroupName),
+MG=tostring(events.MG),
+Computer=tostring(events.Computer),
+SourceSystem=tostring(events.SourceSystem),
+UpdatedBy=tostring(events.UpdatedBy),
+Description=toreal(events.Description),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ForcepointDLPEvents_CL policy update @'[{"Source": "ForcepointDLPEvents_CLRaw", "Query": "ForcepointDLPEvents_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,50 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for BitsightGraph_data_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:11
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table BitsightGraph_data_CLRaw (records:dynamic)
+
+.alter-merge table BitsightGraph_data_CLRaw policy retention softdelete = 1d
+
+.alter table BitsightGraph_data_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table BitsightGraph_data_CLRaw ingestion json mapping 'BitsightGraph_data_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table BitsightGraph_data_CL(
+TimeGenerated:datetime,
+EventVendor:string,
+EventProduct:string,
+RatingDate:string,
+Rating:real,
+CompanyName:string,
+RatingDifferance:real,
+percentage:real,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table BitsightGraph_data_CL policy caching hot = 1d
+
+.create-or-alter function BitsightGraph_data_CLExpand() {
+BitsightGraph_data_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+EventVendor=tostring(events.EventVendor),
+EventProduct=tostring(events.EventProduct),
+RatingDate=tostring(events.RatingDate),
+Rating=toreal(events.Rating),
+CompanyName=tostring(events.CompanyName),
+RatingDifferance=toreal(events.RatingDifferance),
+percentage=toreal(events.percentage),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table BitsightGraph_data_CL policy update @'[{"Source": "BitsightGraph_data_CLRaw", "Query": "BitsightGraph_data_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

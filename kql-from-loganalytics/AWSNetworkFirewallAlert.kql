@@ -1,0 +1,91 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AWSNetworkFirewallAlert - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:23:41
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 28, Final columns: 28
+// ============================================================================
+
+.create-merge table AWSNetworkFirewallAlertRaw (records:dynamic)
+
+.alter-merge table AWSNetworkFirewallAlertRaw policy retention softdelete = 1d
+
+.alter table AWSNetworkFirewallAlertRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AWSNetworkFirewallAlertRaw ingestion json mapping 'AWSNetworkFirewallAlertRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AWSNetworkFirewallAlert(
+TimeGenerated:datetime,
+TenantId:guid,
+Direction:string,
+PktSrc:string,
+DestPort:string,
+Version:string,
+Sni:string,
+VerdictAction:string,
+Proto:string,
+DestIp:string,
+FlowId:string,
+Category:string,
+AlertAction:string,
+Signature:string,
+Rev:string,
+SignatureId:string,
+Severity:string,
+EventType:string,
+SrcPort:string,
+SrcIp:string,
+AppProto:string,
+EventTimestamp:datetime,
+TxId:string,
+AvailabilityZone:string,
+FirewallName:string,
+Timestamp:datetime,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table AWSNetworkFirewallAlert policy caching hot = 1d
+
+.create-or-alter function AWSNetworkFirewallAlertExpand() {
+AWSNetworkFirewallAlertRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Direction=tostring(events.Direction),
+PktSrc=tostring(events.PktSrc),
+DestPort=tostring(events.DestPort),
+Version=tostring(events.Version),
+Sni=tostring(events.Sni),
+VerdictAction=tostring(events.VerdictAction),
+Proto=tostring(events.Proto),
+DestIp=tostring(events.DestIp),
+FlowId=tostring(events.FlowId),
+Category=tostring(events.Category),
+AlertAction=tostring(events.AlertAction),
+Signature=tostring(events.Signature),
+Rev=tostring(events.Rev),
+SignatureId=tostring(events.SignatureId),
+Severity=tostring(events.Severity),
+EventType=tostring(events.EventType),
+SrcPort=tostring(events.SrcPort),
+SrcIp=tostring(events.SrcIp),
+AppProto=tostring(events.AppProto),
+EventTimestamp=todatetime(events.EventTimestamp),
+TxId=tostring(events.TxId),
+AvailabilityZone=tostring(events.AvailabilityZone),
+FirewallName=tostring(events.FirewallName),
+Timestamp=todatetime(events.Timestamp),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AWSNetworkFirewallAlert policy update @'[{"Source": "AWSNetworkFirewallAlertRaw", "Query": "AWSNetworkFirewallAlertExpand()", "IsEnabled": "True", "IsTransactional": true}]'

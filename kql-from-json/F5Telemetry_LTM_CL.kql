@@ -1,0 +1,56 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for F5Telemetry_LTM_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table F5Telemetry_LTM_CLRaw (records:dynamic)
+
+.alter-merge table F5Telemetry_LTM_CLRaw policy retention softdelete = 1d
+
+.alter table F5Telemetry_LTM_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table F5Telemetry_LTM_CLRaw ingestion json mapping 'F5Telemetry_LTM_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table F5Telemetry_LTM_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+SourceSystem:string,
+MG:string,
+ManagementGroupName:string,
+Computer:string,
+RawData:string,
+probability:real,
+RawMessage:string,
+client_ip_s:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table F5Telemetry_LTM_CL policy caching hot = 1d
+
+.create-or-alter function F5Telemetry_LTM_CLExpand() {
+F5Telemetry_LTM_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SourceSystem=tostring(events.SourceSystem),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+Computer=tostring(events.Computer),
+RawData=tostring(events.RawData),
+probability=toreal(events.probability),
+RawMessage=tostring(events.RawMessage),
+client_ip_s=tostring(events.client_ip_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table F5Telemetry_LTM_CL policy update @'[{"Source": "F5Telemetry_LTM_CLRaw", "Query": "F5Telemetry_LTM_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

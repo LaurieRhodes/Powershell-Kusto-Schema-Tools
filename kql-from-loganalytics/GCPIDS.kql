@@ -1,0 +1,179 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for GCPIDS - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:14:38
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 72, Final columns: 72
+// ============================================================================
+
+.create-merge table GCPIDSRaw (records:dynamic)
+
+.alter-merge table GCPIDSRaw policy retention softdelete = 1d
+
+.alter table GCPIDSRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table GCPIDSRaw ingestion json mapping 'GCPIDSRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table GCPIDS(
+TimeGenerated:datetime,
+TenantId:guid,
+RequestType:string,
+RequestParent:string,
+RequestEndpointName:string,
+RequestEndpointNetwork:string,
+RequestEndpointSeverity:string,
+RequestEndpointTrafficLogs:string,
+RequestEndpointId:string,
+RequestEndpointThreatExceptions:string,
+RequestMetadataCallerIP:string,
+RequestMetadataDestinationAttributes:string,
+RequestMetadataRequestAttributesTime:datetime,
+RequestMetadataRequestAttributesAuth:string,
+RequestMetadataRequestAttributesReason:string,
+ResourceLocationCurrentLocations:string,
+ResponseType:string,
+ResponseName:string,
+ResponseNetwork:string,
+Timestamp:datetime,
+Severity:string,
+ResourceLabelsResourceContainer:string,
+ResourceLabelsLocation:string,
+ResourceLabelsId:string,
+ResourceLabelsService:string,
+RequestName:string,
+ResourceLabelsProjectId:string,
+Status:string,
+ServiceName:string,
+ResponseTrafficLogs:bool,
+ResponseThreatExceptions:string,
+ResponseState:string,
+ResponseSeverity:string,
+ResourceLabelsMethod:string,
+NumResponseItems:string,
+MethodName:string,
+AuthorizationInfo:string,
+TotalPackets:string,
+TotalBytes:string,
+StartTime:datetime,
+SourcePort:string,
+SessionId:string,
+RepeatCount:string,
+AlertSeverity:string,
+Network:string,
+DestinationPort:string,
+DestinationIPAddress:string,
+Application:string,
+ReceiveTimestamp:datetime,
+LogName:string,
+InsertId:string,
+ElapsedTime:string,
+RequestUpdateMaskPaths:string,
+AlertTime:datetime,
+CVEs:string,
+AuthenticationInfoPrincipalEmail:string,
+PayloadType:string,
+OperationProducer:string,
+OperationLast:bool,
+OperationFirst:bool,
+OperationId:string,
+Category:string,
+SourceIPAddress:string,
+URIOrFilename:string,
+JsonPayloadType:string,
+ThreatId:string,
+JsonPayloadName:string,
+Direction:string,
+Details:string,
+IPProtocol:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table GCPIDS policy caching hot = 1d
+
+.create-or-alter function GCPIDSExpand() {
+GCPIDSRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+RequestType=tostring(events.RequestType),
+RequestParent=tostring(events.RequestParent),
+RequestEndpointName=tostring(events.RequestEndpointName),
+RequestEndpointNetwork=tostring(events.RequestEndpointNetwork),
+RequestEndpointSeverity=tostring(events.RequestEndpointSeverity),
+RequestEndpointTrafficLogs=tostring(events.RequestEndpointTrafficLogs),
+RequestEndpointId=tostring(events.RequestEndpointId),
+RequestEndpointThreatExceptions=tostring(events.RequestEndpointThreatExceptions),
+RequestMetadataCallerIP=tostring(events.RequestMetadataCallerIP),
+RequestMetadataDestinationAttributes=tostring(events.RequestMetadataDestinationAttributes),
+RequestMetadataRequestAttributesTime=todatetime(events.RequestMetadataRequestAttributesTime),
+RequestMetadataRequestAttributesAuth=tostring(events.RequestMetadataRequestAttributesAuth),
+RequestMetadataRequestAttributesReason=tostring(events.RequestMetadataRequestAttributesReason),
+ResourceLocationCurrentLocations=tostring(events.ResourceLocationCurrentLocations),
+ResponseType=tostring(events.ResponseType),
+ResponseName=tostring(events.ResponseName),
+ResponseNetwork=tostring(events.ResponseNetwork),
+Timestamp=todatetime(events.Timestamp),
+Severity=tostring(events.Severity),
+ResourceLabelsResourceContainer=tostring(events.ResourceLabelsResourceContainer),
+ResourceLabelsLocation=tostring(events.ResourceLabelsLocation),
+ResourceLabelsId=tostring(events.ResourceLabelsId),
+ResourceLabelsService=tostring(events.ResourceLabelsService),
+RequestName=tostring(events.RequestName),
+ResourceLabelsProjectId=tostring(events.ResourceLabelsProjectId),
+Status=tostring(events.Status),
+ServiceName=tostring(events.ServiceName),
+ResponseTrafficLogs=tobool(events.ResponseTrafficLogs),
+ResponseThreatExceptions=tostring(events.ResponseThreatExceptions),
+ResponseState=tostring(events.ResponseState),
+ResponseSeverity=tostring(events.ResponseSeverity),
+ResourceLabelsMethod=tostring(events.ResourceLabelsMethod),
+NumResponseItems=tostring(events.NumResponseItems),
+MethodName=tostring(events.MethodName),
+AuthorizationInfo=tostring(events.AuthorizationInfo),
+TotalPackets=tostring(events.TotalPackets),
+TotalBytes=tostring(events.TotalBytes),
+StartTime=todatetime(events.StartTime),
+SourcePort=tostring(events.SourcePort),
+SessionId=tostring(events.SessionId),
+RepeatCount=tostring(events.RepeatCount),
+AlertSeverity=tostring(events.AlertSeverity),
+Network=tostring(events.Network),
+DestinationPort=tostring(events.DestinationPort),
+DestinationIPAddress=tostring(events.DestinationIPAddress),
+Application=tostring(events.Application),
+ReceiveTimestamp=todatetime(events.ReceiveTimestamp),
+LogName=tostring(events.LogName),
+InsertId=tostring(events.InsertId),
+ElapsedTime=tostring(events.ElapsedTime),
+RequestUpdateMaskPaths=tostring(events.RequestUpdateMaskPaths),
+AlertTime=todatetime(events.AlertTime),
+CVEs=tostring(events.CVEs),
+AuthenticationInfoPrincipalEmail=tostring(events.AuthenticationInfoPrincipalEmail),
+PayloadType=tostring(events.PayloadType),
+OperationProducer=tostring(events.OperationProducer),
+OperationLast=tobool(events.OperationLast),
+OperationFirst=tobool(events.OperationFirst),
+OperationId=tostring(events.OperationId),
+Category=tostring(events.Category),
+SourceIPAddress=tostring(events.SourceIPAddress),
+URIOrFilename=tostring(events.URIOrFilename),
+JsonPayloadType=tostring(events.JsonPayloadType),
+ThreatId=tostring(events.ThreatId),
+JsonPayloadName=tostring(events.JsonPayloadName),
+Direction=tostring(events.Direction),
+Details=tostring(events.Details),
+IPProtocol=tostring(events.IPProtocol),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table GCPIDS policy update @'[{"Source": "GCPIDSRaw", "Query": "GCPIDSExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,65 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for CassandraAudit - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:25:03
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 15, Final columns: 15
+// ============================================================================
+
+.create-merge table CassandraAuditRaw (records:dynamic)
+
+.alter-merge table CassandraAuditRaw policy retention softdelete = 1d
+
+.alter table CassandraAuditRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table CassandraAuditRaw ingestion json mapping 'CassandraAuditRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table CassandraAudit(
+TimeGenerated:datetime,
+TenantId:guid,
+ClusterName:string,
+ClientIP:string,
+ClientPort:string,
+CoordinatorIP:string,
+User:string,
+BatchId:string,
+Status:string,
+Operation:string,
+OperationNaked:string,
+ExternalUserId:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table CassandraAudit policy caching hot = 1d
+
+.create-or-alter function CassandraAuditExpand() {
+CassandraAuditRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ClusterName=tostring(events.ClusterName),
+ClientIP=tostring(events.ClientIP),
+ClientPort=tostring(events.ClientPort),
+CoordinatorIP=tostring(events.CoordinatorIP),
+User=tostring(events.User),
+BatchId=tostring(events.BatchId),
+Status=tostring(events.Status),
+Operation=tostring(events.Operation),
+OperationNaked=tostring(events.OperationNaked),
+ExternalUserId=tostring(events.ExternalUserId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table CassandraAudit policy update @'[{"Source": "CassandraAuditRaw", "Query": "CassandraAuditExpand()", "IsEnabled": "True", "IsTransactional": true}]'

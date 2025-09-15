@@ -1,0 +1,108 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_openflow_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:13
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_openflow_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_openflow_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_openflow_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_openflow_CLRaw ingestion json mapping 'Corelight_v2_openflow_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_openflow_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+flow_mod_actions_nw_dst_s:string,
+flow_mod_actions_nw_src_s:string,
+flow_mod_actions_nw_tos_d:real,
+flow_mod_actions_dl_dst_s:string,
+flow_mod_actions_dl_src_s:string,
+flow_mod_actions_vlan_strip_b:bool,
+flow_mod_actions_vlan_pcp_d:real,
+flow_mod_actions_vlan_vid_d:real,
+flow_mod_actions_out_ports_s:string,
+flow_mod_flags_d:real,
+flow_mod_out_group_d:real,
+flow_mod_out_port_d:real,
+flow_mod_priority_d:real,
+flow_mod_hard_timeout_d:real,
+flow_mod_idle_timeout_d:real,
+flow_mod_command_s:string,
+flow_mod_table_id_d:real,
+dpid_d:real,
+match_in_port_d:real,
+match_dl_src_s:string,
+match_dl_dst_s:string,
+match_dl_vlan_d:real,
+match_dl_vlan_pcp_d:real,
+flow_mod_actions_tp_src_d:real,
+match_dl_type_d:real,
+match_nw_proto_d:real,
+match_nw_src_s:string,
+match_nw_dst_s:string,
+match_tp_src_d:real,
+match_tp_dst_d:real,
+flow_mod_cookie_d:real,
+match_nw_tos_d:real,
+flow_mod_actions_tp_dst_d:real,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_openflow_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_openflow_CLExpand() {
+Corelight_v2_openflow_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+flow_mod_actions_nw_dst_s=tostring(events.flow_mod_actions_nw_dst_s),
+flow_mod_actions_nw_src_s=tostring(events.flow_mod_actions_nw_src_s),
+flow_mod_actions_nw_tos_d=toreal(events.flow_mod_actions_nw_tos_d),
+flow_mod_actions_dl_dst_s=tostring(events.flow_mod_actions_dl_dst_s),
+flow_mod_actions_dl_src_s=tostring(events.flow_mod_actions_dl_src_s),
+flow_mod_actions_vlan_strip_b=tobool(events.flow_mod_actions_vlan_strip_b),
+flow_mod_actions_vlan_pcp_d=toreal(events.flow_mod_actions_vlan_pcp_d),
+flow_mod_actions_vlan_vid_d=toreal(events.flow_mod_actions_vlan_vid_d),
+flow_mod_actions_out_ports_s=tostring(events.flow_mod_actions_out_ports_s),
+flow_mod_flags_d=toreal(events.flow_mod_flags_d),
+flow_mod_out_group_d=toreal(events.flow_mod_out_group_d),
+flow_mod_out_port_d=toreal(events.flow_mod_out_port_d),
+flow_mod_priority_d=toreal(events.flow_mod_priority_d),
+flow_mod_hard_timeout_d=toreal(events.flow_mod_hard_timeout_d),
+flow_mod_idle_timeout_d=toreal(events.flow_mod_idle_timeout_d),
+flow_mod_command_s=tostring(events.flow_mod_command_s),
+flow_mod_table_id_d=toreal(events.flow_mod_table_id_d),
+dpid_d=toreal(events.dpid_d),
+match_in_port_d=toreal(events.match_in_port_d),
+match_dl_src_s=tostring(events.match_dl_src_s),
+match_dl_dst_s=tostring(events.match_dl_dst_s),
+match_dl_vlan_d=toreal(events.match_dl_vlan_d),
+match_dl_vlan_pcp_d=toreal(events.match_dl_vlan_pcp_d),
+flow_mod_actions_tp_src_d=toreal(events.flow_mod_actions_tp_src_d),
+match_dl_type_d=toreal(events.match_dl_type_d),
+match_nw_proto_d=toreal(events.match_nw_proto_d),
+match_nw_src_s=tostring(events.match_nw_src_s),
+match_nw_dst_s=tostring(events.match_nw_dst_s),
+match_tp_src_d=toreal(events.match_tp_src_d),
+match_tp_dst_d=toreal(events.match_tp_dst_d),
+flow_mod_cookie_d=toreal(events.flow_mod_cookie_d),
+match_nw_tos_d=toreal(events.match_nw_tos_d),
+flow_mod_actions_tp_dst_d=toreal(events.flow_mod_actions_tp_dst_d),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_openflow_CL policy update @'[{"Source": "Corelight_v2_openflow_CLRaw", "Query": "Corelight_v2_openflow_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

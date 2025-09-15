@@ -1,0 +1,88 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_files_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:12
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_files_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_files_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_files_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_files_CLRaw ingestion json mapping 'Corelight_v2_files_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_files_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+extracted_s:string,
+sha256_s:string,
+sha1_s:string,
+parent_fuid_s:string,
+timedout_b:bool,
+overflow_bytes_d:real,
+missing_bytes_d:real,
+total_bytes_d:real,
+seen_bytes_d:real,
+is_orig_b:bool,
+local_orig_b:bool,
+duration_d:real,
+filename_s:string,
+mime_type_s:string,
+analyzers_s:string,
+depth_d:real,
+source_s:string,
+conn_uids_s:string,
+rx_hosts_s:string,
+tx_hosts_s:string,
+fuid_s:string,
+extracted_cutoff_b:bool,
+extracted_size_d:real,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_files_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_files_CLExpand() {
+Corelight_v2_files_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+extracted_s=tostring(events.extracted_s),
+sha256_s=tostring(events.sha256_s),
+sha1_s=tostring(events.sha1_s),
+parent_fuid_s=tostring(events.parent_fuid_s),
+timedout_b=tobool(events.timedout_b),
+overflow_bytes_d=toreal(events.overflow_bytes_d),
+missing_bytes_d=toreal(events.missing_bytes_d),
+total_bytes_d=toreal(events.total_bytes_d),
+seen_bytes_d=toreal(events.seen_bytes_d),
+is_orig_b=tobool(events.is_orig_b),
+local_orig_b=tobool(events.local_orig_b),
+duration_d=toreal(events.duration_d),
+filename_s=tostring(events.filename_s),
+mime_type_s=tostring(events.mime_type_s),
+analyzers_s=tostring(events.analyzers_s),
+depth_d=toreal(events.depth_d),
+source_s=tostring(events.source_s),
+conn_uids_s=tostring(events.conn_uids_s),
+rx_hosts_s=tostring(events.rx_hosts_s),
+tx_hosts_s=tostring(events.tx_hosts_s),
+fuid_s=tostring(events.fuid_s),
+extracted_cutoff_b=tobool(events.extracted_cutoff_b),
+extracted_size_d=toreal(events.extracted_size_d),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_files_CL policy update @'[{"Source": "Corelight_v2_files_CLRaw", "Query": "Corelight_v2_files_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

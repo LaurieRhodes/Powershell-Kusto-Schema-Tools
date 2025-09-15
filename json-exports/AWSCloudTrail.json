@@ -1,0 +1,209 @@
+﻿{
+  "Name": "AWSCloudTrail",
+  "Properties": [
+    {
+      "Name": "TenantId",
+      "Type": "guid"
+    },
+    {
+      "Name": "TimeGenerated",
+      "Type": "datetime"
+    },
+    {
+      "Name": "AwsEventId",
+      "Type": "guid"
+    },
+    {
+      "Name": "EventVersion",
+      "Type": "string"
+    },
+    {
+      "Name": "EventSource",
+      "Type": "string"
+    },
+    {
+      "Name": "EventTypeName",
+      "Type": "string"
+    },
+    {
+      "Name": "EventName",
+      "Type": "string"
+    },
+    {
+      "Name": "UserIdentityType",
+      "Type": "string"
+    },
+    {
+      "Name": "UserIdentityPrincipalid",
+      "Type": "string"
+    },
+    {
+      "Name": "UserIdentityArn",
+      "Type": "string"
+    },
+    {
+      "Name": "UserIdentityAccountId",
+      "Type": "string"
+    },
+    {
+      "Name": "UserIdentityInvokedBy",
+      "Type": "string"
+    },
+    {
+      "Name": "UserIdentityAccessKeyId",
+      "Type": "string"
+    },
+    {
+      "Name": "UserIdentityUserName",
+      "Type": "string"
+    },
+    {
+      "Name": "SessionMfaAuthenticated",
+      "Type": "boolean"
+    },
+    {
+      "Name": "SessionCreationDate",
+      "Type": "datetime"
+    },
+    {
+      "Name": "SessionIssuerType",
+      "Type": "string"
+    },
+    {
+      "Name": "SessionIssuerPrincipalId",
+      "Type": "string"
+    },
+    {
+      "Name": "SessionIssuerArn",
+      "Type": "string"
+    },
+    {
+      "Name": "SessionIssuerAccountId",
+      "Type": "string"
+    },
+    {
+      "Name": "SessionIssuerUserName",
+      "Type": "string"
+    },
+    {
+      "Name": "EC2RoleDelivery",
+      "Type": "string"
+    },
+    {
+      "Name": "AWSRegion",
+      "Type": "string"
+    },
+    {
+      "Name": "SourceIpAddress",
+      "Type": "string"
+    },
+    {
+      "Name": "UserAgent",
+      "Type": "string"
+    },
+    {
+      "Name": "ErrorCode",
+      "Type": "string"
+    },
+    {
+      "Name": "ErrorMessage",
+      "Type": "string"
+    },
+    {
+      "Name": "RequestParameters",
+      "Type": "string"
+    },
+    {
+      "Name": "ResponseElements",
+      "Type": "string"
+    },
+    {
+      "Name": "AdditionalEventData",
+      "Type": "string"
+    },
+    {
+      "Name": "AwsRequestId",
+      "Type": "guid"
+    },
+    {
+      "Name": "AwsRequestId_",
+      "Type": "string"
+    },
+    {
+      "Name": "Resources",
+      "Type": "string"
+    },
+    {
+      "Name": "APIVersion",
+      "Type": "string"
+    },
+    {
+      "Name": "ReadOnly",
+      "Type": "boolean"
+    },
+    {
+      "Name": "RecipientAccountId",
+      "Type": "string"
+    },
+    {
+      "Name": "ServiceEventDetails",
+      "Type": "string"
+    },
+    {
+      "Name": "SharedEventId",
+      "Type": "guid"
+    },
+    {
+      "Name": "VpcEndpointId",
+      "Type": "string"
+    },
+    {
+      "Name": "ManagementEvent",
+      "Type": "boolean"
+    },
+    {
+      "Name": "SourceSystem",
+      "Type": "string"
+    },
+    {
+      "Name": "OperationName",
+      "Type": "string"
+    },
+    {
+      "Name": "Category",
+      "Type": "string"
+    },
+    {
+      "Name": "TlsVersion",
+      "Type": "string"
+    },
+    {
+      "Name": "CipherSuite",
+      "Type": "string"
+    },
+    {
+      "Name": "ClientProvidedHostHeader",
+      "Type": "string"
+    },
+    {
+      "Name": "IpProtocol",
+      "Type": "string"
+    },
+    {
+      "Name": "SourcePort",
+      "Type": "string"
+    },
+    {
+      "Name": "DestinationPort",
+      "Type": "string"
+    },
+    {
+      "Name": "CidrIp",
+      "Type": "string"
+    },
+    {
+      "Name": "Type",
+      "Type": "string"
+    }
+  ]
+}

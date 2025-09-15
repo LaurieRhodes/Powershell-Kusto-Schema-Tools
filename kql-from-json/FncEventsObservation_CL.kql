@@ -1,0 +1,142 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for FncEventsObservation_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table FncEventsObservation_CLRaw (records:dynamic)
+
+.alter-merge table FncEventsObservation_CLRaw policy retention softdelete = 1d
+
+.alter table FncEventsObservation_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table FncEventsObservation_CLRaw ingestion json mapping 'FncEventsObservation_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table FncEventsObservation_CL(
+TimeGenerated:datetime,
+timestamp_t:datetime,
+src_ip_enrichments_annotations_tags_s:string,
+dst_ip_enrichments_internal_b:bool,
+dst_ip_enrichments_geo_location_lat_d:real,
+dst_ip_enrichments_geo_location_lon_d:real,
+dst_ip_enrichments_geo_country_s:string,
+dst_ip_enrichments_geo_subdivision_s:string,
+dst_ip_enrichments_geo_city_s:string,
+dst_ip_enrichments_asn_asn_d:int,
+dst_ip_enrichments_asn_org_s:string,
+dst_ip_enrichments_asn_isp_s:string,
+dst_ip_enrichments_asn_asn_org_s:string,
+dst_ip_enrichments_annotations_applications_s:string,
+dst_ip_enrichments_annotations_environments_s:string,
+dst_ip_enrichments_annotations_locations_s:string,
+dst_ip_enrichments_annotations_owners_s:string,
+dst_ip_enrichments_annotations_roles_s:string,
+dst_ip_enrichments_annotations_tags_s:string,
+geo_distance_d:real,
+sensor_ids_s:string,
+evidence_iql_s:string,
+description_s:string,
+context_s:string,
+class_s:string,
+src_ip_enrichments_annotations_roles_s:string,
+intel_s:string,
+src_ip_enrichments_annotations_owners_s:string,
+src_ip_enrichments_annotations_environments_s:string,
+uuid_g:string,
+event_type_s:string,
+customer_id_s:string,
+sensor_id_s:string,
+source_s:string,
+evidence_start_timestamp_t:datetime,
+evidence_end_timestamp_t:datetime,
+observation_uuid_g:string,
+title_s:string,
+confidence_s:string,
+src_ip_s:string,
+dst_ip_s:string,
+src_ip_enrichments_internal_b:bool,
+src_ip_enrichments_geo_location_lat_d:real,
+src_ip_enrichments_geo_location_lon_d:real,
+src_ip_enrichments_geo_country_s:string,
+src_ip_enrichments_geo_subdivision_s:string,
+src_ip_enrichments_geo_city_s:string,
+src_ip_enrichments_asn_asn_d:int,
+src_ip_enrichments_asn_org_s:string,
+src_ip_enrichments_asn_isp_s:string,
+src_ip_enrichments_asn_asn_org_s:string,
+src_ip_enrichments_annotations_applications_s:string,
+src_ip_enrichments_annotations_locations_s:string,
+Category:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table FncEventsObservation_CL policy caching hot = 1d
+
+.create-or-alter function FncEventsObservation_CLExpand() {
+FncEventsObservation_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+timestamp_t=todatetime(events.timestamp_t),
+src_ip_enrichments_annotations_tags_s=tostring(events.src_ip_enrichments_annotations_tags_s),
+dst_ip_enrichments_internal_b=tobool(events.dst_ip_enrichments_internal_b),
+dst_ip_enrichments_geo_location_lat_d=toreal(events.dst_ip_enrichments_geo_location_lat_d),
+dst_ip_enrichments_geo_location_lon_d=toreal(events.dst_ip_enrichments_geo_location_lon_d),
+dst_ip_enrichments_geo_country_s=tostring(events.dst_ip_enrichments_geo_country_s),
+dst_ip_enrichments_geo_subdivision_s=tostring(events.dst_ip_enrichments_geo_subdivision_s),
+dst_ip_enrichments_geo_city_s=tostring(events.dst_ip_enrichments_geo_city_s),
+dst_ip_enrichments_asn_asn_d=toint(events.dst_ip_enrichments_asn_asn_d),
+dst_ip_enrichments_asn_org_s=tostring(events.dst_ip_enrichments_asn_org_s),
+dst_ip_enrichments_asn_isp_s=tostring(events.dst_ip_enrichments_asn_isp_s),
+dst_ip_enrichments_asn_asn_org_s=tostring(events.dst_ip_enrichments_asn_asn_org_s),
+dst_ip_enrichments_annotations_applications_s=tostring(events.dst_ip_enrichments_annotations_applications_s),
+dst_ip_enrichments_annotations_environments_s=tostring(events.dst_ip_enrichments_annotations_environments_s),
+dst_ip_enrichments_annotations_locations_s=tostring(events.dst_ip_enrichments_annotations_locations_s),
+dst_ip_enrichments_annotations_owners_s=tostring(events.dst_ip_enrichments_annotations_owners_s),
+dst_ip_enrichments_annotations_roles_s=tostring(events.dst_ip_enrichments_annotations_roles_s),
+dst_ip_enrichments_annotations_tags_s=tostring(events.dst_ip_enrichments_annotations_tags_s),
+geo_distance_d=toreal(events.geo_distance_d),
+sensor_ids_s=tostring(events.sensor_ids_s),
+evidence_iql_s=tostring(events.evidence_iql_s),
+description_s=tostring(events.description_s),
+context_s=tostring(events.context_s),
+class_s=tostring(events.class_s),
+src_ip_enrichments_annotations_roles_s=tostring(events.src_ip_enrichments_annotations_roles_s),
+intel_s=tostring(events.intel_s),
+src_ip_enrichments_annotations_owners_s=tostring(events.src_ip_enrichments_annotations_owners_s),
+src_ip_enrichments_annotations_environments_s=tostring(events.src_ip_enrichments_annotations_environments_s),
+uuid_g=tostring(events.uuid_g),
+event_type_s=tostring(events.event_type_s),
+customer_id_s=tostring(events.customer_id_s),
+sensor_id_s=tostring(events.sensor_id_s),
+source_s=tostring(events.source_s),
+evidence_start_timestamp_t=todatetime(events.evidence_start_timestamp_t),
+evidence_end_timestamp_t=todatetime(events.evidence_end_timestamp_t),
+observation_uuid_g=tostring(events.observation_uuid_g),
+title_s=tostring(events.title_s),
+confidence_s=tostring(events.confidence_s),
+src_ip_s=tostring(events.src_ip_s),
+dst_ip_s=tostring(events.dst_ip_s),
+src_ip_enrichments_internal_b=tobool(events.src_ip_enrichments_internal_b),
+src_ip_enrichments_geo_location_lat_d=toreal(events.src_ip_enrichments_geo_location_lat_d),
+src_ip_enrichments_geo_location_lon_d=toreal(events.src_ip_enrichments_geo_location_lon_d),
+src_ip_enrichments_geo_country_s=tostring(events.src_ip_enrichments_geo_country_s),
+src_ip_enrichments_geo_subdivision_s=tostring(events.src_ip_enrichments_geo_subdivision_s),
+src_ip_enrichments_geo_city_s=tostring(events.src_ip_enrichments_geo_city_s),
+src_ip_enrichments_asn_asn_d=toint(events.src_ip_enrichments_asn_asn_d),
+src_ip_enrichments_asn_org_s=tostring(events.src_ip_enrichments_asn_org_s),
+src_ip_enrichments_asn_isp_s=tostring(events.src_ip_enrichments_asn_isp_s),
+src_ip_enrichments_asn_asn_org_s=tostring(events.src_ip_enrichments_asn_asn_org_s),
+src_ip_enrichments_annotations_applications_s=tostring(events.src_ip_enrichments_annotations_applications_s),
+src_ip_enrichments_annotations_locations_s=tostring(events.src_ip_enrichments_annotations_locations_s),
+Category=tostring(events.Category),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table FncEventsObservation_CL policy update @'[{"Source": "FncEventsObservation_CLRaw", "Query": "FncEventsObservation_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

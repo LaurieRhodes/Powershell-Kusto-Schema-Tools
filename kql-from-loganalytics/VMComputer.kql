@@ -1,0 +1,147 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for VMComputer - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:22:27
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 56, Final columns: 56
+// ============================================================================
+
+.create-merge table VMComputerRaw (records:dynamic)
+
+.alter-merge table VMComputerRaw policy retention softdelete = 1d
+
+.alter table VMComputerRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table VMComputerRaw ingestion json mapping 'VMComputerRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table VMComputer(
+TimeGenerated:datetime,
+Computer:string,
+AzureSubscriptionId:string,
+AzureResourceGroup:string,
+AzureResourceName:string,
+AzureLocation:string,
+AzureUpdateDomain:string,
+AzureFaultDomain:string,
+AzureVmId:string,
+AzureSize:string,
+AzureImagePublisher:string,
+AzureImageOffering:string,
+AzureImageSku:string,
+AzureImageVersion:string,
+AzureCloudServiceName:string,
+AzureCloudServiceDeployment:string,
+AzureCloudServiceRoleName:string,
+AzureCloudServiceRoleType:string,
+AzureCloudServiceInstanceId:string,
+AzureVmScaleSetName:string,
+AzureVmScaleSetDeployment:string,
+AzureVmScaleSetResourceId:string,
+AzureVmScaleSetInstanceId:string,
+AzureServiceFabricClusterId:string,
+AzureServiceFabricClusterName:string,
+HostingProvider:string,
+TenantId:guid,
+HypervisorId:string,
+VirtualMachineHypervisorId:string,
+AgentId:string,
+Machine:string,
+DisplayName:string,
+FullDisplayName:string,
+HostName:string,
+BootTime:datetime,
+TimeZone:string,
+VirtualizationState:string,
+Ipv4Addresses:dynamic,
+Ipv4SubnetMasks:dynamic,
+Ipv4DefaultGateways:dynamic,
+Ipv6Addresses:dynamic,
+MacAddresses:dynamic,
+DnsNames:dynamic,
+DependencyAgentVersion:string,
+OperatingSystemFamily:string,
+OperatingSystemFullName:string,
+PhysicalMemoryMB:long,
+Cpus:int,
+CpuSpeed:int,
+VirtualMachineType:string,
+VirtualMachineNativeId:string,
+VirtualMachineNativeName:string,
+HypervisorType:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table VMComputer policy caching hot = 1d
+
+.create-or-alter function VMComputerExpand() {
+VMComputerRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+Computer=tostring(events.Computer),
+AzureSubscriptionId=tostring(events.AzureSubscriptionId),
+AzureResourceGroup=tostring(events.AzureResourceGroup),
+AzureResourceName=tostring(events.AzureResourceName),
+AzureLocation=tostring(events.AzureLocation),
+AzureUpdateDomain=tostring(events.AzureUpdateDomain),
+AzureFaultDomain=tostring(events.AzureFaultDomain),
+AzureVmId=tostring(events.AzureVmId),
+AzureSize=tostring(events.AzureSize),
+AzureImagePublisher=tostring(events.AzureImagePublisher),
+AzureImageOffering=tostring(events.AzureImageOffering),
+AzureImageSku=tostring(events.AzureImageSku),
+AzureImageVersion=tostring(events.AzureImageVersion),
+AzureCloudServiceName=tostring(events.AzureCloudServiceName),
+AzureCloudServiceDeployment=tostring(events.AzureCloudServiceDeployment),
+AzureCloudServiceRoleName=tostring(events.AzureCloudServiceRoleName),
+AzureCloudServiceRoleType=tostring(events.AzureCloudServiceRoleType),
+AzureCloudServiceInstanceId=tostring(events.AzureCloudServiceInstanceId),
+AzureVmScaleSetName=tostring(events.AzureVmScaleSetName),
+AzureVmScaleSetDeployment=tostring(events.AzureVmScaleSetDeployment),
+AzureVmScaleSetResourceId=tostring(events.AzureVmScaleSetResourceId),
+AzureVmScaleSetInstanceId=tostring(events.AzureVmScaleSetInstanceId),
+AzureServiceFabricClusterId=tostring(events.AzureServiceFabricClusterId),
+AzureServiceFabricClusterName=tostring(events.AzureServiceFabricClusterName),
+HostingProvider=tostring(events.HostingProvider),
+TenantId=toguid(events.TenantId),
+HypervisorId=tostring(events.HypervisorId),
+VirtualMachineHypervisorId=tostring(events.VirtualMachineHypervisorId),
+AgentId=tostring(events.AgentId),
+Machine=tostring(events.Machine),
+DisplayName=tostring(events.DisplayName),
+FullDisplayName=tostring(events.FullDisplayName),
+HostName=tostring(events.HostName),
+BootTime=todatetime(events.BootTime),
+TimeZone=tostring(events.TimeZone),
+VirtualizationState=tostring(events.VirtualizationState),
+Ipv4Addresses=todynamic(events.Ipv4Addresses),
+Ipv4SubnetMasks=todynamic(events.Ipv4SubnetMasks),
+Ipv4DefaultGateways=todynamic(events.Ipv4DefaultGateways),
+Ipv6Addresses=todynamic(events.Ipv6Addresses),
+MacAddresses=todynamic(events.MacAddresses),
+DnsNames=todynamic(events.DnsNames),
+DependencyAgentVersion=tostring(events.DependencyAgentVersion),
+OperatingSystemFamily=tostring(events.OperatingSystemFamily),
+OperatingSystemFullName=tostring(events.OperatingSystemFullName),
+PhysicalMemoryMB=tolong(events.PhysicalMemoryMB),
+Cpus=toint(events.Cpus),
+CpuSpeed=toint(events.CpuSpeed),
+VirtualMachineType=tostring(events.VirtualMachineType),
+VirtualMachineNativeId=tostring(events.VirtualMachineNativeId),
+VirtualMachineNativeName=tostring(events.VirtualMachineNativeName),
+HypervisorType=tostring(events.HypervisorType),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table VMComputer policy update @'[{"Source": "VMComputerRaw", "Query": "VMComputerExpand()", "IsEnabled": "True", "IsTransactional": true}]'

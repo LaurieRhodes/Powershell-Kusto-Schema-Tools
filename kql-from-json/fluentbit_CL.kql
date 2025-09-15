@@ -1,0 +1,78 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for fluentbit_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table fluentbit_CLRaw (records:dynamic)
+
+.alter-merge table fluentbit_CLRaw policy retention softdelete = 1d
+
+.alter table fluentbit_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table fluentbit_CLRaw ingestion json mapping 'fluentbit_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table fluentbit_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+SourceSystem:string,
+pri_s:string,
+time_s:string,
+host_s:string,
+ident_s:string,
+Year_s:string,
+Month_s:string,
+Day_s:string,
+Hour_s:string,
+Min_s:string,
+Sec_s:string,
+Message:string,
+FirewallName_s:string,
+RawData:string,
+action:string,
+Type:string,
+_timestamp_d:real,
+_BilledSize:string,
+_IsBillable:string,
+_ResourceId:string,
+_SubscriptionId:string,
+_TimeReceived:datetime)
+
+.alter table fluentbit_CL policy caching hot = 1d
+
+.create-or-alter function fluentbit_CLExpand() {
+fluentbit_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SourceSystem=tostring(events.SourceSystem),
+pri_s=tostring(events.pri_s),
+time_s=tostring(events.time_s),
+host_s=tostring(events.host_s),
+ident_s=tostring(events.ident_s),
+Year_s=tostring(events.Year_s),
+Month_s=tostring(events.Month_s),
+Day_s=tostring(events.Day_s),
+Hour_s=tostring(events.Hour_s),
+Min_s=tostring(events.Min_s),
+Sec_s=tostring(events.Sec_s),
+Message=tostring(events.Message),
+FirewallName_s=tostring(events.FirewallName_s),
+RawData=tostring(events.RawData),
+action=tostring(events.action),
+Type=tostring(events.Type),
+_timestamp_d=toreal(events._timestamp_d),
+_BilledSize=tostring(events._BilledSize),
+_IsBillable=tostring(events._IsBillable),
+_ResourceId=tostring(events._ResourceId),
+_SubscriptionId=tostring(events._SubscriptionId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table fluentbit_CL policy update @'[{"Source": "fluentbit_CLRaw", "Query": "fluentbit_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

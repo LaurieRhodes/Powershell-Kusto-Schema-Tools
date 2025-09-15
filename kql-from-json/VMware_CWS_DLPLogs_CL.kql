@@ -1,0 +1,72 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for VMware_CWS_DLPLogs_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table VMware_CWS_DLPLogs_CLRaw (records:dynamic)
+
+.alter-merge table VMware_CWS_DLPLogs_CLRaw policy retention softdelete = 1d
+
+.alter table VMware_CWS_DLPLogs_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table VMware_CWS_DLPLogs_CLRaw ingestion json mapping 'VMware_CWS_DLPLogs_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table VMware_CWS_DLPLogs_CL(
+TimeGenerated:datetime,
+action:string,
+streamName:string,
+status:string,
+srcUrl:string,
+sha256:string,
+ruleName:string,
+ruleId:string,
+requestType:string,
+userId:string,
+protocol:string,
+filename:string,
+eventTime:datetime,
+eventId:string,
+dstUrl:string,
+domain:string,
+ccl:dynamic,
+alerted:string,
+fileType:string,
+userInput:string,
+_TimeReceived:datetime)
+
+.alter table VMware_CWS_DLPLogs_CL policy caching hot = 1d
+
+.create-or-alter function VMware_CWS_DLPLogs_CLExpand() {
+VMware_CWS_DLPLogs_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+action=tostring(events.action),
+streamName=tostring(events.streamName),
+status=tostring(events.status),
+srcUrl=tostring(events.srcUrl),
+sha256=tostring(events.sha256),
+ruleName=tostring(events.ruleName),
+ruleId=tostring(events.ruleId),
+requestType=tostring(events.requestType),
+userId=tostring(events.userId),
+protocol=tostring(events.protocol),
+filename=tostring(events.filename),
+eventTime=todatetime(events.eventTime),
+eventId=tostring(events.eventId),
+dstUrl=tostring(events.dstUrl),
+domain=tostring(events.domain),
+ccl=todynamic(events.ccl),
+alerted=tostring(events.alerted),
+fileType=tostring(events.fileType),
+userInput=tostring(events.userInput),
+_TimeReceived=todatetime(now())
+}
+
+.alter table VMware_CWS_DLPLogs_CL policy update @'[{"Source": "VMware_CWS_DLPLogs_CLRaw", "Query": "VMware_CWS_DLPLogs_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

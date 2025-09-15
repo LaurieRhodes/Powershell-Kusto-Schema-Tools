@@ -1,0 +1,84 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_x509_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_x509_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_x509_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_x509_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_x509_CLRaw ingestion json mapping 'Corelight_v2_x509_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_x509_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+basic_constraints_path_len_d:real,
+basic_constraints_ca_b:bool,
+san_ip_s:string,
+san_email_s:string,
+san_uri_s:string,
+san_dns_s:string,
+certificate_curve_s:string,
+certificate_exponent_s:string,
+certificate_key_length_d:real,
+certificate_key_type_s:string,
+certificate_sig_alg_s:string,
+certificate_key_alg_s:string,
+certificate_not_valid_after_t:datetime,
+certificate_not_valid_before_t:datetime,
+certificate_issuer_s:string,
+certificate_subject_s:string,
+certificate_serial_s:string,
+certificate_version_d:real,
+fingerprint_s:string,
+host_cert_b:bool,
+client_cert_b:bool,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_x509_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_x509_CLExpand() {
+Corelight_v2_x509_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+basic_constraints_path_len_d=toreal(events.basic_constraints_path_len_d),
+basic_constraints_ca_b=tobool(events.basic_constraints_ca_b),
+san_ip_s=tostring(events.san_ip_s),
+san_email_s=tostring(events.san_email_s),
+san_uri_s=tostring(events.san_uri_s),
+san_dns_s=tostring(events.san_dns_s),
+certificate_curve_s=tostring(events.certificate_curve_s),
+certificate_exponent_s=tostring(events.certificate_exponent_s),
+certificate_key_length_d=toreal(events.certificate_key_length_d),
+certificate_key_type_s=tostring(events.certificate_key_type_s),
+certificate_sig_alg_s=tostring(events.certificate_sig_alg_s),
+certificate_key_alg_s=tostring(events.certificate_key_alg_s),
+certificate_not_valid_after_t=todatetime(events.certificate_not_valid_after_t),
+certificate_not_valid_before_t=todatetime(events.certificate_not_valid_before_t),
+certificate_issuer_s=tostring(events.certificate_issuer_s),
+certificate_subject_s=tostring(events.certificate_subject_s),
+certificate_serial_s=tostring(events.certificate_serial_s),
+certificate_version_d=toreal(events.certificate_version_d),
+fingerprint_s=tostring(events.fingerprint_s),
+host_cert_b=tobool(events.host_cert_b),
+client_cert_b=tobool(events.client_cert_b),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_x509_CL policy update @'[{"Source": "Corelight_v2_x509_CLRaw", "Query": "Corelight_v2_x509_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

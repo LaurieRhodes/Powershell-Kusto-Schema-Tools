@@ -1,0 +1,140 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for SailPointIDN_Triggers_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table SailPointIDN_Triggers_CLRaw (records:dynamic)
+
+.alter-merge table SailPointIDN_Triggers_CLRaw policy retention softdelete = 1d
+
+.alter table SailPointIDN_Triggers_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table SailPointIDN_Triggers_CLRaw ingestion json mapping 'SailPointIDN_Triggers_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table SailPointIDN_Triggers_CL(
+TimeGenerated:datetime,
+Body_attributes_created_t:datetime,
+Body_searchResults_Account_noun_s:string,
+Body_searchResults_Account_preview_s:string,
+Body_searchResults_Entitlement_count_s:string,
+Body_searchResults_Entitlement_noun_s :string,
+Body_searchResults_Entitlement_preview_s:string,
+Body_searchResults_Identity_count_s:bool,
+Body_searchResults_Identity_noun_s:bool,
+Body_searchResults_Identity_preview_s:bool,
+Body_signedS3Url_s:bool,
+Body_source_id_g:string,
+Body_source_name_s:string,
+Body_source_type_s:string,
+Body_started_t:datetime,
+Body_stats_added_d:real,
+Body_stats_changed_d:real,
+Body_stats_removed_d:real,
+Body_stats_scanned_d:real,
+Body_stats_unchanged_d:real,
+Body_status_s:string,
+Body_warnings_s:string,
+Body__metadata_invocationId_g:datetime,
+Body__metadata_triggerType_s:string,
+Metadata_invocationId_g:string,
+Body_searchResults_Account_count_s:string,
+Metadata_triggerId_s:string,
+Body_searchName_s:string,
+Body_ownerName_s:string,
+Body_attributes_customAttribute1_s :string,
+Body_attributes_customAttribute2_s:string,
+Body_attributes_department_s:string,
+Body_attributes_displayName_s:string,
+Body_attributes_email_s:string,
+Body_attributes_employeeNumber_s:string,
+Body_attributes_firstname_s:string,
+Body_attributes_identificationNumber_s:string,
+Body_attributes_inactive_s:string,
+Body_attributes_isManager_b:bool,
+Body_attributes_lastname_s:string,
+Body_attributes_manager_id_s:string,
+Body_attributes_manager_name_s:string,
+ody_attributes_manager_type_s:string,
+Body_attributes_uid_s:string,
+Body_changes_s:string,
+Body_completed_t:datetime,
+Body_errors_s:string,
+Body_fileName_s:string,
+Body_identity_id_g:string,
+Body_identity_name_s:string,
+Body_identity_type_s:string,
+Body_ownerEmail_s:string,
+Body_query_s:string,
+Metadata_triggerType_s:string,
+_TimeReceived:datetime)
+
+.alter table SailPointIDN_Triggers_CL policy caching hot = 1d
+
+.create-or-alter function SailPointIDN_Triggers_CLExpand() {
+SailPointIDN_Triggers_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+Body_attributes_created_t=todatetime(events.Body_attributes_created_t),
+Body_searchResults_Account_noun_s=tostring(events.Body_searchResults_Account_noun_s),
+Body_searchResults_Account_preview_s=tostring(events.Body_searchResults_Account_preview_s),
+Body_searchResults_Entitlement_count_s=tostring(events.Body_searchResults_Entitlement_count_s),
+Body_searchResults_Entitlement_noun_s =tostring(events.Body_searchResults_Entitlement_noun_s ),
+Body_searchResults_Entitlement_preview_s=tostring(events.Body_searchResults_Entitlement_preview_s),
+Body_searchResults_Identity_count_s=tobool(events.Body_searchResults_Identity_count_s),
+Body_searchResults_Identity_noun_s=tobool(events.Body_searchResults_Identity_noun_s),
+Body_searchResults_Identity_preview_s=tobool(events.Body_searchResults_Identity_preview_s),
+Body_signedS3Url_s=tobool(events.Body_signedS3Url_s),
+Body_source_id_g=tostring(events.Body_source_id_g),
+Body_source_name_s=tostring(events.Body_source_name_s),
+Body_source_type_s=tostring(events.Body_source_type_s),
+Body_started_t=todatetime(events.Body_started_t),
+Body_stats_added_d=toreal(events.Body_stats_added_d),
+Body_stats_changed_d=toreal(events.Body_stats_changed_d),
+Body_stats_removed_d=toreal(events.Body_stats_removed_d),
+Body_stats_scanned_d=toreal(events.Body_stats_scanned_d),
+Body_stats_unchanged_d=toreal(events.Body_stats_unchanged_d),
+Body_status_s=tostring(events.Body_status_s),
+Body_warnings_s=tostring(events.Body_warnings_s),
+Body__metadata_invocationId_g=todatetime(events.Body__metadata_invocationId_g),
+Body__metadata_triggerType_s=tostring(events.Body__metadata_triggerType_s),
+Metadata_invocationId_g=tostring(events.Metadata_invocationId_g),
+Body_searchResults_Account_count_s=tostring(events.Body_searchResults_Account_count_s),
+Metadata_triggerId_s=tostring(events.Metadata_triggerId_s),
+Body_searchName_s=tostring(events.Body_searchName_s),
+Body_ownerName_s=tostring(events.Body_ownerName_s),
+Body_attributes_customAttribute1_s =tostring(events.Body_attributes_customAttribute1_s ),
+Body_attributes_customAttribute2_s=tostring(events.Body_attributes_customAttribute2_s),
+Body_attributes_department_s=tostring(events.Body_attributes_department_s),
+Body_attributes_displayName_s=tostring(events.Body_attributes_displayName_s),
+Body_attributes_email_s=tostring(events.Body_attributes_email_s),
+Body_attributes_employeeNumber_s=tostring(events.Body_attributes_employeeNumber_s),
+Body_attributes_firstname_s=tostring(events.Body_attributes_firstname_s),
+Body_attributes_identificationNumber_s=tostring(events.Body_attributes_identificationNumber_s),
+Body_attributes_inactive_s=tostring(events.Body_attributes_inactive_s),
+Body_attributes_isManager_b=tobool(events.Body_attributes_isManager_b),
+Body_attributes_lastname_s=tostring(events.Body_attributes_lastname_s),
+Body_attributes_manager_id_s=tostring(events.Body_attributes_manager_id_s),
+Body_attributes_manager_name_s=tostring(events.Body_attributes_manager_name_s),
+ody_attributes_manager_type_s=tostring(events.ody_attributes_manager_type_s),
+Body_attributes_uid_s=tostring(events.Body_attributes_uid_s),
+Body_changes_s=tostring(events.Body_changes_s),
+Body_completed_t=todatetime(events.Body_completed_t),
+Body_errors_s=tostring(events.Body_errors_s),
+Body_fileName_s=tostring(events.Body_fileName_s),
+Body_identity_id_g=tostring(events.Body_identity_id_g),
+Body_identity_name_s=tostring(events.Body_identity_name_s),
+Body_identity_type_s=tostring(events.Body_identity_type_s),
+Body_ownerEmail_s=tostring(events.Body_ownerEmail_s),
+Body_query_s=tostring(events.Body_query_s),
+Metadata_triggerType_s=tostring(events.Metadata_triggerType_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table SailPointIDN_Triggers_CL policy update @'[{"Source": "SailPointIDN_Triggers_CLRaw", "Query": "SailPointIDN_Triggers_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,78 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for DigitalShadows_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table DigitalShadows_CLRaw (records:dynamic)
+
+.alter-merge table DigitalShadows_CLRaw policy retention softdelete = 1d
+
+.alter table DigitalShadows_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table DigitalShadows_CLRaw ingestion json mapping 'DigitalShadows_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table DigitalShadows_CL(
+TimeGenerated:datetime,
+app_s:string,
+triage_raised_time_t:datetime,
+triage_id_g:string,
+title_s:datetime,
+status_s:string,
+risk_level_s:string,
+risk_factors_s:string,
+risk_assessment_risk_level_s:string,
+raised_t:datetime,
+portal_id_s:string,
+mitigation_s:string,
+impact_description_s:string,
+id_g:string,
+id_d:real,
+description_s:string,
+Computer:string,
+classification_s:string,
+comments_s:string,
+classification_s:string,
+assets_s:string,
+triage_updated_time_t:datetime,
+updated_t:datetime,
+_TimeReceived:datetime)
+
+.alter table DigitalShadows_CL policy caching hot = 1d
+
+.create-or-alter function DigitalShadows_CLExpand() {
+DigitalShadows_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+app_s=tostring(events.app_s),
+triage_raised_time_t=todatetime(events.triage_raised_time_t),
+triage_id_g=tostring(events.triage_id_g),
+title_s=todatetime(events.title_s),
+status_s=tostring(events.status_s),
+risk_level_s=tostring(events.risk_level_s),
+risk_factors_s=tostring(events.risk_factors_s),
+risk_assessment_risk_level_s=tostring(events.risk_assessment_risk_level_s),
+raised_t=todatetime(events.raised_t),
+portal_id_s=tostring(events.portal_id_s),
+mitigation_s=tostring(events.mitigation_s),
+impact_description_s=tostring(events.impact_description_s),
+id_g=tostring(events.id_g),
+id_d=toreal(events.id_d),
+description_s=tostring(events.description_s),
+Computer=tostring(events.Computer),
+classification_s=tostring(events.classification_s),
+comments_s=tostring(events.comments_s),
+classification_s=tostring(events.classification_s),
+assets_s=tostring(events.assets_s),
+triage_updated_time_t=todatetime(events.triage_updated_time_t),
+updated_t=todatetime(events.updated_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table DigitalShadows_CL policy update @'[{"Source": "DigitalShadows_CLRaw", "Query": "DigitalShadows_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

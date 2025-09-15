@@ -1,0 +1,72 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ZeroFox_CTI_breaches_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table ZeroFox_CTI_breaches_CLRaw (records:dynamic)
+
+.alter-merge table ZeroFox_CTI_breaches_CLRaw policy retention softdelete = 1d
+
+.alter table ZeroFox_CTI_breaches_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ZeroFox_CTI_breaches_CLRaw ingestion json mapping 'ZeroFox_CTI_breaches_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ZeroFox_CTI_breaches_CL(
+TimeGenerated:datetime,
+id_s:real,
+reliability_s:string,
+confidence_s:string,
+geography_country_s:string,
+geography_sub_region_s:string,
+geography_region_s:string,
+geography_country_iso_alpha3_code_s:string,
+geography_country_code_s:string,
+tlp_s:string,
+geography_sub_region_code_s:string,
+threat_type_s:string,
+record_count_d:real,
+included_fields_s:string,
+created_at_t:datetime,
+breach_date_t:datetime,
+description_s:string,
+name_s:string,
+geography_region_code_s:string,
+industry_s:string,
+_TimeReceived:datetime)
+
+.alter table ZeroFox_CTI_breaches_CL policy caching hot = 1d
+
+.create-or-alter function ZeroFox_CTI_breaches_CLExpand() {
+ZeroFox_CTI_breaches_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+id_s=toreal(events.id_s),
+reliability_s=tostring(events.reliability_s),
+confidence_s=tostring(events.confidence_s),
+geography_country_s=tostring(events.geography_country_s),
+geography_sub_region_s=tostring(events.geography_sub_region_s),
+geography_region_s=tostring(events.geography_region_s),
+geography_country_iso_alpha3_code_s=tostring(events.geography_country_iso_alpha3_code_s),
+geography_country_code_s=tostring(events.geography_country_code_s),
+tlp_s=tostring(events.tlp_s),
+geography_sub_region_code_s=tostring(events.geography_sub_region_code_s),
+threat_type_s=tostring(events.threat_type_s),
+record_count_d=toreal(events.record_count_d),
+included_fields_s=tostring(events.included_fields_s),
+created_at_t=todatetime(events.created_at_t),
+breach_date_t=todatetime(events.breach_date_t),
+description_s=tostring(events.description_s),
+name_s=tostring(events.name_s),
+geography_region_code_s=tostring(events.geography_region_code_s),
+industry_s=tostring(events.industry_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ZeroFox_CTI_breaches_CL policy update @'[{"Source": "ZeroFox_CTI_breaches_CLRaw", "Query": "ZeroFox_CTI_breaches_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,91 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ADFTriggerRun - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:20:02
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 28, Final columns: 28
+// ============================================================================
+
+.create-merge table ADFTriggerRunRaw (records:dynamic)
+
+.alter-merge table ADFTriggerRunRaw policy retention softdelete = 1d
+
+.alter table ADFTriggerRunRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ADFTriggerRunRaw ingestion json mapping 'ADFTriggerRunRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ADFTriggerRun(
+TimeGenerated:datetime,
+TenantId:guid,
+TriggerFailureType:string,
+TriggerEvent:string,
+TriggerType:string,
+TriggerName:string,
+TriggerId:string,
+Start:datetime,
+EventMessage:string,
+Annotations:string,
+ErrorMessage:string,
+ErrorCode:string,
+Parameters:string,
+Output:string,
+UserProperties:string,
+Status:string,
+Tags:string,
+Location:string,
+Level:string,
+CorrelationId:string,
+Category:string,
+OperationName:string,
+ResourceId:string,
+SourceSystem:string,
+Input:string,
+SystemParameters:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ADFTriggerRun policy caching hot = 1d
+
+.create-or-alter function ADFTriggerRunExpand() {
+ADFTriggerRunRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+TriggerFailureType=tostring(events.TriggerFailureType),
+TriggerEvent=tostring(events.TriggerEvent),
+TriggerType=tostring(events.TriggerType),
+TriggerName=tostring(events.TriggerName),
+TriggerId=tostring(events.TriggerId),
+Start=todatetime(events.Start),
+EventMessage=tostring(events.EventMessage),
+Annotations=tostring(events.Annotations),
+ErrorMessage=tostring(events.ErrorMessage),
+ErrorCode=tostring(events.ErrorCode),
+Parameters=tostring(events.Parameters),
+Output=tostring(events.Output),
+UserProperties=tostring(events.UserProperties),
+Status=tostring(events.Status),
+Tags=tostring(events.Tags),
+Location=tostring(events.Location),
+Level=tostring(events.Level),
+CorrelationId=tostring(events.CorrelationId),
+Category=tostring(events.Category),
+OperationName=tostring(events.OperationName),
+ResourceId=tostring(events.ResourceId),
+SourceSystem=tostring(events.SourceSystem),
+Input=tostring(events.Input),
+SystemParameters=tostring(events.SystemParameters),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ADFTriggerRun policy update @'[{"Source": "ADFTriggerRunRaw", "Query": "ADFTriggerRunExpand()", "IsEnabled": "True", "IsTransactional": true}]'

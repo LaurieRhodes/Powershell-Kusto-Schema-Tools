@@ -1,0 +1,88 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for CarbonBlackAuditLogs_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:11
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table CarbonBlackAuditLogs_CLRaw (records:dynamic)
+
+.alter-merge table CarbonBlackAuditLogs_CLRaw policy retention softdelete = 1d
+
+.alter table CarbonBlackAuditLogs_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table CarbonBlackAuditLogs_CLRaw ingestion json mapping 'CarbonBlackAuditLogs_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table CarbonBlackAuditLogs_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+eventTime_d:real,
+eventId_g:string,
+requestUrl_s:string,
+description_s:string,
+verbose_b:bool,
+flagged_b:bool,
+TenantId:guid,
+requestUrl:string,
+description:string,
+verbose:bool,
+clientIp:string,
+flagged:bool,
+orgName:string,
+loginName_s:string,
+eventId:string,
+eventTime:real,
+RawData:string,
+Computer:string,
+ManagementGroupName:string,
+MG:string,
+SourceSystem:string,
+orgName_s:string,
+clientIp_s:string,
+Type:string,
+_ResourceId:string,
+_ItemId:string,
+_TimeReceived:datetime)
+
+.alter table CarbonBlackAuditLogs_CL policy caching hot = 1d
+
+.create-or-alter function CarbonBlackAuditLogs_CLExpand() {
+CarbonBlackAuditLogs_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+eventTime_d=toreal(events.eventTime_d),
+eventId_g=tostring(events.eventId_g),
+requestUrl_s=tostring(events.requestUrl_s),
+description_s=tostring(events.description_s),
+verbose_b=tobool(events.verbose_b),
+flagged_b=tobool(events.flagged_b),
+TenantId=toguid(events.TenantId),
+requestUrl=tostring(events.requestUrl),
+description=tostring(events.description),
+verbose=tobool(events.verbose),
+clientIp=tostring(events.clientIp),
+flagged=tobool(events.flagged),
+orgName=tostring(events.orgName),
+loginName_s=tostring(events.loginName_s),
+eventId=tostring(events.eventId),
+eventTime=toreal(events.eventTime),
+RawData=tostring(events.RawData),
+Computer=tostring(events.Computer),
+ManagementGroupName=tostring(events.ManagementGroupName),
+MG=tostring(events.MG),
+SourceSystem=tostring(events.SourceSystem),
+orgName_s=tostring(events.orgName_s),
+clientIp_s=tostring(events.clientIp_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_ItemId=tostring(events._ItemId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table CarbonBlackAuditLogs_CL policy update @'[{"Source": "CarbonBlackAuditLogs_CLRaw", "Query": "CarbonBlackAuditLogs_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

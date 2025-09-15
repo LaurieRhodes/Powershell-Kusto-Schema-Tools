@@ -1,0 +1,151 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for MDECustomCollectionDeviceFileEvents - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:16:44
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 58, Final columns: 58
+// ============================================================================
+
+.create-merge table MDECustomCollectionDeviceFileEventsRaw (records:dynamic)
+
+.alter-merge table MDECustomCollectionDeviceFileEventsRaw policy retention softdelete = 1d
+
+.alter table MDECustomCollectionDeviceFileEventsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table MDECustomCollectionDeviceFileEventsRaw ingestion json mapping 'MDECustomCollectionDeviceFileEventsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table MDECustomCollectionDeviceFileEvents(
+TimeGenerated:datetime,
+TenantId:guid,
+MachineGroup:string,
+PreviousFileName:string,
+PreviousFolderPath:string,
+ReportId:long,
+RequestAccountDomain:string,
+RequestAccountName:string,
+RequestAccountSid:string,
+RequestProtocol:string,
+RequestSourceIP:string,
+RequestSourcePort:int,
+SHA1:string,
+MD5:string,
+SHA256:string,
+SensitivitySubLabel:string,
+ShareName:string,
+Timestamp:datetime,
+InitProcessParentCreationTime:datetime,
+InitProcessCreationTime:datetime,
+InitProcessFileSize:long,
+InitProcessVersionInfoCompanyName:string,
+InitProcessVersionInfoFileDescription:string,
+InitProcessVersionInfoInternalFileName:string,
+InitProcessVersionInfoOriginalFileName:string,
+InitProcessVersionInfoProductName:string,
+SensitivityLabel:string,
+IsAzureInfoProtectionApplied:bool,
+InitProcessTokenElevation:string,
+InitProcessSHA256:string,
+ActionType:string,
+AdditionalFields:dynamic,
+AppGuardContainerId:string,
+DeviceId:string,
+DeviceName:string,
+FileName:string,
+FileOriginIP:string,
+FileOriginReferrerUrl:string,
+FileOriginUrl:string,
+FileSize:long,
+FolderPath:string,
+InitProcessAccountDomain:string,
+InitProcessAccountName:string,
+InitProcessAccountObjectId:string,
+InitProcessAccountSid:string,
+InitProcessAccountUpn:string,
+InitProcessCommandLine:string,
+InitProcessFileName:string,
+InitProcessFolderPath:string,
+InitProcessId:long,
+InitProcessIntegrityLevel:string,
+InitProcessMD5:string,
+InitProcessParentFileName:string,
+InitProcessParentId:long,
+InitProcessSHA1:string,
+InitProcessVersionInfoProductVersion:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table MDECustomCollectionDeviceFileEvents policy caching hot = 1d
+
+.create-or-alter function MDECustomCollectionDeviceFileEventsExpand() {
+MDECustomCollectionDeviceFileEventsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+MachineGroup=tostring(events.MachineGroup),
+PreviousFileName=tostring(events.PreviousFileName),
+PreviousFolderPath=tostring(events.PreviousFolderPath),
+ReportId=tolong(events.ReportId),
+RequestAccountDomain=tostring(events.RequestAccountDomain),
+RequestAccountName=tostring(events.RequestAccountName),
+RequestAccountSid=tostring(events.RequestAccountSid),
+RequestProtocol=tostring(events.RequestProtocol),
+RequestSourceIP=tostring(events.RequestSourceIP),
+RequestSourcePort=toint(events.RequestSourcePort),
+SHA1=tostring(events.SHA1),
+MD5=tostring(events.MD5),
+SHA256=tostring(events.SHA256),
+SensitivitySubLabel=tostring(events.SensitivitySubLabel),
+ShareName=tostring(events.ShareName),
+Timestamp=todatetime(events.Timestamp),
+InitProcessParentCreationTime=todatetime(events.InitProcessParentCreationTime),
+InitProcessCreationTime=todatetime(events.InitProcessCreationTime),
+InitProcessFileSize=tolong(events.InitProcessFileSize),
+InitProcessVersionInfoCompanyName=tostring(events.InitProcessVersionInfoCompanyName),
+InitProcessVersionInfoFileDescription=tostring(events.InitProcessVersionInfoFileDescription),
+InitProcessVersionInfoInternalFileName=tostring(events.InitProcessVersionInfoInternalFileName),
+InitProcessVersionInfoOriginalFileName=tostring(events.InitProcessVersionInfoOriginalFileName),
+InitProcessVersionInfoProductName=tostring(events.InitProcessVersionInfoProductName),
+SensitivityLabel=tostring(events.SensitivityLabel),
+IsAzureInfoProtectionApplied=tobool(events.IsAzureInfoProtectionApplied),
+InitProcessTokenElevation=tostring(events.InitProcessTokenElevation),
+InitProcessSHA256=tostring(events.InitProcessSHA256),
+ActionType=tostring(events.ActionType),
+AdditionalFields=todynamic(events.AdditionalFields),
+AppGuardContainerId=tostring(events.AppGuardContainerId),
+DeviceId=tostring(events.DeviceId),
+DeviceName=tostring(events.DeviceName),
+FileName=tostring(events.FileName),
+FileOriginIP=tostring(events.FileOriginIP),
+FileOriginReferrerUrl=tostring(events.FileOriginReferrerUrl),
+FileOriginUrl=tostring(events.FileOriginUrl),
+FileSize=tolong(events.FileSize),
+FolderPath=tostring(events.FolderPath),
+InitProcessAccountDomain=tostring(events.InitProcessAccountDomain),
+InitProcessAccountName=tostring(events.InitProcessAccountName),
+InitProcessAccountObjectId=tostring(events.InitProcessAccountObjectId),
+InitProcessAccountSid=tostring(events.InitProcessAccountSid),
+InitProcessAccountUpn=tostring(events.InitProcessAccountUpn),
+InitProcessCommandLine=tostring(events.InitProcessCommandLine),
+InitProcessFileName=tostring(events.InitProcessFileName),
+InitProcessFolderPath=tostring(events.InitProcessFolderPath),
+InitProcessId=tolong(events.InitProcessId),
+InitProcessIntegrityLevel=tostring(events.InitProcessIntegrityLevel),
+InitProcessMD5=tostring(events.InitProcessMD5),
+InitProcessParentFileName=tostring(events.InitProcessParentFileName),
+InitProcessParentId=tolong(events.InitProcessParentId),
+InitProcessSHA1=tostring(events.InitProcessSHA1),
+InitProcessVersionInfoProductVersion=tostring(events.InitProcessVersionInfoProductVersion),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table MDECustomCollectionDeviceFileEvents policy update @'[{"Source": "MDECustomCollectionDeviceFileEventsRaw", "Query": "MDECustomCollectionDeviceFileEventsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,66 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_stepping_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:13
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_stepping_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_stepping_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_stepping_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_stepping_CLRaw ingestion json mapping 'Corelight_v2_stepping_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_stepping_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+dt_d:real,
+uid1_s:string,
+uid2_s:string,
+direct_b:bool,
+client1_h_s:string,
+client1_p_d:real,
+server1_h_s:string,
+server1_p_d:real,
+client2_h_s:string,
+client2_p_d:real,
+server2_h_s:string,
+server2_p_d:real,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_stepping_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_stepping_CLExpand() {
+Corelight_v2_stepping_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+dt_d=toreal(events.dt_d),
+uid1_s=tostring(events.uid1_s),
+uid2_s=tostring(events.uid2_s),
+direct_b=tobool(events.direct_b),
+client1_h_s=tostring(events.client1_h_s),
+client1_p_d=toreal(events.client1_p_d),
+server1_h_s=tostring(events.server1_h_s),
+server1_p_d=toreal(events.server1_p_d),
+client2_h_s=tostring(events.client2_h_s),
+client2_p_d=toreal(events.client2_p_d),
+server2_h_s=tostring(events.server2_h_s),
+server2_p_d=toreal(events.server2_p_d),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_stepping_CL policy update @'[{"Source": "Corelight_v2_stepping_CLRaw", "Query": "Corelight_v2_stepping_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

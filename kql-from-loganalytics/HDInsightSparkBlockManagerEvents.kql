@@ -1,0 +1,77 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for HDInsightSparkBlockManagerEvents - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:15:30
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 21, Final columns: 21
+// ============================================================================
+
+.create-merge table HDInsightSparkBlockManagerEventsRaw (records:dynamic)
+
+.alter-merge table HDInsightSparkBlockManagerEventsRaw policy retention softdelete = 1d
+
+.alter table HDInsightSparkBlockManagerEventsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table HDInsightSparkBlockManagerEventsRaw ingestion json mapping 'HDInsightSparkBlockManagerEventsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table HDInsightSparkBlockManagerEvents(
+TimeGenerated:datetime,
+TenantId:guid,
+BlockHost:string,
+UserSubscriptionId:string,
+IpAddress:string,
+Region:string,
+ClusterDnsName:string,
+Role:string,
+ClusterTenantId:string,
+MaxOffHeapMemory:long,
+MaxOnHeapMemory:long,
+MaxMemory:long,
+RemovedTime:datetime,
+AddedTime:datetime,
+Host:string,
+ExecutorId:string,
+ApplicationId:string,
+BlockManagerHost:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table HDInsightSparkBlockManagerEvents policy caching hot = 1d
+
+.create-or-alter function HDInsightSparkBlockManagerEventsExpand() {
+HDInsightSparkBlockManagerEventsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+BlockHost=tostring(events.BlockHost),
+UserSubscriptionId=tostring(events.UserSubscriptionId),
+IpAddress=tostring(events.IpAddress),
+Region=tostring(events.Region),
+ClusterDnsName=tostring(events.ClusterDnsName),
+Role=tostring(events.Role),
+ClusterTenantId=tostring(events.ClusterTenantId),
+MaxOffHeapMemory=tolong(events.MaxOffHeapMemory),
+MaxOnHeapMemory=tolong(events.MaxOnHeapMemory),
+MaxMemory=tolong(events.MaxMemory),
+RemovedTime=todatetime(events.RemovedTime),
+AddedTime=todatetime(events.AddedTime),
+Host=tostring(events.Host),
+ExecutorId=tostring(events.ExecutorId),
+ApplicationId=tostring(events.ApplicationId),
+BlockManagerHost=tostring(events.BlockManagerHost),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table HDInsightSparkBlockManagerEvents policy update @'[{"Source": "HDInsightSparkBlockManagerEventsRaw", "Query": "HDInsightSparkBlockManagerEventsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

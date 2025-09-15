@@ -1,0 +1,154 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Sevco_Devices_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Sevco_Devices_CLRaw (records:dynamic)
+
+.alter-merge table Sevco_Devices_CLRaw policy retention softdelete = 1d
+
+.alter table Sevco_Devices_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Sevco_Devices_CLRaw ingestion json mapping 'Sevco_Devices_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Sevco_Devices_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+asset_attributes_controls_s:string,
+asset_attributes_asset_classification_category_s:string,
+asset_attributes_hostname_s:string,
+asset_attributes_os_platform_s:string,
+asset_attributes_os_release_s:string,
+asset_attributes_internal_ips_s:string,
+asset_attributes_external_ips_s:string,
+asset_attributes_mac_manufacturers_s:string,
+asset_attributes_associated_usernames_s:string,
+asset_attributes_geo_ip_associated_ip_s:string,
+asset_attributes_geo_ip_city_s:string,
+asset_attributes_geo_ip_country_s:string,
+asset_attributes_geo_ip_region_s:string,
+asset_attributes_geo_ip_latitude_d:real,
+asset_attributes_geo_ip_longitude_d:real,
+asset_sources_s:string,
+asset_source_ids_s:string,
+asset_tags_s:string,
+event_event_type_s:string,
+event_correlation_timestamp_s:string,
+event_asset_version_s:string,
+event_asset_type_s:string,
+event_asset_id_s:string,
+event_source_id_s:string,
+event_config_id_g:string,
+asset_attributes_serial_number_s:string,
+asset_attributes_active_directory_domain_s:string,
+asset_attributes_additional_attributes_model_s:string,
+asset_attributes_additional_attributes_manufacturer_s:string,
+SourceSystem:string,
+MG:string,
+ManagementGroupName:string,
+Computer:string,
+RawData:string,
+asset_version_t:datetime,
+event_asset_id_g:string,
+asset_attributes_geo_ip_locality_s:string,
+asset_config_ids_s:string,
+asset_attributes_network_location_s:string,
+asset_first_observed_timestamp_s:string,
+asset_last_observed_timestamp_s:string,
+event_deleted_b:bool,
+asset_attributes_imei_s:string,
+asset_org_id_g:string,
+asset_version_s:string,
+asset_first_observed_timestamp_t:datetime,
+asset_last_observed_timestamp_t:datetime,
+asset_last_activity_timestamp_s:string,
+asset_asset_type_s:string,
+asset_attributes_hostnames_s:string,
+asset_attributes_fqdn_s:string,
+asset_attributes_os_s:string,
+asset_attributes_ips_s:string,
+asset_attributes_mac_addresses_s:string,
+asset_attributes_distinguished_name_s:string,
+asset_id_g:string,
+event_updates_s:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table Sevco_Devices_CL policy caching hot = 1d
+
+.create-or-alter function Sevco_Devices_CLExpand() {
+Sevco_Devices_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+asset_attributes_controls_s=tostring(events.asset_attributes_controls_s),
+asset_attributes_asset_classification_category_s=tostring(events.asset_attributes_asset_classification_category_s),
+asset_attributes_hostname_s=tostring(events.asset_attributes_hostname_s),
+asset_attributes_os_platform_s=tostring(events.asset_attributes_os_platform_s),
+asset_attributes_os_release_s=tostring(events.asset_attributes_os_release_s),
+asset_attributes_internal_ips_s=tostring(events.asset_attributes_internal_ips_s),
+asset_attributes_external_ips_s=tostring(events.asset_attributes_external_ips_s),
+asset_attributes_mac_manufacturers_s=tostring(events.asset_attributes_mac_manufacturers_s),
+asset_attributes_associated_usernames_s=tostring(events.asset_attributes_associated_usernames_s),
+asset_attributes_geo_ip_associated_ip_s=tostring(events.asset_attributes_geo_ip_associated_ip_s),
+asset_attributes_geo_ip_city_s=tostring(events.asset_attributes_geo_ip_city_s),
+asset_attributes_geo_ip_country_s=tostring(events.asset_attributes_geo_ip_country_s),
+asset_attributes_geo_ip_region_s=tostring(events.asset_attributes_geo_ip_region_s),
+asset_attributes_geo_ip_latitude_d=toreal(events.asset_attributes_geo_ip_latitude_d),
+asset_attributes_geo_ip_longitude_d=toreal(events.asset_attributes_geo_ip_longitude_d),
+asset_sources_s=tostring(events.asset_sources_s),
+asset_source_ids_s=tostring(events.asset_source_ids_s),
+asset_tags_s=tostring(events.asset_tags_s),
+event_event_type_s=tostring(events.event_event_type_s),
+event_correlation_timestamp_s=tostring(events.event_correlation_timestamp_s),
+event_asset_version_s=tostring(events.event_asset_version_s),
+event_asset_type_s=tostring(events.event_asset_type_s),
+event_asset_id_s=tostring(events.event_asset_id_s),
+event_source_id_s=tostring(events.event_source_id_s),
+event_config_id_g=tostring(events.event_config_id_g),
+asset_attributes_serial_number_s=tostring(events.asset_attributes_serial_number_s),
+asset_attributes_active_directory_domain_s=tostring(events.asset_attributes_active_directory_domain_s),
+asset_attributes_additional_attributes_model_s=tostring(events.asset_attributes_additional_attributes_model_s),
+asset_attributes_additional_attributes_manufacturer_s=tostring(events.asset_attributes_additional_attributes_manufacturer_s),
+SourceSystem=tostring(events.SourceSystem),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+Computer=tostring(events.Computer),
+RawData=tostring(events.RawData),
+asset_version_t=todatetime(events.asset_version_t),
+event_asset_id_g=tostring(events.event_asset_id_g),
+asset_attributes_geo_ip_locality_s=tostring(events.asset_attributes_geo_ip_locality_s),
+asset_config_ids_s=tostring(events.asset_config_ids_s),
+asset_attributes_network_location_s=tostring(events.asset_attributes_network_location_s),
+asset_first_observed_timestamp_s=tostring(events.asset_first_observed_timestamp_s),
+asset_last_observed_timestamp_s=tostring(events.asset_last_observed_timestamp_s),
+event_deleted_b=tobool(events.event_deleted_b),
+asset_attributes_imei_s=tostring(events.asset_attributes_imei_s),
+asset_org_id_g=tostring(events.asset_org_id_g),
+asset_version_s=tostring(events.asset_version_s),
+asset_first_observed_timestamp_t=todatetime(events.asset_first_observed_timestamp_t),
+asset_last_observed_timestamp_t=todatetime(events.asset_last_observed_timestamp_t),
+asset_last_activity_timestamp_s=tostring(events.asset_last_activity_timestamp_s),
+asset_asset_type_s=tostring(events.asset_asset_type_s),
+asset_attributes_hostnames_s=tostring(events.asset_attributes_hostnames_s),
+asset_attributes_fqdn_s=tostring(events.asset_attributes_fqdn_s),
+asset_attributes_os_s=tostring(events.asset_attributes_os_s),
+asset_attributes_ips_s=tostring(events.asset_attributes_ips_s),
+asset_attributes_mac_addresses_s=tostring(events.asset_attributes_mac_addresses_s),
+asset_attributes_distinguished_name_s=tostring(events.asset_attributes_distinguished_name_s),
+asset_id_g=tostring(events.asset_id_g),
+event_updates_s=tostring(events.event_updates_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Sevco_Devices_CL policy update @'[{"Source": "Sevco_Devices_CLRaw", "Query": "Sevco_Devices_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

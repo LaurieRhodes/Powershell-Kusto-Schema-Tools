@@ -1,0 +1,82 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for GCP_MONITORING_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table GCP_MONITORING_CLRaw (records:dynamic)
+
+.alter-merge table GCP_MONITORING_CLRaw policy retention softdelete = 1d
+
+.alter table GCP_MONITORING_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table GCP_MONITORING_CLRaw ingestion json mapping 'GCP_MONITORING_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table GCP_MONITORING_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+interval_startTime_t:datetime,
+valueType_s:string,
+metricKind_s:string,
+resource_labels_zone_s:string,
+resource_labels_instance_id_s:string,
+resource_labels_project_id_s:string,
+resource_type_s:string,
+metric_type_s:string,
+metric_labels_storage_type_s:string,
+metric_labels_device_name_s:string,
+metric_labels_instance_name_s:string,
+metric_labels_device_type_s:string,
+value_doubleValue_d:real,
+metric_labels_loadbalanced_s:string,
+RawData:string,
+Computer:string,
+ManagementGroupName:string,
+MG:string,
+SourceSystem:string,
+interval_endTime_t:datetime,
+value_int64Value_d:real,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table GCP_MONITORING_CL policy caching hot = 1d
+
+.create-or-alter function GCP_MONITORING_CLExpand() {
+GCP_MONITORING_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+interval_startTime_t=todatetime(events.interval_startTime_t),
+valueType_s=tostring(events.valueType_s),
+metricKind_s=tostring(events.metricKind_s),
+resource_labels_zone_s=tostring(events.resource_labels_zone_s),
+resource_labels_instance_id_s=tostring(events.resource_labels_instance_id_s),
+resource_labels_project_id_s=tostring(events.resource_labels_project_id_s),
+resource_type_s=tostring(events.resource_type_s),
+metric_type_s=tostring(events.metric_type_s),
+metric_labels_storage_type_s=tostring(events.metric_labels_storage_type_s),
+metric_labels_device_name_s=tostring(events.metric_labels_device_name_s),
+metric_labels_instance_name_s=tostring(events.metric_labels_instance_name_s),
+metric_labels_device_type_s=tostring(events.metric_labels_device_type_s),
+value_doubleValue_d=toreal(events.value_doubleValue_d),
+metric_labels_loadbalanced_s=tostring(events.metric_labels_loadbalanced_s),
+RawData=tostring(events.RawData),
+Computer=tostring(events.Computer),
+ManagementGroupName=tostring(events.ManagementGroupName),
+MG=tostring(events.MG),
+SourceSystem=tostring(events.SourceSystem),
+interval_endTime_t=todatetime(events.interval_endTime_t),
+value_int64Value_d=toreal(events.value_int64Value_d),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table GCP_MONITORING_CL policy update @'[{"Source": "GCP_MONITORING_CLRaw", "Query": "GCP_MONITORING_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

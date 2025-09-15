@@ -1,0 +1,66 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for SenservaPro_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table SenservaPro_CLRaw (records:dynamic)
+
+.alter-merge table SenservaPro_CLRaw policy retention softdelete = 1d
+
+.alter table SenservaPro_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table SenservaPro_CLRaw ingestion json mapping 'SenservaPro_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table SenservaPro_CL(
+TimeGenerated:datetime,
+ControlName_s:string,
+TenantDisplayName_s:string,
+LogAnalyticsWorkspaceDisplayName_s:string,
+ObjectId_g:string,
+TenantId_s:string,
+ScanId_s:string,
+ScanTime_t:datetime,
+CEFLoggingLevel_d:real,
+ControlId_d:real,
+MitreControls_s:string,
+NistControls_s:string,
+Description_s:string,
+Value_s:string,
+Reference_s:string,
+Group_s:string,
+Severity:string,
+_TimeReceived:datetime)
+
+.alter table SenservaPro_CL policy caching hot = 1d
+
+.create-or-alter function SenservaPro_CLExpand() {
+SenservaPro_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ControlName_s=tostring(events.ControlName_s),
+TenantDisplayName_s=tostring(events.TenantDisplayName_s),
+LogAnalyticsWorkspaceDisplayName_s=tostring(events.LogAnalyticsWorkspaceDisplayName_s),
+ObjectId_g=tostring(events.ObjectId_g),
+TenantId_s=tostring(events.TenantId_s),
+ScanId_s=tostring(events.ScanId_s),
+ScanTime_t=todatetime(events.ScanTime_t),
+CEFLoggingLevel_d=toreal(events.CEFLoggingLevel_d),
+ControlId_d=toreal(events.ControlId_d),
+MitreControls_s=tostring(events.MitreControls_s),
+NistControls_s=tostring(events.NistControls_s),
+Description_s=tostring(events.Description_s),
+Value_s=tostring(events.Value_s),
+Reference_s=tostring(events.Reference_s),
+Group_s=tostring(events.Group_s),
+Severity=tostring(events.Severity),
+_TimeReceived=todatetime(now())
+}
+
+.alter table SenservaPro_CL policy update @'[{"Source": "SenservaPro_CLRaw", "Query": "SenservaPro_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

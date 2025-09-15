@@ -1,0 +1,83 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ADTQueryOperation - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:20:10
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 24, Final columns: 24
+// ============================================================================
+
+.create-merge table ADTQueryOperationRaw (records:dynamic)
+
+.alter-merge table ADTQueryOperationRaw policy retention softdelete = 1d
+
+.alter table ADTQueryOperationRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ADTQueryOperationRaw ingestion json mapping 'ADTQueryOperationRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ADTQueryOperation(
+TimeGenerated:datetime,
+TenantId:guid,
+TraceState:string,
+TraceFlags:string,
+ParentId:string,
+SpanId:string,
+TraceId:string,
+RequestUri:string,
+Location:string,
+Level:string,
+QueryCharge:real,
+ApplicationId:string,
+CallerIpAddress:string,
+DurationMs:string,
+ResultDescription:string,
+ResultSignature:string,
+ResultType:string,
+OperationVersion:string,
+OperationName:string,
+Category:string,
+CorrelationId:guid,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ADTQueryOperation policy caching hot = 1d
+
+.create-or-alter function ADTQueryOperationExpand() {
+ADTQueryOperationRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+TraceState=tostring(events.TraceState),
+TraceFlags=tostring(events.TraceFlags),
+ParentId=tostring(events.ParentId),
+SpanId=tostring(events.SpanId),
+TraceId=tostring(events.TraceId),
+RequestUri=tostring(events.RequestUri),
+Location=tostring(events.Location),
+Level=tostring(events.Level),
+QueryCharge=toreal(events.QueryCharge),
+ApplicationId=tostring(events.ApplicationId),
+CallerIpAddress=tostring(events.CallerIpAddress),
+DurationMs=tostring(events.DurationMs),
+ResultDescription=tostring(events.ResultDescription),
+ResultSignature=tostring(events.ResultSignature),
+ResultType=tostring(events.ResultType),
+OperationVersion=tostring(events.OperationVersion),
+OperationName=tostring(events.OperationName),
+Category=tostring(events.Category),
+CorrelationId=toguid(events.CorrelationId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ADTQueryOperation policy update @'[{"Source": "ADTQueryOperationRaw", "Query": "ADTQueryOperationExpand()", "IsEnabled": "True", "IsTransactional": true}]'

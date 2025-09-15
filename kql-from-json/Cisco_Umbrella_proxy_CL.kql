@@ -1,0 +1,94 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Cisco_Umbrella_proxy_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:12
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Cisco_Umbrella_proxy_CLRaw (records:dynamic)
+
+.alter-merge table Cisco_Umbrella_proxy_CLRaw policy retention softdelete = 1d
+
+.alter table Cisco_Umbrella_proxy_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Cisco_Umbrella_proxy_CLRaw ingestion json mapping 'Cisco_Umbrella_proxy_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Cisco_Umbrella_proxy_CL(
+TimeGenerated:datetime,
+EventType_s:string,
+Rule_ID_s:string,
+File_Name_s:string,
+Certificate_Errors_s:string,
+DLP_Status_S:string,
+Request_Method_s:string,
+Identity_Type_s:string,
+Identities_s:string,
+Blocked_Categories_s:string,
+Policy_Identity_Type_s:string,
+AMP_Score_s:string,
+AMP_Malware_Name_s:string,
+AMP_Disposition_s:string,
+AVDetections_s:string,
+Categories_s:string,
+SHA—SHA256_s:string,
+responseBodySize_d:real,
+responseSize_d:real,
+requestSize_d:real,
+statusCode_s:string,
+userAgent_s:string,
+Referer_s:string,
+Content_Type_s:string,
+Destination_IP_s:string,
+External_IP_s:string,
+Internal_IP_s:string,
+PolicyIdentity_s:string,
+Timestamp_t:datetime,
+Ruleset_ID_s:string,
+Destination_List_IDs_s:string,
+_TimeReceived:datetime)
+
+.alter table Cisco_Umbrella_proxy_CL policy caching hot = 1d
+
+.create-or-alter function Cisco_Umbrella_proxy_CLExpand() {
+Cisco_Umbrella_proxy_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+EventType_s=tostring(events.EventType_s),
+Rule_ID_s=tostring(events.Rule_ID_s),
+File_Name_s=tostring(events.File_Name_s),
+Certificate_Errors_s=tostring(events.Certificate_Errors_s),
+DLP_Status_S=tostring(events.DLP_Status_S),
+Request_Method_s=tostring(events.Request_Method_s),
+Identity_Type_s=tostring(events.Identity_Type_s),
+Identities_s=tostring(events.Identities_s),
+Blocked_Categories_s=tostring(events.Blocked_Categories_s),
+Policy_Identity_Type_s=tostring(events.Policy_Identity_Type_s),
+AMP_Score_s=tostring(events.AMP_Score_s),
+AMP_Malware_Name_s=tostring(events.AMP_Malware_Name_s),
+AMP_Disposition_s=tostring(events.AMP_Disposition_s),
+AVDetections_s=tostring(events.AVDetections_s),
+Categories_s=tostring(events.Categories_s),
+SHA—SHA256_s=tostring(events.SHA—SHA256_s),
+responseBodySize_d=toreal(events.responseBodySize_d),
+responseSize_d=toreal(events.responseSize_d),
+requestSize_d=toreal(events.requestSize_d),
+statusCode_s=tostring(events.statusCode_s),
+userAgent_s=tostring(events.userAgent_s),
+Referer_s=tostring(events.Referer_s),
+Content_Type_s=tostring(events.Content_Type_s),
+Destination_IP_s=tostring(events.Destination_IP_s),
+External_IP_s=tostring(events.External_IP_s),
+Internal_IP_s=tostring(events.Internal_IP_s),
+PolicyIdentity_s=tostring(events.PolicyIdentity_s),
+Timestamp_t=todatetime(events.Timestamp_t),
+Ruleset_ID_s=tostring(events.Ruleset_ID_s),
+Destination_List_IDs_s=tostring(events.Destination_List_IDs_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Cisco_Umbrella_proxy_CL policy update @'[{"Source": "Cisco_Umbrella_proxy_CLRaw", "Query": "Cisco_Umbrella_proxy_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

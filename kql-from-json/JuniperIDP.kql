@@ -1,0 +1,114 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for JuniperIDP
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table JuniperIDPRaw (records:dynamic)
+
+.alter-merge table JuniperIDPRaw policy retention softdelete = 1d
+
+.alter table JuniperIDPRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table JuniperIDPRaw ingestion json mapping 'JuniperIDPRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table JuniperIDP(
+TimeGenerated:datetime,
+EventVendor:string,
+SrcNatIpAddr:string,
+SrcNatPortNumber:string,
+DstNatIpAddr:string,
+DstNatPortNumber:string,
+NetworkDuration:string,
+DstBytes:string,
+SrcBytes:string,
+ThreatName:string,
+DstPackets:string,
+SrcZone:string,
+SrcIntefaceName:string,
+DstZone:string,
+DstInterfaceName:string,
+PacketLogId:string,
+IsAlert:string,
+DstUserName:string,
+SrcPackets:string,
+EventSeverity:string,
+DvcAction:string,
+RepeatCount:string,
+EventProduct:string,
+DvcHostname:string,
+SrcDvcType:string,
+EventType:string,
+SrcDvcOs:string,
+EventEndTime:string,
+MessageType:string,
+SrcIpAddr:string,
+DstIpAddr:string,
+DstPortNumber:string,
+NetworkProtocol:string,
+ServiceName:string,
+NetworkApplicationProtocol:string,
+NetworkRuleNumber:string,
+NetworkRulebaseName:string,
+PolicyName:string,
+ExportId:string,
+Roles:string,
+EventMessage:string,
+_TimeReceived:datetime)
+
+.alter table JuniperIDP policy caching hot = 1d
+
+.create-or-alter function JuniperIDPExpand() {
+JuniperIDPRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+EventVendor=tostring(events.EventVendor),
+SrcNatIpAddr=tostring(events.SrcNatIpAddr),
+SrcNatPortNumber=tostring(events.SrcNatPortNumber),
+DstNatIpAddr=tostring(events.DstNatIpAddr),
+DstNatPortNumber=tostring(events.DstNatPortNumber),
+NetworkDuration=tostring(events.NetworkDuration),
+DstBytes=tostring(events.DstBytes),
+SrcBytes=tostring(events.SrcBytes),
+ThreatName=tostring(events.ThreatName),
+DstPackets=tostring(events.DstPackets),
+SrcZone=tostring(events.SrcZone),
+SrcIntefaceName=tostring(events.SrcIntefaceName),
+DstZone=tostring(events.DstZone),
+DstInterfaceName=tostring(events.DstInterfaceName),
+PacketLogId=tostring(events.PacketLogId),
+IsAlert=tostring(events.IsAlert),
+DstUserName=tostring(events.DstUserName),
+SrcPackets=tostring(events.SrcPackets),
+EventSeverity=tostring(events.EventSeverity),
+DvcAction=tostring(events.DvcAction),
+RepeatCount=tostring(events.RepeatCount),
+EventProduct=tostring(events.EventProduct),
+DvcHostname=tostring(events.DvcHostname),
+SrcDvcType=tostring(events.SrcDvcType),
+EventType=tostring(events.EventType),
+SrcDvcOs=tostring(events.SrcDvcOs),
+EventEndTime=tostring(events.EventEndTime),
+MessageType=tostring(events.MessageType),
+SrcIpAddr=tostring(events.SrcIpAddr),
+DstIpAddr=tostring(events.DstIpAddr),
+DstPortNumber=tostring(events.DstPortNumber),
+NetworkProtocol=tostring(events.NetworkProtocol),
+ServiceName=tostring(events.ServiceName),
+NetworkApplicationProtocol=tostring(events.NetworkApplicationProtocol),
+NetworkRuleNumber=tostring(events.NetworkRuleNumber),
+NetworkRulebaseName=tostring(events.NetworkRulebaseName),
+PolicyName=tostring(events.PolicyName),
+ExportId=tostring(events.ExportId),
+Roles=tostring(events.Roles),
+EventMessage=tostring(events.EventMessage),
+_TimeReceived=todatetime(now())
+}
+
+.alter table JuniperIDP policy update @'[{"Source": "JuniperIDPRaw", "Query": "JuniperIDPExpand()", "IsEnabled": "True", "IsTransactional": true}]'

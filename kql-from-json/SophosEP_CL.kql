@@ -1,0 +1,118 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for SophosEP_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table SophosEP_CLRaw (records:dynamic)
+
+.alter-merge table SophosEP_CLRaw policy retention softdelete = 1d
+
+.alter table SophosEP_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table SophosEP_CLRaw ingestion json mapping 'SophosEP_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table SophosEP_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+amsi_threat_data_processPath_s:string,
+amsi_threat_data_processId_s:string,
+amsi_threat_data_processName_s:string,
+amsi_threat_data_parentProcessId_s:string,
+amsi_threat_data_parentProcessPath_s:string,
+source_s:string,
+type_s:string,
+when_t:datetime,
+name_s:string,
+id_g:string,
+group_s:string,
+datastream_s:string,
+Type_s:string,
+EventVendor_s:string,
+EventProduct_s:string,
+TimeGenerated_s:string,
+location_s:string,
+EventEndTime:datetime,
+origin_s:string,
+endpoint_id_g:string,
+SourceSystem:string,
+MG:string,
+ManagementGroupName:string,
+Computer:string,
+RawData:string,
+amsi_threat_data_processPath_s_s:string,
+amsi_threat_data_processId_s_s:string,
+endpoint_type_s:string,
+amsi_threat_data_processName_s_s:string,
+amsi_threat_data_parentProcessPath_s_s:string,
+user_id_s:string,
+customer_id_g:string,
+severity_s:string,
+created_at_t:datetime,
+source_info_ip_s:string,
+threat_s:string,
+amsi_threat_data_parentProcessId_s_s:string,
+Created:datetime,
+Type:string,
+_ResourceId_s:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table SophosEP_CL policy caching hot = 1d
+
+.create-or-alter function SophosEP_CLExpand() {
+SophosEP_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+amsi_threat_data_processPath_s=tostring(events.amsi_threat_data_processPath_s),
+amsi_threat_data_processId_s=tostring(events.amsi_threat_data_processId_s),
+amsi_threat_data_processName_s=tostring(events.amsi_threat_data_processName_s),
+amsi_threat_data_parentProcessId_s=tostring(events.amsi_threat_data_parentProcessId_s),
+amsi_threat_data_parentProcessPath_s=tostring(events.amsi_threat_data_parentProcessPath_s),
+source_s=tostring(events.source_s),
+type_s=tostring(events.type_s),
+when_t=todatetime(events.when_t),
+name_s=tostring(events.name_s),
+id_g=tostring(events.id_g),
+group_s=tostring(events.group_s),
+datastream_s=tostring(events.datastream_s),
+Type_s=tostring(events.Type_s),
+EventVendor_s=tostring(events.EventVendor_s),
+EventProduct_s=tostring(events.EventProduct_s),
+TimeGenerated_s=tostring(events.TimeGenerated_s),
+location_s=tostring(events.location_s),
+EventEndTime=todatetime(events.EventEndTime),
+origin_s=tostring(events.origin_s),
+endpoint_id_g=tostring(events.endpoint_id_g),
+SourceSystem=tostring(events.SourceSystem),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+Computer=tostring(events.Computer),
+RawData=tostring(events.RawData),
+amsi_threat_data_processPath_s_s=tostring(events.amsi_threat_data_processPath_s_s),
+amsi_threat_data_processId_s_s=tostring(events.amsi_threat_data_processId_s_s),
+endpoint_type_s=tostring(events.endpoint_type_s),
+amsi_threat_data_processName_s_s=tostring(events.amsi_threat_data_processName_s_s),
+amsi_threat_data_parentProcessPath_s_s=tostring(events.amsi_threat_data_parentProcessPath_s_s),
+user_id_s=tostring(events.user_id_s),
+customer_id_g=tostring(events.customer_id_g),
+severity_s=tostring(events.severity_s),
+created_at_t=todatetime(events.created_at_t),
+source_info_ip_s=tostring(events.source_info_ip_s),
+threat_s=tostring(events.threat_s),
+amsi_threat_data_parentProcessId_s_s=tostring(events.amsi_threat_data_parentProcessId_s_s),
+Created=todatetime(events.Created),
+Type=tostring(events.Type),
+_ResourceId_s=tostring(events._ResourceId_s),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table SophosEP_CL policy update @'[{"Source": "SophosEP_CLRaw", "Query": "SophosEP_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

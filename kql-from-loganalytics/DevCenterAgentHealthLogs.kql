@@ -1,0 +1,73 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for DevCenterAgentHealthLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:12:53
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 19, Final columns: 19
+// ============================================================================
+
+.create-merge table DevCenterAgentHealthLogsRaw (records:dynamic)
+
+.alter-merge table DevCenterAgentHealthLogsRaw policy retention softdelete = 1d
+
+.alter table DevCenterAgentHealthLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table DevCenterAgentHealthLogsRaw ingestion json mapping 'DevCenterAgentHealthLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table DevCenterAgentHealthLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+ActivityId:string,
+OperationName:string,
+SessionHostName:string,
+SessionHostResourceId:string,
+AgentVersion:string,
+Status:string,
+LastHeartBeat:datetime,
+EndpointState:string,
+UpgradeState:string,
+SessionHostHealthCheckResult:dynamic,
+CloudPcId:string,
+DevBoxName:string,
+SubnetResourceId:string,
+NicResourceId:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table DevCenterAgentHealthLogs policy caching hot = 1d
+
+.create-or-alter function DevCenterAgentHealthLogsExpand() {
+DevCenterAgentHealthLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ActivityId=tostring(events.ActivityId),
+OperationName=tostring(events.OperationName),
+SessionHostName=tostring(events.SessionHostName),
+SessionHostResourceId=tostring(events.SessionHostResourceId),
+AgentVersion=tostring(events.AgentVersion),
+Status=tostring(events.Status),
+LastHeartBeat=todatetime(events.LastHeartBeat),
+EndpointState=tostring(events.EndpointState),
+UpgradeState=tostring(events.UpgradeState),
+SessionHostHealthCheckResult=todynamic(events.SessionHostHealthCheckResult),
+CloudPcId=tostring(events.CloudPcId),
+DevBoxName=tostring(events.DevBoxName),
+SubnetResourceId=tostring(events.SubnetResourceId),
+NicResourceId=tostring(events.NicResourceId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table DevCenterAgentHealthLogs policy update @'[{"Source": "DevCenterAgentHealthLogsRaw", "Query": "DevCenterAgentHealthLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

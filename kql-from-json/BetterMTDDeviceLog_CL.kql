@@ -1,0 +1,82 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for BetterMTDDeviceLog_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:11
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table BetterMTDDeviceLog_CLRaw (records:dynamic)
+
+.alter-merge table BetterMTDDeviceLog_CLRaw policy retention softdelete = 1d
+
+.alter table BetterMTDDeviceLog_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table BetterMTDDeviceLog_CLRaw ingestion json mapping 'BetterMTDDeviceLog_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table BetterMTDDeviceLog_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+AddedDate:datetime,
+ThreatScore:real,
+ThreatLevel:string,
+IsDeleted:bool,
+UserEmail:string,
+CompanyName:string,
+LocationID:real,
+LastReported:datetime,
+DevicePlatform:string,
+CompanyId:real,
+DeviceOS:string,
+DeviceId:real,
+Manufacturer:string,
+BuildNumber:string,
+RawData:string,
+Computer:string,
+ManagementGroupName:string,
+MG:string,
+SourceSystem:string,
+AgentVersion:string,
+DeviceUDID:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table BetterMTDDeviceLog_CL policy caching hot = 1d
+
+.create-or-alter function BetterMTDDeviceLog_CLExpand() {
+BetterMTDDeviceLog_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+AddedDate=todatetime(events.AddedDate),
+ThreatScore=toreal(events.ThreatScore),
+ThreatLevel=tostring(events.ThreatLevel),
+IsDeleted=tobool(events.IsDeleted),
+UserEmail=tostring(events.UserEmail),
+CompanyName=tostring(events.CompanyName),
+LocationID=toreal(events.LocationID),
+LastReported=todatetime(events.LastReported),
+DevicePlatform=tostring(events.DevicePlatform),
+CompanyId=toreal(events.CompanyId),
+DeviceOS=tostring(events.DeviceOS),
+DeviceId=toreal(events.DeviceId),
+Manufacturer=tostring(events.Manufacturer),
+BuildNumber=tostring(events.BuildNumber),
+RawData=tostring(events.RawData),
+Computer=tostring(events.Computer),
+ManagementGroupName=tostring(events.ManagementGroupName),
+MG=tostring(events.MG),
+SourceSystem=tostring(events.SourceSystem),
+AgentVersion=tostring(events.AgentVersion),
+DeviceUDID=tostring(events.DeviceUDID),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table BetterMTDDeviceLog_CL policy update @'[{"Source": "BetterMTDDeviceLog_CLRaw", "Query": "BetterMTDDeviceLog_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,80 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ProofPointTAPClicksBlocked_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table ProofPointTAPClicksBlocked_CLRaw (records:dynamic)
+
+.alter-merge table ProofPointTAPClicksBlocked_CLRaw policy retention softdelete = 1d
+
+.alter table ProofPointTAPClicksBlocked_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ProofPointTAPClicksBlocked_CLRaw ingestion json mapping 'ProofPointTAPClicksBlocked_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ProofPointTAPClicksBlocked_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+threatID_s:string,
+campaignId_s:string,
+userAgent_s:string,
+threatTime_t:datetime,
+classification_s:string,
+url_s:string,
+GUID_s:string,
+clickIP_s:real,
+threatURL_s:string,
+messageID_s:string,
+recipient_s:string,
+sender_s:string,
+clickTime_t:datetime,
+RawData:string,
+Computer:string,
+ManagementGroupName:string,
+MG:string,
+SourceSystem:string,
+senderIP_s:string,
+threatStatus_s:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ProofPointTAPClicksBlocked_CL policy caching hot = 1d
+
+.create-or-alter function ProofPointTAPClicksBlocked_CLExpand() {
+ProofPointTAPClicksBlocked_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+threatID_s=tostring(events.threatID_s),
+campaignId_s=tostring(events.campaignId_s),
+userAgent_s=tostring(events.userAgent_s),
+threatTime_t=todatetime(events.threatTime_t),
+classification_s=tostring(events.classification_s),
+url_s=tostring(events.url_s),
+GUID_s=tostring(events.GUID_s),
+clickIP_s=toreal(events.clickIP_s),
+threatURL_s=tostring(events.threatURL_s),
+messageID_s=tostring(events.messageID_s),
+recipient_s=tostring(events.recipient_s),
+sender_s=tostring(events.sender_s),
+clickTime_t=todatetime(events.clickTime_t),
+RawData=tostring(events.RawData),
+Computer=tostring(events.Computer),
+ManagementGroupName=tostring(events.ManagementGroupName),
+MG=tostring(events.MG),
+SourceSystem=tostring(events.SourceSystem),
+senderIP_s=tostring(events.senderIP_s),
+threatStatus_s=tostring(events.threatStatus_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ProofPointTAPClicksBlocked_CL policy update @'[{"Source": "ProofPointTAPClicksBlocked_CLRaw", "Query": "ProofPointTAPClicksBlocked_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

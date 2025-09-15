@@ -1,0 +1,59 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for WebPubSubConnectivity - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:22:38
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 12, Final columns: 12
+// ============================================================================
+
+.create-merge table WebPubSubConnectivityRaw (records:dynamic)
+
+.alter-merge table WebPubSubConnectivityRaw policy retention softdelete = 1d
+
+.alter table WebPubSubConnectivityRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table WebPubSubConnectivityRaw ingestion json mapping 'WebPubSubConnectivityRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table WebPubSubConnectivity(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+Location:string,
+Level:string,
+CallerIpAddress:string,
+Message:string,
+UserId:string,
+ConnectionId:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table WebPubSubConnectivity policy caching hot = 1d
+
+.create-or-alter function WebPubSubConnectivityExpand() {
+WebPubSubConnectivityRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+Location=tostring(events.Location),
+Level=tostring(events.Level),
+CallerIpAddress=tostring(events.CallerIpAddress),
+Message=tostring(events.Message),
+UserId=tostring(events.UserId),
+ConnectionId=tostring(events.ConnectionId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table WebPubSubConnectivity policy update @'[{"Source": "WebPubSubConnectivityRaw", "Query": "WebPubSubConnectivityExpand()", "IsEnabled": "True", "IsTransactional": true}]'

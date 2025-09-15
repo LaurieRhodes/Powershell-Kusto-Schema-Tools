@@ -1,0 +1,76 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for CognniIncidents_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:12
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table CognniIncidents_CLRaw (records:dynamic)
+
+.alter-merge table CognniIncidents_CLRaw policy retention softdelete = 1d
+
+.alter table CognniIncidents_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table CognniIncidents_CLRaw ingestion json mapping 'CognniIncidents_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table CognniIncidents_CL(
+TimeGenerated:datetime,
+attachmentId_s:string,
+siteId_g:string,
+Severity:int,
+RawData:string,
+orgId_g:string,
+name_s:string,
+messageId_s:string,
+listItemUniqueId_g:string,
+listId_g:string,
+labels_s:string,
+internalEventId_g:string,
+insights_s:string,
+informationType_s:string,
+fileName_s:string,
+eventTime_t:datetime,
+Computer:string,
+sourceFileExtension_s:string,
+userId_s:string,
+Type:string,
+_ResourceId:string,
+_SubscriptionId:string,
+_TimeReceived:datetime)
+
+.alter table CognniIncidents_CL policy caching hot = 1d
+
+.create-or-alter function CognniIncidents_CLExpand() {
+CognniIncidents_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+attachmentId_s=tostring(events.attachmentId_s),
+siteId_g=tostring(events.siteId_g),
+Severity=toint(events.Severity),
+RawData=tostring(events.RawData),
+orgId_g=tostring(events.orgId_g),
+name_s=tostring(events.name_s),
+messageId_s=tostring(events.messageId_s),
+listItemUniqueId_g=tostring(events.listItemUniqueId_g),
+listId_g=tostring(events.listId_g),
+labels_s=tostring(events.labels_s),
+internalEventId_g=tostring(events.internalEventId_g),
+insights_s=tostring(events.insights_s),
+informationType_s=tostring(events.informationType_s),
+fileName_s=tostring(events.fileName_s),
+eventTime_t=todatetime(events.eventTime_t),
+Computer=tostring(events.Computer),
+sourceFileExtension_s=tostring(events.sourceFileExtension_s),
+userId_s=tostring(events.userId_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_SubscriptionId=tostring(events._SubscriptionId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table CognniIncidents_CL policy update @'[{"Source": "CognniIncidents_CLRaw", "Query": "CognniIncidents_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

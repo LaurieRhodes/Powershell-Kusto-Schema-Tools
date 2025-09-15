@@ -1,0 +1,78 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for CommvaultSecurityIQ_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:12
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table CommvaultSecurityIQ_CLRaw (records:dynamic)
+
+.alter-merge table CommvaultSecurityIQ_CLRaw policy retention softdelete = 1d
+
+.alter table CommvaultSecurityIQ_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table CommvaultSecurityIQ_CLRaw ingestion json mapping 'CommvaultSecurityIQ_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table CommvaultSecurityIQ_CL(
+TimeGenerated:datetime,
+anomaly_sub_type_s:string,
+RawData:string,
+MG:guid,
+ManagementGroupName:string,
+Computer:string,
+username_s:string,
+user_id_d:real,
+subclient_id_d:real,
+severity_s:string,
+SourceSystem:string,
+scanned_folder_list_s:string,
+job_start_time_s:string,
+job_id_s:string,
+job_end_time_s:string,
+files_list_s:string,
+external_link_s:string,
+description_s:string,
+deleted_files_count_s:string,
+created_files_count_s:string,
+originating_client_s:string,
+TenantId:guid,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table CommvaultSecurityIQ_CL policy caching hot = 1d
+
+.create-or-alter function CommvaultSecurityIQ_CLExpand() {
+CommvaultSecurityIQ_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+anomaly_sub_type_s=tostring(events.anomaly_sub_type_s),
+RawData=tostring(events.RawData),
+MG=toguid(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+Computer=tostring(events.Computer),
+username_s=tostring(events.username_s),
+user_id_d=toreal(events.user_id_d),
+subclient_id_d=toreal(events.subclient_id_d),
+severity_s=tostring(events.severity_s),
+SourceSystem=tostring(events.SourceSystem),
+scanned_folder_list_s=tostring(events.scanned_folder_list_s),
+job_start_time_s=tostring(events.job_start_time_s),
+job_id_s=tostring(events.job_id_s),
+job_end_time_s=tostring(events.job_end_time_s),
+files_list_s=tostring(events.files_list_s),
+external_link_s=tostring(events.external_link_s),
+description_s=tostring(events.description_s),
+deleted_files_count_s=tostring(events.deleted_files_count_s),
+created_files_count_s=tostring(events.created_files_count_s),
+originating_client_s=tostring(events.originating_client_s),
+TenantId=toguid(events.TenantId),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table CommvaultSecurityIQ_CL policy update @'[{"Source": "CommvaultSecurityIQ_CLRaw", "Query": "CommvaultSecurityIQ_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

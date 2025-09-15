@@ -1,0 +1,75 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for NWConnectionMonitorDestinationListenerResult - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:17:46
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 20, Final columns: 20
+// ============================================================================
+
+.create-merge table NWConnectionMonitorDestinationListenerResultRaw (records:dynamic)
+
+.alter-merge table NWConnectionMonitorDestinationListenerResultRaw policy retention softdelete = 1d
+
+.alter table NWConnectionMonitorDestinationListenerResultRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table NWConnectionMonitorDestinationListenerResultRaw ingestion json mapping 'NWConnectionMonitorDestinationListenerResultRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table NWConnectionMonitorDestinationListenerResult(
+TimeGenerated:datetime,
+TenantId:guid,
+ListeningOutcome:string,
+Protocol:string,
+DestinationAgentId:string,
+DestinationName:string,
+DestinationIP:string,
+DestinationSubnet:string,
+Issues:string,
+DestinationAddress:string,
+DestinationType:string,
+DestinationPort:int,
+TestConfigurationName:string,
+TestGroupName:string,
+ConnectionMonitorResourceId:string,
+RecordId:string,
+DestinationResourceId:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table NWConnectionMonitorDestinationListenerResult policy caching hot = 1d
+
+.create-or-alter function NWConnectionMonitorDestinationListenerResultExpand() {
+NWConnectionMonitorDestinationListenerResultRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ListeningOutcome=tostring(events.ListeningOutcome),
+Protocol=tostring(events.Protocol),
+DestinationAgentId=tostring(events.DestinationAgentId),
+DestinationName=tostring(events.DestinationName),
+DestinationIP=tostring(events.DestinationIP),
+DestinationSubnet=tostring(events.DestinationSubnet),
+Issues=tostring(events.Issues),
+DestinationAddress=tostring(events.DestinationAddress),
+DestinationType=tostring(events.DestinationType),
+DestinationPort=toint(events.DestinationPort),
+TestConfigurationName=tostring(events.TestConfigurationName),
+TestGroupName=tostring(events.TestGroupName),
+ConnectionMonitorResourceId=tostring(events.ConnectionMonitorResourceId),
+RecordId=tostring(events.RecordId),
+DestinationResourceId=tostring(events.DestinationResourceId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table NWConnectionMonitorDestinationListenerResult policy update @'[{"Source": "NWConnectionMonitorDestinationListenerResultRaw", "Query": "NWConnectionMonitorDestinationListenerResultExpand()", "IsEnabled": "True", "IsTransactional": true}]'

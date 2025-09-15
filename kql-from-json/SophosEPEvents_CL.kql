@@ -1,0 +1,90 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for SophosEPEvents_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table SophosEPEvents_CLRaw (records:dynamic)
+
+.alter-merge table SophosEPEvents_CLRaw policy retention softdelete = 1d
+
+.alter table SophosEPEvents_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table SophosEPEvents_CLRaw ingestion json mapping 'SophosEPEvents_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table SophosEPEvents_CL(
+TimeGenerated:datetime,
+EventVendor:string,
+DstUserSid:string,
+DvcAction:string,
+ThreatName:string,
+SrcIpAddr:string,
+source_info:dynamic,
+Source:string,
+EventSeverity:string,
+EventSubType:string,
+EventMessage:string,
+DvcHostname:string,
+ips_threat_data:dynamic,
+EventOriginalUid:string,
+ThreatCategory:string,
+SrcDvcType:string,
+EndpointId:string,
+details:dynamic,
+CustomerId:string,
+Created:datetime,
+CoreRemedyTotalItems:int,
+CoreRemedyItems:string,
+AppSha256:string,
+appCerts:dynamic,
+amsi_threat_data:dynamic,
+EventType:string,
+EventProduct:string,
+EventEndTime:datetime,
+whitelist_properties:dynamic,
+_TimeReceived:datetime)
+
+.alter table SophosEPEvents_CL policy caching hot = 1d
+
+.create-or-alter function SophosEPEvents_CLExpand() {
+SophosEPEvents_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+EventVendor=tostring(events.EventVendor),
+DstUserSid=tostring(events.DstUserSid),
+DvcAction=tostring(events.DvcAction),
+ThreatName=tostring(events.ThreatName),
+SrcIpAddr=tostring(events.SrcIpAddr),
+source_info=todynamic(events.source_info),
+Source=tostring(events.Source),
+EventSeverity=tostring(events.EventSeverity),
+EventSubType=tostring(events.EventSubType),
+EventMessage=tostring(events.EventMessage),
+DvcHostname=tostring(events.DvcHostname),
+ips_threat_data=todynamic(events.ips_threat_data),
+EventOriginalUid=tostring(events.EventOriginalUid),
+ThreatCategory=tostring(events.ThreatCategory),
+SrcDvcType=tostring(events.SrcDvcType),
+EndpointId=tostring(events.EndpointId),
+details=todynamic(events.details),
+CustomerId=tostring(events.CustomerId),
+Created=todatetime(events.Created),
+CoreRemedyTotalItems=toint(events.CoreRemedyTotalItems),
+CoreRemedyItems=tostring(events.CoreRemedyItems),
+AppSha256=tostring(events.AppSha256),
+appCerts=todynamic(events.appCerts),
+amsi_threat_data=todynamic(events.amsi_threat_data),
+EventType=tostring(events.EventType),
+EventProduct=tostring(events.EventProduct),
+EventEndTime=todatetime(events.EventEndTime),
+whitelist_properties=todynamic(events.whitelist_properties),
+_TimeReceived=todatetime(now())
+}
+
+.alter table SophosEPEvents_CL policy update @'[{"Source": "SophosEPEvents_CLRaw", "Query": "SophosEPEvents_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

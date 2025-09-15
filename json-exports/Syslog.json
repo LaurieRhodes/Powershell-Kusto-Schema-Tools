@@ -1,0 +1,73 @@
+﻿{
+  "Name": "Syslog",
+  "Properties": [
+    {
+      "Name": "TenantId",
+      "Type": "guid"
+    },
+    {
+      "Name": "SourceSystem",
+      "Type": "string"
+    },
+    {
+      "Name": "TimeGenerated",
+      "Type": "datetime"
+    },
+    {
+      "Name": "MG",
+      "Type": "guid"
+    },
+    {
+      "Name": "TimeCollected",
+      "Type": "datetime"
+    },
+    {
+      "Name": "ManagementGroupName",
+      "Type": "string"
+    },
+    {
+      "Name": "Computer",
+      "Type": "string"
+    },
+    {
+      "Name": "EventTime",
+      "Type": "datetime"
+    },
+    {
+      "Name": "Facility",
+      "Type": "string"
+    },
+    {
+      "Name": "HostName",
+      "Type": "string"
+    },
+    {
+      "Name": "SeverityLevel",
+      "Type": "string"
+    },
+    {
+      "Name": "SyslogMessage",
+      "Type": "string"
+    },
+    {
+      "Name": "ProcessID",
+      "Type": "int"
+    },
+    {
+      "Name": "HostIP",
+      "Type": "string"
+    },
+    {
+      "Name": "ProcessName",
+      "Type": "string"
+    },
+    {
+      "Name": "CollectorHostName",
+      "Type": "string"
+    },
+    {
+      "Name": "Type",
+      "Type": "string"
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for HDInsightRangerAuditLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:15:23
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 31, Final columns: 31
+// ============================================================================
+
+.create-merge table HDInsightRangerAuditLogsRaw (records:dynamic)
+
+.alter-merge table HDInsightRangerAuditLogsRaw policy retention softdelete = 1d
+
+.alter table HDInsightRangerAuditLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table HDInsightRangerAuditLogsRaw ingestion json mapping 'HDInsightRangerAuditLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table HDInsightRangerAuditLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+Tags:string,
+EventDurationMs:int,
+EventCount:int,
+SequenceNumber:int,
+Id:string,
+LogType:string,
+CliIpAddress:string,
+CliType:string,
+SessionId:string,
+RequestData:string,
+Enforcer:string,
+Policy:int,
+Result:int,
+Action:string,
+ClusterResourceType:string,
+ClusterResource:string,
+AccessName:string,
+RequestUser:string,
+Repo:string,
+RepoType:int,
+ClusterType:string,
+HostName:string,
+ClusterName:string,
+CorrelationId:string,
+OperationName:string,
+AdditionalInfo:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table HDInsightRangerAuditLogs policy caching hot = 1d
+
+.create-or-alter function HDInsightRangerAuditLogsExpand() {
+HDInsightRangerAuditLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Tags=tostring(events.Tags),
+EventDurationMs=toint(events.EventDurationMs),
+EventCount=toint(events.EventCount),
+SequenceNumber=toint(events.SequenceNumber),
+Id=tostring(events.Id),
+LogType=tostring(events.LogType),
+CliIpAddress=tostring(events.CliIpAddress),
+CliType=tostring(events.CliType),
+SessionId=tostring(events.SessionId),
+RequestData=tostring(events.RequestData),
+Enforcer=tostring(events.Enforcer),
+Policy=toint(events.Policy),
+Result=toint(events.Result),
+Action=tostring(events.Action),
+ClusterResourceType=tostring(events.ClusterResourceType),
+ClusterResource=tostring(events.ClusterResource),
+AccessName=tostring(events.AccessName),
+RequestUser=tostring(events.RequestUser),
+Repo=tostring(events.Repo),
+RepoType=toint(events.RepoType),
+ClusterType=tostring(events.ClusterType),
+HostName=tostring(events.HostName),
+ClusterName=tostring(events.ClusterName),
+CorrelationId=tostring(events.CorrelationId),
+OperationName=tostring(events.OperationName),
+AdditionalInfo=tostring(events.AdditionalInfo),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table HDInsightRangerAuditLogs policy update @'[{"Source": "HDInsightRangerAuditLogsRaw", "Query": "HDInsightRangerAuditLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,48 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for TransmitSecurityAdminActivity_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table TransmitSecurityAdminActivity_CLRaw (records:dynamic)
+
+.alter-merge table TransmitSecurityAdminActivity_CLRaw policy retention softdelete = 1d
+
+.alter table TransmitSecurityAdminActivity_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table TransmitSecurityAdminActivity_CLRaw ingestion json mapping 'TransmitSecurityAdminActivity_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table TransmitSecurityAdminActivity_CL(
+activity:string,
+actor_id:string,
+actor_type:string,
+ip:string,
+target_resource_id:string,
+target_resource_type:string,
+timestamp:datetime,
+user_agent:string,
+_TimeReceived:datetime)
+
+.alter table TransmitSecurityAdminActivity_CL policy caching hot = 1d
+
+.create-or-alter function TransmitSecurityAdminActivity_CLExpand() {
+TransmitSecurityAdminActivity_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+activity=tostring(events.activity),
+actor_id=tostring(events.actor_id),
+actor_type=tostring(events.actor_type),
+ip=tostring(events.ip),
+target_resource_id=tostring(events.target_resource_id),
+target_resource_type=tostring(events.target_resource_type),
+timestamp=todatetime(events.timestamp),
+user_agent=tostring(events.user_agent),
+_TimeReceived=todatetime(now())
+}
+
+.alter table TransmitSecurityAdminActivity_CL policy update @'[{"Source": "TransmitSecurityAdminActivity_CLRaw", "Query": "TransmitSecurityAdminActivity_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

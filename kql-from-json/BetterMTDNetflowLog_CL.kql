@@ -1,0 +1,104 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for BetterMTDNetflowLog_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:11
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table BetterMTDNetflowLog_CLRaw (records:dynamic)
+
+.alter-merge table BetterMTDNetflowLog_CLRaw policy retention softdelete = 1d
+
+.alter table BetterMTDNetflowLog_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table BetterMTDNetflowLog_CLRaw ingestion json mapping 'BetterMTDNetflowLog_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table BetterMTDNetflowLog_CL(
+TimeGenerated:datetime,
+Account:string,
+UrlStatus:string,
+Url:string,
+UDID:string,
+TenantId:guid,
+Status_s:string,
+SourceSystem:string,
+SourceLon:real,
+SourceLat:real,
+SourceCountryCode:string,
+SourceCountry:string,
+SourceClient:string,
+Scheme:string,
+Reason:string,
+RawData:string,
+Username:string,
+Port:real,
+NetworkType:string,
+MG:string,
+ManagementGroupName:string,
+Host:string,
+DeviceName:string,
+DestinationLon:real,
+DestinationLat:real,
+DestinationCountryCode:string,
+DestinationCountry:string,
+Destination:string,
+Computer:string,
+Cid:real,
+AppName:string,
+AppIdentifier:string,
+Path:string,
+UUId:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table BetterMTDNetflowLog_CL policy caching hot = 1d
+
+.create-or-alter function BetterMTDNetflowLog_CLExpand() {
+BetterMTDNetflowLog_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+Account=tostring(events.Account),
+UrlStatus=tostring(events.UrlStatus),
+Url=tostring(events.Url),
+UDID=tostring(events.UDID),
+TenantId=toguid(events.TenantId),
+Status_s=tostring(events.Status_s),
+SourceSystem=tostring(events.SourceSystem),
+SourceLon=toreal(events.SourceLon),
+SourceLat=toreal(events.SourceLat),
+SourceCountryCode=tostring(events.SourceCountryCode),
+SourceCountry=tostring(events.SourceCountry),
+SourceClient=tostring(events.SourceClient),
+Scheme=tostring(events.Scheme),
+Reason=tostring(events.Reason),
+RawData=tostring(events.RawData),
+Username=tostring(events.Username),
+Port=toreal(events.Port),
+NetworkType=tostring(events.NetworkType),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+Host=tostring(events.Host),
+DeviceName=tostring(events.DeviceName),
+DestinationLon=toreal(events.DestinationLon),
+DestinationLat=toreal(events.DestinationLat),
+DestinationCountryCode=tostring(events.DestinationCountryCode),
+DestinationCountry=tostring(events.DestinationCountry),
+Destination=tostring(events.Destination),
+Computer=tostring(events.Computer),
+Cid=toreal(events.Cid),
+AppName=tostring(events.AppName),
+AppIdentifier=tostring(events.AppIdentifier),
+Path=tostring(events.Path),
+UUId=tostring(events.UUId),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table BetterMTDNetflowLog_CL policy update @'[{"Source": "BetterMTDNetflowLog_CLRaw", "Query": "BetterMTDNetflowLog_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

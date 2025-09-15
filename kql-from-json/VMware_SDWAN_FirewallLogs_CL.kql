@@ -1,0 +1,104 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for VMware_SDWAN_FirewallLogs_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table VMware_SDWAN_FirewallLogs_CLRaw (records:dynamic)
+
+.alter-merge table VMware_SDWAN_FirewallLogs_CLRaw policy retention softdelete = 1d
+
+.alter table VMware_SDWAN_FirewallLogs_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table VMware_SDWAN_FirewallLogs_CLRaw ingestion json mapping 'VMware_SDWAN_FirewallLogs_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table VMware_SDWAN_FirewallLogs_CL(
+TimeGenerated:datetime,
+actionTaken:string,
+ipsAlert:int,
+logType:string,
+protocol:int,
+ruleId:string,
+ruleVersion:int,
+segmentLogicalId:string,
+inputInterface:datetime,
+segmentName:string,
+sessionId:int,
+severity:int,
+signature:string,
+signatureId:int,
+sourceIp:string,
+sourcePort:int,
+sessionDurationSecs:int,
+timestamp:datetime,
+idsAlert:int,
+extensionHeader:string,
+application:string,
+attackSource:string,
+attackTarget:string,
+bytesReceived:int,
+bytesSent:int,
+category:string,
+firewallPolicyName:string,
+closeReason:string,
+destinationIp:string,
+destinationPort:int,
+domainName:string,
+edgeLogicalId:string,
+edgeName:datetime,
+enterpriseLogicalId:string,
+destination:string,
+verdict:string,
+_TimeReceived:datetime)
+
+.alter table VMware_SDWAN_FirewallLogs_CL policy caching hot = 1d
+
+.create-or-alter function VMware_SDWAN_FirewallLogs_CLExpand() {
+VMware_SDWAN_FirewallLogs_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+actionTaken=tostring(events.actionTaken),
+ipsAlert=toint(events.ipsAlert),
+logType=tostring(events.logType),
+protocol=toint(events.protocol),
+ruleId=tostring(events.ruleId),
+ruleVersion=toint(events.ruleVersion),
+segmentLogicalId=tostring(events.segmentLogicalId),
+inputInterface=todatetime(events.inputInterface),
+segmentName=tostring(events.segmentName),
+sessionId=toint(events.sessionId),
+severity=toint(events.severity),
+signature=tostring(events.signature),
+signatureId=toint(events.signatureId),
+sourceIp=tostring(events.sourceIp),
+sourcePort=toint(events.sourcePort),
+sessionDurationSecs=toint(events.sessionDurationSecs),
+timestamp=todatetime(events.timestamp),
+idsAlert=toint(events.idsAlert),
+extensionHeader=tostring(events.extensionHeader),
+application=tostring(events.application),
+attackSource=tostring(events.attackSource),
+attackTarget=tostring(events.attackTarget),
+bytesReceived=toint(events.bytesReceived),
+bytesSent=toint(events.bytesSent),
+category=tostring(events.category),
+firewallPolicyName=tostring(events.firewallPolicyName),
+closeReason=tostring(events.closeReason),
+destinationIp=tostring(events.destinationIp),
+destinationPort=toint(events.destinationPort),
+domainName=tostring(events.domainName),
+edgeLogicalId=tostring(events.edgeLogicalId),
+edgeName=todatetime(events.edgeName),
+enterpriseLogicalId=tostring(events.enterpriseLogicalId),
+destination=tostring(events.destination),
+verdict=tostring(events.verdict),
+_TimeReceived=todatetime(now())
+}
+
+.alter table VMware_SDWAN_FirewallLogs_CL policy update @'[{"Source": "VMware_SDWAN_FirewallLogs_CLRaw", "Query": "VMware_SDWAN_FirewallLogs_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

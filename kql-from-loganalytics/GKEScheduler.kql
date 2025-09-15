@@ -1,0 +1,89 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for GKEScheduler - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:14:58
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 27, Final columns: 27
+// ============================================================================
+
+.create-merge table GKESchedulerRaw (records:dynamic)
+
+.alter-merge table GKESchedulerRaw policy retention softdelete = 1d
+
+.alter table GKESchedulerRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table GKESchedulerRaw ingestion json mapping 'GKESchedulerRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table GKEScheduler(
+TimeGenerated:datetime,
+TenantId:guid,
+SrcIP:string,
+AuditID:string,
+UserAgent:string,
+Latency:string,
+URI:string,
+HttpVerb:string,
+Protocol:string,
+ComputeResourceName:string,
+ProjectID:string,
+Location:string,
+ResponseCode:int,
+ComponentName:string,
+ClusterName:string,
+ReceiveTimestamp:datetime,
+SourceLine:string,
+SourceFile:string,
+Severity:string,
+Pid:string,
+LogName:string,
+InsertId:string,
+Labels:dynamic,
+Message:string,
+ComponentLocation:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table GKEScheduler policy caching hot = 1d
+
+.create-or-alter function GKESchedulerExpand() {
+GKESchedulerRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SrcIP=tostring(events.SrcIP),
+AuditID=tostring(events.AuditID),
+UserAgent=tostring(events.UserAgent),
+Latency=tostring(events.Latency),
+URI=tostring(events.URI),
+HttpVerb=tostring(events.HttpVerb),
+Protocol=tostring(events.Protocol),
+ComputeResourceName=tostring(events.ComputeResourceName),
+ProjectID=tostring(events.ProjectID),
+Location=tostring(events.Location),
+ResponseCode=toint(events.ResponseCode),
+ComponentName=tostring(events.ComponentName),
+ClusterName=tostring(events.ClusterName),
+ReceiveTimestamp=todatetime(events.ReceiveTimestamp),
+SourceLine=tostring(events.SourceLine),
+SourceFile=tostring(events.SourceFile),
+Severity=tostring(events.Severity),
+Pid=tostring(events.Pid),
+LogName=tostring(events.LogName),
+InsertId=tostring(events.InsertId),
+Labels=todynamic(events.Labels),
+Message=tostring(events.Message),
+ComponentLocation=tostring(events.ComponentLocation),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table GKEScheduler policy update @'[{"Source": "GKESchedulerRaw", "Query": "GKESchedulerExpand()", "IsEnabled": "True", "IsTransactional": true}]'

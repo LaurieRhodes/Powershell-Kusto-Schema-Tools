@@ -1,0 +1,55 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for MPCIngestionLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:17:04
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 10, Final columns: 10
+// ============================================================================
+
+.create-merge table MPCIngestionLogsRaw (records:dynamic)
+
+.alter-merge table MPCIngestionLogsRaw policy retention softdelete = 1d
+
+.alter table MPCIngestionLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table MPCIngestionLogsRaw ingestion json mapping 'MPCIngestionLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table MPCIngestionLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+Category:string,
+Location:string,
+CorrelationId:string,
+Message:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table MPCIngestionLogs policy caching hot = 1d
+
+.create-or-alter function MPCIngestionLogsExpand() {
+MPCIngestionLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+Category=tostring(events.Category),
+Location=tostring(events.Location),
+CorrelationId=tostring(events.CorrelationId),
+Message=tostring(events.Message),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table MPCIngestionLogs policy update @'[{"Source": "MPCIngestionLogsRaw", "Query": "MPCIngestionLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

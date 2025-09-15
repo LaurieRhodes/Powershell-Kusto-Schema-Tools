@@ -1,0 +1,64 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for MongoDBAudit_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table MongoDBAudit_CLRaw (records:dynamic)
+
+.alter-merge table MongoDBAudit_CLRaw policy retention softdelete = 1d
+
+.alter table MongoDBAudit_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table MongoDBAudit_CLRaw ingestion json mapping 'MongoDBAudit_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table MongoDBAudit_CL(
+TimeGenerated:datetime,
+EventVendor:string,
+EventProduct:string,
+EventCount:string,
+EventEndTime:datetime,
+DvcAction:string,
+SrcIpAddr:string,
+SrcPortNumber:real,
+DstIpAddr:string,
+DstPortNumber:real,
+Users:string,
+Roles:string,
+Parameters:string,
+EventResultCode:string,
+EventResult:string,
+Computer:string,
+_TimeReceived:datetime)
+
+.alter table MongoDBAudit_CL policy caching hot = 1d
+
+.create-or-alter function MongoDBAudit_CLExpand() {
+MongoDBAudit_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+EventVendor=tostring(events.EventVendor),
+EventProduct=tostring(events.EventProduct),
+EventCount=tostring(events.EventCount),
+EventEndTime=todatetime(events.EventEndTime),
+DvcAction=tostring(events.DvcAction),
+SrcIpAddr=tostring(events.SrcIpAddr),
+SrcPortNumber=toreal(events.SrcPortNumber),
+DstIpAddr=tostring(events.DstIpAddr),
+DstPortNumber=toreal(events.DstPortNumber),
+Users=tostring(events.Users),
+Roles=tostring(events.Roles),
+Parameters=tostring(events.Parameters),
+EventResultCode=tostring(events.EventResultCode),
+EventResult=tostring(events.EventResult),
+Computer=tostring(events.Computer),
+_TimeReceived=todatetime(now())
+}
+
+.alter table MongoDBAudit_CL policy update @'[{"Source": "MongoDBAudit_CLRaw", "Query": "MongoDBAudit_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

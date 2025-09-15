@@ -1,0 +1,93 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AWSS3ServerAccess - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:23:50
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 29, Final columns: 29
+// ============================================================================
+
+.create-merge table AWSS3ServerAccessRaw (records:dynamic)
+
+.alter-merge table AWSS3ServerAccessRaw policy retention softdelete = 1d
+
+.alter table AWSS3ServerAccessRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AWSS3ServerAccessRaw ingestion json mapping 'AWSS3ServerAccessRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AWSS3ServerAccess(
+TimeGenerated:datetime,
+TenantId:guid,
+AccessPointARN:string,
+TLSVersion:string,
+HostHeader:string,
+AuthenticationType:string,
+CipherSuite:string,
+SignatureVersion:string,
+HostId:string,
+VersionId:string,
+UserAgent:string,
+Referer:string,
+TurnAroundTime:string,
+ACLRequired:string,
+TotalTime:int,
+BytesSent:int,
+ErrorCode:string,
+HttpStatus:int,
+RequestUri:string,
+Key:string,
+Operation:string,
+RequestId:string,
+Requester:string,
+RemoteIp:string,
+Bucket:string,
+BucketOwner:string,
+ObjectSize:int,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table AWSS3ServerAccess policy caching hot = 1d
+
+.create-or-alter function AWSS3ServerAccessExpand() {
+AWSS3ServerAccessRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+AccessPointARN=tostring(events.AccessPointARN),
+TLSVersion=tostring(events.TLSVersion),
+HostHeader=tostring(events.HostHeader),
+AuthenticationType=tostring(events.AuthenticationType),
+CipherSuite=tostring(events.CipherSuite),
+SignatureVersion=tostring(events.SignatureVersion),
+HostId=tostring(events.HostId),
+VersionId=tostring(events.VersionId),
+UserAgent=tostring(events.UserAgent),
+Referer=tostring(events.Referer),
+TurnAroundTime=tostring(events.TurnAroundTime),
+ACLRequired=tostring(events.ACLRequired),
+TotalTime=toint(events.TotalTime),
+BytesSent=toint(events.BytesSent),
+ErrorCode=tostring(events.ErrorCode),
+HttpStatus=toint(events.HttpStatus),
+RequestUri=tostring(events.RequestUri),
+Key=tostring(events.Key),
+Operation=tostring(events.Operation),
+RequestId=tostring(events.RequestId),
+Requester=tostring(events.Requester),
+RemoteIp=tostring(events.RemoteIp),
+Bucket=tostring(events.Bucket),
+BucketOwner=tostring(events.BucketOwner),
+ObjectSize=toint(events.ObjectSize),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AWSS3ServerAccess policy update @'[{"Source": "AWSS3ServerAccessRaw", "Query": "AWSS3ServerAccessExpand()", "IsEnabled": "True", "IsTransactional": true}]'

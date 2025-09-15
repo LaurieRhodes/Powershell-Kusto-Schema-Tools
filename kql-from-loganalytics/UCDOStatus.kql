@@ -1,0 +1,103 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for UCDOStatus - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:22:12
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 34, Final columns: 34
+// ============================================================================
+
+.create-merge table UCDOStatusRaw (records:dynamic)
+
+.alter-merge table UCDOStatusRaw policy retention softdelete = 1d
+
+.alter table UCDOStatusRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table UCDOStatusRaw ingestion json mapping 'UCDOStatusRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table UCDOStatus(
+TimeGenerated:datetime,
+TenantId:guid,
+BWOptPercent28Days:real,
+BWOptPercent7Days:real,
+BytesFromCache:long,
+BytesFromGroupPeers:long,
+BytesFromPeers:long,
+BytesFromIntPeers:long,
+BytesFromCDN:long,
+PeersCannotConnectCount:long,
+PeersSuccessCount:long,
+PeersUnknownCount:long,
+NoPeersCount:long,
+PeerEligibleTransfers:long,
+TotalTransfers:long,
+TotalTimeForDownload:string,
+ContentType:string,
+PeeringStatus:string,
+ISP:string,
+City:string,
+Country:string,
+DOStatusDescription:string,
+ContentDownloadMode:int,
+DownloadModeSrc:string,
+DownloadMode:string,
+OSVersion:string,
+GroupID:string,
+GlobalDeviceId:string,
+DeviceName:string,
+AzureADDeviceId:string,
+AzureADTenantId:string,
+LastCensusSeenTime:datetime,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table UCDOStatus policy caching hot = 1d
+
+.create-or-alter function UCDOStatusExpand() {
+UCDOStatusRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+BWOptPercent28Days=toreal(events.BWOptPercent28Days),
+BWOptPercent7Days=toreal(events.BWOptPercent7Days),
+BytesFromCache=tolong(events.BytesFromCache),
+BytesFromGroupPeers=tolong(events.BytesFromGroupPeers),
+BytesFromPeers=tolong(events.BytesFromPeers),
+BytesFromIntPeers=tolong(events.BytesFromIntPeers),
+BytesFromCDN=tolong(events.BytesFromCDN),
+PeersCannotConnectCount=tolong(events.PeersCannotConnectCount),
+PeersSuccessCount=tolong(events.PeersSuccessCount),
+PeersUnknownCount=tolong(events.PeersUnknownCount),
+NoPeersCount=tolong(events.NoPeersCount),
+PeerEligibleTransfers=tolong(events.PeerEligibleTransfers),
+TotalTransfers=tolong(events.TotalTransfers),
+TotalTimeForDownload=tostring(events.TotalTimeForDownload),
+ContentType=tostring(events.ContentType),
+PeeringStatus=tostring(events.PeeringStatus),
+ISP=tostring(events.ISP),
+City=tostring(events.City),
+Country=tostring(events.Country),
+DOStatusDescription=tostring(events.DOStatusDescription),
+ContentDownloadMode=toint(events.ContentDownloadMode),
+DownloadModeSrc=tostring(events.DownloadModeSrc),
+DownloadMode=tostring(events.DownloadMode),
+OSVersion=tostring(events.OSVersion),
+GroupID=tostring(events.GroupID),
+GlobalDeviceId=tostring(events.GlobalDeviceId),
+DeviceName=tostring(events.DeviceName),
+AzureADDeviceId=tostring(events.AzureADDeviceId),
+AzureADTenantId=tostring(events.AzureADTenantId),
+LastCensusSeenTime=todatetime(events.LastCensusSeenTime),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table UCDOStatus policy update @'[{"Source": "UCDOStatusRaw", "Query": "UCDOStatusExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,57 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for EGNSuccessfulMqttConnections - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:13:51
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 11, Final columns: 11
+// ============================================================================
+
+.create-merge table EGNSuccessfulMqttConnectionsRaw (records:dynamic)
+
+.alter-merge table EGNSuccessfulMqttConnectionsRaw policy retention softdelete = 1d
+
+.alter table EGNSuccessfulMqttConnectionsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table EGNSuccessfulMqttConnectionsRaw ingestion json mapping 'EGNSuccessfulMqttConnectionsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table EGNSuccessfulMqttConnections(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+AuthenticationType:string,
+ClientIdentitySource:string,
+ClientIdentity:string,
+SessionName:string,
+Protocol:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table EGNSuccessfulMqttConnections policy caching hot = 1d
+
+.create-or-alter function EGNSuccessfulMqttConnectionsExpand() {
+EGNSuccessfulMqttConnectionsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+AuthenticationType=tostring(events.AuthenticationType),
+ClientIdentitySource=tostring(events.ClientIdentitySource),
+ClientIdentity=tostring(events.ClientIdentity),
+SessionName=tostring(events.SessionName),
+Protocol=tostring(events.Protocol),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table EGNSuccessfulMqttConnections policy update @'[{"Source": "EGNSuccessfulMqttConnectionsRaw", "Query": "EGNSuccessfulMqttConnectionsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

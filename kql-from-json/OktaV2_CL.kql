@@ -1,0 +1,152 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for OktaV2_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table OktaV2_CLRaw (records:dynamic)
+
+.alter-merge table OktaV2_CLRaw policy retention softdelete = 1d
+
+.alter table OktaV2_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table OktaV2_CLRaw ingestion json mapping 'OktaV2_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table OktaV2_CL(
+TimeGenerated:datetime,
+ActingAppName:string,
+OriginalSeverity:string,
+OriginalTarget:dynamic,
+OriginalUserId:string,
+OriginalUserType:string,
+Request:dynamic,
+SecurityContextAsNumber:int,
+SecurityContextAsOrg:string,
+SecurityContextDomain:string,
+SecurityContextIsProxy:bool,
+SrcDeviceType:string,
+SrcDvcId:string,
+SrcDvcOs:string,
+SrcGeoCity:string,
+SrcGeoCountry:string,
+SrcGeoLatitude:real,
+SrcGeoLongitude:real,
+SrcGeoPostalCode:string,
+SrcGeoRegion:string,
+SrcIpAddr:string,
+SrcIsp:string,
+SrcZone:string,
+TransactionDetail:dynamic,
+TransactionId:string,
+TransactionType:string,
+Version:string,
+OriginalOutcomeResult:string,
+OriginalClientDevice:string,
+OriginalActorAlternateId:string,
+LogonMethod:string,
+ActingAppType:string,
+ActorDetailEntry:dynamic,
+ActorDisplayName:string,
+ActorSessionId:string,
+ActorUserId:string,
+ActorUserIdType:string,
+ActorUsername:string,
+ActorUsernameType:string,
+ActorUserType:string,
+AuthenticationContextAuthenticationProvider:string,
+AuthenticationContextAuthenticationStep:int,
+AuthenticationContextCredentialProvider:string,
+SrcDvcIdType:string,
+AuthenticationContextInterface:string,
+AuthenticationContextIssuerType:string,
+DebugData:dynamic,
+DomainName:string,
+DvcAction:string,
+EventMessage:string,
+EventOriginalResultDetails:string,
+EventOriginalType:string,
+EventOriginalUid:string,
+EventResult:string,
+EventSeverity:string,
+HttpUserAgent:string,
+LegacyEventType:string,
+AuthenticationContextIssuerId:string,
+TenantId:guid,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table OktaV2_CL policy caching hot = 1d
+
+.create-or-alter function OktaV2_CLExpand() {
+OktaV2_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ActingAppName=tostring(events.ActingAppName),
+OriginalSeverity=tostring(events.OriginalSeverity),
+OriginalTarget=todynamic(events.OriginalTarget),
+OriginalUserId=tostring(events.OriginalUserId),
+OriginalUserType=tostring(events.OriginalUserType),
+Request=todynamic(events.Request),
+SecurityContextAsNumber=toint(events.SecurityContextAsNumber),
+SecurityContextAsOrg=tostring(events.SecurityContextAsOrg),
+SecurityContextDomain=tostring(events.SecurityContextDomain),
+SecurityContextIsProxy=tobool(events.SecurityContextIsProxy),
+SrcDeviceType=tostring(events.SrcDeviceType),
+SrcDvcId=tostring(events.SrcDvcId),
+SrcDvcOs=tostring(events.SrcDvcOs),
+SrcGeoCity=tostring(events.SrcGeoCity),
+SrcGeoCountry=tostring(events.SrcGeoCountry),
+SrcGeoLatitude=toreal(events.SrcGeoLatitude),
+SrcGeoLongitude=toreal(events.SrcGeoLongitude),
+SrcGeoPostalCode=tostring(events.SrcGeoPostalCode),
+SrcGeoRegion=tostring(events.SrcGeoRegion),
+SrcIpAddr=tostring(events.SrcIpAddr),
+SrcIsp=tostring(events.SrcIsp),
+SrcZone=tostring(events.SrcZone),
+TransactionDetail=todynamic(events.TransactionDetail),
+TransactionId=tostring(events.TransactionId),
+TransactionType=tostring(events.TransactionType),
+Version=tostring(events.Version),
+OriginalOutcomeResult=tostring(events.OriginalOutcomeResult),
+OriginalClientDevice=tostring(events.OriginalClientDevice),
+OriginalActorAlternateId=tostring(events.OriginalActorAlternateId),
+LogonMethod=tostring(events.LogonMethod),
+ActingAppType=tostring(events.ActingAppType),
+ActorDetailEntry=todynamic(events.ActorDetailEntry),
+ActorDisplayName=tostring(events.ActorDisplayName),
+ActorSessionId=tostring(events.ActorSessionId),
+ActorUserId=tostring(events.ActorUserId),
+ActorUserIdType=tostring(events.ActorUserIdType),
+ActorUsername=tostring(events.ActorUsername),
+ActorUsernameType=tostring(events.ActorUsernameType),
+ActorUserType=tostring(events.ActorUserType),
+AuthenticationContextAuthenticationProvider=tostring(events.AuthenticationContextAuthenticationProvider),
+AuthenticationContextAuthenticationStep=toint(events.AuthenticationContextAuthenticationStep),
+AuthenticationContextCredentialProvider=tostring(events.AuthenticationContextCredentialProvider),
+SrcDvcIdType=tostring(events.SrcDvcIdType),
+AuthenticationContextInterface=tostring(events.AuthenticationContextInterface),
+AuthenticationContextIssuerType=tostring(events.AuthenticationContextIssuerType),
+DebugData=todynamic(events.DebugData),
+DomainName=tostring(events.DomainName),
+DvcAction=tostring(events.DvcAction),
+EventMessage=tostring(events.EventMessage),
+EventOriginalResultDetails=tostring(events.EventOriginalResultDetails),
+EventOriginalType=tostring(events.EventOriginalType),
+EventOriginalUid=tostring(events.EventOriginalUid),
+EventResult=tostring(events.EventResult),
+EventSeverity=tostring(events.EventSeverity),
+HttpUserAgent=tostring(events.HttpUserAgent),
+LegacyEventType=tostring(events.LegacyEventType),
+AuthenticationContextIssuerId=tostring(events.AuthenticationContextIssuerId),
+TenantId=toguid(events.TenantId),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table OktaV2_CL policy update @'[{"Source": "OktaV2_CLRaw", "Query": "OktaV2_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

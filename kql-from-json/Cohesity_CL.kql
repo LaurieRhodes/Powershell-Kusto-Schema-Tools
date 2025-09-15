@@ -1,0 +1,46 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Cohesity_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:12
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Cohesity_CLRaw (records:dynamic)
+
+.alter-merge table Cohesity_CLRaw policy retention softdelete = 1d
+
+.alter table Cohesity_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Cohesity_CLRaw ingestion json mapping 'Cohesity_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Cohesity_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+SourceSystem:string,
+MG:string,
+ManagementGroupName:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table Cohesity_CL policy caching hot = 1d
+
+.create-or-alter function Cohesity_CLExpand() {
+Cohesity_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SourceSystem=tostring(events.SourceSystem),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Cohesity_CL policy update @'[{"Source": "Cohesity_CLRaw", "Query": "Cohesity_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

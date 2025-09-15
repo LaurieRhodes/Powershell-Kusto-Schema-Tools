@@ -1,0 +1,68 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ZeroFox_CTI_advanced_dark_web_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table ZeroFox_CTI_advanced_dark_web_CLRaw (records:dynamic)
+
+.alter-merge table ZeroFox_CTI_advanced_dark_web_CLRaw policy retention softdelete = 1d
+
+.alter table ZeroFox_CTI_advanced_dark_web_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ZeroFox_CTI_advanced_dark_web_CLRaw ingestion json mapping 'ZeroFox_CTI_advanced_dark_web_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ZeroFox_CTI_advanced_dark_web_CL(
+TimeGenerated:datetime,
+id_d:real,
+tags_s:string,
+actors_s:string,
+languages_s:string,
+target_industries_s:string,
+target_regions_s:string,
+target_targets_s:string,
+source_urls_s:string,
+threat_types_s:string,
+contents_s:string,
+tlp:string,
+reliability_s:string,
+confidence_s:string,
+title_s:string,
+created_at_t:datetime,
+comments_s:string,
+source_names_s:string,
+_TimeReceived:datetime)
+
+.alter table ZeroFox_CTI_advanced_dark_web_CL policy caching hot = 1d
+
+.create-or-alter function ZeroFox_CTI_advanced_dark_web_CLExpand() {
+ZeroFox_CTI_advanced_dark_web_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+id_d=toreal(events.id_d),
+tags_s=tostring(events.tags_s),
+actors_s=tostring(events.actors_s),
+languages_s=tostring(events.languages_s),
+target_industries_s=tostring(events.target_industries_s),
+target_regions_s=tostring(events.target_regions_s),
+target_targets_s=tostring(events.target_targets_s),
+source_urls_s=tostring(events.source_urls_s),
+threat_types_s=tostring(events.threat_types_s),
+contents_s=tostring(events.contents_s),
+tlp=tostring(events.tlp),
+reliability_s=tostring(events.reliability_s),
+confidence_s=tostring(events.confidence_s),
+title_s=tostring(events.title_s),
+created_at_t=todatetime(events.created_at_t),
+comments_s=tostring(events.comments_s),
+source_names_s=tostring(events.source_names_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ZeroFox_CTI_advanced_dark_web_CL policy update @'[{"Source": "ZeroFox_CTI_advanced_dark_web_CLRaw", "Query": "ZeroFox_CTI_advanced_dark_web_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,73 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for CrowdStrikeVulnerabilities - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:26:04
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 19, Final columns: 19
+// ============================================================================
+
+.create-merge table CrowdStrikeVulnerabilitiesRaw (records:dynamic)
+
+.alter-merge table CrowdStrikeVulnerabilitiesRaw policy retention softdelete = 1d
+
+.alter table CrowdStrikeVulnerabilitiesRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table CrowdStrikeVulnerabilitiesRaw ingestion json mapping 'CrowdStrikeVulnerabilitiesRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table CrowdStrikeVulnerabilities(
+TimeGenerated:datetime,
+TenantId:guid,
+HostInfo:dynamic,
+Cve:dynamic,
+App:dynamic,
+Confidence:string,
+SuppressionInfo:dynamic,
+Apps:dynamic,
+Remediation:dynamic,
+Status:string,
+CreatedTimestamp:datetime,
+DataProviders:dynamic,
+VulnerabilityId:string,
+Aid:string,
+Cid:string,
+Id:string,
+UpdatedTimestamp:datetime,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table CrowdStrikeVulnerabilities policy caching hot = 1d
+
+.create-or-alter function CrowdStrikeVulnerabilitiesExpand() {
+CrowdStrikeVulnerabilitiesRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+HostInfo=todynamic(events.HostInfo),
+Cve=todynamic(events.Cve),
+App=todynamic(events.App),
+Confidence=tostring(events.Confidence),
+SuppressionInfo=todynamic(events.SuppressionInfo),
+Apps=todynamic(events.Apps),
+Remediation=todynamic(events.Remediation),
+Status=tostring(events.Status),
+CreatedTimestamp=todatetime(events.CreatedTimestamp),
+DataProviders=todynamic(events.DataProviders),
+VulnerabilityId=tostring(events.VulnerabilityId),
+Aid=tostring(events.Aid),
+Cid=tostring(events.Cid),
+Id=tostring(events.Id),
+UpdatedTimestamp=todatetime(events.UpdatedTimestamp),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table CrowdStrikeVulnerabilities policy update @'[{"Source": "CrowdStrikeVulnerabilitiesRaw", "Query": "CrowdStrikeVulnerabilitiesExpand()", "IsEnabled": "True", "IsTransactional": true}]'

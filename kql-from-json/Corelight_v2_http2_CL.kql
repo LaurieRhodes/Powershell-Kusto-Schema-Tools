@@ -1,0 +1,88 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_http2_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:13
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_http2_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_http2_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_http2_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_http2_CLRaw ingestion json mapping 'Corelight_v2_http2_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_http2_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+password_s:string,
+username_s:string,
+encoding_s:string,
+info_msg_s:string,
+info_code_d:real,
+status_msg_s:string,
+status_code_d:real,
+response_body_len_d:real,
+request_body_len_d:real,
+user_agent_s:string,
+version_s:string,
+referrer_s:string,
+uri_s:string,
+host_s:string,
+method_s:string,
+stream_id_d:real,
+id_resp_p_d:real,
+id_resp_h_s:string,
+id_orig_p_d:real,
+id_orig_h_s:string,
+uid_s:string,
+proxied_s:string,
+push_b:bool,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_http2_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_http2_CLExpand() {
+Corelight_v2_http2_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+password_s=tostring(events.password_s),
+username_s=tostring(events.username_s),
+encoding_s=tostring(events.encoding_s),
+info_msg_s=tostring(events.info_msg_s),
+info_code_d=toreal(events.info_code_d),
+status_msg_s=tostring(events.status_msg_s),
+status_code_d=toreal(events.status_code_d),
+response_body_len_d=toreal(events.response_body_len_d),
+request_body_len_d=toreal(events.request_body_len_d),
+user_agent_s=tostring(events.user_agent_s),
+version_s=tostring(events.version_s),
+referrer_s=tostring(events.referrer_s),
+uri_s=tostring(events.uri_s),
+host_s=tostring(events.host_s),
+method_s=tostring(events.method_s),
+stream_id_d=toreal(events.stream_id_d),
+id_resp_p_d=toreal(events.id_resp_p_d),
+id_resp_h_s=tostring(events.id_resp_h_s),
+id_orig_p_d=toreal(events.id_orig_p_d),
+id_orig_h_s=tostring(events.id_orig_h_s),
+uid_s=tostring(events.uid_s),
+proxied_s=tostring(events.proxied_s),
+push_b=tobool(events.push_b),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_http2_CL policy update @'[{"Source": "Corelight_v2_http2_CLRaw", "Query": "Corelight_v2_http2_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

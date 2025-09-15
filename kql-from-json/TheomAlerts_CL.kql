@@ -1,0 +1,78 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for TheomAlerts_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table TheomAlerts_CLRaw (records:dynamic)
+
+.alter-merge table TheomAlerts_CLRaw policy retention softdelete = 1d
+
+.alter table TheomAlerts_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table TheomAlerts_CLRaw ingestion json mapping 'TheomAlerts_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table TheomAlerts_CL(
+TimeGenerated:datetime,
+id_s:string,
+customProps_TheomRemoteId_s:string,
+customProps_RulePriority_s:string,
+customProps_RuleId_s:string,
+customProps_RemediationIds_s:string,
+customProps_Region_s:string,
+customProps_NumTriggered_s:string,
+customProps_LastTriggered_s:string,
+customProps_AssetType_s:string,
+customProps_AssetName_s:string,
+customProps_AssetNERValue_s:string,
+customProps_AssetDeepLink_s:string,
+customProps_AssetCriticalityReason_s:string,
+customProps_AssetCriticality_s:string,
+accountId_s:string,
+priority_s:string,
+tags_s:string,
+details_s:string,
+summary_s:string,
+type_s:string,
+customProps_TheomRule_s:string,
+deepLink_s:string,
+_TimeReceived:datetime)
+
+.alter table TheomAlerts_CL policy caching hot = 1d
+
+.create-or-alter function TheomAlerts_CLExpand() {
+TheomAlerts_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+id_s=tostring(events.id_s),
+customProps_TheomRemoteId_s=tostring(events.customProps_TheomRemoteId_s),
+customProps_RulePriority_s=tostring(events.customProps_RulePriority_s),
+customProps_RuleId_s=tostring(events.customProps_RuleId_s),
+customProps_RemediationIds_s=tostring(events.customProps_RemediationIds_s),
+customProps_Region_s=tostring(events.customProps_Region_s),
+customProps_NumTriggered_s=tostring(events.customProps_NumTriggered_s),
+customProps_LastTriggered_s=tostring(events.customProps_LastTriggered_s),
+customProps_AssetType_s=tostring(events.customProps_AssetType_s),
+customProps_AssetName_s=tostring(events.customProps_AssetName_s),
+customProps_AssetNERValue_s=tostring(events.customProps_AssetNERValue_s),
+customProps_AssetDeepLink_s=tostring(events.customProps_AssetDeepLink_s),
+customProps_AssetCriticalityReason_s=tostring(events.customProps_AssetCriticalityReason_s),
+customProps_AssetCriticality_s=tostring(events.customProps_AssetCriticality_s),
+accountId_s=tostring(events.accountId_s),
+priority_s=tostring(events.priority_s),
+tags_s=tostring(events.tags_s),
+details_s=tostring(events.details_s),
+summary_s=tostring(events.summary_s),
+type_s=tostring(events.type_s),
+customProps_TheomRule_s=tostring(events.customProps_TheomRule_s),
+deepLink_s=tostring(events.deepLink_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table TheomAlerts_CL policy update @'[{"Source": "TheomAlerts_CLRaw", "Query": "TheomAlerts_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

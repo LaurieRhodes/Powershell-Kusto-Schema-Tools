@@ -1,0 +1,120 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Talon_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Talon_CLRaw (records:dynamic)
+
+.alter-merge table Talon_CLRaw policy retention softdelete = 1d
+
+.alter table Talon_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Talon_CLRaw ingestion json mapping 'Talon_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Talon_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+eventCategory_s:string,
+eventType_s:string,
+url_s:string,
+severity_s:string,
+action_s:string,
+userEmail_s:string,
+deviceHostname_s:string,
+IPAddress:string,
+browserVersion_s:string,
+userAgent_s:string,
+osPlatform_s:string,
+osVersion_s:string,
+mitreTechniques_s:string,
+policyRule_s:string,
+eventDetails_protocol_s:string,
+eventDetails_method_s:string,
+type_s:string,
+id_s:string,
+time_s:string,
+eventDetails_type_s:string,
+eventDetails_path_s:string,
+SourceSystem:string,
+MG:string,
+ManagementGroupName:string,
+Computer:string,
+RawData:string,
+eventDetails_loginUsername_s:string,
+eventDetails_matchedURL_s:string,
+eventDetails_categories_s:string,
+eventDetails_reasons_s:string,
+eventDetails_failedAttempts_d:real,
+eventDetails_engine_s:string,
+eventDetails_activity_s:string,
+eventDetails_printerName_s:string,
+eventDetails_fromURL_s:string,
+eventDetails_installSource_s:string,
+eventDetails_id_s:string,
+eventDetails_version_s:string,
+eventDetails_name_s:string,
+description_s:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table Talon_CL policy caching hot = 1d
+
+.create-or-alter function Talon_CLExpand() {
+Talon_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+eventCategory_s=tostring(events.eventCategory_s),
+eventType_s=tostring(events.eventType_s),
+url_s=tostring(events.url_s),
+severity_s=tostring(events.severity_s),
+action_s=tostring(events.action_s),
+userEmail_s=tostring(events.userEmail_s),
+deviceHostname_s=tostring(events.deviceHostname_s),
+IPAddress=tostring(events.IPAddress),
+browserVersion_s=tostring(events.browserVersion_s),
+userAgent_s=tostring(events.userAgent_s),
+osPlatform_s=tostring(events.osPlatform_s),
+osVersion_s=tostring(events.osVersion_s),
+mitreTechniques_s=tostring(events.mitreTechniques_s),
+policyRule_s=tostring(events.policyRule_s),
+eventDetails_protocol_s=tostring(events.eventDetails_protocol_s),
+eventDetails_method_s=tostring(events.eventDetails_method_s),
+type_s=tostring(events.type_s),
+id_s=tostring(events.id_s),
+time_s=tostring(events.time_s),
+eventDetails_type_s=tostring(events.eventDetails_type_s),
+eventDetails_path_s=tostring(events.eventDetails_path_s),
+SourceSystem=tostring(events.SourceSystem),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+Computer=tostring(events.Computer),
+RawData=tostring(events.RawData),
+eventDetails_loginUsername_s=tostring(events.eventDetails_loginUsername_s),
+eventDetails_matchedURL_s=tostring(events.eventDetails_matchedURL_s),
+eventDetails_categories_s=tostring(events.eventDetails_categories_s),
+eventDetails_reasons_s=tostring(events.eventDetails_reasons_s),
+eventDetails_failedAttempts_d=toreal(events.eventDetails_failedAttempts_d),
+eventDetails_engine_s=tostring(events.eventDetails_engine_s),
+eventDetails_activity_s=tostring(events.eventDetails_activity_s),
+eventDetails_printerName_s=tostring(events.eventDetails_printerName_s),
+eventDetails_fromURL_s=tostring(events.eventDetails_fromURL_s),
+eventDetails_installSource_s=tostring(events.eventDetails_installSource_s),
+eventDetails_id_s=tostring(events.eventDetails_id_s),
+eventDetails_version_s=tostring(events.eventDetails_version_s),
+eventDetails_name_s=tostring(events.eventDetails_name_s),
+description_s=tostring(events.description_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Talon_CL policy update @'[{"Source": "Talon_CLRaw", "Query": "Talon_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

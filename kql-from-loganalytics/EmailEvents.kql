@@ -1,0 +1,135 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for EmailEvents - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:13:52
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 50, Final columns: 50
+// ============================================================================
+
+.create-merge table EmailEventsRaw (records:dynamic)
+
+.alter-merge table EmailEventsRaw policy retention softdelete = 1d
+
+.alter table EmailEventsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table EmailEventsRaw ingestion json mapping 'EmailEventsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table EmailEvents(
+TimeGenerated:datetime,
+TenantId:guid,
+SenderIPv4:string,
+SenderIPv6:string,
+SenderMailFromAddress:string,
+SenderMailFromDomain:string,
+Subject:string,
+ThreatTypes:string,
+ThreatNames:string,
+Timestamp:datetime,
+UrlCount:int,
+SenderObjectId:string,
+UserLevelAction:string,
+BulkComplaintLevel:int,
+LatestDeliveryLocation:string,
+LatestDeliveryAction:string,
+ExchangeTransportRule:string,
+DistributionList:string,
+ForwardingInformation:string,
+Context:string,
+To:dynamic,
+Cc:dynamic,
+UserLevelPolicy:string,
+SenderFromDomain:string,
+SenderFromAddress:string,
+SenderDisplayName:string,
+AttachmentCount:int,
+AuthenticationDetails:string,
+AdditionalFields:dynamic,
+ConfidenceLevel:string,
+Connectors:string,
+DetectionMethods:string,
+DeliveryAction:string,
+DeliveryLocation:string,
+EmailClusterId:long,
+EmailDirection:string,
+EmailLanguage:string,
+EmailAction:string,
+EmailActionPolicy:string,
+EmailActionPolicyGuid:string,
+OrgLevelAction:string,
+OrgLevelPolicy:string,
+InternetMessageId:string,
+NetworkMessageId:string,
+RecipientEmailAddress:string,
+RecipientObjectId:string,
+ReportId:string,
+ThreatClassification:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table EmailEvents policy caching hot = 1d
+
+.create-or-alter function EmailEventsExpand() {
+EmailEventsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SenderIPv4=tostring(events.SenderIPv4),
+SenderIPv6=tostring(events.SenderIPv6),
+SenderMailFromAddress=tostring(events.SenderMailFromAddress),
+SenderMailFromDomain=tostring(events.SenderMailFromDomain),
+Subject=tostring(events.Subject),
+ThreatTypes=tostring(events.ThreatTypes),
+ThreatNames=tostring(events.ThreatNames),
+Timestamp=todatetime(events.Timestamp),
+UrlCount=toint(events.UrlCount),
+SenderObjectId=tostring(events.SenderObjectId),
+UserLevelAction=tostring(events.UserLevelAction),
+BulkComplaintLevel=toint(events.BulkComplaintLevel),
+LatestDeliveryLocation=tostring(events.LatestDeliveryLocation),
+LatestDeliveryAction=tostring(events.LatestDeliveryAction),
+ExchangeTransportRule=tostring(events.ExchangeTransportRule),
+DistributionList=tostring(events.DistributionList),
+ForwardingInformation=tostring(events.ForwardingInformation),
+Context=tostring(events.Context),
+To=todynamic(events.To),
+Cc=todynamic(events.Cc),
+UserLevelPolicy=tostring(events.UserLevelPolicy),
+SenderFromDomain=tostring(events.SenderFromDomain),
+SenderFromAddress=tostring(events.SenderFromAddress),
+SenderDisplayName=tostring(events.SenderDisplayName),
+AttachmentCount=toint(events.AttachmentCount),
+AuthenticationDetails=tostring(events.AuthenticationDetails),
+AdditionalFields=todynamic(events.AdditionalFields),
+ConfidenceLevel=tostring(events.ConfidenceLevel),
+Connectors=tostring(events.Connectors),
+DetectionMethods=tostring(events.DetectionMethods),
+DeliveryAction=tostring(events.DeliveryAction),
+DeliveryLocation=tostring(events.DeliveryLocation),
+EmailClusterId=tolong(events.EmailClusterId),
+EmailDirection=tostring(events.EmailDirection),
+EmailLanguage=tostring(events.EmailLanguage),
+EmailAction=tostring(events.EmailAction),
+EmailActionPolicy=tostring(events.EmailActionPolicy),
+EmailActionPolicyGuid=tostring(events.EmailActionPolicyGuid),
+OrgLevelAction=tostring(events.OrgLevelAction),
+OrgLevelPolicy=tostring(events.OrgLevelPolicy),
+InternetMessageId=tostring(events.InternetMessageId),
+NetworkMessageId=tostring(events.NetworkMessageId),
+RecipientEmailAddress=tostring(events.RecipientEmailAddress),
+RecipientObjectId=tostring(events.RecipientObjectId),
+ReportId=tostring(events.ReportId),
+ThreatClassification=tostring(events.ThreatClassification),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table EmailEvents policy update @'[{"Source": "EmailEventsRaw", "Query": "EmailEventsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,86 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for NXLogFIM_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table NXLogFIM_CLRaw (records:dynamic)
+
+.alter-merge table NXLogFIM_CLRaw policy retention softdelete = 1d
+
+.alter table NXLogFIM_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table NXLogFIM_CLRaw ingestion json mapping 'NXLogFIM_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table NXLogFIM_CL(
+TimeGenerated:datetime,
+Computer:string,
+Severity_s:string,
+SeverityValue_d:real,
+RawData:string,
+PrevModificationTime_t:datetime,
+PrevFileSize_d:real,
+PrevFileName_s:string,
+PrevDigest_s:string,
+Object_s:string,
+SourceModuleName_s:string,
+ModificationTime_t:datetime,
+HostIP_s:string,
+FileSize_d:real,
+FileName_s:string,
+EventType_s:string,
+EventTime_t:datetime,
+EventReceivedTime_t:datetime,
+Digest_s:string,
+DigestName_s:string,
+Hostname_s:string,
+SourceModuleType_s:string,
+Type:string,
+_BilledSize:real,
+_IsBillable:string,
+_ResourceId:string,
+_SubscriptionId:string,
+_TimeReceived:datetime)
+
+.alter table NXLogFIM_CL policy caching hot = 1d
+
+.create-or-alter function NXLogFIM_CLExpand() {
+NXLogFIM_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+Computer=tostring(events.Computer),
+Severity_s=tostring(events.Severity_s),
+SeverityValue_d=toreal(events.SeverityValue_d),
+RawData=tostring(events.RawData),
+PrevModificationTime_t=todatetime(events.PrevModificationTime_t),
+PrevFileSize_d=toreal(events.PrevFileSize_d),
+PrevFileName_s=tostring(events.PrevFileName_s),
+PrevDigest_s=tostring(events.PrevDigest_s),
+Object_s=tostring(events.Object_s),
+SourceModuleName_s=tostring(events.SourceModuleName_s),
+ModificationTime_t=todatetime(events.ModificationTime_t),
+HostIP_s=tostring(events.HostIP_s),
+FileSize_d=toreal(events.FileSize_d),
+FileName_s=tostring(events.FileName_s),
+EventType_s=tostring(events.EventType_s),
+EventTime_t=todatetime(events.EventTime_t),
+EventReceivedTime_t=todatetime(events.EventReceivedTime_t),
+Digest_s=tostring(events.Digest_s),
+DigestName_s=tostring(events.DigestName_s),
+Hostname_s=tostring(events.Hostname_s),
+SourceModuleType_s=tostring(events.SourceModuleType_s),
+Type=tostring(events.Type),
+_BilledSize=toreal(events._BilledSize),
+_IsBillable=tostring(events._IsBillable),
+_ResourceId=tostring(events._ResourceId),
+_SubscriptionId=tostring(events._SubscriptionId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table NXLogFIM_CL policy update @'[{"Source": "NXLogFIM_CLRaw", "Query": "NXLogFIM_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

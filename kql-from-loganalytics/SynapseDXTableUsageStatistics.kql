@@ -1,0 +1,65 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for SynapseDXTableUsageStatistics - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:21:26
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 15, Final columns: 15
+// ============================================================================
+
+.create-merge table SynapseDXTableUsageStatisticsRaw (records:dynamic)
+
+.alter-merge table SynapseDXTableUsageStatisticsRaw policy retention softdelete = 1d
+
+.alter table SynapseDXTableUsageStatisticsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table SynapseDXTableUsageStatisticsRaw ingestion json mapping 'SynapseDXTableUsageStatisticsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table SynapseDXTableUsageStatistics(
+TimeGenerated:datetime,
+TenantId:guid,
+CorrelationId:string,
+RootActivityId:string,
+StartedOn:datetime,
+DatabaseName:string,
+TableName:string,
+MinCreatedOn:datetime,
+MaxCreatedOn:datetime,
+ApplicationName:string,
+User:string,
+Principal:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table SynapseDXTableUsageStatistics policy caching hot = 1d
+
+.create-or-alter function SynapseDXTableUsageStatisticsExpand() {
+SynapseDXTableUsageStatisticsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+CorrelationId=tostring(events.CorrelationId),
+RootActivityId=tostring(events.RootActivityId),
+StartedOn=todatetime(events.StartedOn),
+DatabaseName=tostring(events.DatabaseName),
+TableName=tostring(events.TableName),
+MinCreatedOn=todatetime(events.MinCreatedOn),
+MaxCreatedOn=todatetime(events.MaxCreatedOn),
+ApplicationName=tostring(events.ApplicationName),
+User=tostring(events.User),
+Principal=tostring(events.Principal),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table SynapseDXTableUsageStatistics policy update @'[{"Source": "SynapseDXTableUsageStatisticsRaw", "Query": "SynapseDXTableUsageStatisticsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,73 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AppServiceAppLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:22:36
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 19, Final columns: 19
+// ============================================================================
+
+.create-merge table AppServiceAppLogsRaw (records:dynamic)
+
+.alter-merge table AppServiceAppLogsRaw policy retention softdelete = 1d
+
+.alter table AppServiceAppLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AppServiceAppLogsRaw ingestion json mapping 'AppServiceAppLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AppServiceAppLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+Level:string,
+Host:string,
+ResultDescription:string,
+CustomLevel:string,
+Source:string,
+Method:string,
+Logger:string,
+WebSiteInstanceId:string,
+ExceptionClass:string,
+Message:string,
+StackTrace:string,
+ContainerId:string,
+OperationName:string,
+SourceSystem:string,
+Category:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AppServiceAppLogs policy caching hot = 1d
+
+.create-or-alter function AppServiceAppLogsExpand() {
+AppServiceAppLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Level=tostring(events.Level),
+Host=tostring(events.Host),
+ResultDescription=tostring(events.ResultDescription),
+CustomLevel=tostring(events.CustomLevel),
+Source=tostring(events.Source),
+Method=tostring(events.Method),
+Logger=tostring(events.Logger),
+WebSiteInstanceId=tostring(events.WebSiteInstanceId),
+ExceptionClass=tostring(events.ExceptionClass),
+Message=tostring(events.Message),
+StackTrace=tostring(events.StackTrace),
+ContainerId=tostring(events.ContainerId),
+OperationName=tostring(events.OperationName),
+SourceSystem=tostring(events.SourceSystem),
+Category=tostring(events.Category),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AppServiceAppLogs policy update @'[{"Source": "AppServiceAppLogsRaw", "Query": "AppServiceAppLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

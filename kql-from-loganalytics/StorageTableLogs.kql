@@ -1,0 +1,129 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for StorageTableLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:21:11
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 47, Final columns: 47
+// ============================================================================
+
+.create-merge table StorageTableLogsRaw (records:dynamic)
+
+.alter-merge table StorageTableLogsRaw policy retention softdelete = 1d
+
+.alter table StorageTableLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table StorageTableLogsRaw ingestion json mapping 'StorageTableLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table StorageTableLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+ReferrerHeader:string,
+ClientRequestId:string,
+Etag:string,
+ServiceType:string,
+OperationCount:int,
+ObjectKey:string,
+RequestHeaderSize:long,
+RequestBodySize:long,
+UserAgentHeader:string,
+ResponseHeaderSize:long,
+RequestMd5:string,
+ResponseMd5:string,
+LastModifiedTime:datetime,
+ConditionsUsed:string,
+ContentLengthHeader:long,
+Category:string,
+TlsVersion:string,
+SasExpiryStatus:string,
+ResponseBodySize:long,
+AuthorizationDetails:dynamic,
+RequesterUpn:string,
+RequesterTokenIssuer:string,
+AccountName:string,
+Location:string,
+Protocol:string,
+OperationName:string,
+AuthenticationType:string,
+StatusCode:string,
+StatusText:string,
+DurationMs:real,
+ServerLatencyMs:real,
+Uri:string,
+CallerIpAddress:string,
+CorrelationId:string,
+SchemaVersion:string,
+OperationVersion:string,
+AuthenticationHash:string,
+RequesterObjectId:string,
+RequesterTenantId:string,
+RequesterAppId:string,
+RequesterAudience:string,
+MetricResponseType:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table StorageTableLogs policy caching hot = 1d
+
+.create-or-alter function StorageTableLogsExpand() {
+StorageTableLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ReferrerHeader=tostring(events.ReferrerHeader),
+ClientRequestId=tostring(events.ClientRequestId),
+Etag=tostring(events.Etag),
+ServiceType=tostring(events.ServiceType),
+OperationCount=toint(events.OperationCount),
+ObjectKey=tostring(events.ObjectKey),
+RequestHeaderSize=tolong(events.RequestHeaderSize),
+RequestBodySize=tolong(events.RequestBodySize),
+UserAgentHeader=tostring(events.UserAgentHeader),
+ResponseHeaderSize=tolong(events.ResponseHeaderSize),
+RequestMd5=tostring(events.RequestMd5),
+ResponseMd5=tostring(events.ResponseMd5),
+LastModifiedTime=todatetime(events.LastModifiedTime),
+ConditionsUsed=tostring(events.ConditionsUsed),
+ContentLengthHeader=tolong(events.ContentLengthHeader),
+Category=tostring(events.Category),
+TlsVersion=tostring(events.TlsVersion),
+SasExpiryStatus=tostring(events.SasExpiryStatus),
+ResponseBodySize=tolong(events.ResponseBodySize),
+AuthorizationDetails=todynamic(events.AuthorizationDetails),
+RequesterUpn=tostring(events.RequesterUpn),
+RequesterTokenIssuer=tostring(events.RequesterTokenIssuer),
+AccountName=tostring(events.AccountName),
+Location=tostring(events.Location),
+Protocol=tostring(events.Protocol),
+OperationName=tostring(events.OperationName),
+AuthenticationType=tostring(events.AuthenticationType),
+StatusCode=tostring(events.StatusCode),
+StatusText=tostring(events.StatusText),
+DurationMs=toreal(events.DurationMs),
+ServerLatencyMs=toreal(events.ServerLatencyMs),
+Uri=tostring(events.Uri),
+CallerIpAddress=tostring(events.CallerIpAddress),
+CorrelationId=tostring(events.CorrelationId),
+SchemaVersion=tostring(events.SchemaVersion),
+OperationVersion=tostring(events.OperationVersion),
+AuthenticationHash=tostring(events.AuthenticationHash),
+RequesterObjectId=tostring(events.RequesterObjectId),
+RequesterTenantId=tostring(events.RequesterTenantId),
+RequesterAppId=tostring(events.RequesterAppId),
+RequesterAudience=tostring(events.RequesterAudience),
+MetricResponseType=tostring(events.MetricResponseType),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table StorageTableLogs policy update @'[{"Source": "StorageTableLogsRaw", "Query": "StorageTableLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

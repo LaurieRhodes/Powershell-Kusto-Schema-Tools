@@ -1,0 +1,155 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for CDBControlPlaneRequests - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:25:07
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 60, Final columns: 60
+// ============================================================================
+
+.create-merge table CDBControlPlaneRequestsRaw (records:dynamic)
+
+.alter-merge table CDBControlPlaneRequestsRaw policy retention softdelete = 1d
+
+.alter table CDBControlPlaneRequestsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table CDBControlPlaneRequestsRaw ingestion json mapping 'CDBControlPlaneRequestsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table CDBControlPlaneRequests(
+TimeGenerated:datetime,
+TenantId:guid,
+AcledSubnets:string,
+VnetLocation:string,
+VnetArmUrl:string,
+SqlQueryTextTraceType:bool,
+EnableDataPlaneRequestsTrace:bool,
+EnableControlPlaneRequestsTrace:bool,
+EnableMongoRequestsTrace:bool,
+EnableCassandraRequestsTrace:bool,
+EnableGremlinRequestsTrace:bool,
+DurationMs:real,
+RoleDefinitionId:string,
+RoleDefinitionName:string,
+RoleDefinitionType:string,
+RoleDefinitionAssignableScopes:string,
+RoleDefinitionPermissions:string,
+RoleAssignmentId:string,
+AssociatedRoleDefinitionId:string,
+RoleAssignmentPrincipalId:string,
+RoleAssignmentPrincipalType:string,
+RoleAssignmentScope:string,
+ApiKind:string,
+ApiKindResourceType:string,
+OperationType:string,
+ResourceUri:string,
+ResourceDetails:string,
+VnetDatabaseAccountEntries:string,
+IsServiceManagedFailover:bool,
+VirtualNetworkName:string,
+TargetContinuousTier:string,
+AccountName:string,
+ActivityId:string,
+OperationName:string,
+HttpStatusCode:int,
+Result:string,
+RegionName:string,
+HttpMethod:string,
+CurrentWriteRegion:string,
+NewWriteRegion:string,
+IpRangeFilter:string,
+EnableVirtualNetworkFilter:bool,
+VirtualNetworkResourceEntries:string,
+EnablePrivateEndpointConnection:bool,
+PrivateEndpointConnections:string,
+PrivateEndpointArmUrl:string,
+DefaultConsistencyLevel:string,
+EnableAutomaticFailover:bool,
+MaxStalenessIntervalInSeconds:real,
+MaxStalenessPrefix:string,
+MultipleWriteLocations:bool,
+Cors:string,
+BackupIntervalInMinutes:int,
+BackupRetentionIntervalInHours:int,
+BackupStorageRedundancy:string,
+TargetBackupMode:string,
+VnetResourceGroupName:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table CDBControlPlaneRequests policy caching hot = 1d
+
+.create-or-alter function CDBControlPlaneRequestsExpand() {
+CDBControlPlaneRequestsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+AcledSubnets=tostring(events.AcledSubnets),
+VnetLocation=tostring(events.VnetLocation),
+VnetArmUrl=tostring(events.VnetArmUrl),
+SqlQueryTextTraceType=tobool(events.SqlQueryTextTraceType),
+EnableDataPlaneRequestsTrace=tobool(events.EnableDataPlaneRequestsTrace),
+EnableControlPlaneRequestsTrace=tobool(events.EnableControlPlaneRequestsTrace),
+EnableMongoRequestsTrace=tobool(events.EnableMongoRequestsTrace),
+EnableCassandraRequestsTrace=tobool(events.EnableCassandraRequestsTrace),
+EnableGremlinRequestsTrace=tobool(events.EnableGremlinRequestsTrace),
+DurationMs=toreal(events.DurationMs),
+RoleDefinitionId=tostring(events.RoleDefinitionId),
+RoleDefinitionName=tostring(events.RoleDefinitionName),
+RoleDefinitionType=tostring(events.RoleDefinitionType),
+RoleDefinitionAssignableScopes=tostring(events.RoleDefinitionAssignableScopes),
+RoleDefinitionPermissions=tostring(events.RoleDefinitionPermissions),
+RoleAssignmentId=tostring(events.RoleAssignmentId),
+AssociatedRoleDefinitionId=tostring(events.AssociatedRoleDefinitionId),
+RoleAssignmentPrincipalId=tostring(events.RoleAssignmentPrincipalId),
+RoleAssignmentPrincipalType=tostring(events.RoleAssignmentPrincipalType),
+RoleAssignmentScope=tostring(events.RoleAssignmentScope),
+ApiKind=tostring(events.ApiKind),
+ApiKindResourceType=tostring(events.ApiKindResourceType),
+OperationType=tostring(events.OperationType),
+ResourceUri=tostring(events.ResourceUri),
+ResourceDetails=tostring(events.ResourceDetails),
+VnetDatabaseAccountEntries=tostring(events.VnetDatabaseAccountEntries),
+IsServiceManagedFailover=tobool(events.IsServiceManagedFailover),
+VirtualNetworkName=tostring(events.VirtualNetworkName),
+TargetContinuousTier=tostring(events.TargetContinuousTier),
+AccountName=tostring(events.AccountName),
+ActivityId=tostring(events.ActivityId),
+OperationName=tostring(events.OperationName),
+HttpStatusCode=toint(events.HttpStatusCode),
+Result=tostring(events.Result),
+RegionName=tostring(events.RegionName),
+HttpMethod=tostring(events.HttpMethod),
+CurrentWriteRegion=tostring(events.CurrentWriteRegion),
+NewWriteRegion=tostring(events.NewWriteRegion),
+IpRangeFilter=tostring(events.IpRangeFilter),
+EnableVirtualNetworkFilter=tobool(events.EnableVirtualNetworkFilter),
+VirtualNetworkResourceEntries=tostring(events.VirtualNetworkResourceEntries),
+EnablePrivateEndpointConnection=tobool(events.EnablePrivateEndpointConnection),
+PrivateEndpointConnections=tostring(events.PrivateEndpointConnections),
+PrivateEndpointArmUrl=tostring(events.PrivateEndpointArmUrl),
+DefaultConsistencyLevel=tostring(events.DefaultConsistencyLevel),
+EnableAutomaticFailover=tobool(events.EnableAutomaticFailover),
+MaxStalenessIntervalInSeconds=toreal(events.MaxStalenessIntervalInSeconds),
+MaxStalenessPrefix=tostring(events.MaxStalenessPrefix),
+MultipleWriteLocations=tobool(events.MultipleWriteLocations),
+Cors=tostring(events.Cors),
+BackupIntervalInMinutes=toint(events.BackupIntervalInMinutes),
+BackupRetentionIntervalInHours=toint(events.BackupRetentionIntervalInHours),
+BackupStorageRedundancy=tostring(events.BackupStorageRedundancy),
+TargetBackupMode=tostring(events.TargetBackupMode),
+VnetResourceGroupName=tostring(events.VnetResourceGroupName),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table CDBControlPlaneRequests policy update @'[{"Source": "CDBControlPlaneRequestsRaw", "Query": "CDBControlPlaneRequestsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

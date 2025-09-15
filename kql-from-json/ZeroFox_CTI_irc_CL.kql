@@ -1,0 +1,56 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ZeroFox_CTI_irc_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table ZeroFox_CTI_irc_CLRaw (records:dynamic)
+
+.alter-merge table ZeroFox_CTI_irc_CLRaw policy retention softdelete = 1d
+
+.alter table ZeroFox_CTI_irc_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ZeroFox_CTI_irc_CLRaw ingestion json mapping 'ZeroFox_CTI_irc_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ZeroFox_CTI_irc_CL(
+TimeGenerated:datetime,
+channel_s:string,
+message_s:string,
+sender_s:string,
+timestamp_t:datetime,
+username_s:string,
+hostname_s:string,
+real_name_s:string,
+server_s:string,
+server_info_s:string,
+secure_b:bool,
+account_s:string,
+_TimeReceived:datetime)
+
+.alter table ZeroFox_CTI_irc_CL policy caching hot = 1d
+
+.create-or-alter function ZeroFox_CTI_irc_CLExpand() {
+ZeroFox_CTI_irc_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+channel_s=tostring(events.channel_s),
+message_s=tostring(events.message_s),
+sender_s=tostring(events.sender_s),
+timestamp_t=todatetime(events.timestamp_t),
+username_s=tostring(events.username_s),
+hostname_s=tostring(events.hostname_s),
+real_name_s=tostring(events.real_name_s),
+server_s=tostring(events.server_s),
+server_info_s=tostring(events.server_info_s),
+secure_b=tobool(events.secure_b),
+account_s=tostring(events.account_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ZeroFox_CTI_irc_CL policy update @'[{"Source": "ZeroFox_CTI_irc_CLRaw", "Query": "ZeroFox_CTI_irc_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

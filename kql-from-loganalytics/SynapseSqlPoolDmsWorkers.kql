@@ -1,0 +1,85 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for SynapseSqlPoolDmsWorkers - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:21:39
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 25, Final columns: 25
+// ============================================================================
+
+.create-merge table SynapseSqlPoolDmsWorkersRaw (records:dynamic)
+
+.alter-merge table SynapseSqlPoolDmsWorkersRaw policy retention softdelete = 1d
+
+.alter table SynapseSqlPoolDmsWorkersRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table SynapseSqlPoolDmsWorkersRaw ingestion json mapping 'SynapseSqlPoolDmsWorkersRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table SynapseSqlPoolDmsWorkers(
+TimeGenerated:datetime,
+TenantId:guid,
+SourceInfo:string,
+ErrorId:string,
+DmsCpuId:int,
+SqlSpId:int,
+CpuTime:int,
+EndTime:datetime,
+StartTime:datetime,
+RowsProcessed:int,
+BytesProcessed:int,
+Status:string,
+DistributionId:int,
+PdwNodeId:int,
+DmsStepIndex:int,
+StepIndex:int,
+RequestId:string,
+Category:string,
+OperationName:string,
+ResourceGroup:string,
+LogicalServerName:string,
+DestinationInfo:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table SynapseSqlPoolDmsWorkers policy caching hot = 1d
+
+.create-or-alter function SynapseSqlPoolDmsWorkersExpand() {
+SynapseSqlPoolDmsWorkersRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SourceInfo=tostring(events.SourceInfo),
+ErrorId=tostring(events.ErrorId),
+DmsCpuId=toint(events.DmsCpuId),
+SqlSpId=toint(events.SqlSpId),
+CpuTime=toint(events.CpuTime),
+EndTime=todatetime(events.EndTime),
+StartTime=todatetime(events.StartTime),
+RowsProcessed=toint(events.RowsProcessed),
+BytesProcessed=toint(events.BytesProcessed),
+Status=tostring(events.Status),
+DistributionId=toint(events.DistributionId),
+PdwNodeId=toint(events.PdwNodeId),
+DmsStepIndex=toint(events.DmsStepIndex),
+StepIndex=toint(events.StepIndex),
+RequestId=tostring(events.RequestId),
+Category=tostring(events.Category),
+OperationName=tostring(events.OperationName),
+ResourceGroup=tostring(events.ResourceGroup),
+LogicalServerName=tostring(events.LogicalServerName),
+DestinationInfo=tostring(events.DestinationInfo),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table SynapseSqlPoolDmsWorkers policy update @'[{"Source": "SynapseSqlPoolDmsWorkersRaw", "Query": "SynapseSqlPoolDmsWorkersExpand()", "IsEnabled": "True", "IsTransactional": true}]'

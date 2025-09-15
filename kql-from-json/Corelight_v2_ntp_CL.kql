@@ -1,0 +1,78 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_ntp_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:13
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_ntp_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_ntp_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_ntp_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_ntp_CLRaw ingestion json mapping 'Corelight_v2_ntp_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_ntp_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+rec_time_t:datetime,
+org_time_t:datetime,
+ref_time_t:datetime,
+ref_id_s:string,
+root_disp_d:real,
+root_delay_d:real,
+precision_d:real,
+xmt_time_t:datetime,
+poll_d:real,
+mode_d:real,
+version_d:real,
+id_resp_p_d:real,
+id_resp_h_s:string,
+id_orig_p_d:real,
+id_orig_h_s:string,
+uid_s:string,
+stratum_d:real,
+num_exts_d:real,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_ntp_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_ntp_CLExpand() {
+Corelight_v2_ntp_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+rec_time_t=todatetime(events.rec_time_t),
+org_time_t=todatetime(events.org_time_t),
+ref_time_t=todatetime(events.ref_time_t),
+ref_id_s=tostring(events.ref_id_s),
+root_disp_d=toreal(events.root_disp_d),
+root_delay_d=toreal(events.root_delay_d),
+precision_d=toreal(events.precision_d),
+xmt_time_t=todatetime(events.xmt_time_t),
+poll_d=toreal(events.poll_d),
+mode_d=toreal(events.mode_d),
+version_d=toreal(events.version_d),
+id_resp_p_d=toreal(events.id_resp_p_d),
+id_resp_h_s=tostring(events.id_resp_h_s),
+id_orig_p_d=toreal(events.id_orig_p_d),
+id_orig_h_s=tostring(events.id_orig_h_s),
+uid_s=tostring(events.uid_s),
+stratum_d=toreal(events.stratum_d),
+num_exts_d=toreal(events.num_exts_d),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_ntp_CL policy update @'[{"Source": "Corelight_v2_ntp_CLRaw", "Query": "Corelight_v2_ntp_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

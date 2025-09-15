@@ -1,0 +1,69 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for NTAIpDetails - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:17:43
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 17, Final columns: 17
+// ============================================================================
+
+.create-merge table NTAIpDetailsRaw (records:dynamic)
+
+.alter-merge table NTAIpDetailsRaw policy retention softdelete = 1d
+
+.alter table NTAIpDetailsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table NTAIpDetailsRaw ingestion json mapping 'NTAIpDetailsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table NTAIpDetails(
+TimeGenerated:datetime,
+TenantId:guid,
+SubType:string,
+FaSchemaVersion:string,
+FlowIntervalStartTime:datetime,
+FlowIntervalEndTime:datetime,
+FlowType:string,
+Ip:string,
+PublicIpDetails:string,
+ThreatType:string,
+DnsDomain:string,
+ThreatDescription:string,
+Location:string,
+Url:string,
+Port:int,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table NTAIpDetails policy caching hot = 1d
+
+.create-or-alter function NTAIpDetailsExpand() {
+NTAIpDetailsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SubType=tostring(events.SubType),
+FaSchemaVersion=tostring(events.FaSchemaVersion),
+FlowIntervalStartTime=todatetime(events.FlowIntervalStartTime),
+FlowIntervalEndTime=todatetime(events.FlowIntervalEndTime),
+FlowType=tostring(events.FlowType),
+Ip=tostring(events.Ip),
+PublicIpDetails=tostring(events.PublicIpDetails),
+ThreatType=tostring(events.ThreatType),
+DnsDomain=tostring(events.DnsDomain),
+ThreatDescription=tostring(events.ThreatDescription),
+Location=tostring(events.Location),
+Url=tostring(events.Url),
+Port=toint(events.Port),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table NTAIpDetails policy update @'[{"Source": "NTAIpDetailsRaw", "Query": "NTAIpDetailsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

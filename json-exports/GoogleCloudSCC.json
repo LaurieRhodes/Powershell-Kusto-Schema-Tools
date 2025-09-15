@@ -1,0 +1,33 @@
+﻿{
+  "Name": "GoogleCloudSCC",
+  "Properties": [
+    {
+      "Name": "TenantId",
+      "Type": "guid"
+    },
+    {
+      "Name": "Findings",
+      "Type": "dynamic"
+    },
+    {
+      "Name": "FindingsResource",
+      "Type": "dynamic"
+    },
+    {
+      "Name": "SourceProperties",
+      "Type": "dynamic"
+    },
+    {
+      "Name": "TimeGenerated",
+      "Type": "datetime"
+    },
+    {
+      "Name": "SourceSystem",
+      "Type": "string"
+    },
+    {
+      "Name": "Type",
+      "Type": "string"
+    }
+  ]
+}

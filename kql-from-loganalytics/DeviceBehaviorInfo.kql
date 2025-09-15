@@ -1,0 +1,71 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for DeviceBehaviorInfo - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:13:00
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 18, Final columns: 18
+// ============================================================================
+
+.create-merge table DeviceBehaviorInfoRaw (records:dynamic)
+
+.alter-merge table DeviceBehaviorInfoRaw policy retention softdelete = 1d
+
+.alter table DeviceBehaviorInfoRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table DeviceBehaviorInfoRaw ingestion json mapping 'DeviceBehaviorInfoRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table DeviceBehaviorInfo(
+TimeGenerated:datetime,
+TenantId:guid,
+BehaviorId:string,
+ActionType:string,
+Description:string,
+Categories:string,
+AttackTechniques:string,
+ServiceSource:string,
+DetectionSource:string,
+DataSources:string,
+DeviceId:string,
+AccountUpn:string,
+AccountObjectId:string,
+StartTime:datetime,
+EndTime:datetime,
+AdditionalFields:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table DeviceBehaviorInfo policy caching hot = 1d
+
+.create-or-alter function DeviceBehaviorInfoExpand() {
+DeviceBehaviorInfoRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+BehaviorId=tostring(events.BehaviorId),
+ActionType=tostring(events.ActionType),
+Description=tostring(events.Description),
+Categories=tostring(events.Categories),
+AttackTechniques=tostring(events.AttackTechniques),
+ServiceSource=tostring(events.ServiceSource),
+DetectionSource=tostring(events.DetectionSource),
+DataSources=tostring(events.DataSources),
+DeviceId=tostring(events.DeviceId),
+AccountUpn=tostring(events.AccountUpn),
+AccountObjectId=tostring(events.AccountObjectId),
+StartTime=todatetime(events.StartTime),
+EndTime=todatetime(events.EndTime),
+AdditionalFields=tostring(events.AdditionalFields),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table DeviceBehaviorInfo policy update @'[{"Source": "DeviceBehaviorInfoRaw", "Query": "DeviceBehaviorInfoExpand()", "IsEnabled": "True", "IsTransactional": true}]'

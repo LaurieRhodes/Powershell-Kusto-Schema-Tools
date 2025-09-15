@@ -1,0 +1,62 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for EgressDefend_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table EgressDefend_CLRaw (records:dynamic)
+
+.alter-merge table EgressDefend_CLRaw policy retention softdelete = 1d
+
+.alter table EgressDefend_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table EgressDefend_CLRaw ingestion json mapping 'EgressDefend_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table EgressDefend_CL(
+TimeGenerated:datetime,
+event_s:string,
+email_rcptTo_s:string,
+email_mailFrom_s:string,
+email_subject_s:string,
+email_attachments_s:string,
+email_messageId_s:string,
+email_threat_s:string,
+email_trust_s:string,
+email_firstTimeSender_b:bool,
+email_payload_Type_s:string,
+email_linksClicked_d:real,
+email_senderIp_s:string,
+linkClicked_s:string,
+email_phishType_s:string,
+_TimeReceived:datetime)
+
+.alter table EgressDefend_CL policy caching hot = 1d
+
+.create-or-alter function EgressDefend_CLExpand() {
+EgressDefend_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+event_s=tostring(events.event_s),
+email_rcptTo_s=tostring(events.email_rcptTo_s),
+email_mailFrom_s=tostring(events.email_mailFrom_s),
+email_subject_s=tostring(events.email_subject_s),
+email_attachments_s=tostring(events.email_attachments_s),
+email_messageId_s=tostring(events.email_messageId_s),
+email_threat_s=tostring(events.email_threat_s),
+email_trust_s=tostring(events.email_trust_s),
+email_firstTimeSender_b=tobool(events.email_firstTimeSender_b),
+email_payload_Type_s=tostring(events.email_payload_Type_s),
+email_linksClicked_d=toreal(events.email_linksClicked_d),
+email_senderIp_s=tostring(events.email_senderIp_s),
+linkClicked_s=tostring(events.linkClicked_s),
+email_phishType_s=tostring(events.email_phishType_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table EgressDefend_CL policy update @'[{"Source": "EgressDefend_CLRaw", "Query": "EgressDefend_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

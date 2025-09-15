@@ -1,0 +1,72 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Armis_Activities_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:10
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Armis_Activities_CLRaw (records:dynamic)
+
+.alter-merge table Armis_Activities_CLRaw policy retention softdelete = 1d
+
+.alter table Armis_Activities_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Armis_Activities_CLRaw ingestion json mapping 'Armis_Activities_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Armis_Activities_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+SourceSystem:string,
+MG:string,
+ManagementGroupName:string,
+Computer:string,
+RawData:string,
+EventVendor:string,
+EventProduct:string,
+ActivityUUID:string,
+Content:string,
+Protocol:string,
+SensorName:string,
+SensorType:string,
+SiteLocation:string,
+SiteName:string,
+Title:string,
+Type:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table Armis_Activities_CL policy caching hot = 1d
+
+.create-or-alter function Armis_Activities_CLExpand() {
+Armis_Activities_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SourceSystem=tostring(events.SourceSystem),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+Computer=tostring(events.Computer),
+RawData=tostring(events.RawData),
+EventVendor=tostring(events.EventVendor),
+EventProduct=tostring(events.EventProduct),
+ActivityUUID=tostring(events.ActivityUUID),
+Content=tostring(events.Content),
+Protocol=tostring(events.Protocol),
+SensorName=tostring(events.SensorName),
+SensorType=tostring(events.SensorType),
+SiteLocation=tostring(events.SiteLocation),
+SiteName=tostring(events.SiteName),
+Title=tostring(events.Title),
+Type=tostring(events.Type),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Armis_Activities_CL policy update @'[{"Source": "Armis_Activities_CLRaw", "Query": "Armis_Activities_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

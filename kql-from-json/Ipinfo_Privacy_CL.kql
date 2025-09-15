@@ -1,0 +1,48 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Ipinfo_Privacy_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Ipinfo_Privacy_CLRaw (records:dynamic)
+
+.alter-merge table Ipinfo_Privacy_CLRaw policy retention softdelete = 1d
+
+.alter table Ipinfo_Privacy_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Ipinfo_Privacy_CLRaw ingestion json mapping 'Ipinfo_Privacy_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Ipinfo_Privacy_CL(
+TimeGenerated:datetime,
+hosting:string,
+proxy:string,
+relay:string,
+service:string,
+tor:string,
+vpn:string,
+range:string,
+_TimeReceived:datetime)
+
+.alter table Ipinfo_Privacy_CL policy caching hot = 1d
+
+.create-or-alter function Ipinfo_Privacy_CLExpand() {
+Ipinfo_Privacy_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+hosting=tostring(events.hosting),
+proxy=tostring(events.proxy),
+relay=tostring(events.relay),
+service=tostring(events.service),
+tor=tostring(events.tor),
+vpn=tostring(events.vpn),
+range=tostring(events.range),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Ipinfo_Privacy_CL policy update @'[{"Source": "Ipinfo_Privacy_CLRaw", "Query": "Ipinfo_Privacy_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

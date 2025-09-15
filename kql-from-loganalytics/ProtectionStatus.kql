@@ -1,0 +1,101 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ProtectionStatus - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:19:40
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 33, Final columns: 33
+// ============================================================================
+
+.create-merge table ProtectionStatusRaw (records:dynamic)
+
+.alter-merge table ProtectionStatusRaw policy retention softdelete = 1d
+
+.alter table ProtectionStatusRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ProtectionStatusRaw ingestion json mapping 'ProtectionStatusRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ProtectionStatus(
+TimeGenerated:datetime,
+TenantId:guid,
+ResourceProvider:string,
+ResourceGroup:string,
+SubscriptionId:guid,
+Resource:string,
+ComputerEnvironment:string,
+ResourceId:string,
+ComputerIP_Hidden:string,
+Computer:string,
+ManagementGroupName:string,
+MG:guid,
+AMProductVersion:string,
+DateCollected:string,
+ScanDate:datetime,
+TypeofProtection:string,
+SignatureVersion:string,
+ProtectionStatusDetails:string,
+ProtectionStatus:string,
+ProtectionStatusRank:int,
+ThreatStatusDetails:string,
+ThreatStatus:string,
+ThreatStatusRank:int,
+Threat:string,
+OSName:string,
+DetectionId:guid,
+DeviceName:string,
+SourceComputerId:guid,
+SourceSystem:string,
+ResourceType:string,
+VMUUID:guid,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ProtectionStatus policy caching hot = 1d
+
+.create-or-alter function ProtectionStatusExpand() {
+ProtectionStatusRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ResourceProvider=tostring(events.ResourceProvider),
+ResourceGroup=tostring(events.ResourceGroup),
+SubscriptionId=toguid(events.SubscriptionId),
+Resource=tostring(events.Resource),
+ComputerEnvironment=tostring(events.ComputerEnvironment),
+ResourceId=tostring(events.ResourceId),
+ComputerIP_Hidden=tostring(events.ComputerIP_Hidden),
+Computer=tostring(events.Computer),
+ManagementGroupName=tostring(events.ManagementGroupName),
+MG=toguid(events.MG),
+AMProductVersion=tostring(events.AMProductVersion),
+DateCollected=tostring(events.DateCollected),
+ScanDate=todatetime(events.ScanDate),
+TypeofProtection=tostring(events.TypeofProtection),
+SignatureVersion=tostring(events.SignatureVersion),
+ProtectionStatusDetails=tostring(events.ProtectionStatusDetails),
+ProtectionStatus=tostring(events.ProtectionStatus),
+ProtectionStatusRank=toint(events.ProtectionStatusRank),
+ThreatStatusDetails=tostring(events.ThreatStatusDetails),
+ThreatStatus=tostring(events.ThreatStatus),
+ThreatStatusRank=toint(events.ThreatStatusRank),
+Threat=tostring(events.Threat),
+OSName=tostring(events.OSName),
+DetectionId=toguid(events.DetectionId),
+DeviceName=tostring(events.DeviceName),
+SourceComputerId=toguid(events.SourceComputerId),
+SourceSystem=tostring(events.SourceSystem),
+ResourceType=tostring(events.ResourceType),
+VMUUID=toguid(events.VMUUID),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ProtectionStatus policy update @'[{"Source": "ProtectionStatusRaw", "Query": "ProtectionStatusExpand()", "IsEnabled": "True", "IsTransactional": true}]'

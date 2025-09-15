@@ -1,0 +1,56 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ZeroFox_CTI_vulnerabilities_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table ZeroFox_CTI_vulnerabilities_CLRaw (records:dynamic)
+
+.alter-merge table ZeroFox_CTI_vulnerabilities_CLRaw policy retention softdelete = 1d
+
+.alter table ZeroFox_CTI_vulnerabilities_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ZeroFox_CTI_vulnerabilities_CLRaw ingestion json mapping 'ZeroFox_CTI_vulnerabilities_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ZeroFox_CTI_vulnerabilities_CL(
+TimeGenerated:datetime,
+base_score_d:real,
+description_s:string,
+exploitability_score_d:real,
+impact_score_d:real,
+created_at_t:datetime,
+updated_at_t:datetime,
+vector_string_s:string,
+cve_s:string,
+summary_s:string,
+remediation_s:string,
+products_s:string,
+_TimeReceived:datetime)
+
+.alter table ZeroFox_CTI_vulnerabilities_CL policy caching hot = 1d
+
+.create-or-alter function ZeroFox_CTI_vulnerabilities_CLExpand() {
+ZeroFox_CTI_vulnerabilities_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+base_score_d=toreal(events.base_score_d),
+description_s=tostring(events.description_s),
+exploitability_score_d=toreal(events.exploitability_score_d),
+impact_score_d=toreal(events.impact_score_d),
+created_at_t=todatetime(events.created_at_t),
+updated_at_t=todatetime(events.updated_at_t),
+vector_string_s=tostring(events.vector_string_s),
+cve_s=tostring(events.cve_s),
+summary_s=tostring(events.summary_s),
+remediation_s=tostring(events.remediation_s),
+products_s=tostring(events.products_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ZeroFox_CTI_vulnerabilities_CL policy update @'[{"Source": "ZeroFox_CTI_vulnerabilities_CLRaw", "Query": "ZeroFox_CTI_vulnerabilities_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,61 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ADFAirflowTaskLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:19:35
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 13, Final columns: 13
+// ============================================================================
+
+.create-merge table ADFAirflowTaskLogsRaw (records:dynamic)
+
+.alter-merge table ADFAirflowTaskLogsRaw policy retention softdelete = 1d
+
+.alter table ADFAirflowTaskLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ADFAirflowTaskLogsRaw ingestion json mapping 'ADFAirflowTaskLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ADFAirflowTaskLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+Category:string,
+CorrelationId:string,
+DataFactoryName:string,
+IntegrationRuntimeName:string,
+DagId:string,
+TaskId:string,
+Message:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ADFAirflowTaskLogs policy caching hot = 1d
+
+.create-or-alter function ADFAirflowTaskLogsExpand() {
+ADFAirflowTaskLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+Category=tostring(events.Category),
+CorrelationId=tostring(events.CorrelationId),
+DataFactoryName=tostring(events.DataFactoryName),
+IntegrationRuntimeName=tostring(events.IntegrationRuntimeName),
+DagId=tostring(events.DagId),
+TaskId=tostring(events.TaskId),
+Message=tostring(events.Message),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ADFAirflowTaskLogs policy update @'[{"Source": "ADFAirflowTaskLogsRaw", "Query": "ADFAirflowTaskLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,70 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_snmp_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:13
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_snmp_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_snmp_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_snmp_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_snmp_CLRaw ingestion json mapping 'Corelight_v2_snmp_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_snmp_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+uid_s:string,
+id_orig_h_s:string,
+id_orig_p_d:real,
+id_resp_h_s:string,
+id_resp_p_d:real,
+duration_d:real,
+version_s:string,
+community_s:string,
+get_requests_d:real,
+get_bulk_requests_d:real,
+get_responses_d:real,
+set_requests_d:real,
+display_string_s:string,
+up_since_t:datetime,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_snmp_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_snmp_CLExpand() {
+Corelight_v2_snmp_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+uid_s=tostring(events.uid_s),
+id_orig_h_s=tostring(events.id_orig_h_s),
+id_orig_p_d=toreal(events.id_orig_p_d),
+id_resp_h_s=tostring(events.id_resp_h_s),
+id_resp_p_d=toreal(events.id_resp_p_d),
+duration_d=toreal(events.duration_d),
+version_s=tostring(events.version_s),
+community_s=tostring(events.community_s),
+get_requests_d=toreal(events.get_requests_d),
+get_bulk_requests_d=toreal(events.get_bulk_requests_d),
+get_responses_d=toreal(events.get_responses_d),
+set_requests_d=toreal(events.set_requests_d),
+display_string_s=tostring(events.display_string_s),
+up_since_t=todatetime(events.up_since_t),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_snmp_CL policy update @'[{"Source": "Corelight_v2_snmp_CLRaw", "Query": "Corelight_v2_snmp_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

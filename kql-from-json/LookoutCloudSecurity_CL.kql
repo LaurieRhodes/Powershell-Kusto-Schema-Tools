@@ -1,0 +1,102 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for LookoutCloudSecurity_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table LookoutCloudSecurity_CLRaw (records:dynamic)
+
+.alter-merge table LookoutCloudSecurity_CLRaw policy retention softdelete = 1d
+
+.alter table LookoutCloudSecurity_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table LookoutCloudSecurity_CLRaw ingestion json mapping 'LookoutCloudSecurity_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table LookoutCloudSecurity_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+statusCode_d:real,
+status_s:string,
+violation_s:string,
+scanType_s:string,
+policyName_s:string,
+externalCollaborators_s:string,
+cloudType_s:string,
+previousCity_s:string,
+previousEventId_g:string,
+currentEventId_g:string,
+previousTimestamp_t:datetime,
+currentTimestamp_t:datetime,
+currentCity_s:string,
+anomalyName_s:string,
+userEmail_s:string,
+anomalyType_s:string,
+eventId_g:string,
+contentUrl_s:string,
+contentName_s:string,
+appName_s:string,
+activityType_s:string,
+actionType_s:string,
+eventType_s:string,
+timeStamp_t:datetime,
+RawData:string,
+Computer:string,
+ManagementGroupName:string,
+MG:string,
+SourceSystem:string,
+Message:string,
+data_s:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table LookoutCloudSecurity_CL policy caching hot = 1d
+
+.create-or-alter function LookoutCloudSecurity_CLExpand() {
+LookoutCloudSecurity_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+statusCode_d=toreal(events.statusCode_d),
+status_s=tostring(events.status_s),
+violation_s=tostring(events.violation_s),
+scanType_s=tostring(events.scanType_s),
+policyName_s=tostring(events.policyName_s),
+externalCollaborators_s=tostring(events.externalCollaborators_s),
+cloudType_s=tostring(events.cloudType_s),
+previousCity_s=tostring(events.previousCity_s),
+previousEventId_g=tostring(events.previousEventId_g),
+currentEventId_g=tostring(events.currentEventId_g),
+previousTimestamp_t=todatetime(events.previousTimestamp_t),
+currentTimestamp_t=todatetime(events.currentTimestamp_t),
+currentCity_s=tostring(events.currentCity_s),
+anomalyName_s=tostring(events.anomalyName_s),
+userEmail_s=tostring(events.userEmail_s),
+anomalyType_s=tostring(events.anomalyType_s),
+eventId_g=tostring(events.eventId_g),
+contentUrl_s=tostring(events.contentUrl_s),
+contentName_s=tostring(events.contentName_s),
+appName_s=tostring(events.appName_s),
+activityType_s=tostring(events.activityType_s),
+actionType_s=tostring(events.actionType_s),
+eventType_s=tostring(events.eventType_s),
+timeStamp_t=todatetime(events.timeStamp_t),
+RawData=tostring(events.RawData),
+Computer=tostring(events.Computer),
+ManagementGroupName=tostring(events.ManagementGroupName),
+MG=tostring(events.MG),
+SourceSystem=tostring(events.SourceSystem),
+Message=tostring(events.Message),
+data_s=tostring(events.data_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table LookoutCloudSecurity_CL policy update @'[{"Source": "LookoutCloudSecurity_CLRaw", "Query": "LookoutCloudSecurity_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

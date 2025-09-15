@@ -1,0 +1,125 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AddonAzureBackupJobs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:19:24
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 45, Final columns: 45
+// ============================================================================
+
+.create-merge table AddonAzureBackupJobsRaw (records:dynamic)
+
+.alter-merge table AddonAzureBackupJobsRaw policy retention softdelete = 1d
+
+.alter table AddonAzureBackupJobsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AddonAzureBackupJobsRaw ingestion json mapping 'AddonAzureBackupJobsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AddonAzureBackupJobs(
+TimeGenerated:datetime,
+TenantId:guid,
+State:string,
+VaultUniqueId:string,
+DatasourceSetFriendlyName:string,
+DatasourceSetResourceId:string,
+DatasourceSetType:string,
+DatasourceResourceId:string,
+DatasourceType:string,
+DatasourceFriendlyName:string,
+SubscriptionId:string,
+ResourceGroupName:string,
+VaultName:string,
+VaultTags:string,
+VaultType:string,
+StorageReplicationType:string,
+ArchiveTierStorageReplicationType:string,
+AzureDataCenter:string,
+BackupItemId:string,
+SchemaVersion:string,
+RecoveryLocationType:string,
+RecoveryJobRPLocation:string,
+RecoveryJobRPDateTime:datetime,
+SourceSystem:string,
+ResourceId:string,
+OperationName:string,
+Category:string,
+AdHocOrScheduledJob:string,
+BackupItemUniqueId:string,
+BackupManagementServerUniqueId:string,
+BackupManagementType:string,
+BackupItemFriendlyName:string,
+DataTransferredInMB:real,
+JobFailureCode:string,
+JobOperation:string,
+JobOperationSubType:string,
+JobStartDateTime:datetime,
+JobStatus:string,
+JobUniqueId:string,
+ProtectedContainerUniqueId:string,
+RecoveryJobDestination:string,
+JobDurationInSecs:real,
+ExtendedProperties:dynamic,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AddonAzureBackupJobs policy caching hot = 1d
+
+.create-or-alter function AddonAzureBackupJobsExpand() {
+AddonAzureBackupJobsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+State=tostring(events.State),
+VaultUniqueId=tostring(events.VaultUniqueId),
+DatasourceSetFriendlyName=tostring(events.DatasourceSetFriendlyName),
+DatasourceSetResourceId=tostring(events.DatasourceSetResourceId),
+DatasourceSetType=tostring(events.DatasourceSetType),
+DatasourceResourceId=tostring(events.DatasourceResourceId),
+DatasourceType=tostring(events.DatasourceType),
+DatasourceFriendlyName=tostring(events.DatasourceFriendlyName),
+SubscriptionId=tostring(events.SubscriptionId),
+ResourceGroupName=tostring(events.ResourceGroupName),
+VaultName=tostring(events.VaultName),
+VaultTags=tostring(events.VaultTags),
+VaultType=tostring(events.VaultType),
+StorageReplicationType=tostring(events.StorageReplicationType),
+ArchiveTierStorageReplicationType=tostring(events.ArchiveTierStorageReplicationType),
+AzureDataCenter=tostring(events.AzureDataCenter),
+BackupItemId=tostring(events.BackupItemId),
+SchemaVersion=tostring(events.SchemaVersion),
+RecoveryLocationType=tostring(events.RecoveryLocationType),
+RecoveryJobRPLocation=tostring(events.RecoveryJobRPLocation),
+RecoveryJobRPDateTime=todatetime(events.RecoveryJobRPDateTime),
+SourceSystem=tostring(events.SourceSystem),
+ResourceId=tostring(events.ResourceId),
+OperationName=tostring(events.OperationName),
+Category=tostring(events.Category),
+AdHocOrScheduledJob=tostring(events.AdHocOrScheduledJob),
+BackupItemUniqueId=tostring(events.BackupItemUniqueId),
+BackupManagementServerUniqueId=tostring(events.BackupManagementServerUniqueId),
+BackupManagementType=tostring(events.BackupManagementType),
+BackupItemFriendlyName=tostring(events.BackupItemFriendlyName),
+DataTransferredInMB=toreal(events.DataTransferredInMB),
+JobFailureCode=tostring(events.JobFailureCode),
+JobOperation=tostring(events.JobOperation),
+JobOperationSubType=tostring(events.JobOperationSubType),
+JobStartDateTime=todatetime(events.JobStartDateTime),
+JobStatus=tostring(events.JobStatus),
+JobUniqueId=tostring(events.JobUniqueId),
+ProtectedContainerUniqueId=tostring(events.ProtectedContainerUniqueId),
+RecoveryJobDestination=tostring(events.RecoveryJobDestination),
+JobDurationInSecs=toreal(events.JobDurationInSecs),
+ExtendedProperties=todynamic(events.ExtendedProperties),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AddonAzureBackupJobs policy update @'[{"Source": "AddonAzureBackupJobsRaw", "Query": "AddonAzureBackupJobsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

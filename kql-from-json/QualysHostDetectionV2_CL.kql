@@ -1,0 +1,50 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for QualysHostDetectionV2_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table QualysHostDetectionV2_CLRaw (records:dynamic)
+
+.alter-merge table QualysHostDetectionV2_CLRaw policy retention softdelete = 1d
+
+.alter table QualysHostDetectionV2_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table QualysHostDetectionV2_CLRaw ingestion json mapping 'QualysHostDetectionV2_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table QualysHostDetectionV2_CL(
+TimeGenerated:datetime,
+Detections_s:dynamic,
+NetBios_s:string,
+IPAddress:string,
+Severity_s:string,
+Results_0_s:string,
+Status_s:string,
+QID_s:string,
+HostId_s:string,
+_TimeReceived:datetime)
+
+.alter table QualysHostDetectionV2_CL policy caching hot = 1d
+
+.create-or-alter function QualysHostDetectionV2_CLExpand() {
+QualysHostDetectionV2_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+Detections_s=todynamic(events.Detections_s),
+NetBios_s=tostring(events.NetBios_s),
+IPAddress=tostring(events.IPAddress),
+Severity_s=tostring(events.Severity_s),
+Results_0_s=tostring(events.Results_0_s),
+Status_s=tostring(events.Status_s),
+QID_s=tostring(events.QID_s),
+HostId_s=tostring(events.HostId_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table QualysHostDetectionV2_CL policy update @'[{"Source": "QualysHostDetectionV2_CLRaw", "Query": "QualysHostDetectionV2_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

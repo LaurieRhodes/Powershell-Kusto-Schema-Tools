@@ -1,0 +1,48 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Illumio_Workloads_Summarized_API_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Illumio_Workloads_Summarized_API_CLRaw (records:dynamic)
+
+.alter-merge table Illumio_Workloads_Summarized_API_CLRaw policy retention softdelete = 1d
+
+.alter table Illumio_Workloads_Summarized_API_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Illumio_Workloads_Summarized_API_CLRaw ingestion json mapping 'Illumio_Workloads_Summarized_API_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Illumio_Workloads_Summarized_API_CL(
+TimeGenerated:datetime,
+vens_by_enforcement_mode:dynamic,
+vens_by_managed:dynamic,
+vens_by_os:dynamic,
+vens_by_status:dynamic,
+vens_by_sync_state:dynamic,
+vens_by_type:dynamic,
+vens_by_version:string,
+_TimeReceived:datetime)
+
+.alter table Illumio_Workloads_Summarized_API_CL policy caching hot = 1d
+
+.create-or-alter function Illumio_Workloads_Summarized_API_CLExpand() {
+Illumio_Workloads_Summarized_API_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+vens_by_enforcement_mode=todynamic(events.vens_by_enforcement_mode),
+vens_by_managed=todynamic(events.vens_by_managed),
+vens_by_os=todynamic(events.vens_by_os),
+vens_by_status=todynamic(events.vens_by_status),
+vens_by_sync_state=todynamic(events.vens_by_sync_state),
+vens_by_type=todynamic(events.vens_by_type),
+vens_by_version=tostring(events.vens_by_version),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Illumio_Workloads_Summarized_API_CL policy update @'[{"Source": "Illumio_Workloads_Summarized_API_CLRaw", "Query": "Illumio_Workloads_Summarized_API_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

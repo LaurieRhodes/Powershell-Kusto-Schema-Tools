@@ -1,0 +1,44 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for WizVulnerabilities_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table WizVulnerabilities_CLRaw (records:dynamic)
+
+.alter-merge table WizVulnerabilities_CLRaw policy retention softdelete = 1d
+
+.alter table WizVulnerabilities_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table WizVulnerabilities_CLRaw ingestion json mapping 'WizVulnerabilities_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table WizVulnerabilities_CL(
+TimeGenerated:datetime,
+id_g:guid,
+portalUrl_s:string,
+name_s:string,
+CVEDescription_s:string,
+CVSSSeverity_s:string,
+_TimeReceived:datetime)
+
+.alter table WizVulnerabilities_CL policy caching hot = 1d
+
+.create-or-alter function WizVulnerabilities_CLExpand() {
+WizVulnerabilities_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+id_g=toguid(events.id_g),
+portalUrl_s=tostring(events.portalUrl_s),
+name_s=tostring(events.name_s),
+CVEDescription_s=tostring(events.CVEDescription_s),
+CVSSSeverity_s=tostring(events.CVSSSeverity_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table WizVulnerabilities_CL policy update @'[{"Source": "WizVulnerabilities_CLRaw", "Query": "WizVulnerabilities_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

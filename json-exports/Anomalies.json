@@ -1,0 +1,149 @@
+﻿{
+  "Name": "Anomalies",
+  "Properties": [
+    {
+      "Name": "TenantId",
+      "Type": "guid"
+    },
+    {
+      "Name": "Id",
+      "Type": "string"
+    },
+    {
+      "Name": "WorkspaceId",
+      "Type": "string"
+    },
+    {
+      "Name": "VendorName",
+      "Type": "string"
+    },
+    {
+      "Name": "TimeGenerated",
+      "Type": "datetime"
+    },
+    {
+      "Name": "AnomalyTemplateId",
+      "Type": "string"
+    },
+    {
+      "Name": "AnomalyTemplateName",
+      "Type": "string"
+    },
+    {
+      "Name": "AnomalyTemplateVersion",
+      "Type": "string"
+    },
+    {
+      "Name": "RuleId",
+      "Type": "string"
+    },
+    {
+      "Name": "RuleStatus",
+      "Type": "string"
+    },
+    {
+      "Name": "RuleName",
+      "Type": "string"
+    },
+    {
+      "Name": "RuleConfigVersion",
+      "Type": "string"
+    },
+    {
+      "Name": "Score",
+      "Type": "real"
+    },
+    {
+      "Name": "Description",
+      "Type": "string"
+    },
+    {
+      "Name": "StartTime",
+      "Type": "datetime"
+    },
+    {
+      "Name": "EndTime",
+      "Type": "datetime"
+    },
+    {
+      "Name": "ExtendedLinks",
+      "Type": "dynamic"
+    },
+    {
+      "Name": "Tactics",
+      "Type": "string"
+    },
+    {
+      "Name": "Techniques",
+      "Type": "string"
+    },
+    {
+      "Name": "UserName",
+      "Type": "string"
+    },
+    {
+      "Name": "UserPrincipalName",
+      "Type": "string"
+    },
+    {
+      "Name": "SourceIpAddress",
+      "Type": "string"
+    },
+    {
+      "Name": "SourceLocation",
+      "Type": "dynamic"
+    },
+    {
+      "Name": "SourceDevice",
+      "Type": "string"
+    },
+    {
+      "Name": "DestinationIpAddress",
+      "Type": "string"
+    },
+    {
+      "Name": "DestinationLocation",
+      "Type": "dynamic"
+    },
+    {
+      "Name": "DestinationDevice",
+      "Type": "string"
+    },
+    {
+      "Name": "ActivityInsights",
+      "Type": "dynamic"
+    },
+    {
+      "Name": "DeviceInsights",
+      "Type": "dynamic"
+    },
+    {
+      "Name": "UserInsights",
+      "Type": "dynamic"
+    },
+    {
+      "Name": "AnomalyReasons",
+      "Type": "dynamic"
+    },
+    {
+      "Name": "Entities",
+      "Type": "dynamic"
+    },
+    {
+      "Name": "ExtendedProperties",
+      "Type": "dynamic"
+    },
+    {
+      "Name": "AnomalyDetails",
+      "Type": "dynamic"
+    },
+    {
+      "Name": "SourceSystem",
+      "Type": "string"
+    },
+    {
+      "Name": "Type",
+      "Type": "string"
+    }
+  ]
+}

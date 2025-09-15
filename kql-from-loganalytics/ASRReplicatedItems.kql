@@ -1,0 +1,109 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ASRReplicatedItems - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:23:10
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 37, Final columns: 37
+// ============================================================================
+
+.create-merge table ASRReplicatedItemsRaw (records:dynamic)
+
+.alter-merge table ASRReplicatedItemsRaw policy retention softdelete = 1d
+
+.alter table ASRReplicatedItemsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ASRReplicatedItemsRaw ingestion json mapping 'ASRReplicatedItemsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ASRReplicatedItems(
+TimeGenerated:datetime,
+TenantId:guid,
+ReplicatedItemFriendlyName:string,
+PolicyId:string,
+PolicyUniqueId:string,
+SourceResourceId:string,
+ReplicatedItemUniqueId:string,
+ReplicatedItemId:string,
+Version:string,
+LastRpoCalculatedTime:datetime,
+DatasourceType:string,
+IRProgressPercentage:int,
+OSFamily:string,
+PolicyFriendlyName:string,
+ActiveLocation:string,
+ProtectionInfo:string,
+RecoveryFabricType:string,
+PrimaryFabricType:string,
+RecoveryFabricName:string,
+Category:string,
+VaultType:string,
+VaultName:string,
+OperationName:string,
+ReplicationHealthErrors:string,
+RecoveryRegion:string,
+VaultLocation:string,
+MultiVMGroupId:string,
+LastHeartbeat:datetime,
+ReplicationStatus:string,
+FailoverReadiness:string,
+DatasourceFriendlyName:string,
+DatasourceUniqueId:string,
+PrimaryFabricName:string,
+LastSuccessfulTestFailoverTime:datetime,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ASRReplicatedItems policy caching hot = 1d
+
+.create-or-alter function ASRReplicatedItemsExpand() {
+ASRReplicatedItemsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ReplicatedItemFriendlyName=tostring(events.ReplicatedItemFriendlyName),
+PolicyId=tostring(events.PolicyId),
+PolicyUniqueId=tostring(events.PolicyUniqueId),
+SourceResourceId=tostring(events.SourceResourceId),
+ReplicatedItemUniqueId=tostring(events.ReplicatedItemUniqueId),
+ReplicatedItemId=tostring(events.ReplicatedItemId),
+Version=tostring(events.Version),
+LastRpoCalculatedTime=todatetime(events.LastRpoCalculatedTime),
+DatasourceType=tostring(events.DatasourceType),
+IRProgressPercentage=toint(events.IRProgressPercentage),
+OSFamily=tostring(events.OSFamily),
+PolicyFriendlyName=tostring(events.PolicyFriendlyName),
+ActiveLocation=tostring(events.ActiveLocation),
+ProtectionInfo=tostring(events.ProtectionInfo),
+RecoveryFabricType=tostring(events.RecoveryFabricType),
+PrimaryFabricType=tostring(events.PrimaryFabricType),
+RecoveryFabricName=tostring(events.RecoveryFabricName),
+Category=tostring(events.Category),
+VaultType=tostring(events.VaultType),
+VaultName=tostring(events.VaultName),
+OperationName=tostring(events.OperationName),
+ReplicationHealthErrors=tostring(events.ReplicationHealthErrors),
+RecoveryRegion=tostring(events.RecoveryRegion),
+VaultLocation=tostring(events.VaultLocation),
+MultiVMGroupId=tostring(events.MultiVMGroupId),
+LastHeartbeat=todatetime(events.LastHeartbeat),
+ReplicationStatus=tostring(events.ReplicationStatus),
+FailoverReadiness=tostring(events.FailoverReadiness),
+DatasourceFriendlyName=tostring(events.DatasourceFriendlyName),
+DatasourceUniqueId=tostring(events.DatasourceUniqueId),
+PrimaryFabricName=tostring(events.PrimaryFabricName),
+LastSuccessfulTestFailoverTime=todatetime(events.LastSuccessfulTestFailoverTime),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ASRReplicatedItems policy update @'[{"Source": "ASRReplicatedItemsRaw", "Query": "ASRReplicatedItemsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

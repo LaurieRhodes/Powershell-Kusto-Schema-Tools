@@ -1,0 +1,121 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AlertEvidence - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:21:14
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 43, Final columns: 43
+// ============================================================================
+
+.create-merge table AlertEvidenceRaw (records:dynamic)
+
+.alter-merge table AlertEvidenceRaw policy retention softdelete = 1d
+
+.alter table AlertEvidenceRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AlertEvidenceRaw ingestion json mapping 'AlertEvidenceRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AlertEvidence(
+TimeGenerated:datetime,
+TenantId:guid,
+AccountObjectId:string,
+AccountUpn:string,
+DeviceId:string,
+DeviceName:string,
+LocalIP:string,
+NetworkMessageId:string,
+EmailSubject:string,
+ApplicationId:int,
+Application:string,
+OAuthApplicationId:string,
+ProcessCommandLine:string,
+AdditionalFields:dynamic,
+RegistryKey:string,
+RegistryValueName:string,
+RegistryValueData:string,
+CloudPlatform:string,
+CloudResource:string,
+AccountSid:string,
+Severity:string,
+AccountDomain:string,
+RemoteUrl:string,
+Timestamp:datetime,
+AlertId:string,
+Title:string,
+Categories:string,
+AttackTechniques:string,
+ServiceSource:string,
+DetectionSource:string,
+EntityType:string,
+EvidenceRole:string,
+EvidenceDirection:string,
+FileName:string,
+FolderPath:string,
+SHA1:string,
+SHA256:string,
+FileSize:long,
+ThreatFamily:string,
+RemoteIP:string,
+AccountName:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table AlertEvidence policy caching hot = 1d
+
+.create-or-alter function AlertEvidenceExpand() {
+AlertEvidenceRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+AccountObjectId=tostring(events.AccountObjectId),
+AccountUpn=tostring(events.AccountUpn),
+DeviceId=tostring(events.DeviceId),
+DeviceName=tostring(events.DeviceName),
+LocalIP=tostring(events.LocalIP),
+NetworkMessageId=tostring(events.NetworkMessageId),
+EmailSubject=tostring(events.EmailSubject),
+ApplicationId=toint(events.ApplicationId),
+Application=tostring(events.Application),
+OAuthApplicationId=tostring(events.OAuthApplicationId),
+ProcessCommandLine=tostring(events.ProcessCommandLine),
+AdditionalFields=todynamic(events.AdditionalFields),
+RegistryKey=tostring(events.RegistryKey),
+RegistryValueName=tostring(events.RegistryValueName),
+RegistryValueData=tostring(events.RegistryValueData),
+CloudPlatform=tostring(events.CloudPlatform),
+CloudResource=tostring(events.CloudResource),
+AccountSid=tostring(events.AccountSid),
+Severity=tostring(events.Severity),
+AccountDomain=tostring(events.AccountDomain),
+RemoteUrl=tostring(events.RemoteUrl),
+Timestamp=todatetime(events.Timestamp),
+AlertId=tostring(events.AlertId),
+Title=tostring(events.Title),
+Categories=tostring(events.Categories),
+AttackTechniques=tostring(events.AttackTechniques),
+ServiceSource=tostring(events.ServiceSource),
+DetectionSource=tostring(events.DetectionSource),
+EntityType=tostring(events.EntityType),
+EvidenceRole=tostring(events.EvidenceRole),
+EvidenceDirection=tostring(events.EvidenceDirection),
+FileName=tostring(events.FileName),
+FolderPath=tostring(events.FolderPath),
+SHA1=tostring(events.SHA1),
+SHA256=tostring(events.SHA256),
+FileSize=tolong(events.FileSize),
+ThreatFamily=tostring(events.ThreatFamily),
+RemoteIP=tostring(events.RemoteIP),
+AccountName=tostring(events.AccountName),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AlertEvidence policy update @'[{"Source": "AlertEvidenceRaw", "Query": "AlertEvidenceExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,76 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for NCProtectUAL_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table NCProtectUAL_CLRaw (records:dynamic)
+
+.alter-merge table NCProtectUAL_CLRaw policy retention softdelete = 1d
+
+.alter table NCProtectUAL_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table NCProtectUAL_CLRaw ingestion json mapping 'NCProtectUAL_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table NCProtectUAL_CL(
+TimeGenerated:datetime,
+Application_s:string,
+UserDisplayName_s:string,
+Type_s:string,
+Status_s:string,
+SHA512Hash_s:string,
+Sender_s:string,
+RuleUrl_s:string,
+RuleName_s:string,
+RawData:string,
+OS_s:string,
+JSONExtra_s:string,
+Id_s:string,
+DocumentUrl_s:string,
+DocumentProtectionId_g:string,
+Computer_s:string,
+Browser_s:string,
+UserLoginName_s:string,
+UserEmail_s:string,
+Type:string,
+_ResourceId:string,
+_SubscriptionId:string,
+_TimeReceived:datetime)
+
+.alter table NCProtectUAL_CL policy caching hot = 1d
+
+.create-or-alter function NCProtectUAL_CLExpand() {
+NCProtectUAL_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+Application_s=tostring(events.Application_s),
+UserDisplayName_s=tostring(events.UserDisplayName_s),
+Type_s=tostring(events.Type_s),
+Status_s=tostring(events.Status_s),
+SHA512Hash_s=tostring(events.SHA512Hash_s),
+Sender_s=tostring(events.Sender_s),
+RuleUrl_s=tostring(events.RuleUrl_s),
+RuleName_s=tostring(events.RuleName_s),
+RawData=tostring(events.RawData),
+OS_s=tostring(events.OS_s),
+JSONExtra_s=tostring(events.JSONExtra_s),
+Id_s=tostring(events.Id_s),
+DocumentUrl_s=tostring(events.DocumentUrl_s),
+DocumentProtectionId_g=tostring(events.DocumentProtectionId_g),
+Computer_s=tostring(events.Computer_s),
+Browser_s=tostring(events.Browser_s),
+UserLoginName_s=tostring(events.UserLoginName_s),
+UserEmail_s=tostring(events.UserEmail_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_SubscriptionId=tostring(events._SubscriptionId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table NCProtectUAL_CL policy update @'[{"Source": "NCProtectUAL_CLRaw", "Query": "NCProtectUAL_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

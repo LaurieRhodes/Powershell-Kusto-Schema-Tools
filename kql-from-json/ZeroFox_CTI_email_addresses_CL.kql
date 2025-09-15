@@ -1,0 +1,42 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ZeroFox_CTI_email_addresses_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table ZeroFox_CTI_email_addresses_CLRaw (records:dynamic)
+
+.alter-merge table ZeroFox_CTI_email_addresses_CLRaw policy retention softdelete = 1d
+
+.alter table ZeroFox_CTI_email_addresses_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ZeroFox_CTI_email_addresses_CLRaw ingestion json mapping 'ZeroFox_CTI_email_addresses_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ZeroFox_CTI_email_addresses_CL(
+TimeGenerated:datetime,
+created_at_t:datetime,
+email_s:string,
+domain_s:string,
+tags_s:string,
+_TimeReceived:datetime)
+
+.alter table ZeroFox_CTI_email_addresses_CL policy caching hot = 1d
+
+.create-or-alter function ZeroFox_CTI_email_addresses_CLExpand() {
+ZeroFox_CTI_email_addresses_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+created_at_t=todatetime(events.created_at_t),
+email_s=tostring(events.email_s),
+domain_s=tostring(events.domain_s),
+tags_s=tostring(events.tags_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ZeroFox_CTI_email_addresses_CL policy update @'[{"Source": "ZeroFox_CTI_email_addresses_CLRaw", "Query": "ZeroFox_CTI_email_addresses_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,82 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for MimecastTTPUrl_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table MimecastTTPUrl_CLRaw (records:dynamic)
+
+.alter-merge table MimecastTTPUrl_CLRaw policy retention softdelete = 1d
+
+.alter table MimecastTTPUrl_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table MimecastTTPUrl_CLRaw ingestion json mapping 'MimecastTTPUrl_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table MimecastTTPUrl_CL(
+TimeGenerated:datetime,
+userEmailAddress_s:string,
+mimecastEventId_s:string,
+messageId_s:string,
+emailPartsDescription_s:string,
+creationMethod_s:string,
+route_s:string,
+actions_s:string,
+date_t:datetime,
+userAwarenessAction_s:string,
+advancedPhishingResult_CredentialTheftEvidence_s:string,
+advancedPhishingResult_CredentialTheftTags_s:string,
+advancedPhishingResult_CredentialTheftBrands_s:string,
+sendingIp_s:string,
+category_s:string,
+scanResult_s:string,
+userOverride_s:string,
+adminOverride_s:string,
+action_s:string,
+subject_s:string,
+ttpDefinition_s:string,
+url_s:string,
+fromUserEmailAddress_s:string,
+mimecastEventCategory_s:string,
+time_generated:datetime,
+_TimeReceived:datetime)
+
+.alter table MimecastTTPUrl_CL policy caching hot = 1d
+
+.create-or-alter function MimecastTTPUrl_CLExpand() {
+MimecastTTPUrl_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+userEmailAddress_s=tostring(events.userEmailAddress_s),
+mimecastEventId_s=tostring(events.mimecastEventId_s),
+messageId_s=tostring(events.messageId_s),
+emailPartsDescription_s=tostring(events.emailPartsDescription_s),
+creationMethod_s=tostring(events.creationMethod_s),
+route_s=tostring(events.route_s),
+actions_s=tostring(events.actions_s),
+date_t=todatetime(events.date_t),
+userAwarenessAction_s=tostring(events.userAwarenessAction_s),
+advancedPhishingResult_CredentialTheftEvidence_s=tostring(events.advancedPhishingResult_CredentialTheftEvidence_s),
+advancedPhishingResult_CredentialTheftTags_s=tostring(events.advancedPhishingResult_CredentialTheftTags_s),
+advancedPhishingResult_CredentialTheftBrands_s=tostring(events.advancedPhishingResult_CredentialTheftBrands_s),
+sendingIp_s=tostring(events.sendingIp_s),
+category_s=tostring(events.category_s),
+scanResult_s=tostring(events.scanResult_s),
+userOverride_s=tostring(events.userOverride_s),
+adminOverride_s=tostring(events.adminOverride_s),
+action_s=tostring(events.action_s),
+subject_s=tostring(events.subject_s),
+ttpDefinition_s=tostring(events.ttpDefinition_s),
+url_s=tostring(events.url_s),
+fromUserEmailAddress_s=tostring(events.fromUserEmailAddress_s),
+mimecastEventCategory_s=tostring(events.mimecastEventCategory_s),
+time_generated=todatetime(events.time_generated),
+_TimeReceived=todatetime(now())
+}
+
+.alter table MimecastTTPUrl_CL policy update @'[{"Source": "MimecastTTPUrl_CLRaw", "Query": "MimecastTTPUrl_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

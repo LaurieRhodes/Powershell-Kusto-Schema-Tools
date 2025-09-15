@@ -1,0 +1,98 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for GWorkspace_ReportsAPI_drive_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table GWorkspace_ReportsAPI_drive_CLRaw (records:dynamic)
+
+.alter-merge table GWorkspace_ReportsAPI_drive_CLRaw policy retention softdelete = 1d
+
+.alter table GWorkspace_ReportsAPI_drive_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table GWorkspace_ReportsAPI_drive_CLRaw ingestion json mapping 'GWorkspace_ReportsAPI_drive_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table GWorkspace_ReportsAPI_drive_CL(
+TimeGenerated:datetime,
+EventVendor:string,
+IPAddress:string,
+actor_profileId_s:string,
+actor_email_s:string,
+etag_s:string,
+id_customerId_s:string,
+id_applicationName_s:string,
+id_uniqueQualifier_s:string,
+id_time_t:datetime,
+kind_s:string,
+target_domain_s:string,
+old_visibility_s:string,
+target_user_s:string,
+visibility_change_s:string,
+owner_s:string,
+originating_app_id_s:string,
+visibility_s:string,
+doc_title_s:string,
+doc_type_s:string,
+doc_id_s:string,
+event_name_s:string,
+source_folder_id_s:string,
+source_folder_title_s:string,
+destination_folder_id_s:string,
+destination_folder_title_s:string,
+new_value_s:string,
+old_value_s:string,
+team_drive_id_s:string,
+ishared_drive_id_s:string,
+EventProduct:string,
+events_s:string,
+event_type_s:string,
+_TimeReceived:datetime)
+
+.alter table GWorkspace_ReportsAPI_drive_CL policy caching hot = 1d
+
+.create-or-alter function GWorkspace_ReportsAPI_drive_CLExpand() {
+GWorkspace_ReportsAPI_drive_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+EventVendor=tostring(events.EventVendor),
+IPAddress=tostring(events.IPAddress),
+actor_profileId_s=tostring(events.actor_profileId_s),
+actor_email_s=tostring(events.actor_email_s),
+etag_s=tostring(events.etag_s),
+id_customerId_s=tostring(events.id_customerId_s),
+id_applicationName_s=tostring(events.id_applicationName_s),
+id_uniqueQualifier_s=tostring(events.id_uniqueQualifier_s),
+id_time_t=todatetime(events.id_time_t),
+kind_s=tostring(events.kind_s),
+target_domain_s=tostring(events.target_domain_s),
+old_visibility_s=tostring(events.old_visibility_s),
+target_user_s=tostring(events.target_user_s),
+visibility_change_s=tostring(events.visibility_change_s),
+owner_s=tostring(events.owner_s),
+originating_app_id_s=tostring(events.originating_app_id_s),
+visibility_s=tostring(events.visibility_s),
+doc_title_s=tostring(events.doc_title_s),
+doc_type_s=tostring(events.doc_type_s),
+doc_id_s=tostring(events.doc_id_s),
+event_name_s=tostring(events.event_name_s),
+source_folder_id_s=tostring(events.source_folder_id_s),
+source_folder_title_s=tostring(events.source_folder_title_s),
+destination_folder_id_s=tostring(events.destination_folder_id_s),
+destination_folder_title_s=tostring(events.destination_folder_title_s),
+new_value_s=tostring(events.new_value_s),
+old_value_s=tostring(events.old_value_s),
+team_drive_id_s=tostring(events.team_drive_id_s),
+ishared_drive_id_s=tostring(events.ishared_drive_id_s),
+EventProduct=tostring(events.EventProduct),
+events_s=tostring(events.events_s),
+event_type_s=tostring(events.event_type_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table GWorkspace_ReportsAPI_drive_CL policy update @'[{"Source": "GWorkspace_ReportsAPI_drive_CLRaw", "Query": "GWorkspace_ReportsAPI_drive_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

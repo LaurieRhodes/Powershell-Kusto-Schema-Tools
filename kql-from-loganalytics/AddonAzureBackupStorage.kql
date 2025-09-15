@@ -1,0 +1,85 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AddonAzureBackupStorage - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:19:31
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 25, Final columns: 25
+// ============================================================================
+
+.create-merge table AddonAzureBackupStorageRaw (records:dynamic)
+
+.alter-merge table AddonAzureBackupStorageRaw policy retention softdelete = 1d
+
+.alter table AddonAzureBackupStorageRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AddonAzureBackupStorageRaw ingestion json mapping 'AddonAzureBackupStorageRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AddonAzureBackupStorage(
+TimeGenerated:datetime,
+TenantId:guid,
+VolumeFriendlyName:string,
+VaultUniqueId:string,
+StorageUniqueId:string,
+StorageType:string,
+StorageTotalSizeInGBs:real,
+StorageName:string,
+StorageConsumedInMBs:real,
+StorageAllocatedInMBs:real,
+State:string,
+SchemaVersion:string,
+ProtectedContainerUniqueId:string,
+PreferredWorkloadOnVolume:string,
+BackupManagementType:string,
+BackupManagementServerUniqueId:string,
+BackupItemUniqueId:string,
+Category:string,
+OperationName:string,
+ResourceId:string,
+SourceSystem:string,
+ArchiveTierStorageConsumedInMBs:string,
+ExtendedProperties:dynamic,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AddonAzureBackupStorage policy caching hot = 1d
+
+.create-or-alter function AddonAzureBackupStorageExpand() {
+AddonAzureBackupStorageRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+VolumeFriendlyName=tostring(events.VolumeFriendlyName),
+VaultUniqueId=tostring(events.VaultUniqueId),
+StorageUniqueId=tostring(events.StorageUniqueId),
+StorageType=tostring(events.StorageType),
+StorageTotalSizeInGBs=toreal(events.StorageTotalSizeInGBs),
+StorageName=tostring(events.StorageName),
+StorageConsumedInMBs=toreal(events.StorageConsumedInMBs),
+StorageAllocatedInMBs=toreal(events.StorageAllocatedInMBs),
+State=tostring(events.State),
+SchemaVersion=tostring(events.SchemaVersion),
+ProtectedContainerUniqueId=tostring(events.ProtectedContainerUniqueId),
+PreferredWorkloadOnVolume=tostring(events.PreferredWorkloadOnVolume),
+BackupManagementType=tostring(events.BackupManagementType),
+BackupManagementServerUniqueId=tostring(events.BackupManagementServerUniqueId),
+BackupItemUniqueId=tostring(events.BackupItemUniqueId),
+Category=tostring(events.Category),
+OperationName=tostring(events.OperationName),
+ResourceId=tostring(events.ResourceId),
+SourceSystem=tostring(events.SourceSystem),
+ArchiveTierStorageConsumedInMBs=tostring(events.ArchiveTierStorageConsumedInMBs),
+ExtendedProperties=todynamic(events.ExtendedProperties),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AddonAzureBackupStorage policy update @'[{"Source": "AddonAzureBackupStorageRaw", "Query": "AddonAzureBackupStorageExpand()", "IsEnabled": "True", "IsTransactional": true}]'

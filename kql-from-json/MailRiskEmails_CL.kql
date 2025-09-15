@@ -1,0 +1,110 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for MailRiskEmails_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table MailRiskEmails_CLRaw (records:dynamic)
+
+.alter-merge table MailRiskEmails_CLRaw policy retention softdelete = 1d
+
+.alter table MailRiskEmails_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table MailRiskEmails_CLRaw ingestion json mapping 'MailRiskEmails_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table MailRiskEmails_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+assessments_s:string,
+headers_s:string,
+content_status_s:string,
+assessed_at_s:string,
+sent_at_s:string,
+risk_source_s:string,
+Category:string,
+feedback_provided_b:bool,
+feedback_requested_b:bool,
+company_id_d:real,
+reporter_domain_s:string,
+attachments_s:string,
+links_s:string,
+originating_ip_s:string,
+spf_s:string,
+spam_score_d:real,
+reply_to_s:string,
+SourceSystem:string,
+MG:string,
+ManagementGroupName:string,
+Computer:string,
+RawData:string,
+MG_s:string,
+reported_risk_d:real,
+event_type_s:string,
+id_d:real,
+message_id_s:string,
+size_bytes_d:real,
+subject_s:string,
+from_email_s:string,
+from_name_s:string,
+reported_at_s:string,
+risk_s:string,
+Type:string,
+_links_count_hard_s:string,
+_attachments_count_hard_s:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table MailRiskEmails_CL policy caching hot = 1d
+
+.create-or-alter function MailRiskEmails_CLExpand() {
+MailRiskEmails_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+assessments_s=tostring(events.assessments_s),
+headers_s=tostring(events.headers_s),
+content_status_s=tostring(events.content_status_s),
+assessed_at_s=tostring(events.assessed_at_s),
+sent_at_s=tostring(events.sent_at_s),
+risk_source_s=tostring(events.risk_source_s),
+Category=tostring(events.Category),
+feedback_provided_b=tobool(events.feedback_provided_b),
+feedback_requested_b=tobool(events.feedback_requested_b),
+company_id_d=toreal(events.company_id_d),
+reporter_domain_s=tostring(events.reporter_domain_s),
+attachments_s=tostring(events.attachments_s),
+links_s=tostring(events.links_s),
+originating_ip_s=tostring(events.originating_ip_s),
+spf_s=tostring(events.spf_s),
+spam_score_d=toreal(events.spam_score_d),
+reply_to_s=tostring(events.reply_to_s),
+SourceSystem=tostring(events.SourceSystem),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+Computer=tostring(events.Computer),
+RawData=tostring(events.RawData),
+MG_s=tostring(events.MG_s),
+reported_risk_d=toreal(events.reported_risk_d),
+event_type_s=tostring(events.event_type_s),
+id_d=toreal(events.id_d),
+message_id_s=tostring(events.message_id_s),
+size_bytes_d=toreal(events.size_bytes_d),
+subject_s=tostring(events.subject_s),
+from_email_s=tostring(events.from_email_s),
+from_name_s=tostring(events.from_name_s),
+reported_at_s=tostring(events.reported_at_s),
+risk_s=tostring(events.risk_s),
+Type=tostring(events.Type),
+_links_count_hard_s=tostring(events._links_count_hard_s),
+_attachments_count_hard_s=tostring(events._attachments_count_hard_s),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table MailRiskEmails_CL policy update @'[{"Source": "MailRiskEmails_CLRaw", "Query": "MailRiskEmails_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

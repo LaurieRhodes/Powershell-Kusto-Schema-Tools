@@ -1,0 +1,63 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for LAJobLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:16:21
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 14, Final columns: 14
+// ============================================================================
+
+.create-merge table LAJobLogsRaw (records:dynamic)
+
+.alter-merge table LAJobLogsRaw policy retention softdelete = 1d
+
+.alter table LAJobLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table LAJobLogsRaw ingestion json mapping 'LAJobLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table LAJobLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+JobType:string,
+CorrelationId:string,
+JobId:string,
+SourceTable:string,
+Status:string,
+ResultsRecordCount:long,
+ResultsGB:real,
+Message:string,
+Destination:dynamic,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table LAJobLogs policy caching hot = 1d
+
+.create-or-alter function LAJobLogsExpand() {
+LAJobLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+JobType=tostring(events.JobType),
+CorrelationId=tostring(events.CorrelationId),
+JobId=tostring(events.JobId),
+SourceTable=tostring(events.SourceTable),
+Status=tostring(events.Status),
+ResultsRecordCount=tolong(events.ResultsRecordCount),
+ResultsGB=toreal(events.ResultsGB),
+Message=tostring(events.Message),
+Destination=todynamic(events.Destination),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table LAJobLogs policy update @'[{"Source": "LAJobLogsRaw", "Query": "LAJobLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

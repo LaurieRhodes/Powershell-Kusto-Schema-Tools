@@ -1,0 +1,81 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for CDBCassandraRequests - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:25:05
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 23, Final columns: 23
+// ============================================================================
+
+.create-merge table CDBCassandraRequestsRaw (records:dynamic)
+
+.alter-merge table CDBCassandraRequestsRaw policy retention softdelete = 1d
+
+.alter table CDBCassandraRequestsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table CDBCassandraRequestsRaw ingestion json mapping 'CDBCassandraRequestsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table CDBCassandraRequests(
+TimeGenerated:datetime,
+TenantId:guid,
+RequestLength:real,
+RegionName:string,
+RetriedDueToRateLimiting:bool,
+RateLimitingDelayMs:real,
+PIICommandText:string,
+Address:string,
+RetryCount:int,
+AuthorizationTokenType:string,
+CollectionName:string,
+DatabaseName:string,
+RequestCharge:real,
+DurationMs:real,
+ErrorCode:string,
+ActivityId:string,
+UserAgent:string,
+OperationName:string,
+AccountName:string,
+ResponseLength:real,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table CDBCassandraRequests policy caching hot = 1d
+
+.create-or-alter function CDBCassandraRequestsExpand() {
+CDBCassandraRequestsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+RequestLength=toreal(events.RequestLength),
+RegionName=tostring(events.RegionName),
+RetriedDueToRateLimiting=tobool(events.RetriedDueToRateLimiting),
+RateLimitingDelayMs=toreal(events.RateLimitingDelayMs),
+PIICommandText=tostring(events.PIICommandText),
+Address=tostring(events.Address),
+RetryCount=toint(events.RetryCount),
+AuthorizationTokenType=tostring(events.AuthorizationTokenType),
+CollectionName=tostring(events.CollectionName),
+DatabaseName=tostring(events.DatabaseName),
+RequestCharge=toreal(events.RequestCharge),
+DurationMs=toreal(events.DurationMs),
+ErrorCode=tostring(events.ErrorCode),
+ActivityId=tostring(events.ActivityId),
+UserAgent=tostring(events.UserAgent),
+OperationName=tostring(events.OperationName),
+AccountName=tostring(events.AccountName),
+ResponseLength=toreal(events.ResponseLength),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table CDBCassandraRequests policy update @'[{"Source": "CDBCassandraRequestsRaw", "Query": "CDBCassandraRequestsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

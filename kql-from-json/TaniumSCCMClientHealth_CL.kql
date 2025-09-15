@@ -1,0 +1,54 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for TaniumSCCMClientHealth_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table TaniumSCCMClientHealth_CLRaw (records:dynamic)
+
+.alter-merge table TaniumSCCMClientHealth_CLRaw policy retention softdelete = 1d
+
+.alter table TaniumSCCMClientHealth_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table TaniumSCCMClientHealth_CLRaw ingestion json mapping 'TaniumSCCMClientHealth_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table TaniumSCCMClientHealth_CL(
+TimeGenerated:datetime,
+Age_s:string,
+Computer:string,
+Computer_Name_s:string,
+Count_s:string,
+Health_Status_s:string,
+IP_Address_s:string,
+OS_Platform_s:string,
+RawData:string,
+Reason_s:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table TaniumSCCMClientHealth_CL policy caching hot = 1d
+
+.create-or-alter function TaniumSCCMClientHealth_CLExpand() {
+TaniumSCCMClientHealth_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+Age_s=tostring(events.Age_s),
+Computer=tostring(events.Computer),
+Computer_Name_s=tostring(events.Computer_Name_s),
+Count_s=tostring(events.Count_s),
+Health_Status_s=tostring(events.Health_Status_s),
+IP_Address_s=tostring(events.IP_Address_s),
+OS_Platform_s=tostring(events.OS_Platform_s),
+RawData=tostring(events.RawData),
+Reason_s=tostring(events.Reason_s),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table TaniumSCCMClientHealth_CL policy update @'[{"Source": "TaniumSCCMClientHealth_CLRaw", "Query": "TaniumSCCMClientHealth_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

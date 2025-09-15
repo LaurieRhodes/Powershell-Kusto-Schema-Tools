@@ -1,0 +1,56 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_tds_sql_batch_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:13
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_tds_sql_batch_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_tds_sql_batch_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_tds_sql_batch_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_tds_sql_batch_CLRaw ingestion json mapping 'Corelight_v2_tds_sql_batch_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_tds_sql_batch_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+uid_s:string,
+id_orig_h_s:string,
+id_orig_p_d:real,
+id_resp_h_s:string,
+id_resp_p_d:real,
+header_type_s:string,
+query_s:string,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_tds_sql_batch_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_tds_sql_batch_CLExpand() {
+Corelight_v2_tds_sql_batch_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+uid_s=tostring(events.uid_s),
+id_orig_h_s=tostring(events.id_orig_h_s),
+id_orig_p_d=toreal(events.id_orig_p_d),
+id_resp_h_s=tostring(events.id_resp_h_s),
+id_resp_p_d=toreal(events.id_resp_p_d),
+header_type_s=tostring(events.header_type_s),
+query_s=tostring(events.query_s),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_tds_sql_batch_CL policy update @'[{"Source": "Corelight_v2_tds_sql_batch_CLRaw", "Query": "Corelight_v2_tds_sql_batch_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

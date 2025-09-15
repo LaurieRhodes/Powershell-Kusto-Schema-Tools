@@ -1,0 +1,79 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for NetworkAccessAlerts - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:17:26
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 22, Final columns: 22
+// ============================================================================
+
+.create-merge table NetworkAccessAlertsRaw (records:dynamic)
+
+.alter-merge table NetworkAccessAlertsRaw policy retention softdelete = 1d
+
+.alter table NetworkAccessAlertsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table NetworkAccessAlertsRaw ingestion json mapping 'NetworkAccessAlertsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table NetworkAccessAlerts(
+TimeGenerated:datetime,
+TenantId:guid,
+ExtendedProperties:dynamic,
+IsPreview:bool,
+PolicyId:string,
+DetectionTechnology:string,
+SubTechniques:string,
+Techniques:string,
+Severity:string,
+Description:string,
+DisplayName:string,
+AlertType:string,
+ComponentName:string,
+ProductName:string,
+VendorName:string,
+Id:string,
+LastActivityDateTime:datetime,
+FirstActivityDateTime:datetime,
+CreationDateTime:datetime,
+RelatedResources:dynamic,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table NetworkAccessAlerts policy caching hot = 1d
+
+.create-or-alter function NetworkAccessAlertsExpand() {
+NetworkAccessAlertsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ExtendedProperties=todynamic(events.ExtendedProperties),
+IsPreview=tobool(events.IsPreview),
+PolicyId=tostring(events.PolicyId),
+DetectionTechnology=tostring(events.DetectionTechnology),
+SubTechniques=tostring(events.SubTechniques),
+Techniques=tostring(events.Techniques),
+Severity=tostring(events.Severity),
+Description=tostring(events.Description),
+DisplayName=tostring(events.DisplayName),
+AlertType=tostring(events.AlertType),
+ComponentName=tostring(events.ComponentName),
+ProductName=tostring(events.ProductName),
+VendorName=tostring(events.VendorName),
+Id=tostring(events.Id),
+LastActivityDateTime=todatetime(events.LastActivityDateTime),
+FirstActivityDateTime=todatetime(events.FirstActivityDateTime),
+CreationDateTime=todatetime(events.CreationDateTime),
+RelatedResources=todynamic(events.RelatedResources),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table NetworkAccessAlerts policy update @'[{"Source": "NetworkAccessAlertsRaw", "Query": "NetworkAccessAlertsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

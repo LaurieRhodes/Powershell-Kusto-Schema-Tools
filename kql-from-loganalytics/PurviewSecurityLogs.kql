@@ -1,0 +1,61 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for PurviewSecurityLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:19:44
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 13, Final columns: 13
+// ============================================================================
+
+.create-merge table PurviewSecurityLogsRaw (records:dynamic)
+
+.alter-merge table PurviewSecurityLogsRaw policy retention softdelete = 1d
+
+.alter table PurviewSecurityLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table PurviewSecurityLogsRaw ingestion json mapping 'PurviewSecurityLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table PurviewSecurityLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+EntityName:string,
+EntityType:string,
+CallerIdentities:dynamic,
+ResultType:string,
+ResultDescription:string,
+Location:string,
+Properties:dynamic,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table PurviewSecurityLogs policy caching hot = 1d
+
+.create-or-alter function PurviewSecurityLogsExpand() {
+PurviewSecurityLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+EntityName=tostring(events.EntityName),
+EntityType=tostring(events.EntityType),
+CallerIdentities=todynamic(events.CallerIdentities),
+ResultType=tostring(events.ResultType),
+ResultDescription=tostring(events.ResultDescription),
+Location=tostring(events.Location),
+Properties=todynamic(events.Properties),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table PurviewSecurityLogs policy update @'[{"Source": "PurviewSecurityLogsRaw", "Query": "PurviewSecurityLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,93 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for HDInsightHiveQueryAppStats - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:15:14
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 29, Final columns: 29
+// ============================================================================
+
+.create-merge table HDInsightHiveQueryAppStatsRaw (records:dynamic)
+
+.alter-merge table HDInsightHiveQueryAppStatsRaw policy retention softdelete = 1d
+
+.alter table HDInsightHiveQueryAppStatsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table HDInsightHiveQueryAppStatsRaw ingestion json mapping 'HDInsightHiveQueryAppStatsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table HDInsightHiveQueryAppStats(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+SessionId:string,
+HiveInstanceType:string,
+ThreadName:string,
+IsMapReduce:bool,
+IsTez:bool,
+ClientIpAddress:string,
+TablesRead:string,
+Queue:string,
+User:string,
+ExecutionMode:string,
+RequestUser:string,
+Domain:string,
+QueryCompletionTime:long,
+QuerySubmissionTime:long,
+HostName:string,
+ClusterType:string,
+ClusterName:string,
+Tags:dynamic,
+MetricValue:real,
+MetricName:string,
+EntityType:string,
+Entity:string,
+CorrelationId:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table HDInsightHiveQueryAppStats policy caching hot = 1d
+
+.create-or-alter function HDInsightHiveQueryAppStatsExpand() {
+HDInsightHiveQueryAppStatsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+SessionId=tostring(events.SessionId),
+HiveInstanceType=tostring(events.HiveInstanceType),
+ThreadName=tostring(events.ThreadName),
+IsMapReduce=tobool(events.IsMapReduce),
+IsTez=tobool(events.IsTez),
+ClientIpAddress=tostring(events.ClientIpAddress),
+TablesRead=tostring(events.TablesRead),
+Queue=tostring(events.Queue),
+User=tostring(events.User),
+ExecutionMode=tostring(events.ExecutionMode),
+RequestUser=tostring(events.RequestUser),
+Domain=tostring(events.Domain),
+QueryCompletionTime=tolong(events.QueryCompletionTime),
+QuerySubmissionTime=tolong(events.QuerySubmissionTime),
+HostName=tostring(events.HostName),
+ClusterType=tostring(events.ClusterType),
+ClusterName=tostring(events.ClusterName),
+Tags=todynamic(events.Tags),
+MetricValue=toreal(events.MetricValue),
+MetricName=tostring(events.MetricName),
+EntityType=tostring(events.EntityType),
+Entity=tostring(events.Entity),
+CorrelationId=tostring(events.CorrelationId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table HDInsightHiveQueryAppStats policy update @'[{"Source": "HDInsightHiveQueryAppStatsRaw", "Query": "HDInsightHiveQueryAppStatsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

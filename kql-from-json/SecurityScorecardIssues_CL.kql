@@ -1,0 +1,82 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for SecurityScorecardIssues_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table SecurityScorecardIssues_CLRaw (records:dynamic)
+
+.alter-merge table SecurityScorecardIssues_CLRaw policy retention softdelete = 1d
+
+.alter table SecurityScorecardIssues_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table SecurityScorecardIssues_CLRaw ingestion json mapping 'SecurityScorecardIssues_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table SecurityScorecardIssues_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+detail_url_s:string,
+severity_value_s:string,
+totalScoreImpact_d:string,
+issueName_s:string,
+groupStatus_s:string,
+findingsCount_d:string,
+issueType_s:string,
+date_t:string,
+subject_s:string,
+eventID_s:string,
+Factor_s:string,
+body_s:string,
+portfolioName_s:string,
+portfolioId_g:string,
+RawData:string,
+Computer:string,
+ManagementGroupName:string,
+MG:string,
+SourceSystem:string,
+industry_s:string,
+severity_s:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table SecurityScorecardIssues_CL policy caching hot = 1d
+
+.create-or-alter function SecurityScorecardIssues_CLExpand() {
+SecurityScorecardIssues_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+detail_url_s=tostring(events.detail_url_s),
+severity_value_s=tostring(events.severity_value_s),
+totalScoreImpact_d=tostring(events.totalScoreImpact_d),
+issueName_s=tostring(events.issueName_s),
+groupStatus_s=tostring(events.groupStatus_s),
+findingsCount_d=tostring(events.findingsCount_d),
+issueType_s=tostring(events.issueType_s),
+date_t=tostring(events.date_t),
+subject_s=tostring(events.subject_s),
+eventID_s=tostring(events.eventID_s),
+Factor_s=tostring(events.Factor_s),
+body_s=tostring(events.body_s),
+portfolioName_s=tostring(events.portfolioName_s),
+portfolioId_g=tostring(events.portfolioId_g),
+RawData=tostring(events.RawData),
+Computer=tostring(events.Computer),
+ManagementGroupName=tostring(events.ManagementGroupName),
+MG=tostring(events.MG),
+SourceSystem=tostring(events.SourceSystem),
+industry_s=tostring(events.industry_s),
+severity_s=tostring(events.severity_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table SecurityScorecardIssues_CL policy update @'[{"Source": "SecurityScorecardIssues_CLRaw", "Query": "SecurityScorecardIssues_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

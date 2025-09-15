@@ -1,0 +1,63 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for HDInsightKafkaMetrics - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:15:19
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 14, Final columns: 14
+// ============================================================================
+
+.create-merge table HDInsightKafkaMetricsRaw (records:dynamic)
+
+.alter-merge table HDInsightKafkaMetricsRaw policy retention softdelete = 1d
+
+.alter table HDInsightKafkaMetricsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table HDInsightKafkaMetricsRaw ingestion json mapping 'HDInsightKafkaMetricsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table HDInsightKafkaMetrics(
+TimeGenerated:datetime,
+TenantId:guid,
+MetricNamespace:string,
+MetricName:string,
+MetricValue:real,
+MetricDataType:string,
+Tags:string,
+ClusterName:string,
+HostName:string,
+OperationName:string,
+CorrelationId:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table HDInsightKafkaMetrics policy caching hot = 1d
+
+.create-or-alter function HDInsightKafkaMetricsExpand() {
+HDInsightKafkaMetricsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+MetricNamespace=tostring(events.MetricNamespace),
+MetricName=tostring(events.MetricName),
+MetricValue=toreal(events.MetricValue),
+MetricDataType=tostring(events.MetricDataType),
+Tags=tostring(events.Tags),
+ClusterName=tostring(events.ClusterName),
+HostName=tostring(events.HostName),
+OperationName=tostring(events.OperationName),
+CorrelationId=tostring(events.CorrelationId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table HDInsightKafkaMetrics policy update @'[{"Source": "HDInsightKafkaMetricsRaw", "Query": "HDInsightKafkaMetricsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

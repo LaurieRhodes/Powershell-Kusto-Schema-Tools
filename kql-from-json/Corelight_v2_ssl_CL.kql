@@ -1,0 +1,78 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_ssl_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:13
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_ssl_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_ssl_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_ssl_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_ssl_CLRaw ingestion json mapping 'Corelight_v2_ssl_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_ssl_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+client_cert_chain_fps_s:string,
+cert_chain_fps_s:string,
+ssl_history_s:string,
+established_b:bool,
+next_protocol_s:string,
+last_alert_s:string,
+resumed_b:bool,
+sni_matches_cert_b:bool,
+server_name_s:string,
+cipher_s:string,
+version_s:string,
+id_resp_p_d:real,
+id_resp_h_s:string,
+id_orig_p_d:real,
+id_orig_h_s:string,
+uid_s:string,
+curve_s:string,
+validation_status_s:string,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_ssl_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_ssl_CLExpand() {
+Corelight_v2_ssl_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+client_cert_chain_fps_s=tostring(events.client_cert_chain_fps_s),
+cert_chain_fps_s=tostring(events.cert_chain_fps_s),
+ssl_history_s=tostring(events.ssl_history_s),
+established_b=tobool(events.established_b),
+next_protocol_s=tostring(events.next_protocol_s),
+last_alert_s=tostring(events.last_alert_s),
+resumed_b=tobool(events.resumed_b),
+sni_matches_cert_b=tobool(events.sni_matches_cert_b),
+server_name_s=tostring(events.server_name_s),
+cipher_s=tostring(events.cipher_s),
+version_s=tostring(events.version_s),
+id_resp_p_d=toreal(events.id_resp_p_d),
+id_resp_h_s=tostring(events.id_resp_h_s),
+id_orig_p_d=toreal(events.id_orig_p_d),
+id_orig_h_s=tostring(events.id_orig_h_s),
+uid_s=tostring(events.uid_s),
+curve_s=tostring(events.curve_s),
+validation_status_s=tostring(events.validation_status_s),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_ssl_CL policy update @'[{"Source": "Corelight_v2_ssl_CLRaw", "Query": "Corelight_v2_ssl_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

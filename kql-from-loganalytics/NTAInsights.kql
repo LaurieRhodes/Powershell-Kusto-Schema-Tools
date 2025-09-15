@@ -1,0 +1,81 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for NTAInsights - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:17:40
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 23, Final columns: 23
+// ============================================================================
+
+.create-merge table NTAInsightsRaw (records:dynamic)
+
+.alter-merge table NTAInsightsRaw policy retention softdelete = 1d
+
+.alter table NTAInsightsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table NTAInsightsRaw ingestion json mapping 'NTAInsightsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table NTAInsights(
+TimeGenerated:datetime,
+TenantId:guid,
+AdFlag:real,
+TrafficTime:datetime,
+TrafficVolumeBaseline:real,
+TrafficVolumeActual:real,
+Periodicity:real,
+ProcessingTime:datetime,
+SeriesNumber:real,
+FlowStatus:string,
+AdScore:real,
+TrafficVolumeUnit:string,
+Region:string,
+InsightsResourceId:string,
+PivotType:string,
+IntervalEnd:datetime,
+IntervalStart:datetime,
+AggregationType:string,
+SchemaVersion:string,
+SubType:string,
+DataPoints:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table NTAInsights policy caching hot = 1d
+
+.create-or-alter function NTAInsightsExpand() {
+NTAInsightsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+AdFlag=toreal(events.AdFlag),
+TrafficTime=todatetime(events.TrafficTime),
+TrafficVolumeBaseline=toreal(events.TrafficVolumeBaseline),
+TrafficVolumeActual=toreal(events.TrafficVolumeActual),
+Periodicity=toreal(events.Periodicity),
+ProcessingTime=todatetime(events.ProcessingTime),
+SeriesNumber=toreal(events.SeriesNumber),
+FlowStatus=tostring(events.FlowStatus),
+AdScore=toreal(events.AdScore),
+TrafficVolumeUnit=tostring(events.TrafficVolumeUnit),
+Region=tostring(events.Region),
+InsightsResourceId=tostring(events.InsightsResourceId),
+PivotType=tostring(events.PivotType),
+IntervalEnd=todatetime(events.IntervalEnd),
+IntervalStart=todatetime(events.IntervalStart),
+AggregationType=tostring(events.AggregationType),
+SchemaVersion=tostring(events.SchemaVersion),
+SubType=tostring(events.SubType),
+DataPoints=tostring(events.DataPoints),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table NTAInsights policy update @'[{"Source": "NTAInsightsRaw", "Query": "NTAInsightsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

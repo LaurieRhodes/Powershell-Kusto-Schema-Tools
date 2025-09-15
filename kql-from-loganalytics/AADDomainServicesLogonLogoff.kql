@@ -1,0 +1,165 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AADDomainServicesLogonLogoff - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:17:53
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 65, Final columns: 65
+// ============================================================================
+
+.create-merge table AADDomainServicesLogonLogoffRaw (records:dynamic)
+
+.alter-merge table AADDomainServicesLogonLogoffRaw policy retention softdelete = 1d
+
+.alter table AADDomainServicesLogonLogoffRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AADDomainServicesLogonLogoffRaw ingestion json mapping 'AADDomainServicesLogonLogoffRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AADDomainServicesLogonLogoff(
+TimeGenerated:datetime,
+TenantId:guid,
+aadds_SidList:string,
+aadds_RecordId:string,
+TargetUserSid:string,
+TargetUserName:string,
+TargetDomainName:string,
+TargetLogonId:string,
+LogonType:int,
+LogonProcessName:string,
+AuthenticationPackageName:string,
+WorkstationName:string,
+LogonGuid:string,
+TransmittedServices:string,
+LmPackageName:string,
+KeyLength:int,
+ImpersonationLevel:string,
+RestrictedAdminMode:string,
+TargetOutboundUserName:string,
+TargetOutboundDomainName:string,
+VirtualAccount:string,
+TargetLinkedLogonId:string,
+ElevatedToken:string,
+FailureReason:string,
+SubStatus:string,
+TargetLogonGuid:string,
+TargetServerName:string,
+TargetInfo:string,
+TdoSid:string,
+aadds_TdoSid:string,
+aadds_TargetInfo:string,
+aadds_TargetServerName:string,
+aadds_TargetLogonGuid:string,
+SourceSystem:string,
+ResourceId:string,
+OperationName:string,
+Category:string,
+ResultType:string,
+ResultDescription:string,
+CorrelationId:string,
+aadds_TargetUserSid:string,
+aadds_TargetUserName:string,
+aadds_TargetDomainName:string,
+aadds_TargetLogonId:string,
+aadds_LogonType:int,
+aadds_LogonProcessName:string,
+SidList:string,
+aadds_AuthenticationPackageName:string,
+aadds_LogonGuid:string,
+aadds_TransmittedServices:string,
+aadds_LmPackageName:string,
+aadds_KeyLength:int,
+aadds_ImpersonationLevel:string,
+aadds_RestrictedAdminMode:string,
+aadds_TargetOutboundUserName:string,
+aadds_TargetOutboundDomainName:string,
+aadds_VirtualAccount:string,
+aadds_TargetLinkedLogonId:string,
+aadds_ElevatedToken:string,
+aadds_FailureReason:string,
+aadds_SubStatus:string,
+aadds_WorkstationName:string,
+RecordId:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AADDomainServicesLogonLogoff policy caching hot = 1d
+
+.create-or-alter function AADDomainServicesLogonLogoffExpand() {
+AADDomainServicesLogonLogoffRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+aadds_SidList=tostring(events.aadds_SidList),
+aadds_RecordId=tostring(events.aadds_RecordId),
+TargetUserSid=tostring(events.TargetUserSid),
+TargetUserName=tostring(events.TargetUserName),
+TargetDomainName=tostring(events.TargetDomainName),
+TargetLogonId=tostring(events.TargetLogonId),
+LogonType=toint(events.LogonType),
+LogonProcessName=tostring(events.LogonProcessName),
+AuthenticationPackageName=tostring(events.AuthenticationPackageName),
+WorkstationName=tostring(events.WorkstationName),
+LogonGuid=tostring(events.LogonGuid),
+TransmittedServices=tostring(events.TransmittedServices),
+LmPackageName=tostring(events.LmPackageName),
+KeyLength=toint(events.KeyLength),
+ImpersonationLevel=tostring(events.ImpersonationLevel),
+RestrictedAdminMode=tostring(events.RestrictedAdminMode),
+TargetOutboundUserName=tostring(events.TargetOutboundUserName),
+TargetOutboundDomainName=tostring(events.TargetOutboundDomainName),
+VirtualAccount=tostring(events.VirtualAccount),
+TargetLinkedLogonId=tostring(events.TargetLinkedLogonId),
+ElevatedToken=tostring(events.ElevatedToken),
+FailureReason=tostring(events.FailureReason),
+SubStatus=tostring(events.SubStatus),
+TargetLogonGuid=tostring(events.TargetLogonGuid),
+TargetServerName=tostring(events.TargetServerName),
+TargetInfo=tostring(events.TargetInfo),
+TdoSid=tostring(events.TdoSid),
+aadds_TdoSid=tostring(events.aadds_TdoSid),
+aadds_TargetInfo=tostring(events.aadds_TargetInfo),
+aadds_TargetServerName=tostring(events.aadds_TargetServerName),
+aadds_TargetLogonGuid=tostring(events.aadds_TargetLogonGuid),
+SourceSystem=tostring(events.SourceSystem),
+ResourceId=tostring(events.ResourceId),
+OperationName=tostring(events.OperationName),
+Category=tostring(events.Category),
+ResultType=tostring(events.ResultType),
+ResultDescription=tostring(events.ResultDescription),
+CorrelationId=tostring(events.CorrelationId),
+aadds_TargetUserSid=tostring(events.aadds_TargetUserSid),
+aadds_TargetUserName=tostring(events.aadds_TargetUserName),
+aadds_TargetDomainName=tostring(events.aadds_TargetDomainName),
+aadds_TargetLogonId=tostring(events.aadds_TargetLogonId),
+aadds_LogonType=toint(events.aadds_LogonType),
+aadds_LogonProcessName=tostring(events.aadds_LogonProcessName),
+SidList=tostring(events.SidList),
+aadds_AuthenticationPackageName=tostring(events.aadds_AuthenticationPackageName),
+aadds_LogonGuid=tostring(events.aadds_LogonGuid),
+aadds_TransmittedServices=tostring(events.aadds_TransmittedServices),
+aadds_LmPackageName=tostring(events.aadds_LmPackageName),
+aadds_KeyLength=toint(events.aadds_KeyLength),
+aadds_ImpersonationLevel=tostring(events.aadds_ImpersonationLevel),
+aadds_RestrictedAdminMode=tostring(events.aadds_RestrictedAdminMode),
+aadds_TargetOutboundUserName=tostring(events.aadds_TargetOutboundUserName),
+aadds_TargetOutboundDomainName=tostring(events.aadds_TargetOutboundDomainName),
+aadds_VirtualAccount=tostring(events.aadds_VirtualAccount),
+aadds_TargetLinkedLogonId=tostring(events.aadds_TargetLinkedLogonId),
+aadds_ElevatedToken=tostring(events.aadds_ElevatedToken),
+aadds_FailureReason=tostring(events.aadds_FailureReason),
+aadds_SubStatus=tostring(events.aadds_SubStatus),
+aadds_WorkstationName=tostring(events.aadds_WorkstationName),
+RecordId=tostring(events.RecordId),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AADDomainServicesLogonLogoff policy update @'[{"Source": "AADDomainServicesLogonLogoffRaw", "Query": "AADDomainServicesLogonLogoffExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,63 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AppServicePlatformLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:22:44
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 14, Final columns: 14
+// ============================================================================
+
+.create-merge table AppServicePlatformLogsRaw (records:dynamic)
+
+.alter-merge table AppServicePlatformLogsRaw policy retention softdelete = 1d
+
+.alter table AppServicePlatformLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AppServicePlatformLogsRaw ingestion json mapping 'AppServicePlatformLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AppServicePlatformLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+Level:string,
+Message:string,
+ContainerId:string,
+DeploymentId:string,
+Host:string,
+SourceSystem:string,
+ActivityId:string,
+Exception:string,
+StackTrace:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AppServicePlatformLogs policy caching hot = 1d
+
+.create-or-alter function AppServicePlatformLogsExpand() {
+AppServicePlatformLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+Level=tostring(events.Level),
+Message=tostring(events.Message),
+ContainerId=tostring(events.ContainerId),
+DeploymentId=tostring(events.DeploymentId),
+Host=tostring(events.Host),
+SourceSystem=tostring(events.SourceSystem),
+ActivityId=tostring(events.ActivityId),
+Exception=tostring(events.Exception),
+StackTrace=tostring(events.StackTrace),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AppServicePlatformLogs policy update @'[{"Source": "AppServicePlatformLogsRaw", "Query": "AppServicePlatformLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

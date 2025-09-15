@@ -1,0 +1,128 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for VMware_CWS_Weblogs_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table VMware_CWS_Weblogs_CLRaw (records:dynamic)
+
+.alter-merge table VMware_CWS_Weblogs_CLRaw policy retention softdelete = 1d
+
+.alter table VMware_CWS_Weblogs_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table VMware_CWS_Weblogs_CLRaw ingestion json mapping 'VMware_CWS_Weblogs_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table VMware_CWS_Weblogs_CL(
+TimeGenerated:datetime,
+accessMode:string,
+policyName:string,
+protocol:string,
+region:string,
+requestMethod:string,
+requestType:string,
+responseCode:string,
+risks:dynamic,
+ruleMatched:string,
+saasEgressHeaders:dynamic,
+policyHeaders:string,
+sandboxInspectionResult:string,
+sandboxScore:string,
+sourceIp:string,
+srcCountry:string,
+threatTypes:dynamic,
+url:string,
+userAgent:string,
+userGroups:dynamic,
+userGroupsMatched:dynamic,
+userId:string,
+sandboxMaliciousActivitiesFound:string,
+virusList:string,
+mimeType:string,
+fileSize:string,
+action:string,
+browserType:dynamic,
+browserVersion:dynamic,
+casbAppName:dynamic,
+casbCatName:dynamic,
+casbFunName:dynamic,
+casbOrgName:dynamic,
+casbRiskScore:dynamic,
+categories:string,
+fileType:string,
+contentType:string,
+destinationIp:string,
+dnsResponse:string,
+domain:string,
+dstCountry:string,
+egressIp:string,
+fileHash:dynamic,
+fileHashScore:string,
+fileName:string,
+fileScanResult:dynamic,
+cws_timestamp:datetime,
+webRiskScore:string,
+_TimeReceived:datetime)
+
+.alter table VMware_CWS_Weblogs_CL policy caching hot = 1d
+
+.create-or-alter function VMware_CWS_Weblogs_CLExpand() {
+VMware_CWS_Weblogs_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+accessMode=tostring(events.accessMode),
+policyName=tostring(events.policyName),
+protocol=tostring(events.protocol),
+region=tostring(events.region),
+requestMethod=tostring(events.requestMethod),
+requestType=tostring(events.requestType),
+responseCode=tostring(events.responseCode),
+risks=todynamic(events.risks),
+ruleMatched=tostring(events.ruleMatched),
+saasEgressHeaders=todynamic(events.saasEgressHeaders),
+policyHeaders=tostring(events.policyHeaders),
+sandboxInspectionResult=tostring(events.sandboxInspectionResult),
+sandboxScore=tostring(events.sandboxScore),
+sourceIp=tostring(events.sourceIp),
+srcCountry=tostring(events.srcCountry),
+threatTypes=todynamic(events.threatTypes),
+url=tostring(events.url),
+userAgent=tostring(events.userAgent),
+userGroups=todynamic(events.userGroups),
+userGroupsMatched=todynamic(events.userGroupsMatched),
+userId=tostring(events.userId),
+sandboxMaliciousActivitiesFound=tostring(events.sandboxMaliciousActivitiesFound),
+virusList=tostring(events.virusList),
+mimeType=tostring(events.mimeType),
+fileSize=tostring(events.fileSize),
+action=tostring(events.action),
+browserType=todynamic(events.browserType),
+browserVersion=todynamic(events.browserVersion),
+casbAppName=todynamic(events.casbAppName),
+casbCatName=todynamic(events.casbCatName),
+casbFunName=todynamic(events.casbFunName),
+casbOrgName=todynamic(events.casbOrgName),
+casbRiskScore=todynamic(events.casbRiskScore),
+categories=tostring(events.categories),
+fileType=tostring(events.fileType),
+contentType=tostring(events.contentType),
+destinationIp=tostring(events.destinationIp),
+dnsResponse=tostring(events.dnsResponse),
+domain=tostring(events.domain),
+dstCountry=tostring(events.dstCountry),
+egressIp=tostring(events.egressIp),
+fileHash=todynamic(events.fileHash),
+fileHashScore=tostring(events.fileHashScore),
+fileName=tostring(events.fileName),
+fileScanResult=todynamic(events.fileScanResult),
+cws_timestamp=todatetime(events.cws_timestamp),
+webRiskScore=tostring(events.webRiskScore),
+_TimeReceived=todatetime(now())
+}
+
+.alter table VMware_CWS_Weblogs_CL policy update @'[{"Source": "VMware_CWS_Weblogs_CLRaw", "Query": "VMware_CWS_Weblogs_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

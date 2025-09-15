@@ -1,0 +1,104 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Sonrai_Tickets_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Sonrai_Tickets_CLRaw (records:dynamic)
+
+.alter-merge table Sonrai_Tickets_CLRaw policy retention softdelete = 1d
+
+.alter table Sonrai_Tickets_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Sonrai_Tickets_CLRaw ingestion json mapping 'Sonrai_Tickets_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Sonrai_Tickets_CL(
+TimeGenerated:datetime,
+digest_ticketSignature_s:string,
+digest_ticketKeyDescription_s:string,
+digest_ticketSrn_s:string,
+digest_createdDate_d:real,
+digest_createdBy_s:string,
+digest_assignedTo_s:string,
+digest_transitionedBy_s:string,
+digest_criticalResourceName_s:string,
+digest_transitionDate_d:real,
+digest_title_s:string,
+digest_severityNumeric_d:real,
+digest_severityCategory_s:string,
+digest_status_s:string,
+digest_lastReopenDate_d:real,
+digest_lastSeenDate_d:real,
+digest_description_s:string,
+action_d:real,
+digest_ticketKeyName_s:string,
+digest_account_s:string,
+digest_timestamp_s:string,
+digest_org_s:string,
+digest_ticketType_s:string,
+digest_ticketKey_s:string,
+digest_swimlanes_s:string,
+digest_severity_d:real,
+digest_actionClassification_s:string,
+digest_evidence_resourceSet_s:string,
+digest_envidence_path_s:string,
+digest_evidence_count_d:real,
+digest_evidence_userAgentSet_s:string,
+digest_criticalResourceSRN_s:string,
+digest_resourceType_s:string,
+digest_resourceLabel_s:string,
+digest_evidence_conditions_s:string,
+actor_s:string,
+_TimeReceived:datetime)
+
+.alter table Sonrai_Tickets_CL policy caching hot = 1d
+
+.create-or-alter function Sonrai_Tickets_CLExpand() {
+Sonrai_Tickets_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+digest_ticketSignature_s=tostring(events.digest_ticketSignature_s),
+digest_ticketKeyDescription_s=tostring(events.digest_ticketKeyDescription_s),
+digest_ticketSrn_s=tostring(events.digest_ticketSrn_s),
+digest_createdDate_d=toreal(events.digest_createdDate_d),
+digest_createdBy_s=tostring(events.digest_createdBy_s),
+digest_assignedTo_s=tostring(events.digest_assignedTo_s),
+digest_transitionedBy_s=tostring(events.digest_transitionedBy_s),
+digest_criticalResourceName_s=tostring(events.digest_criticalResourceName_s),
+digest_transitionDate_d=toreal(events.digest_transitionDate_d),
+digest_title_s=tostring(events.digest_title_s),
+digest_severityNumeric_d=toreal(events.digest_severityNumeric_d),
+digest_severityCategory_s=tostring(events.digest_severityCategory_s),
+digest_status_s=tostring(events.digest_status_s),
+digest_lastReopenDate_d=toreal(events.digest_lastReopenDate_d),
+digest_lastSeenDate_d=toreal(events.digest_lastSeenDate_d),
+digest_description_s=tostring(events.digest_description_s),
+action_d=toreal(events.action_d),
+digest_ticketKeyName_s=tostring(events.digest_ticketKeyName_s),
+digest_account_s=tostring(events.digest_account_s),
+digest_timestamp_s=tostring(events.digest_timestamp_s),
+digest_org_s=tostring(events.digest_org_s),
+digest_ticketType_s=tostring(events.digest_ticketType_s),
+digest_ticketKey_s=tostring(events.digest_ticketKey_s),
+digest_swimlanes_s=tostring(events.digest_swimlanes_s),
+digest_severity_d=toreal(events.digest_severity_d),
+digest_actionClassification_s=tostring(events.digest_actionClassification_s),
+digest_evidence_resourceSet_s=tostring(events.digest_evidence_resourceSet_s),
+digest_envidence_path_s=tostring(events.digest_envidence_path_s),
+digest_evidence_count_d=toreal(events.digest_evidence_count_d),
+digest_evidence_userAgentSet_s=tostring(events.digest_evidence_userAgentSet_s),
+digest_criticalResourceSRN_s=tostring(events.digest_criticalResourceSRN_s),
+digest_resourceType_s=tostring(events.digest_resourceType_s),
+digest_resourceLabel_s=tostring(events.digest_resourceLabel_s),
+digest_evidence_conditions_s=tostring(events.digest_evidence_conditions_s),
+actor_s=tostring(events.actor_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Sonrai_Tickets_CL policy update @'[{"Source": "Sonrai_Tickets_CLRaw", "Query": "Sonrai_Tickets_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,139 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for StorageBlobLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:20:55
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 52, Final columns: 52
+// ============================================================================
+
+.create-merge table StorageBlobLogsRaw (records:dynamic)
+
+.alter-merge table StorageBlobLogsRaw policy retention softdelete = 1d
+
+.alter table StorageBlobLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table StorageBlobLogsRaw ingestion json mapping 'StorageBlobLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table StorageBlobLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+Etag:string,
+ServiceType:string,
+OperationCount:int,
+ObjectKey:string,
+RequestHeaderSize:long,
+RequestBodySize:long,
+ResponseHeaderSize:long,
+ResponseBodySize:long,
+RequestMd5:string,
+ResponseMd5:string,
+LastModifiedTime:datetime,
+ConditionsUsed:string,
+ContentLengthHeader:long,
+Category:string,
+TlsVersion:string,
+SasExpiryStatus:string,
+MetricResponseType:string,
+SourceUri:string,
+DestinationUri:string,
+AccessTier:string,
+SourceAccessTier:string,
+ClientRequestId:string,
+RehydratePriority:string,
+ReferrerHeader:string,
+AuthorizationDetails:dynamic,
+AccountName:string,
+Location:string,
+Protocol:string,
+OperationName:string,
+AuthenticationType:string,
+StatusCode:string,
+StatusText:string,
+DurationMs:real,
+ServerLatencyMs:real,
+Uri:string,
+CallerIpAddress:string,
+CorrelationId:string,
+SchemaVersion:string,
+OperationVersion:string,
+AuthenticationHash:string,
+RequesterObjectId:string,
+RequesterTenantId:string,
+RequesterAppId:string,
+RequesterAudience:string,
+RequesterTokenIssuer:string,
+RequesterUpn:string,
+UserAgentHeader:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table StorageBlobLogs policy caching hot = 1d
+
+.create-or-alter function StorageBlobLogsExpand() {
+StorageBlobLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Etag=tostring(events.Etag),
+ServiceType=tostring(events.ServiceType),
+OperationCount=toint(events.OperationCount),
+ObjectKey=tostring(events.ObjectKey),
+RequestHeaderSize=tolong(events.RequestHeaderSize),
+RequestBodySize=tolong(events.RequestBodySize),
+ResponseHeaderSize=tolong(events.ResponseHeaderSize),
+ResponseBodySize=tolong(events.ResponseBodySize),
+RequestMd5=tostring(events.RequestMd5),
+ResponseMd5=tostring(events.ResponseMd5),
+LastModifiedTime=todatetime(events.LastModifiedTime),
+ConditionsUsed=tostring(events.ConditionsUsed),
+ContentLengthHeader=tolong(events.ContentLengthHeader),
+Category=tostring(events.Category),
+TlsVersion=tostring(events.TlsVersion),
+SasExpiryStatus=tostring(events.SasExpiryStatus),
+MetricResponseType=tostring(events.MetricResponseType),
+SourceUri=tostring(events.SourceUri),
+DestinationUri=tostring(events.DestinationUri),
+AccessTier=tostring(events.AccessTier),
+SourceAccessTier=tostring(events.SourceAccessTier),
+ClientRequestId=tostring(events.ClientRequestId),
+RehydratePriority=tostring(events.RehydratePriority),
+ReferrerHeader=tostring(events.ReferrerHeader),
+AuthorizationDetails=todynamic(events.AuthorizationDetails),
+AccountName=tostring(events.AccountName),
+Location=tostring(events.Location),
+Protocol=tostring(events.Protocol),
+OperationName=tostring(events.OperationName),
+AuthenticationType=tostring(events.AuthenticationType),
+StatusCode=tostring(events.StatusCode),
+StatusText=tostring(events.StatusText),
+DurationMs=toreal(events.DurationMs),
+ServerLatencyMs=toreal(events.ServerLatencyMs),
+Uri=tostring(events.Uri),
+CallerIpAddress=tostring(events.CallerIpAddress),
+CorrelationId=tostring(events.CorrelationId),
+SchemaVersion=tostring(events.SchemaVersion),
+OperationVersion=tostring(events.OperationVersion),
+AuthenticationHash=tostring(events.AuthenticationHash),
+RequesterObjectId=tostring(events.RequesterObjectId),
+RequesterTenantId=tostring(events.RequesterTenantId),
+RequesterAppId=tostring(events.RequesterAppId),
+RequesterAudience=tostring(events.RequesterAudience),
+RequesterTokenIssuer=tostring(events.RequesterTokenIssuer),
+RequesterUpn=tostring(events.RequesterUpn),
+UserAgentHeader=tostring(events.UserAgentHeader),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table StorageBlobLogs policy update @'[{"Source": "StorageBlobLogsRaw", "Query": "StorageBlobLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

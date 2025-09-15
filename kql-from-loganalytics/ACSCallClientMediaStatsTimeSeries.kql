@@ -1,0 +1,83 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ACSCallClientMediaStatsTimeSeries - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:18:50
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 24, Final columns: 24
+// ============================================================================
+
+.create-merge table ACSCallClientMediaStatsTimeSeriesRaw (records:dynamic)
+
+.alter-merge table ACSCallClientMediaStatsTimeSeriesRaw policy retention softdelete = 1d
+
+.alter table ACSCallClientMediaStatsTimeSeriesRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ACSCallClientMediaStatsTimeSeriesRaw ingestion json mapping 'ACSCallClientMediaStatsTimeSeriesRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ACSCallClientMediaStatsTimeSeries(
+TimeGenerated:datetime,
+TenantId:guid,
+MediaStreamId:string,
+RemoteEndpointId:string,
+RemoteParticipantId:string,
+EndpointId:string,
+ClientInstanceId:string,
+ParticipantId:string,
+MediaStreamCodec:string,
+MediaStreamType:string,
+AggregationIntervalSeconds:int,
+MediaStreamDirection:string,
+Minimum:real,
+Average:real,
+Sum:real,
+Count:long,
+MetricName:string,
+CallClientTimeStamp:datetime,
+CallId:string,
+OperationName:string,
+Maximum:real,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ACSCallClientMediaStatsTimeSeries policy caching hot = 1d
+
+.create-or-alter function ACSCallClientMediaStatsTimeSeriesExpand() {
+ACSCallClientMediaStatsTimeSeriesRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+MediaStreamId=tostring(events.MediaStreamId),
+RemoteEndpointId=tostring(events.RemoteEndpointId),
+RemoteParticipantId=tostring(events.RemoteParticipantId),
+EndpointId=tostring(events.EndpointId),
+ClientInstanceId=tostring(events.ClientInstanceId),
+ParticipantId=tostring(events.ParticipantId),
+MediaStreamCodec=tostring(events.MediaStreamCodec),
+MediaStreamType=tostring(events.MediaStreamType),
+AggregationIntervalSeconds=toint(events.AggregationIntervalSeconds),
+MediaStreamDirection=tostring(events.MediaStreamDirection),
+Minimum=toreal(events.Minimum),
+Average=toreal(events.Average),
+Sum=toreal(events.Sum),
+Count=tolong(events.Count),
+MetricName=tostring(events.MetricName),
+CallClientTimeStamp=todatetime(events.CallClientTimeStamp),
+CallId=tostring(events.CallId),
+OperationName=tostring(events.OperationName),
+Maximum=toreal(events.Maximum),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ACSCallClientMediaStatsTimeSeries policy update @'[{"Source": "ACSCallClientMediaStatsTimeSeriesRaw", "Query": "ACSCallClientMediaStatsTimeSeriesExpand()", "IsEnabled": "True", "IsTransactional": true}]'

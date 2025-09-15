@@ -1,0 +1,70 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_dhcp_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:12
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_dhcp_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_dhcp_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_dhcp_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_dhcp_CLRaw ingestion json mapping 'Corelight_v2_dhcp_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_dhcp_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+uids_s:string,
+client_addr_s:string,
+server_addr_s:string,
+mac_s:string,
+host_name_s:string,
+client_fqdn_s:string,
+domain_s:string,
+requested_addr_s:string,
+assigned_addr_s:string,
+lease_time_d:real,
+client_message_s:string,
+server_message_s:string,
+msg_types_s:string,
+duration_d:real,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_dhcp_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_dhcp_CLExpand() {
+Corelight_v2_dhcp_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+uids_s=tostring(events.uids_s),
+client_addr_s=tostring(events.client_addr_s),
+server_addr_s=tostring(events.server_addr_s),
+mac_s=tostring(events.mac_s),
+host_name_s=tostring(events.host_name_s),
+client_fqdn_s=tostring(events.client_fqdn_s),
+domain_s=tostring(events.domain_s),
+requested_addr_s=tostring(events.requested_addr_s),
+assigned_addr_s=tostring(events.assigned_addr_s),
+lease_time_d=toreal(events.lease_time_d),
+client_message_s=tostring(events.client_message_s),
+server_message_s=tostring(events.server_message_s),
+msg_types_s=tostring(events.msg_types_s),
+duration_d=toreal(events.duration_d),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_dhcp_CL policy update @'[{"Source": "Corelight_v2_dhcp_CLRaw", "Query": "Corelight_v2_dhcp_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

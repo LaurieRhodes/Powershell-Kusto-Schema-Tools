@@ -1,0 +1,98 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Detections_Data_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Detections_Data_CLRaw (records:dynamic)
+
+.alter-merge table Detections_Data_CLRaw policy retention softdelete = 1d
+
+.alter table Detections_Data_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Detections_Data_CLRaw ingestion json mapping 'Detections_Data_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Detections_Data_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+src_ip_s:string,
+normal_domains_s:string,
+src_host_s:string,
+is_targeting_key_asset_s:string,
+d_detection_details_s:string,
+detail_s:string,
+entity_uid_s:string,
+detection_id_d:real,
+event_timestamp_t:datetime,
+Severity:int,
+url_s:string,
+type_s:string,
+entity_type_s:string,
+entity_id_d:real,
+detection_href_s:string,
+d_type_vname_s:string,
+detection_type_s:string,
+triaged_b:bool,
+certainty_d:real,
+threat_d:real,
+Category:string,
+id_d:real,
+RawData:string,
+Computer:string,
+ManagementGroupName:string,
+MG:string,
+SourceSystem:string,
+summary_s:string,
+grouped_details_s:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table Detections_Data_CL policy caching hot = 1d
+
+.create-or-alter function Detections_Data_CLExpand() {
+Detections_Data_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+src_ip_s=tostring(events.src_ip_s),
+normal_domains_s=tostring(events.normal_domains_s),
+src_host_s=tostring(events.src_host_s),
+is_targeting_key_asset_s=tostring(events.is_targeting_key_asset_s),
+d_detection_details_s=tostring(events.d_detection_details_s),
+detail_s=tostring(events.detail_s),
+entity_uid_s=tostring(events.entity_uid_s),
+detection_id_d=toreal(events.detection_id_d),
+event_timestamp_t=todatetime(events.event_timestamp_t),
+Severity=toint(events.Severity),
+url_s=tostring(events.url_s),
+type_s=tostring(events.type_s),
+entity_type_s=tostring(events.entity_type_s),
+entity_id_d=toreal(events.entity_id_d),
+detection_href_s=tostring(events.detection_href_s),
+d_type_vname_s=tostring(events.d_type_vname_s),
+detection_type_s=tostring(events.detection_type_s),
+triaged_b=tobool(events.triaged_b),
+certainty_d=toreal(events.certainty_d),
+threat_d=toreal(events.threat_d),
+Category=tostring(events.Category),
+id_d=toreal(events.id_d),
+RawData=tostring(events.RawData),
+Computer=tostring(events.Computer),
+ManagementGroupName=tostring(events.ManagementGroupName),
+MG=tostring(events.MG),
+SourceSystem=tostring(events.SourceSystem),
+summary_s=tostring(events.summary_s),
+grouped_details_s=tostring(events.grouped_details_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Detections_Data_CL policy update @'[{"Source": "Detections_Data_CLRaw", "Query": "Detections_Data_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

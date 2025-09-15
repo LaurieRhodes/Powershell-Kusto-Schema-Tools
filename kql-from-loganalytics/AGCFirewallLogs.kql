@@ -1,0 +1,83 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AGCFirewallLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:20:38
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 24, Final columns: 24
+// ============================================================================
+
+.create-merge table AGCFirewallLogsRaw (records:dynamic)
+
+.alter-merge table AGCFirewallLogsRaw policy retention softdelete = 1d
+
+.alter table AGCFirewallLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AGCFirewallLogsRaw ingestion json mapping 'AGCFirewallLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AGCFirewallLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+RuleId:string,
+RuleSetVersion:string,
+RuleSetType:string,
+RequestUri:string,
+PolicyScopeName:string,
+PolicyScope:string,
+PolicyId:string,
+Hostname:string,
+TrackingId:string,
+LineDetails:string,
+DetailedData:string,
+DetailedMessage:string,
+Message:string,
+Action:string,
+ClientPort:int,
+ClientIp:string,
+InstanceId:string,
+OperationName:string,
+FileDetails:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AGCFirewallLogs policy caching hot = 1d
+
+.create-or-alter function AGCFirewallLogsExpand() {
+AGCFirewallLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+RuleId=tostring(events.RuleId),
+RuleSetVersion=tostring(events.RuleSetVersion),
+RuleSetType=tostring(events.RuleSetType),
+RequestUri=tostring(events.RequestUri),
+PolicyScopeName=tostring(events.PolicyScopeName),
+PolicyScope=tostring(events.PolicyScope),
+PolicyId=tostring(events.PolicyId),
+Hostname=tostring(events.Hostname),
+TrackingId=tostring(events.TrackingId),
+LineDetails=tostring(events.LineDetails),
+DetailedData=tostring(events.DetailedData),
+DetailedMessage=tostring(events.DetailedMessage),
+Message=tostring(events.Message),
+Action=tostring(events.Action),
+ClientPort=toint(events.ClientPort),
+ClientIp=tostring(events.ClientIp),
+InstanceId=tostring(events.InstanceId),
+OperationName=tostring(events.OperationName),
+FileDetails=tostring(events.FileDetails),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AGCFirewallLogs policy update @'[{"Source": "AGCFirewallLogsRaw", "Query": "AGCFirewallLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

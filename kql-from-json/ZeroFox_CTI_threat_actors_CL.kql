@@ -1,0 +1,58 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ZeroFox_CTI_threat_actors_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table ZeroFox_CTI_threat_actors_CLRaw (records:dynamic)
+
+.alter-merge table ZeroFox_CTI_threat_actors_CLRaw policy retention softdelete = 1d
+
+.alter table ZeroFox_CTI_threat_actors_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ZeroFox_CTI_threat_actors_CLRaw ingestion json mapping 'ZeroFox_CTI_threat_actors_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ZeroFox_CTI_threat_actors_CL(
+TimeGenerated:datetime,
+id_d:real,
+mitre_id_s:string,
+name_s:string,
+created_at_t:datetime,
+updated_at_t:datetime,
+description_s:string,
+references_s:string,
+software_s:string,
+associated_groups_s:string,
+target_geo_s:string,
+target_industries_s:string,
+mitre_ttps_s:string,
+_TimeReceived:datetime)
+
+.alter table ZeroFox_CTI_threat_actors_CL policy caching hot = 1d
+
+.create-or-alter function ZeroFox_CTI_threat_actors_CLExpand() {
+ZeroFox_CTI_threat_actors_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+id_d=toreal(events.id_d),
+mitre_id_s=tostring(events.mitre_id_s),
+name_s=tostring(events.name_s),
+created_at_t=todatetime(events.created_at_t),
+updated_at_t=todatetime(events.updated_at_t),
+description_s=tostring(events.description_s),
+references_s=tostring(events.references_s),
+software_s=tostring(events.software_s),
+associated_groups_s=tostring(events.associated_groups_s),
+target_geo_s=tostring(events.target_geo_s),
+target_industries_s=tostring(events.target_industries_s),
+mitre_ttps_s=tostring(events.mitre_ttps_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ZeroFox_CTI_threat_actors_CL policy update @'[{"Source": "ZeroFox_CTI_threat_actors_CLRaw", "Query": "ZeroFox_CTI_threat_actors_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

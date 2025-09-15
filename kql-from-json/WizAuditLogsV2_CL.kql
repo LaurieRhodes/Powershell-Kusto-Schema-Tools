@@ -1,0 +1,44 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for WizAuditLogsV2_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table WizAuditLogsV2_CLRaw (records:dynamic)
+
+.alter-merge table WizAuditLogsV2_CLRaw policy retention softdelete = 1d
+
+.alter table WizAuditLogsV2_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table WizAuditLogsV2_CLRaw ingestion json mapping 'WizAuditLogsV2_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table WizAuditLogsV2_CL(
+TimeGenerated:datetime,
+user_id_s:string,
+user_name_s:string,
+serviceAccount_name_s:string,
+serviceAccount_id_s:string,
+timestamp_t:datetime,
+_TimeReceived:datetime)
+
+.alter table WizAuditLogsV2_CL policy caching hot = 1d
+
+.create-or-alter function WizAuditLogsV2_CLExpand() {
+WizAuditLogsV2_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+user_id_s=tostring(events.user_id_s),
+user_name_s=tostring(events.user_name_s),
+serviceAccount_name_s=tostring(events.serviceAccount_name_s),
+serviceAccount_id_s=tostring(events.serviceAccount_id_s),
+timestamp_t=todatetime(events.timestamp_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table WizAuditLogsV2_CL policy update @'[{"Source": "WizAuditLogsV2_CLRaw", "Query": "WizAuditLogsV2_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

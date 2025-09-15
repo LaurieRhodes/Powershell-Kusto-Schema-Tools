@@ -1,0 +1,66 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for CyberpionActionItems_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table CyberpionActionItems_CLRaw (records:dynamic)
+
+.alter-merge table CyberpionActionItems_CLRaw policy retention softdelete = 1d
+
+.alter table CyberpionActionItems_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table CyberpionActionItems_CLRaw ingestion json mapping 'CyberpionActionItems_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table CyberpionActionItems_CL(
+TimeGenerated:datetime,
+id_s:string,
+host_s:string,
+Category:string,
+title_s:string,
+urgency_d:real,
+is_open_b:bool,
+impact_s:string,
+summary_s:string,
+solution_s:string,
+description_s:string,
+technical_details_s:string,
+opening_datetime_t:datetime,
+is_acknowledged_b:bool,
+acknowledged_by_s:string,
+acknowledged_reason_s:string,
+acknowledged_date_t:datetime,
+_TimeReceived:datetime)
+
+.alter table CyberpionActionItems_CL policy caching hot = 1d
+
+.create-or-alter function CyberpionActionItems_CLExpand() {
+CyberpionActionItems_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+id_s=tostring(events.id_s),
+host_s=tostring(events.host_s),
+Category=tostring(events.Category),
+title_s=tostring(events.title_s),
+urgency_d=toreal(events.urgency_d),
+is_open_b=tobool(events.is_open_b),
+impact_s=tostring(events.impact_s),
+summary_s=tostring(events.summary_s),
+solution_s=tostring(events.solution_s),
+description_s=tostring(events.description_s),
+technical_details_s=tostring(events.technical_details_s),
+opening_datetime_t=todatetime(events.opening_datetime_t),
+is_acknowledged_b=tobool(events.is_acknowledged_b),
+acknowledged_by_s=tostring(events.acknowledged_by_s),
+acknowledged_reason_s=tostring(events.acknowledged_reason_s),
+acknowledged_date_t=todatetime(events.acknowledged_date_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table CyberpionActionItems_CL policy update @'[{"Source": "CyberpionActionItems_CLRaw", "Query": "CyberpionActionItems_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

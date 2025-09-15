@@ -1,0 +1,66 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AIShield_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:10
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table AIShield_CLRaw (records:dynamic)
+
+.alter-merge table AIShield_CLRaw policy retention softdelete = 1d
+
+.alter table AIShield_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AIShield_CLRaw ingestion json mapping 'AIShield_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AIShield_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+SourceSystem:string,
+MG:string,
+ManagementGroupName:string,
+Computer:string,
+RawData:string,
+probability:real,
+RawMessage:string,
+service_name:string,
+asset_id:string,
+source_name:string,
+attack_name:string,
+timestamp:datetime,
+SuspiciousLevel:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AIShield_CL policy caching hot = 1d
+
+.create-or-alter function AIShield_CLExpand() {
+AIShield_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SourceSystem=tostring(events.SourceSystem),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+Computer=tostring(events.Computer),
+RawData=tostring(events.RawData),
+probability=toreal(events.probability),
+RawMessage=tostring(events.RawMessage),
+service_name=tostring(events.service_name),
+asset_id=tostring(events.asset_id),
+source_name=tostring(events.source_name),
+attack_name=tostring(events.attack_name),
+timestamp=todatetime(events.timestamp),
+SuspiciousLevel=tostring(events.SuspiciousLevel),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AIShield_CL policy update @'[{"Source": "AIShield_CLRaw", "Query": "AIShield_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

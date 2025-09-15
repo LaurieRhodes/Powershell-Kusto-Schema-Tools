@@ -1,0 +1,78 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_ftp_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:12
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_ftp_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_ftp_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_ftp_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_ftp_CLRaw ingestion json mapping 'Corelight_v2_ftp_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_ftp_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+data_channel_resp_h_s:string,
+data_channel_orig_h_s:string,
+data_channel_passive_b:bool,
+reply_msg_s:string,
+reply_code_d:real,
+file_size_d:real,
+mime_type_s:string,
+data_channel_resp_p_d:real,
+arg_s:string,
+password_s:string,
+user_s:string,
+id_resp_p_d:real,
+id_resp_h_s:string,
+id_orig_p_d:real,
+id_orig_h_s:string,
+uid_s:string,
+command_s:string,
+fuid_s:string,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_ftp_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_ftp_CLExpand() {
+Corelight_v2_ftp_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+data_channel_resp_h_s=tostring(events.data_channel_resp_h_s),
+data_channel_orig_h_s=tostring(events.data_channel_orig_h_s),
+data_channel_passive_b=tobool(events.data_channel_passive_b),
+reply_msg_s=tostring(events.reply_msg_s),
+reply_code_d=toreal(events.reply_code_d),
+file_size_d=toreal(events.file_size_d),
+mime_type_s=tostring(events.mime_type_s),
+data_channel_resp_p_d=toreal(events.data_channel_resp_p_d),
+arg_s=tostring(events.arg_s),
+password_s=tostring(events.password_s),
+user_s=tostring(events.user_s),
+id_resp_p_d=toreal(events.id_resp_p_d),
+id_resp_h_s=tostring(events.id_resp_h_s),
+id_orig_p_d=toreal(events.id_orig_p_d),
+id_orig_h_s=tostring(events.id_orig_h_s),
+uid_s=tostring(events.uid_s),
+command_s=tostring(events.command_s),
+fuid_s=tostring(events.fuid_s),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_ftp_CL policy update @'[{"Source": "Corelight_v2_ftp_CLRaw", "Query": "Corelight_v2_ftp_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

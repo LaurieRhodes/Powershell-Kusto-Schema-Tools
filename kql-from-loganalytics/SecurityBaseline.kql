@@ -1,0 +1,101 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for SecurityBaseline - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:20:05
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 33, Final columns: 33
+// ============================================================================
+
+.create-merge table SecurityBaselineRaw (records:dynamic)
+
+.alter-merge table SecurityBaselineRaw policy retention softdelete = 1d
+
+.alter table SecurityBaselineRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table SecurityBaselineRaw ingestion json mapping 'SecurityBaselineRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table SecurityBaseline(
+TimeGenerated:datetime,
+TenantId:guid,
+BaselineRuleId:string,
+AnalyzeResult:string,
+ActualResult:string,
+ExpectedResult:string,
+RuleSetting:string,
+Description:string,
+BaselineRuleType:string,
+RuleSeverity:string,
+AzId:string,
+CceId:string,
+TimeAnalyzed:datetime,
+AssessmentId:guid,
+OSName:string,
+BaselineType:string,
+BaselineId:guid,
+Computer:string,
+ComputerEnvironment:string,
+ResourceType:string,
+ResourceId:string,
+Resource:string,
+ResourceProvider:string,
+ResourceGroup:string,
+SubscriptionId:guid,
+SourceComputerId:guid,
+ManagementGroupName:string,
+MG:guid,
+SourceSystem:string,
+SitePath:string,
+AnalyzeOperation:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table SecurityBaseline policy caching hot = 1d
+
+.create-or-alter function SecurityBaselineExpand() {
+SecurityBaselineRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+BaselineRuleId=tostring(events.BaselineRuleId),
+AnalyzeResult=tostring(events.AnalyzeResult),
+ActualResult=tostring(events.ActualResult),
+ExpectedResult=tostring(events.ExpectedResult),
+RuleSetting=tostring(events.RuleSetting),
+Description=tostring(events.Description),
+BaselineRuleType=tostring(events.BaselineRuleType),
+RuleSeverity=tostring(events.RuleSeverity),
+AzId=tostring(events.AzId),
+CceId=tostring(events.CceId),
+TimeAnalyzed=todatetime(events.TimeAnalyzed),
+AssessmentId=toguid(events.AssessmentId),
+OSName=tostring(events.OSName),
+BaselineType=tostring(events.BaselineType),
+BaselineId=toguid(events.BaselineId),
+Computer=tostring(events.Computer),
+ComputerEnvironment=tostring(events.ComputerEnvironment),
+ResourceType=tostring(events.ResourceType),
+ResourceId=tostring(events.ResourceId),
+Resource=tostring(events.Resource),
+ResourceProvider=tostring(events.ResourceProvider),
+ResourceGroup=tostring(events.ResourceGroup),
+SubscriptionId=toguid(events.SubscriptionId),
+SourceComputerId=toguid(events.SourceComputerId),
+ManagementGroupName=tostring(events.ManagementGroupName),
+MG=toguid(events.MG),
+SourceSystem=tostring(events.SourceSystem),
+SitePath=tostring(events.SitePath),
+AnalyzeOperation=tostring(events.AnalyzeOperation),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table SecurityBaseline policy update @'[{"Source": "SecurityBaselineRaw", "Query": "SecurityBaselineExpand()", "IsEnabled": "True", "IsTransactional": true}]'

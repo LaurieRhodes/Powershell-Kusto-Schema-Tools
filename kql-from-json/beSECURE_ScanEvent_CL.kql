@@ -1,0 +1,68 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for beSECURE_ScanEvent_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:11
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table beSECURE_ScanEvent_CLRaw (records:dynamic)
+
+.alter-merge table beSECURE_ScanEvent_CLRaw policy retention softdelete = 1d
+
+.alter table beSECURE_ScanEvent_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table beSECURE_ScanEvent_CLRaw ingestion json mapping 'beSECURE_ScanEvent_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table beSECURE_ScanEvent_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+SourceSystem:string,
+MG:string,
+ManagementGroupName:string,
+Computer:string,
+RawData:string,
+additional_information:string,
+event_code:string,
+event_id:string,
+event_name:string,
+event_time:string,
+scan_id:string,
+scan_name:string,
+scan_type:string,
+scan_event_s:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table beSECURE_ScanEvent_CL policy caching hot = 1d
+
+.create-or-alter function beSECURE_ScanEvent_CLExpand() {
+beSECURE_ScanEvent_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SourceSystem=tostring(events.SourceSystem),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+Computer=tostring(events.Computer),
+RawData=tostring(events.RawData),
+additional_information=tostring(events.additional_information),
+event_code=tostring(events.event_code),
+event_id=tostring(events.event_id),
+event_name=tostring(events.event_name),
+event_time=tostring(events.event_time),
+scan_id=tostring(events.scan_id),
+scan_name=tostring(events.scan_name),
+scan_type=tostring(events.scan_type),
+scan_event_s=tostring(events.scan_event_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table beSECURE_ScanEvent_CL policy update @'[{"Source": "beSECURE_ScanEvent_CLRaw", "Query": "beSECURE_ScanEvent_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

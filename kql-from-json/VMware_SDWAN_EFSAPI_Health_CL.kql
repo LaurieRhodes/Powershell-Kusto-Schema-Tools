@@ -1,0 +1,38 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for VMware_SDWAN_EFSAPI_Health_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table VMware_SDWAN_EFSAPI_Health_CLRaw (records:dynamic)
+
+.alter-merge table VMware_SDWAN_EFSAPI_Health_CLRaw policy retention softdelete = 1d
+
+.alter table VMware_SDWAN_EFSAPI_Health_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table VMware_SDWAN_EFSAPI_Health_CLRaw ingestion json mapping 'VMware_SDWAN_EFSAPI_Health_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table VMware_SDWAN_EFSAPI_Health_CL(
+TimeGenerated:datetime,
+data:dynamic,
+metadata:dynamic,
+_TimeReceived:datetime)
+
+.alter table VMware_SDWAN_EFSAPI_Health_CL policy caching hot = 1d
+
+.create-or-alter function VMware_SDWAN_EFSAPI_Health_CLExpand() {
+VMware_SDWAN_EFSAPI_Health_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+data=todynamic(events.data),
+metadata=todynamic(events.metadata),
+_TimeReceived=todatetime(now())
+}
+
+.alter table VMware_SDWAN_EFSAPI_Health_CL policy update @'[{"Source": "VMware_SDWAN_EFSAPI_Health_CLRaw", "Query": "VMware_SDWAN_EFSAPI_Health_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

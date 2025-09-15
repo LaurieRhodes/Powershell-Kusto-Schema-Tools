@@ -1,0 +1,77 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for VIAudit - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:22:23
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 21, Final columns: 21
+// ============================================================================
+
+.create-merge table VIAuditRaw (records:dynamic)
+
+.alter-merge table VIAuditRaw policy retention softdelete = 1d
+
+.alter table VIAuditRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table VIAuditRaw ingestion json mapping 'VIAuditRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table VIAudit(
+TimeGenerated:datetime,
+TenantId:guid,
+DurationMs:int,
+CorrelationId:string,
+CallerIpAddress:string,
+Claims:dynamic,
+Upn:string,
+ExternalUserId:string,
+Description:string,
+Status:string,
+Signature:int,
+OperationName:string,
+VideoId:string,
+AccountId:string,
+AccountName:string,
+Location:string,
+VideoIndexerResourceId:string,
+OperationVersion:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table VIAudit policy caching hot = 1d
+
+.create-or-alter function VIAuditExpand() {
+VIAuditRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+DurationMs=toint(events.DurationMs),
+CorrelationId=tostring(events.CorrelationId),
+CallerIpAddress=tostring(events.CallerIpAddress),
+Claims=todynamic(events.Claims),
+Upn=tostring(events.Upn),
+ExternalUserId=tostring(events.ExternalUserId),
+Description=tostring(events.Description),
+Status=tostring(events.Status),
+Signature=toint(events.Signature),
+OperationName=tostring(events.OperationName),
+VideoId=tostring(events.VideoId),
+AccountId=tostring(events.AccountId),
+AccountName=tostring(events.AccountName),
+Location=tostring(events.Location),
+VideoIndexerResourceId=tostring(events.VideoIndexerResourceId),
+OperationVersion=tostring(events.OperationVersion),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table VIAudit policy update @'[{"Source": "VIAuditRaw", "Query": "VIAuditExpand()", "IsEnabled": "True", "IsTransactional": true}]'

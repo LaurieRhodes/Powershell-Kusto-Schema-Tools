@@ -1,0 +1,90 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Entity_Scoring_Data_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Entity_Scoring_Data_CLRaw (records:dynamic)
+
+.alter-merge table Entity_Scoring_Data_CLRaw policy retention softdelete = 1d
+
+.alter table Entity_Scoring_Data_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Entity_Scoring_Data_CLRaw ingestion json mapping 'Entity_Scoring_Data_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Entity_Scoring_Data_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+url_s:string,
+last_detection_type_s:string,
+Category:string,
+active_detection_types_s:string,
+attack_rating_d:real,
+velocity_contrib_d:real,
+urgency_score_d:real,
+severity_s:string,
+last_detection_url_s:string,
+is_prioritized_b:bool,
+type_s:string,
+entity_type_s:string,
+importance_d:real,
+entity_importance_d:real,
+breadth_contrib_d:real,
+name_s:string,
+entity_id_d:real,
+id_d:real,
+RawData:string,
+Computer:string,
+ManagementGroupName:string,
+MG:string,
+SourceSystem:string,
+last_detection_id_d:real,
+event_timestamp_t:datetime,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table Entity_Scoring_Data_CL policy caching hot = 1d
+
+.create-or-alter function Entity_Scoring_Data_CLExpand() {
+Entity_Scoring_Data_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+url_s=tostring(events.url_s),
+last_detection_type_s=tostring(events.last_detection_type_s),
+Category=tostring(events.Category),
+active_detection_types_s=tostring(events.active_detection_types_s),
+attack_rating_d=toreal(events.attack_rating_d),
+velocity_contrib_d=toreal(events.velocity_contrib_d),
+urgency_score_d=toreal(events.urgency_score_d),
+severity_s=tostring(events.severity_s),
+last_detection_url_s=tostring(events.last_detection_url_s),
+is_prioritized_b=tobool(events.is_prioritized_b),
+type_s=tostring(events.type_s),
+entity_type_s=tostring(events.entity_type_s),
+importance_d=toreal(events.importance_d),
+entity_importance_d=toreal(events.entity_importance_d),
+breadth_contrib_d=toreal(events.breadth_contrib_d),
+name_s=tostring(events.name_s),
+entity_id_d=toreal(events.entity_id_d),
+id_d=toreal(events.id_d),
+RawData=tostring(events.RawData),
+Computer=tostring(events.Computer),
+ManagementGroupName=tostring(events.ManagementGroupName),
+MG=tostring(events.MG),
+SourceSystem=tostring(events.SourceSystem),
+last_detection_id_d=toreal(events.last_detection_id_d),
+event_timestamp_t=todatetime(events.event_timestamp_t),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Entity_Scoring_Data_CL policy update @'[{"Source": "Entity_Scoring_Data_CLRaw", "Query": "Entity_Scoring_Data_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,57 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AHDSDicomDiagnosticLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:21:05
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 11, Final columns: 11
+// ============================================================================
+
+.create-merge table AHDSDicomDiagnosticLogsRaw (records:dynamic)
+
+.alter-merge table AHDSDicomDiagnosticLogsRaw policy retention softdelete = 1d
+
+.alter table AHDSDicomDiagnosticLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AHDSDicomDiagnosticLogsRaw ingestion json mapping 'AHDSDicomDiagnosticLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AHDSDicomDiagnosticLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+CorrelationId:string,
+Message:string,
+LogLevel:string,
+Location:string,
+Properties:dynamic,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AHDSDicomDiagnosticLogs policy caching hot = 1d
+
+.create-or-alter function AHDSDicomDiagnosticLogsExpand() {
+AHDSDicomDiagnosticLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+CorrelationId=tostring(events.CorrelationId),
+Message=tostring(events.Message),
+LogLevel=tostring(events.LogLevel),
+Location=tostring(events.Location),
+Properties=todynamic(events.Properties),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AHDSDicomDiagnosticLogs policy update @'[{"Source": "AHDSDicomDiagnosticLogsRaw", "Query": "AHDSDicomDiagnosticLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,51 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for PGSQLPgBouncer - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:19:12
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 8, Final columns: 8
+// ============================================================================
+
+.create-merge table PGSQLPgBouncerRaw (records:dynamic)
+
+.alter-merge table PGSQLPgBouncerRaw policy retention softdelete = 1d
+
+.alter table PGSQLPgBouncerRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table PGSQLPgBouncerRaw ingestion json mapping 'PGSQLPgBouncerRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table PGSQLPgBouncer(
+TimeGenerated:datetime,
+TenantId:guid,
+LogLevel:string,
+Message:string,
+Location:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table PGSQLPgBouncer policy caching hot = 1d
+
+.create-or-alter function PGSQLPgBouncerExpand() {
+PGSQLPgBouncerRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+LogLevel=tostring(events.LogLevel),
+Message=tostring(events.Message),
+Location=tostring(events.Location),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table PGSQLPgBouncer policy update @'[{"Source": "PGSQLPgBouncerRaw", "Query": "PGSQLPgBouncerExpand()", "IsEnabled": "True", "IsTransactional": true}]'

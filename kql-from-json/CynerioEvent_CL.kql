@@ -1,0 +1,110 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for CynerioEvent_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table CynerioEvent_CLRaw (records:dynamic)
+
+.alter-merge table CynerioEvent_CLRaw policy retention softdelete = 1d
+
+.alter table CynerioEvent_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table CynerioEvent_CLRaw ingestion json mapping 'CynerioEvent_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table CynerioEvent_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+asset_id_g:string,
+asset_ip_s:string,
+asset_model_s:string,
+asset_name_s:string,
+asset_type_s:string,
+asset_type_code_s:string,
+asset_asset_type_code_s:string,
+client_ip_s:string,
+id_g:string,
+module_s:string,
+port_d:real,
+related_risks_s:string,
+server_ip_s:string,
+severity_s:string,
+details_s:string,
+status_code_s:string,
+Severity:int,
+host_s:string,
+SourceSystem:string,
+MG:string,
+ManagementGroupName:string,
+Computer:string,
+RawData:string,
+date_t:datetime,
+asset_id_s:string,
+dst_ip_s:string,
+src_ip_s:string,
+trans_s:string,
+uid_s:string,
+service_s:string,
+new_status_s:string,
+risk_name_s:string,
+browser_s:string,
+timestamp_d:real,
+title_s:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table CynerioEvent_CL policy caching hot = 1d
+
+.create-or-alter function CynerioEvent_CLExpand() {
+CynerioEvent_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+asset_id_g=tostring(events.asset_id_g),
+asset_ip_s=tostring(events.asset_ip_s),
+asset_model_s=tostring(events.asset_model_s),
+asset_name_s=tostring(events.asset_name_s),
+asset_type_s=tostring(events.asset_type_s),
+asset_type_code_s=tostring(events.asset_type_code_s),
+asset_asset_type_code_s=tostring(events.asset_asset_type_code_s),
+client_ip_s=tostring(events.client_ip_s),
+id_g=tostring(events.id_g),
+module_s=tostring(events.module_s),
+port_d=toreal(events.port_d),
+related_risks_s=tostring(events.related_risks_s),
+server_ip_s=tostring(events.server_ip_s),
+severity_s=tostring(events.severity_s),
+details_s=tostring(events.details_s),
+status_code_s=tostring(events.status_code_s),
+Severity=toint(events.Severity),
+host_s=tostring(events.host_s),
+SourceSystem=tostring(events.SourceSystem),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+Computer=tostring(events.Computer),
+RawData=tostring(events.RawData),
+date_t=todatetime(events.date_t),
+asset_id_s=tostring(events.asset_id_s),
+dst_ip_s=tostring(events.dst_ip_s),
+src_ip_s=tostring(events.src_ip_s),
+trans_s=tostring(events.trans_s),
+uid_s=tostring(events.uid_s),
+service_s=tostring(events.service_s),
+new_status_s=tostring(events.new_status_s),
+risk_name_s=tostring(events.risk_name_s),
+browser_s=tostring(events.browser_s),
+timestamp_d=toreal(events.timestamp_d),
+title_s=tostring(events.title_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table CynerioEvent_CL policy update @'[{"Source": "CynerioEvent_CLRaw", "Query": "CynerioEvent_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

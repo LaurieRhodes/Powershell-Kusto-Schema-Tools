@@ -1,0 +1,62 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_bacnet_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:12
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_bacnet_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_bacnet_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_bacnet_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_bacnet_CLRaw ingestion json mapping 'Corelight_v2_bacnet_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_bacnet_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+uid_s:string,
+id_orig_h_s:string,
+id_orig_p_d:real,
+id_resp_h_s:string,
+id_resp_p_d:real,
+bvlc_function_s:string,
+bvlc_len_d:real,
+apdu_type_s:string,
+service_choice_s:string,
+data_s:string,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_bacnet_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_bacnet_CLExpand() {
+Corelight_v2_bacnet_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+uid_s=tostring(events.uid_s),
+id_orig_h_s=tostring(events.id_orig_h_s),
+id_orig_p_d=toreal(events.id_orig_p_d),
+id_resp_h_s=tostring(events.id_resp_h_s),
+id_resp_p_d=toreal(events.id_resp_p_d),
+bvlc_function_s=tostring(events.bvlc_function_s),
+bvlc_len_d=toreal(events.bvlc_len_d),
+apdu_type_s=tostring(events.apdu_type_s),
+service_choice_s=tostring(events.service_choice_s),
+data_s=tostring(events.data_s),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_bacnet_CL policy update @'[{"Source": "Corelight_v2_bacnet_CLRaw", "Query": "Corelight_v2_bacnet_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

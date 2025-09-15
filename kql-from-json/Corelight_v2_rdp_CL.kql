@@ -1,0 +1,96 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_rdp_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:13
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_rdp_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_rdp_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_rdp_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_rdp_CLRaw ingestion json mapping 'Corelight_v2_rdp_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_rdp_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+rdpeudp_uid_s:string,
+inferences_s:string,
+channels_joined_d:real,
+auth_success_b:bool,
+encryption_method_s:string,
+encryption_level_s:string,
+cert_permanent_b:bool,
+cert_count_d:real,
+cert_type_s:string,
+requested_color_depth_s:string,
+desktop_height_d:real,
+desktop_width_d:real,
+client_dig_product_id_s:string,
+client_name_s:string,
+client_build_s:string,
+keyboard_layout_s:string,
+client_channels_s:string,
+security_protocol_s:string,
+result_s:string,
+cookie_s:string,
+id_resp_p_d:real,
+id_resp_h_s:string,
+id_orig_p_d:real,
+id_orig_h_s:string,
+uid_s:string,
+rdfp_string_s:string,
+rdfp_hash_s:string,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_rdp_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_rdp_CLExpand() {
+Corelight_v2_rdp_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+rdpeudp_uid_s=tostring(events.rdpeudp_uid_s),
+inferences_s=tostring(events.inferences_s),
+channels_joined_d=toreal(events.channels_joined_d),
+auth_success_b=tobool(events.auth_success_b),
+encryption_method_s=tostring(events.encryption_method_s),
+encryption_level_s=tostring(events.encryption_level_s),
+cert_permanent_b=tobool(events.cert_permanent_b),
+cert_count_d=toreal(events.cert_count_d),
+cert_type_s=tostring(events.cert_type_s),
+requested_color_depth_s=tostring(events.requested_color_depth_s),
+desktop_height_d=toreal(events.desktop_height_d),
+desktop_width_d=toreal(events.desktop_width_d),
+client_dig_product_id_s=tostring(events.client_dig_product_id_s),
+client_name_s=tostring(events.client_name_s),
+client_build_s=tostring(events.client_build_s),
+keyboard_layout_s=tostring(events.keyboard_layout_s),
+client_channels_s=tostring(events.client_channels_s),
+security_protocol_s=tostring(events.security_protocol_s),
+result_s=tostring(events.result_s),
+cookie_s=tostring(events.cookie_s),
+id_resp_p_d=toreal(events.id_resp_p_d),
+id_resp_h_s=tostring(events.id_resp_h_s),
+id_orig_p_d=toreal(events.id_orig_p_d),
+id_orig_h_s=tostring(events.id_orig_h_s),
+uid_s=tostring(events.uid_s),
+rdfp_string_s=tostring(events.rdfp_string_s),
+rdfp_hash_s=tostring(events.rdfp_hash_s),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_rdp_CL policy update @'[{"Source": "Corelight_v2_rdp_CLRaw", "Query": "Corelight_v2_rdp_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

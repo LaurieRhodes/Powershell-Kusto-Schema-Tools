@@ -1,0 +1,167 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for LinuxAuditLog - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:16:28
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 66, Final columns: 66
+// ============================================================================
+
+.create-merge table LinuxAuditLogRaw (records:dynamic)
+
+.alter-merge table LinuxAuditLogRaw policy retention softdelete = 1d
+
+.alter table LinuxAuditLogRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table LinuxAuditLogRaw ingestion json mapping 'LinuxAuditLogRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table LinuxAuditLog(
+TimeGenerated:datetime,
+TenantId:guid,
+arch:string,
+cmd:string,
+comm:string,
+cwd:string,
+data:string,
+exe:string,
+exit:string,
+family:string,
+filetype:string,
+gid:long,
+group:string,
+egid:long,
+effective_group:string,
+addr:string,
+hostname:string,
+key:string,
+name:string,
+path:string,
+pid:long,
+ppid:long,
+res:string,
+result:string,
+ses:long,
+success:string,
+syscall:string,
+terminal:string,
+tty:string,
+vm:string,
+icmptype:string,
+RawRecord:string,
+acct:string,
+op:string,
+SourceSystem:string,
+SourceComputerId:guid,
+ManagementGroup:string,
+TimeUploaded:datetime,
+ManagementGroupName:string,
+ExternalAgentIp:string,
+ResourceId:string,
+Computer:string,
+RecordType:string,
+AuditID:string,
+SerialNumber:string,
+uid:long,
+user:string,
+effective_user:string,
+node:string,
+a0:string,
+a1:string,
+a2:string,
+a3:string,
+a4:string,
+a5:string,
+a6:string,
+a7:string,
+a8:string,
+a9:string,
+auid:long,
+audit_user:string,
+euid:long,
+argc:long,
+ComputerEnvironment:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table LinuxAuditLog policy caching hot = 1d
+
+.create-or-alter function LinuxAuditLogExpand() {
+LinuxAuditLogRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+arch=tostring(events.arch),
+cmd=tostring(events.cmd),
+comm=tostring(events.comm),
+cwd=tostring(events.cwd),
+data=tostring(events.data),
+exe=tostring(events.exe),
+exit=tostring(events.exit),
+family=tostring(events.family),
+filetype=tostring(events.filetype),
+gid=tolong(events.gid),
+group=tostring(events.group),
+egid=tolong(events.egid),
+effective_group=tostring(events.effective_group),
+addr=tostring(events.addr),
+hostname=tostring(events.hostname),
+key=tostring(events.key),
+name=tostring(events.name),
+path=tostring(events.path),
+pid=tolong(events.pid),
+ppid=tolong(events.ppid),
+res=tostring(events.res),
+result=tostring(events.result),
+ses=tolong(events.ses),
+success=tostring(events.success),
+syscall=tostring(events.syscall),
+terminal=tostring(events.terminal),
+tty=tostring(events.tty),
+vm=tostring(events.vm),
+icmptype=tostring(events.icmptype),
+RawRecord=tostring(events.RawRecord),
+acct=tostring(events.acct),
+op=tostring(events.op),
+SourceSystem=tostring(events.SourceSystem),
+SourceComputerId=toguid(events.SourceComputerId),
+ManagementGroup=tostring(events.ManagementGroup),
+TimeUploaded=todatetime(events.TimeUploaded),
+ManagementGroupName=tostring(events.ManagementGroupName),
+ExternalAgentIp=tostring(events.ExternalAgentIp),
+ResourceId=tostring(events.ResourceId),
+Computer=tostring(events.Computer),
+RecordType=tostring(events.RecordType),
+AuditID=tostring(events.AuditID),
+SerialNumber=tostring(events.SerialNumber),
+uid=tolong(events.uid),
+user=tostring(events.user),
+effective_user=tostring(events.effective_user),
+node=tostring(events.node),
+a0=tostring(events.a0),
+a1=tostring(events.a1),
+a2=tostring(events.a2),
+a3=tostring(events.a3),
+a4=tostring(events.a4),
+a5=tostring(events.a5),
+a6=tostring(events.a6),
+a7=tostring(events.a7),
+a8=tostring(events.a8),
+a9=tostring(events.a9),
+auid=tolong(events.auid),
+audit_user=tostring(events.audit_user),
+euid=tolong(events.euid),
+argc=tolong(events.argc),
+ComputerEnvironment=tostring(events.ComputerEnvironment),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table LinuxAuditLog policy update @'[{"Source": "LinuxAuditLogRaw", "Query": "LinuxAuditLogExpand()", "IsEnabled": "True", "IsTransactional": true}]'

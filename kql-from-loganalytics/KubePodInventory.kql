@@ -1,0 +1,93 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for KubePodInventory - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:16:16
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 29, Final columns: 29
+// ============================================================================
+
+.create-merge table KubePodInventoryRaw (records:dynamic)
+
+.alter-merge table KubePodInventoryRaw policy retention softdelete = 1d
+
+.alter table KubePodInventoryRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table KubePodInventoryRaw ingestion json mapping 'KubePodInventoryRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table KubePodInventory(
+TimeGenerated:datetime,
+TenantId:guid,
+PodIp:string,
+ClusterName:string,
+PodStatus:string,
+Namespace:string,
+PodLabel:string,
+Name:string,
+ContainerName:string,
+ContainerID:string,
+ContainerStatus:string,
+ControllerName:string,
+ControllerKind:string,
+ServiceName:string,
+ContainerStartTime:datetime,
+PodStartTime:datetime,
+PodRestartCount:int,
+ContainerRestartCount:int,
+InstanceName:string,
+PodCreationTimeStamp:datetime,
+PodUid:guid,
+ContainerCreationTimeStamp:datetime,
+ClusterId:string,
+Computer:string,
+SourceSystem:string,
+ContainerStatusReason:string,
+ContainerLastStatus:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table KubePodInventory policy caching hot = 1d
+
+.create-or-alter function KubePodInventoryExpand() {
+KubePodInventoryRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+PodIp=tostring(events.PodIp),
+ClusterName=tostring(events.ClusterName),
+PodStatus=tostring(events.PodStatus),
+Namespace=tostring(events.Namespace),
+PodLabel=tostring(events.PodLabel),
+Name=tostring(events.Name),
+ContainerName=tostring(events.ContainerName),
+ContainerID=tostring(events.ContainerID),
+ContainerStatus=tostring(events.ContainerStatus),
+ControllerName=tostring(events.ControllerName),
+ControllerKind=tostring(events.ControllerKind),
+ServiceName=tostring(events.ServiceName),
+ContainerStartTime=todatetime(events.ContainerStartTime),
+PodStartTime=todatetime(events.PodStartTime),
+PodRestartCount=toint(events.PodRestartCount),
+ContainerRestartCount=toint(events.ContainerRestartCount),
+InstanceName=tostring(events.InstanceName),
+PodCreationTimeStamp=todatetime(events.PodCreationTimeStamp),
+PodUid=toguid(events.PodUid),
+ContainerCreationTimeStamp=todatetime(events.ContainerCreationTimeStamp),
+ClusterId=tostring(events.ClusterId),
+Computer=tostring(events.Computer),
+SourceSystem=tostring(events.SourceSystem),
+ContainerStatusReason=tostring(events.ContainerStatusReason),
+ContainerLastStatus=tostring(events.ContainerLastStatus),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table KubePodInventory policy update @'[{"Source": "KubePodInventoryRaw", "Query": "KubePodInventoryExpand()", "IsEnabled": "True", "IsTransactional": true}]'

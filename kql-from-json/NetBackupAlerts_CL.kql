@@ -1,0 +1,68 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for NetBackupAlerts_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table NetBackupAlerts_CLRaw (records:dynamic)
+
+.alter-merge table NetBackupAlerts_CLRaw policy retention softdelete = 1d
+
+.alter table NetBackupAlerts_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table NetBackupAlerts_CLRaw ingestion json mapping 'NetBackupAlerts_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table NetBackupAlerts_CL(
+TenantId:guid,
+SourceSystem:string,
+MG:string,
+ManagementGroupName:string,
+TimeGenerated [UTC]:datetime,
+Computer:string,
+RawData:string,
+tenantId_g:string,
+auditDateTime_d:string,
+Category:string,
+operation_s:string,
+Message:string,
+userName_s:string,
+auditDateTime_t [UTC]:datetime,
+reason_s:string,
+auditAttributes_s:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table NetBackupAlerts_CL policy caching hot = 1d
+
+.create-or-alter function NetBackupAlerts_CLExpand() {
+NetBackupAlerts_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TenantId=toguid(events.TenantId),
+SourceSystem=tostring(events.SourceSystem),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+TimeGenerated [UTC]=todatetime(events.TimeGenerated [UTC]),
+Computer=tostring(events.Computer),
+RawData=tostring(events.RawData),
+tenantId_g=tostring(events.tenantId_g),
+auditDateTime_d=tostring(events.auditDateTime_d),
+Category=tostring(events.Category),
+operation_s=tostring(events.operation_s),
+Message=tostring(events.Message),
+userName_s=tostring(events.userName_s),
+auditDateTime_t [UTC]=todatetime(events.auditDateTime_t [UTC]),
+reason_s=tostring(events.reason_s),
+auditAttributes_s=tostring(events.auditAttributes_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table NetBackupAlerts_CL policy update @'[{"Source": "NetBackupAlerts_CLRaw", "Query": "NetBackupAlerts_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

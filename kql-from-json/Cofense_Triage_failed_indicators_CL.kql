@@ -1,0 +1,70 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Cofense_Triage_failed_indicators_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:12
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Cofense_Triage_failed_indicators_CLRaw (records:dynamic)
+
+.alter-merge table Cofense_Triage_failed_indicators_CLRaw policy retention softdelete = 1d
+
+.alter table Cofense_Triage_failed_indicators_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Cofense_Triage_failed_indicators_CLRaw ingestion json mapping 'Cofense_Triage_failed_indicators_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Cofense_Triage_failed_indicators_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+SourceSystem:string,
+MG:string,
+Computer:string,
+RawData:string,
+ManagementGroupName:string,
+kind_s:string,
+properties_source_s:string,
+properties_displayName_s:string,
+properties_confidence_d:real,
+properties_patternType_s:string,
+properties_threatTypes_s:string,
+properties_pattern_s:string,
+properties_created_t:datetime,
+properties_externalLastUpdatedTimeUtc_t:datetime,
+report_link_s:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table Cofense_Triage_failed_indicators_CL policy caching hot = 1d
+
+.create-or-alter function Cofense_Triage_failed_indicators_CLExpand() {
+Cofense_Triage_failed_indicators_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SourceSystem=tostring(events.SourceSystem),
+MG=tostring(events.MG),
+Computer=tostring(events.Computer),
+RawData=tostring(events.RawData),
+ManagementGroupName=tostring(events.ManagementGroupName),
+kind_s=tostring(events.kind_s),
+properties_source_s=tostring(events.properties_source_s),
+properties_displayName_s=tostring(events.properties_displayName_s),
+properties_confidence_d=toreal(events.properties_confidence_d),
+properties_patternType_s=tostring(events.properties_patternType_s),
+properties_threatTypes_s=tostring(events.properties_threatTypes_s),
+properties_pattern_s=tostring(events.properties_pattern_s),
+properties_created_t=todatetime(events.properties_created_t),
+properties_externalLastUpdatedTimeUtc_t=todatetime(events.properties_externalLastUpdatedTimeUtc_t),
+report_link_s=tostring(events.report_link_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Cofense_Triage_failed_indicators_CL policy update @'[{"Source": "Cofense_Triage_failed_indicators_CLRaw", "Query": "Cofense_Triage_failed_indicators_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

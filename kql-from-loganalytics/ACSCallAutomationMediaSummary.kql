@@ -1,0 +1,69 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ACSCallAutomationMediaSummary - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:18:47
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 17, Final columns: 17
+// ============================================================================
+
+.create-merge table ACSCallAutomationMediaSummaryRaw (records:dynamic)
+
+.alter-merge table ACSCallAutomationMediaSummaryRaw policy retention softdelete = 1d
+
+.alter table ACSCallAutomationMediaSummaryRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ACSCallAutomationMediaSummaryRaw ingestion json mapping 'ACSCallAutomationMediaSummaryRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ACSCallAutomationMediaSummary(
+TimeGenerated:datetime,
+TenantId:guid,
+Level:string,
+CorrelationId:string,
+ResultType:string,
+OperationName:string,
+OperationId:string,
+PlayInLoop:bool,
+PlayToParticipant:bool,
+PlayInterrupted:bool,
+RecognizePromptSubOperationName:string,
+ResultCode:int,
+ResultSubcode:int,
+ResultMessage:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ACSCallAutomationMediaSummary policy caching hot = 1d
+
+.create-or-alter function ACSCallAutomationMediaSummaryExpand() {
+ACSCallAutomationMediaSummaryRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Level=tostring(events.Level),
+CorrelationId=tostring(events.CorrelationId),
+ResultType=tostring(events.ResultType),
+OperationName=tostring(events.OperationName),
+OperationId=tostring(events.OperationId),
+PlayInLoop=tobool(events.PlayInLoop),
+PlayToParticipant=tobool(events.PlayToParticipant),
+PlayInterrupted=tobool(events.PlayInterrupted),
+RecognizePromptSubOperationName=tostring(events.RecognizePromptSubOperationName),
+ResultCode=toint(events.ResultCode),
+ResultSubcode=toint(events.ResultSubcode),
+ResultMessage=tostring(events.ResultMessage),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ACSCallAutomationMediaSummary policy update @'[{"Source": "ACSCallAutomationMediaSummaryRaw", "Query": "ACSCallAutomationMediaSummaryExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,131 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for DeviceRegistryEvents - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:13:18
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 48, Final columns: 48
+// ============================================================================
+
+.create-merge table DeviceRegistryEventsRaw (records:dynamic)
+
+.alter-merge table DeviceRegistryEventsRaw policy retention softdelete = 1d
+
+.alter table DeviceRegistryEventsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table DeviceRegistryEventsRaw ingestion json mapping 'DeviceRegistryEventsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table DeviceRegistryEvents(
+TimeGenerated:datetime,
+TenantId:guid,
+InitiatingProcessVersionInfoInternalFileName:string,
+InitiatingProcessVersionInfoOriginalFileName:string,
+InitiatingProcessVersionInfoFileDescription:string,
+MachineGroup:string,
+PreviousRegistryKey:string,
+PreviousRegistryValueData:string,
+PreviousRegistryValueName:string,
+RegistryKey:string,
+RegistryValueData:string,
+RegistryValueName:string,
+RegistryValueType:string,
+ReportId:long,
+Timestamp:datetime,
+InitiatingProcessParentCreationTime:datetime,
+InitiatingProcessCreationTime:datetime,
+InitiatingProcessSessionId:long,
+IsInitiatingProcessRemoteSession:bool,
+InitiatingProcessRemoteSessionDeviceName:string,
+InitiatingProcessRemoteSessionIP:string,
+InitiatingProcessVersionInfoProductVersion:string,
+InitiatingProcessVersionInfoProductName:string,
+InitiatingProcessVersionInfoCompanyName:string,
+InitiatingProcessFileSize:long,
+ActionType:string,
+AppGuardContainerId:string,
+DeviceId:string,
+DeviceName:string,
+InitiatingProcessAccountDomain:string,
+InitiatingProcessAccountName:string,
+InitiatingProcessAccountObjectId:string,
+InitiatingProcessAccountSid:string,
+InitiatingProcessAccountUpn:string,
+InitiatingProcessUniqueId:string,
+InitiatingProcessCommandLine:string,
+InitiatingProcessFolderPath:string,
+InitiatingProcessId:long,
+InitiatingProcessIntegrityLevel:string,
+InitiatingProcessMD5:string,
+InitiatingProcessParentFileName:string,
+InitiatingProcessParentId:long,
+InitiatingProcessSHA1:string,
+InitiatingProcessSHA256:string,
+InitiatingProcessTokenElevation:string,
+InitiatingProcessFileName:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table DeviceRegistryEvents policy caching hot = 1d
+
+.create-or-alter function DeviceRegistryEventsExpand() {
+DeviceRegistryEventsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+InitiatingProcessVersionInfoInternalFileName=tostring(events.InitiatingProcessVersionInfoInternalFileName),
+InitiatingProcessVersionInfoOriginalFileName=tostring(events.InitiatingProcessVersionInfoOriginalFileName),
+InitiatingProcessVersionInfoFileDescription=tostring(events.InitiatingProcessVersionInfoFileDescription),
+MachineGroup=tostring(events.MachineGroup),
+PreviousRegistryKey=tostring(events.PreviousRegistryKey),
+PreviousRegistryValueData=tostring(events.PreviousRegistryValueData),
+PreviousRegistryValueName=tostring(events.PreviousRegistryValueName),
+RegistryKey=tostring(events.RegistryKey),
+RegistryValueData=tostring(events.RegistryValueData),
+RegistryValueName=tostring(events.RegistryValueName),
+RegistryValueType=tostring(events.RegistryValueType),
+ReportId=tolong(events.ReportId),
+Timestamp=todatetime(events.Timestamp),
+InitiatingProcessParentCreationTime=todatetime(events.InitiatingProcessParentCreationTime),
+InitiatingProcessCreationTime=todatetime(events.InitiatingProcessCreationTime),
+InitiatingProcessSessionId=tolong(events.InitiatingProcessSessionId),
+IsInitiatingProcessRemoteSession=tobool(events.IsInitiatingProcessRemoteSession),
+InitiatingProcessRemoteSessionDeviceName=tostring(events.InitiatingProcessRemoteSessionDeviceName),
+InitiatingProcessRemoteSessionIP=tostring(events.InitiatingProcessRemoteSessionIP),
+InitiatingProcessVersionInfoProductVersion=tostring(events.InitiatingProcessVersionInfoProductVersion),
+InitiatingProcessVersionInfoProductName=tostring(events.InitiatingProcessVersionInfoProductName),
+InitiatingProcessVersionInfoCompanyName=tostring(events.InitiatingProcessVersionInfoCompanyName),
+InitiatingProcessFileSize=tolong(events.InitiatingProcessFileSize),
+ActionType=tostring(events.ActionType),
+AppGuardContainerId=tostring(events.AppGuardContainerId),
+DeviceId=tostring(events.DeviceId),
+DeviceName=tostring(events.DeviceName),
+InitiatingProcessAccountDomain=tostring(events.InitiatingProcessAccountDomain),
+InitiatingProcessAccountName=tostring(events.InitiatingProcessAccountName),
+InitiatingProcessAccountObjectId=tostring(events.InitiatingProcessAccountObjectId),
+InitiatingProcessAccountSid=tostring(events.InitiatingProcessAccountSid),
+InitiatingProcessAccountUpn=tostring(events.InitiatingProcessAccountUpn),
+InitiatingProcessUniqueId=tostring(events.InitiatingProcessUniqueId),
+InitiatingProcessCommandLine=tostring(events.InitiatingProcessCommandLine),
+InitiatingProcessFolderPath=tostring(events.InitiatingProcessFolderPath),
+InitiatingProcessId=tolong(events.InitiatingProcessId),
+InitiatingProcessIntegrityLevel=tostring(events.InitiatingProcessIntegrityLevel),
+InitiatingProcessMD5=tostring(events.InitiatingProcessMD5),
+InitiatingProcessParentFileName=tostring(events.InitiatingProcessParentFileName),
+InitiatingProcessParentId=tolong(events.InitiatingProcessParentId),
+InitiatingProcessSHA1=tostring(events.InitiatingProcessSHA1),
+InitiatingProcessSHA256=tostring(events.InitiatingProcessSHA256),
+InitiatingProcessTokenElevation=tostring(events.InitiatingProcessTokenElevation),
+InitiatingProcessFileName=tostring(events.InitiatingProcessFileName),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table DeviceRegistryEvents policy update @'[{"Source": "DeviceRegistryEventsRaw", "Query": "DeviceRegistryEventsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,65 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for KubeHealth - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:16:11
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 15, Final columns: 15
+// ============================================================================
+
+.create-merge table KubeHealthRaw (records:dynamic)
+
+.alter-merge table KubeHealthRaw policy retention softdelete = 1d
+
+.alter table KubeHealthRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table KubeHealthRaw ingestion json mapping 'KubeHealthRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table KubeHealth(
+TimeGenerated:datetime,
+TenantId:guid,
+SourceSystem:string,
+MonitorTypeId:string,
+MonitorInstanceId:string,
+ParentMonitorInstanceId:string,
+ClusterId:string,
+OldState:string,
+NewState:string,
+TimeFirstObserved:datetime,
+MonitorLabels:string,
+Details:string,
+MonitorConfig:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table KubeHealth policy caching hot = 1d
+
+.create-or-alter function KubeHealthExpand() {
+KubeHealthRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SourceSystem=tostring(events.SourceSystem),
+MonitorTypeId=tostring(events.MonitorTypeId),
+MonitorInstanceId=tostring(events.MonitorInstanceId),
+ParentMonitorInstanceId=tostring(events.ParentMonitorInstanceId),
+ClusterId=tostring(events.ClusterId),
+OldState=tostring(events.OldState),
+NewState=tostring(events.NewState),
+TimeFirstObserved=todatetime(events.TimeFirstObserved),
+MonitorLabels=tostring(events.MonitorLabels),
+Details=tostring(events.Details),
+MonitorConfig=tostring(events.MonitorConfig),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table KubeHealth policy update @'[{"Source": "KubeHealthRaw", "Query": "KubeHealthExpand()", "IsEnabled": "True", "IsTransactional": true}]'

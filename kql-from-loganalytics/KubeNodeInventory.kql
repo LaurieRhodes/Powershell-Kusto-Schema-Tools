@@ -1,0 +1,69 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for KubeNodeInventory - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:16:14
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 17, Final columns: 17
+// ============================================================================
+
+.create-merge table KubeNodeInventoryRaw (records:dynamic)
+
+.alter-merge table KubeNodeInventoryRaw policy retention softdelete = 1d
+
+.alter table KubeNodeInventoryRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table KubeNodeInventoryRaw ingestion json mapping 'KubeNodeInventoryRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table KubeNodeInventory(
+TimeGenerated:datetime,
+TenantId:guid,
+SourceSystem:string,
+Computer:string,
+ClusterName:string,
+ClusterId:string,
+LastTransitionTimeReady:datetime,
+Labels:string,
+Status:string,
+KubeletVersion:string,
+KubeProxyVersion:string,
+CreationTimeStamp:datetime,
+KubernetesProviderID:string,
+OperatingSystem:string,
+DockerVersion:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table KubeNodeInventory policy caching hot = 1d
+
+.create-or-alter function KubeNodeInventoryExpand() {
+KubeNodeInventoryRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SourceSystem=tostring(events.SourceSystem),
+Computer=tostring(events.Computer),
+ClusterName=tostring(events.ClusterName),
+ClusterId=tostring(events.ClusterId),
+LastTransitionTimeReady=todatetime(events.LastTransitionTimeReady),
+Labels=tostring(events.Labels),
+Status=tostring(events.Status),
+KubeletVersion=tostring(events.KubeletVersion),
+KubeProxyVersion=tostring(events.KubeProxyVersion),
+CreationTimeStamp=todatetime(events.CreationTimeStamp),
+KubernetesProviderID=tostring(events.KubernetesProviderID),
+OperatingSystem=tostring(events.OperatingSystem),
+DockerVersion=tostring(events.DockerVersion),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table KubeNodeInventory policy update @'[{"Source": "KubeNodeInventoryRaw", "Query": "KubeNodeInventoryExpand()", "IsEnabled": "True", "IsTransactional": true}]'

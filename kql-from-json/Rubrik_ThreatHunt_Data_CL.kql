@@ -1,0 +1,80 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Rubrik_ThreatHunt_Data_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Rubrik_ThreatHunt_Data_CLRaw (records:dynamic)
+
+.alter-merge table Rubrik_ThreatHunt_Data_CLRaw policy retention softdelete = 1d
+
+.alter table Rubrik_ThreatHunt_Data_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Rubrik_ThreatHunt_Data_CLRaw ingestion json mapping 'Rubrik_ThreatHunt_Data_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Rubrik_ThreatHunt_Data_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+custom_details_errorId_s:string,
+custom_details_status_s:string,
+custom_details_objectType_s:string,
+custom_details_objectName_s:string,
+custom_details_type_s:string,
+class_s:string,
+severity_s:string,
+source_s:string,
+custom_details_errorCode_s:string,
+summary_s:string,
+custom_details_objectId_g:string,
+custom_details_id_g:string,
+custom_details_seriesId_g:string,
+RawData:string,
+Computer:string,
+ManagementGroupName:string,
+MG:string,
+SourceSystem:string,
+custom_details_clusterId_g:string,
+custom_details_errorReason_s:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table Rubrik_ThreatHunt_Data_CL policy caching hot = 1d
+
+.create-or-alter function Rubrik_ThreatHunt_Data_CLExpand() {
+Rubrik_ThreatHunt_Data_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+custom_details_errorId_s=tostring(events.custom_details_errorId_s),
+custom_details_status_s=tostring(events.custom_details_status_s),
+custom_details_objectType_s=tostring(events.custom_details_objectType_s),
+custom_details_objectName_s=tostring(events.custom_details_objectName_s),
+custom_details_type_s=tostring(events.custom_details_type_s),
+class_s=tostring(events.class_s),
+severity_s=tostring(events.severity_s),
+source_s=tostring(events.source_s),
+custom_details_errorCode_s=tostring(events.custom_details_errorCode_s),
+summary_s=tostring(events.summary_s),
+custom_details_objectId_g=tostring(events.custom_details_objectId_g),
+custom_details_id_g=tostring(events.custom_details_id_g),
+custom_details_seriesId_g=tostring(events.custom_details_seriesId_g),
+RawData=tostring(events.RawData),
+Computer=tostring(events.Computer),
+ManagementGroupName=tostring(events.ManagementGroupName),
+MG=tostring(events.MG),
+SourceSystem=tostring(events.SourceSystem),
+custom_details_clusterId_g=tostring(events.custom_details_clusterId_g),
+custom_details_errorReason_s=tostring(events.custom_details_errorReason_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Rubrik_ThreatHunt_Data_CL policy update @'[{"Source": "Rubrik_ThreatHunt_Data_CLRaw", "Query": "Rubrik_ThreatHunt_Data_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

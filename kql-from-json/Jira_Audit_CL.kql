@@ -1,0 +1,68 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Jira_Audit_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Jira_Audit_CLRaw (records:dynamic)
+
+.alter-merge table Jira_Audit_CLRaw policy retention softdelete = 1d
+
+.alter table Jira_Audit_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Jira_Audit_CLRaw ingestion json mapping 'Jira_Audit_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Jira_Audit_CL(
+TimeGenerated:datetime,
+EventVendor:string,
+objectItem_parentId_s:string,
+associatedItems_s:string,
+changedValues_s:string,
+objectItem_typeName_s:string,
+objectItem_name_s:string,
+objectItem_id_s:string,
+objectItem_parentName_s:string,
+eventSource_s:string,
+authorAccountId_s:string,
+authorKey_s:string,
+remoteAddress_s:string,
+summary_s:string,
+id_d:real,
+EventProduct:string,
+created_t:datetime,
+Category:string,
+_TimeReceived:datetime)
+
+.alter table Jira_Audit_CL policy caching hot = 1d
+
+.create-or-alter function Jira_Audit_CLExpand() {
+Jira_Audit_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+EventVendor=tostring(events.EventVendor),
+objectItem_parentId_s=tostring(events.objectItem_parentId_s),
+associatedItems_s=tostring(events.associatedItems_s),
+changedValues_s=tostring(events.changedValues_s),
+objectItem_typeName_s=tostring(events.objectItem_typeName_s),
+objectItem_name_s=tostring(events.objectItem_name_s),
+objectItem_id_s=tostring(events.objectItem_id_s),
+objectItem_parentName_s=tostring(events.objectItem_parentName_s),
+eventSource_s=tostring(events.eventSource_s),
+authorAccountId_s=tostring(events.authorAccountId_s),
+authorKey_s=tostring(events.authorKey_s),
+remoteAddress_s=tostring(events.remoteAddress_s),
+summary_s=tostring(events.summary_s),
+id_d=toreal(events.id_d),
+EventProduct=tostring(events.EventProduct),
+created_t=todatetime(events.created_t),
+Category=tostring(events.Category),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Jira_Audit_CL policy update @'[{"Source": "Jira_Audit_CLRaw", "Query": "Jira_Audit_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

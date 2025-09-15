@@ -1,0 +1,96 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Illumio_Flow_Events_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Illumio_Flow_Events_CLRaw (records:dynamic)
+
+.alter-merge table Illumio_Flow_Events_CLRaw policy retention softdelete = 1d
+
+.alter table Illumio_Flow_Events_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Illumio_Flow_Events_CLRaw ingestion json mapping 'Illumio_Flow_Events_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Illumio_Flow_Events_CL(
+TimeGenerated:datetime,
+code:int,
+interval_sec:int,
+dst_labels:dynamic,
+src_labels:dynamic,
+network:string,
+dst_href:string,
+dst_hostname:string,
+src_href:string,
+src_hostname:string,
+pd:int,
+pd_qualifier:int,
+state:string,
+org_id:int,
+dir:string,
+flow_count:int,
+dst_port:int,
+proto:int,
+class:string,
+dst_ip:string,
+src_ip:string,
+un:string,
+pn:string,
+tdms:int,
+ddms:int,
+dst_tbo:int,
+dst_tbi:int,
+dst_dbo:int,
+dst_dbi:int,
+pce_fqdn:string,
+version:int,
+type:int,
+_TimeReceived:datetime)
+
+.alter table Illumio_Flow_Events_CL policy caching hot = 1d
+
+.create-or-alter function Illumio_Flow_Events_CLExpand() {
+Illumio_Flow_Events_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+code=toint(events.code),
+interval_sec=toint(events.interval_sec),
+dst_labels=todynamic(events.dst_labels),
+src_labels=todynamic(events.src_labels),
+network=tostring(events.network),
+dst_href=tostring(events.dst_href),
+dst_hostname=tostring(events.dst_hostname),
+src_href=tostring(events.src_href),
+src_hostname=tostring(events.src_hostname),
+pd=toint(events.pd),
+pd_qualifier=toint(events.pd_qualifier),
+state=tostring(events.state),
+org_id=toint(events.org_id),
+dir=tostring(events.dir),
+flow_count=toint(events.flow_count),
+dst_port=toint(events.dst_port),
+proto=toint(events.proto),
+class=tostring(events.class),
+dst_ip=tostring(events.dst_ip),
+src_ip=tostring(events.src_ip),
+un=tostring(events.un),
+pn=tostring(events.pn),
+tdms=toint(events.tdms),
+ddms=toint(events.ddms),
+dst_tbo=toint(events.dst_tbo),
+dst_tbi=toint(events.dst_tbi),
+dst_dbo=toint(events.dst_dbo),
+dst_dbi=toint(events.dst_dbi),
+pce_fqdn=tostring(events.pce_fqdn),
+version=toint(events.version),
+type=toint(events.type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Illumio_Flow_Events_CL policy update @'[{"Source": "Illumio_Flow_Events_CLRaw", "Query": "Illumio_Flow_Events_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

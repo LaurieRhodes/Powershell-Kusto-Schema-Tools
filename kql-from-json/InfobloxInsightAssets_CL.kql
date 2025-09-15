@@ -1,0 +1,78 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for InfobloxInsightAssets_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table InfobloxInsightAssets_CLRaw (records:dynamic)
+
+.alter-merge table InfobloxInsightAssets_CLRaw policy retention softdelete = 1d
+
+.alter table InfobloxInsightAssets_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table InfobloxInsightAssets_CLRaw ingestion json mapping 'InfobloxInsightAssets_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table InfobloxInsightAssets_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+user_s:string,
+timeMin_t:datetime,
+timeMax_t:datetime,
+threatIndicatorDistinctCount_s:string,
+threatLevelMax_s:string,
+osVersion_s:string,
+location_s:string,
+qip_s:string,
+count_d:real,
+cmac_s:string,
+cid_s:string,
+InfobloxInsightID_s:string,
+RawData:string,
+Computer:string,
+ManagementGroupName:string,
+MG:string,
+SourceSystem:string,
+InfobloxInsightID_g:string,
+InfobloxInsightLogType_s:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table InfobloxInsightAssets_CL policy caching hot = 1d
+
+.create-or-alter function InfobloxInsightAssets_CLExpand() {
+InfobloxInsightAssets_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+user_s=tostring(events.user_s),
+timeMin_t=todatetime(events.timeMin_t),
+timeMax_t=todatetime(events.timeMax_t),
+threatIndicatorDistinctCount_s=tostring(events.threatIndicatorDistinctCount_s),
+threatLevelMax_s=tostring(events.threatLevelMax_s),
+osVersion_s=tostring(events.osVersion_s),
+location_s=tostring(events.location_s),
+qip_s=tostring(events.qip_s),
+count_d=toreal(events.count_d),
+cmac_s=tostring(events.cmac_s),
+cid_s=tostring(events.cid_s),
+InfobloxInsightID_s=tostring(events.InfobloxInsightID_s),
+RawData=tostring(events.RawData),
+Computer=tostring(events.Computer),
+ManagementGroupName=tostring(events.ManagementGroupName),
+MG=tostring(events.MG),
+SourceSystem=tostring(events.SourceSystem),
+InfobloxInsightID_g=tostring(events.InfobloxInsightID_g),
+InfobloxInsightLogType_s=tostring(events.InfobloxInsightLogType_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table InfobloxInsightAssets_CL policy update @'[{"Source": "InfobloxInsightAssets_CLRaw", "Query": "InfobloxInsightAssets_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

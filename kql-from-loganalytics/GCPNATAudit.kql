@@ -1,0 +1,145 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for GCPNATAudit - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:14:46
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 55, Final columns: 55
+// ============================================================================
+
+.create-merge table GCPNATAuditRaw (records:dynamic)
+
+.alter-merge table GCPNATAuditRaw policy retention softdelete = 1d
+
+.alter table GCPNATAuditRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table GCPNATAuditRaw ingestion json mapping 'GCPNATAuditRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table GCPNATAudit(
+TimeGenerated:datetime,
+TenantId:guid,
+RequestSelfLink:string,
+RequestId:string,
+ResponseType:string,
+ResponseName:string,
+ResponseUser:string,
+ResponseTargetId:string,
+ResponseStatus:string,
+ResponseProgress:string,
+ResponseStartTime:datetime,
+ResponseRegion:string,
+ResponseSelfLinkWithId:string,
+ResponseInsertTime:datetime,
+ResponseTargetLink:string,
+ResponseSelfLink:string,
+ResponseId:string,
+ResponseOperationType:string,
+ResponseErrorCode:string,
+ResponseErrors:string,
+ResponseErrorMessage:string,
+ResourceLocation:string,
+OperationId:string,
+OperationProducer:string,
+OperationFirst:bool,
+RequestRegion:string,
+OperationLast:bool,
+EncryptedInterconnectRouter:bool,
+RequestNetwork:string,
+InsertId:string,
+LogName:string,
+GCPResourceType:string,
+ResourceRegion:string,
+RouterId:string,
+ProjectId:string,
+Severity:string,
+RootTriggerId:string,
+ReceiveTimestamp:datetime,
+PayloadType:string,
+PrincipalEmail:string,
+PrincipalSubject:string,
+CallerIp:string,
+UserAgent:string,
+RequestAttributeTime:datetime,
+RequestAttributeAuth:string,
+RequestAttributeDestination:string,
+ServiceName:string,
+MethodName:string,
+AuthorizationInfo:string,
+GCPResourceName:string,
+RequestType:string,
+RequestName:string,
+PayloadRequestNats:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table GCPNATAudit policy caching hot = 1d
+
+.create-or-alter function GCPNATAuditExpand() {
+GCPNATAuditRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+RequestSelfLink=tostring(events.RequestSelfLink),
+RequestId=tostring(events.RequestId),
+ResponseType=tostring(events.ResponseType),
+ResponseName=tostring(events.ResponseName),
+ResponseUser=tostring(events.ResponseUser),
+ResponseTargetId=tostring(events.ResponseTargetId),
+ResponseStatus=tostring(events.ResponseStatus),
+ResponseProgress=tostring(events.ResponseProgress),
+ResponseStartTime=todatetime(events.ResponseStartTime),
+ResponseRegion=tostring(events.ResponseRegion),
+ResponseSelfLinkWithId=tostring(events.ResponseSelfLinkWithId),
+ResponseInsertTime=todatetime(events.ResponseInsertTime),
+ResponseTargetLink=tostring(events.ResponseTargetLink),
+ResponseSelfLink=tostring(events.ResponseSelfLink),
+ResponseId=tostring(events.ResponseId),
+ResponseOperationType=tostring(events.ResponseOperationType),
+ResponseErrorCode=tostring(events.ResponseErrorCode),
+ResponseErrors=tostring(events.ResponseErrors),
+ResponseErrorMessage=tostring(events.ResponseErrorMessage),
+ResourceLocation=tostring(events.ResourceLocation),
+OperationId=tostring(events.OperationId),
+OperationProducer=tostring(events.OperationProducer),
+OperationFirst=tobool(events.OperationFirst),
+RequestRegion=tostring(events.RequestRegion),
+OperationLast=tobool(events.OperationLast),
+EncryptedInterconnectRouter=tobool(events.EncryptedInterconnectRouter),
+RequestNetwork=tostring(events.RequestNetwork),
+InsertId=tostring(events.InsertId),
+LogName=tostring(events.LogName),
+GCPResourceType=tostring(events.GCPResourceType),
+ResourceRegion=tostring(events.ResourceRegion),
+RouterId=tostring(events.RouterId),
+ProjectId=tostring(events.ProjectId),
+Severity=tostring(events.Severity),
+RootTriggerId=tostring(events.RootTriggerId),
+ReceiveTimestamp=todatetime(events.ReceiveTimestamp),
+PayloadType=tostring(events.PayloadType),
+PrincipalEmail=tostring(events.PrincipalEmail),
+PrincipalSubject=tostring(events.PrincipalSubject),
+CallerIp=tostring(events.CallerIp),
+UserAgent=tostring(events.UserAgent),
+RequestAttributeTime=todatetime(events.RequestAttributeTime),
+RequestAttributeAuth=tostring(events.RequestAttributeAuth),
+RequestAttributeDestination=tostring(events.RequestAttributeDestination),
+ServiceName=tostring(events.ServiceName),
+MethodName=tostring(events.MethodName),
+AuthorizationInfo=tostring(events.AuthorizationInfo),
+GCPResourceName=tostring(events.GCPResourceName),
+RequestType=tostring(events.RequestType),
+RequestName=tostring(events.RequestName),
+PayloadRequestNats=tostring(events.PayloadRequestNats),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table GCPNATAudit policy update @'[{"Source": "GCPNATAuditRaw", "Query": "GCPNATAuditExpand()", "IsEnabled": "True", "IsTransactional": true}]'

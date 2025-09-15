@@ -1,0 +1,173 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for NetworkAccessTraffic - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:17:29
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 69, Final columns: 69
+// ============================================================================
+
+.create-merge table NetworkAccessTrafficRaw (records:dynamic)
+
+.alter-merge table NetworkAccessTrafficRaw policy retention softdelete = 1d
+
+.alter table NetworkAccessTrafficRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table NetworkAccessTrafficRaw ingestion json mapping 'NetworkAccessTrafficRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table NetworkAccessTraffic(
+TimeGenerated:datetime,
+TenantId:guid,
+DestinationUrl:string,
+Description:string,
+AppId:string,
+ConnectorId:string,
+ConnectorName:string,
+ConnectorIp:string,
+ConnectionStatus:string,
+AccessType:string,
+ProcessingRegion:string,
+AppSegmentId:string,
+RemoteNetworkId:string,
+HttpMethod:string,
+ResponseCode:int,
+Token3PExpiry:datetime,
+ThreatType:string,
+Token3PValidFrom:datetime,
+Token3PUniqueId:string,
+TlsAction:string,
+TlsStatus:string,
+TlsPolicyId:string,
+TlsPolicyName:string,
+UniqueTokenId:string,
+VendorNames:string,
+CloudAppCatalogId:string,
+CloudAppName:string,
+CloudAppCategory:string,
+CloudAppGeneralScore:int,
+CloudAppRiskScore:int,
+CloudAppComplianceScore:int,
+CloudAppLegalScore:int,
+Token3PIssuedAt:datetime,
+CloudAppLoginUser:string,
+ResourceTenantId:string,
+RuleName:string,
+TransactionId:string,
+ConnectionId:string,
+SessionId:string,
+TrafficType:string,
+DeviceCategory:string,
+DestinationIp:string,
+DestinationPort:int,
+DestinationFqdn:string,
+SourceIp:string,
+SourcePort:int,
+DeviceOperatingSystem:string,
+DeviceOperatingSystemVersion:string,
+AgentVersion:string,
+DeviceId:string,
+InitiatingProcessName:string,
+UserId:string,
+TransportProtocol:string,
+NetworkProtocol:string,
+Action:string,
+PolicyRuleId:string,
+PolicyId:string,
+SentBytes:long,
+ReceivedBytes:long,
+ReferrerHeader:string,
+OriginHeader:string,
+XForwardedFor:string,
+DestinationWebCategories:string,
+FilteringProfileId:string,
+FilteringProfileName:string,
+PolicyName:string,
+UserPrincipalName:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table NetworkAccessTraffic policy caching hot = 1d
+
+.create-or-alter function NetworkAccessTrafficExpand() {
+NetworkAccessTrafficRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+DestinationUrl=tostring(events.DestinationUrl),
+Description=tostring(events.Description),
+AppId=tostring(events.AppId),
+ConnectorId=tostring(events.ConnectorId),
+ConnectorName=tostring(events.ConnectorName),
+ConnectorIp=tostring(events.ConnectorIp),
+ConnectionStatus=tostring(events.ConnectionStatus),
+AccessType=tostring(events.AccessType),
+ProcessingRegion=tostring(events.ProcessingRegion),
+AppSegmentId=tostring(events.AppSegmentId),
+RemoteNetworkId=tostring(events.RemoteNetworkId),
+HttpMethod=tostring(events.HttpMethod),
+ResponseCode=toint(events.ResponseCode),
+Token3PExpiry=todatetime(events.Token3PExpiry),
+ThreatType=tostring(events.ThreatType),
+Token3PValidFrom=todatetime(events.Token3PValidFrom),
+Token3PUniqueId=tostring(events.Token3PUniqueId),
+TlsAction=tostring(events.TlsAction),
+TlsStatus=tostring(events.TlsStatus),
+TlsPolicyId=tostring(events.TlsPolicyId),
+TlsPolicyName=tostring(events.TlsPolicyName),
+UniqueTokenId=tostring(events.UniqueTokenId),
+VendorNames=tostring(events.VendorNames),
+CloudAppCatalogId=tostring(events.CloudAppCatalogId),
+CloudAppName=tostring(events.CloudAppName),
+CloudAppCategory=tostring(events.CloudAppCategory),
+CloudAppGeneralScore=toint(events.CloudAppGeneralScore),
+CloudAppRiskScore=toint(events.CloudAppRiskScore),
+CloudAppComplianceScore=toint(events.CloudAppComplianceScore),
+CloudAppLegalScore=toint(events.CloudAppLegalScore),
+Token3PIssuedAt=todatetime(events.Token3PIssuedAt),
+CloudAppLoginUser=tostring(events.CloudAppLoginUser),
+ResourceTenantId=tostring(events.ResourceTenantId),
+RuleName=tostring(events.RuleName),
+TransactionId=tostring(events.TransactionId),
+ConnectionId=tostring(events.ConnectionId),
+SessionId=tostring(events.SessionId),
+TrafficType=tostring(events.TrafficType),
+DeviceCategory=tostring(events.DeviceCategory),
+DestinationIp=tostring(events.DestinationIp),
+DestinationPort=toint(events.DestinationPort),
+DestinationFqdn=tostring(events.DestinationFqdn),
+SourceIp=tostring(events.SourceIp),
+SourcePort=toint(events.SourcePort),
+DeviceOperatingSystem=tostring(events.DeviceOperatingSystem),
+DeviceOperatingSystemVersion=tostring(events.DeviceOperatingSystemVersion),
+AgentVersion=tostring(events.AgentVersion),
+DeviceId=tostring(events.DeviceId),
+InitiatingProcessName=tostring(events.InitiatingProcessName),
+UserId=tostring(events.UserId),
+TransportProtocol=tostring(events.TransportProtocol),
+NetworkProtocol=tostring(events.NetworkProtocol),
+Action=tostring(events.Action),
+PolicyRuleId=tostring(events.PolicyRuleId),
+PolicyId=tostring(events.PolicyId),
+SentBytes=tolong(events.SentBytes),
+ReceivedBytes=tolong(events.ReceivedBytes),
+ReferrerHeader=tostring(events.ReferrerHeader),
+OriginHeader=tostring(events.OriginHeader),
+XForwardedFor=tostring(events.XForwardedFor),
+DestinationWebCategories=tostring(events.DestinationWebCategories),
+FilteringProfileId=tostring(events.FilteringProfileId),
+FilteringProfileName=tostring(events.FilteringProfileName),
+PolicyName=tostring(events.PolicyName),
+UserPrincipalName=tostring(events.UserPrincipalName),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table NetworkAccessTraffic policy update @'[{"Source": "NetworkAccessTrafficRaw", "Query": "NetworkAccessTrafficExpand()", "IsEnabled": "True", "IsTransactional": true}]'

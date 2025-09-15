@@ -1,0 +1,60 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ZeroFox_CTI_disruption_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table ZeroFox_CTI_disruption_CLRaw (records:dynamic)
+
+.alter-merge table ZeroFox_CTI_disruption_CLRaw policy retention softdelete = 1d
+
+.alter table ZeroFox_CTI_disruption_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ZeroFox_CTI_disruption_CLRaw ingestion json mapping 'ZeroFox_CTI_disruption_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ZeroFox_CTI_disruption_CL(
+TimeGenerated:datetime,
+url_s:string,
+fqdn_s:string,
+ip_s:string,
+host_s:string,
+registrar_s:string,
+threat_type_s:string,
+http_status_d:real,
+asn_d:real,
+iana_d:real,
+created_at_t:datetime,
+updated_at_t:datetime,
+category_s:string,
+network_s:string,
+_TimeReceived:datetime)
+
+.alter table ZeroFox_CTI_disruption_CL policy caching hot = 1d
+
+.create-or-alter function ZeroFox_CTI_disruption_CLExpand() {
+ZeroFox_CTI_disruption_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+url_s=tostring(events.url_s),
+fqdn_s=tostring(events.fqdn_s),
+ip_s=tostring(events.ip_s),
+host_s=tostring(events.host_s),
+registrar_s=tostring(events.registrar_s),
+threat_type_s=tostring(events.threat_type_s),
+http_status_d=toreal(events.http_status_d),
+asn_d=toreal(events.asn_d),
+iana_d=toreal(events.iana_d),
+created_at_t=todatetime(events.created_at_t),
+updated_at_t=todatetime(events.updated_at_t),
+category_s=tostring(events.category_s),
+network_s=tostring(events.network_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ZeroFox_CTI_disruption_CL policy update @'[{"Source": "ZeroFox_CTI_disruption_CLRaw", "Query": "ZeroFox_CTI_disruption_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

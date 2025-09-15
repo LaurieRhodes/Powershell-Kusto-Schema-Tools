@@ -1,0 +1,67 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AACAudit - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:17:39
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 16, Final columns: 16
+// ============================================================================
+
+.create-merge table AACAuditRaw (records:dynamic)
+
+.alter-merge table AACAuditRaw policy retention softdelete = 1d
+
+.alter table AACAuditRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AACAuditRaw ingestion json mapping 'AACAuditRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AACAudit(
+TimeGenerated:datetime,
+TenantId:guid,
+Category:string,
+CorrelationId:string,
+Status:string,
+OperationName:string,
+ETag:string,
+EventCategory:string,
+TargetResource:dynamic,
+ResultType:string,
+CallerIdentity:dynamic,
+CallerIPAddress:string,
+RequestId:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AACAudit policy caching hot = 1d
+
+.create-or-alter function AACAuditExpand() {
+AACAuditRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Category=tostring(events.Category),
+CorrelationId=tostring(events.CorrelationId),
+Status=tostring(events.Status),
+OperationName=tostring(events.OperationName),
+ETag=tostring(events.ETag),
+EventCategory=tostring(events.EventCategory),
+TargetResource=todynamic(events.TargetResource),
+ResultType=tostring(events.ResultType),
+CallerIdentity=todynamic(events.CallerIdentity),
+CallerIPAddress=tostring(events.CallerIPAddress),
+RequestId=tostring(events.RequestId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AACAudit policy update @'[{"Source": "AACAuditRaw", "Query": "AACAuditExpand()", "IsEnabled": "True", "IsTransactional": true}]'

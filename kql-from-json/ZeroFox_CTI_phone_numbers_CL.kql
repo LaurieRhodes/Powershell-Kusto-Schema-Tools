@@ -1,0 +1,38 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ZeroFox_CTI_phone_numbers_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table ZeroFox_CTI_phone_numbers_CLRaw (records:dynamic)
+
+.alter-merge table ZeroFox_CTI_phone_numbers_CLRaw policy retention softdelete = 1d
+
+.alter table ZeroFox_CTI_phone_numbers_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ZeroFox_CTI_phone_numbers_CLRaw ingestion json mapping 'ZeroFox_CTI_phone_numbers_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ZeroFox_CTI_phone_numbers_CL(
+TimeGenerated:datetime,
+phone_number_s:string,
+created_at_t:datetime,
+_TimeReceived:datetime)
+
+.alter table ZeroFox_CTI_phone_numbers_CL policy caching hot = 1d
+
+.create-or-alter function ZeroFox_CTI_phone_numbers_CLExpand() {
+ZeroFox_CTI_phone_numbers_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+phone_number_s=tostring(events.phone_number_s),
+created_at_t=todatetime(events.created_at_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ZeroFox_CTI_phone_numbers_CL policy update @'[{"Source": "ZeroFox_CTI_phone_numbers_CLRaw", "Query": "ZeroFox_CTI_phone_numbers_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

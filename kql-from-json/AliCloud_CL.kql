@@ -1,0 +1,88 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AliCloud_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:10
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table AliCloud_CLRaw (records:dynamic)
+
+.alter-merge table AliCloud_CLRaw policy retention softdelete = 1d
+
+.alter table AliCloud_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AliCloud_CLRaw ingestion json mapping 'AliCloud_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AliCloud_CL(
+TimeGenerated:datetime,
+EventVendor:string,
+apiVersion:datetime,
+UserIdentity:string,
+UserAgent:string,
+SrcIpAddr:string,
+ServiceName:string,
+RequestParameters:string,
+RequestParameterJson:string,
+RequestId:string,
+EventVersion:string,
+EventSource:string,
+EventRW:string,
+AdditionalEventData:string,
+EventOriginalType:string,
+EventOriginalUid:string,
+EventResult:string,
+EventSubType:string,
+AcsRegion:string,
+SourceName:string,
+ContentTopic:string,
+EventEndTime:datetime,
+CreatedAt:datetime,
+EventCount:string,
+EventProduct:string,
+TenanId:string,
+SourseSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table AliCloud_CL policy caching hot = 1d
+
+.create-or-alter function AliCloud_CLExpand() {
+AliCloud_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+EventVendor=tostring(events.EventVendor),
+apiVersion=todatetime(events.apiVersion),
+UserIdentity=tostring(events.UserIdentity),
+UserAgent=tostring(events.UserAgent),
+SrcIpAddr=tostring(events.SrcIpAddr),
+ServiceName=tostring(events.ServiceName),
+RequestParameters=tostring(events.RequestParameters),
+RequestParameterJson=tostring(events.RequestParameterJson),
+RequestId=tostring(events.RequestId),
+EventVersion=tostring(events.EventVersion),
+EventSource=tostring(events.EventSource),
+EventRW=tostring(events.EventRW),
+AdditionalEventData=tostring(events.AdditionalEventData),
+EventOriginalType=tostring(events.EventOriginalType),
+EventOriginalUid=tostring(events.EventOriginalUid),
+EventResult=tostring(events.EventResult),
+EventSubType=tostring(events.EventSubType),
+AcsRegion=tostring(events.AcsRegion),
+SourceName=tostring(events.SourceName),
+ContentTopic=tostring(events.ContentTopic),
+EventEndTime=todatetime(events.EventEndTime),
+CreatedAt=todatetime(events.CreatedAt),
+EventCount=tostring(events.EventCount),
+EventProduct=tostring(events.EventProduct),
+TenanId=tostring(events.TenanId),
+SourseSystem=tostring(events.SourseSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AliCloud_CL policy update @'[{"Source": "AliCloud_CLRaw", "Query": "AliCloud_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,48 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Report_links_data_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Report_links_data_CLRaw (records:dynamic)
+
+.alter-merge table Report_links_data_CLRaw policy retention softdelete = 1d
+
+.alter table Report_links_data_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Report_links_data_CLRaw ingestion json mapping 'Report_links_data_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Report_links_data_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+SourceSystem:string,
+MG:string,
+ManagementGroupName:string,
+indicator_id_s:string,
+report_link_s:string,
+updated_at_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Report_links_data_CL policy caching hot = 1d
+
+.create-or-alter function Report_links_data_CLExpand() {
+Report_links_data_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SourceSystem=tostring(events.SourceSystem),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+indicator_id_s=tostring(events.indicator_id_s),
+report_link_s=tostring(events.report_link_s),
+updated_at_t=todatetime(events.updated_at_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Report_links_data_CL policy update @'[{"Source": "Report_links_data_CLRaw", "Query": "Report_links_data_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,113 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ServiceFabricReliableActorEvent - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:20:28
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 39, Final columns: 39
+// ============================================================================
+
+.create-merge table ServiceFabricReliableActorEventRaw (records:dynamic)
+
+.alter-merge table ServiceFabricReliableActorEventRaw policy retention softdelete = 1d
+
+.alter table ServiceFabricReliableActorEventRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ServiceFabricReliableActorEventRaw ingestion json mapping 'ServiceFabricReliableActorEventRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ServiceFabricReliableActorEvent(
+TimeGenerated:datetime,
+TenantId:guid,
+ActorIdKind:int,
+IsStateful:bool,
+ReplicaOrInstanceId:long,
+PartitionId:string,
+ServiceName:string,
+ApplicationName:string,
+ServiceTypeName:string,
+ApplicationTypeName:string,
+NodeName:string,
+NodeId:guid,
+CountOfWaitingMethodCalls:long,
+MethodName:string,
+MethodSignature:string,
+MethodExecutionTimeTicks:long,
+Exception:string,
+ActorId:string,
+SaveStateExecutionTimeTicks:long,
+ActorType:string,
+Role:string,
+SourceSystem:string,
+PartitionKey:string,
+Computer:string,
+Level:string,
+ProviderGuid:guid,
+EventSourceName:string,
+EventId:int,
+Pid:int,
+Tid:int,
+OpcodeName:string,
+KeywordName:string,
+TaskName:string,
+ChannelName:string,
+RowKey:string,
+AzureDeploymentID:string,
+EventMessage:string,
+ReplicaId:long,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table ServiceFabricReliableActorEvent policy caching hot = 1d
+
+.create-or-alter function ServiceFabricReliableActorEventExpand() {
+ServiceFabricReliableActorEventRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ActorIdKind=toint(events.ActorIdKind),
+IsStateful=tobool(events.IsStateful),
+ReplicaOrInstanceId=tolong(events.ReplicaOrInstanceId),
+PartitionId=tostring(events.PartitionId),
+ServiceName=tostring(events.ServiceName),
+ApplicationName=tostring(events.ApplicationName),
+ServiceTypeName=tostring(events.ServiceTypeName),
+ApplicationTypeName=tostring(events.ApplicationTypeName),
+NodeName=tostring(events.NodeName),
+NodeId=toguid(events.NodeId),
+CountOfWaitingMethodCalls=tolong(events.CountOfWaitingMethodCalls),
+MethodName=tostring(events.MethodName),
+MethodSignature=tostring(events.MethodSignature),
+MethodExecutionTimeTicks=tolong(events.MethodExecutionTimeTicks),
+Exception=tostring(events.Exception),
+ActorId=tostring(events.ActorId),
+SaveStateExecutionTimeTicks=tolong(events.SaveStateExecutionTimeTicks),
+ActorType=tostring(events.ActorType),
+Role=tostring(events.Role),
+SourceSystem=tostring(events.SourceSystem),
+PartitionKey=tostring(events.PartitionKey),
+Computer=tostring(events.Computer),
+Level=tostring(events.Level),
+ProviderGuid=toguid(events.ProviderGuid),
+EventSourceName=tostring(events.EventSourceName),
+EventId=toint(events.EventId),
+Pid=toint(events.Pid),
+Tid=toint(events.Tid),
+OpcodeName=tostring(events.OpcodeName),
+KeywordName=tostring(events.KeywordName),
+TaskName=tostring(events.TaskName),
+ChannelName=tostring(events.ChannelName),
+RowKey=tostring(events.RowKey),
+AzureDeploymentID=tostring(events.AzureDeploymentID),
+EventMessage=tostring(events.EventMessage),
+ReplicaId=tolong(events.ReplicaId),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ServiceFabricReliableActorEvent policy update @'[{"Source": "ServiceFabricReliableActorEventRaw", "Query": "ServiceFabricReliableActorEventExpand()", "IsEnabled": "True", "IsTransactional": true}]'

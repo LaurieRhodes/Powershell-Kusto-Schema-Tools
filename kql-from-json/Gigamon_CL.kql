@@ -1,0 +1,136 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Gigamon_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Gigamon_CLRaw (records:dynamic)
+
+.alter-merge table Gigamon_CLRaw policy retention softdelete = 1d
+
+.alter table Gigamon_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Gigamon_CLRaw ingestion json mapping 'Gigamon_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Gigamon_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+uri_fileextension_s:string,
+basic_constraints_subject_type_s:string,
+certificateserialnumber_s:string,
+certificatesha256fingerprint_s:string,
+severity_type_s:string,
+truststatus_s:string,
+agentlastip_s:string,
+resultsuri_s:string,
+severity_ISG_PostQuantum_Security_s:string,
+certificatenotbefore_t:string,
+rank_s:string,
+agentid_s:string,
+standard_name_s:string,
+crypto_scanid_d:real,
+uri_filename_s:string,
+uri_filepath_s:string,
+agenthostname_s:string,
+starttime_t:string,
+object_fingerprint_s:string,
+endtime_t:string,
+standard_cse_classification_s:string,
+library_severity_description_s:string,
+severity_description_s:string,
+certificatepublickeysize_d:real,
+SourceSystem:string,
+MG:string,
+ManagementGroupName:string,
+RawData:string,
+certificateextensions_s:real,
+certificateextkeyusage_s:string,
+certificatesha1fingerprint_s:string,
+certificatepublickeyalgorithm_s:string,
+certificatesignaturealgorithm_s:string,
+resultsscheme_s:string,
+certificatekeyusage_s:string,
+severity_score_s:string,
+certificatevaliditydays_d:real,
+basic_constraints_path_length_s:string,
+certificate_issuer_type_s:string,
+certificateselfsigned_s:string,
+cnformat_s:string,
+certificateparsingerror_s:string,
+certificate_usage_s:string,
+certs_scanid_d:real,
+uri_filetype_s:string,
+keyid_s:string,
+Type:string,
+_ResourceId:string,
+_timestamp_t:string,
+_version_s:string,
+_TimeReceived:datetime)
+
+.alter table Gigamon_CL policy caching hot = 1d
+
+.create-or-alter function Gigamon_CLExpand() {
+Gigamon_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+uri_fileextension_s=tostring(events.uri_fileextension_s),
+basic_constraints_subject_type_s=tostring(events.basic_constraints_subject_type_s),
+certificateserialnumber_s=tostring(events.certificateserialnumber_s),
+certificatesha256fingerprint_s=tostring(events.certificatesha256fingerprint_s),
+severity_type_s=tostring(events.severity_type_s),
+truststatus_s=tostring(events.truststatus_s),
+agentlastip_s=tostring(events.agentlastip_s),
+resultsuri_s=tostring(events.resultsuri_s),
+severity_ISG_PostQuantum_Security_s=tostring(events.severity_ISG_PostQuantum_Security_s),
+certificatenotbefore_t=tostring(events.certificatenotbefore_t),
+rank_s=tostring(events.rank_s),
+agentid_s=tostring(events.agentid_s),
+standard_name_s=tostring(events.standard_name_s),
+crypto_scanid_d=toreal(events.crypto_scanid_d),
+uri_filename_s=tostring(events.uri_filename_s),
+uri_filepath_s=tostring(events.uri_filepath_s),
+agenthostname_s=tostring(events.agenthostname_s),
+starttime_t=tostring(events.starttime_t),
+object_fingerprint_s=tostring(events.object_fingerprint_s),
+endtime_t=tostring(events.endtime_t),
+standard_cse_classification_s=tostring(events.standard_cse_classification_s),
+library_severity_description_s=tostring(events.library_severity_description_s),
+severity_description_s=tostring(events.severity_description_s),
+certificatepublickeysize_d=toreal(events.certificatepublickeysize_d),
+SourceSystem=tostring(events.SourceSystem),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+RawData=tostring(events.RawData),
+certificateextensions_s=toreal(events.certificateextensions_s),
+certificateextkeyusage_s=tostring(events.certificateextkeyusage_s),
+certificatesha1fingerprint_s=tostring(events.certificatesha1fingerprint_s),
+certificatepublickeyalgorithm_s=tostring(events.certificatepublickeyalgorithm_s),
+certificatesignaturealgorithm_s=tostring(events.certificatesignaturealgorithm_s),
+resultsscheme_s=tostring(events.resultsscheme_s),
+certificatekeyusage_s=tostring(events.certificatekeyusage_s),
+severity_score_s=tostring(events.severity_score_s),
+certificatevaliditydays_d=toreal(events.certificatevaliditydays_d),
+basic_constraints_path_length_s=tostring(events.basic_constraints_path_length_s),
+certificate_issuer_type_s=tostring(events.certificate_issuer_type_s),
+certificateselfsigned_s=tostring(events.certificateselfsigned_s),
+cnformat_s=tostring(events.cnformat_s),
+certificateparsingerror_s=tostring(events.certificateparsingerror_s),
+certificate_usage_s=tostring(events.certificate_usage_s),
+certs_scanid_d=toreal(events.certs_scanid_d),
+uri_filetype_s=tostring(events.uri_filetype_s),
+keyid_s=tostring(events.keyid_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_timestamp_t=tostring(events._timestamp_t),
+_version_s=tostring(events._version_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Gigamon_CL policy update @'[{"Source": "Gigamon_CLRaw", "Query": "Gigamon_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

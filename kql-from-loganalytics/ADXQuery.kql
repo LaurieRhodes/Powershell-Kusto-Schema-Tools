@@ -1,0 +1,121 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ADXQuery - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:20:17
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 43, Final columns: 43
+// ============================================================================
+
+.create-merge table ADXQueryRaw (records:dynamic)
+
+.alter-merge table ADXQueryRaw policy retention softdelete = 1d
+
+.alter table ADXQueryRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ADXQueryRaw ingestion json mapping 'ADXQueryRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ADXQuery(
+TimeGenerated:datetime,
+TenantId:guid,
+CacheMemoryHits:long,
+CacheMemoryMisses:long,
+CacheDiskHits:long,
+CacheDiskMisses:long,
+CacheShardsHotHits:long,
+CacheShardsHotMisses:long,
+CacheShardsColdHits:long,
+ScannedRowsCount:long,
+CacheShardsColdMisses:long,
+TableCount:int,
+TablesStatistics:dynamic,
+WorkloadGroup:string,
+Text:string,
+ComponentFault:string,
+ClientRequestProperties:dynamic,
+SourceSystem:string,
+CacheShardsBypassBytes:long,
+TotalRowsCount:long,
+ScannedExtentsCount:long,
+TotalExtentsCount:long,
+OperationName:string,
+Category:string,
+CorrelationId:string,
+RootActivityId:string,
+StartedOn:datetime,
+LastUpdatedOn:datetime,
+DatabaseName:string,
+State:string,
+FailureReason:string,
+TotalCPU:string,
+ApplicationName:string,
+MemoryPeak:long,
+Duration:string,
+User:string,
+Principal:string,
+MinDataScannedTime:datetime,
+MaxDataScannedTime:datetime,
+ExtentsMinDataScannedTime:datetime,
+ExtentsMaxDataScannedTime:datetime,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ADXQuery policy caching hot = 1d
+
+.create-or-alter function ADXQueryExpand() {
+ADXQueryRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+CacheMemoryHits=tolong(events.CacheMemoryHits),
+CacheMemoryMisses=tolong(events.CacheMemoryMisses),
+CacheDiskHits=tolong(events.CacheDiskHits),
+CacheDiskMisses=tolong(events.CacheDiskMisses),
+CacheShardsHotHits=tolong(events.CacheShardsHotHits),
+CacheShardsHotMisses=tolong(events.CacheShardsHotMisses),
+CacheShardsColdHits=tolong(events.CacheShardsColdHits),
+ScannedRowsCount=tolong(events.ScannedRowsCount),
+CacheShardsColdMisses=tolong(events.CacheShardsColdMisses),
+TableCount=toint(events.TableCount),
+TablesStatistics=todynamic(events.TablesStatistics),
+WorkloadGroup=tostring(events.WorkloadGroup),
+Text=tostring(events.Text),
+ComponentFault=tostring(events.ComponentFault),
+ClientRequestProperties=todynamic(events.ClientRequestProperties),
+SourceSystem=tostring(events.SourceSystem),
+CacheShardsBypassBytes=tolong(events.CacheShardsBypassBytes),
+TotalRowsCount=tolong(events.TotalRowsCount),
+ScannedExtentsCount=tolong(events.ScannedExtentsCount),
+TotalExtentsCount=tolong(events.TotalExtentsCount),
+OperationName=tostring(events.OperationName),
+Category=tostring(events.Category),
+CorrelationId=tostring(events.CorrelationId),
+RootActivityId=tostring(events.RootActivityId),
+StartedOn=todatetime(events.StartedOn),
+LastUpdatedOn=todatetime(events.LastUpdatedOn),
+DatabaseName=tostring(events.DatabaseName),
+State=tostring(events.State),
+FailureReason=tostring(events.FailureReason),
+TotalCPU=tostring(events.TotalCPU),
+ApplicationName=tostring(events.ApplicationName),
+MemoryPeak=tolong(events.MemoryPeak),
+Duration=tostring(events.Duration),
+User=tostring(events.User),
+Principal=tostring(events.Principal),
+MinDataScannedTime=todatetime(events.MinDataScannedTime),
+MaxDataScannedTime=todatetime(events.MaxDataScannedTime),
+ExtentsMinDataScannedTime=todatetime(events.ExtentsMinDataScannedTime),
+ExtentsMaxDataScannedTime=todatetime(events.ExtentsMaxDataScannedTime),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ADXQuery policy update @'[{"Source": "ADXQueryRaw", "Query": "ADXQueryExpand()", "IsEnabled": "True", "IsTransactional": true}]'

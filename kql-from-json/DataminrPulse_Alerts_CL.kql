@@ -1,0 +1,70 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for DataminrPulse_Alerts_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table DataminrPulse_Alerts_CLRaw (records:dynamic)
+
+.alter-merge table DataminrPulse_Alerts_CLRaw policy retention softdelete = 1d
+
+.alter table DataminrPulse_Alerts_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table DataminrPulse_Alerts_CLRaw ingestion json mapping 'DataminrPulse_Alerts_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table DataminrPulse_Alerts_CL(
+TimeGenerated:datetime,
+EventVendor:string,
+odsStatus_timestamp_d:real,
+dataMap_headlineMds_content_s:string,
+relatedAlerts_s:string,
+EventVolume:real,
+timestamp_d:real,
+location_longitude_d:real,
+watchlistsMatchedByType_s:string,
+location_latitude_d:real,
+companies_s:string,
+headline_s:string,
+availableRelatedAlerts_d:real,
+alertType_name_s:string,
+index_s:string,
+EventProduct:string,
+categories_s:string,
+location_name_s:string,
+_embedded_labels_s:string,
+_TimeReceived:datetime)
+
+.alter table DataminrPulse_Alerts_CL policy caching hot = 1d
+
+.create-or-alter function DataminrPulse_Alerts_CLExpand() {
+DataminrPulse_Alerts_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+EventVendor=tostring(events.EventVendor),
+odsStatus_timestamp_d=toreal(events.odsStatus_timestamp_d),
+dataMap_headlineMds_content_s=tostring(events.dataMap_headlineMds_content_s),
+relatedAlerts_s=tostring(events.relatedAlerts_s),
+EventVolume=toreal(events.EventVolume),
+timestamp_d=toreal(events.timestamp_d),
+location_longitude_d=toreal(events.location_longitude_d),
+watchlistsMatchedByType_s=tostring(events.watchlistsMatchedByType_s),
+location_latitude_d=toreal(events.location_latitude_d),
+companies_s=tostring(events.companies_s),
+headline_s=tostring(events.headline_s),
+availableRelatedAlerts_d=toreal(events.availableRelatedAlerts_d),
+alertType_name_s=tostring(events.alertType_name_s),
+index_s=tostring(events.index_s),
+EventProduct=tostring(events.EventProduct),
+categories_s=tostring(events.categories_s),
+location_name_s=tostring(events.location_name_s),
+_embedded_labels_s=tostring(events._embedded_labels_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table DataminrPulse_Alerts_CL policy update @'[{"Source": "DataminrPulse_Alerts_CLRaw", "Query": "DataminrPulse_Alerts_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

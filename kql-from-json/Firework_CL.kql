@@ -1,0 +1,46 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Firework_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Firework_CLRaw (records:dynamic)
+
+.alter-merge table Firework_CLRaw policy retention softdelete = 1d
+
+.alter table Firework_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Firework_CLRaw ingestion json mapping 'Firework_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Firework_CL(
+TimeGenerated:datetime,
+source_s:string,
+data_new_leaks_s:string,
+risk_score_d:string,
+last_crawled_at_t[Local Time]:string,
+category_name_s:string,
+risk_reasons_s:string,
+_TimeReceived:datetime)
+
+.alter table Firework_CL policy caching hot = 1d
+
+.create-or-alter function Firework_CLExpand() {
+Firework_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+source_s=tostring(events.source_s),
+data_new_leaks_s=tostring(events.data_new_leaks_s),
+risk_score_d=tostring(events.risk_score_d),
+last_crawled_at_t[Local Time]=tostring(events.last_crawled_at_t[Local Time]),
+category_name_s=tostring(events.category_name_s),
+risk_reasons_s=tostring(events.risk_reasons_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Firework_CL policy update @'[{"Source": "Firework_CLRaw", "Query": "Firework_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

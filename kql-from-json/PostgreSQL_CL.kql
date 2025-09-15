@@ -1,0 +1,52 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for PostgreSQL_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table PostgreSQL_CLRaw (records:dynamic)
+
+.alter-merge table PostgreSQL_CLRaw policy retention softdelete = 1d
+
+.alter table PostgreSQL_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table PostgreSQL_CLRaw ingestion json mapping 'PostgreSQL_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table PostgreSQL_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+SourceSystem:string,
+MG:string,
+ManagementGroupName:string,
+Computer:string,
+RawData:string,
+Type:string,
+_ResourceId:string,
+_ItemId:string,
+_TimeReceived:datetime)
+
+.alter table PostgreSQL_CL policy caching hot = 1d
+
+.create-or-alter function PostgreSQL_CLExpand() {
+PostgreSQL_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SourceSystem=tostring(events.SourceSystem),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+Computer=tostring(events.Computer),
+RawData=tostring(events.RawData),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_ItemId=tostring(events._ItemId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table PostgreSQL_CL policy update @'[{"Source": "PostgreSQL_CLRaw", "Query": "PostgreSQL_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

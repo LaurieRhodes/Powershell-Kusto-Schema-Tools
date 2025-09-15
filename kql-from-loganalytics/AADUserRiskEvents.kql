@@ -1,0 +1,85 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AADUserRiskEvents - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:18:27
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 25, Final columns: 25
+// ============================================================================
+
+.create-merge table AADUserRiskEventsRaw (records:dynamic)
+
+.alter-merge table AADUserRiskEventsRaw policy retention softdelete = 1d
+
+.alter table AADUserRiskEventsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AADUserRiskEventsRaw ingestion json mapping 'AADUserRiskEventsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AADUserRiskEvents(
+TimeGenerated:datetime,
+TenantId:guid,
+UserPrincipalName:string,
+UserId:string,
+UserDisplayName:string,
+TokenIssuerType:string,
+Source:string,
+RiskState:string,
+RiskLevel:string,
+RiskEventType:string,
+RiskDetail:string,
+OperationName:string,
+RequestId:string,
+LastUpdatedDateTime:datetime,
+IpAddress:string,
+Id:string,
+DetectionTimingType:string,
+DetectedDateTime:datetime,
+CorrelationId:string,
+AdditionalInfo:dynamic,
+ActivityDateTime:datetime,
+Activity:string,
+Location:dynamic,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table AADUserRiskEvents policy caching hot = 1d
+
+.create-or-alter function AADUserRiskEventsExpand() {
+AADUserRiskEventsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+UserPrincipalName=tostring(events.UserPrincipalName),
+UserId=tostring(events.UserId),
+UserDisplayName=tostring(events.UserDisplayName),
+TokenIssuerType=tostring(events.TokenIssuerType),
+Source=tostring(events.Source),
+RiskState=tostring(events.RiskState),
+RiskLevel=tostring(events.RiskLevel),
+RiskEventType=tostring(events.RiskEventType),
+RiskDetail=tostring(events.RiskDetail),
+OperationName=tostring(events.OperationName),
+RequestId=tostring(events.RequestId),
+LastUpdatedDateTime=todatetime(events.LastUpdatedDateTime),
+IpAddress=tostring(events.IpAddress),
+Id=tostring(events.Id),
+DetectionTimingType=tostring(events.DetectionTimingType),
+DetectedDateTime=todatetime(events.DetectedDateTime),
+CorrelationId=tostring(events.CorrelationId),
+AdditionalInfo=todynamic(events.AdditionalInfo),
+ActivityDateTime=todatetime(events.ActivityDateTime),
+Activity=tostring(events.Activity),
+Location=todynamic(events.Location),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AADUserRiskEvents policy update @'[{"Source": "AADUserRiskEventsRaw", "Query": "AADUserRiskEventsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

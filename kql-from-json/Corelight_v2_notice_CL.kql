@@ -1,0 +1,94 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_notice_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:13
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_notice_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_notice_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_notice_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_notice_CLRaw ingestion json mapping 'Corelight_v2_notice_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_notice_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+remote_location_longitude_d:real,
+remote_location_latitude_d:real,
+remote_location_city_s:string,
+remote_location_region_s:string,
+remote_location_country_code_s:string,
+suppress_for_d:real,
+actions_s:string,
+peer_descr_s:string,
+n_d:real,
+p_d:real,
+dst_s:string,
+severity_level_d:real,
+src_s:string,
+msg_s:string,
+note_s:string,
+proto_s:string,
+file_desc_s:string,
+file_mime_type_s:string,
+fuid_s:string,
+id_resp_p_d:real,
+id_resp_h_s:string,
+id_orig_p_d:real,
+id_orig_h_s:string,
+uid_s:string,
+sub_s:string,
+severity_name_s:string,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_notice_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_notice_CLExpand() {
+Corelight_v2_notice_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+remote_location_longitude_d=toreal(events.remote_location_longitude_d),
+remote_location_latitude_d=toreal(events.remote_location_latitude_d),
+remote_location_city_s=tostring(events.remote_location_city_s),
+remote_location_region_s=tostring(events.remote_location_region_s),
+remote_location_country_code_s=tostring(events.remote_location_country_code_s),
+suppress_for_d=toreal(events.suppress_for_d),
+actions_s=tostring(events.actions_s),
+peer_descr_s=tostring(events.peer_descr_s),
+n_d=toreal(events.n_d),
+p_d=toreal(events.p_d),
+dst_s=tostring(events.dst_s),
+severity_level_d=toreal(events.severity_level_d),
+src_s=tostring(events.src_s),
+msg_s=tostring(events.msg_s),
+note_s=tostring(events.note_s),
+proto_s=tostring(events.proto_s),
+file_desc_s=tostring(events.file_desc_s),
+file_mime_type_s=tostring(events.file_mime_type_s),
+fuid_s=tostring(events.fuid_s),
+id_resp_p_d=toreal(events.id_resp_p_d),
+id_resp_h_s=tostring(events.id_resp_h_s),
+id_orig_p_d=toreal(events.id_orig_p_d),
+id_orig_h_s=tostring(events.id_orig_h_s),
+uid_s=tostring(events.uid_s),
+sub_s=tostring(events.sub_s),
+severity_name_s=tostring(events.severity_name_s),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_notice_CL policy update @'[{"Source": "Corelight_v2_notice_CLRaw", "Query": "Corelight_v2_notice_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

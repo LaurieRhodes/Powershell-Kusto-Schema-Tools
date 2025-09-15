@@ -1,0 +1,119 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AzureMetrics - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:24:42
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 42, Final columns: 42
+// ============================================================================
+
+.create-merge table AzureMetricsRaw (records:dynamic)
+
+.alter-merge table AzureMetricsRaw policy retention softdelete = 1d
+
+.alter table AzureMetricsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AzureMetricsRaw ingestion json mapping 'AzureMetricsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AzureMetrics(
+TimeGenerated:datetime,
+TenantId:guid,
+AverageValue:real,
+TimeGrain:string,
+UnitName:string,
+RemoteIPCountry:string,
+RemoteIPLatitude:real,
+RemoteIPLongitude:real,
+MaliciousIP:string,
+Minimum:real,
+IndicatorThreatType:string,
+TLPLevel:string,
+Confidence:string,
+Severity:int,
+FirstReportedDateTime:string,
+LastReportedDateTime:string,
+IsActive:string,
+ReportReferenceLink:string,
+Description:string,
+AdditionalInformation:string,
+Maximum:real,
+Total:real,
+SourceSystem:string,
+ResourceId:string,
+OperationName:string,
+OperationVersion:string,
+Category:string,
+ResultType:string,
+ResultSignature:string,
+Count:real,
+ResultDescription:string,
+CallerIpAddress:string,
+CorrelationId:string,
+Resource:string,
+ResourceGroup:string,
+ResourceProvider:string,
+SubscriptionId:guid,
+MetricName:string,
+DurationMs:long,
+Average:real,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AzureMetrics policy caching hot = 1d
+
+.create-or-alter function AzureMetricsExpand() {
+AzureMetricsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+AverageValue=toreal(events.AverageValue),
+TimeGrain=tostring(events.TimeGrain),
+UnitName=tostring(events.UnitName),
+RemoteIPCountry=tostring(events.RemoteIPCountry),
+RemoteIPLatitude=toreal(events.RemoteIPLatitude),
+RemoteIPLongitude=toreal(events.RemoteIPLongitude),
+MaliciousIP=tostring(events.MaliciousIP),
+Minimum=toreal(events.Minimum),
+IndicatorThreatType=tostring(events.IndicatorThreatType),
+TLPLevel=tostring(events.TLPLevel),
+Confidence=tostring(events.Confidence),
+Severity=toint(events.Severity),
+FirstReportedDateTime=tostring(events.FirstReportedDateTime),
+LastReportedDateTime=tostring(events.LastReportedDateTime),
+IsActive=tostring(events.IsActive),
+ReportReferenceLink=tostring(events.ReportReferenceLink),
+Description=tostring(events.Description),
+AdditionalInformation=tostring(events.AdditionalInformation),
+Maximum=toreal(events.Maximum),
+Total=toreal(events.Total),
+SourceSystem=tostring(events.SourceSystem),
+ResourceId=tostring(events.ResourceId),
+OperationName=tostring(events.OperationName),
+OperationVersion=tostring(events.OperationVersion),
+Category=tostring(events.Category),
+ResultType=tostring(events.ResultType),
+ResultSignature=tostring(events.ResultSignature),
+Count=toreal(events.Count),
+ResultDescription=tostring(events.ResultDescription),
+CallerIpAddress=tostring(events.CallerIpAddress),
+CorrelationId=tostring(events.CorrelationId),
+Resource=tostring(events.Resource),
+ResourceGroup=tostring(events.ResourceGroup),
+ResourceProvider=tostring(events.ResourceProvider),
+SubscriptionId=toguid(events.SubscriptionId),
+MetricName=tostring(events.MetricName),
+DurationMs=tolong(events.DurationMs),
+Average=toreal(events.Average),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AzureMetrics policy update @'[{"Source": "AzureMetricsRaw", "Query": "AzureMetricsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

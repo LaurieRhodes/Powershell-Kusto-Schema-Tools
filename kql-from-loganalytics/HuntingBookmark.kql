@@ -1,0 +1,77 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for HuntingBookmark - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:15:53
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 21, Final columns: 21
+// ============================================================================
+
+.create-merge table HuntingBookmarkRaw (records:dynamic)
+
+.alter-merge table HuntingBookmarkRaw policy retention softdelete = 1d
+
+.alter table HuntingBookmarkRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table HuntingBookmarkRaw ingestion json mapping 'HuntingBookmarkRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table HuntingBookmark(
+TimeGenerated:datetime,
+TenantId:guid,
+SoftDeleted:bool,
+Entities:string,
+Notes:string,
+QueryEndTime:datetime,
+QueryStartTime:datetime,
+QueryResultRow:string,
+QueryText:string,
+EventTime:datetime,
+LastUpdatedTime:datetime,
+CreatedTime:datetime,
+UpdatedBy:string,
+CreatedBy:string,
+BookmarkType:string,
+BookmarkName:string,
+BookmarkId:string,
+Tags:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table HuntingBookmark policy caching hot = 1d
+
+.create-or-alter function HuntingBookmarkExpand() {
+HuntingBookmarkRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SoftDeleted=tobool(events.SoftDeleted),
+Entities=tostring(events.Entities),
+Notes=tostring(events.Notes),
+QueryEndTime=todatetime(events.QueryEndTime),
+QueryStartTime=todatetime(events.QueryStartTime),
+QueryResultRow=tostring(events.QueryResultRow),
+QueryText=tostring(events.QueryText),
+EventTime=todatetime(events.EventTime),
+LastUpdatedTime=todatetime(events.LastUpdatedTime),
+CreatedTime=todatetime(events.CreatedTime),
+UpdatedBy=tostring(events.UpdatedBy),
+CreatedBy=tostring(events.CreatedBy),
+BookmarkType=tostring(events.BookmarkType),
+BookmarkName=tostring(events.BookmarkName),
+BookmarkId=tostring(events.BookmarkId),
+Tags=tostring(events.Tags),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table HuntingBookmark policy update @'[{"Source": "HuntingBookmarkRaw", "Query": "HuntingBookmarkExpand()", "IsEnabled": "True", "IsTransactional": true}]'

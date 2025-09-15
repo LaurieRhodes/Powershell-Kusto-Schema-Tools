@@ -1,0 +1,52 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ProofPointTAPMessagesDelivered_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table ProofPointTAPMessagesDelivered_CLRaw (records:dynamic)
+
+.alter-merge table ProofPointTAPMessagesDelivered_CLRaw policy retention softdelete = 1d
+
+.alter table ProofPointTAPMessagesDelivered_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ProofPointTAPMessagesDelivered_CLRaw ingestion json mapping 'ProofPointTAPMessagesDelivered_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ProofPointTAPMessagesDelivered_CL(
+TimeGenerated:datetime,
+threatsInfoMap_s:dynamic,
+messageParts_s:dynamic,
+sender_s:string,
+senderIP_s:string,
+recipient_s:string,
+subject_s:string,
+threatType:string,
+classification:string,
+filename:string,
+_TimeReceived:datetime)
+
+.alter table ProofPointTAPMessagesDelivered_CL policy caching hot = 1d
+
+.create-or-alter function ProofPointTAPMessagesDelivered_CLExpand() {
+ProofPointTAPMessagesDelivered_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+threatsInfoMap_s=todynamic(events.threatsInfoMap_s),
+messageParts_s=todynamic(events.messageParts_s),
+sender_s=tostring(events.sender_s),
+senderIP_s=tostring(events.senderIP_s),
+recipient_s=tostring(events.recipient_s),
+subject_s=tostring(events.subject_s),
+threatType=tostring(events.threatType),
+classification=tostring(events.classification),
+filename=tostring(events.filename),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ProofPointTAPMessagesDelivered_CL policy update @'[{"Source": "ProofPointTAPMessagesDelivered_CLRaw", "Query": "ProofPointTAPMessagesDelivered_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

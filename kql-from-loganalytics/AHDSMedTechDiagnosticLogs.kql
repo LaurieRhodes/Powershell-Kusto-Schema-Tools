@@ -1,0 +1,51 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AHDSMedTechDiagnosticLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:21:06
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 8, Final columns: 8
+// ============================================================================
+
+.create-merge table AHDSMedTechDiagnosticLogsRaw (records:dynamic)
+
+.alter-merge table AHDSMedTechDiagnosticLogsRaw policy retention softdelete = 1d
+
+.alter table AHDSMedTechDiagnosticLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AHDSMedTechDiagnosticLogsRaw ingestion json mapping 'AHDSMedTechDiagnosticLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AHDSMedTechDiagnosticLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+Message:string,
+LogType:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AHDSMedTechDiagnosticLogs policy caching hot = 1d
+
+.create-or-alter function AHDSMedTechDiagnosticLogsExpand() {
+AHDSMedTechDiagnosticLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+Message=tostring(events.Message),
+LogType=tostring(events.LogType),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AHDSMedTechDiagnosticLogs policy update @'[{"Source": "AHDSMedTechDiagnosticLogsRaw", "Query": "AHDSMedTechDiagnosticLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,73 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for EmailAttachmentInfo - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:13:51
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 19, Final columns: 19
+// ============================================================================
+
+.create-merge table EmailAttachmentInfoRaw (records:dynamic)
+
+.alter-merge table EmailAttachmentInfoRaw policy retention softdelete = 1d
+
+.alter table EmailAttachmentInfoRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table EmailAttachmentInfoRaw ingestion json mapping 'EmailAttachmentInfoRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table EmailAttachmentInfo(
+TimeGenerated:datetime,
+TenantId:guid,
+FileSize:long,
+DetectionMethods:string,
+ThreatNames:string,
+SenderFromAddress:string,
+ThreatTypes:string,
+SenderObjectId:string,
+Timestamp:datetime,
+SenderDisplayName:string,
+ReportId:string,
+RecipientObjectId:string,
+RecipientEmailAddress:string,
+NetworkMessageId:string,
+FileType:string,
+FileName:string,
+SHA256:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table EmailAttachmentInfo policy caching hot = 1d
+
+.create-or-alter function EmailAttachmentInfoExpand() {
+EmailAttachmentInfoRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+FileSize=tolong(events.FileSize),
+DetectionMethods=tostring(events.DetectionMethods),
+ThreatNames=tostring(events.ThreatNames),
+SenderFromAddress=tostring(events.SenderFromAddress),
+ThreatTypes=tostring(events.ThreatTypes),
+SenderObjectId=tostring(events.SenderObjectId),
+Timestamp=todatetime(events.Timestamp),
+SenderDisplayName=tostring(events.SenderDisplayName),
+ReportId=tostring(events.ReportId),
+RecipientObjectId=tostring(events.RecipientObjectId),
+RecipientEmailAddress=tostring(events.RecipientEmailAddress),
+NetworkMessageId=tostring(events.NetworkMessageId),
+FileType=tostring(events.FileType),
+FileName=tostring(events.FileName),
+SHA256=tostring(events.SHA256),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table EmailAttachmentInfo policy update @'[{"Source": "EmailAttachmentInfoRaw", "Query": "EmailAttachmentInfoExpand()", "IsEnabled": "True", "IsTransactional": true}]'

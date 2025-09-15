@@ -1,0 +1,122 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for GCP_DNS_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table GCP_DNS_CLRaw (records:dynamic)
+
+.alter-merge table GCP_DNS_CLRaw policy retention softdelete = 1d
+
+.alter table GCP_DNS_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table GCP_DNS_CLRaw ingestion json mapping 'GCP_DNS_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table GCP_DNS_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+resource_labels_project_id_s:string,
+resource_labels_target_type_s:string,
+resource_labels_source_type_s:string,
+resource_labels_target_name_s:string,
+resource_labels_location_s:string,
+payload_vmProjectId_s:string,
+payload_protocol_s:string,
+payload_queryType_s:string,
+payload_rdata_s:string,
+payload_vmInstanceId_d:real,
+payload_vmInstanceIdString_s:string,
+payload_vmInstanceName_s:string,
+payload_responseCode_s:string,
+payload_authAnswer_b:bool,
+payload_queryName_s:string,
+payload_vmZoneName_s:string,
+payload_sourceNetwork_s:string,
+resource_type_s:string,
+timestamp_t:datetime,
+severity_s:string,
+insert_id_s:string,
+SourceSystem:string,
+MG:string,
+ManagementGroupName:string,
+Computer:string,
+RawData:string,
+resource_labels_zone_name_s:string,
+payload__type_s:string,
+payload_authenticationInfo_principalEmail_s:string,
+payload_serverLatency_d:real,
+payload_requestMetadata_requestAttributes_time_t:datetime,
+payload_methodName_s:string,
+payload_authorizationInfo_s:string,
+payload_resourceName_s:string,
+payload_request__type_s:string,
+payload_request_project_s:string,
+resource_labels_policy_name_s:string,
+payload_request_managedZone_s:string,
+log_name_s:string,
+payload_serviceName_s:string,
+payload_sourceIP_s:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table GCP_DNS_CL policy caching hot = 1d
+
+.create-or-alter function GCP_DNS_CLExpand() {
+GCP_DNS_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+resource_labels_project_id_s=tostring(events.resource_labels_project_id_s),
+resource_labels_target_type_s=tostring(events.resource_labels_target_type_s),
+resource_labels_source_type_s=tostring(events.resource_labels_source_type_s),
+resource_labels_target_name_s=tostring(events.resource_labels_target_name_s),
+resource_labels_location_s=tostring(events.resource_labels_location_s),
+payload_vmProjectId_s=tostring(events.payload_vmProjectId_s),
+payload_protocol_s=tostring(events.payload_protocol_s),
+payload_queryType_s=tostring(events.payload_queryType_s),
+payload_rdata_s=tostring(events.payload_rdata_s),
+payload_vmInstanceId_d=toreal(events.payload_vmInstanceId_d),
+payload_vmInstanceIdString_s=tostring(events.payload_vmInstanceIdString_s),
+payload_vmInstanceName_s=tostring(events.payload_vmInstanceName_s),
+payload_responseCode_s=tostring(events.payload_responseCode_s),
+payload_authAnswer_b=tobool(events.payload_authAnswer_b),
+payload_queryName_s=tostring(events.payload_queryName_s),
+payload_vmZoneName_s=tostring(events.payload_vmZoneName_s),
+payload_sourceNetwork_s=tostring(events.payload_sourceNetwork_s),
+resource_type_s=tostring(events.resource_type_s),
+timestamp_t=todatetime(events.timestamp_t),
+severity_s=tostring(events.severity_s),
+insert_id_s=tostring(events.insert_id_s),
+SourceSystem=tostring(events.SourceSystem),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+Computer=tostring(events.Computer),
+RawData=tostring(events.RawData),
+resource_labels_zone_name_s=tostring(events.resource_labels_zone_name_s),
+payload__type_s=tostring(events.payload__type_s),
+payload_authenticationInfo_principalEmail_s=tostring(events.payload_authenticationInfo_principalEmail_s),
+payload_serverLatency_d=toreal(events.payload_serverLatency_d),
+payload_requestMetadata_requestAttributes_time_t=todatetime(events.payload_requestMetadata_requestAttributes_time_t),
+payload_methodName_s=tostring(events.payload_methodName_s),
+payload_authorizationInfo_s=tostring(events.payload_authorizationInfo_s),
+payload_resourceName_s=tostring(events.payload_resourceName_s),
+payload_request__type_s=tostring(events.payload_request__type_s),
+payload_request_project_s=tostring(events.payload_request_project_s),
+resource_labels_policy_name_s=tostring(events.resource_labels_policy_name_s),
+payload_request_managedZone_s=tostring(events.payload_request_managedZone_s),
+log_name_s=tostring(events.log_name_s),
+payload_serviceName_s=tostring(events.payload_serviceName_s),
+payload_sourceIP_s=tostring(events.payload_sourceIP_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table GCP_DNS_CL policy update @'[{"Source": "GCP_DNS_CLRaw", "Query": "GCP_DNS_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,52 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for CitrixAnalytics_riskScoreChange_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:12
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table CitrixAnalytics_riskScoreChange_CLRaw (records:dynamic)
+
+.alter-merge table CitrixAnalytics_riskScoreChange_CLRaw policy retention softdelete = 1d
+
+.alter table CitrixAnalytics_riskScoreChange_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table CitrixAnalytics_riskScoreChange_CLRaw ingestion json mapping 'CitrixAnalytics_riskScoreChange_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table CitrixAnalytics_riskScoreChange_CL(
+TimeGenerated:datetime,
+cur_riskscore_d:real,
+entity_id_s:string,
+entity_type_s:string,
+event_type_s:string,
+tenant_id_s:string,
+version_d:real,
+alert_type_s:string,
+alert_value_s:string,
+alert_message_s:string,
+_TimeReceived:datetime)
+
+.alter table CitrixAnalytics_riskScoreChange_CL policy caching hot = 1d
+
+.create-or-alter function CitrixAnalytics_riskScoreChange_CLExpand() {
+CitrixAnalytics_riskScoreChange_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+cur_riskscore_d=toreal(events.cur_riskscore_d),
+entity_id_s=tostring(events.entity_id_s),
+entity_type_s=tostring(events.entity_type_s),
+event_type_s=tostring(events.event_type_s),
+tenant_id_s=tostring(events.tenant_id_s),
+version_d=toreal(events.version_d),
+alert_type_s=tostring(events.alert_type_s),
+alert_value_s=tostring(events.alert_value_s),
+alert_message_s=tostring(events.alert_message_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table CitrixAnalytics_riskScoreChange_CL policy update @'[{"Source": "CitrixAnalytics_riskScoreChange_CLRaw", "Query": "CitrixAnalytics_riskScoreChange_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

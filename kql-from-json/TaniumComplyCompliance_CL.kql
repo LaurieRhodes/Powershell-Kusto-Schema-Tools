@@ -1,0 +1,56 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for TaniumComplyCompliance_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table TaniumComplyCompliance_CLRaw (records:dynamic)
+
+.alter-merge table TaniumComplyCompliance_CLRaw policy retention softdelete = 1d
+
+.alter table TaniumComplyCompliance_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table TaniumComplyCompliance_CLRaw ingestion json mapping 'TaniumComplyCompliance_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table TaniumComplyCompliance_CL(
+TimeGenerated:datetime,
+Computer:string,
+Computer_Name_s:string,
+Operating_System_Generation_s:string,
+Profile_s:string,
+RawData:string,
+Rule_ID_s:string,
+Rule_s:string,
+Standard_s:string,
+Status_Category_s:string,
+Version_s:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table TaniumComplyCompliance_CL policy caching hot = 1d
+
+.create-or-alter function TaniumComplyCompliance_CLExpand() {
+TaniumComplyCompliance_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+Computer=tostring(events.Computer),
+Computer_Name_s=tostring(events.Computer_Name_s),
+Operating_System_Generation_s=tostring(events.Operating_System_Generation_s),
+Profile_s=tostring(events.Profile_s),
+RawData=tostring(events.RawData),
+Rule_ID_s=tostring(events.Rule_ID_s),
+Rule_s=tostring(events.Rule_s),
+Standard_s=tostring(events.Standard_s),
+Status_Category_s=tostring(events.Status_Category_s),
+Version_s=tostring(events.Version_s),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table TaniumComplyCompliance_CL policy update @'[{"Source": "TaniumComplyCompliance_CLRaw", "Query": "TaniumComplyCompliance_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

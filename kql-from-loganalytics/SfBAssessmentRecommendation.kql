@@ -1,0 +1,105 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for SfBAssessmentRecommendation - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:20:38
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 35, Final columns: 35
+// ============================================================================
+
+.create-merge table SfBAssessmentRecommendationRaw (records:dynamic)
+
+.alter-merge table SfBAssessmentRecommendationRaw policy retention softdelete = 1d
+
+.alter table SfBAssessmentRecommendationRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table SfBAssessmentRecommendationRaw ingestion json mapping 'SfBAssessmentRecommendationRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table SfBAssessmentRecommendation(
+TimeGenerated:datetime,
+TenantId:guid,
+LyncUserStoreDatabase:string,
+LyncCentralMgmtStoreDatabase:string,
+LyncFrontEnd:string,
+LyncFEPool:string,
+LyncSite:string,
+LyncSimpleURLDomain:string,
+LyncInternalDomain:string,
+LyncOrganization:string,
+Domain:string,
+Forest:string,
+AffectedObjectDetails:string,
+AffectedObjectUniqueName:string,
+AffectedObjectName:string,
+AffectedObjectType:string,
+Technology:string,
+Computer:string,
+RecommendationWeight:real,
+RecommendationScore:real,
+ActionArea:string,
+ActionAreaId:guid,
+FocusArea:string,
+FocusAreaId:guid,
+RecommendationResult:string,
+Description:string,
+Recommendation:string,
+RecommendationId:guid,
+AssessmentName:string,
+AssessmentId:guid,
+SourceSystem:string,
+MG:guid,
+TargetCount:int,
+CustomData:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table SfBAssessmentRecommendation policy caching hot = 1d
+
+.create-or-alter function SfBAssessmentRecommendationExpand() {
+SfBAssessmentRecommendationRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+LyncUserStoreDatabase=tostring(events.LyncUserStoreDatabase),
+LyncCentralMgmtStoreDatabase=tostring(events.LyncCentralMgmtStoreDatabase),
+LyncFrontEnd=tostring(events.LyncFrontEnd),
+LyncFEPool=tostring(events.LyncFEPool),
+LyncSite=tostring(events.LyncSite),
+LyncSimpleURLDomain=tostring(events.LyncSimpleURLDomain),
+LyncInternalDomain=tostring(events.LyncInternalDomain),
+LyncOrganization=tostring(events.LyncOrganization),
+Domain=tostring(events.Domain),
+Forest=tostring(events.Forest),
+AffectedObjectDetails=tostring(events.AffectedObjectDetails),
+AffectedObjectUniqueName=tostring(events.AffectedObjectUniqueName),
+AffectedObjectName=tostring(events.AffectedObjectName),
+AffectedObjectType=tostring(events.AffectedObjectType),
+Technology=tostring(events.Technology),
+Computer=tostring(events.Computer),
+RecommendationWeight=toreal(events.RecommendationWeight),
+RecommendationScore=toreal(events.RecommendationScore),
+ActionArea=tostring(events.ActionArea),
+ActionAreaId=toguid(events.ActionAreaId),
+FocusArea=tostring(events.FocusArea),
+FocusAreaId=toguid(events.FocusAreaId),
+RecommendationResult=tostring(events.RecommendationResult),
+Description=tostring(events.Description),
+Recommendation=tostring(events.Recommendation),
+RecommendationId=toguid(events.RecommendationId),
+AssessmentName=tostring(events.AssessmentName),
+AssessmentId=toguid(events.AssessmentId),
+SourceSystem=tostring(events.SourceSystem),
+MG=toguid(events.MG),
+TargetCount=toint(events.TargetCount),
+CustomData=tostring(events.CustomData),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table SfBAssessmentRecommendation policy update @'[{"Source": "SfBAssessmentRecommendationRaw", "Query": "SfBAssessmentRecommendationExpand()", "IsEnabled": "True", "IsTransactional": true}]'

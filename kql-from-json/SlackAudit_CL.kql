@@ -1,0 +1,92 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for SlackAudit_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table SlackAudit_CLRaw (records:dynamic)
+
+.alter-merge table SlackAudit_CLRaw policy retention softdelete = 1d
+
+.alter table SlackAudit_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table SlackAudit_CLRaw ingestion json mapping 'SlackAudit_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table SlackAudit_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+context_ip_address_s:string,
+context_ua_s:string,
+context_location_domain_s:string,
+context_location_name_s:string,
+context_location_id_s:string,
+context_location_type_s:string,
+entity_file_title_s:string,
+entity_file_filetype_s:string,
+entity_file_name_s:string,
+entity_file_id_s:string,
+entity_type_s:string,
+context_session_id_d:real,
+actor_user_team_s:string,
+actor_user_name_s:string,
+actor_user_id_s:string,
+actor_type_s:string,
+action_s:string,
+date_create_d:real,
+id_g:string,
+RawData:string,
+Computer:string,
+ManagementGroupName:string,
+MG:string,
+SourceSystem:string,
+actor_user_email_s:string,
+action_description_s:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table SlackAudit_CL policy caching hot = 1d
+
+.create-or-alter function SlackAudit_CLExpand() {
+SlackAudit_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+context_ip_address_s=tostring(events.context_ip_address_s),
+context_ua_s=tostring(events.context_ua_s),
+context_location_domain_s=tostring(events.context_location_domain_s),
+context_location_name_s=tostring(events.context_location_name_s),
+context_location_id_s=tostring(events.context_location_id_s),
+context_location_type_s=tostring(events.context_location_type_s),
+entity_file_title_s=tostring(events.entity_file_title_s),
+entity_file_filetype_s=tostring(events.entity_file_filetype_s),
+entity_file_name_s=tostring(events.entity_file_name_s),
+entity_file_id_s=tostring(events.entity_file_id_s),
+entity_type_s=tostring(events.entity_type_s),
+context_session_id_d=toreal(events.context_session_id_d),
+actor_user_team_s=tostring(events.actor_user_team_s),
+actor_user_name_s=tostring(events.actor_user_name_s),
+actor_user_id_s=tostring(events.actor_user_id_s),
+actor_type_s=tostring(events.actor_type_s),
+action_s=tostring(events.action_s),
+date_create_d=toreal(events.date_create_d),
+id_g=tostring(events.id_g),
+RawData=tostring(events.RawData),
+Computer=tostring(events.Computer),
+ManagementGroupName=tostring(events.ManagementGroupName),
+MG=tostring(events.MG),
+SourceSystem=tostring(events.SourceSystem),
+actor_user_email_s=tostring(events.actor_user_email_s),
+action_description_s=tostring(events.action_description_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table SlackAudit_CL policy update @'[{"Source": "SlackAudit_CLRaw", "Query": "SlackAudit_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

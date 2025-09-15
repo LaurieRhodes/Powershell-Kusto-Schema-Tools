@@ -1,0 +1,64 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for beSECURE_Audit_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:11
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table beSECURE_Audit_CLRaw (records:dynamic)
+
+.alter-merge table beSECURE_Audit_CLRaw policy retention softdelete = 1d
+
+.alter table beSECURE_Audit_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table beSECURE_Audit_CLRaw ingestion json mapping 'beSECURE_Audit_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table beSECURE_Audit_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+SourceSystem:string,
+MG:string,
+ManagementGroupName:string,
+Computer:string,
+RawData:string,
+additional_information:string,
+audit_code:string,
+audit_id:string,
+audit_name:string,
+audit_event_s:string,
+originator_ip:string,
+triggered_by:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table beSECURE_Audit_CL policy caching hot = 1d
+
+.create-or-alter function beSECURE_Audit_CLExpand() {
+beSECURE_Audit_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SourceSystem=tostring(events.SourceSystem),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+Computer=tostring(events.Computer),
+RawData=tostring(events.RawData),
+additional_information=tostring(events.additional_information),
+audit_code=tostring(events.audit_code),
+audit_id=tostring(events.audit_id),
+audit_name=tostring(events.audit_name),
+audit_event_s=tostring(events.audit_event_s),
+originator_ip=tostring(events.originator_ip),
+triggered_by=tostring(events.triggered_by),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table beSECURE_Audit_CL policy update @'[{"Source": "beSECURE_Audit_CLRaw", "Query": "beSECURE_Audit_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

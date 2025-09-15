@@ -1,0 +1,75 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AmlPipelineEvent - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:21:39
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 20, Final columns: 20
+// ============================================================================
+
+.create-merge table AmlPipelineEventRaw (records:dynamic)
+
+.alter-merge table AmlPipelineEventRaw policy retention softdelete = 1d
+
+.alter table AmlPipelineEventRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AmlPipelineEventRaw ingestion json mapping 'AmlPipelineEventRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AmlPipelineEvent(
+TimeGenerated:datetime,
+TenantId:guid,
+AmlPipelineEndpointId:string,
+AmlPipelineDraftName:string,
+AmlPipelineDraftId:string,
+AmlParentPipelineId:string,
+AmlPipelineId:string,
+AmlWorkspaceName:string,
+AmlPipelineEndpointName:string,
+AmlWorkspaceId:string,
+AadTenantId:string,
+AmlModuleId:string,
+OperationName:string,
+Identity:dynamic,
+CorrelationId:string,
+ResultType:string,
+AmlModuleName:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AmlPipelineEvent policy caching hot = 1d
+
+.create-or-alter function AmlPipelineEventExpand() {
+AmlPipelineEventRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+AmlPipelineEndpointId=tostring(events.AmlPipelineEndpointId),
+AmlPipelineDraftName=tostring(events.AmlPipelineDraftName),
+AmlPipelineDraftId=tostring(events.AmlPipelineDraftId),
+AmlParentPipelineId=tostring(events.AmlParentPipelineId),
+AmlPipelineId=tostring(events.AmlPipelineId),
+AmlWorkspaceName=tostring(events.AmlWorkspaceName),
+AmlPipelineEndpointName=tostring(events.AmlPipelineEndpointName),
+AmlWorkspaceId=tostring(events.AmlWorkspaceId),
+AadTenantId=tostring(events.AadTenantId),
+AmlModuleId=tostring(events.AmlModuleId),
+OperationName=tostring(events.OperationName),
+Identity=todynamic(events.Identity),
+CorrelationId=tostring(events.CorrelationId),
+ResultType=tostring(events.ResultType),
+AmlModuleName=tostring(events.AmlModuleName),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AmlPipelineEvent policy update @'[{"Source": "AmlPipelineEventRaw", "Query": "AmlPipelineEventExpand()", "IsEnabled": "True", "IsTransactional": true}]'

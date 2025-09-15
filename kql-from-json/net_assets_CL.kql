@@ -1,0 +1,38 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for net_assets_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table net_assets_CLRaw (records:dynamic)
+
+.alter-merge table net_assets_CLRaw policy retention softdelete = 1d
+
+.alter table net_assets_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table net_assets_CLRaw ingestion json mapping 'net_assets_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table net_assets_CL(
+TimeGenerated:datetime,
+ip:string,
+severity_s:string,
+_TimeReceived:datetime)
+
+.alter table net_assets_CL policy caching hot = 1d
+
+.create-or-alter function net_assets_CLExpand() {
+net_assets_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ip=tostring(events.ip),
+severity_s=tostring(events.severity_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table net_assets_CL policy update @'[{"Source": "net_assets_CLRaw", "Query": "net_assets_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

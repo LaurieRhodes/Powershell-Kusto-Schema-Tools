@@ -1,0 +1,50 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_local_subnets_dj_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:13
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_local_subnets_dj_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_local_subnets_dj_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_local_subnets_dj_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_local_subnets_dj_CLRaw ingestion json mapping 'Corelight_v2_local_subnets_dj_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_local_subnets_dj_CL(
+TimeGenerated:datetime,
+round_d:real,
+component_id_d:real,
+ip_version_d:real,
+v_s:string,
+side_s:string,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_local_subnets_dj_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_local_subnets_dj_CLExpand() {
+Corelight_v2_local_subnets_dj_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+round_d=toreal(events.round_d),
+component_id_d=toreal(events.component_id_d),
+ip_version_d=toreal(events.ip_version_d),
+v_s=tostring(events.v_s),
+side_s=tostring(events.side_s),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_local_subnets_dj_CL policy update @'[{"Source": "Corelight_v2_local_subnets_dj_CLRaw", "Query": "Corelight_v2_local_subnets_dj_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,58 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for CBSLog_Azure_1_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:11
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table CBSLog_Azure_1_CLRaw (records:dynamic)
+
+.alter-merge table CBSLog_Azure_1_CLRaw policy retention softdelete = 1d
+
+.alter table CBSLog_Azure_1_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table CBSLog_Azure_1_CLRaw ingestion json mapping 'CBSLog_Azure_1_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table CBSLog_Azure_1_CL(
+TimeGenerated:datetime,
+brand_s:string,
+TenantId:guid,
+class_s:string,
+coa_s:string,
+created_date_s:string,
+id_s:string,
+remarks_s:string,
+severity_s:string,
+status_s:string,
+subject_s:string,
+type_s:string,
+updated_date_s:string,
+_TimeReceived:datetime)
+
+.alter table CBSLog_Azure_1_CL policy caching hot = 1d
+
+.create-or-alter function CBSLog_Azure_1_CLExpand() {
+CBSLog_Azure_1_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+brand_s=tostring(events.brand_s),
+TenantId=toguid(events.TenantId),
+class_s=tostring(events.class_s),
+coa_s=tostring(events.coa_s),
+created_date_s=tostring(events.created_date_s),
+id_s=tostring(events.id_s),
+remarks_s=tostring(events.remarks_s),
+severity_s=tostring(events.severity_s),
+status_s=tostring(events.status_s),
+subject_s=tostring(events.subject_s),
+type_s=tostring(events.type_s),
+updated_date_s=tostring(events.updated_date_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table CBSLog_Azure_1_CL policy update @'[{"Source": "CBSLog_Azure_1_CLRaw", "Query": "CBSLog_Azure_1_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

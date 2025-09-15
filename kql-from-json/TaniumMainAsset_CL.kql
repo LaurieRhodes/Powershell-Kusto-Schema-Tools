@@ -1,0 +1,78 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for TaniumMainAsset_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table TaniumMainAsset_CLRaw (records:dynamic)
+
+.alter-merge table TaniumMainAsset_CLRaw policy retention softdelete = 1d
+
+.alter table TaniumMainAsset_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table TaniumMainAsset_CLRaw ingestion json mapping 'TaniumMainAsset_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table TaniumMainAsset_CL(
+TimeGenerated:datetime,
+Age_s:string,
+RawData:string,
+OS_Platform_s:string,
+IP_Address_s:string,
+Health_Status_s:string,
+Count_s:string,
+Computer_Name_s:string,
+Computer_ID_s:string,
+Computer:string,
+Reason_s:string,
+Asset_System_UUID_g:string,
+Asset_OS_Platform_s:string,
+Asset_Operating_System_s:string,
+Asset_Model_s:string,
+Asset_Manufacturer_s:string,
+Asset_IP_Address_s:string,
+Asset_Domain_Name_s:string,
+Asset_Computer_Serial_Number_s:string,
+Asset_Chassis_Type_s:string,
+Asset_Service_Pack_s:string,
+Username_s:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table TaniumMainAsset_CL policy caching hot = 1d
+
+.create-or-alter function TaniumMainAsset_CLExpand() {
+TaniumMainAsset_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+Age_s=tostring(events.Age_s),
+RawData=tostring(events.RawData),
+OS_Platform_s=tostring(events.OS_Platform_s),
+IP_Address_s=tostring(events.IP_Address_s),
+Health_Status_s=tostring(events.Health_Status_s),
+Count_s=tostring(events.Count_s),
+Computer_Name_s=tostring(events.Computer_Name_s),
+Computer_ID_s=tostring(events.Computer_ID_s),
+Computer=tostring(events.Computer),
+Reason_s=tostring(events.Reason_s),
+Asset_System_UUID_g=tostring(events.Asset_System_UUID_g),
+Asset_OS_Platform_s=tostring(events.Asset_OS_Platform_s),
+Asset_Operating_System_s=tostring(events.Asset_Operating_System_s),
+Asset_Model_s=tostring(events.Asset_Model_s),
+Asset_Manufacturer_s=tostring(events.Asset_Manufacturer_s),
+Asset_IP_Address_s=tostring(events.Asset_IP_Address_s),
+Asset_Domain_Name_s=tostring(events.Asset_Domain_Name_s),
+Asset_Computer_Serial_Number_s=tostring(events.Asset_Computer_Serial_Number_s),
+Asset_Chassis_Type_s=tostring(events.Asset_Chassis_Type_s),
+Asset_Service_Pack_s=tostring(events.Asset_Service_Pack_s),
+Username_s=tostring(events.Username_s),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table TaniumMainAsset_CL policy update @'[{"Source": "TaniumMainAsset_CLRaw", "Query": "TaniumMainAsset_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

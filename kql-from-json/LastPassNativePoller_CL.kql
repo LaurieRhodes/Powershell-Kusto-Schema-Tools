@@ -1,0 +1,56 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for LastPassNativePoller_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table LastPassNativePoller_CLRaw (records:dynamic)
+
+.alter-merge table LastPassNativePoller_CLRaw policy retention softdelete = 1d
+
+.alter table LastPassNativePoller_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table LastPassNativePoller_CLRaw ingestion json mapping 'LastPassNativePoller_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table LastPassNativePoller_CL(
+TimeGenerated:datetime,
+MG:string,
+ManagementGroupName:string,
+Computer:string,
+RawData:string,
+Time_s:string,
+Username_s:string,
+IP_Address_s:string,
+Action_s:string,
+Data_s:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table LastPassNativePoller_CL policy caching hot = 1d
+
+.create-or-alter function LastPassNativePoller_CLExpand() {
+LastPassNativePoller_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+Computer=tostring(events.Computer),
+RawData=tostring(events.RawData),
+Time_s=tostring(events.Time_s),
+Username_s=tostring(events.Username_s),
+IP_Address_s=tostring(events.IP_Address_s),
+Action_s=tostring(events.Action_s),
+Data_s=tostring(events.Data_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table LastPassNativePoller_CL policy update @'[{"Source": "LastPassNativePoller_CLRaw", "Query": "LastPassNativePoller_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

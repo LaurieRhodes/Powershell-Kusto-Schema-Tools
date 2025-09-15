@@ -1,0 +1,553 @@
+﻿{
+  "Name": "ASimProcessEventLogs",
+  "Properties": [
+    {
+      "Name": "TenantId",
+      "Type": "guid"
+    },
+    {
+      "Name": "TimeGenerated",
+      "Type": "datetime"
+    },
+    {
+      "Name": "AdditionalFields",
+      "Type": "dynamic"
+    },
+    {
+      "Name": "EventMessage",
+      "Type": "string"
+    },
+    {
+      "Name": "EventCount",
+      "Type": "int"
+    },
+    {
+      "Name": "EventStartTime",
+      "Type": "datetime"
+    },
+    {
+      "Name": "EventEndTime",
+      "Type": "datetime"
+    },
+    {
+      "Name": "EventType",
+      "Type": "string"
+    },
+    {
+      "Name": "EventSubType",
+      "Type": "string"
+    },
+    {
+      "Name": "EventResult",
+      "Type": "string"
+    },
+    {
+      "Name": "EventResultDetails",
+      "Type": "string"
+    },
+    {
+      "Name": "EventOriginalUid",
+      "Type": "string"
+    },
+    {
+      "Name": "EventOriginalType",
+      "Type": "string"
+    },
+    {
+      "Name": "EventOriginalSubType",
+      "Type": "string"
+    },
+    {
+      "Name": "EventOriginalResultDetails",
+      "Type": "string"
+    },
+    {
+      "Name": "EventSeverity",
+      "Type": "string"
+    },
+    {
+      "Name": "EventOriginalSeverity",
+      "Type": "string"
+    },
+    {
+      "Name": "EventProduct",
+      "Type": "string"
+    },
+    {
+      "Name": "EventProductVersion",
+      "Type": "string"
+    },
+    {
+      "Name": "EventVendor",
+      "Type": "string"
+    },
+    {
+      "Name": "EventSchemaVersion",
+      "Type": "string"
+    },
+    {
+      "Name": "EventOwner",
+      "Type": "string"
+    },
+    {
+      "Name": "EventReportUrl",
+      "Type": "string"
+    },
+    {
+      "Name": "DvcIpAddr",
+      "Type": "string"
+    },
+    {
+      "Name": "DvcHostname",
+      "Type": "string"
+    },
+    {
+      "Name": "DvcDomain",
+      "Type": "string"
+    },
+    {
+      "Name": "DvcDomainType",
+      "Type": "string"
+    },
+    {
+      "Name": "DvcFQDN",
+      "Type": "string"
+    },
+    {
+      "Name": "DvcDescription",
+      "Type": "string"
+    },
+    {
+      "Name": "DvcId",
+      "Type": "string"
+    },
+    {
+      "Name": "DvcIdType",
+      "Type": "string"
+    },
+    {
+      "Name": "DvcMacAddr",
+      "Type": "string"
+    },
+    {
+      "Name": "DvcZone",
+      "Type": "string"
+    },
+    {
+      "Name": "DvcOs",
+      "Type": "string"
+    },
+    {
+      "Name": "DvcOsVersion",
+      "Type": "string"
+    },
+    {
+      "Name": "DvcAction",
+      "Type": "string"
+    },
+    {
+      "Name": "DvcOriginalAction",
+      "Type": "string"
+    },
+    {
+      "Name": "DvcInterface",
+      "Type": "string"
+    },
+    {
+      "Name": "DvcScopeId",
+      "Type": "string"
+    },
+    {
+      "Name": "DvcScope",
+      "Type": "string"
+    },
+    {
+      "Name": "ActorUserId",
+      "Type": "string"
+    },
+    {
+      "Name": "ActorUserIdType",
+      "Type": "string"
+    },
+    {
+      "Name": "ActorScopeId",
+      "Type": "string"
+    },
+    {
+      "Name": "ActorScope",
+      "Type": "string"
+    },
+    {
+      "Name": "ActorUsername",
+      "Type": "string"
+    },
+    {
+      "Name": "ActorUsernameType",
+      "Type": "string"
+    },
+    {
+      "Name": "ActorUserType",
+      "Type": "string"
+    },
+    {
+      "Name": "ActorOriginalUserType",
+      "Type": "string"
+    },
+    {
+      "Name": "ActorSessionId",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetUserId",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetUserIdType",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetScopeId",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetScope",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetUsername",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetUsernameType",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetUserType",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetOriginalUserType",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetUserSessionId",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetUserSessionGuid",
+      "Type": "string"
+    },
+    {
+      "Name": "ActingProcessCommandLine",
+      "Type": "string"
+    },
+    {
+      "Name": "ActingProcessName",
+      "Type": "string"
+    },
+    {
+      "Name": "ActingProcessFileCompany",
+      "Type": "string"
+    },
+    {
+      "Name": "ActingProcessFileDescription",
+      "Type": "string"
+    },
+    {
+      "Name": "ActingProcessFileProduct",
+      "Type": "string"
+    },
+    {
+      "Name": "ActingProcessFileVersion",
+      "Type": "string"
+    },
+    {
+      "Name": "ActingProcessFileInternalName",
+      "Type": "string"
+    },
+    {
+      "Name": "ActingProcessFileOriginalName",
+      "Type": "string"
+    },
+    {
+      "Name": "ActingProcessFilename",
+      "Type": "string"
+    },
+    {
+      "Name": "ActingProcessIsHidden",
+      "Type": "boolean"
+    },
+    {
+      "Name": "ActingProcessInjectedAddress",
+      "Type": "string"
+    },
+    {
+      "Name": "ActingProcessId",
+      "Type": "string"
+    },
+    {
+      "Name": "ActingProcessGuid",
+      "Type": "string"
+    },
+    {
+      "Name": "ActingProcessIntegrityLevel",
+      "Type": "string"
+    },
+    {
+      "Name": "ActingProcessMD5",
+      "Type": "string"
+    },
+    {
+      "Name": "ActingProcessSHA1",
+      "Type": "string"
+    },
+    {
+      "Name": "ActingProcessSHA256",
+      "Type": "string"
+    },
+    {
+      "Name": "ActingProcessSHA512",
+      "Type": "string"
+    },
+    {
+      "Name": "ActingProcessIMPHASH",
+      "Type": "string"
+    },
+    {
+      "Name": "ActingProcessCreationTime",
+      "Type": "datetime"
+    },
+    {
+      "Name": "ActingProcessTokenElevation",
+      "Type": "string"
+    },
+    {
+      "Name": "ActingProcessFileSize",
+      "Type": "long"
+    },
+    {
+      "Name": "ParentProcessName",
+      "Type": "string"
+    },
+    {
+      "Name": "ParentProcessFileCompany",
+      "Type": "string"
+    },
+    {
+      "Name": "ParentProcessFileDescription",
+      "Type": "string"
+    },
+    {
+      "Name": "ParentProcessFileProduct",
+      "Type": "string"
+    },
+    {
+      "Name": "ParentProcessFileVersion",
+      "Type": "string"
+    },
+    {
+      "Name": "ParentProcessIsHidden",
+      "Type": "boolean"
+    },
+    {
+      "Name": "ParentProcessInjectedAddress",
+      "Type": "string"
+    },
+    {
+      "Name": "ParentProcessId",
+      "Type": "string"
+    },
+    {
+      "Name": "ParentProcessGuid",
+      "Type": "string"
+    },
+    {
+      "Name": "ParentProcessIntegrityLevel",
+      "Type": "string"
+    },
+    {
+      "Name": "ParentProcessMD5",
+      "Type": "string"
+    },
+    {
+      "Name": "ParentProcessSHA1",
+      "Type": "string"
+    },
+    {
+      "Name": "ParentProcessSHA256",
+      "Type": "string"
+    },
+    {
+      "Name": "ParentProcessSHA512",
+      "Type": "string"
+    },
+    {
+      "Name": "ParentProcessIMPHASH",
+      "Type": "string"
+    },
+    {
+      "Name": "ParentProcessCreationTime",
+      "Type": "datetime"
+    },
+    {
+      "Name": "ParentProcessTokenElevation",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetProcessCommandLine",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetProcessName",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetProcessFileCompany",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetProcessFileDescription",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetProcessFileProduct",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetProcessFileVersion",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetProcessFileInternalName",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetProcessFileOriginalName",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetProcessFilename",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetProcessIsHidden",
+      "Type": "boolean"
+    },
+    {
+      "Name": "TargetProcessInjectedAddress",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetProcessId",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetProcessGuid",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetProcessIntegrityLevel",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetProcessMD5",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetProcessSHA1",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetProcessSHA256",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetProcessSHA512",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetProcessIMPHASH",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetProcessCreationTime",
+      "Type": "datetime"
+    },
+    {
+      "Name": "TargetProcessTokenElevation",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetProcessFileSize",
+      "Type": "long"
+    },
+    {
+      "Name": "TargetProcessCurrentDirectory",
+      "Type": "string"
+    },
+    {
+      "Name": "TargetProcessStatusCode",
+      "Type": "string"
+    },
+    {
+      "Name": "RuleName",
+      "Type": "string"
+    },
+    {
+      "Name": "RuleNumber",
+      "Type": "int"
+    },
+    {
+      "Name": "ThreatId",
+      "Type": "string"
+    },
+    {
+      "Name": "ThreatName",
+      "Type": "string"
+    },
+    {
+      "Name": "ThreatCategory",
+      "Type": "string"
+    },
+    {
+      "Name": "ThreatRiskLevel",
+      "Type": "int"
+    },
+    {
+      "Name": "ThreatOriginalRiskLevel",
+      "Type": "string"
+    },
+    {
+      "Name": "ThreatField",
+      "Type": "string"
+    },
+    {
+      "Name": "ThreatConfidence",
+      "Type": "int"
+    },
+    {
+      "Name": "ThreatOriginalConfidence",
+      "Type": "string"
+    },
+    {
+      "Name": "ThreatIsActive",
+      "Type": "boolean"
+    },
+    {
+      "Name": "ThreatFirstReportedTime",
+      "Type": "datetime"
+    },
+    {
+      "Name": "ThreatLastReportedTime",
+      "Type": "datetime"
+    },
+    {
+      "Name": "SourceSystem",
+      "Type": "string"
+    },
+    {
+      "Name": "Type",
+      "Type": "string"
+    }
+  ]
+}

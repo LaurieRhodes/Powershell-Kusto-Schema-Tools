@@ -1,0 +1,48 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_traceroute_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:13
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_traceroute_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_traceroute_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_traceroute_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_traceroute_CLRaw ingestion json mapping 'Corelight_v2_traceroute_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_traceroute_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+src_s:string,
+dst_s:string,
+proto_s:string,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_traceroute_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_traceroute_CLExpand() {
+Corelight_v2_traceroute_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+src_s=tostring(events.src_s),
+dst_s=tostring(events.dst_s),
+proto_s=tostring(events.proto_s),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_traceroute_CL policy update @'[{"Source": "Corelight_v2_traceroute_CLRaw", "Query": "Corelight_v2_traceroute_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

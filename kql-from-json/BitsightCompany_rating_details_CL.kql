@@ -1,0 +1,62 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for BitsightCompany_rating_details_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:11
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table BitsightCompany_rating_details_CLRaw (records:dynamic)
+
+.alter-merge table BitsightCompany_rating_details_CLRaw policy retention softdelete = 1d
+
+.alter table BitsightCompany_rating_details_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table BitsightCompany_rating_details_CLRaw ingestion json mapping 'BitsightCompany_rating_details_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table BitsightCompany_rating_details_CL(
+TimeGenerated:datetime,
+EventVendor:string,
+EventProduct:string,
+CompanyName:string,
+Beta:bool,
+Category:string,
+CategoryOrder:real,
+DisplayURL:string,
+Grade:string,
+GradeColor:string,
+Name:string,
+Order:real,
+Percentile:real,
+Rating:real,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table BitsightCompany_rating_details_CL policy caching hot = 1d
+
+.create-or-alter function BitsightCompany_rating_details_CLExpand() {
+BitsightCompany_rating_details_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+EventVendor=tostring(events.EventVendor),
+EventProduct=tostring(events.EventProduct),
+CompanyName=tostring(events.CompanyName),
+Beta=tobool(events.Beta),
+Category=tostring(events.Category),
+CategoryOrder=toreal(events.CategoryOrder),
+DisplayURL=tostring(events.DisplayURL),
+Grade=tostring(events.Grade),
+GradeColor=tostring(events.GradeColor),
+Name=tostring(events.Name),
+Order=toreal(events.Order),
+Percentile=toreal(events.Percentile),
+Rating=toreal(events.Rating),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table BitsightCompany_rating_details_CL policy update @'[{"Source": "BitsightCompany_rating_details_CLRaw", "Query": "BitsightCompany_rating_details_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

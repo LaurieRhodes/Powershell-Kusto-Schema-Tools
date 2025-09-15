@@ -1,0 +1,65 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AADRiskyUsers - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:18:24
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 15, Final columns: 15
+// ============================================================================
+
+.create-merge table AADRiskyUsersRaw (records:dynamic)
+
+.alter-merge table AADRiskyUsersRaw policy retention softdelete = 1d
+
+.alter table AADRiskyUsersRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AADRiskyUsersRaw ingestion json mapping 'AADRiskyUsersRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AADRiskyUsers(
+TimeGenerated:datetime,
+TenantId:guid,
+Id:string,
+IsDeleted:bool,
+IsProcessing:bool,
+RiskDetail:string,
+RiskLastUpdatedDateTime:datetime,
+RiskLevel:string,
+RiskState:string,
+UserDisplayName:string,
+UserPrincipalName:string,
+OperationName:string,
+CorrelationId:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table AADRiskyUsers policy caching hot = 1d
+
+.create-or-alter function AADRiskyUsersExpand() {
+AADRiskyUsersRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Id=tostring(events.Id),
+IsDeleted=tobool(events.IsDeleted),
+IsProcessing=tobool(events.IsProcessing),
+RiskDetail=tostring(events.RiskDetail),
+RiskLastUpdatedDateTime=todatetime(events.RiskLastUpdatedDateTime),
+RiskLevel=tostring(events.RiskLevel),
+RiskState=tostring(events.RiskState),
+UserDisplayName=tostring(events.UserDisplayName),
+UserPrincipalName=tostring(events.UserPrincipalName),
+OperationName=tostring(events.OperationName),
+CorrelationId=tostring(events.CorrelationId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AADRiskyUsers policy update @'[{"Source": "AADRiskyUsersRaw", "Query": "AADRiskyUsersExpand()", "IsEnabled": "True", "IsTransactional": true}]'

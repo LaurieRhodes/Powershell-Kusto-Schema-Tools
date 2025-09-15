@@ -1,0 +1,54 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ZNAccessOrchestratorAuditNativePoller_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table ZNAccessOrchestratorAuditNativePoller_CLRaw (records:dynamic)
+
+.alter-merge table ZNAccessOrchestratorAuditNativePoller_CLRaw policy retention softdelete = 1d
+
+.alter table ZNAccessOrchestratorAuditNativePoller_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ZNAccessOrchestratorAuditNativePoller_CLRaw ingestion json mapping 'ZNAccessOrchestratorAuditNativePoller_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ZNAccessOrchestratorAuditNativePoller_CL(
+timestamp_d:real,
+auditType_d:real,
+enforcementSource_d:real,
+userRole_d:real,
+destinationEntitiesList_s:string,
+details_s:string,
+reportedObjectId_g:string,
+performedBy_id_s:string,
+performedBy_name_s:string,
+performedBy_id_g:string,
+reportedObjectId_s:string,
+_TimeReceived:datetime)
+
+.alter table ZNAccessOrchestratorAuditNativePoller_CL policy caching hot = 1d
+
+.create-or-alter function ZNAccessOrchestratorAuditNativePoller_CLExpand() {
+ZNAccessOrchestratorAuditNativePoller_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+timestamp_d=toreal(events.timestamp_d),
+auditType_d=toreal(events.auditType_d),
+enforcementSource_d=toreal(events.enforcementSource_d),
+userRole_d=toreal(events.userRole_d),
+destinationEntitiesList_s=tostring(events.destinationEntitiesList_s),
+details_s=tostring(events.details_s),
+reportedObjectId_g=tostring(events.reportedObjectId_g),
+performedBy_id_s=tostring(events.performedBy_id_s),
+performedBy_name_s=tostring(events.performedBy_name_s),
+performedBy_id_g=tostring(events.performedBy_id_g),
+reportedObjectId_s=tostring(events.reportedObjectId_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ZNAccessOrchestratorAuditNativePoller_CL policy update @'[{"Source": "ZNAccessOrchestratorAuditNativePoller_CLRaw", "Query": "ZNAccessOrchestratorAuditNativePoller_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,119 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AppRequests - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:22:34
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 42, Final columns: 42
+// ============================================================================
+
+.create-merge table AppRequestsRaw (records:dynamic)
+
+.alter-merge table AppRequestsRaw policy retention softdelete = 1d
+
+.alter table AppRequestsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AppRequestsRaw ingestion json mapping 'AppRequestsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AppRequests(
+TimeGenerated:datetime,
+TenantId:guid,
+AppRoleName:string,
+AppRoleInstance:string,
+ClientType:string,
+ClientModel:string,
+ClientOS:string,
+ClientIP:string,
+ClientCity:string,
+AppVersion:string,
+ClientStateOrProvince:string,
+ClientBrowser:string,
+ResourceGUID:string,
+IKey:string,
+SDKVersion:string,
+ItemCount:int,
+ReferencedItemId:string,
+ReferencedType:string,
+ClientCountryOrRegion:string,
+SourceSystem:string,
+UserAccountId:string,
+UserId:string,
+RequestId:string,
+Source:string,
+Name:string,
+Url:string,
+Success:bool,
+ResultCode:string,
+DurationMs:real,
+UserAuthenticatedId:string,
+PerformanceBucket:string,
+Measurements:dynamic,
+OperationName:string,
+OperationId:string,
+OperationLinks:dynamic,
+ParentId:string,
+SyntheticSource:string,
+SessionId:string,
+Properties:dynamic,
+Id:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AppRequests policy caching hot = 1d
+
+.create-or-alter function AppRequestsExpand() {
+AppRequestsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+AppRoleName=tostring(events.AppRoleName),
+AppRoleInstance=tostring(events.AppRoleInstance),
+ClientType=tostring(events.ClientType),
+ClientModel=tostring(events.ClientModel),
+ClientOS=tostring(events.ClientOS),
+ClientIP=tostring(events.ClientIP),
+ClientCity=tostring(events.ClientCity),
+AppVersion=tostring(events.AppVersion),
+ClientStateOrProvince=tostring(events.ClientStateOrProvince),
+ClientBrowser=tostring(events.ClientBrowser),
+ResourceGUID=tostring(events.ResourceGUID),
+IKey=tostring(events.IKey),
+SDKVersion=tostring(events.SDKVersion),
+ItemCount=toint(events.ItemCount),
+ReferencedItemId=tostring(events.ReferencedItemId),
+ReferencedType=tostring(events.ReferencedType),
+ClientCountryOrRegion=tostring(events.ClientCountryOrRegion),
+SourceSystem=tostring(events.SourceSystem),
+UserAccountId=tostring(events.UserAccountId),
+UserId=tostring(events.UserId),
+RequestId=tostring(events.RequestId),
+Source=tostring(events.Source),
+Name=tostring(events.Name),
+Url=tostring(events.Url),
+Success=tobool(events.Success),
+ResultCode=tostring(events.ResultCode),
+DurationMs=toreal(events.DurationMs),
+UserAuthenticatedId=tostring(events.UserAuthenticatedId),
+PerformanceBucket=tostring(events.PerformanceBucket),
+Measurements=todynamic(events.Measurements),
+OperationName=tostring(events.OperationName),
+OperationId=tostring(events.OperationId),
+OperationLinks=todynamic(events.OperationLinks),
+ParentId=tostring(events.ParentId),
+SyntheticSource=tostring(events.SyntheticSource),
+SessionId=tostring(events.SessionId),
+Properties=todynamic(events.Properties),
+Id=tostring(events.Id),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AppRequests policy update @'[{"Source": "AppRequestsRaw", "Query": "AppRequestsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

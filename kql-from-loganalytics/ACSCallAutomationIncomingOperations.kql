@@ -1,0 +1,75 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ACSCallAutomationIncomingOperations - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:18:45
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 20, Final columns: 20
+// ============================================================================
+
+.create-merge table ACSCallAutomationIncomingOperationsRaw (records:dynamic)
+
+.alter-merge table ACSCallAutomationIncomingOperationsRaw policy retention softdelete = 1d
+
+.alter table ACSCallAutomationIncomingOperationsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ACSCallAutomationIncomingOperationsRaw ingestion json mapping 'ACSCallAutomationIncomingOperationsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ACSCallAutomationIncomingOperations(
+TimeGenerated:datetime,
+TenantId:guid,
+SubOperationName:string,
+SdkType:string,
+SdkVersion:string,
+ServerCallId:string,
+CallConnectionId:string,
+CallerIpAddress:string,
+OperationId:string,
+DurationMs:int,
+ResultType:string,
+URI:string,
+OperationVersion:string,
+OperationName:string,
+CorrelationId:string,
+Level:string,
+ResultSignature:int,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ACSCallAutomationIncomingOperations policy caching hot = 1d
+
+.create-or-alter function ACSCallAutomationIncomingOperationsExpand() {
+ACSCallAutomationIncomingOperationsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SubOperationName=tostring(events.SubOperationName),
+SdkType=tostring(events.SdkType),
+SdkVersion=tostring(events.SdkVersion),
+ServerCallId=tostring(events.ServerCallId),
+CallConnectionId=tostring(events.CallConnectionId),
+CallerIpAddress=tostring(events.CallerIpAddress),
+OperationId=tostring(events.OperationId),
+DurationMs=toint(events.DurationMs),
+ResultType=tostring(events.ResultType),
+URI=tostring(events.URI),
+OperationVersion=tostring(events.OperationVersion),
+OperationName=tostring(events.OperationName),
+CorrelationId=tostring(events.CorrelationId),
+Level=tostring(events.Level),
+ResultSignature=toint(events.ResultSignature),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ACSCallAutomationIncomingOperations policy update @'[{"Source": "ACSCallAutomationIncomingOperationsRaw", "Query": "ACSCallAutomationIncomingOperationsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

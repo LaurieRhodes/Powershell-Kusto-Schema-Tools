@@ -1,0 +1,90 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for InfobloxInsight_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table InfobloxInsight_CLRaw (records:dynamic)
+
+.alter-merge table InfobloxInsight_CLRaw policy retention softdelete = 1d
+
+.alter table InfobloxInsight_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table InfobloxInsight_CLRaw ingestion json mapping 'InfobloxInsight_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table InfobloxInsight_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+dateChanged_t:datetime,
+eventsBlockedCount_s:string,
+mostRecentAt_t:datetime,
+numEvents_s:string,
+persistentDate_t:datetime,
+status_s:string,
+threatType_s:string,
+startedAt_t:datetime,
+feedSource_s:string,
+insightId_g:guid,
+tFamily_s:string,
+tClass_s:string,
+hello_s:string,
+InfobloxInsightLogType_s:string,
+eventsNotBlockedCount_s:string,
+userComment_s:string,
+changer_s:string,
+spreadingDate_t:datetime,
+RawData:string,
+Computer:string,
+ManagementGroupName:string,
+MG:string,
+SourceSystem:string,
+priorityText_s:string,
+InfobloxInsightID:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table InfobloxInsight_CL policy caching hot = 1d
+
+.create-or-alter function InfobloxInsight_CLExpand() {
+InfobloxInsight_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+dateChanged_t=todatetime(events.dateChanged_t),
+eventsBlockedCount_s=tostring(events.eventsBlockedCount_s),
+mostRecentAt_t=todatetime(events.mostRecentAt_t),
+numEvents_s=tostring(events.numEvents_s),
+persistentDate_t=todatetime(events.persistentDate_t),
+status_s=tostring(events.status_s),
+threatType_s=tostring(events.threatType_s),
+startedAt_t=todatetime(events.startedAt_t),
+feedSource_s=tostring(events.feedSource_s),
+insightId_g=toguid(events.insightId_g),
+tFamily_s=tostring(events.tFamily_s),
+tClass_s=tostring(events.tClass_s),
+hello_s=tostring(events.hello_s),
+InfobloxInsightLogType_s=tostring(events.InfobloxInsightLogType_s),
+eventsNotBlockedCount_s=tostring(events.eventsNotBlockedCount_s),
+userComment_s=tostring(events.userComment_s),
+changer_s=tostring(events.changer_s),
+spreadingDate_t=todatetime(events.spreadingDate_t),
+RawData=tostring(events.RawData),
+Computer=tostring(events.Computer),
+ManagementGroupName=tostring(events.ManagementGroupName),
+MG=tostring(events.MG),
+SourceSystem=tostring(events.SourceSystem),
+priorityText_s=tostring(events.priorityText_s),
+InfobloxInsightID=tostring(events.InfobloxInsightID),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table InfobloxInsight_CL policy update @'[{"Source": "InfobloxInsight_CLRaw", "Query": "InfobloxInsight_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

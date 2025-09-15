@@ -1,0 +1,38 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for BitwardenGroups_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:11
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table BitwardenGroups_CLRaw (records:dynamic)
+
+.alter-merge table BitwardenGroups_CLRaw policy retention softdelete = 1d
+
+.alter table BitwardenGroups_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table BitwardenGroups_CLRaw ingestion json mapping 'BitwardenGroups_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table BitwardenGroups_CL(
+TimeGenerated:datetime,
+groupId:string,
+name:string,
+_TimeReceived:datetime)
+
+.alter table BitwardenGroups_CL policy caching hot = 1d
+
+.create-or-alter function BitwardenGroups_CLExpand() {
+BitwardenGroups_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+groupId=tostring(events.groupId),
+name=tostring(events.name),
+_TimeReceived=todatetime(now())
+}
+
+.alter table BitwardenGroups_CL policy update @'[{"Source": "BitwardenGroups_CLRaw", "Query": "BitwardenGroups_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

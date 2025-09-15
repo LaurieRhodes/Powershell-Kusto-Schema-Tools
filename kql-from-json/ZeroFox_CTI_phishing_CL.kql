@@ -1,0 +1,52 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ZeroFox_CTI_phishing_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table ZeroFox_CTI_phishing_CLRaw (records:dynamic)
+
+.alter-merge table ZeroFox_CTI_phishing_CLRaw policy retention softdelete = 1d
+
+.alter table ZeroFox_CTI_phishing_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ZeroFox_CTI_phishing_CLRaw ingestion json mapping 'ZeroFox_CTI_phishing_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ZeroFox_CTI_phishing_CL(
+TimeGenerated:datetime,
+scanned_t:datetime,
+domain_s:string,
+url_s:string,
+cert_authority_s:string,
+cert_fingerprint_s:string,
+cert_issued_s:string,
+host_ip_s:string,
+host_asn_d:real,
+host_geo_s:string,
+_TimeReceived:datetime)
+
+.alter table ZeroFox_CTI_phishing_CL policy caching hot = 1d
+
+.create-or-alter function ZeroFox_CTI_phishing_CLExpand() {
+ZeroFox_CTI_phishing_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+scanned_t=todatetime(events.scanned_t),
+domain_s=tostring(events.domain_s),
+url_s=tostring(events.url_s),
+cert_authority_s=tostring(events.cert_authority_s),
+cert_fingerprint_s=tostring(events.cert_fingerprint_s),
+cert_issued_s=tostring(events.cert_issued_s),
+host_ip_s=tostring(events.host_ip_s),
+host_asn_d=toreal(events.host_asn_d),
+host_geo_s=tostring(events.host_geo_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ZeroFox_CTI_phishing_CL policy update @'[{"Source": "ZeroFox_CTI_phishing_CLRaw", "Query": "ZeroFox_CTI_phishing_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

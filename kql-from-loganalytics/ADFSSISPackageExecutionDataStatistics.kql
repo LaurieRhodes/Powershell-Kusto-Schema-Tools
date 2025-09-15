@@ -1,0 +1,77 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ADFSSISPackageExecutionDataStatistics - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:20:00
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 21, Final columns: 21
+// ============================================================================
+
+.create-merge table ADFSSISPackageExecutionDataStatisticsRaw (records:dynamic)
+
+.alter-merge table ADFSSISPackageExecutionDataStatisticsRaw policy retention softdelete = 1d
+
+.alter table ADFSSISPackageExecutionDataStatisticsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ADFSSISPackageExecutionDataStatisticsRaw ingestion json mapping 'ADFSSISPackageExecutionDataStatisticsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ADFSSISPackageExecutionDataStatistics(
+TimeGenerated:datetime,
+TenantId:guid,
+CreatedTime:datetime,
+RowsSent:long,
+DestinationComponentName:string,
+SourceComponentName:string,
+DataflowPathName:string,
+DataflowPathIdString:string,
+TaskName:string,
+PackageName:string,
+ExecutionId:long,
+Level:string,
+IntegrationRuntimeName:string,
+DataFactoryName:string,
+CorrelationId:string,
+Category:string,
+OperationName:string,
+ExecutionPath:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ADFSSISPackageExecutionDataStatistics policy caching hot = 1d
+
+.create-or-alter function ADFSSISPackageExecutionDataStatisticsExpand() {
+ADFSSISPackageExecutionDataStatisticsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+CreatedTime=todatetime(events.CreatedTime),
+RowsSent=tolong(events.RowsSent),
+DestinationComponentName=tostring(events.DestinationComponentName),
+SourceComponentName=tostring(events.SourceComponentName),
+DataflowPathName=tostring(events.DataflowPathName),
+DataflowPathIdString=tostring(events.DataflowPathIdString),
+TaskName=tostring(events.TaskName),
+PackageName=tostring(events.PackageName),
+ExecutionId=tolong(events.ExecutionId),
+Level=tostring(events.Level),
+IntegrationRuntimeName=tostring(events.IntegrationRuntimeName),
+DataFactoryName=tostring(events.DataFactoryName),
+CorrelationId=tostring(events.CorrelationId),
+Category=tostring(events.Category),
+OperationName=tostring(events.OperationName),
+ExecutionPath=tostring(events.ExecutionPath),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ADFSSISPackageExecutionDataStatistics policy update @'[{"Source": "ADFSSISPackageExecutionDataStatisticsRaw", "Query": "ADFSSISPackageExecutionDataStatisticsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

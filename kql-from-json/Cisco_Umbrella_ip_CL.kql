@@ -1,0 +1,50 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Cisco_Umbrella_ip_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:12
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Cisco_Umbrella_ip_CLRaw (records:dynamic)
+
+.alter-merge table Cisco_Umbrella_ip_CLRaw policy retention softdelete = 1d
+
+.alter table Cisco_Umbrella_ip_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Cisco_Umbrella_ip_CLRaw ingestion json mapping 'Cisco_Umbrella_ip_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Cisco_Umbrella_ip_CL(
+TimeGenerated:datetime,
+EventType_s:string,
+Timestamp_t:datetime,
+Identity_s:string,
+Source_IP_s:string,
+Source_Port_s:string,
+Destination_IP_s:string,
+Destination_Port_s:string,
+Categories_s:string,
+_TimeReceived:datetime)
+
+.alter table Cisco_Umbrella_ip_CL policy caching hot = 1d
+
+.create-or-alter function Cisco_Umbrella_ip_CLExpand() {
+Cisco_Umbrella_ip_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+EventType_s=tostring(events.EventType_s),
+Timestamp_t=todatetime(events.Timestamp_t),
+Identity_s=tostring(events.Identity_s),
+Source_IP_s=tostring(events.Source_IP_s),
+Source_Port_s=tostring(events.Source_Port_s),
+Destination_IP_s=tostring(events.Destination_IP_s),
+Destination_Port_s=tostring(events.Destination_Port_s),
+Categories_s=tostring(events.Categories_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Cisco_Umbrella_ip_CL policy update @'[{"Source": "Cisco_Umbrella_ip_CLRaw", "Query": "Cisco_Umbrella_ip_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

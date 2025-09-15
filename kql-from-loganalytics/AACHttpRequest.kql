@@ -1,0 +1,75 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AACHttpRequest - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:17:39
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 20, Final columns: 20
+// ============================================================================
+
+.create-merge table AACHttpRequestRaw (records:dynamic)
+
+.alter-merge table AACHttpRequestRaw policy retention softdelete = 1d
+
+.alter table AACHttpRequestRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AACHttpRequestRaw ingestion json mapping 'AACHttpRequestRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AACHttpRequest(
+TimeGenerated:datetime,
+TenantId:guid,
+BytesReceived:int,
+BytesSent:int,
+ResponseLength:int,
+RequestLength:int,
+StatusCode:int,
+UserAgent:string,
+HitCount:int,
+ClientIPAddress:string,
+DurationMs:int,
+ClientRequestId:string,
+RequestId:string,
+Category:string,
+CorrelationId:string,
+Method:string,
+RequestURI:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AACHttpRequest policy caching hot = 1d
+
+.create-or-alter function AACHttpRequestExpand() {
+AACHttpRequestRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+BytesReceived=toint(events.BytesReceived),
+BytesSent=toint(events.BytesSent),
+ResponseLength=toint(events.ResponseLength),
+RequestLength=toint(events.RequestLength),
+StatusCode=toint(events.StatusCode),
+UserAgent=tostring(events.UserAgent),
+HitCount=toint(events.HitCount),
+ClientIPAddress=tostring(events.ClientIPAddress),
+DurationMs=toint(events.DurationMs),
+ClientRequestId=tostring(events.ClientRequestId),
+RequestId=tostring(events.RequestId),
+Category=tostring(events.Category),
+CorrelationId=tostring(events.CorrelationId),
+Method=tostring(events.Method),
+RequestURI=tostring(events.RequestURI),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AACHttpRequest policy update @'[{"Source": "AACHttpRequestRaw", "Query": "AACHttpRequestExpand()", "IsEnabled": "True", "IsTransactional": true}]'

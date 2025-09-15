@@ -1,0 +1,74 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for VaronisAlerts_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table VaronisAlerts_CLRaw (records:dynamic)
+
+.alter-merge table VaronisAlerts_CLRaw policy retention softdelete = 1d
+
+.alter table VaronisAlerts_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table VaronisAlerts_CLRaw ingestion json mapping 'VaronisAlerts_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table VaronisAlerts_CL(
+TimeGenerated:datetime,
+DeviceName_s:string,
+IngestTime_t:datetime,
+EventUTC_t:datetime,
+FileServerOrDomain_s:string,
+Platform_s:string,
+AssetContainsSensitiveData_s:string,
+AssetContainsFlaggedData_s:string,
+Asset_s:string,
+SamAccountName_s:string,
+UserName_s:string,
+NumOfAlertedEvents_d:real,
+StatusId_d:real,
+Status_s:string,
+SeverityId_d:real,
+Severity_s:string,
+Time_t:datetime,
+Name_s:string,
+ID_g:string,
+Query_s:string,
+Category:string,
+_TimeReceived:datetime)
+
+.alter table VaronisAlerts_CL policy caching hot = 1d
+
+.create-or-alter function VaronisAlerts_CLExpand() {
+VaronisAlerts_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+DeviceName_s=tostring(events.DeviceName_s),
+IngestTime_t=todatetime(events.IngestTime_t),
+EventUTC_t=todatetime(events.EventUTC_t),
+FileServerOrDomain_s=tostring(events.FileServerOrDomain_s),
+Platform_s=tostring(events.Platform_s),
+AssetContainsSensitiveData_s=tostring(events.AssetContainsSensitiveData_s),
+AssetContainsFlaggedData_s=tostring(events.AssetContainsFlaggedData_s),
+Asset_s=tostring(events.Asset_s),
+SamAccountName_s=tostring(events.SamAccountName_s),
+UserName_s=tostring(events.UserName_s),
+NumOfAlertedEvents_d=toreal(events.NumOfAlertedEvents_d),
+StatusId_d=toreal(events.StatusId_d),
+Status_s=tostring(events.Status_s),
+SeverityId_d=toreal(events.SeverityId_d),
+Severity_s=tostring(events.Severity_s),
+Time_t=todatetime(events.Time_t),
+Name_s=tostring(events.Name_s),
+ID_g=tostring(events.ID_g),
+Query_s=tostring(events.Query_s),
+Category=tostring(events.Category),
+_TimeReceived=todatetime(now())
+}
+
+.alter table VaronisAlerts_CL policy update @'[{"Source": "VaronisAlerts_CLRaw", "Query": "VaronisAlerts_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

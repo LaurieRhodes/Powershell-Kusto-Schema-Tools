@@ -1,0 +1,134 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for BitsightCompany_details_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:11
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table BitsightCompany_details_CLRaw (records:dynamic)
+
+.alter-merge table BitsightCompany_details_CLRaw policy retention softdelete = 1d
+
+.alter table BitsightCompany_details_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table BitsightCompany_details_CLRaw ingestion json mapping 'BitsightCompany_details_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table BitsightCompany_details_CL(
+TimeGenerated:datetime,
+EventVendor:string,
+PeopleCount:real,
+PermissionCanAnnotate:bool,
+PermissionCanDownloadCompanyReport:bool,
+PermissionCanEnableVendorAccess:bool,
+PermissionCanViewCompanyReports:bool,
+PermissionCanViewForensics:bool,
+PermissionCanViewInfrastructure:bool,
+PermissionCanViewIpAttributions:bool,
+PermissionCanViewServiceProviders:bool,
+Name:string,
+PermissionsHasControl:bool,
+RatingIndustryMedian:string,
+Ratings:string,
+RelatedCompanies:string,
+SearchCount:real,
+ServiceProvider:bool,
+Shortname:string,
+Sparkline:string,
+SubIndustry:string,
+SubIndustrySlug:string,
+PrimaryDomain:string,
+IsUnsampledAllowed:bool,
+IsPrimary:bool,
+IsMycompMysubsBundle:bool,
+EventProduct:string,
+ComplianceClaimCertifications:string,
+ComplianceClaimTrustPage:string,
+PrimaryDomain:string,
+PrimaryCompanyName:string,
+AvailableUpgradeTypes:string,
+BulkEmailSenderStatus:string,
+CompanyFeatures:string,
+CustomerMonitoringCount:real,
+Description:string,
+DisplayURL:string,
+GUID:string,
+HasCompanyTree:bool,
+HasPreferredContact:bool,
+Hompage:string,
+InSpmPortfolio:bool,
+Industry:string,
+IndustrySlug:string,
+Ipv4Count:real,
+IsBundle:bool,
+IsCsp:bool,
+SubscriptionType:string,
+SubscriptionTypeKey:string,
+type:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table BitsightCompany_details_CL policy caching hot = 1d
+
+.create-or-alter function BitsightCompany_details_CLExpand() {
+BitsightCompany_details_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+EventVendor=tostring(events.EventVendor),
+PeopleCount=toreal(events.PeopleCount),
+PermissionCanAnnotate=tobool(events.PermissionCanAnnotate),
+PermissionCanDownloadCompanyReport=tobool(events.PermissionCanDownloadCompanyReport),
+PermissionCanEnableVendorAccess=tobool(events.PermissionCanEnableVendorAccess),
+PermissionCanViewCompanyReports=tobool(events.PermissionCanViewCompanyReports),
+PermissionCanViewForensics=tobool(events.PermissionCanViewForensics),
+PermissionCanViewInfrastructure=tobool(events.PermissionCanViewInfrastructure),
+PermissionCanViewIpAttributions=tobool(events.PermissionCanViewIpAttributions),
+PermissionCanViewServiceProviders=tobool(events.PermissionCanViewServiceProviders),
+Name=tostring(events.Name),
+PermissionsHasControl=tobool(events.PermissionsHasControl),
+RatingIndustryMedian=tostring(events.RatingIndustryMedian),
+Ratings=tostring(events.Ratings),
+RelatedCompanies=tostring(events.RelatedCompanies),
+SearchCount=toreal(events.SearchCount),
+ServiceProvider=tobool(events.ServiceProvider),
+Shortname=tostring(events.Shortname),
+Sparkline=tostring(events.Sparkline),
+SubIndustry=tostring(events.SubIndustry),
+SubIndustrySlug=tostring(events.SubIndustrySlug),
+PrimaryDomain=tostring(events.PrimaryDomain),
+IsUnsampledAllowed=tobool(events.IsUnsampledAllowed),
+IsPrimary=tobool(events.IsPrimary),
+IsMycompMysubsBundle=tobool(events.IsMycompMysubsBundle),
+EventProduct=tostring(events.EventProduct),
+ComplianceClaimCertifications=tostring(events.ComplianceClaimCertifications),
+ComplianceClaimTrustPage=tostring(events.ComplianceClaimTrustPage),
+PrimaryDomain=tostring(events.PrimaryDomain),
+PrimaryCompanyName=tostring(events.PrimaryCompanyName),
+AvailableUpgradeTypes=tostring(events.AvailableUpgradeTypes),
+BulkEmailSenderStatus=tostring(events.BulkEmailSenderStatus),
+CompanyFeatures=tostring(events.CompanyFeatures),
+CustomerMonitoringCount=toreal(events.CustomerMonitoringCount),
+Description=tostring(events.Description),
+DisplayURL=tostring(events.DisplayURL),
+GUID=tostring(events.GUID),
+HasCompanyTree=tobool(events.HasCompanyTree),
+HasPreferredContact=tobool(events.HasPreferredContact),
+Hompage=tostring(events.Hompage),
+InSpmPortfolio=tobool(events.InSpmPortfolio),
+Industry=tostring(events.Industry),
+IndustrySlug=tostring(events.IndustrySlug),
+Ipv4Count=toreal(events.Ipv4Count),
+IsBundle=tobool(events.IsBundle),
+IsCsp=tobool(events.IsCsp),
+SubscriptionType=tostring(events.SubscriptionType),
+SubscriptionTypeKey=tostring(events.SubscriptionTypeKey),
+type=tostring(events.type),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table BitsightCompany_details_CL policy update @'[{"Source": "BitsightCompany_details_CLRaw", "Query": "BitsightCompany_details_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

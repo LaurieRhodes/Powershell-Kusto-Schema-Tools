@@ -1,0 +1,54 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Ipinfo_Location_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Ipinfo_Location_CLRaw (records:dynamic)
+
+.alter-merge table Ipinfo_Location_CLRaw policy retention softdelete = 1d
+
+.alter table Ipinfo_Location_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Ipinfo_Location_CLRaw ingestion json mapping 'Ipinfo_Location_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Ipinfo_Location_CL(
+TimeGenerated:datetime,
+city:string,
+country:string,
+geoname_id:string,
+lat:string,
+lng:string,
+postal_code:string,
+region:string,
+region_code:string,
+range:string,
+timezone:string,
+_TimeReceived:datetime)
+
+.alter table Ipinfo_Location_CL policy caching hot = 1d
+
+.create-or-alter function Ipinfo_Location_CLExpand() {
+Ipinfo_Location_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+city=tostring(events.city),
+country=tostring(events.country),
+geoname_id=tostring(events.geoname_id),
+lat=tostring(events.lat),
+lng=tostring(events.lng),
+postal_code=tostring(events.postal_code),
+region=tostring(events.region),
+region_code=tostring(events.region_code),
+range=tostring(events.range),
+timezone=tostring(events.timezone),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Ipinfo_Location_CL policy update @'[{"Source": "Ipinfo_Location_CLRaw", "Query": "Ipinfo_Location_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

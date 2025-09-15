@@ -1,0 +1,85 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for McasShadowItReporting - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:16:30
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 25, Final columns: 25
+// ============================================================================
+
+.create-merge table McasShadowItReportingRaw (records:dynamic)
+
+.alter-merge table McasShadowItReportingRaw policy retention softdelete = 1d
+
+.alter table McasShadowItReportingRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table McasShadowItReportingRaw ingestion json mapping 'McasShadowItReportingRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table McasShadowItReporting(
+TimeGenerated:datetime,
+TenantId:guid,
+RawUserName:string,
+Date:datetime,
+AppScore:int,
+AppTags:dynamic,
+AppCategory:string,
+AppInstance:string,
+AppId:string,
+AppName:string,
+EnrichedUserName:string,
+RichUserName:string,
+UserName:string,
+DownloadedBytes:int,
+TotalBytes:int,
+UploadedBytes:int,
+BlockedEvents:int,
+TotalEvents:int,
+MachineId:string,
+MachineName:string,
+StreamName:string,
+SourceSystem:string,
+IpAddress:string,
+AadTenantId:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table McasShadowItReporting policy caching hot = 1d
+
+.create-or-alter function McasShadowItReportingExpand() {
+McasShadowItReportingRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+RawUserName=tostring(events.RawUserName),
+Date=todatetime(events.Date),
+AppScore=toint(events.AppScore),
+AppTags=todynamic(events.AppTags),
+AppCategory=tostring(events.AppCategory),
+AppInstance=tostring(events.AppInstance),
+AppId=tostring(events.AppId),
+AppName=tostring(events.AppName),
+EnrichedUserName=tostring(events.EnrichedUserName),
+RichUserName=tostring(events.RichUserName),
+UserName=tostring(events.UserName),
+DownloadedBytes=toint(events.DownloadedBytes),
+TotalBytes=toint(events.TotalBytes),
+UploadedBytes=toint(events.UploadedBytes),
+BlockedEvents=toint(events.BlockedEvents),
+TotalEvents=toint(events.TotalEvents),
+MachineId=tostring(events.MachineId),
+MachineName=tostring(events.MachineName),
+StreamName=tostring(events.StreamName),
+SourceSystem=tostring(events.SourceSystem),
+IpAddress=tostring(events.IpAddress),
+AadTenantId=tostring(events.AadTenantId),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table McasShadowItReporting policy update @'[{"Source": "McasShadowItReportingRaw", "Query": "McasShadowItReportingExpand()", "IsEnabled": "True", "IsTransactional": true}]'

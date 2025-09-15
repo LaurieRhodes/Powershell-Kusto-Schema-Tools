@@ -1,0 +1,69 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for NCBMSecurityDefenderLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:17:10
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 17, Final columns: 17
+// ============================================================================
+
+.create-merge table NCBMSecurityDefenderLogsRaw (records:dynamic)
+
+.alter-merge table NCBMSecurityDefenderLogsRaw policy retention softdelete = 1d
+
+.alter table NCBMSecurityDefenderLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table NCBMSecurityDefenderLogsRaw ingestion json mapping 'NCBMSecurityDefenderLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table NCBMSecurityDefenderLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+ContainerName:string,
+NamespaceName:string,
+Node:string,
+PodName:string,
+ComponentName:string,
+ComponentVersion:string,
+Message:string,
+Severity:string,
+Location:string,
+LogType:string,
+ClusterManagerName:string,
+ClusterName:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table NCBMSecurityDefenderLogs policy caching hot = 1d
+
+.create-or-alter function NCBMSecurityDefenderLogsExpand() {
+NCBMSecurityDefenderLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ContainerName=tostring(events.ContainerName),
+NamespaceName=tostring(events.NamespaceName),
+Node=tostring(events.Node),
+PodName=tostring(events.PodName),
+ComponentName=tostring(events.ComponentName),
+ComponentVersion=tostring(events.ComponentVersion),
+Message=tostring(events.Message),
+Severity=tostring(events.Severity),
+Location=tostring(events.Location),
+LogType=tostring(events.LogType),
+ClusterManagerName=tostring(events.ClusterManagerName),
+ClusterName=tostring(events.ClusterName),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table NCBMSecurityDefenderLogs policy update @'[{"Source": "NCBMSecurityDefenderLogsRaw", "Query": "NCBMSecurityDefenderLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,70 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ZeroFox_CTI_dark_web_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table ZeroFox_CTI_dark_web_CLRaw (records:dynamic)
+
+.alter-merge table ZeroFox_CTI_dark_web_CLRaw policy retention softdelete = 1d
+
+.alter table ZeroFox_CTI_dark_web_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ZeroFox_CTI_dark_web_CLRaw ingestion json mapping 'ZeroFox_CTI_dark_web_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ZeroFox_CTI_dark_web_CL(
+TimeGenerated:datetime,
+content_audience_s:string,
+thread_uuid_g:guid,
+thread_url_s:string,
+thread_name_s:string,
+sequence_number_d:real,
+post_uuid_g:guid,
+post_type_s:string,
+post_member_name_s:string,
+timestamp_t:datetime,
+post_body_s:string,
+parent_uuid_g:guid,
+network_type_s:string,
+language_code_s:string,
+general_topic_s:string,
+forum_uuid_g:guid,
+forum_name_s:string,
+domain_s:string,
+created_at_t:datetime,
+_TimeReceived:datetime)
+
+.alter table ZeroFox_CTI_dark_web_CL policy caching hot = 1d
+
+.create-or-alter function ZeroFox_CTI_dark_web_CLExpand() {
+ZeroFox_CTI_dark_web_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+content_audience_s=tostring(events.content_audience_s),
+thread_uuid_g=toguid(events.thread_uuid_g),
+thread_url_s=tostring(events.thread_url_s),
+thread_name_s=tostring(events.thread_name_s),
+sequence_number_d=toreal(events.sequence_number_d),
+post_uuid_g=toguid(events.post_uuid_g),
+post_type_s=tostring(events.post_type_s),
+post_member_name_s=tostring(events.post_member_name_s),
+timestamp_t=todatetime(events.timestamp_t),
+post_body_s=tostring(events.post_body_s),
+parent_uuid_g=toguid(events.parent_uuid_g),
+network_type_s=tostring(events.network_type_s),
+language_code_s=tostring(events.language_code_s),
+general_topic_s=tostring(events.general_topic_s),
+forum_uuid_g=toguid(events.forum_uuid_g),
+forum_name_s=tostring(events.forum_name_s),
+domain_s=tostring(events.domain_s),
+created_at_t=todatetime(events.created_at_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ZeroFox_CTI_dark_web_CL policy update @'[{"Source": "ZeroFox_CTI_dark_web_CLRaw", "Query": "ZeroFox_CTI_dark_web_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

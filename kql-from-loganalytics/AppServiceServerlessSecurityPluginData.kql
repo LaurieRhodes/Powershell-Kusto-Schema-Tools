@@ -1,0 +1,61 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AppServiceServerlessSecurityPluginData - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:22:45
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 13, Final columns: 13
+// ============================================================================
+
+.create-merge table AppServiceServerlessSecurityPluginDataRaw (records:dynamic)
+
+.alter-merge table AppServiceServerlessSecurityPluginDataRaw policy retention softdelete = 1d
+
+.alter table AppServiceServerlessSecurityPluginDataRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AppServiceServerlessSecurityPluginDataRaw ingestion json mapping 'AppServiceServerlessSecurityPluginDataRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AppServiceServerlessSecurityPluginData(
+TimeGenerated:datetime,
+TenantId:guid,
+SlSecRequestId:string,
+Sender:string,
+PayloadType:string,
+Payload:dynamic,
+Index:int,
+SlSecMetadata:dynamic,
+SlSecProps:dynamic,
+MsgVersion:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AppServiceServerlessSecurityPluginData policy caching hot = 1d
+
+.create-or-alter function AppServiceServerlessSecurityPluginDataExpand() {
+AppServiceServerlessSecurityPluginDataRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SlSecRequestId=tostring(events.SlSecRequestId),
+Sender=tostring(events.Sender),
+PayloadType=tostring(events.PayloadType),
+Payload=todynamic(events.Payload),
+Index=toint(events.Index),
+SlSecMetadata=todynamic(events.SlSecMetadata),
+SlSecProps=todynamic(events.SlSecProps),
+MsgVersion=tostring(events.MsgVersion),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AppServiceServerlessSecurityPluginData policy update @'[{"Source": "AppServiceServerlessSecurityPluginDataRaw", "Query": "AppServiceServerlessSecurityPluginDataExpand()", "IsEnabled": "True", "IsTransactional": true}]'

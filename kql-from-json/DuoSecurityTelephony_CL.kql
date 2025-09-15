@@ -1,0 +1,46 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for DuoSecurityTelephony_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table DuoSecurityTelephony_CLRaw (records:dynamic)
+
+.alter-merge table DuoSecurityTelephony_CLRaw policy retention softdelete = 1d
+
+.alter table DuoSecurityTelephony_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table DuoSecurityTelephony_CLRaw ingestion json mapping 'DuoSecurityTelephony_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table DuoSecurityTelephony_CL(
+TimeGenerated:datetime,
+context_s:string,
+credits_d:real,
+isotimestamp_t:datetime,
+phone_s:string,
+timestamp_d:real,
+type_s:string,
+_TimeReceived:datetime)
+
+.alter table DuoSecurityTelephony_CL policy caching hot = 1d
+
+.create-or-alter function DuoSecurityTelephony_CLExpand() {
+DuoSecurityTelephony_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+context_s=tostring(events.context_s),
+credits_d=toreal(events.credits_d),
+isotimestamp_t=todatetime(events.isotimestamp_t),
+phone_s=tostring(events.phone_s),
+timestamp_d=toreal(events.timestamp_d),
+type_s=tostring(events.type_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table DuoSecurityTelephony_CL policy update @'[{"Source": "DuoSecurityTelephony_CLRaw", "Query": "DuoSecurityTelephony_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

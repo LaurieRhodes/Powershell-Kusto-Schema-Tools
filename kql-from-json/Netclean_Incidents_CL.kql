@@ -1,0 +1,124 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Netclean_Incidents_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Netclean_Incidents_CLRaw (records:dynamic)
+
+.alter-merge table Netclean_Incidents_CLRaw policy retention softdelete = 1d
+
+.alter table Netclean_Incidents_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Netclean_Incidents_CLRaw ingestion json mapping 'Netclean_Incidents_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Netclean_Incidents_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+size_s:string,
+creationTime_t:datetime,
+lastAccessTime_t:datetime,
+lastWriteTime_t:datetime,
+sha1_s:string,
+nearbyFiles_sha1_s:string,
+externalIP_s:string,
+domain_s:string,
+loggedOnUsers_s:string,
+hasCollectedNearbyFiles_s:string,
+m365WebUrl_s:string,
+m365CreatedBymail_s:string,
+m365LastModifiedByMail_s:string,
+m365LibraryId_s:string,
+m365LibraryDisplayName_s:string,
+m365Librarytype_s:string,
+m365siteid_s:string,
+m365sitedisplayName_s:string,
+filePath_s:string,
+m365sitename_s:string,
+Agentidentifier_g:string,
+domainname_s:string,
+SourceSystem:string,
+MG:guid,
+ManagementGroupName:string,
+Computer:string,
+RawData:string,
+Hostname_s:string,
+agentType_s:string,
+Identifier_g:string,
+Agentversion_s:string,
+type_s:string,
+foundTime_t:datetime,
+detectionMethod_s:string,
+agentInformatonIdentifier_s:string,
+osVersion_s:string,
+machineName_s:string,
+microsoftCultureId_s:string,
+timeZoneId_s:string,
+microsoftGeoId_s:string,
+version_s:string,
+countOfAllNearByFiles_s:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table Netclean_Incidents_CL policy caching hot = 1d
+
+.create-or-alter function Netclean_Incidents_CLExpand() {
+Netclean_Incidents_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+size_s=tostring(events.size_s),
+creationTime_t=todatetime(events.creationTime_t),
+lastAccessTime_t=todatetime(events.lastAccessTime_t),
+lastWriteTime_t=todatetime(events.lastWriteTime_t),
+sha1_s=tostring(events.sha1_s),
+nearbyFiles_sha1_s=tostring(events.nearbyFiles_sha1_s),
+externalIP_s=tostring(events.externalIP_s),
+domain_s=tostring(events.domain_s),
+loggedOnUsers_s=tostring(events.loggedOnUsers_s),
+hasCollectedNearbyFiles_s=tostring(events.hasCollectedNearbyFiles_s),
+m365WebUrl_s=tostring(events.m365WebUrl_s),
+m365CreatedBymail_s=tostring(events.m365CreatedBymail_s),
+m365LastModifiedByMail_s=tostring(events.m365LastModifiedByMail_s),
+m365LibraryId_s=tostring(events.m365LibraryId_s),
+m365LibraryDisplayName_s=tostring(events.m365LibraryDisplayName_s),
+m365Librarytype_s=tostring(events.m365Librarytype_s),
+m365siteid_s=tostring(events.m365siteid_s),
+m365sitedisplayName_s=tostring(events.m365sitedisplayName_s),
+filePath_s=tostring(events.filePath_s),
+m365sitename_s=tostring(events.m365sitename_s),
+Agentidentifier_g=tostring(events.Agentidentifier_g),
+domainname_s=tostring(events.domainname_s),
+SourceSystem=tostring(events.SourceSystem),
+MG=toguid(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+Computer=tostring(events.Computer),
+RawData=tostring(events.RawData),
+Hostname_s=tostring(events.Hostname_s),
+agentType_s=tostring(events.agentType_s),
+Identifier_g=tostring(events.Identifier_g),
+Agentversion_s=tostring(events.Agentversion_s),
+type_s=tostring(events.type_s),
+foundTime_t=todatetime(events.foundTime_t),
+detectionMethod_s=tostring(events.detectionMethod_s),
+agentInformatonIdentifier_s=tostring(events.agentInformatonIdentifier_s),
+osVersion_s=tostring(events.osVersion_s),
+machineName_s=tostring(events.machineName_s),
+microsoftCultureId_s=tostring(events.microsoftCultureId_s),
+timeZoneId_s=tostring(events.timeZoneId_s),
+microsoftGeoId_s=tostring(events.microsoftGeoId_s),
+version_s=tostring(events.version_s),
+countOfAllNearByFiles_s=tostring(events.countOfAllNearByFiles_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Netclean_Incidents_CL policy update @'[{"Source": "Netclean_Incidents_CLRaw", "Query": "Netclean_Incidents_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

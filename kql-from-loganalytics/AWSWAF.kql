@@ -1,0 +1,103 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AWSWAF - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:23:55
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 34, Final columns: 34
+// ============================================================================
+
+.create-merge table AWSWAFRaw (records:dynamic)
+
+.alter-merge table AWSWAFRaw policy retention softdelete = 1d
+
+.alter table AWSWAFRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AWSWAFRaw ingestion json mapping 'AWSWAFRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AWSWAF(
+TimeGenerated:datetime,
+TenantId:guid,
+Uri:string,
+TerminatingRuleType:string,
+TerminatingRuleMatchDetails:dynamic,
+TerminatingRuleId:string,
+TerminatingRule:dynamic,
+RuleGroupList:dynamic,
+RuleGroupId:string,
+ResponseCodeSent:int,
+RequestId:string,
+RequestHeadersInserted:dynamic,
+RateBasedRuleList:dynamic,
+OversizeFields:dynamic,
+NonTerminatingMatchingRules:dynamic,
+Labels:dynamic,
+Ja3Fingerprint:string,
+HttpVersion:string,
+HttpSourceName:string,
+HttpSourceId:string,
+HttpRequest:dynamic,
+HttpMethod:string,
+Headers:dynamic,
+FormatVersion:string,
+ExcludedRules:dynamic,
+Country:string,
+ClientIp:string,
+ChallengeResponse:dynamic,
+CaptchaResponse:dynamic,
+Args:string,
+Action:string,
+WebAclId:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table AWSWAF policy caching hot = 1d
+
+.create-or-alter function AWSWAFExpand() {
+AWSWAFRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Uri=tostring(events.Uri),
+TerminatingRuleType=tostring(events.TerminatingRuleType),
+TerminatingRuleMatchDetails=todynamic(events.TerminatingRuleMatchDetails),
+TerminatingRuleId=tostring(events.TerminatingRuleId),
+TerminatingRule=todynamic(events.TerminatingRule),
+RuleGroupList=todynamic(events.RuleGroupList),
+RuleGroupId=tostring(events.RuleGroupId),
+ResponseCodeSent=toint(events.ResponseCodeSent),
+RequestId=tostring(events.RequestId),
+RequestHeadersInserted=todynamic(events.RequestHeadersInserted),
+RateBasedRuleList=todynamic(events.RateBasedRuleList),
+OversizeFields=todynamic(events.OversizeFields),
+NonTerminatingMatchingRules=todynamic(events.NonTerminatingMatchingRules),
+Labels=todynamic(events.Labels),
+Ja3Fingerprint=tostring(events.Ja3Fingerprint),
+HttpVersion=tostring(events.HttpVersion),
+HttpSourceName=tostring(events.HttpSourceName),
+HttpSourceId=tostring(events.HttpSourceId),
+HttpRequest=todynamic(events.HttpRequest),
+HttpMethod=tostring(events.HttpMethod),
+Headers=todynamic(events.Headers),
+FormatVersion=tostring(events.FormatVersion),
+ExcludedRules=todynamic(events.ExcludedRules),
+Country=tostring(events.Country),
+ClientIp=tostring(events.ClientIp),
+ChallengeResponse=todynamic(events.ChallengeResponse),
+CaptchaResponse=todynamic(events.CaptchaResponse),
+Args=tostring(events.Args),
+Action=tostring(events.Action),
+WebAclId=tostring(events.WebAclId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AWSWAF policy update @'[{"Source": "AWSWAFRaw", "Query": "AWSWAFExpand()", "IsEnabled": "True", "IsTransactional": true}]'

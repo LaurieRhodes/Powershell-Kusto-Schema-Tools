@@ -1,0 +1,124 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_conn_red_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:12
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_conn_red_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_conn_red_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_conn_red_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_conn_red_CLRaw ingestion json mapping 'Corelight_v2_conn_red_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_conn_red_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+suri_ids_s:string,
+spcap_url_s:string,
+spcap_rule_d:real,
+spcap_trigger_s:string,
+app_s:string,
+corelight_shunted_b:bool,
+orig_shunted_pkts_d:real,
+orig_shunted_bytes_d:real,
+resp_shunted_pkts_d:real,
+resp_shunted_bytes_d:real,
+orig_l2_addr_s:string,
+resp_l2_addr_s:string,
+id_orig_h_n_src_s:string,
+id_orig_h_n_vals_s:string,
+id_resp_h_n_src_s:string,
+id_resp_h_n_vals_s:string,
+vlan_d:real,
+resp_cc_s:string,
+orig_cc_s:string,
+tunnel_parents_s:string,
+resp_ip_bytes_d:real,
+uid_s:string,
+id_orig_h_s:string,
+id_orig_p_d:real,
+id_resp_h_s:string,
+id_resp_p_d:real,
+proto_s:string,
+service_s:string,
+duration_d:real,
+inner_vlan_d:real,
+orig_bytes_d:real,
+conn_state_s:string,
+local_orig_b:bool,
+local_resp_b:bool,
+missed_bytes_d:real,
+history_s:string,
+orig_pkts_d:real,
+orig_ip_bytes_d:real,
+resp_pkts_d:real,
+resp_bytes_d:real,
+community_id_s:string,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_conn_red_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_conn_red_CLExpand() {
+Corelight_v2_conn_red_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+suri_ids_s=tostring(events.suri_ids_s),
+spcap_url_s=tostring(events.spcap_url_s),
+spcap_rule_d=toreal(events.spcap_rule_d),
+spcap_trigger_s=tostring(events.spcap_trigger_s),
+app_s=tostring(events.app_s),
+corelight_shunted_b=tobool(events.corelight_shunted_b),
+orig_shunted_pkts_d=toreal(events.orig_shunted_pkts_d),
+orig_shunted_bytes_d=toreal(events.orig_shunted_bytes_d),
+resp_shunted_pkts_d=toreal(events.resp_shunted_pkts_d),
+resp_shunted_bytes_d=toreal(events.resp_shunted_bytes_d),
+orig_l2_addr_s=tostring(events.orig_l2_addr_s),
+resp_l2_addr_s=tostring(events.resp_l2_addr_s),
+id_orig_h_n_src_s=tostring(events.id_orig_h_n_src_s),
+id_orig_h_n_vals_s=tostring(events.id_orig_h_n_vals_s),
+id_resp_h_n_src_s=tostring(events.id_resp_h_n_src_s),
+id_resp_h_n_vals_s=tostring(events.id_resp_h_n_vals_s),
+vlan_d=toreal(events.vlan_d),
+resp_cc_s=tostring(events.resp_cc_s),
+orig_cc_s=tostring(events.orig_cc_s),
+tunnel_parents_s=tostring(events.tunnel_parents_s),
+resp_ip_bytes_d=toreal(events.resp_ip_bytes_d),
+uid_s=tostring(events.uid_s),
+id_orig_h_s=tostring(events.id_orig_h_s),
+id_orig_p_d=toreal(events.id_orig_p_d),
+id_resp_h_s=tostring(events.id_resp_h_s),
+id_resp_p_d=toreal(events.id_resp_p_d),
+proto_s=tostring(events.proto_s),
+service_s=tostring(events.service_s),
+duration_d=toreal(events.duration_d),
+inner_vlan_d=toreal(events.inner_vlan_d),
+orig_bytes_d=toreal(events.orig_bytes_d),
+conn_state_s=tostring(events.conn_state_s),
+local_orig_b=tobool(events.local_orig_b),
+local_resp_b=tobool(events.local_resp_b),
+missed_bytes_d=toreal(events.missed_bytes_d),
+history_s=tostring(events.history_s),
+orig_pkts_d=toreal(events.orig_pkts_d),
+orig_ip_bytes_d=toreal(events.orig_ip_bytes_d),
+resp_pkts_d=toreal(events.resp_pkts_d),
+resp_bytes_d=toreal(events.resp_bytes_d),
+community_id_s=tostring(events.community_id_s),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_conn_red_CL policy update @'[{"Source": "Corelight_v2_conn_red_CLRaw", "Query": "Corelight_v2_conn_red_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

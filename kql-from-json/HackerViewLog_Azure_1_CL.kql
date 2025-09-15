@@ -1,0 +1,100 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for HackerViewLog_Azure_1_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table HackerViewLog_Azure_1_CLRaw (records:dynamic)
+
+.alter-merge table HackerViewLog_Azure_1_CLRaw policy retention softdelete = 1d
+
+.alter table HackerViewLog_Azure_1_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table HackerViewLog_Azure_1_CLRaw ingestion json mapping 'HackerViewLog_Azure_1_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table HackerViewLog_Azure_1_CL(
+TimeGenerated:datetime,
+MG:string,
+progress_status_s:string,
+potential_impact_s:string,
+potential_attack_type_s:string,
+meta_ticket_id_s:string,
+meta_technologies_s:string,
+meta_resolved_ip_s:string,
+meta_last_seen_s:string,
+meta_ip_type_s:string,
+meta_ip_s:string,
+meta_hosts_s:string,
+meta_host_type_s:string,
+meta_host_s:string,
+meta_first_seen_s:string,
+meta_environments_s:string,
+meta_domain_s:string,
+meta_discovery_source_s:string,
+meta_business_unit_s:string,
+meta_brand_s:string,
+meta_asset_type_s:string,
+meta_asset_s:string,
+issue_type_s:string,
+issue_name_s:string,
+issue_category_s:string,
+hackerview_link_s:string,
+fixing_effort_s:string,
+detail_s:string,
+cwe_s:string,
+assigned_to_s:string,
+ManagementGroupName:string,
+severity_s:string,
+status_s:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table HackerViewLog_Azure_1_CL policy caching hot = 1d
+
+.create-or-alter function HackerViewLog_Azure_1_CLExpand() {
+HackerViewLog_Azure_1_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+MG=tostring(events.MG),
+progress_status_s=tostring(events.progress_status_s),
+potential_impact_s=tostring(events.potential_impact_s),
+potential_attack_type_s=tostring(events.potential_attack_type_s),
+meta_ticket_id_s=tostring(events.meta_ticket_id_s),
+meta_technologies_s=tostring(events.meta_technologies_s),
+meta_resolved_ip_s=tostring(events.meta_resolved_ip_s),
+meta_last_seen_s=tostring(events.meta_last_seen_s),
+meta_ip_type_s=tostring(events.meta_ip_type_s),
+meta_ip_s=tostring(events.meta_ip_s),
+meta_hosts_s=tostring(events.meta_hosts_s),
+meta_host_type_s=tostring(events.meta_host_type_s),
+meta_host_s=tostring(events.meta_host_s),
+meta_first_seen_s=tostring(events.meta_first_seen_s),
+meta_environments_s=tostring(events.meta_environments_s),
+meta_domain_s=tostring(events.meta_domain_s),
+meta_discovery_source_s=tostring(events.meta_discovery_source_s),
+meta_business_unit_s=tostring(events.meta_business_unit_s),
+meta_brand_s=tostring(events.meta_brand_s),
+meta_asset_type_s=tostring(events.meta_asset_type_s),
+meta_asset_s=tostring(events.meta_asset_s),
+issue_type_s=tostring(events.issue_type_s),
+issue_name_s=tostring(events.issue_name_s),
+issue_category_s=tostring(events.issue_category_s),
+hackerview_link_s=tostring(events.hackerview_link_s),
+fixing_effort_s=tostring(events.fixing_effort_s),
+detail_s=tostring(events.detail_s),
+cwe_s=tostring(events.cwe_s),
+assigned_to_s=tostring(events.assigned_to_s),
+ManagementGroupName=tostring(events.ManagementGroupName),
+severity_s=tostring(events.severity_s),
+status_s=tostring(events.status_s),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table HackerViewLog_Azure_1_CL policy update @'[{"Source": "HackerViewLog_Azure_1_CLRaw", "Query": "HackerViewLog_Azure_1_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

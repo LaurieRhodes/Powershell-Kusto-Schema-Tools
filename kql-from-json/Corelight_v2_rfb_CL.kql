@@ -1,0 +1,72 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_rfb_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:13
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_rfb_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_rfb_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_rfb_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_rfb_CLRaw ingestion json mapping 'Corelight_v2_rfb_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_rfb_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+uid_s:string,
+id_orig_h_s:string,
+id_orig_p_d:real,
+id_resp_h_s:string,
+id_resp_p_d:real,
+client_major_version_s:string,
+client_minor_version_s:string,
+server_major_version_s:string,
+server_minor_version_s:string,
+authentication_method_s:string,
+auth_b:bool,
+share_flag_b:bool,
+desktop_name_s:string,
+width_d:real,
+height_d:real,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_rfb_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_rfb_CLExpand() {
+Corelight_v2_rfb_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+uid_s=tostring(events.uid_s),
+id_orig_h_s=tostring(events.id_orig_h_s),
+id_orig_p_d=toreal(events.id_orig_p_d),
+id_resp_h_s=tostring(events.id_resp_h_s),
+id_resp_p_d=toreal(events.id_resp_p_d),
+client_major_version_s=tostring(events.client_major_version_s),
+client_minor_version_s=tostring(events.client_minor_version_s),
+server_major_version_s=tostring(events.server_major_version_s),
+server_minor_version_s=tostring(events.server_minor_version_s),
+authentication_method_s=tostring(events.authentication_method_s),
+auth_b=tobool(events.auth_b),
+share_flag_b=tobool(events.share_flag_b),
+desktop_name_s=tostring(events.desktop_name_s),
+width_d=toreal(events.width_d),
+height_d=toreal(events.height_d),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_rfb_CL policy update @'[{"Source": "Corelight_v2_rfb_CLRaw", "Query": "Corelight_v2_rfb_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,60 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for WebSession_Summarized_SrcIP_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table WebSession_Summarized_SrcIP_CLRaw (records:dynamic)
+
+.alter-merge table WebSession_Summarized_SrcIP_CLRaw policy retention softdelete = 1d
+
+.alter table WebSession_Summarized_SrcIP_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table WebSession_Summarized_SrcIP_CLRaw ingestion json mapping 'WebSession_Summarized_SrcIP_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table WebSession_Summarized_SrcIP_CL(
+TimeGenerated:datetime,
+EventTime_t:datetime,
+DstIPIsPrivate_b:bool,
+SrcUsername_s:string,
+SrcIpAddr_s:string,
+SrcHostname_s:string,
+DestDomain_s:string,
+EventResult_s:string,
+EventResultDetails_s:string,
+EventProduct_s:string,
+EventType_s:string,
+SrcBytes_d:int,
+DstBytes_d:int,
+EventCount_d:int,
+_TimeReceived:datetime)
+
+.alter table WebSession_Summarized_SrcIP_CL policy caching hot = 1d
+
+.create-or-alter function WebSession_Summarized_SrcIP_CLExpand() {
+WebSession_Summarized_SrcIP_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+EventTime_t=todatetime(events.EventTime_t),
+DstIPIsPrivate_b=tobool(events.DstIPIsPrivate_b),
+SrcUsername_s=tostring(events.SrcUsername_s),
+SrcIpAddr_s=tostring(events.SrcIpAddr_s),
+SrcHostname_s=tostring(events.SrcHostname_s),
+DestDomain_s=tostring(events.DestDomain_s),
+EventResult_s=tostring(events.EventResult_s),
+EventResultDetails_s=tostring(events.EventResultDetails_s),
+EventProduct_s=tostring(events.EventProduct_s),
+EventType_s=tostring(events.EventType_s),
+SrcBytes_d=toint(events.SrcBytes_d),
+DstBytes_d=toint(events.DstBytes_d),
+EventCount_d=toint(events.EventCount_d),
+_TimeReceived=todatetime(now())
+}
+
+.alter table WebSession_Summarized_SrcIP_CL policy update @'[{"Source": "WebSession_Summarized_SrcIP_CLRaw", "Query": "WebSession_Summarized_SrcIP_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

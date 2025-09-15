@@ -1,0 +1,113 @@
+﻿{
+  "Name": "GCPAuditLogs",
+  "Properties": [
+    {
+      "Name": "TenantId",
+      "Type": "guid"
+    },
+    {
+      "Name": "TimeGenerated",
+      "Type": "datetime"
+    },
+    {
+      "Name": "ServiceName",
+      "Type": "string"
+    },
+    {
+      "Name": "MethodName",
+      "Type": "string"
+    },
+    {
+      "Name": "GCPResourceName",
+      "Type": "string"
+    },
+    {
+      "Name": "NumResponseItems",
+      "Type": "string"
+    },
+    {
+      "Name": "Status",
+      "Type": "dynamic"
+    },
+    {
+      "Name": "AuthenticationInfo",
+      "Type": "dynamic"
+    },
+    {
+      "Name": "AuthorizationInfo",
+      "Type": "dynamic"
+    },
+    {
+      "Name": "RequestMetadata",
+      "Type": "dynamic"
+    },
+    {
+      "Name": "Request",
+      "Type": "dynamic"
+    },
+    {
+      "Name": "Response",
+      "Type": "dynamic"
+    },
+    {
+      "Name": "Metadata",
+      "Type": "dynamic"
+    },
+    {
+      "Name": "StatusMessage",
+      "Type": "string"
+    },
+    {
+      "Name": "PrincipalEmail",
+      "Type": "string"
+    },
+    {
+      "Name": "LogName",
+      "Type": "string"
+    },
+    {
+      "Name": "Timestamp",
+      "Type": "datetime"
+    },
+    {
+      "Name": "ProjectId",
+      "Type": "string"
+    },
+    {
+      "Name": "Severity",
+      "Type": "string"
+    },
+    {
+      "Name": "GCPResourceType",
+      "Type": "string"
+    },
+    {
+      "Name": "Subscription",
+      "Type": "string"
+    },
+    {
+      "Name": "ResourceLocation",
+      "Type": "dynamic"
+    },
+    {
+      "Name": "ResourceOriginalState",
+      "Type": "dynamic"
+    },
+    {
+      "Name": "ServiceData",
+      "Type": "dynamic"
+    },
+    {
+      "Name": "InsertId",
+      "Type": "string"
+    },
+    {
+      "Name": "SourceSystem",
+      "Type": "string"
+    },
+    {
+      "Name": "Type",
+      "Type": "string"
+    }
+  ]
+}

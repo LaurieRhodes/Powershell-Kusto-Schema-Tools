@@ -1,0 +1,118 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Tenable_VM_Assets_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Tenable_VM_Assets_CLRaw (records:dynamic)
+
+.alter-merge table Tenable_VM_Assets_CLRaw policy retention softdelete = 1d
+
+.alter table Tenable_VM_Assets_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Tenable_VM_Assets_CLRaw ingestion json mapping 'Tenable_VM_Assets_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Tenable_VM_Assets_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+fqdns_s:string,
+mac_addresses_s:string,
+netbios_names_s:string,
+operating_systems_s:string,
+system_types_s:string,
+hostnames_s:string,
+ssh_fingerprints_s:string,
+ipv6s_s:string,
+qualys_asset_ids_s:string,
+manufacturer_tpm_ids_s:string,
+symantec_ep_hardware_keys_s:string,
+sources_s:string,
+tags_s:string,
+network_interfaces_s:string,
+acr_score_s:string,
+exposure_score_s:string,
+qualys_host_ids_s:string,
+ipv4s_s:string,
+installed_software_s:string,
+agent_names_s:string,
+SourceSystem:string,
+MG:string,
+ManagementGroupName:string,
+Computer:string,
+RawData:string,
+id_g:string,
+has_agent_b:bool,
+has_plugin_results_b:bool,
+created_at_t:datetime,
+updated_at_t:datetime,
+first_seen_t:datetime,
+last_seen_t:datetime,
+first_scan_time_t:datetime,
+last_scan_time_s:string,
+last_licensed_scan_date_t:datetime,
+last_scan_id_s:string,
+last_schedule_id_s:string,
+azure_resource_id_s:string,
+azure_vm_id_g:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table Tenable_VM_Assets_CL policy caching hot = 1d
+
+.create-or-alter function Tenable_VM_Assets_CLExpand() {
+Tenable_VM_Assets_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+fqdns_s=tostring(events.fqdns_s),
+mac_addresses_s=tostring(events.mac_addresses_s),
+netbios_names_s=tostring(events.netbios_names_s),
+operating_systems_s=tostring(events.operating_systems_s),
+system_types_s=tostring(events.system_types_s),
+hostnames_s=tostring(events.hostnames_s),
+ssh_fingerprints_s=tostring(events.ssh_fingerprints_s),
+ipv6s_s=tostring(events.ipv6s_s),
+qualys_asset_ids_s=tostring(events.qualys_asset_ids_s),
+manufacturer_tpm_ids_s=tostring(events.manufacturer_tpm_ids_s),
+symantec_ep_hardware_keys_s=tostring(events.symantec_ep_hardware_keys_s),
+sources_s=tostring(events.sources_s),
+tags_s=tostring(events.tags_s),
+network_interfaces_s=tostring(events.network_interfaces_s),
+acr_score_s=tostring(events.acr_score_s),
+exposure_score_s=tostring(events.exposure_score_s),
+qualys_host_ids_s=tostring(events.qualys_host_ids_s),
+ipv4s_s=tostring(events.ipv4s_s),
+installed_software_s=tostring(events.installed_software_s),
+agent_names_s=tostring(events.agent_names_s),
+SourceSystem=tostring(events.SourceSystem),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+Computer=tostring(events.Computer),
+RawData=tostring(events.RawData),
+id_g=tostring(events.id_g),
+has_agent_b=tobool(events.has_agent_b),
+has_plugin_results_b=tobool(events.has_plugin_results_b),
+created_at_t=todatetime(events.created_at_t),
+updated_at_t=todatetime(events.updated_at_t),
+first_seen_t=todatetime(events.first_seen_t),
+last_seen_t=todatetime(events.last_seen_t),
+first_scan_time_t=todatetime(events.first_scan_time_t),
+last_scan_time_s=tostring(events.last_scan_time_s),
+last_licensed_scan_date_t=todatetime(events.last_licensed_scan_date_t),
+last_scan_id_s=tostring(events.last_scan_id_s),
+last_schedule_id_s=tostring(events.last_schedule_id_s),
+azure_resource_id_s=tostring(events.azure_resource_id_s),
+azure_vm_id_g=tostring(events.azure_vm_id_g),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Tenable_VM_Assets_CL policy update @'[{"Source": "Tenable_VM_Assets_CLRaw", "Query": "Tenable_VM_Assets_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

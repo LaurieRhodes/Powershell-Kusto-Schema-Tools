@@ -1,0 +1,112 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for TaniumDiscoverUnmanagedAssets_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table TaniumDiscoverUnmanagedAssets_CLRaw (records:dynamic)
+
+.alter-merge table TaniumDiscoverUnmanagedAssets_CLRaw policy retention softdelete = 1d
+
+.alter table TaniumDiscoverUnmanagedAssets_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table TaniumDiscoverUnmanagedAssets_CLRaw ingestion json mapping 'TaniumDiscoverUnmanagedAssets_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table TaniumDiscoverUnmanagedAssets_CL(
+TimeGenerated:datetime,
+Arp_d:real,
+NatIpAddress_s:string,
+Nmap_d:real,
+OsGeneration_d:real,
+OsGeneration_s:string,
+Os_s:string,
+OwnerId_s:string,
+Ping_d:real,
+Ports_s:string,
+Profile_s:string,
+Provider_s:string,
+RawData:string,
+SatelliteNmap_d:real,
+TaniumComputerId_d:real,
+Unmanageable_d:real,
+UpdatedAt_s:string,
+Managed_d:real,
+MacOrganization_s:string,
+MacAddress_s:string,
+Locations_s:string,
+AwsApi_d:real,
+CentralizedNmap_d:real,
+CloudTags_s:string,
+Computer:string,
+Connected_d:real,
+CreatedAt_s:string,
+HostName_s:string,
+VirtualNetworkId_s:string,
+id_d:real,
+InstanceId_s:string,
+InstanceState_s:string,
+InstanceType_s:string,
+IPAddress:string,
+Labels_s:string,
+LastDiscoveredAt_s:string,
+LaunchTime_s:string,
+ImageId_s:string,
+Zone_s:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table TaniumDiscoverUnmanagedAssets_CL policy caching hot = 1d
+
+.create-or-alter function TaniumDiscoverUnmanagedAssets_CLExpand() {
+TaniumDiscoverUnmanagedAssets_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+Arp_d=toreal(events.Arp_d),
+NatIpAddress_s=tostring(events.NatIpAddress_s),
+Nmap_d=toreal(events.Nmap_d),
+OsGeneration_d=toreal(events.OsGeneration_d),
+OsGeneration_s=tostring(events.OsGeneration_s),
+Os_s=tostring(events.Os_s),
+OwnerId_s=tostring(events.OwnerId_s),
+Ping_d=toreal(events.Ping_d),
+Ports_s=tostring(events.Ports_s),
+Profile_s=tostring(events.Profile_s),
+Provider_s=tostring(events.Provider_s),
+RawData=tostring(events.RawData),
+SatelliteNmap_d=toreal(events.SatelliteNmap_d),
+TaniumComputerId_d=toreal(events.TaniumComputerId_d),
+Unmanageable_d=toreal(events.Unmanageable_d),
+UpdatedAt_s=tostring(events.UpdatedAt_s),
+Managed_d=toreal(events.Managed_d),
+MacOrganization_s=tostring(events.MacOrganization_s),
+MacAddress_s=tostring(events.MacAddress_s),
+Locations_s=tostring(events.Locations_s),
+AwsApi_d=toreal(events.AwsApi_d),
+CentralizedNmap_d=toreal(events.CentralizedNmap_d),
+CloudTags_s=tostring(events.CloudTags_s),
+Computer=tostring(events.Computer),
+Connected_d=toreal(events.Connected_d),
+CreatedAt_s=tostring(events.CreatedAt_s),
+HostName_s=tostring(events.HostName_s),
+VirtualNetworkId_s=tostring(events.VirtualNetworkId_s),
+id_d=toreal(events.id_d),
+InstanceId_s=tostring(events.InstanceId_s),
+InstanceState_s=tostring(events.InstanceState_s),
+InstanceType_s=tostring(events.InstanceType_s),
+IPAddress=tostring(events.IPAddress),
+Labels_s=tostring(events.Labels_s),
+LastDiscoveredAt_s=tostring(events.LastDiscoveredAt_s),
+LaunchTime_s=tostring(events.LaunchTime_s),
+ImageId_s=tostring(events.ImageId_s),
+Zone_s=tostring(events.Zone_s),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table TaniumDiscoverUnmanagedAssets_CL policy update @'[{"Source": "TaniumDiscoverUnmanagedAssets_CLRaw", "Query": "TaniumDiscoverUnmanagedAssets_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

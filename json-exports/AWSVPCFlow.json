@@ -1,0 +1,177 @@
+﻿{
+  "Name": "AWSVPCFlow",
+  "Properties": [
+    {
+      "Name": "TenantId",
+      "Type": "guid"
+    },
+    {
+      "Name": "TimeGenerated",
+      "Type": "datetime"
+    },
+    {
+      "Name": "Version",
+      "Type": "int"
+    },
+    {
+      "Name": "AccountId",
+      "Type": "string"
+    },
+    {
+      "Name": "InterfaceId",
+      "Type": "string"
+    },
+    {
+      "Name": "SrcAddr",
+      "Type": "string"
+    },
+    {
+      "Name": "DstAddr",
+      "Type": "string"
+    },
+    {
+      "Name": "SrcPort",
+      "Type": "int"
+    },
+    {
+      "Name": "DstPort",
+      "Type": "int"
+    },
+    {
+      "Name": "Protocol",
+      "Type": "int"
+    },
+    {
+      "Name": "Packets",
+      "Type": "int"
+    },
+    {
+      "Name": "Bytes",
+      "Type": "long"
+    },
+    {
+      "Name": "End",
+      "Type": "datetime"
+    },
+    {
+      "Name": "Action",
+      "Type": "string"
+    },
+    {
+      "Name": "LogStatus",
+      "Type": "string"
+    },
+    {
+      "Name": "VpcId",
+      "Type": "string"
+    },
+    {
+      "Name": "SubnetId",
+      "Type": "string"
+    },
+    {
+      "Name": "InstanceId",
+      "Type": "string"
+    },
+    {
+      "Name": "TcpFlags",
+      "Type": "int"
+    },
+    {
+      "Name": "TrafficType",
+      "Type": "string"
+    },
+    {
+      "Name": "PktSrcAddr",
+      "Type": "string"
+    },
+    {
+      "Name": "PktDstAddr",
+      "Type": "string"
+    },
+    {
+      "Name": "Region",
+      "Type": "string"
+    },
+    {
+      "Name": "AzId",
+      "Type": "string"
+    },
+    {
+      "Name": "SublocationType",
+      "Type": "string"
+    },
+    {
+      "Name": "SublocationId",
+      "Type": "string"
+    },
+    {
+      "Name": "PktSrcAwsService",
+      "Type": "string"
+    },
+    {
+      "Name": "PktDstAwsService",
+      "Type": "string"
+    },
+    {
+      "Name": "FlowDirection",
+      "Type": "string"
+    },
+    {
+      "Name": "TrafficPath",
+      "Type": "string"
+    },
+    {
+      "Name": "Start",
+      "Type": "datetime"
+    },
+    {
+      "Name": "EcsClusterArn",
+      "Type": "string"
+    },
+    {
+      "Name": "EcsClusterName",
+      "Type": "string"
+    },
+    {
+      "Name": "EcsContainerInstanceArn",
+      "Type": "string"
+    },
+    {
+      "Name": "EcsContainerInstanceId",
+      "Type": "string"
+    },
+    {
+      "Name": "EcsContainerId",
+      "Type": "string"
+    },
+    {
+      "Name": "EcsSecondContainerId",
+      "Type": "string"
+    },
+    {
+      "Name": "EcsServiceName",
+      "Type": "string"
+    },
+    {
+      "Name": "EcsTaskDefinitionArn",
+      "Type": "string"
+    },
+    {
+      "Name": "EcsTaskArn",
+      "Type": "string"
+    },
+    {
+      "Name": "EcsTaskId",
+      "Type": "string"
+    },
+    {
+      "Name": "SourceSystem",
+      "Type": "string"
+    },
+    {
+      "Name": "Type",
+      "Type": "string"
+    }
+  ]
+}

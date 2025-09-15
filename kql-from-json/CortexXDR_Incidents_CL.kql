@@ -1,0 +1,118 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for CortexXDR_Incidents_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table CortexXDR_Incidents_CLRaw (records:dynamic)
+
+.alter-merge table CortexXDR_Incidents_CLRaw policy retention softdelete = 1d
+
+.alter table CortexXDR_Incidents_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table CortexXDR_Incidents_CLRaw ingestion json mapping 'CortexXDR_Incidents_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table CortexXDR_Incidents_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+severity_s:string,
+description_s:string,
+alert_count_d:real,
+low_severity_alert_count_d:real,
+med_severity_alert_count_d:real,
+high_severity_alert_count_d:real,
+user_count_d:real,
+status_s:string,
+host_count_d:real,
+starred_b:bool,
+hosts_s:string,
+users_s:string,
+incident_sources_s:string,
+wildfire_hits_d:real,
+alerts_grouping_status_s:string,
+mitre_tactics_ids_and_names_s:string,
+xdr_url_s:string,
+modification_time_d:real,
+creation_time_d:real,
+incident_id_s:string,
+SourceSystem:string,
+MG:string,
+ManagementGroupName:string,
+Computer:string,
+RawData:string,
+aggregated_score_d:real,
+original_tags_s:string,
+manual_description_s:string,
+predicted_score_d:real,
+tags_s:string,
+manual_severity_s:string,
+critical_severity_alert_count_d:real,
+assigned_user_mail_s:string,
+assigned_user_pretty_name_s:string,
+notes_s:string,
+resolve_comment_s:string,
+resolved_timestamp_d:real,
+mitre_techniques_ids_and_names_s:string,
+alert_categories_s:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table CortexXDR_Incidents_CL policy caching hot = 1d
+
+.create-or-alter function CortexXDR_Incidents_CLExpand() {
+CortexXDR_Incidents_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+severity_s=tostring(events.severity_s),
+description_s=tostring(events.description_s),
+alert_count_d=toreal(events.alert_count_d),
+low_severity_alert_count_d=toreal(events.low_severity_alert_count_d),
+med_severity_alert_count_d=toreal(events.med_severity_alert_count_d),
+high_severity_alert_count_d=toreal(events.high_severity_alert_count_d),
+user_count_d=toreal(events.user_count_d),
+status_s=tostring(events.status_s),
+host_count_d=toreal(events.host_count_d),
+starred_b=tobool(events.starred_b),
+hosts_s=tostring(events.hosts_s),
+users_s=tostring(events.users_s),
+incident_sources_s=tostring(events.incident_sources_s),
+wildfire_hits_d=toreal(events.wildfire_hits_d),
+alerts_grouping_status_s=tostring(events.alerts_grouping_status_s),
+mitre_tactics_ids_and_names_s=tostring(events.mitre_tactics_ids_and_names_s),
+xdr_url_s=tostring(events.xdr_url_s),
+modification_time_d=toreal(events.modification_time_d),
+creation_time_d=toreal(events.creation_time_d),
+incident_id_s=tostring(events.incident_id_s),
+SourceSystem=tostring(events.SourceSystem),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+Computer=tostring(events.Computer),
+RawData=tostring(events.RawData),
+aggregated_score_d=toreal(events.aggregated_score_d),
+original_tags_s=tostring(events.original_tags_s),
+manual_description_s=tostring(events.manual_description_s),
+predicted_score_d=toreal(events.predicted_score_d),
+tags_s=tostring(events.tags_s),
+manual_severity_s=tostring(events.manual_severity_s),
+critical_severity_alert_count_d=toreal(events.critical_severity_alert_count_d),
+assigned_user_mail_s=tostring(events.assigned_user_mail_s),
+assigned_user_pretty_name_s=tostring(events.assigned_user_pretty_name_s),
+notes_s=tostring(events.notes_s),
+resolve_comment_s=tostring(events.resolve_comment_s),
+resolved_timestamp_d=toreal(events.resolved_timestamp_d),
+mitre_techniques_ids_and_names_s=tostring(events.mitre_techniques_ids_and_names_s),
+alert_categories_s=tostring(events.alert_categories_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table CortexXDR_Incidents_CL policy update @'[{"Source": "CortexXDR_Incidents_CLRaw", "Query": "CortexXDR_Incidents_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

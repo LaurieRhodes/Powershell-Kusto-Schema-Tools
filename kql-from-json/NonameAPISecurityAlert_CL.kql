@@ -1,0 +1,66 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for NonameAPISecurityAlert_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table NonameAPISecurityAlert_CLRaw (records:dynamic)
+
+.alter-merge table NonameAPISecurityAlert_CLRaw policy retention softdelete = 1d
+
+.alter table NonameAPISecurityAlert_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table NonameAPISecurityAlert_CLRaw ingestion json mapping 'NonameAPISecurityAlert_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table NonameAPISecurityAlert_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+SourceSystem:string,
+MG:string,
+ManagementGroupName:string,
+Computer:string,
+RawData:string,
+data_host_s:string,
+data_id_s:string,
+data_method_s:string,
+data_path_s:string,
+data_self_s:string,
+data_ts_t:datetime,
+data_type_s:string,
+type_s:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table NonameAPISecurityAlert_CL policy caching hot = 1d
+
+.create-or-alter function NonameAPISecurityAlert_CLExpand() {
+NonameAPISecurityAlert_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SourceSystem=tostring(events.SourceSystem),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+Computer=tostring(events.Computer),
+RawData=tostring(events.RawData),
+data_host_s=tostring(events.data_host_s),
+data_id_s=tostring(events.data_id_s),
+data_method_s=tostring(events.data_method_s),
+data_path_s=tostring(events.data_path_s),
+data_self_s=tostring(events.data_self_s),
+data_ts_t=todatetime(events.data_ts_t),
+data_type_s=tostring(events.data_type_s),
+type_s=tostring(events.type_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table NonameAPISecurityAlert_CL policy update @'[{"Source": "NonameAPISecurityAlert_CLRaw", "Query": "NonameAPISecurityAlert_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

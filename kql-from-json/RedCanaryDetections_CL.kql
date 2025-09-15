@@ -1,0 +1,78 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for RedCanaryDetections_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table RedCanaryDetections_CLRaw (records:dynamic)
+
+.alter-merge table RedCanaryDetections_CLRaw policy retention softdelete = 1d
+
+.alter table RedCanaryDetections_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table RedCanaryDetections_CLRaw ingestion json mapping 'RedCanaryDetections_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table RedCanaryDetections_CL(
+TimeGenerated:datetime,
+child_process_iocs_s:string,
+RawData:string,
+process_iocs_s:string,
+network_connection_iocs_s:string,
+identities_s:string,
+host_os_version_s:string,
+host_os_family_s:string,
+host_name_s:string,
+registry_modification_iocs_s:string,
+host_full_name_s:string,
+detection_url_s:string,
+detection_severity_s:string,
+detection_id_s:string,
+detection_headline_s:string,
+detection_details_s:string,
+cross_process_iocs_s:string,
+Computer:string,
+file_modification_iocs_s:string,
+tactics_s:string,
+Type:string,
+_ResourceId:string,
+_SubscriptionId:string,
+_TimeReceived:datetime)
+
+.alter table RedCanaryDetections_CL policy caching hot = 1d
+
+.create-or-alter function RedCanaryDetections_CLExpand() {
+RedCanaryDetections_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+child_process_iocs_s=tostring(events.child_process_iocs_s),
+RawData=tostring(events.RawData),
+process_iocs_s=tostring(events.process_iocs_s),
+network_connection_iocs_s=tostring(events.network_connection_iocs_s),
+identities_s=tostring(events.identities_s),
+host_os_version_s=tostring(events.host_os_version_s),
+host_os_family_s=tostring(events.host_os_family_s),
+host_name_s=tostring(events.host_name_s),
+registry_modification_iocs_s=tostring(events.registry_modification_iocs_s),
+host_full_name_s=tostring(events.host_full_name_s),
+detection_url_s=tostring(events.detection_url_s),
+detection_severity_s=tostring(events.detection_severity_s),
+detection_id_s=tostring(events.detection_id_s),
+detection_headline_s=tostring(events.detection_headline_s),
+detection_details_s=tostring(events.detection_details_s),
+cross_process_iocs_s=tostring(events.cross_process_iocs_s),
+Computer=tostring(events.Computer),
+file_modification_iocs_s=tostring(events.file_modification_iocs_s),
+tactics_s=tostring(events.tactics_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_SubscriptionId=tostring(events._SubscriptionId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table RedCanaryDetections_CL policy update @'[{"Source": "RedCanaryDetections_CLRaw", "Query": "RedCanaryDetections_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

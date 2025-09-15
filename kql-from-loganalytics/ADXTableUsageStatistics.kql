@@ -1,0 +1,67 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ADXTableUsageStatistics - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:20:20
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 16, Final columns: 16
+// ============================================================================
+
+.create-merge table ADXTableUsageStatisticsRaw (records:dynamic)
+
+.alter-merge table ADXTableUsageStatisticsRaw policy retention softdelete = 1d
+
+.alter table ADXTableUsageStatisticsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ADXTableUsageStatisticsRaw ingestion json mapping 'ADXTableUsageStatisticsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ADXTableUsageStatistics(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+CorrelationId:string,
+RootActivityId:string,
+StartedOn:datetime,
+DatabaseName:string,
+TableName:string,
+MinCreatedOn:datetime,
+MaxCreatedOn:datetime,
+ApplicationName:string,
+User:string,
+Principal:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ADXTableUsageStatistics policy caching hot = 1d
+
+.create-or-alter function ADXTableUsageStatisticsExpand() {
+ADXTableUsageStatisticsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+CorrelationId=tostring(events.CorrelationId),
+RootActivityId=tostring(events.RootActivityId),
+StartedOn=todatetime(events.StartedOn),
+DatabaseName=tostring(events.DatabaseName),
+TableName=tostring(events.TableName),
+MinCreatedOn=todatetime(events.MinCreatedOn),
+MaxCreatedOn=todatetime(events.MaxCreatedOn),
+ApplicationName=tostring(events.ApplicationName),
+User=tostring(events.User),
+Principal=tostring(events.Principal),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ADXTableUsageStatistics policy update @'[{"Source": "ADXTableUsageStatisticsRaw", "Query": "ADXTableUsageStatisticsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

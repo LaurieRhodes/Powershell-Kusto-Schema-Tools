@@ -1,0 +1,59 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for MCVPOperationLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:16:34
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 12, Final columns: 12
+// ============================================================================
+
+.create-merge table MCVPOperationLogsRaw (records:dynamic)
+
+.alter-merge table MCVPOperationLogsRaw policy retention softdelete = 1d
+
+.alter table MCVPOperationLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table MCVPOperationLogsRaw ingestion json mapping 'MCVPOperationLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table MCVPOperationLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+VehicleId:string,
+DeviceName:string,
+Message:string,
+TraceId:string,
+SpanId:string,
+SeverityText:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table MCVPOperationLogs policy caching hot = 1d
+
+.create-or-alter function MCVPOperationLogsExpand() {
+MCVPOperationLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+VehicleId=tostring(events.VehicleId),
+DeviceName=tostring(events.DeviceName),
+Message=tostring(events.Message),
+TraceId=tostring(events.TraceId),
+SpanId=tostring(events.SpanId),
+SeverityText=tostring(events.SeverityText),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table MCVPOperationLogs policy update @'[{"Source": "MCVPOperationLogsRaw", "Query": "MCVPOperationLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,52 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ProofPointTAPClicksPermitted_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table ProofPointTAPClicksPermitted_CLRaw (records:dynamic)
+
+.alter-merge table ProofPointTAPClicksPermitted_CLRaw policy retention softdelete = 1d
+
+.alter table ProofPointTAPClicksPermitted_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ProofPointTAPClicksPermitted_CLRaw ingestion json mapping 'ProofPointTAPClicksPermitted_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ProofPointTAPClicksPermitted_CL(
+TimeGenerated:datetime,
+threatsInfoMap_s:string,
+messageParts_s:string,
+sender_s:string,
+senderIP_s:string,
+recipient_s:string,
+subject_s:string,
+clickTime_t:datetime,
+url_s:string,
+classification_s:string,
+_TimeReceived:datetime)
+
+.alter table ProofPointTAPClicksPermitted_CL policy caching hot = 1d
+
+.create-or-alter function ProofPointTAPClicksPermitted_CLExpand() {
+ProofPointTAPClicksPermitted_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+threatsInfoMap_s=tostring(events.threatsInfoMap_s),
+messageParts_s=tostring(events.messageParts_s),
+sender_s=tostring(events.sender_s),
+senderIP_s=tostring(events.senderIP_s),
+recipient_s=tostring(events.recipient_s),
+subject_s=tostring(events.subject_s),
+clickTime_t=todatetime(events.clickTime_t),
+url_s=tostring(events.url_s),
+classification_s=tostring(events.classification_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ProofPointTAPClicksPermitted_CL policy update @'[{"Source": "ProofPointTAPClicksPermitted_CLRaw", "Query": "ProofPointTAPClicksPermitted_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

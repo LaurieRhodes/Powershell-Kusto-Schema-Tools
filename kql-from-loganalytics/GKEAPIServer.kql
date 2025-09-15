@@ -1,0 +1,101 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for GKEAPIServer - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:14:49
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 33, Final columns: 33
+// ============================================================================
+
+.create-merge table GKEAPIServerRaw (records:dynamic)
+
+.alter-merge table GKEAPIServerRaw policy retention softdelete = 1d
+
+.alter table GKEAPIServerRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table GKEAPIServerRaw ingestion json mapping 'GKEAPIServerRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table GKEAPIServer(
+TimeGenerated:datetime,
+TenantId:guid,
+ApfAdditionalLatency:string,
+ApfFSeats:int,
+ApfISeats:int,
+ApfFs:string,
+ApfPl:string,
+ResponseCode:int,
+Labels:dynamic,
+Message:string,
+SrcIP:string,
+AuditID:string,
+UserAgent:string,
+Latency:string,
+URI:string,
+ApfExecutionTime:string,
+HttpVerb:string,
+ComputeResourceName:string,
+ProjectID:string,
+Location:string,
+ComponentName:string,
+ComponentLocation:string,
+ClusterName:string,
+ReceiveTimestamp:datetime,
+SourceLine:string,
+SourceFile:string,
+Severity:string,
+Pid:string,
+LogName:string,
+InsertId:string,
+Protocol:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table GKEAPIServer policy caching hot = 1d
+
+.create-or-alter function GKEAPIServerExpand() {
+GKEAPIServerRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ApfAdditionalLatency=tostring(events.ApfAdditionalLatency),
+ApfFSeats=toint(events.ApfFSeats),
+ApfISeats=toint(events.ApfISeats),
+ApfFs=tostring(events.ApfFs),
+ApfPl=tostring(events.ApfPl),
+ResponseCode=toint(events.ResponseCode),
+Labels=todynamic(events.Labels),
+Message=tostring(events.Message),
+SrcIP=tostring(events.SrcIP),
+AuditID=tostring(events.AuditID),
+UserAgent=tostring(events.UserAgent),
+Latency=tostring(events.Latency),
+URI=tostring(events.URI),
+ApfExecutionTime=tostring(events.ApfExecutionTime),
+HttpVerb=tostring(events.HttpVerb),
+ComputeResourceName=tostring(events.ComputeResourceName),
+ProjectID=tostring(events.ProjectID),
+Location=tostring(events.Location),
+ComponentName=tostring(events.ComponentName),
+ComponentLocation=tostring(events.ComponentLocation),
+ClusterName=tostring(events.ClusterName),
+ReceiveTimestamp=todatetime(events.ReceiveTimestamp),
+SourceLine=tostring(events.SourceLine),
+SourceFile=tostring(events.SourceFile),
+Severity=tostring(events.Severity),
+Pid=tostring(events.Pid),
+LogName=tostring(events.LogName),
+InsertId=tostring(events.InsertId),
+Protocol=tostring(events.Protocol),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table GKEAPIServer policy update @'[{"Source": "GKEAPIServerRaw", "Query": "GKEAPIServerExpand()", "IsEnabled": "True", "IsTransactional": true}]'

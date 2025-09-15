@@ -1,0 +1,78 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_smb_files_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:13
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_smb_files_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_smb_files_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_smb_files_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_smb_files_CLRaw ingestion json mapping 'Corelight_v2_smb_files_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_smb_files_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+data_offset_req_d:real,
+times_changed_t:datetime,
+times_created_t:datetime,
+times_accessed_t:datetime,
+times_modified_t:datetime,
+prev_name_s:string,
+size_d:real,
+data_len_req_d:real,
+name_s:string,
+action_s:string,
+fuid_s:string,
+id_resp_p_d:real,
+id_resp_h_s:string,
+id_orig_p_d:real,
+id_orig_h_s:string,
+uid_s:string,
+path_s:string,
+data_len_rsp_d:real,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_smb_files_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_smb_files_CLExpand() {
+Corelight_v2_smb_files_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+data_offset_req_d=toreal(events.data_offset_req_d),
+times_changed_t=todatetime(events.times_changed_t),
+times_created_t=todatetime(events.times_created_t),
+times_accessed_t=todatetime(events.times_accessed_t),
+times_modified_t=todatetime(events.times_modified_t),
+prev_name_s=tostring(events.prev_name_s),
+size_d=toreal(events.size_d),
+data_len_req_d=toreal(events.data_len_req_d),
+name_s=tostring(events.name_s),
+action_s=tostring(events.action_s),
+fuid_s=tostring(events.fuid_s),
+id_resp_p_d=toreal(events.id_resp_p_d),
+id_resp_h_s=tostring(events.id_resp_h_s),
+id_orig_p_d=toreal(events.id_orig_p_d),
+id_orig_h_s=tostring(events.id_orig_h_s),
+uid_s=tostring(events.uid_s),
+path_s=tostring(events.path_s),
+data_len_rsp_d=toreal(events.data_len_rsp_d),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_smb_files_CL policy update @'[{"Source": "Corelight_v2_smb_files_CLRaw", "Query": "Corelight_v2_smb_files_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

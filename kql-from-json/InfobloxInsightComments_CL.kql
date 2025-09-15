@@ -1,0 +1,62 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for InfobloxInsightComments_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table InfobloxInsightComments_CLRaw (records:dynamic)
+
+.alter-merge table InfobloxInsightComments_CLRaw policy retention softdelete = 1d
+
+.alter table InfobloxInsightComments_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table InfobloxInsightComments_CLRaw ingestion json mapping 'InfobloxInsightComments_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table InfobloxInsightComments_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+SourceSystem:string,
+MG:string,
+ManagementGroupName:string,
+Computer:string,
+RawData:string,
+commentsChanger_s:string,
+newComment_s:string,
+dateChanged_t:datetime,
+status_s:string,
+InfobloxInsightID_g:string,
+InfobloxInsightLogType_s:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table InfobloxInsightComments_CL policy caching hot = 1d
+
+.create-or-alter function InfobloxInsightComments_CLExpand() {
+InfobloxInsightComments_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SourceSystem=tostring(events.SourceSystem),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+Computer=tostring(events.Computer),
+RawData=tostring(events.RawData),
+commentsChanger_s=tostring(events.commentsChanger_s),
+newComment_s=tostring(events.newComment_s),
+dateChanged_t=todatetime(events.dateChanged_t),
+status_s=tostring(events.status_s),
+InfobloxInsightID_g=tostring(events.InfobloxInsightID_g),
+InfobloxInsightLogType_s=tostring(events.InfobloxInsightLogType_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table InfobloxInsightComments_CL policy update @'[{"Source": "InfobloxInsightComments_CLRaw", "Query": "InfobloxInsightComments_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

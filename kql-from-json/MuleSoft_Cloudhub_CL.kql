@@ -1,0 +1,98 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for MuleSoft_Cloudhub_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table MuleSoft_Cloudhub_CLRaw (records:dynamic)
+
+.alter-merge table MuleSoft_Cloudhub_CLRaw policy retention softdelete = 1d
+
+.alter table MuleSoft_Cloudhub_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table MuleSoft_Cloudhub_CLRaw ingestion json mapping 'MuleSoft_Cloudhub_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table MuleSoft_Cloudhub_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+event_timestamp_d:real,
+event_threadName_s:string,
+event_loggerName_s:string,
+line_d:real,
+instanceId_s:string,
+deploymentId_s:string,
+recordId_s:string,
+event_type_s:string,
+createdAt_d:real,
+isSystem_b:bool,
+lastModified_d:real,
+enabled_b:bool,
+actions_s:string,
+productName_s:string,
+id_g:string,
+environmentId_g:string,
+organizationId_g:string,
+condition_resourceType_s:string,
+condition_resources_s:string,
+condition_type_s:string,
+severity_s:string,
+name_s:string,
+RawData:string,
+Computer:string,
+ManagementGroupName:string,
+MG:string,
+SourceSystem:string,
+event_message_s:string,
+event_priority_s:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table MuleSoft_Cloudhub_CL policy caching hot = 1d
+
+.create-or-alter function MuleSoft_Cloudhub_CLExpand() {
+MuleSoft_Cloudhub_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+event_timestamp_d=toreal(events.event_timestamp_d),
+event_threadName_s=tostring(events.event_threadName_s),
+event_loggerName_s=tostring(events.event_loggerName_s),
+line_d=toreal(events.line_d),
+instanceId_s=tostring(events.instanceId_s),
+deploymentId_s=tostring(events.deploymentId_s),
+recordId_s=tostring(events.recordId_s),
+event_type_s=tostring(events.event_type_s),
+createdAt_d=toreal(events.createdAt_d),
+isSystem_b=tobool(events.isSystem_b),
+lastModified_d=toreal(events.lastModified_d),
+enabled_b=tobool(events.enabled_b),
+actions_s=tostring(events.actions_s),
+productName_s=tostring(events.productName_s),
+id_g=tostring(events.id_g),
+environmentId_g=tostring(events.environmentId_g),
+organizationId_g=tostring(events.organizationId_g),
+condition_resourceType_s=tostring(events.condition_resourceType_s),
+condition_resources_s=tostring(events.condition_resources_s),
+condition_type_s=tostring(events.condition_type_s),
+severity_s=tostring(events.severity_s),
+name_s=tostring(events.name_s),
+RawData=tostring(events.RawData),
+Computer=tostring(events.Computer),
+ManagementGroupName=tostring(events.ManagementGroupName),
+MG=tostring(events.MG),
+SourceSystem=tostring(events.SourceSystem),
+event_message_s=tostring(events.event_message_s),
+event_priority_s=tostring(events.event_priority_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table MuleSoft_Cloudhub_CL policy update @'[{"Source": "MuleSoft_Cloudhub_CLRaw", "Query": "MuleSoft_Cloudhub_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

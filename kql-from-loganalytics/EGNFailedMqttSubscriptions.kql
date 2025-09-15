@@ -1,0 +1,53 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for EGNFailedMqttSubscriptions - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:13:46
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 9, Final columns: 9
+// ============================================================================
+
+.create-merge table EGNFailedMqttSubscriptionsRaw (records:dynamic)
+
+.alter-merge table EGNFailedMqttSubscriptionsRaw policy retention softdelete = 1d
+
+.alter table EGNFailedMqttSubscriptionsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table EGNFailedMqttSubscriptionsRaw ingestion json mapping 'EGNFailedMqttSubscriptionsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table EGNFailedMqttSubscriptions(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+ResultSignature:string,
+ResultDescription:string,
+TopicFilters:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table EGNFailedMqttSubscriptions policy caching hot = 1d
+
+.create-or-alter function EGNFailedMqttSubscriptionsExpand() {
+EGNFailedMqttSubscriptionsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+ResultSignature=tostring(events.ResultSignature),
+ResultDescription=tostring(events.ResultDescription),
+TopicFilters=tostring(events.TopicFilters),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table EGNFailedMqttSubscriptions policy update @'[{"Source": "EGNFailedMqttSubscriptionsRaw", "Query": "EGNFailedMqttSubscriptionsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

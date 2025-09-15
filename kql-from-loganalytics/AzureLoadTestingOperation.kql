@@ -1,0 +1,79 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AzureLoadTestingOperation - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:24:41
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 22, Final columns: 22
+// ============================================================================
+
+.create-merge table AzureLoadTestingOperationRaw (records:dynamic)
+
+.alter-merge table AzureLoadTestingOperationRaw policy retention softdelete = 1d
+
+.alter table AzureLoadTestingOperationRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AzureLoadTestingOperationRaw ingestion json mapping 'AzureLoadTestingOperationRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AzureLoadTestingOperation(
+TimeGenerated:datetime,
+TenantId:guid,
+UserAgent:string,
+FailureDetails:string,
+CallerIpAddress:string,
+DurationMs:real,
+ResultType:string,
+OperationName:string,
+OperationId:string,
+OperationVersion:string,
+RequestUri:string,
+ResourceRegion:string,
+RequestBody:dynamic,
+Identity:dynamic,
+RequestId:string,
+CorrelationId:string,
+HttpStatusCode:int,
+RequestMethod:string,
+ServiceLocation:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AzureLoadTestingOperation policy caching hot = 1d
+
+.create-or-alter function AzureLoadTestingOperationExpand() {
+AzureLoadTestingOperationRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+UserAgent=tostring(events.UserAgent),
+FailureDetails=tostring(events.FailureDetails),
+CallerIpAddress=tostring(events.CallerIpAddress),
+DurationMs=toreal(events.DurationMs),
+ResultType=tostring(events.ResultType),
+OperationName=tostring(events.OperationName),
+OperationId=tostring(events.OperationId),
+OperationVersion=tostring(events.OperationVersion),
+RequestUri=tostring(events.RequestUri),
+ResourceRegion=tostring(events.ResourceRegion),
+RequestBody=todynamic(events.RequestBody),
+Identity=todynamic(events.Identity),
+RequestId=tostring(events.RequestId),
+CorrelationId=tostring(events.CorrelationId),
+HttpStatusCode=toint(events.HttpStatusCode),
+RequestMethod=tostring(events.RequestMethod),
+ServiceLocation=tostring(events.ServiceLocation),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AzureLoadTestingOperation policy update @'[{"Source": "AzureLoadTestingOperationRaw", "Query": "AzureLoadTestingOperationExpand()", "IsEnabled": "True", "IsTransactional": true}]'

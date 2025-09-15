@@ -1,0 +1,115 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AOIDatabaseQuery - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:21:58
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 40, Final columns: 40
+// ============================================================================
+
+.create-merge table AOIDatabaseQueryRaw (records:dynamic)
+
+.alter-merge table AOIDatabaseQueryRaw policy retention softdelete = 1d
+
+.alter table AOIDatabaseQueryRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AOIDatabaseQueryRaw ingestion json mapping 'AOIDatabaseQueryRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AOIDatabaseQuery(
+TimeGenerated:datetime,
+TenantId:guid,
+TotalRowsCount:long,
+ScannedRowsCount:long,
+CacheMemoryHits:long,
+CacheMemoryMisses:long,
+CacheDiskHits:long,
+CacheDiskMisses:long,
+CacheShardsHotHits:long,
+CacheShardsHotMisses:long,
+CacheShardsColdHits:long,
+CacheShardsColdMisses:long,
+CacheShardsBypassBytes:long,
+TableCount:int,
+TablesStatistics:dynamic,
+WorkloadGroup:string,
+Text:string,
+ScannedExtentsCount:long,
+ComponentFault:string,
+TotalExtentsCount:long,
+MinDataScannedTime:datetime,
+OperationName:string,
+Location:string,
+CorrelationId:string,
+RootActivityId:string,
+StartedOn:datetime,
+LastUpdatedOn:datetime,
+DatabaseName:string,
+State:string,
+FailureReason:string,
+TotalCPU:string,
+ApplicationName:string,
+MemoryPeak:long,
+DurationMs:string,
+User:string,
+Principal:string,
+MaxDataScannedTime:datetime,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AOIDatabaseQuery policy caching hot = 1d
+
+.create-or-alter function AOIDatabaseQueryExpand() {
+AOIDatabaseQueryRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+TotalRowsCount=tolong(events.TotalRowsCount),
+ScannedRowsCount=tolong(events.ScannedRowsCount),
+CacheMemoryHits=tolong(events.CacheMemoryHits),
+CacheMemoryMisses=tolong(events.CacheMemoryMisses),
+CacheDiskHits=tolong(events.CacheDiskHits),
+CacheDiskMisses=tolong(events.CacheDiskMisses),
+CacheShardsHotHits=tolong(events.CacheShardsHotHits),
+CacheShardsHotMisses=tolong(events.CacheShardsHotMisses),
+CacheShardsColdHits=tolong(events.CacheShardsColdHits),
+CacheShardsColdMisses=tolong(events.CacheShardsColdMisses),
+CacheShardsBypassBytes=tolong(events.CacheShardsBypassBytes),
+TableCount=toint(events.TableCount),
+TablesStatistics=todynamic(events.TablesStatistics),
+WorkloadGroup=tostring(events.WorkloadGroup),
+Text=tostring(events.Text),
+ScannedExtentsCount=tolong(events.ScannedExtentsCount),
+ComponentFault=tostring(events.ComponentFault),
+TotalExtentsCount=tolong(events.TotalExtentsCount),
+MinDataScannedTime=todatetime(events.MinDataScannedTime),
+OperationName=tostring(events.OperationName),
+Location=tostring(events.Location),
+CorrelationId=tostring(events.CorrelationId),
+RootActivityId=tostring(events.RootActivityId),
+StartedOn=todatetime(events.StartedOn),
+LastUpdatedOn=todatetime(events.LastUpdatedOn),
+DatabaseName=tostring(events.DatabaseName),
+State=tostring(events.State),
+FailureReason=tostring(events.FailureReason),
+TotalCPU=tostring(events.TotalCPU),
+ApplicationName=tostring(events.ApplicationName),
+MemoryPeak=tolong(events.MemoryPeak),
+DurationMs=tostring(events.DurationMs),
+User=tostring(events.User),
+Principal=tostring(events.Principal),
+MaxDataScannedTime=todatetime(events.MaxDataScannedTime),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AOIDatabaseQuery policy update @'[{"Source": "AOIDatabaseQueryRaw", "Query": "AOIDatabaseQueryExpand()", "IsEnabled": "True", "IsTransactional": true}]'

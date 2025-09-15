@@ -1,0 +1,66 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Lockdown_Data_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Lockdown_Data_CLRaw (records:dynamic)
+
+.alter-merge table Lockdown_Data_CLRaw policy retention softdelete = 1d
+
+.alter table Lockdown_Data_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Lockdown_Data_CLRaw ingestion json mapping 'Lockdown_Data_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Lockdown_Data_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+SourceSystem:string,
+MG:string,
+ManagementGroupName:string,
+Computer:string,
+RawData:string,
+id_d:real,
+entity_id_d:real,
+entity_name_s:string,
+entity_type_s:string,
+type_s:string,
+lock_event_timestamp_t:datetime,
+unlock_event_timestamp_t:datetime,
+locked_by_s:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table Lockdown_Data_CL policy caching hot = 1d
+
+.create-or-alter function Lockdown_Data_CLExpand() {
+Lockdown_Data_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SourceSystem=tostring(events.SourceSystem),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+Computer=tostring(events.Computer),
+RawData=tostring(events.RawData),
+id_d=toreal(events.id_d),
+entity_id_d=toreal(events.entity_id_d),
+entity_name_s=tostring(events.entity_name_s),
+entity_type_s=tostring(events.entity_type_s),
+type_s=tostring(events.type_s),
+lock_event_timestamp_t=todatetime(events.lock_event_timestamp_t),
+unlock_event_timestamp_t=todatetime(events.unlock_event_timestamp_t),
+locked_by_s=tostring(events.locked_by_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Lockdown_Data_CL policy update @'[{"Source": "Lockdown_Data_CLRaw", "Query": "Lockdown_Data_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

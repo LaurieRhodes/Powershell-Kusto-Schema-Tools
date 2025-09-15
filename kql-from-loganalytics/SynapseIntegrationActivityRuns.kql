@@ -1,0 +1,79 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for SynapseIntegrationActivityRuns - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:21:28
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 22, Final columns: 22
+// ============================================================================
+
+.create-merge table SynapseIntegrationActivityRunsRaw (records:dynamic)
+
+.alter-merge table SynapseIntegrationActivityRunsRaw policy retention softdelete = 1d
+
+.alter table SynapseIntegrationActivityRunsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table SynapseIntegrationActivityRunsRaw ingestion json mapping 'SynapseIntegrationActivityRunsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table SynapseIntegrationActivityRuns(
+TimeGenerated:datetime,
+TenantId:guid,
+ActivityType:string,
+EffectiveIntegrationRuntime:string,
+PipelineRunId:string,
+ActivityRunId:string,
+ActivityName:string,
+End:datetime,
+Start:datetime,
+PipelineName:string,
+Annotations:dynamic,
+Status:string,
+Tags:dynamic,
+Location:string,
+Level:string,
+CorrelationId:string,
+Category:string,
+OperationName:string,
+UserProperties:dynamic,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table SynapseIntegrationActivityRuns policy caching hot = 1d
+
+.create-or-alter function SynapseIntegrationActivityRunsExpand() {
+SynapseIntegrationActivityRunsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ActivityType=tostring(events.ActivityType),
+EffectiveIntegrationRuntime=tostring(events.EffectiveIntegrationRuntime),
+PipelineRunId=tostring(events.PipelineRunId),
+ActivityRunId=tostring(events.ActivityRunId),
+ActivityName=tostring(events.ActivityName),
+End=todatetime(events.End),
+Start=todatetime(events.Start),
+PipelineName=tostring(events.PipelineName),
+Annotations=todynamic(events.Annotations),
+Status=tostring(events.Status),
+Tags=todynamic(events.Tags),
+Location=tostring(events.Location),
+Level=tostring(events.Level),
+CorrelationId=tostring(events.CorrelationId),
+Category=tostring(events.Category),
+OperationName=tostring(events.OperationName),
+UserProperties=todynamic(events.UserProperties),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table SynapseIntegrationActivityRuns policy update @'[{"Source": "SynapseIntegrationActivityRunsRaw", "Query": "SynapseIntegrationActivityRunsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

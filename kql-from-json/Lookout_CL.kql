@@ -1,0 +1,102 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Lookout_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Lookout_CLRaw (records:dynamic)
+
+.alter-merge table Lookout_CLRaw policy retention softdelete = 1d
+
+.alter table Lookout_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Lookout_CLRaw ingestion json mapping 'Lookout_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Lookout_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+target_osVersion_s:string,
+target_platform_s:string,
+target_emailAddress_s:string,
+target_id_g:string,
+target_type_s:string,
+details_pcpDeviceResponse_s:string,
+details_pcpReportingReason_s:string,
+details_assessments_s:dynamic,
+details_classifications_s:dynamic,
+details_severity_s:string,
+details_action_s:string,
+details_id_g:string,
+details_type_s:string,
+actor_id_g:string,
+actor_type_s:string,
+changeType_s:string,
+eventTime_t:datetime,
+SourceSystem:string,
+details_activationStatus_s:string,
+details_securityStatus_s:string,
+details_protectionStatus_s:string,
+updatedDetails_s:dynamic,
+details_description_s:string,
+target_manufacturer_s:string,
+details_applicationName_s:string,
+details_path_s:string,
+details_fileName_s:string,
+details_packageSha_s:string,
+details_attributeChanges_s:dynamic,
+type_s:string,
+id_s:string,
+details_packageName_s:string,
+target_model_s:string,
+_TimeReceived:datetime)
+
+.alter table Lookout_CL policy caching hot = 1d
+
+.create-or-alter function Lookout_CLExpand() {
+Lookout_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+target_osVersion_s=tostring(events.target_osVersion_s),
+target_platform_s=tostring(events.target_platform_s),
+target_emailAddress_s=tostring(events.target_emailAddress_s),
+target_id_g=tostring(events.target_id_g),
+target_type_s=tostring(events.target_type_s),
+details_pcpDeviceResponse_s=tostring(events.details_pcpDeviceResponse_s),
+details_pcpReportingReason_s=tostring(events.details_pcpReportingReason_s),
+details_assessments_s=todynamic(events.details_assessments_s),
+details_classifications_s=todynamic(events.details_classifications_s),
+details_severity_s=tostring(events.details_severity_s),
+details_action_s=tostring(events.details_action_s),
+details_id_g=tostring(events.details_id_g),
+details_type_s=tostring(events.details_type_s),
+actor_id_g=tostring(events.actor_id_g),
+actor_type_s=tostring(events.actor_type_s),
+changeType_s=tostring(events.changeType_s),
+eventTime_t=todatetime(events.eventTime_t),
+SourceSystem=tostring(events.SourceSystem),
+details_activationStatus_s=tostring(events.details_activationStatus_s),
+details_securityStatus_s=tostring(events.details_securityStatus_s),
+details_protectionStatus_s=tostring(events.details_protectionStatus_s),
+updatedDetails_s=todynamic(events.updatedDetails_s),
+details_description_s=tostring(events.details_description_s),
+target_manufacturer_s=tostring(events.target_manufacturer_s),
+details_applicationName_s=tostring(events.details_applicationName_s),
+details_path_s=tostring(events.details_path_s),
+details_fileName_s=tostring(events.details_fileName_s),
+details_packageSha_s=tostring(events.details_packageSha_s),
+details_attributeChanges_s=todynamic(events.details_attributeChanges_s),
+type_s=tostring(events.type_s),
+id_s=tostring(events.id_s),
+details_packageName_s=tostring(events.details_packageName_s),
+target_model_s=tostring(events.target_model_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Lookout_CL policy update @'[{"Source": "Lookout_CLRaw", "Query": "Lookout_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

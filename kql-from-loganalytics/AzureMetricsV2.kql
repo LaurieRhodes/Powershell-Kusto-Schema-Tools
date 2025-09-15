@@ -1,0 +1,67 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AzureMetricsV2 - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:24:44
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 16, Final columns: 16
+// ============================================================================
+
+.create-merge table AzureMetricsV2Raw (records:dynamic)
+
+.alter-merge table AzureMetricsV2Raw policy retention softdelete = 1d
+
+.alter table AzureMetricsV2Raw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AzureMetricsV2Raw ingestion json mapping 'AzureMetricsV2RawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AzureMetricsV2(
+TimeGenerated:datetime,
+TenantId:guid,
+SourceSystem:string,
+MetricResourceType:string,
+MetricName:string,
+MetricCategory:string,
+Total:real,
+Count:real,
+Maximum:real,
+Minimum:real,
+Average:real,
+TimeGrain:string,
+UnitName:string,
+Dimension:dynamic,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AzureMetricsV2 policy caching hot = 1d
+
+.create-or-alter function AzureMetricsV2Expand() {
+AzureMetricsV2Raw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SourceSystem=tostring(events.SourceSystem),
+MetricResourceType=tostring(events.MetricResourceType),
+MetricName=tostring(events.MetricName),
+MetricCategory=tostring(events.MetricCategory),
+Total=toreal(events.Total),
+Count=toreal(events.Count),
+Maximum=toreal(events.Maximum),
+Minimum=toreal(events.Minimum),
+Average=toreal(events.Average),
+TimeGrain=tostring(events.TimeGrain),
+UnitName=tostring(events.UnitName),
+Dimension=todynamic(events.Dimension),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AzureMetricsV2 policy update @'[{"Source": "AzureMetricsV2Raw", "Query": "AzureMetricsV2Expand()", "IsEnabled": "True", "IsTransactional": true}]'

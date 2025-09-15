@@ -1,0 +1,85 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for CDBMongoRequests - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:25:12
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 25, Final columns: 25
+// ============================================================================
+
+.create-merge table CDBMongoRequestsRaw (records:dynamic)
+
+.alter-merge table CDBMongoRequestsRaw policy retention softdelete = 1d
+
+.alter table CDBMongoRequestsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table CDBMongoRequestsRaw ingestion json mapping 'CDBMongoRequestsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table CDBMongoRequests(
+TimeGenerated:datetime,
+TenantId:guid,
+ResponseLength:real,
+RequestLength:real,
+RegionName:string,
+RetriedDueToRateLimiting:bool,
+RateLimitingDelayMs:real,
+PIICommandText:string,
+Address:string,
+RetryCount:int,
+AuthorizationTokenType:string,
+CollectionName:string,
+DatabaseName:string,
+RequestCharge:real,
+DurationMs:real,
+ErrorCode:string,
+ActivityId:string,
+OpCode:string,
+UserAgent:string,
+OperationName:string,
+AccountName:string,
+UserId:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table CDBMongoRequests policy caching hot = 1d
+
+.create-or-alter function CDBMongoRequestsExpand() {
+CDBMongoRequestsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ResponseLength=toreal(events.ResponseLength),
+RequestLength=toreal(events.RequestLength),
+RegionName=tostring(events.RegionName),
+RetriedDueToRateLimiting=tobool(events.RetriedDueToRateLimiting),
+RateLimitingDelayMs=toreal(events.RateLimitingDelayMs),
+PIICommandText=tostring(events.PIICommandText),
+Address=tostring(events.Address),
+RetryCount=toint(events.RetryCount),
+AuthorizationTokenType=tostring(events.AuthorizationTokenType),
+CollectionName=tostring(events.CollectionName),
+DatabaseName=tostring(events.DatabaseName),
+RequestCharge=toreal(events.RequestCharge),
+DurationMs=toreal(events.DurationMs),
+ErrorCode=tostring(events.ErrorCode),
+ActivityId=tostring(events.ActivityId),
+OpCode=tostring(events.OpCode),
+UserAgent=tostring(events.UserAgent),
+OperationName=tostring(events.OperationName),
+AccountName=tostring(events.AccountName),
+UserId=tostring(events.UserId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table CDBMongoRequests policy update @'[{"Source": "CDBMongoRequestsRaw", "Query": "CDBMongoRequestsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,74 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for CitrixAnalytics_userProfile_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:12
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table CitrixAnalytics_userProfile_CLRaw (records:dynamic)
+
+.alter-merge table CitrixAnalytics_userProfile_CLRaw policy retention softdelete = 1d
+
+.alter table CitrixAnalytics_userProfile_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table CitrixAnalytics_userProfile_CLRaw ingestion json mapping 'CitrixAnalytics_userProfile_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table CitrixAnalytics_userProfile_CL(
+TimeGenerated:datetime,
+app_s:string,
+uploaded_file_cnt_d:real,
+uploaded_bytes_d:real,
+tenant_id_s:string,
+shared_file_cnt_d:real,
+session_domain_s:string,
+event_type_s:string,
+entity_type_s:string,
+entity_id_s:string,
+downloaded_file_cnt_d:real,
+downloaded_bytes_d:real,
+device_s:string,
+deleted_file_cnt_d:real,
+data_usage_bytes_d:real,
+cur_riskscore_d:real,
+country_s:string,
+cnt_d:real,
+city_s:string,
+user_samaccountname_s:string,
+version_d:real,
+_TimeReceived:datetime)
+
+.alter table CitrixAnalytics_userProfile_CL policy caching hot = 1d
+
+.create-or-alter function CitrixAnalytics_userProfile_CLExpand() {
+CitrixAnalytics_userProfile_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+app_s=tostring(events.app_s),
+uploaded_file_cnt_d=toreal(events.uploaded_file_cnt_d),
+uploaded_bytes_d=toreal(events.uploaded_bytes_d),
+tenant_id_s=tostring(events.tenant_id_s),
+shared_file_cnt_d=toreal(events.shared_file_cnt_d),
+session_domain_s=tostring(events.session_domain_s),
+event_type_s=tostring(events.event_type_s),
+entity_type_s=tostring(events.entity_type_s),
+entity_id_s=tostring(events.entity_id_s),
+downloaded_file_cnt_d=toreal(events.downloaded_file_cnt_d),
+downloaded_bytes_d=toreal(events.downloaded_bytes_d),
+device_s=tostring(events.device_s),
+deleted_file_cnt_d=toreal(events.deleted_file_cnt_d),
+data_usage_bytes_d=toreal(events.data_usage_bytes_d),
+cur_riskscore_d=toreal(events.cur_riskscore_d),
+country_s=tostring(events.country_s),
+cnt_d=toreal(events.cnt_d),
+city_s=tostring(events.city_s),
+user_samaccountname_s=tostring(events.user_samaccountname_s),
+version_d=toreal(events.version_d),
+_TimeReceived=todatetime(now())
+}
+
+.alter table CitrixAnalytics_userProfile_CL policy update @'[{"Source": "CitrixAnalytics_userProfile_CLRaw", "Query": "CitrixAnalytics_userProfile_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

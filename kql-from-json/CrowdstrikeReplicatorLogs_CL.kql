@@ -1,0 +1,124 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for CrowdstrikeReplicatorLogs_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table CrowdstrikeReplicatorLogs_CLRaw (records:dynamic)
+
+.alter-merge table CrowdstrikeReplicatorLogs_CLRaw policy retention softdelete = 1d
+
+.alter table CrowdstrikeReplicatorLogs_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table CrowdstrikeReplicatorLogs_CLRaw ingestion json mapping 'CrowdstrikeReplicatorLogs_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table CrowdstrikeReplicatorLogs_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+RawProcessId:string,
+ConfigStateHash:string,
+MD5HashData:string,
+SHA256HashData:string,
+ProcessSxsFlags:string,
+AuthenticationId:string,
+ConfigBuild:string,
+WindowFlags:real,
+event_simpleName:string,
+CommandLine:string,
+TargetProcessId:string,
+ImageFileName:string,
+SourceThreadId:string,
+Entitlements:string,
+name:string,
+ProcessStartTime:string,
+ProcessParameterFlags:string,
+aid:string,
+ParentAuthenticationId:string,
+SignInfoFlags:string,
+timestamp:string,
+SessionId:string,
+SourceSystem:string,
+Computer:string,
+ProcessCreateFlags:string,
+IntegrityLevel:real,
+ParentProcessId:string,
+SourceProcessId:string,
+aip:string,
+SHA1HashData:string,
+Tags:string,
+UserSid:string,
+TokenType:real,
+ProcessEndTime:string,
+AuthenticodeHashData:string,
+ParentBaseFileName:string,
+RpcClientProcessId:string,
+ImageSubsystem:string,
+id:string,
+EffectiveTransmissionClass:real,
+event_platform:string,
+cid:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table CrowdstrikeReplicatorLogs_CL policy caching hot = 1d
+
+.create-or-alter function CrowdstrikeReplicatorLogs_CLExpand() {
+CrowdstrikeReplicatorLogs_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+RawProcessId=tostring(events.RawProcessId),
+ConfigStateHash=tostring(events.ConfigStateHash),
+MD5HashData=tostring(events.MD5HashData),
+SHA256HashData=tostring(events.SHA256HashData),
+ProcessSxsFlags=tostring(events.ProcessSxsFlags),
+AuthenticationId=tostring(events.AuthenticationId),
+ConfigBuild=tostring(events.ConfigBuild),
+WindowFlags=toreal(events.WindowFlags),
+event_simpleName=tostring(events.event_simpleName),
+CommandLine=tostring(events.CommandLine),
+TargetProcessId=tostring(events.TargetProcessId),
+ImageFileName=tostring(events.ImageFileName),
+SourceThreadId=tostring(events.SourceThreadId),
+Entitlements=tostring(events.Entitlements),
+name=tostring(events.name),
+ProcessStartTime=tostring(events.ProcessStartTime),
+ProcessParameterFlags=tostring(events.ProcessParameterFlags),
+aid=tostring(events.aid),
+ParentAuthenticationId=tostring(events.ParentAuthenticationId),
+SignInfoFlags=tostring(events.SignInfoFlags),
+timestamp=tostring(events.timestamp),
+SessionId=tostring(events.SessionId),
+SourceSystem=tostring(events.SourceSystem),
+Computer=tostring(events.Computer),
+ProcessCreateFlags=tostring(events.ProcessCreateFlags),
+IntegrityLevel=toreal(events.IntegrityLevel),
+ParentProcessId=tostring(events.ParentProcessId),
+SourceProcessId=tostring(events.SourceProcessId),
+aip=tostring(events.aip),
+SHA1HashData=tostring(events.SHA1HashData),
+Tags=tostring(events.Tags),
+UserSid=tostring(events.UserSid),
+TokenType=toreal(events.TokenType),
+ProcessEndTime=tostring(events.ProcessEndTime),
+AuthenticodeHashData=tostring(events.AuthenticodeHashData),
+ParentBaseFileName=tostring(events.ParentBaseFileName),
+RpcClientProcessId=tostring(events.RpcClientProcessId),
+ImageSubsystem=tostring(events.ImageSubsystem),
+id=tostring(events.id),
+EffectiveTransmissionClass=toreal(events.EffectiveTransmissionClass),
+event_platform=tostring(events.event_platform),
+cid=tostring(events.cid),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table CrowdstrikeReplicatorLogs_CL policy update @'[{"Source": "CrowdstrikeReplicatorLogs_CLRaw", "Query": "CrowdstrikeReplicatorLogs_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,146 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for HYASProtectDnsSecurityLogs_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table HYASProtectDnsSecurityLogs_CLRaw (records:dynamic)
+
+.alter-merge table HYASProtectDnsSecurityLogs_CLRaw policy retention softdelete = 1d
+
+.alter table HYASProtectDnsSecurityLogs_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table HYASProtectDnsSecurityLogs_CLRaw ingestion json mapping 'HYASProtectDnsSecurityLogs_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table HYASProtectDnsSecurityLogs_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+Nameserver2TLD_s:string,
+NameserverTLD_s:string,
+NameserverIP_s:string,
+NameserverCountryISOCode_s:string,
+NameserverCountryName_s:string,
+ARecord_s:string,
+CName_s:string,
+CName2TLD_s:string,
+CNameTLD_s:string,
+ThreatLevel_s:string,
+QueryType_s:string,
+ResponseCode_d:real,
+ResponseName_s:string,
+ResponseDescription_s:string,
+ResolverMode_s:string,
+ReasonLists_s:string,
+ReasonType_s:string,
+DomainAge_d:real,
+DomainCategory_s:string,
+DomainCreationDate_t:datetime,
+DomainExpiresDate_t:datetime,
+DomainUpdatedDate_t:datetime,
+NameserverVerdict_s:string,
+DomainTLD_s:string,
+Domain2TLD_s:string,
+ClientIP_s:string,
+ClientName_s:string,
+SourceSystem:string,
+MG:string,
+ManagementGroupName:string,
+Computer:string,
+RawData:string,
+IPVerdict_s:string,
+TLDVerdict_s:string,
+Reputation_d:real,
+DateTime_s:string,
+Domain_s:string,
+DeviceName_s:string,
+FQDNVerdict_s:string,
+ProcessName_s:string,
+Verdict_s:string,
+VerdictSource_s:string,
+VerdictStatus_s:string,
+Registrar_s:string,
+PolicyName_s:string,
+PolicyID_d:real,
+RegistrarVerdict_s:string,
+TTL_d:real,
+Tags_s:string,
+LogID_s:string,
+ClientID_g:string,
+Nameserver_s:string,
+DomainVerdict_s:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table HYASProtectDnsSecurityLogs_CL policy caching hot = 1d
+
+.create-or-alter function HYASProtectDnsSecurityLogs_CLExpand() {
+HYASProtectDnsSecurityLogs_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Nameserver2TLD_s=tostring(events.Nameserver2TLD_s),
+NameserverTLD_s=tostring(events.NameserverTLD_s),
+NameserverIP_s=tostring(events.NameserverIP_s),
+NameserverCountryISOCode_s=tostring(events.NameserverCountryISOCode_s),
+NameserverCountryName_s=tostring(events.NameserverCountryName_s),
+ARecord_s=tostring(events.ARecord_s),
+CName_s=tostring(events.CName_s),
+CName2TLD_s=tostring(events.CName2TLD_s),
+CNameTLD_s=tostring(events.CNameTLD_s),
+ThreatLevel_s=tostring(events.ThreatLevel_s),
+QueryType_s=tostring(events.QueryType_s),
+ResponseCode_d=toreal(events.ResponseCode_d),
+ResponseName_s=tostring(events.ResponseName_s),
+ResponseDescription_s=tostring(events.ResponseDescription_s),
+ResolverMode_s=tostring(events.ResolverMode_s),
+ReasonLists_s=tostring(events.ReasonLists_s),
+ReasonType_s=tostring(events.ReasonType_s),
+DomainAge_d=toreal(events.DomainAge_d),
+DomainCategory_s=tostring(events.DomainCategory_s),
+DomainCreationDate_t=todatetime(events.DomainCreationDate_t),
+DomainExpiresDate_t=todatetime(events.DomainExpiresDate_t),
+DomainUpdatedDate_t=todatetime(events.DomainUpdatedDate_t),
+NameserverVerdict_s=tostring(events.NameserverVerdict_s),
+DomainTLD_s=tostring(events.DomainTLD_s),
+Domain2TLD_s=tostring(events.Domain2TLD_s),
+ClientIP_s=tostring(events.ClientIP_s),
+ClientName_s=tostring(events.ClientName_s),
+SourceSystem=tostring(events.SourceSystem),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+Computer=tostring(events.Computer),
+RawData=tostring(events.RawData),
+IPVerdict_s=tostring(events.IPVerdict_s),
+TLDVerdict_s=tostring(events.TLDVerdict_s),
+Reputation_d=toreal(events.Reputation_d),
+DateTime_s=tostring(events.DateTime_s),
+Domain_s=tostring(events.Domain_s),
+DeviceName_s=tostring(events.DeviceName_s),
+FQDNVerdict_s=tostring(events.FQDNVerdict_s),
+ProcessName_s=tostring(events.ProcessName_s),
+Verdict_s=tostring(events.Verdict_s),
+VerdictSource_s=tostring(events.VerdictSource_s),
+VerdictStatus_s=tostring(events.VerdictStatus_s),
+Registrar_s=tostring(events.Registrar_s),
+PolicyName_s=tostring(events.PolicyName_s),
+PolicyID_d=toreal(events.PolicyID_d),
+RegistrarVerdict_s=tostring(events.RegistrarVerdict_s),
+TTL_d=toreal(events.TTL_d),
+Tags_s=tostring(events.Tags_s),
+LogID_s=tostring(events.LogID_s),
+ClientID_g=tostring(events.ClientID_g),
+Nameserver_s=tostring(events.Nameserver_s),
+DomainVerdict_s=tostring(events.DomainVerdict_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table HYASProtectDnsSecurityLogs_CL policy update @'[{"Source": "HYASProtectDnsSecurityLogs_CLRaw", "Query": "HYASProtectDnsSecurityLogs_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,95 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for PurviewDataSensitivityLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:19:41
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 30, Final columns: 30
+// ============================================================================
+
+.create-merge table PurviewDataSensitivityLogsRaw (records:dynamic)
+
+.alter-merge table PurviewDataSensitivityLogsRaw policy retention softdelete = 1d
+
+.alter table PurviewDataSensitivityLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table PurviewDataSensitivityLogsRaw ingestion json mapping 'PurviewDataSensitivityLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table PurviewDataSensitivityLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+SensitivityLabel:dynamic,
+SensitivityLabelTrigger:string,
+ClassificationDetails:dynamic,
+Classification:dynamic,
+ClassificationTrigger:string,
+ActivityType:string,
+FileSize:long,
+FileExtension:string,
+AssetLastScanTime:datetime,
+AssetModifiedTime:datetime,
+AssetCreationTime:datetime,
+SensitivityLabelDetails:dynamic,
+AssetType:string,
+AssetName:string,
+SourceScanId:string,
+SourceCollectionName:string,
+SourceRegion:string,
+SourceSubscriptionId:string,
+SourcePath:string,
+SourceType:string,
+SourceName:string,
+PurviewRegion:string,
+PurviewAccountName:string,
+PurviewTenantId:string,
+AssetPath:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table PurviewDataSensitivityLogs policy caching hot = 1d
+
+.create-or-alter function PurviewDataSensitivityLogsExpand() {
+PurviewDataSensitivityLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SensitivityLabel=todynamic(events.SensitivityLabel),
+SensitivityLabelTrigger=tostring(events.SensitivityLabelTrigger),
+ClassificationDetails=todynamic(events.ClassificationDetails),
+Classification=todynamic(events.Classification),
+ClassificationTrigger=tostring(events.ClassificationTrigger),
+ActivityType=tostring(events.ActivityType),
+FileSize=tolong(events.FileSize),
+FileExtension=tostring(events.FileExtension),
+AssetLastScanTime=todatetime(events.AssetLastScanTime),
+AssetModifiedTime=todatetime(events.AssetModifiedTime),
+AssetCreationTime=todatetime(events.AssetCreationTime),
+SensitivityLabelDetails=todynamic(events.SensitivityLabelDetails),
+AssetType=tostring(events.AssetType),
+AssetName=tostring(events.AssetName),
+SourceScanId=tostring(events.SourceScanId),
+SourceCollectionName=tostring(events.SourceCollectionName),
+SourceRegion=tostring(events.SourceRegion),
+SourceSubscriptionId=tostring(events.SourceSubscriptionId),
+SourcePath=tostring(events.SourcePath),
+SourceType=tostring(events.SourceType),
+SourceName=tostring(events.SourceName),
+PurviewRegion=tostring(events.PurviewRegion),
+PurviewAccountName=tostring(events.PurviewAccountName),
+PurviewTenantId=tostring(events.PurviewTenantId),
+AssetPath=tostring(events.AssetPath),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table PurviewDataSensitivityLogs policy update @'[{"Source": "PurviewDataSensitivityLogsRaw", "Query": "PurviewDataSensitivityLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

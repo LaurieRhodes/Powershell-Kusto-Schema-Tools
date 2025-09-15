@@ -1,0 +1,97 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ACSCallSurvey - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:19:06
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 31, Final columns: 31
+// ============================================================================
+
+.create-merge table ACSCallSurveyRaw (records:dynamic)
+
+.alter-merge table ACSCallSurveyRaw policy retention softdelete = 1d
+
+.alter table ACSCallSurveyRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ACSCallSurveyRaw ingestion json mapping 'ACSCallSurveyRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ACSCallSurvey(
+TimeGenerated:datetime,
+TenantId:guid,
+ScreenshareRatingScoreThreshold:int,
+ScreenshareRatingScoreUpperBound:int,
+ScreenshareRatingScoreLowerBound:int,
+ScreenshareRatingScore:int,
+VideoIssues:string,
+VideoRatingScoreThreshold:int,
+VideoRatingScoreUpperBound:int,
+VideoRatingScoreLowerBound:int,
+VideoRatingScore:int,
+AudioIssues:string,
+AudioRatingScoreThreshold:int,
+AudioRatingScoreUpperBound:int,
+AudioRatingScoreLowerBound:int,
+AudioRatingScore:int,
+OverallCallIssues:string,
+OverallRatingScoreThreshold:int,
+OverallRatingScoreUpperBound:int,
+OverallRatingScoreLowerBound:int,
+OverallRatingScore:int,
+SurveyId:string,
+ParticipantId:string,
+CallId:string,
+CorrelationId:string,
+OperationVersion:string,
+OperationName:string,
+ScreenshareIssues:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ACSCallSurvey policy caching hot = 1d
+
+.create-or-alter function ACSCallSurveyExpand() {
+ACSCallSurveyRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ScreenshareRatingScoreThreshold=toint(events.ScreenshareRatingScoreThreshold),
+ScreenshareRatingScoreUpperBound=toint(events.ScreenshareRatingScoreUpperBound),
+ScreenshareRatingScoreLowerBound=toint(events.ScreenshareRatingScoreLowerBound),
+ScreenshareRatingScore=toint(events.ScreenshareRatingScore),
+VideoIssues=tostring(events.VideoIssues),
+VideoRatingScoreThreshold=toint(events.VideoRatingScoreThreshold),
+VideoRatingScoreUpperBound=toint(events.VideoRatingScoreUpperBound),
+VideoRatingScoreLowerBound=toint(events.VideoRatingScoreLowerBound),
+VideoRatingScore=toint(events.VideoRatingScore),
+AudioIssues=tostring(events.AudioIssues),
+AudioRatingScoreThreshold=toint(events.AudioRatingScoreThreshold),
+AudioRatingScoreUpperBound=toint(events.AudioRatingScoreUpperBound),
+AudioRatingScoreLowerBound=toint(events.AudioRatingScoreLowerBound),
+AudioRatingScore=toint(events.AudioRatingScore),
+OverallCallIssues=tostring(events.OverallCallIssues),
+OverallRatingScoreThreshold=toint(events.OverallRatingScoreThreshold),
+OverallRatingScoreUpperBound=toint(events.OverallRatingScoreUpperBound),
+OverallRatingScoreLowerBound=toint(events.OverallRatingScoreLowerBound),
+OverallRatingScore=toint(events.OverallRatingScore),
+SurveyId=tostring(events.SurveyId),
+ParticipantId=tostring(events.ParticipantId),
+CallId=tostring(events.CallId),
+CorrelationId=tostring(events.CorrelationId),
+OperationVersion=tostring(events.OperationVersion),
+OperationName=tostring(events.OperationName),
+ScreenshareIssues=tostring(events.ScreenshareIssues),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ACSCallSurvey policy update @'[{"Source": "ACSCallSurveyRaw", "Query": "ACSCallSurveyExpand()", "IsEnabled": "True", "IsTransactional": true}]'

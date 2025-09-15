@@ -1,0 +1,79 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ProjectActivity - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:19:39
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 22, Final columns: 22
+// ============================================================================
+
+.create-merge table ProjectActivityRaw (records:dynamic)
+
+.alter-merge table ProjectActivityRaw policy retention softdelete = 1d
+
+.alter table ProjectActivityRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ProjectActivityRaw ingestion json mapping 'ProjectActivityRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ProjectActivity(
+TimeGenerated:datetime,
+TenantId:guid,
+EventProduct:string,
+OnBehalfOfResId:string,
+ProjectAction:string,
+ProjectEntity:string,
+Scope:string,
+SrcIpAddr:string,
+ActorName:string,
+ObjectId:string,
+EventResult:string,
+Workload:string,
+ActorUserId:string,
+ActorUserType:string,
+UserType:string,
+OrganizationId:string,
+EventOriginalType:string,
+RecordType:string,
+EventOriginalUid:string,
+EventVendor:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table ProjectActivity policy caching hot = 1d
+
+.create-or-alter function ProjectActivityExpand() {
+ProjectActivityRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+EventProduct=tostring(events.EventProduct),
+OnBehalfOfResId=tostring(events.OnBehalfOfResId),
+ProjectAction=tostring(events.ProjectAction),
+ProjectEntity=tostring(events.ProjectEntity),
+Scope=tostring(events.Scope),
+SrcIpAddr=tostring(events.SrcIpAddr),
+ActorName=tostring(events.ActorName),
+ObjectId=tostring(events.ObjectId),
+EventResult=tostring(events.EventResult),
+Workload=tostring(events.Workload),
+ActorUserId=tostring(events.ActorUserId),
+ActorUserType=tostring(events.ActorUserType),
+UserType=tostring(events.UserType),
+OrganizationId=tostring(events.OrganizationId),
+EventOriginalType=tostring(events.EventOriginalType),
+RecordType=tostring(events.RecordType),
+EventOriginalUid=tostring(events.EventOriginalUid),
+EventVendor=tostring(events.EventVendor),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ProjectActivity policy update @'[{"Source": "ProjectActivityRaw", "Query": "ProjectActivityExpand()", "IsEnabled": "True", "IsTransactional": true}]'

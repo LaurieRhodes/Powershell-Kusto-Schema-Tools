@@ -1,0 +1,40 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for WizIssuesV2_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table WizIssuesV2_CLRaw (records:dynamic)
+
+.alter-merge table WizIssuesV2_CLRaw policy retention softdelete = 1d
+
+.alter table WizIssuesV2_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table WizIssuesV2_CLRaw ingestion json mapping 'WizIssuesV2_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table WizIssuesV2_CL(
+TimeGenerated:datetime,
+sourceRule_id_s:string,
+severity_s:string,
+id_g:guid,
+_TimeReceived:datetime)
+
+.alter table WizIssuesV2_CL policy caching hot = 1d
+
+.create-or-alter function WizIssuesV2_CLExpand() {
+WizIssuesV2_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+sourceRule_id_s=tostring(events.sourceRule_id_s),
+severity_s=tostring(events.severity_s),
+id_g=toguid(events.id_g),
+_TimeReceived=todatetime(now())
+}
+
+.alter table WizIssuesV2_CL policy update @'[{"Source": "WizIssuesV2_CLRaw", "Query": "WizIssuesV2_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

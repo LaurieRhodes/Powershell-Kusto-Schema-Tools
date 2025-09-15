@@ -1,0 +1,95 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AWSNetworkFirewallFlow - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:23:43
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 30, Final columns: 30
+// ============================================================================
+
+.create-merge table AWSNetworkFirewallFlowRaw (records:dynamic)
+
+.alter-merge table AWSNetworkFirewallFlowRaw policy retention softdelete = 1d
+
+.alter table AWSNetworkFirewallFlowRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AWSNetworkFirewallFlowRaw ingestion json mapping 'AWSNetworkFirewallFlowRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AWSNetworkFirewallFlow(
+TimeGenerated:datetime,
+TenantId:guid,
+DestPort:string,
+Proto:string,
+DestIp:string,
+FlowId:string,
+EventType:string,
+NetFlowMaxttl:string,
+NetFlowMinttl:string,
+NetFlowAge:string,
+NetFlowEnd:datetime,
+NetFlowStart:datetime,
+NetFlowBytes:string,
+NetFlowPkts:string,
+SrcPort:string,
+SrcIp:string,
+AppProto:string,
+Rst:bool,
+Ecn:bool,
+Ack:bool,
+Psh:bool,
+Fin:bool,
+Syn:bool,
+TCPFlags:string,
+EventTimestamp:string,
+AvailabilityZone:string,
+FirewallName:string,
+Timestamp:datetime,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table AWSNetworkFirewallFlow policy caching hot = 1d
+
+.create-or-alter function AWSNetworkFirewallFlowExpand() {
+AWSNetworkFirewallFlowRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+DestPort=tostring(events.DestPort),
+Proto=tostring(events.Proto),
+DestIp=tostring(events.DestIp),
+FlowId=tostring(events.FlowId),
+EventType=tostring(events.EventType),
+NetFlowMaxttl=tostring(events.NetFlowMaxttl),
+NetFlowMinttl=tostring(events.NetFlowMinttl),
+NetFlowAge=tostring(events.NetFlowAge),
+NetFlowEnd=todatetime(events.NetFlowEnd),
+NetFlowStart=todatetime(events.NetFlowStart),
+NetFlowBytes=tostring(events.NetFlowBytes),
+NetFlowPkts=tostring(events.NetFlowPkts),
+SrcPort=tostring(events.SrcPort),
+SrcIp=tostring(events.SrcIp),
+AppProto=tostring(events.AppProto),
+Rst=tobool(events.Rst),
+Ecn=tobool(events.Ecn),
+Ack=tobool(events.Ack),
+Psh=tobool(events.Psh),
+Fin=tobool(events.Fin),
+Syn=tobool(events.Syn),
+TCPFlags=tostring(events.TCPFlags),
+EventTimestamp=tostring(events.EventTimestamp),
+AvailabilityZone=tostring(events.AvailabilityZone),
+FirewallName=tostring(events.FirewallName),
+Timestamp=todatetime(events.Timestamp),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AWSNetworkFirewallFlow policy update @'[{"Source": "AWSNetworkFirewallFlowRaw", "Query": "AWSNetworkFirewallFlowExpand()", "IsEnabled": "True", "IsTransactional": true}]'

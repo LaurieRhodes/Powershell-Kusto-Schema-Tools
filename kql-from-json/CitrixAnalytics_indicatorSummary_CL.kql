@@ -1,0 +1,140 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for CitrixAnalytics_indicatorSummary_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:12
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table CitrixAnalytics_indicatorSummary_CLRaw (records:dynamic)
+
+.alter-merge table CitrixAnalytics_indicatorSummary_CLRaw policy retention softdelete = 1d
+
+.alter table CitrixAnalytics_indicatorSummary_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table CitrixAnalytics_indicatorSummary_CLRaw ingestion json mapping 'CitrixAnalytics_indicatorSummary_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table CitrixAnalytics_indicatorSummary_CL(
+TimeGenerated:datetime,
+entity_id_s:string,
+occurrence_details_historical_observation_period_in_days_d:real,
+occurrence_details_lifetime_download_count_d:real,
+occurrence_details_lifetime_download_volume_in_bytes_d:real,
+occurrence_details_lifetime_users_downloaded_d:real,
+occurrence_details_link_first_downloaded_t:datetime,
+occurrence_details_new_entities_s:string,
+occurrence_details_observation_start_time_t:datetime,
+occurrence_details_region_s:string,
+occurrence_details_relevant_event_type_s:string,
+occurrence_details_repeat_d:real,
+occurrence_details_risky_domain_category_list_s:string,
+occurrence_details_suspicious_network_risk_d:real,
+occurrence_details_time_quantity_d:real,
+occurrence_details_time_unit_s:string,
+occurrence_details_tool_name_s:string,
+occurrence_details_type_s:string,
+occurrence_details_user_device_risk_d:real,
+occurrence_details_user_location_risk_d:real,
+occurrence_details_user_network_risk_d:real,
+occurrence_details_virus_name_s:string,
+occurrence_details_webroot_threat_categories_s:string,
+pre_configured_s:string,
+risk_probability_d:real,
+occurrence_details_historical_logon_locations_s:string,
+severity_s:string,
+occurrence_details_happen_d:real,
+occurrence_details_exfiltrated_data_volume_in_bytes_d:real,
+entity_type_s:string,
+event_type_s:string,
+tenant_id_s:string,
+version_d:real,
+data_source_id_d:real,
+data_source_s:string,
+indicator_category_id_d:real,
+indicator_category_s:string,
+indicator_id_s:string,
+indicator_name_s:string,
+indicator_type_s:string,
+indicator_uuid_g:string,
+indicator_vector_id_d:real,
+indicator_vector_name_s:string,
+indicator_vector_s:string,
+occurrence_details_city_s:string,
+occurrence_details_client_ip_s:string,
+occurrence_details_condition_s:string,
+occurrence_details_country_s:string,
+occurrence_details_cumulative_event_count_day_d:real,
+occurrence_details_device_id_s:string,
+occurrence_details_event_count_d:real,
+occurrence_details_event_description_s:string,
+occurrence_details_file_hash_g:string,
+ui_link_s:string,
+_TimeReceived:datetime)
+
+.alter table CitrixAnalytics_indicatorSummary_CL policy caching hot = 1d
+
+.create-or-alter function CitrixAnalytics_indicatorSummary_CLExpand() {
+CitrixAnalytics_indicatorSummary_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+entity_id_s=tostring(events.entity_id_s),
+occurrence_details_historical_observation_period_in_days_d=toreal(events.occurrence_details_historical_observation_period_in_days_d),
+occurrence_details_lifetime_download_count_d=toreal(events.occurrence_details_lifetime_download_count_d),
+occurrence_details_lifetime_download_volume_in_bytes_d=toreal(events.occurrence_details_lifetime_download_volume_in_bytes_d),
+occurrence_details_lifetime_users_downloaded_d=toreal(events.occurrence_details_lifetime_users_downloaded_d),
+occurrence_details_link_first_downloaded_t=todatetime(events.occurrence_details_link_first_downloaded_t),
+occurrence_details_new_entities_s=tostring(events.occurrence_details_new_entities_s),
+occurrence_details_observation_start_time_t=todatetime(events.occurrence_details_observation_start_time_t),
+occurrence_details_region_s=tostring(events.occurrence_details_region_s),
+occurrence_details_relevant_event_type_s=tostring(events.occurrence_details_relevant_event_type_s),
+occurrence_details_repeat_d=toreal(events.occurrence_details_repeat_d),
+occurrence_details_risky_domain_category_list_s=tostring(events.occurrence_details_risky_domain_category_list_s),
+occurrence_details_suspicious_network_risk_d=toreal(events.occurrence_details_suspicious_network_risk_d),
+occurrence_details_time_quantity_d=toreal(events.occurrence_details_time_quantity_d),
+occurrence_details_time_unit_s=tostring(events.occurrence_details_time_unit_s),
+occurrence_details_tool_name_s=tostring(events.occurrence_details_tool_name_s),
+occurrence_details_type_s=tostring(events.occurrence_details_type_s),
+occurrence_details_user_device_risk_d=toreal(events.occurrence_details_user_device_risk_d),
+occurrence_details_user_location_risk_d=toreal(events.occurrence_details_user_location_risk_d),
+occurrence_details_user_network_risk_d=toreal(events.occurrence_details_user_network_risk_d),
+occurrence_details_virus_name_s=tostring(events.occurrence_details_virus_name_s),
+occurrence_details_webroot_threat_categories_s=tostring(events.occurrence_details_webroot_threat_categories_s),
+pre_configured_s=tostring(events.pre_configured_s),
+risk_probability_d=toreal(events.risk_probability_d),
+occurrence_details_historical_logon_locations_s=tostring(events.occurrence_details_historical_logon_locations_s),
+severity_s=tostring(events.severity_s),
+occurrence_details_happen_d=toreal(events.occurrence_details_happen_d),
+occurrence_details_exfiltrated_data_volume_in_bytes_d=toreal(events.occurrence_details_exfiltrated_data_volume_in_bytes_d),
+entity_type_s=tostring(events.entity_type_s),
+event_type_s=tostring(events.event_type_s),
+tenant_id_s=tostring(events.tenant_id_s),
+version_d=toreal(events.version_d),
+data_source_id_d=toreal(events.data_source_id_d),
+data_source_s=tostring(events.data_source_s),
+indicator_category_id_d=toreal(events.indicator_category_id_d),
+indicator_category_s=tostring(events.indicator_category_s),
+indicator_id_s=tostring(events.indicator_id_s),
+indicator_name_s=tostring(events.indicator_name_s),
+indicator_type_s=tostring(events.indicator_type_s),
+indicator_uuid_g=tostring(events.indicator_uuid_g),
+indicator_vector_id_d=toreal(events.indicator_vector_id_d),
+indicator_vector_name_s=tostring(events.indicator_vector_name_s),
+indicator_vector_s=tostring(events.indicator_vector_s),
+occurrence_details_city_s=tostring(events.occurrence_details_city_s),
+occurrence_details_client_ip_s=tostring(events.occurrence_details_client_ip_s),
+occurrence_details_condition_s=tostring(events.occurrence_details_condition_s),
+occurrence_details_country_s=tostring(events.occurrence_details_country_s),
+occurrence_details_cumulative_event_count_day_d=toreal(events.occurrence_details_cumulative_event_count_day_d),
+occurrence_details_device_id_s=tostring(events.occurrence_details_device_id_s),
+occurrence_details_event_count_d=toreal(events.occurrence_details_event_count_d),
+occurrence_details_event_description_s=tostring(events.occurrence_details_event_description_s),
+occurrence_details_file_hash_g=tostring(events.occurrence_details_file_hash_g),
+ui_link_s=tostring(events.ui_link_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table CitrixAnalytics_indicatorSummary_CL policy update @'[{"Source": "CitrixAnalytics_indicatorSummary_CLRaw", "Query": "CitrixAnalytics_indicatorSummary_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

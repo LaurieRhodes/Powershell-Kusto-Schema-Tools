@@ -1,0 +1,75 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AEWAssignmentBlobLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:20:25
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 20, Final columns: 20
+// ============================================================================
+
+.create-merge table AEWAssignmentBlobLogsRaw (records:dynamic)
+
+.alter-merge table AEWAssignmentBlobLogsRaw policy retention softdelete = 1d
+
+.alter table AEWAssignmentBlobLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AEWAssignmentBlobLogsRaw ingestion json mapping 'AEWAssignmentBlobLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AEWAssignmentBlobLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+AssignmentBlobNewOperationIds:dynamic,
+AssignmentBlobSchemaVersion:string,
+AssignmentBlobDataVersion:int,
+ExperimentWorkspaceId:string,
+Identity:string,
+Location:string,
+AssignmentBlobLastOperationId:string,
+URI:string,
+DurationMs:int,
+ResultDescription:string,
+HttpStatusCode:int,
+ResultType:string,
+CorrelationId:string,
+OperationName:string,
+Level:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AEWAssignmentBlobLogs policy caching hot = 1d
+
+.create-or-alter function AEWAssignmentBlobLogsExpand() {
+AEWAssignmentBlobLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+AssignmentBlobNewOperationIds=todynamic(events.AssignmentBlobNewOperationIds),
+AssignmentBlobSchemaVersion=tostring(events.AssignmentBlobSchemaVersion),
+AssignmentBlobDataVersion=toint(events.AssignmentBlobDataVersion),
+ExperimentWorkspaceId=tostring(events.ExperimentWorkspaceId),
+Identity=tostring(events.Identity),
+Location=tostring(events.Location),
+AssignmentBlobLastOperationId=tostring(events.AssignmentBlobLastOperationId),
+URI=tostring(events.URI),
+DurationMs=toint(events.DurationMs),
+ResultDescription=tostring(events.ResultDescription),
+HttpStatusCode=toint(events.HttpStatusCode),
+ResultType=tostring(events.ResultType),
+CorrelationId=tostring(events.CorrelationId),
+OperationName=tostring(events.OperationName),
+Level=tostring(events.Level),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AEWAssignmentBlobLogs policy update @'[{"Source": "AEWAssignmentBlobLogsRaw", "Query": "AEWAssignmentBlobLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

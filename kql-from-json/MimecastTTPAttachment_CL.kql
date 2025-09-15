@@ -1,0 +1,66 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for MimecastTTPAttachment_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table MimecastTTPAttachment_CLRaw (records:dynamic)
+
+.alter-merge table MimecastTTPAttachment_CLRaw policy retention softdelete = 1d
+
+.alter table MimecastTTPAttachment_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table MimecastTTPAttachment_CLRaw ingestion json mapping 'MimecastTTPAttachment_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table MimecastTTPAttachment_CL(
+TimeGenerated:datetime,
+senderAddress_s:string,
+recipientAddress_s:string,
+fileName_s:string,
+fileType_s:string,
+result_s:string,
+actionTriggered_s:string,
+date_t:datetime,
+details_s:string,
+route_s:string,
+messageId_s:string,
+subject_s:string,
+fileHash_s:string,
+definition_s:string,
+mimecastEventId_s:string,
+mimecastEventCategory_s:string,
+time_generated:datetime,
+_TimeReceived:datetime)
+
+.alter table MimecastTTPAttachment_CL policy caching hot = 1d
+
+.create-or-alter function MimecastTTPAttachment_CLExpand() {
+MimecastTTPAttachment_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+senderAddress_s=tostring(events.senderAddress_s),
+recipientAddress_s=tostring(events.recipientAddress_s),
+fileName_s=tostring(events.fileName_s),
+fileType_s=tostring(events.fileType_s),
+result_s=tostring(events.result_s),
+actionTriggered_s=tostring(events.actionTriggered_s),
+date_t=todatetime(events.date_t),
+details_s=tostring(events.details_s),
+route_s=tostring(events.route_s),
+messageId_s=tostring(events.messageId_s),
+subject_s=tostring(events.subject_s),
+fileHash_s=tostring(events.fileHash_s),
+definition_s=tostring(events.definition_s),
+mimecastEventId_s=tostring(events.mimecastEventId_s),
+mimecastEventCategory_s=tostring(events.mimecastEventCategory_s),
+time_generated=todatetime(events.time_generated),
+_TimeReceived=todatetime(now())
+}
+
+.alter table MimecastTTPAttachment_CL policy update @'[{"Source": "MimecastTTPAttachment_CLRaw", "Query": "MimecastTTPAttachment_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

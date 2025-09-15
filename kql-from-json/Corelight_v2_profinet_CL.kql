@@ -1,0 +1,62 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_profinet_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:13
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_profinet_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_profinet_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_profinet_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_profinet_CLRaw ingestion json mapping 'Corelight_v2_profinet_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_profinet_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+uid_s:string,
+id_orig_h_s:string,
+id_orig_p_d:real,
+id_resp_h_s:string,
+id_resp_p_d:real,
+operation_type_s:string,
+block_version_s:string,
+slot_number_d:real,
+subslot_number_d:real,
+index_s:string,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_profinet_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_profinet_CLExpand() {
+Corelight_v2_profinet_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+uid_s=tostring(events.uid_s),
+id_orig_h_s=tostring(events.id_orig_h_s),
+id_orig_p_d=toreal(events.id_orig_p_d),
+id_resp_h_s=tostring(events.id_resp_h_s),
+id_resp_p_d=toreal(events.id_resp_p_d),
+operation_type_s=tostring(events.operation_type_s),
+block_version_s=tostring(events.block_version_s),
+slot_number_d=toreal(events.slot_number_d),
+subslot_number_d=toreal(events.subslot_number_d),
+index_s=tostring(events.index_s),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_profinet_CL policy update @'[{"Source": "Corelight_v2_profinet_CLRaw", "Query": "Corelight_v2_profinet_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

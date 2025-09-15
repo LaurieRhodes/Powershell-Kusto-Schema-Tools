@@ -1,0 +1,98 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for TrendMicroCAS_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table TrendMicroCAS_CLRaw (records:dynamic)
+
+.alter-merge table TrendMicroCAS_CLRaw policy retention softdelete = 1d
+
+.alter table TrendMicroCAS_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table TrendMicroCAS_CLRaw ingestion json mapping 'TrendMicroCAS_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table TrendMicroCAS_CL(
+TimeGenerated:datetime,
+log_item_id_g:string,
+message_file_sha256_s:string,
+message_detection_type_s:string,
+message_risk_level_s:string,
+message_file_sha1_s:string,
+message_virus_name_s:string,
+message_file_sha256_s:string,
+message_file_sha1_s:string,
+message_risk_level_s:string,
+message_detected_by_s:string,
+message_security_risk_name_s:string,
+message_file_upload_time_t:datetime,
+message_file_name_s:string,
+message_mail_message_file_name_s:string,
+message_mail_message_subject_s:string,
+message_mail_message_delivery_time_t:datetime,
+message_mail_message_submit_time_t:datetime,
+message_mail_message_recipient_d:real,
+message_mail_message_sender_s:string,
+message_mail_message_id_g:string,
+message_action_result_s:string,
+message_action_s:string,
+message_triggered_security_filter_s:string,
+message_triggered_policy_name_s:string,
+message_detection_time_t:datetime,
+message_location_s:string,
+message_affected_user_s:string,
+message_scan_type_s:string,
+event_s:string,
+service_s:string,
+message_ransomware_name_s:string,
+message_triggered_dlp_template_d:real,
+_TimeReceived:datetime)
+
+.alter table TrendMicroCAS_CL policy caching hot = 1d
+
+.create-or-alter function TrendMicroCAS_CLExpand() {
+TrendMicroCAS_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+log_item_id_g=tostring(events.log_item_id_g),
+message_file_sha256_s=tostring(events.message_file_sha256_s),
+message_detection_type_s=tostring(events.message_detection_type_s),
+message_risk_level_s=tostring(events.message_risk_level_s),
+message_file_sha1_s=tostring(events.message_file_sha1_s),
+message_virus_name_s=tostring(events.message_virus_name_s),
+message_file_sha256_s=tostring(events.message_file_sha256_s),
+message_file_sha1_s=tostring(events.message_file_sha1_s),
+message_risk_level_s=tostring(events.message_risk_level_s),
+message_detected_by_s=tostring(events.message_detected_by_s),
+message_security_risk_name_s=tostring(events.message_security_risk_name_s),
+message_file_upload_time_t=todatetime(events.message_file_upload_time_t),
+message_file_name_s=tostring(events.message_file_name_s),
+message_mail_message_file_name_s=tostring(events.message_mail_message_file_name_s),
+message_mail_message_subject_s=tostring(events.message_mail_message_subject_s),
+message_mail_message_delivery_time_t=todatetime(events.message_mail_message_delivery_time_t),
+message_mail_message_submit_time_t=todatetime(events.message_mail_message_submit_time_t),
+message_mail_message_recipient_d=toreal(events.message_mail_message_recipient_d),
+message_mail_message_sender_s=tostring(events.message_mail_message_sender_s),
+message_mail_message_id_g=tostring(events.message_mail_message_id_g),
+message_action_result_s=tostring(events.message_action_result_s),
+message_action_s=tostring(events.message_action_s),
+message_triggered_security_filter_s=tostring(events.message_triggered_security_filter_s),
+message_triggered_policy_name_s=tostring(events.message_triggered_policy_name_s),
+message_detection_time_t=todatetime(events.message_detection_time_t),
+message_location_s=tostring(events.message_location_s),
+message_affected_user_s=tostring(events.message_affected_user_s),
+message_scan_type_s=tostring(events.message_scan_type_s),
+event_s=tostring(events.event_s),
+service_s=tostring(events.service_s),
+message_ransomware_name_s=tostring(events.message_ransomware_name_s),
+message_triggered_dlp_template_d=toreal(events.message_triggered_dlp_template_d),
+_TimeReceived=todatetime(now())
+}
+
+.alter table TrendMicroCAS_CL policy update @'[{"Source": "TrendMicroCAS_CLRaw", "Query": "TrendMicroCAS_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,55 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for OEPElasticOperator - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:18:32
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 10, Final columns: 10
+// ============================================================================
+
+.create-merge table OEPElasticOperatorRaw (records:dynamic)
+
+.alter-merge table OEPElasticOperatorRaw policy retention softdelete = 1d
+
+.alter table OEPElasticOperatorRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table OEPElasticOperatorRaw ingestion json mapping 'OEPElasticOperatorRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table OEPElasticOperator(
+TimeGenerated:datetime,
+TenantId:guid,
+Category:string,
+OperationName:string,
+Content:string,
+Namespace:string,
+Location:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table OEPElasticOperator policy caching hot = 1d
+
+.create-or-alter function OEPElasticOperatorExpand() {
+OEPElasticOperatorRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Category=tostring(events.Category),
+OperationName=tostring(events.OperationName),
+Content=tostring(events.Content),
+Namespace=tostring(events.Namespace),
+Location=tostring(events.Location),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table OEPElasticOperator policy update @'[{"Source": "OEPElasticOperatorRaw", "Query": "OEPElasticOperatorExpand()", "IsEnabled": "True", "IsTransactional": true}]'

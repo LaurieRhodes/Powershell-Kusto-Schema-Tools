@@ -1,0 +1,106 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ProofPointTAPMessagesBlocked_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table ProofPointTAPMessagesBlocked_CLRaw (records:dynamic)
+
+.alter-merge table ProofPointTAPMessagesBlocked_CLRaw policy retention softdelete = 1d
+
+.alter table ProofPointTAPMessagesBlocked_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ProofPointTAPMessagesBlocked_CLRaw ingestion json mapping 'ProofPointTAPMessagesBlocked_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ProofPointTAPMessagesBlocked_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+ccAddresses_s:string,
+fromAddress_s:string,
+quarantineFolder_s:string,
+cluster_s:string,
+GUID_s:string,
+modulesRun_s:string,
+policyRoutes_s:string,
+phishScore_d:real,
+headerFrom_s:string,
+messageSize_d:real,
+malwareScore_d:real,
+impostorScore_d:real,
+headerReplyTo_s:string,
+messageParts_s:string,
+messageID_s:string,
+senderIP_s:string,
+recipient_s:string,
+SourceSystem:string,
+MG:string,
+ManagementGroupName:string,
+Computer:string,
+RawData:string,
+spamScore_d:real,
+xmailer_s:string,
+threatsInfoMap_s:string,
+subject_s:string,
+quarantineRule_s:string,
+replyToAddress_s:string,
+toAddresses_s:string,
+QID_s:string,
+sender_s:string,
+messageTime_t:datetime,
+completelyRewritten_b:bool,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ProofPointTAPMessagesBlocked_CL policy caching hot = 1d
+
+.create-or-alter function ProofPointTAPMessagesBlocked_CLExpand() {
+ProofPointTAPMessagesBlocked_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ccAddresses_s=tostring(events.ccAddresses_s),
+fromAddress_s=tostring(events.fromAddress_s),
+quarantineFolder_s=tostring(events.quarantineFolder_s),
+cluster_s=tostring(events.cluster_s),
+GUID_s=tostring(events.GUID_s),
+modulesRun_s=tostring(events.modulesRun_s),
+policyRoutes_s=tostring(events.policyRoutes_s),
+phishScore_d=toreal(events.phishScore_d),
+headerFrom_s=tostring(events.headerFrom_s),
+messageSize_d=toreal(events.messageSize_d),
+malwareScore_d=toreal(events.malwareScore_d),
+impostorScore_d=toreal(events.impostorScore_d),
+headerReplyTo_s=tostring(events.headerReplyTo_s),
+messageParts_s=tostring(events.messageParts_s),
+messageID_s=tostring(events.messageID_s),
+senderIP_s=tostring(events.senderIP_s),
+recipient_s=tostring(events.recipient_s),
+SourceSystem=tostring(events.SourceSystem),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+Computer=tostring(events.Computer),
+RawData=tostring(events.RawData),
+spamScore_d=toreal(events.spamScore_d),
+xmailer_s=tostring(events.xmailer_s),
+threatsInfoMap_s=tostring(events.threatsInfoMap_s),
+subject_s=tostring(events.subject_s),
+quarantineRule_s=tostring(events.quarantineRule_s),
+replyToAddress_s=tostring(events.replyToAddress_s),
+toAddresses_s=tostring(events.toAddresses_s),
+QID_s=tostring(events.QID_s),
+sender_s=tostring(events.sender_s),
+messageTime_t=todatetime(events.messageTime_t),
+completelyRewritten_b=tobool(events.completelyRewritten_b),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ProofPointTAPMessagesBlocked_CL policy update @'[{"Source": "ProofPointTAPMessagesBlocked_CLRaw", "Query": "ProofPointTAPMessagesBlocked_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

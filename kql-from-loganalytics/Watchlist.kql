@@ -1,0 +1,91 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Watchlist - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:22:34
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 28, Final columns: 28
+// ============================================================================
+
+.create-merge table WatchlistRaw (records:dynamic)
+
+.alter-merge table WatchlistRaw policy retention softdelete = 1d
+
+.alter table WatchlistRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table WatchlistRaw ingestion json mapping 'WatchlistRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Watchlist(
+TimeGenerated:datetime,
+TenantId:guid,
+SearchKey:string,
+CorrelationId:string,
+EntityMapping:dynamic,
+WatchlistItem:dynamic,
+TimeToLive:datetime,
+DefaultDuration:string,
+Tags:string,
+Notes:string,
+LastUpdatedTimeUTC:datetime,
+CreatedTimeUTC:datetime,
+UpdatedBy:dynamic,
+CreatedBy:dynamic,
+Provider:string,
+Source:string,
+WatchlistAlias:string,
+WatchlistName:string,
+WatchlistItemId:string,
+WatchlistId:string,
+AzureTenantId:string,
+WatchlistCategory:string,
+SourceSystem:string,
+Type:string,
+_DTTimestamp:datetime,
+_DTItemId:string,
+_DTItemType:string,
+_DTItemStatus:string,
+_TimeReceived:datetime)
+
+.alter table Watchlist policy caching hot = 1d
+
+.create-or-alter function WatchlistExpand() {
+WatchlistRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SearchKey=tostring(events.SearchKey),
+CorrelationId=tostring(events.CorrelationId),
+EntityMapping=todynamic(events.EntityMapping),
+WatchlistItem=todynamic(events.WatchlistItem),
+TimeToLive=todatetime(events.TimeToLive),
+DefaultDuration=tostring(events.DefaultDuration),
+Tags=tostring(events.Tags),
+Notes=tostring(events.Notes),
+LastUpdatedTimeUTC=todatetime(events.LastUpdatedTimeUTC),
+CreatedTimeUTC=todatetime(events.CreatedTimeUTC),
+UpdatedBy=todynamic(events.UpdatedBy),
+CreatedBy=todynamic(events.CreatedBy),
+Provider=tostring(events.Provider),
+Source=tostring(events.Source),
+WatchlistAlias=tostring(events.WatchlistAlias),
+WatchlistName=tostring(events.WatchlistName),
+WatchlistItemId=tostring(events.WatchlistItemId),
+WatchlistId=tostring(events.WatchlistId),
+AzureTenantId=tostring(events.AzureTenantId),
+WatchlistCategory=tostring(events.WatchlistCategory),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_DTTimestamp=todatetime(events._DTTimestamp),
+_DTItemId=tostring(events._DTItemId),
+_DTItemType=tostring(events._DTItemType),
+_DTItemStatus=tostring(events._DTItemStatus),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Watchlist policy update @'[{"Source": "WatchlistRaw", "Query": "WatchlistExpand()", "IsEnabled": "True", "IsTransactional": true}]'

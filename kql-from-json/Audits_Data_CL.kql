@@ -1,0 +1,78 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Audits_Data_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:11
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Audits_Data_CLRaw (records:dynamic)
+
+.alter-merge table Audits_Data_CLRaw policy retention softdelete = 1d
+
+.alter table Audits_Data_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Audits_Data_CLRaw ingestion json mapping 'Audits_Data_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Audits_Data_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+event_object_s:string,
+event_data_s:string,
+result_status_s:string,
+Message:string,
+event_timestamp_t:datetime,
+source_ip_s:string,
+version_s:string,
+user_role_s:string,
+user_type_s:string,
+username_s:string,
+user_id_d:real,
+id_d:real,
+RawData:string,
+Computer:string,
+ManagementGroupName:string,
+MG:string,
+SourceSystem:string,
+event_action_s:string,
+api_client_id_g:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table Audits_Data_CL policy caching hot = 1d
+
+.create-or-alter function Audits_Data_CLExpand() {
+Audits_Data_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+event_object_s=tostring(events.event_object_s),
+event_data_s=tostring(events.event_data_s),
+result_status_s=tostring(events.result_status_s),
+Message=tostring(events.Message),
+event_timestamp_t=todatetime(events.event_timestamp_t),
+source_ip_s=tostring(events.source_ip_s),
+version_s=tostring(events.version_s),
+user_role_s=tostring(events.user_role_s),
+user_type_s=tostring(events.user_type_s),
+username_s=tostring(events.username_s),
+user_id_d=toreal(events.user_id_d),
+id_d=toreal(events.id_d),
+RawData=tostring(events.RawData),
+Computer=tostring(events.Computer),
+ManagementGroupName=tostring(events.ManagementGroupName),
+MG=tostring(events.MG),
+SourceSystem=tostring(events.SourceSystem),
+event_action_s=tostring(events.event_action_s),
+api_client_id_g=tostring(events.api_client_id_g),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Audits_Data_CL policy update @'[{"Source": "Audits_Data_CLRaw", "Query": "Audits_Data_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

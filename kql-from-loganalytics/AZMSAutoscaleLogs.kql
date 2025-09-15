@@ -1,0 +1,51 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AZMSAutoscaleLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:24:18
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 8, Final columns: 8
+// ============================================================================
+
+.create-merge table AZMSAutoscaleLogsRaw (records:dynamic)
+
+.alter-merge table AZMSAutoscaleLogsRaw policy retention softdelete = 1d
+
+.alter table AZMSAutoscaleLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AZMSAutoscaleLogsRaw ingestion json mapping 'AZMSAutoscaleLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AZMSAutoscaleLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+TrackingId:string,
+Message:string,
+Provider:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AZMSAutoscaleLogs policy caching hot = 1d
+
+.create-or-alter function AZMSAutoscaleLogsExpand() {
+AZMSAutoscaleLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+TrackingId=tostring(events.TrackingId),
+Message=tostring(events.Message),
+Provider=tostring(events.Provider),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AZMSAutoscaleLogs policy update @'[{"Source": "AZMSAutoscaleLogsRaw", "Query": "AZMSAutoscaleLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

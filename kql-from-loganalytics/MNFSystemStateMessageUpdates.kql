@@ -1,0 +1,57 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for MNFSystemStateMessageUpdates - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:17:03
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 11, Final columns: 11
+// ============================================================================
+
+.create-merge table MNFSystemStateMessageUpdatesRaw (records:dynamic)
+
+.alter-merge table MNFSystemStateMessageUpdatesRaw policy retention softdelete = 1d
+
+.alter table MNFSystemStateMessageUpdatesRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table MNFSystemStateMessageUpdatesRaw ingestion json mapping 'MNFSystemStateMessageUpdatesRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table MNFSystemStateMessageUpdates(
+TimeGenerated:datetime,
+TenantId:guid,
+EventName:string,
+EventCategory:string,
+FabricId:string,
+DeviceId:string,
+DeviceTime:long,
+Properties:dynamic,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table MNFSystemStateMessageUpdates policy caching hot = 1d
+
+.create-or-alter function MNFSystemStateMessageUpdatesExpand() {
+MNFSystemStateMessageUpdatesRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+EventName=tostring(events.EventName),
+EventCategory=tostring(events.EventCategory),
+FabricId=tostring(events.FabricId),
+DeviceId=tostring(events.DeviceId),
+DeviceTime=tolong(events.DeviceTime),
+Properties=todynamic(events.Properties),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table MNFSystemStateMessageUpdates policy update @'[{"Source": "MNFSystemStateMessageUpdatesRaw", "Query": "MNFSystemStateMessageUpdatesExpand()", "IsEnabled": "True", "IsTransactional": true}]'

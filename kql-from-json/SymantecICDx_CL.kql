@@ -1,0 +1,54 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for SymantecICDx_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table SymantecICDx_CLRaw (records:dynamic)
+
+.alter-merge table SymantecICDx_CLRaw policy retention softdelete = 1d
+
+.alter table SymantecICDx_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table SymantecICDx_CLRaw ingestion json mapping 'SymantecICDx_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table SymantecICDx_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+SourceSystem:string,
+Computer:string,
+MG:string,
+ManagementGroupName:string,
+RawData:string,
+connection_src_ip_s:string,
+threat_id_d:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table SymantecICDx_CL policy caching hot = 1d
+
+.create-or-alter function SymantecICDx_CLExpand() {
+SymantecICDx_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SourceSystem=tostring(events.SourceSystem),
+Computer=tostring(events.Computer),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+RawData=tostring(events.RawData),
+connection_src_ip_s=tostring(events.connection_src_ip_s),
+threat_id_d=tostring(events.threat_id_d),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table SymantecICDx_CL policy update @'[{"Source": "SymantecICDx_CLRaw", "Query": "SymantecICDx_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

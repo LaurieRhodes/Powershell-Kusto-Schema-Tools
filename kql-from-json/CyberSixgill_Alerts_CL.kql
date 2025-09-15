@@ -1,0 +1,92 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for CyberSixgill_Alerts_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table CyberSixgill_Alerts_CLRaw (records:dynamic)
+
+.alter-merge table CyberSixgill_Alerts_CLRaw policy retention softdelete = 1d
+
+.alter table CyberSixgill_Alerts_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table CyberSixgill_Alerts_CLRaw ingestion json mapping 'CyberSixgill_Alerts_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table CyberSixgill_Alerts_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+threat_actor:string,
+assets:string,
+user_id:string,
+title:string,
+threats:string,
+threat_level:string,
+sub_alertsize:real,
+sub_alerts:string,
+status_name:string,
+Severity:int,
+read:bool,
+threatource:string,
+langcode:string,
+id:string,
+date:string,
+content:string,
+Category:string,
+alert_type_id:string,
+alert_name:string,
+RawData:string,
+Computer:string,
+ManagementGroupName:string,
+MG:string,
+SourceSystem:string,
+lang:string,
+portal_url:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table CyberSixgill_Alerts_CL policy caching hot = 1d
+
+.create-or-alter function CyberSixgill_Alerts_CLExpand() {
+CyberSixgill_Alerts_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+threat_actor=tostring(events.threat_actor),
+assets=tostring(events.assets),
+user_id=tostring(events.user_id),
+title=tostring(events.title),
+threats=tostring(events.threats),
+threat_level=tostring(events.threat_level),
+sub_alertsize=toreal(events.sub_alertsize),
+sub_alerts=tostring(events.sub_alerts),
+status_name=tostring(events.status_name),
+Severity=toint(events.Severity),
+read=tobool(events.read),
+threatource=tostring(events.threatource),
+langcode=tostring(events.langcode),
+id=tostring(events.id),
+date=tostring(events.date),
+content=tostring(events.content),
+Category=tostring(events.Category),
+alert_type_id=tostring(events.alert_type_id),
+alert_name=tostring(events.alert_name),
+RawData=tostring(events.RawData),
+Computer=tostring(events.Computer),
+ManagementGroupName=tostring(events.ManagementGroupName),
+MG=tostring(events.MG),
+SourceSystem=tostring(events.SourceSystem),
+lang=tostring(events.lang),
+portal_url=tostring(events.portal_url),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table CyberSixgill_Alerts_CL policy update @'[{"Source": "CyberSixgill_Alerts_CLRaw", "Query": "CyberSixgill_Alerts_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,44 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for VMware_CWS_Health_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table VMware_CWS_Health_CLRaw (records:dynamic)
+
+.alter-merge table VMware_CWS_Health_CLRaw policy retention softdelete = 1d
+
+.alter table VMware_CWS_Health_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table VMware_CWS_Health_CLRaw ingestion json mapping 'VMware_CWS_Health_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table VMware_CWS_Health_CL(
+TimeGenerated:datetime,
+cws_component:string,
+healthtest_observed_unit:string,
+healthtest_observed_value:int,
+healthtest_status:string,
+healthtest_timestamp:datetime,
+_TimeReceived:datetime)
+
+.alter table VMware_CWS_Health_CL policy caching hot = 1d
+
+.create-or-alter function VMware_CWS_Health_CLExpand() {
+VMware_CWS_Health_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+cws_component=tostring(events.cws_component),
+healthtest_observed_unit=tostring(events.healthtest_observed_unit),
+healthtest_observed_value=toint(events.healthtest_observed_value),
+healthtest_status=tostring(events.healthtest_status),
+healthtest_timestamp=todatetime(events.healthtest_timestamp),
+_TimeReceived=todatetime(now())
+}
+
+.alter table VMware_CWS_Health_CL policy update @'[{"Source": "VMware_CWS_Health_CLRaw", "Query": "VMware_CWS_Health_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

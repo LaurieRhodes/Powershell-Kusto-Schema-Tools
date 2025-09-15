@@ -1,0 +1,62 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for BitsightFindings_summary_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:11
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table BitsightFindings_summary_CLRaw (records:dynamic)
+
+.alter-merge table BitsightFindings_summary_CLRaw policy retention softdelete = 1d
+
+.alter table BitsightFindings_summary_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table BitsightFindings_summary_CLRaw ingestion json mapping 'BitsightFindings_summary_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table BitsightFindings_summary_CL(
+TimeGenerated:datetime,
+EventVendor:string,
+EventProduct:string,
+Company:string,
+Confidence:string,
+Description:string,
+EndDate:string,
+EventCount:real,
+FirstSeen:string,
+HostCount:real,
+Id:string,
+Name:string,
+Severity:string,
+StartDate:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table BitsightFindings_summary_CL policy caching hot = 1d
+
+.create-or-alter function BitsightFindings_summary_CLExpand() {
+BitsightFindings_summary_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+EventVendor=tostring(events.EventVendor),
+EventProduct=tostring(events.EventProduct),
+Company=tostring(events.Company),
+Confidence=tostring(events.Confidence),
+Description=tostring(events.Description),
+EndDate=tostring(events.EndDate),
+EventCount=toreal(events.EventCount),
+FirstSeen=tostring(events.FirstSeen),
+HostCount=toreal(events.HostCount),
+Id=tostring(events.Id),
+Name=tostring(events.Name),
+Severity=tostring(events.Severity),
+StartDate=tostring(events.StartDate),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table BitsightFindings_summary_CL policy update @'[{"Source": "BitsightFindings_summary_CLRaw", "Query": "BitsightFindings_summary_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

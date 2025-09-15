@@ -1,0 +1,60 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for feedly_indicators_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table feedly_indicators_CLRaw (records:dynamic)
+
+.alter-merge table feedly_indicators_CLRaw policy retention softdelete = 1d
+
+.alter table feedly_indicators_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table feedly_indicators_CLRaw ingestion json mapping 'feedly_indicators_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table feedly_indicators_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+SourceSystem:string,
+MG:string,
+ManagementGroupName:string,
+Computer:string,
+RawData:string,
+articleTitle_s:string,
+articleUrl_s:string,
+source_s:string,
+type_s:string,
+value_s:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table feedly_indicators_CL policy caching hot = 1d
+
+.create-or-alter function feedly_indicators_CLExpand() {
+feedly_indicators_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SourceSystem=tostring(events.SourceSystem),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+Computer=tostring(events.Computer),
+RawData=tostring(events.RawData),
+articleTitle_s=tostring(events.articleTitle_s),
+articleUrl_s=tostring(events.articleUrl_s),
+source_s=tostring(events.source_s),
+type_s=tostring(events.type_s),
+value_s=tostring(events.value_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table feedly_indicators_CL policy update @'[{"Source": "feedly_indicators_CLRaw", "Query": "feedly_indicators_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,116 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Zoom_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Zoom_CLRaw (records:dynamic)
+
+.alter-merge table Zoom_CLRaw policy retention softdelete = 1d
+
+.alter table Zoom_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Zoom_CLRaw ingestion json mapping 'Zoom_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Zoom_CL(
+TimeGenerated:datetime,
+EventVendor:string,
+EventCategoryType:string,
+CreateTime:datetime,
+EventCreationTime:datetime,
+Usage:string,
+PlanUsage:string,
+FreeUsage:string,
+Time:datetime,
+Operator:string,
+CategoryType:string,
+Action:string,
+OperationDetail:string,
+EventOriginalMessage:string,
+EventResult:string,
+IpAddress:string,
+SrcIpAddr:string,
+ClientType:string,
+SrcDvcModelName:string,
+EventEndTime:datetime,
+Version:string,
+LastLoginTime:datetime,
+Department:string,
+EventProduct:string,
+EventDay:string,
+Date:string,
+NewUsersCount:real,
+MeetingsCount:real,
+ParticipantsCount:real,
+MeetingMinutes:real,
+EventType:string,
+EventName:string,
+EventMessage:string,
+Id:string,
+UserIdentity:string,
+Email:string,
+UserEmail:string,
+UserName:string,
+UserType:real,
+Dept:string,
+LastClientVersion:string,
+SrcDvcModelNumber:string,
+_TimeReceived:datetime)
+
+.alter table Zoom_CL policy caching hot = 1d
+
+.create-or-alter function Zoom_CLExpand() {
+Zoom_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+EventVendor=tostring(events.EventVendor),
+EventCategoryType=tostring(events.EventCategoryType),
+CreateTime=todatetime(events.CreateTime),
+EventCreationTime=todatetime(events.EventCreationTime),
+Usage=tostring(events.Usage),
+PlanUsage=tostring(events.PlanUsage),
+FreeUsage=tostring(events.FreeUsage),
+Time=todatetime(events.Time),
+Operator=tostring(events.Operator),
+CategoryType=tostring(events.CategoryType),
+Action=tostring(events.Action),
+OperationDetail=tostring(events.OperationDetail),
+EventOriginalMessage=tostring(events.EventOriginalMessage),
+EventResult=tostring(events.EventResult),
+IpAddress=tostring(events.IpAddress),
+SrcIpAddr=tostring(events.SrcIpAddr),
+ClientType=tostring(events.ClientType),
+SrcDvcModelName=tostring(events.SrcDvcModelName),
+EventEndTime=todatetime(events.EventEndTime),
+Version=tostring(events.Version),
+LastLoginTime=todatetime(events.LastLoginTime),
+Department=tostring(events.Department),
+EventProduct=tostring(events.EventProduct),
+EventDay=tostring(events.EventDay),
+Date=tostring(events.Date),
+NewUsersCount=toreal(events.NewUsersCount),
+MeetingsCount=toreal(events.MeetingsCount),
+ParticipantsCount=toreal(events.ParticipantsCount),
+MeetingMinutes=toreal(events.MeetingMinutes),
+EventType=tostring(events.EventType),
+EventName=tostring(events.EventName),
+EventMessage=tostring(events.EventMessage),
+Id=tostring(events.Id),
+UserIdentity=tostring(events.UserIdentity),
+Email=tostring(events.Email),
+UserEmail=tostring(events.UserEmail),
+UserName=tostring(events.UserName),
+UserType=toreal(events.UserType),
+Dept=tostring(events.Dept),
+LastClientVersion=tostring(events.LastClientVersion),
+SrcDvcModelNumber=tostring(events.SrcDvcModelNumber),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Zoom_CL policy update @'[{"Source": "Zoom_CLRaw", "Query": "Zoom_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

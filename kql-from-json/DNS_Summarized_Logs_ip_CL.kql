@@ -1,0 +1,46 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for DNS_Summarized_Logs_ip_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table DNS_Summarized_Logs_ip_CLRaw (records:dynamic)
+
+.alter-merge table DNS_Summarized_Logs_ip_CLRaw policy retention softdelete = 1d
+
+.alter table DNS_Summarized_Logs_ip_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table DNS_Summarized_Logs_ip_CLRaw ingestion json mapping 'DNS_Summarized_Logs_ip_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table DNS_Summarized_Logs_ip_CL(
+TimeGenerated:datetime,
+EventTime_t:datetime,
+SrcIpAddr_s:string,
+DnsQuery_s:string,
+EventResultDetails_s:string,
+DnsResponseName_s:string,
+count__d:int,
+_TimeReceived:datetime)
+
+.alter table DNS_Summarized_Logs_ip_CL policy caching hot = 1d
+
+.create-or-alter function DNS_Summarized_Logs_ip_CLExpand() {
+DNS_Summarized_Logs_ip_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+EventTime_t=todatetime(events.EventTime_t),
+SrcIpAddr_s=tostring(events.SrcIpAddr_s),
+DnsQuery_s=tostring(events.DnsQuery_s),
+EventResultDetails_s=tostring(events.EventResultDetails_s),
+DnsResponseName_s=tostring(events.DnsResponseName_s),
+count__d=toint(events.count__d),
+_TimeReceived=todatetime(now())
+}
+
+.alter table DNS_Summarized_Logs_ip_CL policy update @'[{"Source": "DNS_Summarized_Logs_ip_CLRaw", "Query": "DNS_Summarized_Logs_ip_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

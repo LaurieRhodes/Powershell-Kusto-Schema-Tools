@@ -1,0 +1,73 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for OLPSupplyChainEntityOperations - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:18:49
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 19, Final columns: 19
+// ============================================================================
+
+.create-merge table OLPSupplyChainEntityOperationsRaw (records:dynamic)
+
+.alter-merge table OLPSupplyChainEntityOperationsRaw policy retention softdelete = 1d
+
+.alter table OLPSupplyChainEntityOperationsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table OLPSupplyChainEntityOperationsRaw ingestion json mapping 'OLPSupplyChainEntityOperationsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table OLPSupplyChainEntityOperations(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+RequestUri:string,
+RequestMethod:string,
+HttpStatusCode:int,
+CorrelationId:string,
+RequestId:string,
+DurationMs:real,
+ClientTenantId:string,
+ClientObjectId:string,
+ClientName:string,
+ClientApplicationId:string,
+RequestBody:dynamic,
+ResponseBody:dynamic,
+CustomRequestAttributes:dynamic,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table OLPSupplyChainEntityOperations policy caching hot = 1d
+
+.create-or-alter function OLPSupplyChainEntityOperationsExpand() {
+OLPSupplyChainEntityOperationsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+RequestUri=tostring(events.RequestUri),
+RequestMethod=tostring(events.RequestMethod),
+HttpStatusCode=toint(events.HttpStatusCode),
+CorrelationId=tostring(events.CorrelationId),
+RequestId=tostring(events.RequestId),
+DurationMs=toreal(events.DurationMs),
+ClientTenantId=tostring(events.ClientTenantId),
+ClientObjectId=tostring(events.ClientObjectId),
+ClientName=tostring(events.ClientName),
+ClientApplicationId=tostring(events.ClientApplicationId),
+RequestBody=todynamic(events.RequestBody),
+ResponseBody=todynamic(events.ResponseBody),
+CustomRequestAttributes=todynamic(events.CustomRequestAttributes),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table OLPSupplyChainEntityOperations policy update @'[{"Source": "OLPSupplyChainEntityOperationsRaw", "Query": "OLPSupplyChainEntityOperationsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

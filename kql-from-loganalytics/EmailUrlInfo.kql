@@ -1,0 +1,55 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for EmailUrlInfo - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:13:54
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 10, Final columns: 10
+// ============================================================================
+
+.create-merge table EmailUrlInfoRaw (records:dynamic)
+
+.alter-merge table EmailUrlInfoRaw policy retention softdelete = 1d
+
+.alter table EmailUrlInfoRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table EmailUrlInfoRaw ingestion json mapping 'EmailUrlInfoRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table EmailUrlInfo(
+TimeGenerated:datetime,
+TenantId:guid,
+NetworkMessageId:string,
+ReportId:string,
+Timestamp:datetime,
+Url:string,
+UrlLocation:string,
+UrlDomain:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table EmailUrlInfo policy caching hot = 1d
+
+.create-or-alter function EmailUrlInfoExpand() {
+EmailUrlInfoRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+NetworkMessageId=tostring(events.NetworkMessageId),
+ReportId=tostring(events.ReportId),
+Timestamp=todatetime(events.Timestamp),
+Url=tostring(events.Url),
+UrlLocation=tostring(events.UrlLocation),
+UrlDomain=tostring(events.UrlDomain),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table EmailUrlInfo policy update @'[{"Source": "EmailUrlInfoRaw", "Query": "EmailUrlInfoExpand()", "IsEnabled": "True", "IsTransactional": true}]'

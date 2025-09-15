@@ -1,0 +1,92 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for BitsightFindings_data_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:11
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table BitsightFindings_data_CLRaw (records:dynamic)
+
+.alter-merge table BitsightFindings_data_CLRaw policy retention softdelete = 1d
+
+.alter table BitsightFindings_data_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table BitsightFindings_data_CLRaw ingestion json mapping 'BitsightFindings_data_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table BitsightFindings_data_CL(
+TimeGenerated:datetime,
+EventVendor:datetime,
+RemediationHistoryLastRefreshStatusDate:string,
+RemediationHistoryLastRequestedRefreshDate:string,
+RemainingDecay:real,
+CompanyName:string,
+AttributedCompanies:string,
+AssetOverrides:string,
+Tags:string,
+SeverityCategory:string,
+Severity:int,
+RolledupObservationId:string,
+RiskVectorLabel:string,
+RiskVector:string,
+RiskCategory:string,
+RelatedFindings:string,
+LastSeen:string,
+FirstSeen:string,
+EvidenceKey:string,
+Details:string,
+Assets:string,
+AffectsRating:bool,
+TemporaryId:string,
+Duration:string,
+PcapID:string,
+Comments:string,
+EventProduct:bool,
+RemediationHistoryLastRefreshStatusLabel:string,
+RemediationHistoryLastRefreshReasonCode:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table BitsightFindings_data_CL policy caching hot = 1d
+
+.create-or-alter function BitsightFindings_data_CLExpand() {
+BitsightFindings_data_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+EventVendor=todatetime(events.EventVendor),
+RemediationHistoryLastRefreshStatusDate=tostring(events.RemediationHistoryLastRefreshStatusDate),
+RemediationHistoryLastRequestedRefreshDate=tostring(events.RemediationHistoryLastRequestedRefreshDate),
+RemainingDecay=toreal(events.RemainingDecay),
+CompanyName=tostring(events.CompanyName),
+AttributedCompanies=tostring(events.AttributedCompanies),
+AssetOverrides=tostring(events.AssetOverrides),
+Tags=tostring(events.Tags),
+SeverityCategory=tostring(events.SeverityCategory),
+Severity=toint(events.Severity),
+RolledupObservationId=tostring(events.RolledupObservationId),
+RiskVectorLabel=tostring(events.RiskVectorLabel),
+RiskVector=tostring(events.RiskVector),
+RiskCategory=tostring(events.RiskCategory),
+RelatedFindings=tostring(events.RelatedFindings),
+LastSeen=tostring(events.LastSeen),
+FirstSeen=tostring(events.FirstSeen),
+EvidenceKey=tostring(events.EvidenceKey),
+Details=tostring(events.Details),
+Assets=tostring(events.Assets),
+AffectsRating=tobool(events.AffectsRating),
+TemporaryId=tostring(events.TemporaryId),
+Duration=tostring(events.Duration),
+PcapID=tostring(events.PcapID),
+Comments=tostring(events.Comments),
+EventProduct=tobool(events.EventProduct),
+RemediationHistoryLastRefreshStatusLabel=tostring(events.RemediationHistoryLastRefreshStatusLabel),
+RemediationHistoryLastRefreshReasonCode=tostring(events.RemediationHistoryLastRefreshReasonCode),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table BitsightFindings_data_CL policy update @'[{"Source": "BitsightFindings_data_CLRaw", "Query": "BitsightFindings_data_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

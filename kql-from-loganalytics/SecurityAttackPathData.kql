@@ -1,0 +1,71 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for SecurityAttackPathData - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:20:04
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 18, Final columns: 18
+// ============================================================================
+
+.create-merge table SecurityAttackPathDataRaw (records:dynamic)
+
+.alter-merge table SecurityAttackPathDataRaw policy retention softdelete = 1d
+
+.alter table SecurityAttackPathDataRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table SecurityAttackPathDataRaw ingestion json mapping 'SecurityAttackPathDataRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table SecurityAttackPathData(
+TimeGenerated:datetime,
+TenantId:guid,
+AttackPathId:string,
+DisplayName:string,
+Description:string,
+EntrypointId:string,
+TargetId:string,
+AdditionalRemediationSteps:string,
+Path:dynamic,
+Assessments:dynamic,
+RiskLevel:string,
+RiskFactors:dynamic,
+PotentialImpact:string,
+Mitre:string,
+AttackStory:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table SecurityAttackPathData policy caching hot = 1d
+
+.create-or-alter function SecurityAttackPathDataExpand() {
+SecurityAttackPathDataRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+AttackPathId=tostring(events.AttackPathId),
+DisplayName=tostring(events.DisplayName),
+Description=tostring(events.Description),
+EntrypointId=tostring(events.EntrypointId),
+TargetId=tostring(events.TargetId),
+AdditionalRemediationSteps=tostring(events.AdditionalRemediationSteps),
+Path=todynamic(events.Path),
+Assessments=todynamic(events.Assessments),
+RiskLevel=tostring(events.RiskLevel),
+RiskFactors=todynamic(events.RiskFactors),
+PotentialImpact=tostring(events.PotentialImpact),
+Mitre=tostring(events.Mitre),
+AttackStory=tostring(events.AttackStory),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table SecurityAttackPathData policy update @'[{"Source": "SecurityAttackPathDataRaw", "Query": "SecurityAttackPathDataExpand()", "IsEnabled": "True", "IsTransactional": true}]'

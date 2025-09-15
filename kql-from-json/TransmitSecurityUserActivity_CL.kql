@@ -1,0 +1,44 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for TransmitSecurityUserActivity_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table TransmitSecurityUserActivity_CLRaw (records:dynamic)
+
+.alter-merge table TransmitSecurityUserActivity_CLRaw policy retention softdelete = 1d
+
+.alter table TransmitSecurityUserActivity_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table TransmitSecurityUserActivity_CLRaw ingestion json mapping 'TransmitSecurityUserActivity_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table TransmitSecurityUserActivity_CL(
+activity:string,
+app_id:string,
+ip:string,
+timestamp:datetime,
+user_agent:string,
+user_id:string,
+_TimeReceived:datetime)
+
+.alter table TransmitSecurityUserActivity_CL policy caching hot = 1d
+
+.create-or-alter function TransmitSecurityUserActivity_CLExpand() {
+TransmitSecurityUserActivity_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+activity=tostring(events.activity),
+app_id=tostring(events.app_id),
+ip=tostring(events.ip),
+timestamp=todatetime(events.timestamp),
+user_agent=tostring(events.user_agent),
+user_id=tostring(events.user_id),
+_TimeReceived=todatetime(now())
+}
+
+.alter table TransmitSecurityUserActivity_CL policy update @'[{"Source": "TransmitSecurityUserActivity_CLRaw", "Query": "TransmitSecurityUserActivity_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

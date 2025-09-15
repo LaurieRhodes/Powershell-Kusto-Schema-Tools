@@ -1,0 +1,99 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ADFActivityRun - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:19:32
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 32, Final columns: 32
+// ============================================================================
+
+.create-merge table ADFActivityRunRaw (records:dynamic)
+
+.alter-merge table ADFActivityRunRaw policy retention softdelete = 1d
+
+.alter table ADFActivityRunRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ADFActivityRunRaw ingestion json mapping 'ADFActivityRunRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ADFActivityRun(
+TimeGenerated:datetime,
+TenantId:guid,
+ErrorCode:string,
+Output:string,
+Input:string,
+PipelineName:string,
+FailureType:string,
+End:datetime,
+LinkedServiceName:string,
+ActivityIterationCount:int,
+ActivityType:string,
+EffectiveIntegrationRuntime:string,
+PipelineRunId:string,
+ActivityRunId:string,
+ErrorMessage:string,
+ActivityName:string,
+EventMessage:string,
+Annotations:string,
+UserProperties:string,
+Status:string,
+Tags:string,
+Location:string,
+Level:string,
+CorrelationId:string,
+Category:string,
+OperationName:string,
+ResourceId:string,
+SourceSystem:string,
+Start:datetime,
+Error:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ADFActivityRun policy caching hot = 1d
+
+.create-or-alter function ADFActivityRunExpand() {
+ADFActivityRunRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ErrorCode=tostring(events.ErrorCode),
+Output=tostring(events.Output),
+Input=tostring(events.Input),
+PipelineName=tostring(events.PipelineName),
+FailureType=tostring(events.FailureType),
+End=todatetime(events.End),
+LinkedServiceName=tostring(events.LinkedServiceName),
+ActivityIterationCount=toint(events.ActivityIterationCount),
+ActivityType=tostring(events.ActivityType),
+EffectiveIntegrationRuntime=tostring(events.EffectiveIntegrationRuntime),
+PipelineRunId=tostring(events.PipelineRunId),
+ActivityRunId=tostring(events.ActivityRunId),
+ErrorMessage=tostring(events.ErrorMessage),
+ActivityName=tostring(events.ActivityName),
+EventMessage=tostring(events.EventMessage),
+Annotations=tostring(events.Annotations),
+UserProperties=tostring(events.UserProperties),
+Status=tostring(events.Status),
+Tags=tostring(events.Tags),
+Location=tostring(events.Location),
+Level=tostring(events.Level),
+CorrelationId=tostring(events.CorrelationId),
+Category=tostring(events.Category),
+OperationName=tostring(events.OperationName),
+ResourceId=tostring(events.ResourceId),
+SourceSystem=tostring(events.SourceSystem),
+Start=todatetime(events.Start),
+Error=tostring(events.Error),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ADFActivityRun policy update @'[{"Source": "ADFActivityRunRaw", "Query": "ADFActivityRunExpand()", "IsEnabled": "True", "IsTransactional": true}]'

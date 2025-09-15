@@ -1,0 +1,68 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for MimecastSIEM_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table MimecastSIEM_CLRaw (records:dynamic)
+
+.alter-merge table MimecastSIEM_CLRaw policy retention softdelete = 1d
+
+.alter table MimecastSIEM_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table MimecastSIEM_CLRaw ingestion json mapping 'MimecastSIEM_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table MimecastSIEM_CL(
+TimeGenerated:datetime,
+datetime_d:datetime,
+mimecastEventId_s:string,
+reason_s:string,
+logType_s:string,
+Subject_s:string,
+MsgId_s:string,
+MsgSize_s:string,
+mimecastEventCategory_s:string,
+AttNames_s:string,
+Act_s:string,
+AttSize_s:string,
+Hld_s:string,
+Sender_s:string,
+acc_s:string,
+aCode_s:string,
+AttCnt_s:string,
+time_generated:datetime,
+_TimeReceived:datetime)
+
+.alter table MimecastSIEM_CL policy caching hot = 1d
+
+.create-or-alter function MimecastSIEM_CLExpand() {
+MimecastSIEM_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+datetime_d=todatetime(events.datetime_d),
+mimecastEventId_s=tostring(events.mimecastEventId_s),
+reason_s=tostring(events.reason_s),
+logType_s=tostring(events.logType_s),
+Subject_s=tostring(events.Subject_s),
+MsgId_s=tostring(events.MsgId_s),
+MsgSize_s=tostring(events.MsgSize_s),
+mimecastEventCategory_s=tostring(events.mimecastEventCategory_s),
+AttNames_s=tostring(events.AttNames_s),
+Act_s=tostring(events.Act_s),
+AttSize_s=tostring(events.AttSize_s),
+Hld_s=tostring(events.Hld_s),
+Sender_s=tostring(events.Sender_s),
+acc_s=tostring(events.acc_s),
+aCode_s=tostring(events.aCode_s),
+AttCnt_s=tostring(events.AttCnt_s),
+time_generated=todatetime(events.time_generated),
+_TimeReceived=todatetime(now())
+}
+
+.alter table MimecastSIEM_CL policy update @'[{"Source": "MimecastSIEM_CLRaw", "Query": "MimecastSIEM_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

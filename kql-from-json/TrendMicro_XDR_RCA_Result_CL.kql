@@ -1,0 +1,84 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for TrendMicro_XDR_RCA_Result_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table TrendMicro_XDR_RCA_Result_CLRaw (records:dynamic)
+
+.alter-merge table TrendMicro_XDR_RCA_Result_CLRaw policy retention softdelete = 1d
+
+.alter table TrendMicro_XDR_RCA_Result_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table TrendMicro_XDR_RCA_Result_CLRaw ingestion json mapping 'TrendMicro_XDR_RCA_Result_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table TrendMicro_XDR_RCA_Result_CL(
+TimeGenerated:datetime,
+TimeGenerated:datetime,
+TenantId:guid,
+objectMeta_s:string,
+parentObjectId_s:string,
+isMatched_b:bool,
+objectName_s:string,
+eventId_d:real,
+objectHashId_s:string,
+workbenchId_s:string,
+agentEntity_ip_s:string,
+agentEntity_guid_g:string,
+agentEntity_hostname_s:string,
+taskName_s:string,
+taskId_g:string,
+xdrCustomerID_g:string,
+agentEntity_host_s:string,
+RawData:string,
+Computer:string,
+ManagementGroupName:string,
+MG:string,
+SourceSystem:string,
+objectEvent_s:string,
+workbenchId_s:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table TrendMicro_XDR_RCA_Result_CL policy caching hot = 1d
+
+.create-or-alter function TrendMicro_XDR_RCA_Result_CLExpand() {
+TrendMicro_XDR_RCA_Result_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+objectMeta_s=tostring(events.objectMeta_s),
+parentObjectId_s=tostring(events.parentObjectId_s),
+isMatched_b=tobool(events.isMatched_b),
+objectName_s=tostring(events.objectName_s),
+eventId_d=toreal(events.eventId_d),
+objectHashId_s=tostring(events.objectHashId_s),
+workbenchId_s=tostring(events.workbenchId_s),
+agentEntity_ip_s=tostring(events.agentEntity_ip_s),
+agentEntity_guid_g=tostring(events.agentEntity_guid_g),
+agentEntity_hostname_s=tostring(events.agentEntity_hostname_s),
+taskName_s=tostring(events.taskName_s),
+taskId_g=tostring(events.taskId_g),
+xdrCustomerID_g=tostring(events.xdrCustomerID_g),
+agentEntity_host_s=tostring(events.agentEntity_host_s),
+RawData=tostring(events.RawData),
+Computer=tostring(events.Computer),
+ManagementGroupName=tostring(events.ManagementGroupName),
+MG=tostring(events.MG),
+SourceSystem=tostring(events.SourceSystem),
+objectEvent_s=tostring(events.objectEvent_s),
+workbenchId_s=tostring(events.workbenchId_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table TrendMicro_XDR_RCA_Result_CL policy update @'[{"Source": "TrendMicro_XDR_RCA_Result_CLRaw", "Query": "TrendMicro_XDR_RCA_Result_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

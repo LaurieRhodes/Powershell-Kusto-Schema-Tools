@@ -1,0 +1,52 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_known_remotes_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:13
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_known_remotes_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_known_remotes_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_known_remotes_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_known_remotes_CLRaw ingestion json mapping 'Corelight_v2_known_remotes_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_known_remotes_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+duration_d:real,
+kuid_s:string,
+host_ip_s:string,
+num_conns_d:real,
+annotations_s:string,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_known_remotes_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_known_remotes_CLExpand() {
+Corelight_v2_known_remotes_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+duration_d=toreal(events.duration_d),
+kuid_s=tostring(events.kuid_s),
+host_ip_s=tostring(events.host_ip_s),
+num_conns_d=toreal(events.num_conns_d),
+annotations_s=tostring(events.annotations_s),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_known_remotes_CL policy update @'[{"Source": "Corelight_v2_known_remotes_CLRaw", "Query": "Corelight_v2_known_remotes_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

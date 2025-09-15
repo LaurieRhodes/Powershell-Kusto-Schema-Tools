@@ -1,0 +1,92 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_stats_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:13
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_stats_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_stats_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_stats_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_stats_CLRaw ingestion json mapping 'Corelight_v2_stats_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_stats_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+reassem_file_size_d:real,
+reassem_tcp_size_d:real,
+active_dns_requests_d:real,
+dns_requests_d:real,
+active_files_d:real,
+files_d:real,
+active_timers_d:real,
+timers_d:real,
+icmp_conns_d:real,
+udp_conns_d:real,
+tcp_conns_d:real,
+active_icmp_conns_d:real,
+active_udp_conns_d:real,
+active_tcp_conns_d:real,
+events_queued_d:real,
+events_proc_d:real,
+pkt_lag_d:real,
+pkts_link_d:real,
+pkts_dropped_d:real,
+bytes_recv_d:real,
+pkts_proc_d:real,
+mem_d:real,
+peer_s:string,
+reassem_frag_size_d:real,
+reassem_unknown_size_d:real,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_stats_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_stats_CLExpand() {
+Corelight_v2_stats_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+reassem_file_size_d=toreal(events.reassem_file_size_d),
+reassem_tcp_size_d=toreal(events.reassem_tcp_size_d),
+active_dns_requests_d=toreal(events.active_dns_requests_d),
+dns_requests_d=toreal(events.dns_requests_d),
+active_files_d=toreal(events.active_files_d),
+files_d=toreal(events.files_d),
+active_timers_d=toreal(events.active_timers_d),
+timers_d=toreal(events.timers_d),
+icmp_conns_d=toreal(events.icmp_conns_d),
+udp_conns_d=toreal(events.udp_conns_d),
+tcp_conns_d=toreal(events.tcp_conns_d),
+active_icmp_conns_d=toreal(events.active_icmp_conns_d),
+active_udp_conns_d=toreal(events.active_udp_conns_d),
+active_tcp_conns_d=toreal(events.active_tcp_conns_d),
+events_queued_d=toreal(events.events_queued_d),
+events_proc_d=toreal(events.events_proc_d),
+pkt_lag_d=toreal(events.pkt_lag_d),
+pkts_link_d=toreal(events.pkts_link_d),
+pkts_dropped_d=toreal(events.pkts_dropped_d),
+bytes_recv_d=toreal(events.bytes_recv_d),
+pkts_proc_d=toreal(events.pkts_proc_d),
+mem_d=toreal(events.mem_d),
+peer_s=tostring(events.peer_s),
+reassem_frag_size_d=toreal(events.reassem_frag_size_d),
+reassem_unknown_size_d=toreal(events.reassem_unknown_size_d),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_stats_CL policy update @'[{"Source": "Corelight_v2_stats_CLRaw", "Query": "Corelight_v2_stats_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

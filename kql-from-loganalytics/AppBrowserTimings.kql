@@ -1,0 +1,111 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AppBrowserTimings - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:22:11
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 38, Final columns: 38
+// ============================================================================
+
+.create-merge table AppBrowserTimingsRaw (records:dynamic)
+
+.alter-merge table AppBrowserTimingsRaw policy retention softdelete = 1d
+
+.alter table AppBrowserTimingsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AppBrowserTimingsRaw ingestion json mapping 'AppBrowserTimingsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AppBrowserTimings(
+TimeGenerated:datetime,
+TenantId:guid,
+AppVersion:string,
+AppRoleName:string,
+AppRoleInstance:string,
+ClientType:string,
+ClientModel:string,
+ClientOS:string,
+UserAccountId:string,
+ClientIP:string,
+ClientStateOrProvince:string,
+ClientCountryOrRegion:string,
+ClientBrowser:string,
+ResourceGUID:string,
+IKey:string,
+SDKVersion:string,
+ClientCity:string,
+ItemCount:int,
+UserAuthenticatedId:string,
+SessionId:string,
+Name:string,
+Url:string,
+NetworkDurationMs:real,
+SendDurationMs:real,
+ReceiveDurationMs:real,
+ProcessingDurationMs:real,
+UserId:string,
+TotalDurationMs:real,
+Properties:dynamic,
+Measurements:dynamic,
+OperationName:string,
+OperationId:string,
+ParentId:string,
+SyntheticSource:string,
+PerformanceBucket:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AppBrowserTimings policy caching hot = 1d
+
+.create-or-alter function AppBrowserTimingsExpand() {
+AppBrowserTimingsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+AppVersion=tostring(events.AppVersion),
+AppRoleName=tostring(events.AppRoleName),
+AppRoleInstance=tostring(events.AppRoleInstance),
+ClientType=tostring(events.ClientType),
+ClientModel=tostring(events.ClientModel),
+ClientOS=tostring(events.ClientOS),
+UserAccountId=tostring(events.UserAccountId),
+ClientIP=tostring(events.ClientIP),
+ClientStateOrProvince=tostring(events.ClientStateOrProvince),
+ClientCountryOrRegion=tostring(events.ClientCountryOrRegion),
+ClientBrowser=tostring(events.ClientBrowser),
+ResourceGUID=tostring(events.ResourceGUID),
+IKey=tostring(events.IKey),
+SDKVersion=tostring(events.SDKVersion),
+ClientCity=tostring(events.ClientCity),
+ItemCount=toint(events.ItemCount),
+UserAuthenticatedId=tostring(events.UserAuthenticatedId),
+SessionId=tostring(events.SessionId),
+Name=tostring(events.Name),
+Url=tostring(events.Url),
+NetworkDurationMs=toreal(events.NetworkDurationMs),
+SendDurationMs=toreal(events.SendDurationMs),
+ReceiveDurationMs=toreal(events.ReceiveDurationMs),
+ProcessingDurationMs=toreal(events.ProcessingDurationMs),
+UserId=tostring(events.UserId),
+TotalDurationMs=toreal(events.TotalDurationMs),
+Properties=todynamic(events.Properties),
+Measurements=todynamic(events.Measurements),
+OperationName=tostring(events.OperationName),
+OperationId=tostring(events.OperationId),
+ParentId=tostring(events.ParentId),
+SyntheticSource=tostring(events.SyntheticSource),
+PerformanceBucket=tostring(events.PerformanceBucket),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AppBrowserTimings policy update @'[{"Source": "AppBrowserTimingsRaw", "Query": "AppBrowserTimingsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,64 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Cisco_Umbrella_cloudfirewall_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:12
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Cisco_Umbrella_cloudfirewall_CLRaw (records:dynamic)
+
+.alter-merge table Cisco_Umbrella_cloudfirewall_CLRaw policy retention softdelete = 1d
+
+.alter table Cisco_Umbrella_cloudfirewall_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Cisco_Umbrella_cloudfirewall_CLRaw ingestion json mapping 'Cisco_Umbrella_cloudfirewall_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Cisco_Umbrella_cloudfirewall_CL(
+TimeGenerated:datetime,
+EventType_s:string,
+Timestamp_t:datetime,
+originId_s:string,
+Identity_s:string,
+Identity_Type_s:string,
+Direction_s:string,
+ipProtocol_s:string,
+packetSize_s:string,
+SourceIP:string,
+sourcePort_s:string,
+destinationIp_s:string,
+destinationPort_s:string,
+dataCenter_s:string,
+ruleId_s:string,
+verdict_s:string,
+_TimeReceived:datetime)
+
+.alter table Cisco_Umbrella_cloudfirewall_CL policy caching hot = 1d
+
+.create-or-alter function Cisco_Umbrella_cloudfirewall_CLExpand() {
+Cisco_Umbrella_cloudfirewall_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+EventType_s=tostring(events.EventType_s),
+Timestamp_t=todatetime(events.Timestamp_t),
+originId_s=tostring(events.originId_s),
+Identity_s=tostring(events.Identity_s),
+Identity_Type_s=tostring(events.Identity_Type_s),
+Direction_s=tostring(events.Direction_s),
+ipProtocol_s=tostring(events.ipProtocol_s),
+packetSize_s=tostring(events.packetSize_s),
+SourceIP=tostring(events.SourceIP),
+sourcePort_s=tostring(events.sourcePort_s),
+destinationIp_s=tostring(events.destinationIp_s),
+destinationPort_s=tostring(events.destinationPort_s),
+dataCenter_s=tostring(events.dataCenter_s),
+ruleId_s=tostring(events.ruleId_s),
+verdict_s=tostring(events.verdict_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Cisco_Umbrella_cloudfirewall_CL policy update @'[{"Source": "Cisco_Umbrella_cloudfirewall_CLRaw", "Query": "Cisco_Umbrella_cloudfirewall_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,96 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for MailGuard365_Threats_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table MailGuard365_Threats_CLRaw (records:dynamic)
+
+.alter-merge table MailGuard365_Threats_CLRaw policy retention softdelete = 1d
+
+.alter table MailGuard365_Threats_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table MailGuard365_Threats_CLRaw ingestion json mapping 'MailGuard365_Threats_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table MailGuard365_Threats_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+Email_s:string,
+IsInBlackList_b:bool,
+IsInWhiteList_b:bool,
+MicrosoftAntiSpam_s:string,
+ForefrontAntiSpam_s:string,
+ReceivedDateTime_d:real,
+Action_s:string,
+MessageSize_d:real,
+MessageDate_t:datetime,
+OriginCountry_s:string,
+Subject_s:string,
+CcHeader_s:string,
+ToHeader_s:guid,
+SenderHeader_s:string,
+ReceivedHeaders_s:string,
+Recipients_s:string,
+Sender_Domain_s:datetime,
+Sender_Email_s:real,
+Attachments_s:string,
+Category:string,
+Virus_b:bool,
+Score_d:real,
+CustomerTenantId_g:string,
+UserId_g:string,
+HeaderMessageId_s:string,
+MessageId_s:string,
+SourceSystem:string,
+HasAttachment_b:bool,
+HasImage_b:bool,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table MailGuard365_Threats_CL policy caching hot = 1d
+
+.create-or-alter function MailGuard365_Threats_CLExpand() {
+MailGuard365_Threats_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Email_s=tostring(events.Email_s),
+IsInBlackList_b=tobool(events.IsInBlackList_b),
+IsInWhiteList_b=tobool(events.IsInWhiteList_b),
+MicrosoftAntiSpam_s=tostring(events.MicrosoftAntiSpam_s),
+ForefrontAntiSpam_s=tostring(events.ForefrontAntiSpam_s),
+ReceivedDateTime_d=toreal(events.ReceivedDateTime_d),
+Action_s=tostring(events.Action_s),
+MessageSize_d=toreal(events.MessageSize_d),
+MessageDate_t=todatetime(events.MessageDate_t),
+OriginCountry_s=tostring(events.OriginCountry_s),
+Subject_s=tostring(events.Subject_s),
+CcHeader_s=tostring(events.CcHeader_s),
+ToHeader_s=toguid(events.ToHeader_s),
+SenderHeader_s=tostring(events.SenderHeader_s),
+ReceivedHeaders_s=tostring(events.ReceivedHeaders_s),
+Recipients_s=tostring(events.Recipients_s),
+Sender_Domain_s=todatetime(events.Sender_Domain_s),
+Sender_Email_s=toreal(events.Sender_Email_s),
+Attachments_s=tostring(events.Attachments_s),
+Category=tostring(events.Category),
+Virus_b=tobool(events.Virus_b),
+Score_d=toreal(events.Score_d),
+CustomerTenantId_g=tostring(events.CustomerTenantId_g),
+UserId_g=tostring(events.UserId_g),
+HeaderMessageId_s=tostring(events.HeaderMessageId_s),
+MessageId_s=tostring(events.MessageId_s),
+SourceSystem=tostring(events.SourceSystem),
+HasAttachment_b=tobool(events.HasAttachment_b),
+HasImage_b=tobool(events.HasImage_b),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table MailGuard365_Threats_CL policy update @'[{"Source": "MailGuard365_Threats_CLRaw", "Query": "MailGuard365_Threats_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

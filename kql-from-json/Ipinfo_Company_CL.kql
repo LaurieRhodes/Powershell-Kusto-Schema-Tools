@@ -1,0 +1,52 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Ipinfo_Company_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Ipinfo_Company_CLRaw (records:dynamic)
+
+.alter-merge table Ipinfo_Company_CLRaw policy retention softdelete = 1d
+
+.alter table Ipinfo_Company_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Ipinfo_Company_CLRaw ingestion json mapping 'Ipinfo_Company_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Ipinfo_Company_CL(
+TimeGenerated:datetime,
+as_domain:string,
+as_name:string,
+as_type:string,
+asn:string,
+country:string,
+company_domain:string,
+company_name:string,
+company_type:string,
+range:string,
+_TimeReceived:datetime)
+
+.alter table Ipinfo_Company_CL policy caching hot = 1d
+
+.create-or-alter function Ipinfo_Company_CLExpand() {
+Ipinfo_Company_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+as_domain=tostring(events.as_domain),
+as_name=tostring(events.as_name),
+as_type=tostring(events.as_type),
+asn=tostring(events.asn),
+country=tostring(events.country),
+company_domain=tostring(events.company_domain),
+company_name=tostring(events.company_name),
+company_type=tostring(events.company_type),
+range=tostring(events.range),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Ipinfo_Company_CL policy update @'[{"Source": "Ipinfo_Company_CLRaw", "Query": "Ipinfo_Company_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

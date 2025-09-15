@@ -1,0 +1,97 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for LAQueryLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:16:23
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 31, Final columns: 31
+// ============================================================================
+
+.create-merge table LAQueryLogsRaw (records:dynamic)
+
+.alter-merge table LAQueryLogsRaw policy retention softdelete = 1d
+
+.alter table LAQueryLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table LAQueryLogsRaw ingestion json mapping 'LAQueryLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table LAQueryLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+WorkspaceRegion:string,
+ScannedGB:real,
+IsBillableQuery:bool,
+StatsRegionCount:int,
+StatsWorkspaceCount:int,
+StatsDataProcessedEnd:datetime,
+StatsDataProcessedStart:datetime,
+StatsDataProcessedKB:real,
+StatsCPUTimeMs:real,
+ResponseDurationMs:real,
+ResponseRowCount:int,
+ResponseCode:int,
+RequestContextFilters:dynamic,
+RequestContext:dynamic,
+RequestTarget:string,
+RequestClientApp:string,
+QueryText:string,
+QueryTimeRangeEnd:datetime,
+QueryTimeRangeStart:datetime,
+ConditionalDataAccess:string,
+AADClientId:string,
+AADEmail:string,
+AADTenantId:string,
+AADObjectId:string,
+CorrelationId:string,
+IsWorkspaceInFailover:bool,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table LAQueryLogs policy caching hot = 1d
+
+.create-or-alter function LAQueryLogsExpand() {
+LAQueryLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+WorkspaceRegion=tostring(events.WorkspaceRegion),
+ScannedGB=toreal(events.ScannedGB),
+IsBillableQuery=tobool(events.IsBillableQuery),
+StatsRegionCount=toint(events.StatsRegionCount),
+StatsWorkspaceCount=toint(events.StatsWorkspaceCount),
+StatsDataProcessedEnd=todatetime(events.StatsDataProcessedEnd),
+StatsDataProcessedStart=todatetime(events.StatsDataProcessedStart),
+StatsDataProcessedKB=toreal(events.StatsDataProcessedKB),
+StatsCPUTimeMs=toreal(events.StatsCPUTimeMs),
+ResponseDurationMs=toreal(events.ResponseDurationMs),
+ResponseRowCount=toint(events.ResponseRowCount),
+ResponseCode=toint(events.ResponseCode),
+RequestContextFilters=todynamic(events.RequestContextFilters),
+RequestContext=todynamic(events.RequestContext),
+RequestTarget=tostring(events.RequestTarget),
+RequestClientApp=tostring(events.RequestClientApp),
+QueryText=tostring(events.QueryText),
+QueryTimeRangeEnd=todatetime(events.QueryTimeRangeEnd),
+QueryTimeRangeStart=todatetime(events.QueryTimeRangeStart),
+ConditionalDataAccess=tostring(events.ConditionalDataAccess),
+AADClientId=tostring(events.AADClientId),
+AADEmail=tostring(events.AADEmail),
+AADTenantId=tostring(events.AADTenantId),
+AADObjectId=tostring(events.AADObjectId),
+CorrelationId=tostring(events.CorrelationId),
+IsWorkspaceInFailover=tobool(events.IsWorkspaceInFailover),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table LAQueryLogs policy update @'[{"Source": "LAQueryLogsRaw", "Query": "LAQueryLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

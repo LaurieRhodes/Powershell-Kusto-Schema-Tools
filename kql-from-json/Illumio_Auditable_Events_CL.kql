@@ -1,0 +1,54 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Illumio_Auditable_Events_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Illumio_Auditable_Events_CLRaw (records:dynamic)
+
+.alter-merge table Illumio_Auditable_Events_CLRaw policy retention softdelete = 1d
+
+.alter table Illumio_Auditable_Events_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Illumio_Auditable_Events_CLRaw ingestion json mapping 'Illumio_Auditable_Events_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Illumio_Auditable_Events_CL(
+TimeGenerated:datetime,
+href:string,
+pce_fqdn:string,
+created_by:dynamic,
+event_type:string,
+status:string,
+severity:string,
+action:dynamic,
+resource_changes:dynamic,
+notifications:dynamic,
+version:int,
+_TimeReceived:datetime)
+
+.alter table Illumio_Auditable_Events_CL policy caching hot = 1d
+
+.create-or-alter function Illumio_Auditable_Events_CLExpand() {
+Illumio_Auditable_Events_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+href=tostring(events.href),
+pce_fqdn=tostring(events.pce_fqdn),
+created_by=todynamic(events.created_by),
+event_type=tostring(events.event_type),
+status=tostring(events.status),
+severity=tostring(events.severity),
+action=todynamic(events.action),
+resource_changes=todynamic(events.resource_changes),
+notifications=todynamic(events.notifications),
+version=toint(events.version),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Illumio_Auditable_Events_CL policy update @'[{"Source": "Illumio_Auditable_Events_CLRaw", "Query": "Illumio_Auditable_Events_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

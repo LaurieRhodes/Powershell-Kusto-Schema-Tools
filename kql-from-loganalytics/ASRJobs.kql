@@ -1,0 +1,93 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ASRJobs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:23:09
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 29, Final columns: 29
+// ============================================================================
+
+.create-merge table ASRJobsRaw (records:dynamic)
+
+.alter-merge table ASRJobsRaw policy retention softdelete = 1d
+
+.alter table ASRJobsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ASRJobsRaw ingestion json mapping 'ASRJobsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ASRJobs(
+TimeGenerated:datetime,
+TenantId:guid,
+VaultLocation:string,
+PolicyFriendlyName:string,
+PolicyId:string,
+PolicyUniqueId:string,
+ReplicatedItemUniqueId:string,
+ReplicationScenario:string,
+ReplicatedItemId:string,
+ReplicatedItemFriendlyName:string,
+SourceType:string,
+SourceResourceGroup:string,
+SourceResourceId:string,
+Version:string,
+SourceFriendlyName:string,
+EndTime:datetime,
+StartTime:datetime,
+DurationMs:int,
+ResultDescription:string,
+CorrelationId:string,
+Status:string,
+OperationName:string,
+VaultName:string,
+VaultType:string,
+Category:string,
+JobUniqueId:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ASRJobs policy caching hot = 1d
+
+.create-or-alter function ASRJobsExpand() {
+ASRJobsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+VaultLocation=tostring(events.VaultLocation),
+PolicyFriendlyName=tostring(events.PolicyFriendlyName),
+PolicyId=tostring(events.PolicyId),
+PolicyUniqueId=tostring(events.PolicyUniqueId),
+ReplicatedItemUniqueId=tostring(events.ReplicatedItemUniqueId),
+ReplicationScenario=tostring(events.ReplicationScenario),
+ReplicatedItemId=tostring(events.ReplicatedItemId),
+ReplicatedItemFriendlyName=tostring(events.ReplicatedItemFriendlyName),
+SourceType=tostring(events.SourceType),
+SourceResourceGroup=tostring(events.SourceResourceGroup),
+SourceResourceId=tostring(events.SourceResourceId),
+Version=tostring(events.Version),
+SourceFriendlyName=tostring(events.SourceFriendlyName),
+EndTime=todatetime(events.EndTime),
+StartTime=todatetime(events.StartTime),
+DurationMs=toint(events.DurationMs),
+ResultDescription=tostring(events.ResultDescription),
+CorrelationId=tostring(events.CorrelationId),
+Status=tostring(events.Status),
+OperationName=tostring(events.OperationName),
+VaultName=tostring(events.VaultName),
+VaultType=tostring(events.VaultType),
+Category=tostring(events.Category),
+JobUniqueId=tostring(events.JobUniqueId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ASRJobs policy update @'[{"Source": "ASRJobsRaw", "Query": "ASRJobsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

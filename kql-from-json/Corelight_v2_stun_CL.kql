@@ -1,0 +1,66 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_stun_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:13
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_stun_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_stun_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_stun_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_stun_CLRaw ingestion json mapping 'Corelight_v2_stun_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_stun_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+uid_s:string,
+id_orig_h_s:string,
+id_orig_p_d:real,
+id_resp_h_s:string,
+id_resp_p_d:real,
+proto_s:string,
+is_orig_b:bool,
+trans_id_s:string,
+method_s:string,
+class_s:string,
+attr_types_s:string,
+attr_vals_s:string,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_stun_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_stun_CLExpand() {
+Corelight_v2_stun_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+uid_s=tostring(events.uid_s),
+id_orig_h_s=tostring(events.id_orig_h_s),
+id_orig_p_d=toreal(events.id_orig_p_d),
+id_resp_h_s=tostring(events.id_resp_h_s),
+id_resp_p_d=toreal(events.id_resp_p_d),
+proto_s=tostring(events.proto_s),
+is_orig_b=tobool(events.is_orig_b),
+trans_id_s=tostring(events.trans_id_s),
+method_s=tostring(events.method_s),
+class_s=tostring(events.class_s),
+attr_types_s=tostring(events.attr_types_s),
+attr_vals_s=tostring(events.attr_vals_s),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_stun_CL policy update @'[{"Source": "Corelight_v2_stun_CLRaw", "Query": "Corelight_v2_stun_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

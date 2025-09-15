@@ -1,0 +1,48 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for eset_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table eset_CLRaw (records:dynamic)
+
+.alter-merge table eset_CLRaw policy retention softdelete = 1d
+
+.alter table eset_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table eset_CLRaw ingestion json mapping 'eset_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table eset_CL(
+TimeGenerated:datetime,
+event_type_s:string,
+username_s:string,
+object_uri_s:string,
+hostname_s:string,
+ipv4_s:string,
+scanner_id_s:string,
+threat_name_s:string,
+_TimeReceived:datetime)
+
+.alter table eset_CL policy caching hot = 1d
+
+.create-or-alter function eset_CLExpand() {
+eset_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+event_type_s=tostring(events.event_type_s),
+username_s=tostring(events.username_s),
+object_uri_s=tostring(events.object_uri_s),
+hostname_s=tostring(events.hostname_s),
+ipv4_s=tostring(events.ipv4_s),
+scanner_id_s=tostring(events.scanner_id_s),
+threat_name_s=tostring(events.threat_name_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table eset_CL policy update @'[{"Source": "eset_CLRaw", "Query": "eset_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

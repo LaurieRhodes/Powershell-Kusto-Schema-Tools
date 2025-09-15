@@ -1,0 +1,77 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ArcK8sAuditAdmin - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:22:50
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 21, Final columns: 21
+// ============================================================================
+
+.create-merge table ArcK8sAuditAdminRaw (records:dynamic)
+
+.alter-merge table ArcK8sAuditAdminRaw policy retention softdelete = 1d
+
+.alter table ArcK8sAuditAdminRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ArcK8sAuditAdminRaw ingestion json mapping 'ArcK8sAuditAdminRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ArcK8sAuditAdmin(
+TimeGenerated:datetime,
+TenantId:guid,
+Annotations:dynamic,
+StageReceivedTime:datetime,
+RequestReceivedTime:datetime,
+ResponseObject:dynamic,
+RequestObject:dynamic,
+ResponseStatus:dynamic,
+ObjectRef:dynamic,
+UserAgent:string,
+SourceIps:dynamic,
+User:dynamic,
+Verb:string,
+RequestUri:string,
+Stage:string,
+AuditId:string,
+Level:string,
+PodName:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ArcK8sAuditAdmin policy caching hot = 1d
+
+.create-or-alter function ArcK8sAuditAdminExpand() {
+ArcK8sAuditAdminRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Annotations=todynamic(events.Annotations),
+StageReceivedTime=todatetime(events.StageReceivedTime),
+RequestReceivedTime=todatetime(events.RequestReceivedTime),
+ResponseObject=todynamic(events.ResponseObject),
+RequestObject=todynamic(events.RequestObject),
+ResponseStatus=todynamic(events.ResponseStatus),
+ObjectRef=todynamic(events.ObjectRef),
+UserAgent=tostring(events.UserAgent),
+SourceIps=todynamic(events.SourceIps),
+User=todynamic(events.User),
+Verb=tostring(events.Verb),
+RequestUri=tostring(events.RequestUri),
+Stage=tostring(events.Stage),
+AuditId=tostring(events.AuditId),
+Level=tostring(events.Level),
+PodName=tostring(events.PodName),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ArcK8sAuditAdmin policy update @'[{"Source": "ArcK8sAuditAdminRaw", "Query": "ArcK8sAuditAdminExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,77 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AKSAuditAdmin - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:21:09
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 21, Final columns: 21
+// ============================================================================
+
+.create-merge table AKSAuditAdminRaw (records:dynamic)
+
+.alter-merge table AKSAuditAdminRaw policy retention softdelete = 1d
+
+.alter table AKSAuditAdminRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AKSAuditAdminRaw ingestion json mapping 'AKSAuditAdminRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AKSAuditAdmin(
+TimeGenerated:datetime,
+TenantId:guid,
+Annotations:dynamic,
+StageReceivedTime:datetime,
+RequestReceivedTime:datetime,
+ResponseObject:dynamic,
+RequestObject:dynamic,
+ResponseStatus:dynamic,
+ObjectRef:dynamic,
+UserAgent:string,
+SourceIps:dynamic,
+User:dynamic,
+Verb:string,
+RequestUri:string,
+Stage:string,
+AuditId:string,
+Level:string,
+PodName:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AKSAuditAdmin policy caching hot = 1d
+
+.create-or-alter function AKSAuditAdminExpand() {
+AKSAuditAdminRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Annotations=todynamic(events.Annotations),
+StageReceivedTime=todatetime(events.StageReceivedTime),
+RequestReceivedTime=todatetime(events.RequestReceivedTime),
+ResponseObject=todynamic(events.ResponseObject),
+RequestObject=todynamic(events.RequestObject),
+ResponseStatus=todynamic(events.ResponseStatus),
+ObjectRef=todynamic(events.ObjectRef),
+UserAgent=tostring(events.UserAgent),
+SourceIps=todynamic(events.SourceIps),
+User=todynamic(events.User),
+Verb=tostring(events.Verb),
+RequestUri=tostring(events.RequestUri),
+Stage=tostring(events.Stage),
+AuditId=tostring(events.AuditId),
+Level=tostring(events.Level),
+PodName=tostring(events.PodName),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AKSAuditAdmin policy update @'[{"Source": "AKSAuditAdminRaw", "Query": "AKSAuditAdminExpand()", "IsEnabled": "True", "IsTransactional": true}]'

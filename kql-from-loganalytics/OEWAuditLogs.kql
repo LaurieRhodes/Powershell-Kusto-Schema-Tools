@@ -1,0 +1,71 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for OEWAuditLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:18:35
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 18, Final columns: 18
+// ============================================================================
+
+.create-merge table OEWAuditLogsRaw (records:dynamic)
+
+.alter-merge table OEWAuditLogsRaw policy retention softdelete = 1d
+
+.alter table OEWAuditLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table OEWAuditLogsRaw ingestion json mapping 'OEWAuditLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table OEWAuditLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+Category:string,
+Level:string,
+OperationName:string,
+ResultType:string,
+HttpStatusCode:int,
+ResultDescription:string,
+DurationMs:int,
+URI:string,
+Location:string,
+CallerIpAddress:string,
+Identity:dynamic,
+CorrelationId:string,
+WorkspaceId:guid,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table OEWAuditLogs policy caching hot = 1d
+
+.create-or-alter function OEWAuditLogsExpand() {
+OEWAuditLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Category=tostring(events.Category),
+Level=tostring(events.Level),
+OperationName=tostring(events.OperationName),
+ResultType=tostring(events.ResultType),
+HttpStatusCode=toint(events.HttpStatusCode),
+ResultDescription=tostring(events.ResultDescription),
+DurationMs=toint(events.DurationMs),
+URI=tostring(events.URI),
+Location=tostring(events.Location),
+CallerIpAddress=tostring(events.CallerIpAddress),
+Identity=todynamic(events.Identity),
+CorrelationId=tostring(events.CorrelationId),
+WorkspaceId=toguid(events.WorkspaceId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table OEWAuditLogs policy update @'[{"Source": "OEWAuditLogsRaw", "Query": "OEWAuditLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

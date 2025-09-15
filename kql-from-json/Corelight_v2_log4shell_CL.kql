@@ -1,0 +1,66 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_log4shell_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:13
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_log4shell_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_log4shell_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_log4shell_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_log4shell_CLRaw ingestion json mapping 'Corelight_v2_log4shell_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_log4shell_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+uid_s:string,
+http_uri_s:string,
+uri_s:string,
+stem_s:string,
+target_host_s:string,
+target_port_s:string,
+method_s:string,
+is_orig_b:bool,
+name_s:string,
+value_s:string,
+matched_name_b:bool,
+matched_value_b:bool,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_log4shell_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_log4shell_CLExpand() {
+Corelight_v2_log4shell_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+uid_s=tostring(events.uid_s),
+http_uri_s=tostring(events.http_uri_s),
+uri_s=tostring(events.uri_s),
+stem_s=tostring(events.stem_s),
+target_host_s=tostring(events.target_host_s),
+target_port_s=tostring(events.target_port_s),
+method_s=tostring(events.method_s),
+is_orig_b=tobool(events.is_orig_b),
+name_s=tostring(events.name_s),
+value_s=tostring(events.value_s),
+matched_name_b=tobool(events.matched_name_b),
+matched_value_b=tobool(events.matched_value_b),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_log4shell_CL policy update @'[{"Source": "Corelight_v2_log4shell_CLRaw", "Query": "Corelight_v2_log4shell_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

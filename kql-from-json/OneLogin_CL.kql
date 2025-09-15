@@ -1,0 +1,92 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for OneLogin_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table OneLogin_CLRaw (records:dynamic)
+
+.alter-merge table OneLogin_CLRaw policy retention softdelete = 1d
+
+.alter table OneLogin_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table OneLogin_CLRaw ingestion json mapping 'OneLogin_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table OneLogin_CL(
+TimeGenerated:datetime,
+app_name_s:string,
+event_type_id_d:real,
+actor_user_name_s:string,
+ipaddr_s:string,
+event_timestamp_s:string,
+account_id_d:real,
+custom_message_s:string,
+actor_system_s:string,
+uuid_g:string,
+create__id_g:string,
+user_name_s:string,
+user_attributes_lastname_s:string,
+user_attributes_title_s:string,
+actor_user_id_d:real,
+user_attributes_openid_name_s:string,
+user_attributes_email_s:string,
+user_attributes_firstname_s:string,
+user_attributes_department_s:string,
+user_attributes_account_id_d:real,
+user_id_d:real,
+user_agent_s:string,
+policy_id_d:real,
+policy_type_s:string,
+policy_name_s:string,
+role_id_d:real,
+role_name_s:string,
+app_id_d:real,
+user_attributes_username_s:string,
+notes_s:string,
+_TimeReceived:datetime)
+
+.alter table OneLogin_CL policy caching hot = 1d
+
+.create-or-alter function OneLogin_CLExpand() {
+OneLogin_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+app_name_s=tostring(events.app_name_s),
+event_type_id_d=toreal(events.event_type_id_d),
+actor_user_name_s=tostring(events.actor_user_name_s),
+ipaddr_s=tostring(events.ipaddr_s),
+event_timestamp_s=tostring(events.event_timestamp_s),
+account_id_d=toreal(events.account_id_d),
+custom_message_s=tostring(events.custom_message_s),
+actor_system_s=tostring(events.actor_system_s),
+uuid_g=tostring(events.uuid_g),
+create__id_g=tostring(events.create__id_g),
+user_name_s=tostring(events.user_name_s),
+user_attributes_lastname_s=tostring(events.user_attributes_lastname_s),
+user_attributes_title_s=tostring(events.user_attributes_title_s),
+actor_user_id_d=toreal(events.actor_user_id_d),
+user_attributes_openid_name_s=tostring(events.user_attributes_openid_name_s),
+user_attributes_email_s=tostring(events.user_attributes_email_s),
+user_attributes_firstname_s=tostring(events.user_attributes_firstname_s),
+user_attributes_department_s=tostring(events.user_attributes_department_s),
+user_attributes_account_id_d=toreal(events.user_attributes_account_id_d),
+user_id_d=toreal(events.user_id_d),
+user_agent_s=tostring(events.user_agent_s),
+policy_id_d=toreal(events.policy_id_d),
+policy_type_s=tostring(events.policy_type_s),
+policy_name_s=tostring(events.policy_name_s),
+role_id_d=toreal(events.role_id_d),
+role_name_s=tostring(events.role_name_s),
+app_id_d=toreal(events.app_id_d),
+user_attributes_username_s=tostring(events.user_attributes_username_s),
+notes_s=tostring(events.notes_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table OneLogin_CL policy update @'[{"Source": "OneLogin_CLRaw", "Query": "OneLogin_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

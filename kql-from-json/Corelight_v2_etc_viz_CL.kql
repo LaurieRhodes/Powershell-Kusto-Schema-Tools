@@ -1,0 +1,76 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_etc_viz_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:12
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_etc_viz_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_etc_viz_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_etc_viz_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_etc_viz_CLRaw ingestion json mapping 'Corelight_v2_etc_viz_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_etc_viz_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+s2c_viz_pdu1_enc_b:bool,
+s2c_viz_enc_frac_d:real,
+s2c_viz_enc_dev_d:real,
+s2c_viz_size_d:real,
+c2s_viz_clr_ex_s:string,
+c2s_viz_clr_frac_d:real,
+c2s_viz_pdu1_enc_b:bool,
+c2s_viz_enc_frac_d:real,
+c2s_viz_enc_dev_d:real,
+c2s_viz_size_d:real,
+viz_stat_s:string,
+service_s:string,
+server_p_d:real,
+server_a_s:string,
+uid_s:string,
+s2c_viz_clr_frac_d:real,
+s2c_viz_clr_ex_s:string,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_etc_viz_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_etc_viz_CLExpand() {
+Corelight_v2_etc_viz_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+s2c_viz_pdu1_enc_b=tobool(events.s2c_viz_pdu1_enc_b),
+s2c_viz_enc_frac_d=toreal(events.s2c_viz_enc_frac_d),
+s2c_viz_enc_dev_d=toreal(events.s2c_viz_enc_dev_d),
+s2c_viz_size_d=toreal(events.s2c_viz_size_d),
+c2s_viz_clr_ex_s=tostring(events.c2s_viz_clr_ex_s),
+c2s_viz_clr_frac_d=toreal(events.c2s_viz_clr_frac_d),
+c2s_viz_pdu1_enc_b=tobool(events.c2s_viz_pdu1_enc_b),
+c2s_viz_enc_frac_d=toreal(events.c2s_viz_enc_frac_d),
+c2s_viz_enc_dev_d=toreal(events.c2s_viz_enc_dev_d),
+c2s_viz_size_d=toreal(events.c2s_viz_size_d),
+viz_stat_s=tostring(events.viz_stat_s),
+service_s=tostring(events.service_s),
+server_p_d=toreal(events.server_p_d),
+server_a_s=tostring(events.server_a_s),
+uid_s=tostring(events.uid_s),
+s2c_viz_clr_frac_d=toreal(events.s2c_viz_clr_frac_d),
+s2c_viz_clr_ex_s=tostring(events.s2c_viz_clr_ex_s),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_etc_viz_CL policy update @'[{"Source": "Corelight_v2_etc_viz_CLRaw", "Query": "Corelight_v2_etc_viz_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

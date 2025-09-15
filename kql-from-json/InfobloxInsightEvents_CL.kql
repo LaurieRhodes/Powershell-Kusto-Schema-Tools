@@ -1,0 +1,128 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for InfobloxInsightEvents_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table InfobloxInsightEvents_CLRaw (records:dynamic)
+
+.alter-merge table InfobloxInsightEvents_CLRaw policy retention softdelete = 1d
+
+.alter table InfobloxInsightEvents_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table InfobloxInsightEvents_CLRaw ingestion json mapping 'InfobloxInsightEvents_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table InfobloxInsightEvents_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+response_s:string,
+class_s:string,
+threatFamily_s:string,
+threatIndicator_s:string,
+detected_s:string,
+property_s:string,
+user_s:string,
+threatLevel_s:string,
+properties_objectGuid_g:string,
+properties_friendlyName_g:string,
+id_s:string,
+name_g:string,
+type_s:string,
+kind_s:string,
+properties_malwareName_s:string,
+properties_category_s:string,
+properties_friendlyName_s:string,
+InfobloxInsightID_g:string,
+InfobloxInsightfulID_s:string,
+queryType_s:string,
+InfobloxInsightLogType_s:string,
+query_s:string,
+policy_s:string,
+SourceSystem:string,
+MG:string,
+ManagementGroupName:string,
+Computer:string,
+RawData:string,
+responseCountry_s:string,
+responseRegion_s:string,
+deviceName_g:string,
+osVersion_s:string,
+confidenceLevel_s:string,
+deviceCountry_s:string,
+deviceName_s:string,
+deviceRegion_s:string,
+dhcpFingerprint_s:string,
+dnsView_s:string,
+feed_s:string,
+macAddress_s:string,
+source_s:string,
+action_s:string,
+deviceIp_s:string,
+InsightID_g:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table InfobloxInsightEvents_CL policy caching hot = 1d
+
+.create-or-alter function InfobloxInsightEvents_CLExpand() {
+InfobloxInsightEvents_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+response_s=tostring(events.response_s),
+class_s=tostring(events.class_s),
+threatFamily_s=tostring(events.threatFamily_s),
+threatIndicator_s=tostring(events.threatIndicator_s),
+detected_s=tostring(events.detected_s),
+property_s=tostring(events.property_s),
+user_s=tostring(events.user_s),
+threatLevel_s=tostring(events.threatLevel_s),
+properties_objectGuid_g=tostring(events.properties_objectGuid_g),
+properties_friendlyName_g=tostring(events.properties_friendlyName_g),
+id_s=tostring(events.id_s),
+name_g=tostring(events.name_g),
+type_s=tostring(events.type_s),
+kind_s=tostring(events.kind_s),
+properties_malwareName_s=tostring(events.properties_malwareName_s),
+properties_category_s=tostring(events.properties_category_s),
+properties_friendlyName_s=tostring(events.properties_friendlyName_s),
+InfobloxInsightID_g=tostring(events.InfobloxInsightID_g),
+InfobloxInsightfulID_s=tostring(events.InfobloxInsightfulID_s),
+queryType_s=tostring(events.queryType_s),
+InfobloxInsightLogType_s=tostring(events.InfobloxInsightLogType_s),
+query_s=tostring(events.query_s),
+policy_s=tostring(events.policy_s),
+SourceSystem=tostring(events.SourceSystem),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+Computer=tostring(events.Computer),
+RawData=tostring(events.RawData),
+responseCountry_s=tostring(events.responseCountry_s),
+responseRegion_s=tostring(events.responseRegion_s),
+deviceName_g=tostring(events.deviceName_g),
+osVersion_s=tostring(events.osVersion_s),
+confidenceLevel_s=tostring(events.confidenceLevel_s),
+deviceCountry_s=tostring(events.deviceCountry_s),
+deviceName_s=tostring(events.deviceName_s),
+deviceRegion_s=tostring(events.deviceRegion_s),
+dhcpFingerprint_s=tostring(events.dhcpFingerprint_s),
+dnsView_s=tostring(events.dnsView_s),
+feed_s=tostring(events.feed_s),
+macAddress_s=tostring(events.macAddress_s),
+source_s=tostring(events.source_s),
+action_s=tostring(events.action_s),
+deviceIp_s=tostring(events.deviceIp_s),
+InsightID_g=tostring(events.InsightID_g),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table InfobloxInsightEvents_CL policy update @'[{"Source": "InfobloxInsightEvents_CLRaw", "Query": "InfobloxInsightEvents_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

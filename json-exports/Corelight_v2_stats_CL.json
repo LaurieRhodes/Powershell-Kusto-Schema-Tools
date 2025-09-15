@@ -1,0 +1,125 @@
+﻿{
+    "Name":  "Corelight_v2_stats_CL",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "_path_s",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_system_name_s",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_write_ts_t",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ts_t",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "peer_s",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "mem_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "pkts_proc_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "bytes_recv_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "pkts_dropped_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "pkts_link_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "pkt_lag_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "events_proc_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "events_queued_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "active_tcp_conns_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "active_udp_conns_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "active_icmp_conns_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "tcp_conns_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "udp_conns_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "icmp_conns_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "timers_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "active_timers_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "files_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "active_files_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "dns_requests_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "active_dns_requests_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "reassem_tcp_size_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "reassem_file_size_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "reassem_frag_size_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "reassem_unknown_size_d",
+                           "Type":  "real"
+                       }
+                   ]
+}

@@ -1,0 +1,90 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_suricata_corelight_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:13
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_suricata_corelight_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_suricata_corelight_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_suricata_corelight_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_suricata_corelight_CLRaw ingestion json mapping 'Corelight_v2_suricata_corelight_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_suricata_corelight_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+payload_s:string,
+community_id_s:string,
+alert_metadata_s:string,
+alert_severity_d:real,
+alert_category_s:string,
+alert_signature_s:string,
+alert_rev_d:real,
+alert_signature_id_d:real,
+alert_gid_d:real,
+alert_action_s:string,
+packet_s:string,
+pcap_cnt_d:real,
+flow_id_d:real,
+service_s:string,
+suri_id_s:string,
+icmp_code_d:real,
+icmp_type_d:real,
+id_resp_p_d:real,
+id_resp_h_s:string,
+id_orig_p_d:real,
+id_orig_h_s:string,
+uid_s:string,
+tx_id_d:real,
+metadata_s:string,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_suricata_corelight_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_suricata_corelight_CLExpand() {
+Corelight_v2_suricata_corelight_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+payload_s=tostring(events.payload_s),
+community_id_s=tostring(events.community_id_s),
+alert_metadata_s=tostring(events.alert_metadata_s),
+alert_severity_d=toreal(events.alert_severity_d),
+alert_category_s=tostring(events.alert_category_s),
+alert_signature_s=tostring(events.alert_signature_s),
+alert_rev_d=toreal(events.alert_rev_d),
+alert_signature_id_d=toreal(events.alert_signature_id_d),
+alert_gid_d=toreal(events.alert_gid_d),
+alert_action_s=tostring(events.alert_action_s),
+packet_s=tostring(events.packet_s),
+pcap_cnt_d=toreal(events.pcap_cnt_d),
+flow_id_d=toreal(events.flow_id_d),
+service_s=tostring(events.service_s),
+suri_id_s=tostring(events.suri_id_s),
+icmp_code_d=toreal(events.icmp_code_d),
+icmp_type_d=toreal(events.icmp_type_d),
+id_resp_p_d=toreal(events.id_resp_p_d),
+id_resp_h_s=tostring(events.id_resp_h_s),
+id_orig_p_d=toreal(events.id_orig_p_d),
+id_orig_h_s=tostring(events.id_orig_h_s),
+uid_s=tostring(events.uid_s),
+tx_id_d=toreal(events.tx_id_d),
+metadata_s=tostring(events.metadata_s),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_suricata_corelight_CL policy update @'[{"Source": "Corelight_v2_suricata_corelight_CLRaw", "Query": "Corelight_v2_suricata_corelight_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,36 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for NGINX_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table NGINX_CLRaw (records:dynamic)
+
+.alter-merge table NGINX_CLRaw policy retention softdelete = 1d
+
+.alter table NGINX_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table NGINX_CLRaw ingestion json mapping 'NGINX_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table NGINX_CL(
+TimeGenerated:datetime,
+RawData:string,
+_TimeReceived:datetime)
+
+.alter table NGINX_CL policy caching hot = 1d
+
+.create-or-alter function NGINX_CLExpand() {
+NGINX_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+RawData=tostring(events.RawData),
+_TimeReceived=todatetime(now())
+}
+
+.alter table NGINX_CL policy update @'[{"Source": "NGINX_CLRaw", "Query": "NGINX_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

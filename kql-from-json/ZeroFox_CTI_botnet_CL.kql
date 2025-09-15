@@ -1,0 +1,74 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ZeroFox_CTI_botnet_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table ZeroFox_CTI_botnet_CLRaw (records:dynamic)
+
+.alter-merge table ZeroFox_CTI_botnet_CLRaw policy retention softdelete = 1d
+
+.alter table ZeroFox_CTI_botnet_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ZeroFox_CTI_botnet_CLRaw ingestion json mapping 'ZeroFox_CTI_botnet_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ZeroFox_CTI_botnet_CL(
+TimeGenerated:datetime,
+listed_at_t:datetime,
+estimated_infected_at_t:datetime,
+logged_at_t:datetime,
+acquired_at_t:datetime,
+process_elevation_s:string,
+uac_s:string,
+available_keyboards_s:string,
+current_language_s:string,
+location_s:string,
+zip_code_s:string,
+country_code_s:string,
+anti_viruses_s:string,
+operating_system_s:string,
+file_location_s:string,
+is_common_domain_b:bool,
+c2_domain_s:string,
+c2_ip_address_s:string,
+bot_name_s:string,
+breached_at:datetime,
+tags_s:string,
+_TimeReceived:datetime)
+
+.alter table ZeroFox_CTI_botnet_CL policy caching hot = 1d
+
+.create-or-alter function ZeroFox_CTI_botnet_CLExpand() {
+ZeroFox_CTI_botnet_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+listed_at_t=todatetime(events.listed_at_t),
+estimated_infected_at_t=todatetime(events.estimated_infected_at_t),
+logged_at_t=todatetime(events.logged_at_t),
+acquired_at_t=todatetime(events.acquired_at_t),
+process_elevation_s=tostring(events.process_elevation_s),
+uac_s=tostring(events.uac_s),
+available_keyboards_s=tostring(events.available_keyboards_s),
+current_language_s=tostring(events.current_language_s),
+location_s=tostring(events.location_s),
+zip_code_s=tostring(events.zip_code_s),
+country_code_s=tostring(events.country_code_s),
+anti_viruses_s=tostring(events.anti_viruses_s),
+operating_system_s=tostring(events.operating_system_s),
+file_location_s=tostring(events.file_location_s),
+is_common_domain_b=tobool(events.is_common_domain_b),
+c2_domain_s=tostring(events.c2_domain_s),
+c2_ip_address_s=tostring(events.c2_ip_address_s),
+bot_name_s=tostring(events.bot_name_s),
+breached_at=todatetime(events.breached_at),
+tags_s=tostring(events.tags_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ZeroFox_CTI_botnet_CL policy update @'[{"Source": "ZeroFox_CTI_botnet_CLRaw", "Query": "ZeroFox_CTI_botnet_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,68 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for GWorkspace_ReportsAPI_login_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table GWorkspace_ReportsAPI_login_CLRaw (records:dynamic)
+
+.alter-merge table GWorkspace_ReportsAPI_login_CLRaw policy retention softdelete = 1d
+
+.alter table GWorkspace_ReportsAPI_login_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table GWorkspace_ReportsAPI_login_CLRaw ingestion json mapping 'GWorkspace_ReportsAPI_login_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table GWorkspace_ReportsAPI_login_CL(
+TimeGenerated:datetime,
+EventVendor:string,
+IPAddress:string,
+actor_profileId_s:string,
+actor_email_s:string,
+etag_s:string,
+id_customerId_s:string,
+id_applicationName_s:string,
+events_s:string,
+id_uniqueQualifier_s:string,
+kind_s:string,
+login_challenge_status_s:string,
+login_type_s:string,
+event_name_s:string,
+login_challenge_method_s:string,
+EventProduct:string,
+id_time_t:datetime,
+event_type_s:string,
+_TimeReceived:datetime)
+
+.alter table GWorkspace_ReportsAPI_login_CL policy caching hot = 1d
+
+.create-or-alter function GWorkspace_ReportsAPI_login_CLExpand() {
+GWorkspace_ReportsAPI_login_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+EventVendor=tostring(events.EventVendor),
+IPAddress=tostring(events.IPAddress),
+actor_profileId_s=tostring(events.actor_profileId_s),
+actor_email_s=tostring(events.actor_email_s),
+etag_s=tostring(events.etag_s),
+id_customerId_s=tostring(events.id_customerId_s),
+id_applicationName_s=tostring(events.id_applicationName_s),
+events_s=tostring(events.events_s),
+id_uniqueQualifier_s=tostring(events.id_uniqueQualifier_s),
+kind_s=tostring(events.kind_s),
+login_challenge_status_s=tostring(events.login_challenge_status_s),
+login_type_s=tostring(events.login_type_s),
+event_name_s=tostring(events.event_name_s),
+login_challenge_method_s=tostring(events.login_challenge_method_s),
+EventProduct=tostring(events.EventProduct),
+id_time_t=todatetime(events.id_time_t),
+event_type_s=tostring(events.event_type_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table GWorkspace_ReportsAPI_login_CL policy update @'[{"Source": "GWorkspace_ReportsAPI_login_CLRaw", "Query": "GWorkspace_ReportsAPI_login_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

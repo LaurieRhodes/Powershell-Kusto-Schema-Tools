@@ -1,0 +1,53 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for StorageMoverJobRunLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:21:09
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 9, Final columns: 9
+// ============================================================================
+
+.create-merge table StorageMoverJobRunLogsRaw (records:dynamic)
+
+.alter-merge table StorageMoverJobRunLogsRaw policy retention softdelete = 1d
+
+.alter table StorageMoverJobRunLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table StorageMoverJobRunLogsRaw ingestion json mapping 'StorageMoverJobRunLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table StorageMoverJobRunLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+JobRunName:string,
+Level:string,
+StatusCode:string,
+Message:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table StorageMoverJobRunLogs policy caching hot = 1d
+
+.create-or-alter function StorageMoverJobRunLogsExpand() {
+StorageMoverJobRunLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+JobRunName=tostring(events.JobRunName),
+Level=tostring(events.Level),
+StatusCode=tostring(events.StatusCode),
+Message=tostring(events.Message),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table StorageMoverJobRunLogs policy update @'[{"Source": "StorageMoverJobRunLogsRaw", "Query": "StorageMoverJobRunLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

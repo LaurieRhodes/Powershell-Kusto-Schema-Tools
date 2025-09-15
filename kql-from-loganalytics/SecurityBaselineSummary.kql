@@ -1,0 +1,85 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for SecurityBaselineSummary - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:20:05
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 25, Final columns: 25
+// ============================================================================
+
+.create-merge table SecurityBaselineSummaryRaw (records:dynamic)
+
+.alter-merge table SecurityBaselineSummaryRaw policy retention softdelete = 1d
+
+.alter table SecurityBaselineSummaryRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table SecurityBaselineSummaryRaw ingestion json mapping 'SecurityBaselineSummaryRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table SecurityBaselineSummary(
+TimeGenerated:datetime,
+TenantId:guid,
+CriticalFailedRules:int,
+PercentageOfPassedRules:int,
+TotalAssessedRules:int,
+AssessmentId:guid,
+OSName:string,
+BaselineType:string,
+BaselineId:guid,
+Computer:string,
+ComputerEnvironment:string,
+ResourceType:string,
+ResourceId:string,
+Resource:string,
+ResourceProvider:string,
+ResourceGroup:string,
+SubscriptionId:guid,
+SourceComputerId:guid,
+ManagementGroupName:string,
+MG:guid,
+SourceSystem:string,
+WarningFailedRules:int,
+InformationalFailedRules:int,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table SecurityBaselineSummary policy caching hot = 1d
+
+.create-or-alter function SecurityBaselineSummaryExpand() {
+SecurityBaselineSummaryRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+CriticalFailedRules=toint(events.CriticalFailedRules),
+PercentageOfPassedRules=toint(events.PercentageOfPassedRules),
+TotalAssessedRules=toint(events.TotalAssessedRules),
+AssessmentId=toguid(events.AssessmentId),
+OSName=tostring(events.OSName),
+BaselineType=tostring(events.BaselineType),
+BaselineId=toguid(events.BaselineId),
+Computer=tostring(events.Computer),
+ComputerEnvironment=tostring(events.ComputerEnvironment),
+ResourceType=tostring(events.ResourceType),
+ResourceId=tostring(events.ResourceId),
+Resource=tostring(events.Resource),
+ResourceProvider=tostring(events.ResourceProvider),
+ResourceGroup=tostring(events.ResourceGroup),
+SubscriptionId=toguid(events.SubscriptionId),
+SourceComputerId=toguid(events.SourceComputerId),
+ManagementGroupName=tostring(events.ManagementGroupName),
+MG=toguid(events.MG),
+SourceSystem=tostring(events.SourceSystem),
+WarningFailedRules=toint(events.WarningFailedRules),
+InformationalFailedRules=toint(events.InformationalFailedRules),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table SecurityBaselineSummary policy update @'[{"Source": "SecurityBaselineSummaryRaw", "Query": "SecurityBaselineSummaryExpand()", "IsEnabled": "True", "IsTransactional": true}]'

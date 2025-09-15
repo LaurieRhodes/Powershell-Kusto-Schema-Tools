@@ -1,0 +1,89 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for VMProcess - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:22:29
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 27, Final columns: 27
+// ============================================================================
+
+.create-merge table VMProcessRaw (records:dynamic)
+
+.alter-merge table VMProcessRaw policy retention softdelete = 1d
+
+.alter table VMProcessRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table VMProcessRaw ingestion json mapping 'VMProcessRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table VMProcess(
+TimeGenerated:datetime,
+Computer:string,
+UserDomain:string,
+UserName:string,
+Services:dynamic,
+WorkingDirectory:string,
+CommandLine:string,
+ExecutablePath:string,
+FileVersion:string,
+ProductVersion:string,
+ProductName:string,
+InternalName:string,
+CompanyName:string,
+Description:string,
+FirstPid:int,
+StartTime:datetime,
+Group:string,
+Role:string,
+DisplayName:string,
+ExecutableName:string,
+Process:string,
+Machine:string,
+AgentId:string,
+TenantId:guid,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table VMProcess policy caching hot = 1d
+
+.create-or-alter function VMProcessExpand() {
+VMProcessRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+Computer=tostring(events.Computer),
+UserDomain=tostring(events.UserDomain),
+UserName=tostring(events.UserName),
+Services=todynamic(events.Services),
+WorkingDirectory=tostring(events.WorkingDirectory),
+CommandLine=tostring(events.CommandLine),
+ExecutablePath=tostring(events.ExecutablePath),
+FileVersion=tostring(events.FileVersion),
+ProductVersion=tostring(events.ProductVersion),
+ProductName=tostring(events.ProductName),
+InternalName=tostring(events.InternalName),
+CompanyName=tostring(events.CompanyName),
+Description=tostring(events.Description),
+FirstPid=toint(events.FirstPid),
+StartTime=todatetime(events.StartTime),
+Group=tostring(events.Group),
+Role=tostring(events.Role),
+DisplayName=tostring(events.DisplayName),
+ExecutableName=tostring(events.ExecutableName),
+Process=tostring(events.Process),
+Machine=tostring(events.Machine),
+AgentId=tostring(events.AgentId),
+TenantId=toguid(events.TenantId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table VMProcess policy update @'[{"Source": "VMProcessRaw", "Query": "VMProcessExpand()", "IsEnabled": "True", "IsTransactional": true}]'

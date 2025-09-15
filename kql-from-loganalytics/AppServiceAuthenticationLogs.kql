@@ -1,0 +1,67 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AppServiceAuthenticationLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:22:39
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 16, Final columns: 16
+// ============================================================================
+
+.create-merge table AppServiceAuthenticationLogsRaw (records:dynamic)
+
+.alter-merge table AppServiceAuthenticationLogsRaw policy retention softdelete = 1d
+
+.alter table AppServiceAuthenticationLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AppServiceAuthenticationLogsRaw ingestion json mapping 'AppServiceAuthenticationLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AppServiceAuthenticationLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+Level:string,
+TaskName:string,
+Message:string,
+CorrelationId:string,
+SiteName:string,
+HostName:string,
+StatusCode:int,
+SubStatusCode:int,
+Details:string,
+ModuleRuntimeVersion:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AppServiceAuthenticationLogs policy caching hot = 1d
+
+.create-or-alter function AppServiceAuthenticationLogsExpand() {
+AppServiceAuthenticationLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+Level=tostring(events.Level),
+TaskName=tostring(events.TaskName),
+Message=tostring(events.Message),
+CorrelationId=tostring(events.CorrelationId),
+SiteName=tostring(events.SiteName),
+HostName=tostring(events.HostName),
+StatusCode=toint(events.StatusCode),
+SubStatusCode=toint(events.SubStatusCode),
+Details=tostring(events.Details),
+ModuleRuntimeVersion=tostring(events.ModuleRuntimeVersion),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AppServiceAuthenticationLogs policy update @'[{"Source": "AppServiceAuthenticationLogsRaw", "Query": "AppServiceAuthenticationLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

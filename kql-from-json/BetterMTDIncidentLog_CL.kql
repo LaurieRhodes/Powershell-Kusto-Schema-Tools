@@ -1,0 +1,82 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for BetterMTDIncidentLog_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:11
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table BetterMTDIncidentLog_CLRaw (records:dynamic)
+
+.alter-merge table BetterMTDIncidentLog_CLRaw policy retention softdelete = 1d
+
+.alter table BetterMTDIncidentLog_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table BetterMTDIncidentLog_CLRaw ingestion json mapping 'BetterMTDIncidentLog_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table BetterMTDIncidentLog_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+Status:string,
+UserEmail:string,
+DevicePlatform:string,
+DeviceId:string,
+DeviceOS:string,
+CompanyName:string,
+CompanyId:real,
+ThreatDescription:string,
+EventTimeStamp:datetime,
+ThreatCategory:string,
+ThreatTitle:string,
+ThreatType:string,
+ThreatId:real,
+RawData:string,
+Computer:string,
+ManagementGroupName:string,
+MG:string,
+SourceSystem:string,
+ThreatSeverity:string,
+LogTimeStamp:datetime,
+Type:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table BetterMTDIncidentLog_CL policy caching hot = 1d
+
+.create-or-alter function BetterMTDIncidentLog_CLExpand() {
+BetterMTDIncidentLog_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Status=tostring(events.Status),
+UserEmail=tostring(events.UserEmail),
+DevicePlatform=tostring(events.DevicePlatform),
+DeviceId=tostring(events.DeviceId),
+DeviceOS=tostring(events.DeviceOS),
+CompanyName=tostring(events.CompanyName),
+CompanyId=toreal(events.CompanyId),
+ThreatDescription=tostring(events.ThreatDescription),
+EventTimeStamp=todatetime(events.EventTimeStamp),
+ThreatCategory=tostring(events.ThreatCategory),
+ThreatTitle=tostring(events.ThreatTitle),
+ThreatType=tostring(events.ThreatType),
+ThreatId=toreal(events.ThreatId),
+RawData=tostring(events.RawData),
+Computer=tostring(events.Computer),
+ManagementGroupName=tostring(events.ManagementGroupName),
+MG=tostring(events.MG),
+SourceSystem=tostring(events.SourceSystem),
+ThreatSeverity=tostring(events.ThreatSeverity),
+LogTimeStamp=todatetime(events.LogTimeStamp),
+Type=tostring(events.Type),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table BetterMTDIncidentLog_CL policy update @'[{"Source": "BetterMTDIncidentLog_CLRaw", "Query": "BetterMTDIncidentLog_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

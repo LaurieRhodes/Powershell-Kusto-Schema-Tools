@@ -1,0 +1,100 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_ipsec_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:13
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_ipsec_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_ipsec_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_ipsec_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_ipsec_CLRaw ingestion json mapping 'Corelight_v2_ipsec_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_ipsec_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+length_d:real,
+transform_attributes_s:string,
+certificates_s:string,
+protocol_id_d:real,
+proposals_s:string,
+ke_dh_groups_s:string,
+transforms_s:string,
+notify_messages_s:string,
+vendor_ids_s:string,
+message_id_d:real,
+flag_r_b:bool,
+flag_v_b:bool,
+flag_i_b:bool,
+flag_a_b:bool,
+flag_c_b:bool,
+flag_e_b:bool,
+exchange_type_d:real,
+min_ver_d:real,
+maj_ver_d:real,
+responder_spi_s:string,
+initiator_spi_s:string,
+is_orig_b:bool,
+id_resp_p_d:real,
+id_resp_h_s:string,
+id_orig_p_d:real,
+id_orig_h_s:string,
+uid_s:string,
+doi_d:real,
+situation_s:string,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_ipsec_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_ipsec_CLExpand() {
+Corelight_v2_ipsec_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+length_d=toreal(events.length_d),
+transform_attributes_s=tostring(events.transform_attributes_s),
+certificates_s=tostring(events.certificates_s),
+protocol_id_d=toreal(events.protocol_id_d),
+proposals_s=tostring(events.proposals_s),
+ke_dh_groups_s=tostring(events.ke_dh_groups_s),
+transforms_s=tostring(events.transforms_s),
+notify_messages_s=tostring(events.notify_messages_s),
+vendor_ids_s=tostring(events.vendor_ids_s),
+message_id_d=toreal(events.message_id_d),
+flag_r_b=tobool(events.flag_r_b),
+flag_v_b=tobool(events.flag_v_b),
+flag_i_b=tobool(events.flag_i_b),
+flag_a_b=tobool(events.flag_a_b),
+flag_c_b=tobool(events.flag_c_b),
+flag_e_b=tobool(events.flag_e_b),
+exchange_type_d=toreal(events.exchange_type_d),
+min_ver_d=toreal(events.min_ver_d),
+maj_ver_d=toreal(events.maj_ver_d),
+responder_spi_s=tostring(events.responder_spi_s),
+initiator_spi_s=tostring(events.initiator_spi_s),
+is_orig_b=tobool(events.is_orig_b),
+id_resp_p_d=toreal(events.id_resp_p_d),
+id_resp_h_s=tostring(events.id_resp_h_s),
+id_orig_p_d=toreal(events.id_orig_p_d),
+id_orig_h_s=tostring(events.id_orig_h_s),
+uid_s=tostring(events.uid_s),
+doi_d=toreal(events.doi_d),
+situation_s=tostring(events.situation_s),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_ipsec_CL policy update @'[{"Source": "Corelight_v2_ipsec_CLRaw", "Query": "Corelight_v2_ipsec_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

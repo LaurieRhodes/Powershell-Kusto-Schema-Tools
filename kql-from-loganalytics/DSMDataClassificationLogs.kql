@@ -1,0 +1,59 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for DSMDataClassificationLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:13:31
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 12, Final columns: 12
+// ============================================================================
+
+.create-merge table DSMDataClassificationLogsRaw (records:dynamic)
+
+.alter-merge table DSMDataClassificationLogsRaw policy retention softdelete = 1d
+
+.alter table DSMDataClassificationLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table DSMDataClassificationLogsRaw ingestion json mapping 'DSMDataClassificationLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table DSMDataClassificationLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+Uri:string,
+Classification:string,
+Classifications:dynamic,
+CorrelationId:string,
+SourceType:string,
+AssetType:string,
+AssetLastScanTime:datetime,
+ClassificationDetails:dynamic,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table DSMDataClassificationLogs policy caching hot = 1d
+
+.create-or-alter function DSMDataClassificationLogsExpand() {
+DSMDataClassificationLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Uri=tostring(events.Uri),
+Classification=tostring(events.Classification),
+Classifications=todynamic(events.Classifications),
+CorrelationId=tostring(events.CorrelationId),
+SourceType=tostring(events.SourceType),
+AssetType=tostring(events.AssetType),
+AssetLastScanTime=todatetime(events.AssetLastScanTime),
+ClassificationDetails=todynamic(events.ClassificationDetails),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table DSMDataClassificationLogs policy update @'[{"Source": "DSMDataClassificationLogsRaw", "Query": "DSMDataClassificationLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

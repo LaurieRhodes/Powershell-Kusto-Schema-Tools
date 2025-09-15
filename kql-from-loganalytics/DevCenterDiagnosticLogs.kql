@@ -1,0 +1,57 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for DevCenterDiagnosticLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:12:56
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 11, Final columns: 11
+// ============================================================================
+
+.create-merge table DevCenterDiagnosticLogsRaw (records:dynamic)
+
+.alter-merge table DevCenterDiagnosticLogsRaw policy retention softdelete = 1d
+
+.alter table DevCenterDiagnosticLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table DevCenterDiagnosticLogsRaw ingestion json mapping 'DevCenterDiagnosticLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table DevCenterDiagnosticLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+TargetResourceId:string,
+CallerIdentity:string,
+OperationResult:string,
+ResponseCode:string,
+CorrelationId:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table DevCenterDiagnosticLogs policy caching hot = 1d
+
+.create-or-alter function DevCenterDiagnosticLogsExpand() {
+DevCenterDiagnosticLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+TargetResourceId=tostring(events.TargetResourceId),
+CallerIdentity=tostring(events.CallerIdentity),
+OperationResult=tostring(events.OperationResult),
+ResponseCode=tostring(events.ResponseCode),
+CorrelationId=tostring(events.CorrelationId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table DevCenterDiagnosticLogs policy update @'[{"Source": "DevCenterDiagnosticLogsRaw", "Query": "DevCenterDiagnosticLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

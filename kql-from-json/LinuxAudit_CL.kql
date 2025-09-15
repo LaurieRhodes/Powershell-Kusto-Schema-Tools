@@ -1,0 +1,138 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for LinuxAudit_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table LinuxAudit_CLRaw (records:dynamic)
+
+.alter-merge table LinuxAudit_CLRaw policy retention softdelete = 1d
+
+.alter table LinuxAudit_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table LinuxAudit_CLRaw ingestion json mapping 'LinuxAudit_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table LinuxAudit_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+auid_s:string,
+ses_s:string,
+path_s:string,
+key_s:string,
+list_s:string,
+res_s:string,
+arch_s:string,
+syscall_s:string,
+success_s:string,
+exit_d:real,
+items_d:real,
+ppid_d:real,
+pid_d:real,
+uid_s:string,
+gid_s:string,
+euid_s:string,
+suid_s:string,
+fsuid_s:string,
+egid_s:string,
+sgid_s:string,
+fsgid_s:string,
+argc_s:string,
+SourceModuleType_s:string,
+SourceModuleName_s:string,
+EventReceivedTime_t:datetime,
+SourceSystem:string,
+MG:string,
+ManagementGroupName:string,
+Computer:string,
+RawData:string,
+type_s:string,
+time_t:datetime,
+seq_d:real,
+item_d:real,
+name_s:string,
+comm_s:string,
+inode_d:real,
+mode_s:string,
+ouid_s:string,
+ogid_s:string,
+rdev_s:string,
+nametype_s:string,
+cap_fp_s:string,
+cap_fi_s:string,
+cap_fe_s:string,
+cap_fver_s:string,
+cap_frootid_s:string,
+dev_s:string,
+exe_s:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table LinuxAudit_CL policy caching hot = 1d
+
+.create-or-alter function LinuxAudit_CLExpand() {
+LinuxAudit_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+auid_s=tostring(events.auid_s),
+ses_s=tostring(events.ses_s),
+path_s=tostring(events.path_s),
+key_s=tostring(events.key_s),
+list_s=tostring(events.list_s),
+res_s=tostring(events.res_s),
+arch_s=tostring(events.arch_s),
+syscall_s=tostring(events.syscall_s),
+success_s=tostring(events.success_s),
+exit_d=toreal(events.exit_d),
+items_d=toreal(events.items_d),
+ppid_d=toreal(events.ppid_d),
+pid_d=toreal(events.pid_d),
+uid_s=tostring(events.uid_s),
+gid_s=tostring(events.gid_s),
+euid_s=tostring(events.euid_s),
+suid_s=tostring(events.suid_s),
+fsuid_s=tostring(events.fsuid_s),
+egid_s=tostring(events.egid_s),
+sgid_s=tostring(events.sgid_s),
+fsgid_s=tostring(events.fsgid_s),
+argc_s=tostring(events.argc_s),
+SourceModuleType_s=tostring(events.SourceModuleType_s),
+SourceModuleName_s=tostring(events.SourceModuleName_s),
+EventReceivedTime_t=todatetime(events.EventReceivedTime_t),
+SourceSystem=tostring(events.SourceSystem),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+Computer=tostring(events.Computer),
+RawData=tostring(events.RawData),
+type_s=tostring(events.type_s),
+time_t=todatetime(events.time_t),
+seq_d=toreal(events.seq_d),
+item_d=toreal(events.item_d),
+name_s=tostring(events.name_s),
+comm_s=tostring(events.comm_s),
+inode_d=toreal(events.inode_d),
+mode_s=tostring(events.mode_s),
+ouid_s=tostring(events.ouid_s),
+ogid_s=tostring(events.ogid_s),
+rdev_s=tostring(events.rdev_s),
+nametype_s=tostring(events.nametype_s),
+cap_fp_s=tostring(events.cap_fp_s),
+cap_fi_s=tostring(events.cap_fi_s),
+cap_fe_s=tostring(events.cap_fe_s),
+cap_fver_s=tostring(events.cap_fver_s),
+cap_frootid_s=tostring(events.cap_frootid_s),
+dev_s=tostring(events.dev_s),
+exe_s=tostring(events.exe_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table LinuxAudit_CL policy update @'[{"Source": "LinuxAudit_CLRaw", "Query": "LinuxAudit_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

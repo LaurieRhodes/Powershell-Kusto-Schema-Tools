@@ -1,0 +1,48 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for DuoSecurityAdministration_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table DuoSecurityAdministration_CLRaw (records:dynamic)
+
+.alter-merge table DuoSecurityAdministration_CLRaw policy retention softdelete = 1d
+
+.alter table DuoSecurityAdministration_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table DuoSecurityAdministration_CLRaw ingestion json mapping 'DuoSecurityAdministration_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table DuoSecurityAdministration_CL(
+TimeGenerated:datetime,
+RawData:string,
+action_s:string,
+isotimestamp_t:datetime,
+object_s:string,
+timestamp_d:real,
+username_s:string,
+description_s:string,
+_TimeReceived:datetime)
+
+.alter table DuoSecurityAdministration_CL policy caching hot = 1d
+
+.create-or-alter function DuoSecurityAdministration_CLExpand() {
+DuoSecurityAdministration_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+RawData=tostring(events.RawData),
+action_s=tostring(events.action_s),
+isotimestamp_t=todatetime(events.isotimestamp_t),
+object_s=tostring(events.object_s),
+timestamp_d=toreal(events.timestamp_d),
+username_s=tostring(events.username_s),
+description_s=tostring(events.description_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table DuoSecurityAdministration_CL policy update @'[{"Source": "DuoSecurityAdministration_CLRaw", "Query": "DuoSecurityAdministration_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

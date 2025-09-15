@@ -1,0 +1,67 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for UrlClickEvents - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:22:19
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 16, Final columns: 16
+// ============================================================================
+
+.create-merge table UrlClickEventsRaw (records:dynamic)
+
+.alter-merge table UrlClickEventsRaw policy retention softdelete = 1d
+
+.alter table UrlClickEventsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table UrlClickEventsRaw ingestion json mapping 'UrlClickEventsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table UrlClickEvents(
+TimeGenerated:datetime,
+TenantId:guid,
+Timestamp:datetime,
+Url:string,
+ActionType:string,
+AccountUpn:string,
+Workload:string,
+NetworkMessageId:string,
+IPAddress:string,
+ThreatTypes:string,
+DetectionMethods:string,
+IsClickedThrough:bool,
+UrlChain:string,
+ReportId:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table UrlClickEvents policy caching hot = 1d
+
+.create-or-alter function UrlClickEventsExpand() {
+UrlClickEventsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Timestamp=todatetime(events.Timestamp),
+Url=tostring(events.Url),
+ActionType=tostring(events.ActionType),
+AccountUpn=tostring(events.AccountUpn),
+Workload=tostring(events.Workload),
+NetworkMessageId=tostring(events.NetworkMessageId),
+IPAddress=tostring(events.IPAddress),
+ThreatTypes=tostring(events.ThreatTypes),
+DetectionMethods=tostring(events.DetectionMethods),
+IsClickedThrough=tobool(events.IsClickedThrough),
+UrlChain=tostring(events.UrlChain),
+ReportId=tostring(events.ReportId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table UrlClickEvents policy update @'[{"Source": "UrlClickEventsRaw", "Query": "UrlClickEventsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

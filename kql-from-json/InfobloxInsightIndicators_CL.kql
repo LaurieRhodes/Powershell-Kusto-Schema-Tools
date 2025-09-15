@@ -1,0 +1,90 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for InfobloxInsightIndicators_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table InfobloxInsightIndicators_CLRaw (records:dynamic)
+
+.alter-merge table InfobloxInsightIndicators_CLRaw policy retention softdelete = 1d
+
+.alter table InfobloxInsightIndicators_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table InfobloxInsightIndicators_CLRaw ingestion json mapping 'InfobloxInsightIndicators_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table InfobloxInsightIndicators_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+properties_friendlyName_s:string,
+properties_category_s:string,
+properties_malwareName_s:string,
+kind_s:string,
+type_s:string,
+name_g:string,
+id_s:string,
+properties_friendlyName_g:string,
+properties_objectGuid_g:string,
+actor_s:string,
+timeMin_t:datetime,
+timeMax_t:datetime,
+indicator_s:string,
+threatLevelMax_s:string,
+feedName_s:string,
+count_d:real,
+confidence_s:string,
+action_s:string,
+RawData:string,
+Computer:string,
+ManagementGroupName:string,
+MG:string,
+SourceSystem:string,
+InfobloxInsightID_g:string,
+InfobloxInsightLogType_s:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table InfobloxInsightIndicators_CL policy caching hot = 1d
+
+.create-or-alter function InfobloxInsightIndicators_CLExpand() {
+InfobloxInsightIndicators_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+properties_friendlyName_s=tostring(events.properties_friendlyName_s),
+properties_category_s=tostring(events.properties_category_s),
+properties_malwareName_s=tostring(events.properties_malwareName_s),
+kind_s=tostring(events.kind_s),
+type_s=tostring(events.type_s),
+name_g=tostring(events.name_g),
+id_s=tostring(events.id_s),
+properties_friendlyName_g=tostring(events.properties_friendlyName_g),
+properties_objectGuid_g=tostring(events.properties_objectGuid_g),
+actor_s=tostring(events.actor_s),
+timeMin_t=todatetime(events.timeMin_t),
+timeMax_t=todatetime(events.timeMax_t),
+indicator_s=tostring(events.indicator_s),
+threatLevelMax_s=tostring(events.threatLevelMax_s),
+feedName_s=tostring(events.feedName_s),
+count_d=toreal(events.count_d),
+confidence_s=tostring(events.confidence_s),
+action_s=tostring(events.action_s),
+RawData=tostring(events.RawData),
+Computer=tostring(events.Computer),
+ManagementGroupName=tostring(events.ManagementGroupName),
+MG=tostring(events.MG),
+SourceSystem=tostring(events.SourceSystem),
+InfobloxInsightID_g=tostring(events.InfobloxInsightID_g),
+InfobloxInsightLogType_s=tostring(events.InfobloxInsightLogType_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table InfobloxInsightIndicators_CL policy update @'[{"Source": "InfobloxInsightIndicators_CLRaw", "Query": "InfobloxInsightIndicators_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

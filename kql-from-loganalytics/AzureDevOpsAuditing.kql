@@ -1,0 +1,87 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AzureDevOpsAuditing - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:24:39
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 26, Final columns: 26
+// ============================================================================
+
+.create-merge table AzureDevOpsAuditingRaw (records:dynamic)
+
+.alter-merge table AzureDevOpsAuditingRaw policy retention softdelete = 1d
+
+.alter table AzureDevOpsAuditingRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AzureDevOpsAuditingRaw ingestion json mapping 'AzureDevOpsAuditingRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AzureDevOpsAuditing(
+TimeGenerated:datetime,
+TenantId:guid,
+CategoryDisplayName:string,
+Category:string,
+Area:string,
+Details:string,
+Data:dynamic,
+OperationName:string,
+UserAgent:string,
+IpAddress:string,
+ProjectName:string,
+ProjectId:guid,
+ScopeId:guid,
+ScopeDisplayName:string,
+ScopeType:string,
+AuthenticationMechanism:string,
+ActorUPN:string,
+ActorUserId:guid,
+ActorCUID:guid,
+ActorClientId:string,
+ActivityId:guid,
+CorrelationId:guid,
+Id:string,
+ActorDisplayName:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table AzureDevOpsAuditing policy caching hot = 1d
+
+.create-or-alter function AzureDevOpsAuditingExpand() {
+AzureDevOpsAuditingRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+CategoryDisplayName=tostring(events.CategoryDisplayName),
+Category=tostring(events.Category),
+Area=tostring(events.Area),
+Details=tostring(events.Details),
+Data=todynamic(events.Data),
+OperationName=tostring(events.OperationName),
+UserAgent=tostring(events.UserAgent),
+IpAddress=tostring(events.IpAddress),
+ProjectName=tostring(events.ProjectName),
+ProjectId=toguid(events.ProjectId),
+ScopeId=toguid(events.ScopeId),
+ScopeDisplayName=tostring(events.ScopeDisplayName),
+ScopeType=tostring(events.ScopeType),
+AuthenticationMechanism=tostring(events.AuthenticationMechanism),
+ActorUPN=tostring(events.ActorUPN),
+ActorUserId=toguid(events.ActorUserId),
+ActorCUID=toguid(events.ActorCUID),
+ActorClientId=tostring(events.ActorClientId),
+ActivityId=toguid(events.ActivityId),
+CorrelationId=toguid(events.CorrelationId),
+Id=tostring(events.Id),
+ActorDisplayName=tostring(events.ActorDisplayName),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AzureDevOpsAuditing policy update @'[{"Source": "AzureDevOpsAuditingRaw", "Query": "AzureDevOpsAuditingExpand()", "IsEnabled": "True", "IsTransactional": true}]'

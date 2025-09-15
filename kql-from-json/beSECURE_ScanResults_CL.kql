@@ -1,0 +1,68 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for beSECURE_ScanResults_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:11
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table beSECURE_ScanResults_CLRaw (records:dynamic)
+
+.alter-merge table beSECURE_ScanResults_CLRaw policy retention softdelete = 1d
+
+.alter table beSECURE_ScanResults_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table beSECURE_ScanResults_CLRaw ingestion json mapping 'beSECURE_ScanResults_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table beSECURE_ScanResults_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+SourceSystem:string,
+MG:string,
+ManagementGroupName:string,
+Computer:string,
+RawData:string,
+cves:string,
+cvss_score_s:string,
+destination_host_s:string,
+destination_port:string,
+risk_name_s:string,
+risk_value_s:string,
+scan_name:string,
+test_id:string,
+vulnerability_name:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table beSECURE_ScanResults_CL policy caching hot = 1d
+
+.create-or-alter function beSECURE_ScanResults_CLExpand() {
+beSECURE_ScanResults_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SourceSystem=tostring(events.SourceSystem),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+Computer=tostring(events.Computer),
+RawData=tostring(events.RawData),
+cves=tostring(events.cves),
+cvss_score_s=tostring(events.cvss_score_s),
+destination_host_s=tostring(events.destination_host_s),
+destination_port=tostring(events.destination_port),
+risk_name_s=tostring(events.risk_name_s),
+risk_value_s=tostring(events.risk_value_s),
+scan_name=tostring(events.scan_name),
+test_id=tostring(events.test_id),
+vulnerability_name=tostring(events.vulnerability_name),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table beSECURE_ScanResults_CL policy update @'[{"Source": "beSECURE_ScanResults_CLRaw", "Query": "beSECURE_ScanResults_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

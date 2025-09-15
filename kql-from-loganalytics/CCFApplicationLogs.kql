@@ -1,0 +1,55 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for CCFApplicationLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:25:05
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 10, Final columns: 10
+// ============================================================================
+
+.create-merge table CCFApplicationLogsRaw (records:dynamic)
+
+.alter-merge table CCFApplicationLogsRaw policy retention softdelete = 1d
+
+.alter table CCFApplicationLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table CCFApplicationLogsRaw ingestion json mapping 'CCFApplicationLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table CCFApplicationLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+Level:string,
+Message:string,
+File:string,
+LineNumber:int,
+Location:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table CCFApplicationLogs policy caching hot = 1d
+
+.create-or-alter function CCFApplicationLogsExpand() {
+CCFApplicationLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Level=tostring(events.Level),
+Message=tostring(events.Message),
+File=tostring(events.File),
+LineNumber=toint(events.LineNumber),
+Location=tostring(events.Location),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table CCFApplicationLogs policy update @'[{"Source": "CCFApplicationLogsRaw", "Query": "CCFApplicationLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

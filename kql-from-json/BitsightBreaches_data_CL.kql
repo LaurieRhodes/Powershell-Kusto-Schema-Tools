@@ -1,0 +1,64 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for BitsightBreaches_data_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:11
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table BitsightBreaches_data_CLRaw (records:dynamic)
+
+.alter-merge table BitsightBreaches_data_CLRaw policy retention softdelete = 1d
+
+.alter table BitsightBreaches_data_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table BitsightBreaches_data_CLRaw ingestion json mapping 'BitsightBreaches_data_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table BitsightBreaches_data_CL(
+TimeGenerated:datetime,
+EventVendor:string,
+EventProduct:string,
+GUID:string,
+Date:string,
+Severity:int,
+Text:string,
+DateCreated:string,
+PreviwURL:string,
+EventType:string,
+EventTypeDescription:string,
+BreachedCompanies:string,
+DependentCompanies:string,
+Companyname:string,
+CompanyGUID:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table BitsightBreaches_data_CL policy caching hot = 1d
+
+.create-or-alter function BitsightBreaches_data_CLExpand() {
+BitsightBreaches_data_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+EventVendor=tostring(events.EventVendor),
+EventProduct=tostring(events.EventProduct),
+GUID=tostring(events.GUID),
+Date=tostring(events.Date),
+Severity=toint(events.Severity),
+Text=tostring(events.Text),
+DateCreated=tostring(events.DateCreated),
+PreviwURL=tostring(events.PreviwURL),
+EventType=tostring(events.EventType),
+EventTypeDescription=tostring(events.EventTypeDescription),
+BreachedCompanies=tostring(events.BreachedCompanies),
+DependentCompanies=tostring(events.DependentCompanies),
+Companyname=tostring(events.Companyname),
+CompanyGUID=tostring(events.CompanyGUID),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table BitsightBreaches_data_CL policy update @'[{"Source": "BitsightBreaches_data_CLRaw", "Query": "BitsightBreaches_data_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

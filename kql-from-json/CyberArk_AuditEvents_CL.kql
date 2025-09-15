@@ -1,0 +1,66 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for CyberArk_AuditEvents_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table CyberArk_AuditEvents_CLRaw (records:dynamic)
+
+.alter-merge table CyberArk_AuditEvents_CLRaw policy retention softdelete = 1d
+
+.alter table CyberArk_AuditEvents_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table CyberArk_AuditEvents_CLRaw ingestion json mapping 'CyberArk_AuditEvents_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table CyberArk_AuditEvents_CL(
+TimeGenerated:datetime,
+CyberArkTenantId:string,
+timestamp:int,
+username:string,
+applicationCode:string,
+auditCode:string,
+action:string,
+auditType:string,
+userId:string,
+source:string,
+actionType:string,
+component:string,
+serviceName:string,
+target:string,
+command:string,
+sessionId:string,
+message:string,
+_TimeReceived:datetime)
+
+.alter table CyberArk_AuditEvents_CL policy caching hot = 1d
+
+.create-or-alter function CyberArk_AuditEvents_CLExpand() {
+CyberArk_AuditEvents_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+CyberArkTenantId=tostring(events.CyberArkTenantId),
+timestamp=toint(events.timestamp),
+username=tostring(events.username),
+applicationCode=tostring(events.applicationCode),
+auditCode=tostring(events.auditCode),
+action=tostring(events.action),
+auditType=tostring(events.auditType),
+userId=tostring(events.userId),
+source=tostring(events.source),
+actionType=tostring(events.actionType),
+component=tostring(events.component),
+serviceName=tostring(events.serviceName),
+target=tostring(events.target),
+command=tostring(events.command),
+sessionId=tostring(events.sessionId),
+message=tostring(events.message),
+_TimeReceived=todatetime(now())
+}
+
+.alter table CyberArk_AuditEvents_CL policy update @'[{"Source": "CyberArk_AuditEvents_CLRaw", "Query": "CyberArk_AuditEvents_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,44 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ForescoutHostProperties_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table ForescoutHostProperties_CLRaw (records:dynamic)
+
+.alter-merge table ForescoutHostProperties_CLRaw policy retention softdelete = 1d
+
+.alter table ForescoutHostProperties_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ForescoutHostProperties_CLRaw ingestion json mapping 'ForescoutHostProperties_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ForescoutHostProperties_CL(
+TimeGenerated:datetime,
+HostProperties_DnsniffEvent_s:string,
+HostProperties_Ipv4Addr_s:string,
+HostProperties_Ipv6Addr_s:string,
+HostProperties_IpAddr_s:string,
+HostProperties_EmIpAddr_s:string,
+_TimeReceived:datetime)
+
+.alter table ForescoutHostProperties_CL policy caching hot = 1d
+
+.create-or-alter function ForescoutHostProperties_CLExpand() {
+ForescoutHostProperties_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+HostProperties_DnsniffEvent_s=tostring(events.HostProperties_DnsniffEvent_s),
+HostProperties_Ipv4Addr_s=tostring(events.HostProperties_Ipv4Addr_s),
+HostProperties_Ipv6Addr_s=tostring(events.HostProperties_Ipv6Addr_s),
+HostProperties_IpAddr_s=tostring(events.HostProperties_IpAddr_s),
+HostProperties_EmIpAddr_s=tostring(events.HostProperties_EmIpAddr_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ForescoutHostProperties_CL policy update @'[{"Source": "ForescoutHostProperties_CLRaw", "Query": "ForescoutHostProperties_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

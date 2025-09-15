@@ -1,0 +1,84 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for GWorkspace_ReportsAPI_admin_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table GWorkspace_ReportsAPI_admin_CLRaw (records:dynamic)
+
+.alter-merge table GWorkspace_ReportsAPI_admin_CLRaw policy retention softdelete = 1d
+
+.alter table GWorkspace_ReportsAPI_admin_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table GWorkspace_ReportsAPI_admin_CLRaw ingestion json mapping 'GWorkspace_ReportsAPI_admin_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table GWorkspace_ReportsAPI_admin_CL(
+TimeGenerated:datetime,
+EventVendor:string,
+actor_email_s:string,
+NEW_VALUE_s:string,
+PRODUCT_NAME_s:string,
+USER_EMAIL_s:string,
+event_type_s:string,
+event_name_s:string,
+events_s:string,
+actor_key_s:string,
+actor_callerType_s:string,
+etag_s:string,
+actor_profileId_s:string,
+id_customerId_s:string,
+id_uniqueQualifier_s:string,
+id_time_t:datetime,
+kind_s:string,
+OLD_VALUE_s:string,
+ROLE_NAME_s:string,
+APPLICATION_EDITION_s:string,
+SETTING_NAME_s:string,
+ORG_UNIT_NAME_s:string,
+APPLICATION_NAME_s:string,
+EventProduct:string,
+id_applicationName_s:string,
+IPAddress:string,
+_TimeReceived:datetime)
+
+.alter table GWorkspace_ReportsAPI_admin_CL policy caching hot = 1d
+
+.create-or-alter function GWorkspace_ReportsAPI_admin_CLExpand() {
+GWorkspace_ReportsAPI_admin_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+EventVendor=tostring(events.EventVendor),
+actor_email_s=tostring(events.actor_email_s),
+NEW_VALUE_s=tostring(events.NEW_VALUE_s),
+PRODUCT_NAME_s=tostring(events.PRODUCT_NAME_s),
+USER_EMAIL_s=tostring(events.USER_EMAIL_s),
+event_type_s=tostring(events.event_type_s),
+event_name_s=tostring(events.event_name_s),
+events_s=tostring(events.events_s),
+actor_key_s=tostring(events.actor_key_s),
+actor_callerType_s=tostring(events.actor_callerType_s),
+etag_s=tostring(events.etag_s),
+actor_profileId_s=tostring(events.actor_profileId_s),
+id_customerId_s=tostring(events.id_customerId_s),
+id_uniqueQualifier_s=tostring(events.id_uniqueQualifier_s),
+id_time_t=todatetime(events.id_time_t),
+kind_s=tostring(events.kind_s),
+OLD_VALUE_s=tostring(events.OLD_VALUE_s),
+ROLE_NAME_s=tostring(events.ROLE_NAME_s),
+APPLICATION_EDITION_s=tostring(events.APPLICATION_EDITION_s),
+SETTING_NAME_s=tostring(events.SETTING_NAME_s),
+ORG_UNIT_NAME_s=tostring(events.ORG_UNIT_NAME_s),
+APPLICATION_NAME_s=tostring(events.APPLICATION_NAME_s),
+EventProduct=tostring(events.EventProduct),
+id_applicationName_s=tostring(events.id_applicationName_s),
+IPAddress=tostring(events.IPAddress),
+_TimeReceived=todatetime(now())
+}
+
+.alter table GWorkspace_ReportsAPI_admin_CL policy update @'[{"Source": "GWorkspace_ReportsAPI_admin_CLRaw", "Query": "GWorkspace_ReportsAPI_admin_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

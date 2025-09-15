@@ -1,0 +1,108 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for BSMmacOS_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:11
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table BSMmacOS_CLRaw (records:dynamic)
+
+.alter-merge table BSMmacOS_CLRaw policy retention softdelete = 1d
+
+.alter table BSMmacOS_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table BSMmacOS_CLRaw ingestion json mapping 'BSMmacOS_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table BSMmacOS_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+SubjectTerminal_Port_s:string,
+SubjectTerminal_Host_s:string,
+Text_s:string,
+ReturnErrno_s:string,
+ReturnRetval_s:string,
+Identity_s:string,
+SubjectTerminal_s:string,
+Identity_SignerType_s:string,
+Identity_SignerIdTruncated_s:string,
+Identity_TeamId_s:string,
+Identity_TeamIdTruncated_s:string,
+Identity_CDHash_s:string,
+TrailerCount_s:string,
+EventReceivedTime_t:datetime,
+Identity_SignerId_s:string,
+SourceModuleName_s:string,
+SubjectSID_s:string,
+SubjectRealGID_s:string,
+SourceSystem:string,
+MG:string,
+ManagementGroupName:string,
+Computer:string,
+RawData:string,
+TokenVersion_s:string,
+SubjectPID_s:string,
+EventType_s:string,
+EventModifier_s:string,
+EventTime_s:string,
+SubjectAuditID_s:string,
+SubjectUID_s:string,
+SubjectGID_s:string,
+SubjectRealUID_s:string,
+EventName_s:string,
+SourceModuleType_s:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table BSMmacOS_CL policy caching hot = 1d
+
+.create-or-alter function BSMmacOS_CLExpand() {
+BSMmacOS_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SubjectTerminal_Port_s=tostring(events.SubjectTerminal_Port_s),
+SubjectTerminal_Host_s=tostring(events.SubjectTerminal_Host_s),
+Text_s=tostring(events.Text_s),
+ReturnErrno_s=tostring(events.ReturnErrno_s),
+ReturnRetval_s=tostring(events.ReturnRetval_s),
+Identity_s=tostring(events.Identity_s),
+SubjectTerminal_s=tostring(events.SubjectTerminal_s),
+Identity_SignerType_s=tostring(events.Identity_SignerType_s),
+Identity_SignerIdTruncated_s=tostring(events.Identity_SignerIdTruncated_s),
+Identity_TeamId_s=tostring(events.Identity_TeamId_s),
+Identity_TeamIdTruncated_s=tostring(events.Identity_TeamIdTruncated_s),
+Identity_CDHash_s=tostring(events.Identity_CDHash_s),
+TrailerCount_s=tostring(events.TrailerCount_s),
+EventReceivedTime_t=todatetime(events.EventReceivedTime_t),
+Identity_SignerId_s=tostring(events.Identity_SignerId_s),
+SourceModuleName_s=tostring(events.SourceModuleName_s),
+SubjectSID_s=tostring(events.SubjectSID_s),
+SubjectRealGID_s=tostring(events.SubjectRealGID_s),
+SourceSystem=tostring(events.SourceSystem),
+MG=tostring(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+Computer=tostring(events.Computer),
+RawData=tostring(events.RawData),
+TokenVersion_s=tostring(events.TokenVersion_s),
+SubjectPID_s=tostring(events.SubjectPID_s),
+EventType_s=tostring(events.EventType_s),
+EventModifier_s=tostring(events.EventModifier_s),
+EventTime_s=tostring(events.EventTime_s),
+SubjectAuditID_s=tostring(events.SubjectAuditID_s),
+SubjectUID_s=tostring(events.SubjectUID_s),
+SubjectGID_s=tostring(events.SubjectGID_s),
+SubjectRealUID_s=tostring(events.SubjectRealUID_s),
+EventName_s=tostring(events.EventName_s),
+SourceModuleType_s=tostring(events.SourceModuleType_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table BSMmacOS_CL policy update @'[{"Source": "BSMmacOS_CLRaw", "Query": "BSMmacOS_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,114 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for CiscoETD_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:12
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table CiscoETD_CLRaw (records:dynamic)
+
+.alter-merge table CiscoETD_CLRaw policy retention softdelete = 1d
+
+.alter table CiscoETD_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table CiscoETD_CLRaw ingestion json mapping 'CiscoETD_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table CiscoETD_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+subject_s:string,
+toAddresses_s:string,
+timestamp_t:datetime,
+urls_s:string,
+verdict_isManualVerdict_b:bool,
+verdict_userId_s:string,
+verdict_isRetroVerdict_b:bool,
+serverIP_s:string,
+verdict_techniques_s:string,
+verdict_originalVerdict_s:string,
+verdict_latestVerdict_s:string,
+verdict_category_s:string,
+verdict_publicApiClientId_s:string,
+verdict_businessRisk_s:string,
+secureEmailGateway_originalCIP_s:string,
+secureEmailGateway_headerName_s:string,
+verdict_timestamp_t:datetime,
+returnPath_s:string,
+internetMessageId_s:string,
+mailboxes_s:string,
+SourceSystem:string,
+MG:guid,
+ManagementGroupName:string,
+Computer:string,
+RawData:string,
+attachments_s:string,
+senderName_s:string,
+action_type_s:string,
+action_isAutoRemediated_b:bool,
+action_folder_s:string,
+action_timestamp_t:datetime,
+action_publicApiClientId_s:string,
+fromAddress_s:string,
+clientIP_s:string,
+direction_s:string,
+domain_s:string,
+id_g:guid,
+envelopeTo_s:string,
+deliveredTo_s:string,
+_TimeReceived:datetime)
+
+.alter table CiscoETD_CL policy caching hot = 1d
+
+.create-or-alter function CiscoETD_CLExpand() {
+CiscoETD_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+subject_s=tostring(events.subject_s),
+toAddresses_s=tostring(events.toAddresses_s),
+timestamp_t=todatetime(events.timestamp_t),
+urls_s=tostring(events.urls_s),
+verdict_isManualVerdict_b=tobool(events.verdict_isManualVerdict_b),
+verdict_userId_s=tostring(events.verdict_userId_s),
+verdict_isRetroVerdict_b=tobool(events.verdict_isRetroVerdict_b),
+serverIP_s=tostring(events.serverIP_s),
+verdict_techniques_s=tostring(events.verdict_techniques_s),
+verdict_originalVerdict_s=tostring(events.verdict_originalVerdict_s),
+verdict_latestVerdict_s=tostring(events.verdict_latestVerdict_s),
+verdict_category_s=tostring(events.verdict_category_s),
+verdict_publicApiClientId_s=tostring(events.verdict_publicApiClientId_s),
+verdict_businessRisk_s=tostring(events.verdict_businessRisk_s),
+secureEmailGateway_originalCIP_s=tostring(events.secureEmailGateway_originalCIP_s),
+secureEmailGateway_headerName_s=tostring(events.secureEmailGateway_headerName_s),
+verdict_timestamp_t=todatetime(events.verdict_timestamp_t),
+returnPath_s=tostring(events.returnPath_s),
+internetMessageId_s=tostring(events.internetMessageId_s),
+mailboxes_s=tostring(events.mailboxes_s),
+SourceSystem=tostring(events.SourceSystem),
+MG=toguid(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+Computer=tostring(events.Computer),
+RawData=tostring(events.RawData),
+attachments_s=tostring(events.attachments_s),
+senderName_s=tostring(events.senderName_s),
+action_type_s=tostring(events.action_type_s),
+action_isAutoRemediated_b=tobool(events.action_isAutoRemediated_b),
+action_folder_s=tostring(events.action_folder_s),
+action_timestamp_t=todatetime(events.action_timestamp_t),
+action_publicApiClientId_s=tostring(events.action_publicApiClientId_s),
+fromAddress_s=tostring(events.fromAddress_s),
+clientIP_s=tostring(events.clientIP_s),
+direction_s=tostring(events.direction_s),
+domain_s=tostring(events.domain_s),
+id_g=toguid(events.id_g),
+envelopeTo_s=tostring(events.envelopeTo_s),
+deliveredTo_s=tostring(events.deliveredTo_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table CiscoETD_CL policy update @'[{"Source": "CiscoETD_CLRaw", "Query": "CiscoETD_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

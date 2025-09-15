@@ -1,0 +1,129 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for IntuneDevices - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:16:07
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 47, Final columns: 47
+// ============================================================================
+
+.create-merge table IntuneDevicesRaw (records:dynamic)
+
+.alter-merge table IntuneDevicesRaw policy retention softdelete = 1d
+
+.alter table IntuneDevicesRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table IntuneDevicesRaw ingestion json mapping 'IntuneDevicesRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table IntuneDevices(
+TimeGenerated:datetime,
+TenantId:guid,
+ManagedDeviceName:string,
+GraphDeviceIsManaged:bool,
+CategoryName:string,
+EncryptionStatusString:string,
+SubscriberCarrierNetwork:string,
+JoinType:string,
+SupervisedStatusString:string,
+WifiMacAddress:string,
+StorageTotal:long,
+StorageFree:long,
+AndroidPatchLevel:string,
+MEID:string,
+InGracePeriodUntil:string,
+JailBroken:string,
+SkuFamily:string,
+EasID:string,
+PrimaryUser:string,
+BatchId:guid,
+IntuneAccountId:guid,
+ReferenceId:string,
+AADTenantId:guid,
+DeviceRegistrationState:string,
+IMEI:string,
+OperationName:string,
+Result:string,
+SourceSystem:string,
+DeviceId:string,
+DeviceName:string,
+UPN:string,
+LastContact:string,
+OSVersion:string,
+OS:string,
+CompliantState:string,
+Ownership:string,
+ManagedBy:string,
+Model:string,
+SerialNumber:string,
+Manufacturer:string,
+CreatedDate:string,
+DeviceState:string,
+UserEmail:string,
+UserName:string,
+PhoneNumber:string,
+Stats:dynamic,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table IntuneDevices policy caching hot = 1d
+
+.create-or-alter function IntuneDevicesExpand() {
+IntuneDevicesRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ManagedDeviceName=tostring(events.ManagedDeviceName),
+GraphDeviceIsManaged=tobool(events.GraphDeviceIsManaged),
+CategoryName=tostring(events.CategoryName),
+EncryptionStatusString=tostring(events.EncryptionStatusString),
+SubscriberCarrierNetwork=tostring(events.SubscriberCarrierNetwork),
+JoinType=tostring(events.JoinType),
+SupervisedStatusString=tostring(events.SupervisedStatusString),
+WifiMacAddress=tostring(events.WifiMacAddress),
+StorageTotal=tolong(events.StorageTotal),
+StorageFree=tolong(events.StorageFree),
+AndroidPatchLevel=tostring(events.AndroidPatchLevel),
+MEID=tostring(events.MEID),
+InGracePeriodUntil=tostring(events.InGracePeriodUntil),
+JailBroken=tostring(events.JailBroken),
+SkuFamily=tostring(events.SkuFamily),
+EasID=tostring(events.EasID),
+PrimaryUser=tostring(events.PrimaryUser),
+BatchId=toguid(events.BatchId),
+IntuneAccountId=toguid(events.IntuneAccountId),
+ReferenceId=tostring(events.ReferenceId),
+AADTenantId=toguid(events.AADTenantId),
+DeviceRegistrationState=tostring(events.DeviceRegistrationState),
+IMEI=tostring(events.IMEI),
+OperationName=tostring(events.OperationName),
+Result=tostring(events.Result),
+SourceSystem=tostring(events.SourceSystem),
+DeviceId=tostring(events.DeviceId),
+DeviceName=tostring(events.DeviceName),
+UPN=tostring(events.UPN),
+LastContact=tostring(events.LastContact),
+OSVersion=tostring(events.OSVersion),
+OS=tostring(events.OS),
+CompliantState=tostring(events.CompliantState),
+Ownership=tostring(events.Ownership),
+ManagedBy=tostring(events.ManagedBy),
+Model=tostring(events.Model),
+SerialNumber=tostring(events.SerialNumber),
+Manufacturer=tostring(events.Manufacturer),
+CreatedDate=tostring(events.CreatedDate),
+DeviceState=tostring(events.DeviceState),
+UserEmail=tostring(events.UserEmail),
+UserName=tostring(events.UserName),
+PhoneNumber=tostring(events.PhoneNumber),
+Stats=todynamic(events.Stats),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table IntuneDevices policy update @'[{"Source": "IntuneDevicesRaw", "Query": "IntuneDevicesExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,70 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_irc_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:13
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_irc_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_irc_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_irc_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_irc_CLRaw ingestion json mapping 'Corelight_v2_irc_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_irc_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+uid_s:string,
+id_orig_h_s:string,
+id_orig_p_d:real,
+id_resp_h_s:string,
+id_resp_p_d:real,
+nick_s:string,
+user_s:string,
+command_s:string,
+value_s:string,
+addl_s:string,
+dcc_file_name_s:string,
+dcc_file_size_d:real,
+dcc_mime_type_s:string,
+fuid_s:string,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_irc_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_irc_CLExpand() {
+Corelight_v2_irc_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+uid_s=tostring(events.uid_s),
+id_orig_h_s=tostring(events.id_orig_h_s),
+id_orig_p_d=toreal(events.id_orig_p_d),
+id_resp_h_s=tostring(events.id_resp_h_s),
+id_resp_p_d=toreal(events.id_resp_p_d),
+nick_s=tostring(events.nick_s),
+user_s=tostring(events.user_s),
+command_s=tostring(events.command_s),
+value_s=tostring(events.value_s),
+addl_s=tostring(events.addl_s),
+dcc_file_name_s=tostring(events.dcc_file_name_s),
+dcc_file_size_d=toreal(events.dcc_file_size_d),
+dcc_mime_type_s=tostring(events.dcc_mime_type_s),
+fuid_s=tostring(events.fuid_s),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_irc_CL policy update @'[{"Source": "Corelight_v2_irc_CLRaw", "Query": "Corelight_v2_irc_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

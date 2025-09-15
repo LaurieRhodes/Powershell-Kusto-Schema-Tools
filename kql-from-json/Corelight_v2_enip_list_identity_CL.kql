@@ -1,0 +1,70 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_enip_list_identity_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:12
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_enip_list_identity_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_enip_list_identity_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_enip_list_identity_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_enip_list_identity_CLRaw ingestion json mapping 'Corelight_v2_enip_list_identity_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_enip_list_identity_CL(
+TimeGenerated:datetime,
+ts_t:datetime,
+uid_s:string,
+id_orig_h_s:string,
+id_orig_p_d:real,
+id_resp_h_s:string,
+id_resp_p_d:real,
+device_type_s:string,
+vendor_s:string,
+product_name_s:string,
+serial_number_s:string,
+product_code_d:real,
+revision_d:real,
+status_s:string,
+state_s:string,
+device_ip_s:string,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_enip_list_identity_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_enip_list_identity_CLExpand() {
+Corelight_v2_enip_list_identity_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_t=todatetime(events.ts_t),
+uid_s=tostring(events.uid_s),
+id_orig_h_s=tostring(events.id_orig_h_s),
+id_orig_p_d=toreal(events.id_orig_p_d),
+id_resp_h_s=tostring(events.id_resp_h_s),
+id_resp_p_d=toreal(events.id_resp_p_d),
+device_type_s=tostring(events.device_type_s),
+vendor_s=tostring(events.vendor_s),
+product_name_s=tostring(events.product_name_s),
+serial_number_s=tostring(events.serial_number_s),
+product_code_d=toreal(events.product_code_d),
+revision_d=toreal(events.revision_d),
+status_s=tostring(events.status_s),
+state_s=tostring(events.state_s),
+device_ip_s=tostring(events.device_ip_s),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_enip_list_identity_CL policy update @'[{"Source": "Corelight_v2_enip_list_identity_CLRaw", "Query": "Corelight_v2_enip_list_identity_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

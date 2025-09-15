@@ -1,0 +1,61 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AmlModelsEvent - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:21:34
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 13, Final columns: 13
+// ============================================================================
+
+.create-merge table AmlModelsEventRaw (records:dynamic)
+
+.alter-merge table AmlModelsEventRaw policy retention softdelete = 1d
+
+.alter table AmlModelsEventRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AmlModelsEventRaw ingestion json mapping 'AmlModelsEventRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AmlModelsEvent(
+TimeGenerated:datetime,
+TenantId:guid,
+ResultType:string,
+ResultSignature:string,
+CorrelationId:string,
+Identity:dynamic,
+Level:string,
+OperationName:string,
+AadTenantId:string,
+AmlModelName:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AmlModelsEvent policy caching hot = 1d
+
+.create-or-alter function AmlModelsEventExpand() {
+AmlModelsEventRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ResultType=tostring(events.ResultType),
+ResultSignature=tostring(events.ResultSignature),
+CorrelationId=tostring(events.CorrelationId),
+Identity=todynamic(events.Identity),
+Level=tostring(events.Level),
+OperationName=tostring(events.OperationName),
+AadTenantId=tostring(events.AadTenantId),
+AmlModelName=tostring(events.AmlModelName),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AmlModelsEvent policy update @'[{"Source": "AmlModelsEventRaw", "Query": "AmlModelsEventExpand()", "IsEnabled": "True", "IsTransactional": true}]'

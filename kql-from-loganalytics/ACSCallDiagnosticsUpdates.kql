@@ -1,0 +1,107 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ACSCallDiagnosticsUpdates - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:18:57
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 36, Final columns: 36
+// ============================================================================
+
+.create-merge table ACSCallDiagnosticsUpdatesRaw (records:dynamic)
+
+.alter-merge table ACSCallDiagnosticsUpdatesRaw policy retention softdelete = 1d
+
+.alter table ACSCallDiagnosticsUpdatesRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ACSCallDiagnosticsUpdatesRaw ingestion json mapping 'ACSCallDiagnosticsUpdatesRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ACSCallDiagnosticsUpdates(
+TimeGenerated:datetime,
+TenantId:guid,
+CallUpdatesVersion:int,
+CodecName:string,
+StreamDirection:string,
+VideoBitRateMax:int,
+VideoBitRateAvg:int,
+PacketUtilization:int,
+JitterBufferSizeMax:int,
+JitterBufferSizeAvg:int,
+VideoFrameRateAvg:real,
+RecvFreezeDurationPerMinuteInMs:real,
+RecvResolutionHeight:int,
+HealedDataRatioMax:real,
+HealedDataRatioAvg:real,
+PacketLossRateMax:real,
+TPE:bool,
+PacketLossRateAvg:real,
+JitterAvg:int,
+RoundTripTimeMax:int,
+RoundTripTimeAvg:int,
+TransportType:string,
+StreamId:long,
+MediaType:string,
+EndpointType:string,
+EndpointId:string,
+ParticipantId:string,
+Identifier:string,
+CorrelationId:string,
+Category:string,
+OperationVersion:string,
+OperationName:string,
+JitterMax:int,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ACSCallDiagnosticsUpdates policy caching hot = 1d
+
+.create-or-alter function ACSCallDiagnosticsUpdatesExpand() {
+ACSCallDiagnosticsUpdatesRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+CallUpdatesVersion=toint(events.CallUpdatesVersion),
+CodecName=tostring(events.CodecName),
+StreamDirection=tostring(events.StreamDirection),
+VideoBitRateMax=toint(events.VideoBitRateMax),
+VideoBitRateAvg=toint(events.VideoBitRateAvg),
+PacketUtilization=toint(events.PacketUtilization),
+JitterBufferSizeMax=toint(events.JitterBufferSizeMax),
+JitterBufferSizeAvg=toint(events.JitterBufferSizeAvg),
+VideoFrameRateAvg=toreal(events.VideoFrameRateAvg),
+RecvFreezeDurationPerMinuteInMs=toreal(events.RecvFreezeDurationPerMinuteInMs),
+RecvResolutionHeight=toint(events.RecvResolutionHeight),
+HealedDataRatioMax=toreal(events.HealedDataRatioMax),
+HealedDataRatioAvg=toreal(events.HealedDataRatioAvg),
+PacketLossRateMax=toreal(events.PacketLossRateMax),
+TPE=tobool(events.TPE),
+PacketLossRateAvg=toreal(events.PacketLossRateAvg),
+JitterAvg=toint(events.JitterAvg),
+RoundTripTimeMax=toint(events.RoundTripTimeMax),
+RoundTripTimeAvg=toint(events.RoundTripTimeAvg),
+TransportType=tostring(events.TransportType),
+StreamId=tolong(events.StreamId),
+MediaType=tostring(events.MediaType),
+EndpointType=tostring(events.EndpointType),
+EndpointId=tostring(events.EndpointId),
+ParticipantId=tostring(events.ParticipantId),
+Identifier=tostring(events.Identifier),
+CorrelationId=tostring(events.CorrelationId),
+Category=tostring(events.Category),
+OperationVersion=tostring(events.OperationVersion),
+OperationName=tostring(events.OperationName),
+JitterMax=toint(events.JitterMax),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ACSCallDiagnosticsUpdates policy update @'[{"Source": "ACSCallDiagnosticsUpdatesRaw", "Query": "ACSCallDiagnosticsUpdatesExpand()", "IsEnabled": "True", "IsTransactional": true}]'

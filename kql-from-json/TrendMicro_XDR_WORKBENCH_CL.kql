@@ -1,0 +1,72 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for TrendMicro_XDR_WORKBENCH_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table TrendMicro_XDR_WORKBENCH_CLRaw (records:dynamic)
+
+.alter-merge table TrendMicro_XDR_WORKBENCH_CLRaw policy retention softdelete = 1d
+
+.alter table TrendMicro_XDR_WORKBENCH_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table TrendMicro_XDR_WORKBENCH_CLRaw ingestion json mapping 'TrendMicro_XDR_WORKBENCH_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table TrendMicro_XDR_WORKBENCH_CL(
+TimeGenerated:datetime,
+workbenchName_s:string,
+RegistryValueName_s:string,
+RegistryValue_s:string,
+RegistryKey_s:string,
+ProcessCommandLine_s:string,
+FileDirectory_s:string,
+FileName_s:string,
+UserAccountNTDomain_s:string,
+alertTriggerTimestamp_t:datetime,
+UserAccountName_s:string,
+impactScope_Summary_s:string,
+severity_s:string,
+createdTime_t:datetime,
+priorityScore_d:int,
+workbenchLink_s:string,
+workbenchId_s:string,
+description_s:string,
+alertProvider_s:string,
+model_s:string,
+_TimeReceived:datetime)
+
+.alter table TrendMicro_XDR_WORKBENCH_CL policy caching hot = 1d
+
+.create-or-alter function TrendMicro_XDR_WORKBENCH_CLExpand() {
+TrendMicro_XDR_WORKBENCH_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+workbenchName_s=tostring(events.workbenchName_s),
+RegistryValueName_s=tostring(events.RegistryValueName_s),
+RegistryValue_s=tostring(events.RegistryValue_s),
+RegistryKey_s=tostring(events.RegistryKey_s),
+ProcessCommandLine_s=tostring(events.ProcessCommandLine_s),
+FileDirectory_s=tostring(events.FileDirectory_s),
+FileName_s=tostring(events.FileName_s),
+UserAccountNTDomain_s=tostring(events.UserAccountNTDomain_s),
+alertTriggerTimestamp_t=todatetime(events.alertTriggerTimestamp_t),
+UserAccountName_s=tostring(events.UserAccountName_s),
+impactScope_Summary_s=tostring(events.impactScope_Summary_s),
+severity_s=tostring(events.severity_s),
+createdTime_t=todatetime(events.createdTime_t),
+priorityScore_d=toint(events.priorityScore_d),
+workbenchLink_s=tostring(events.workbenchLink_s),
+workbenchId_s=tostring(events.workbenchId_s),
+description_s=tostring(events.description_s),
+alertProvider_s=tostring(events.alertProvider_s),
+model_s=tostring(events.model_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table TrendMicro_XDR_WORKBENCH_CL policy update @'[{"Source": "TrendMicro_XDR_WORKBENCH_CLRaw", "Query": "TrendMicro_XDR_WORKBENCH_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

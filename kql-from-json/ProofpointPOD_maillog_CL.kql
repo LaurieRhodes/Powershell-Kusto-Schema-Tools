@@ -1,0 +1,94 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ProofpointPOD_maillog_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table ProofpointPOD_maillog_CLRaw (records:dynamic)
+
+.alter-merge table ProofpointPOD_maillog_CLRaw policy retention softdelete = 1d
+
+.alter table ProofpointPOD_maillog_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ProofpointPOD_maillog_CLRaw ingestion json mapping 'ProofpointPOD_maillog_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ProofpointPOD_maillog_CL(
+TimeGenerated:datetime,
+EventVendor:string,
+sm_pri_s:string,
+sm_delay_s:string,
+sm_to_s:string,
+sm_dsn_s:string,
+sm_stat_s:string,
+sm_mailer_s:string,
+event_type_s:string,
+metadata_origin_data_cid_s:string,
+metadata_origin_data_agent_s:string,
+data_s:string,
+ts_t:datetime,
+sm_qid_s:string,
+sm_class_s:string,
+sm_from_s:string,
+sm_proto_s:string,
+sm_daemon_s:string,
+sm_relay_s:string,
+sm_tls_verify_s:string,
+sm_auth_s:string,
+sm_sizeBytes_s:string,
+sm_nrcpts_s:string,
+sm_msgid_s:string,
+id_s:string,
+pps_agent_s:string,
+pps_cid_s:string,
+sm_msgid_g:string,
+EventProduct:string,
+sm_xdelay_s:string,
+sm_ctladdr_s:string,
+_TimeReceived:datetime)
+
+.alter table ProofpointPOD_maillog_CL policy caching hot = 1d
+
+.create-or-alter function ProofpointPOD_maillog_CLExpand() {
+ProofpointPOD_maillog_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+EventVendor=tostring(events.EventVendor),
+sm_pri_s=tostring(events.sm_pri_s),
+sm_delay_s=tostring(events.sm_delay_s),
+sm_to_s=tostring(events.sm_to_s),
+sm_dsn_s=tostring(events.sm_dsn_s),
+sm_stat_s=tostring(events.sm_stat_s),
+sm_mailer_s=tostring(events.sm_mailer_s),
+event_type_s=tostring(events.event_type_s),
+metadata_origin_data_cid_s=tostring(events.metadata_origin_data_cid_s),
+metadata_origin_data_agent_s=tostring(events.metadata_origin_data_agent_s),
+data_s=tostring(events.data_s),
+ts_t=todatetime(events.ts_t),
+sm_qid_s=tostring(events.sm_qid_s),
+sm_class_s=tostring(events.sm_class_s),
+sm_from_s=tostring(events.sm_from_s),
+sm_proto_s=tostring(events.sm_proto_s),
+sm_daemon_s=tostring(events.sm_daemon_s),
+sm_relay_s=tostring(events.sm_relay_s),
+sm_tls_verify_s=tostring(events.sm_tls_verify_s),
+sm_auth_s=tostring(events.sm_auth_s),
+sm_sizeBytes_s=tostring(events.sm_sizeBytes_s),
+sm_nrcpts_s=tostring(events.sm_nrcpts_s),
+sm_msgid_s=tostring(events.sm_msgid_s),
+id_s=tostring(events.id_s),
+pps_agent_s=tostring(events.pps_agent_s),
+pps_cid_s=tostring(events.pps_cid_s),
+sm_msgid_g=tostring(events.sm_msgid_g),
+EventProduct=tostring(events.EventProduct),
+sm_xdelay_s=tostring(events.sm_xdelay_s),
+sm_ctladdr_s=tostring(events.sm_ctladdr_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ProofpointPOD_maillog_CL policy update @'[{"Source": "ProofpointPOD_maillog_CLRaw", "Query": "ProofpointPOD_maillog_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

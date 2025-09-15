@@ -1,0 +1,130 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for NexposeInsightVMCloud_vulnerabilities_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:15
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table NexposeInsightVMCloud_vulnerabilities_CLRaw (records:dynamic)
+
+.alter-merge table NexposeInsightVMCloud_vulnerabilities_CLRaw policy retention softdelete = 1d
+
+.alter table NexposeInsightVMCloud_vulnerabilities_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table NexposeInsightVMCloud_vulnerabilities_CLRaw ingestion json mapping 'NexposeInsightVMCloud_vulnerabilities_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table NexposeInsightVMCloud_vulnerabilities_CL(
+TimeGenerated:datetime,
+EventVendor:string,
+vuln_details_cvss_v3_scope_s:string,
+vuln_details_cvss_v3_score_d:real,
+vuln_details_cvss_v3_user_interaction_s:string,
+vuln_details_cvss_v3_vector_s:string,
+vuln_details_denial_of_service_b:bool,
+vuln_details_description_s:string,
+vuln_details_exploits_s:string,
+vuln_details_id_s:string,
+vuln_details_links_s:string,
+vuln_details_cvss_v3_privileges_required_s:string,
+vuln_details_malware_kits_s:string,
+vuln_details_pci_cvss_score_d:real,
+vuln_details_pci_fail_b:bool,
+vuln_details_pci_severity_score_d:real,
+vuln_details_pci_special_notes_s:string,
+vuln_details_pci_status_s:string,
+vuln_details_published_t:datetime,
+vuln_details_references_s:string,
+vuln_details_risk_score_d:real,
+vuln_details_severity_s:string,
+vuln_details_modified_t:datetime,
+vuln_details_cvss_v3_integrity_impact_s:string,
+vuln_details_cvss_v3_impact_score_d:real,
+vuln_details_cvss_v3_exploit_score_d:real,
+EventProduct:string,
+asset_id_s:string,
+host_name_s:string,
+ip_s:string,
+vuln_details_added_t:datetime,
+vuln_details_categories_s:string,
+vuln_details_cves_s:string,
+vuln_details_cvss_v2_access_complexity_s:string,
+vuln_details_cvss_v2_access_vector_s:string,
+vuln_details_cvss_v2_authentication_s:string,
+vuln_details_cvss_v2_availability_impact_s:string,
+vuln_details_cvss_v2_confidentiality_impact_s:string,
+vuln_details_cvss_v2_exploit_score_d:real,
+vuln_details_cvss_v2_impact_score_d:real,
+vuln_details_cvss_v2_integrity_impact_s:string,
+vuln_details_cvss_v2_score_d:real,
+vuln_details_cvss_v2_vector_s:string,
+vuln_details_cvss_v3_attack_complexity_s:string,
+vuln_details_cvss_v3_attack_vector_s:string,
+vuln_details_cvss_v3_availability_impact_s:string,
+vuln_details_cvss_v3_confidentiality_impact_s:string,
+vuln_details_severity_score_d:real,
+vuln_details_title_s:string,
+_TimeReceived:datetime)
+
+.alter table NexposeInsightVMCloud_vulnerabilities_CL policy caching hot = 1d
+
+.create-or-alter function NexposeInsightVMCloud_vulnerabilities_CLExpand() {
+NexposeInsightVMCloud_vulnerabilities_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+EventVendor=tostring(events.EventVendor),
+vuln_details_cvss_v3_scope_s=tostring(events.vuln_details_cvss_v3_scope_s),
+vuln_details_cvss_v3_score_d=toreal(events.vuln_details_cvss_v3_score_d),
+vuln_details_cvss_v3_user_interaction_s=tostring(events.vuln_details_cvss_v3_user_interaction_s),
+vuln_details_cvss_v3_vector_s=tostring(events.vuln_details_cvss_v3_vector_s),
+vuln_details_denial_of_service_b=tobool(events.vuln_details_denial_of_service_b),
+vuln_details_description_s=tostring(events.vuln_details_description_s),
+vuln_details_exploits_s=tostring(events.vuln_details_exploits_s),
+vuln_details_id_s=tostring(events.vuln_details_id_s),
+vuln_details_links_s=tostring(events.vuln_details_links_s),
+vuln_details_cvss_v3_privileges_required_s=tostring(events.vuln_details_cvss_v3_privileges_required_s),
+vuln_details_malware_kits_s=tostring(events.vuln_details_malware_kits_s),
+vuln_details_pci_cvss_score_d=toreal(events.vuln_details_pci_cvss_score_d),
+vuln_details_pci_fail_b=tobool(events.vuln_details_pci_fail_b),
+vuln_details_pci_severity_score_d=toreal(events.vuln_details_pci_severity_score_d),
+vuln_details_pci_special_notes_s=tostring(events.vuln_details_pci_special_notes_s),
+vuln_details_pci_status_s=tostring(events.vuln_details_pci_status_s),
+vuln_details_published_t=todatetime(events.vuln_details_published_t),
+vuln_details_references_s=tostring(events.vuln_details_references_s),
+vuln_details_risk_score_d=toreal(events.vuln_details_risk_score_d),
+vuln_details_severity_s=tostring(events.vuln_details_severity_s),
+vuln_details_modified_t=todatetime(events.vuln_details_modified_t),
+vuln_details_cvss_v3_integrity_impact_s=tostring(events.vuln_details_cvss_v3_integrity_impact_s),
+vuln_details_cvss_v3_impact_score_d=toreal(events.vuln_details_cvss_v3_impact_score_d),
+vuln_details_cvss_v3_exploit_score_d=toreal(events.vuln_details_cvss_v3_exploit_score_d),
+EventProduct=tostring(events.EventProduct),
+asset_id_s=tostring(events.asset_id_s),
+host_name_s=tostring(events.host_name_s),
+ip_s=tostring(events.ip_s),
+vuln_details_added_t=todatetime(events.vuln_details_added_t),
+vuln_details_categories_s=tostring(events.vuln_details_categories_s),
+vuln_details_cves_s=tostring(events.vuln_details_cves_s),
+vuln_details_cvss_v2_access_complexity_s=tostring(events.vuln_details_cvss_v2_access_complexity_s),
+vuln_details_cvss_v2_access_vector_s=tostring(events.vuln_details_cvss_v2_access_vector_s),
+vuln_details_cvss_v2_authentication_s=tostring(events.vuln_details_cvss_v2_authentication_s),
+vuln_details_cvss_v2_availability_impact_s=tostring(events.vuln_details_cvss_v2_availability_impact_s),
+vuln_details_cvss_v2_confidentiality_impact_s=tostring(events.vuln_details_cvss_v2_confidentiality_impact_s),
+vuln_details_cvss_v2_exploit_score_d=toreal(events.vuln_details_cvss_v2_exploit_score_d),
+vuln_details_cvss_v2_impact_score_d=toreal(events.vuln_details_cvss_v2_impact_score_d),
+vuln_details_cvss_v2_integrity_impact_s=tostring(events.vuln_details_cvss_v2_integrity_impact_s),
+vuln_details_cvss_v2_score_d=toreal(events.vuln_details_cvss_v2_score_d),
+vuln_details_cvss_v2_vector_s=tostring(events.vuln_details_cvss_v2_vector_s),
+vuln_details_cvss_v3_attack_complexity_s=tostring(events.vuln_details_cvss_v3_attack_complexity_s),
+vuln_details_cvss_v3_attack_vector_s=tostring(events.vuln_details_cvss_v3_attack_vector_s),
+vuln_details_cvss_v3_availability_impact_s=tostring(events.vuln_details_cvss_v3_availability_impact_s),
+vuln_details_cvss_v3_confidentiality_impact_s=tostring(events.vuln_details_cvss_v3_confidentiality_impact_s),
+vuln_details_severity_score_d=toreal(events.vuln_details_severity_score_d),
+vuln_details_title_s=tostring(events.vuln_details_title_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table NexposeInsightVMCloud_vulnerabilities_CL policy update @'[{"Source": "NexposeInsightVMCloud_vulnerabilities_CLRaw", "Query": "NexposeInsightVMCloud_vulnerabilities_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

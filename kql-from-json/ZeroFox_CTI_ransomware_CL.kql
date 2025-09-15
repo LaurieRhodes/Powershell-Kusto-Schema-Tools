@@ -1,0 +1,56 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ZeroFox_CTI_ransomware_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table ZeroFox_CTI_ransomware_CLRaw (records:dynamic)
+
+.alter-merge table ZeroFox_CTI_ransomware_CLRaw policy retention softdelete = 1d
+
+.alter table ZeroFox_CTI_ransomware_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ZeroFox_CTI_ransomware_CLRaw ingestion json mapping 'ZeroFox_CTI_ransomware_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ZeroFox_CTI_ransomware_CL(
+TimeGenerated:datetime,
+created_at_t:datetime,
+md5_s:string,
+sha1_s:string,
+sha256_s:string,
+sha512_s:string,
+emails_s:string,
+ransom_note_s:string,
+note_urls_s:string,
+crypto_wallets_s:string,
+ransomware_name_s:string,
+tags_s:string,
+_TimeReceived:datetime)
+
+.alter table ZeroFox_CTI_ransomware_CL policy caching hot = 1d
+
+.create-or-alter function ZeroFox_CTI_ransomware_CLExpand() {
+ZeroFox_CTI_ransomware_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+created_at_t=todatetime(events.created_at_t),
+md5_s=tostring(events.md5_s),
+sha1_s=tostring(events.sha1_s),
+sha256_s=tostring(events.sha256_s),
+sha512_s=tostring(events.sha512_s),
+emails_s=tostring(events.emails_s),
+ransom_note_s=tostring(events.ransom_note_s),
+note_urls_s=tostring(events.note_urls_s),
+crypto_wallets_s=tostring(events.crypto_wallets_s),
+ransomware_name_s=tostring(events.ransomware_name_s),
+tags_s=tostring(events.tags_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ZeroFox_CTI_ransomware_CL policy update @'[{"Source": "ZeroFox_CTI_ransomware_CLRaw", "Query": "ZeroFox_CTI_ransomware_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

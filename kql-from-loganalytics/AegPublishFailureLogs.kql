@@ -1,0 +1,53 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AegPublishFailureLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:20:23
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 9, Final columns: 9
+// ============================================================================
+
+.create-merge table AegPublishFailureLogsRaw (records:dynamic)
+
+.alter-merge table AegPublishFailureLogsRaw policy retention softdelete = 1d
+
+.alter table AegPublishFailureLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AegPublishFailureLogsRaw ingestion json mapping 'AegPublishFailureLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AegPublishFailureLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+SubResourceName:string,
+Category:string,
+OperationName:string,
+Message:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AegPublishFailureLogs policy caching hot = 1d
+
+.create-or-alter function AegPublishFailureLogsExpand() {
+AegPublishFailureLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SubResourceName=tostring(events.SubResourceName),
+Category=tostring(events.Category),
+OperationName=tostring(events.OperationName),
+Message=tostring(events.Message),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AegPublishFailureLogs policy update @'[{"Source": "AegPublishFailureLogsRaw", "Query": "AegPublishFailureLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

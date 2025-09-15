@@ -1,0 +1,83 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AppCenterError - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:22:13
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 24, Final columns: 24
+// ============================================================================
+
+.create-merge table AppCenterErrorRaw (records:dynamic)
+
+.alter-merge table AppCenterErrorRaw policy retention softdelete = 1d
+
+.alter table AppCenterErrorRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AppCenterErrorRaw ingestion json mapping 'AppCenterErrorRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AppCenterError(
+TimeGenerated:datetime,
+TenantId:guid,
+CreatedAt:datetime,
+Annotation:string,
+Status:string,
+ExceptionType:string,
+ErrorReason:string,
+ErrorLine:int,
+ErrorFile:string,
+ErrorMethod:string,
+ErrorClass:string,
+ErrorType:string,
+JailBreak:bool,
+OsVersion:string,
+Model:string,
+Oem:string,
+UserString:string,
+ErrorGroupId:string,
+ErrorId:string,
+SchemaType:string,
+SourceSystem:string,
+SymbolicatedAt:datetime,
+LastErrorAt:datetime,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table AppCenterError policy caching hot = 1d
+
+.create-or-alter function AppCenterErrorExpand() {
+AppCenterErrorRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+CreatedAt=todatetime(events.CreatedAt),
+Annotation=tostring(events.Annotation),
+Status=tostring(events.Status),
+ExceptionType=tostring(events.ExceptionType),
+ErrorReason=tostring(events.ErrorReason),
+ErrorLine=toint(events.ErrorLine),
+ErrorFile=tostring(events.ErrorFile),
+ErrorMethod=tostring(events.ErrorMethod),
+ErrorClass=tostring(events.ErrorClass),
+ErrorType=tostring(events.ErrorType),
+JailBreak=tobool(events.JailBreak),
+OsVersion=tostring(events.OsVersion),
+Model=tostring(events.Model),
+Oem=tostring(events.Oem),
+UserString=tostring(events.UserString),
+ErrorGroupId=tostring(events.ErrorGroupId),
+ErrorId=tostring(events.ErrorId),
+SchemaType=tostring(events.SchemaType),
+SourceSystem=tostring(events.SourceSystem),
+SymbolicatedAt=todatetime(events.SymbolicatedAt),
+LastErrorAt=todatetime(events.LastErrorAt),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AppCenterError policy update @'[{"Source": "AppCenterErrorRaw", "Query": "AppCenterErrorExpand()", "IsEnabled": "True", "IsTransactional": true}]'

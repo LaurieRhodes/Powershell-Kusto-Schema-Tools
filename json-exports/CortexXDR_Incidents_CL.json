@@ -1,0 +1,177 @@
+﻿{
+    "Name":  "CortexXDR_Incidents_CL",
+    "Properties":  [
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MG",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ManagementGroupName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "Datetime"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RawData",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aggregated_score_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "original_tags_s",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "manual_description_s",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "predicted_score_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "tags_s",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "manual_severity_s",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "critical_severity_alert_count_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "assigned_user_mail_s",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "assigned_user_pretty_name_s",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "notes_s",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "resolve_comment_s",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "resolved_timestamp_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "incident_id_s",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "creation_time_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "modification_time_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "status_s",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "severity_s",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "description_s",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "alert_count_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "low_severity_alert_count_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "med_severity_alert_count_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "high_severity_alert_count_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "user_count_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "host_count_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "xdr_url_s",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "starred_b",
+                           "Type":  "Bool"
+                       },
+                       {
+                           "Name":  "hosts_s",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "users_s",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "incident_sources_s",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "wildfire_hits_d",
+                           "Type":  "real"
+                       },
+                       {
+                           "Name":  "alerts_grouping_status_s",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "mitre_tactics_ids_and_names_s",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "mitre_techniques_ids_and_names_s",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "alert_categories_s",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

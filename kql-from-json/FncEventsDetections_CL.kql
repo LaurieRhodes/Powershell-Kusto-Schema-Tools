@@ -1,0 +1,92 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for FncEventsDetections_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table FncEventsDetections_CLRaw (records:dynamic)
+
+.alter-merge table FncEventsDetections_CLRaw policy retention softdelete = 1d
+
+.alter table FncEventsDetections_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table FncEventsDetections_CLRaw ingestion json mapping 'FncEventsDetections_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table FncEventsDetections_CL(
+TimeGenerated:datetime,
+vendor_s:string,
+primary_dhcp_machost_pairs_s:string,
+other_pdns_hostnames_s:string,
+primary_pdns_hostnames_s:string,
+customer_id_s:string,
+indicators_s:string,
+status_s:string,
+uuid_g:string,
+updated_t:datetime,
+created_t:datetime,
+last_seen_t:datetime,
+first_seen_t:datetime,
+muted_comment_s:string,
+rule_uuid_g:string,
+muted_rule_b:bool,
+muted_b:bool,
+sensor_id_s:string,
+confidence_s:string,
+severity_s:string,
+name_s:string,
+device_ip_s:string,
+timestamp_t:datetime,
+subject_s:string,
+event_type_s:string,
+signal_version_s:string,
+product_s:string,
+other_dhcp_machost_pairs_s:string,
+Category:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table FncEventsDetections_CL policy caching hot = 1d
+
+.create-or-alter function FncEventsDetections_CLExpand() {
+FncEventsDetections_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+vendor_s=tostring(events.vendor_s),
+primary_dhcp_machost_pairs_s=tostring(events.primary_dhcp_machost_pairs_s),
+other_pdns_hostnames_s=tostring(events.other_pdns_hostnames_s),
+primary_pdns_hostnames_s=tostring(events.primary_pdns_hostnames_s),
+customer_id_s=tostring(events.customer_id_s),
+indicators_s=tostring(events.indicators_s),
+status_s=tostring(events.status_s),
+uuid_g=tostring(events.uuid_g),
+updated_t=todatetime(events.updated_t),
+created_t=todatetime(events.created_t),
+last_seen_t=todatetime(events.last_seen_t),
+first_seen_t=todatetime(events.first_seen_t),
+muted_comment_s=tostring(events.muted_comment_s),
+rule_uuid_g=tostring(events.rule_uuid_g),
+muted_rule_b=tobool(events.muted_rule_b),
+muted_b=tobool(events.muted_b),
+sensor_id_s=tostring(events.sensor_id_s),
+confidence_s=tostring(events.confidence_s),
+severity_s=tostring(events.severity_s),
+name_s=tostring(events.name_s),
+device_ip_s=tostring(events.device_ip_s),
+timestamp_t=todatetime(events.timestamp_t),
+subject_s=tostring(events.subject_s),
+event_type_s=tostring(events.event_type_s),
+signal_version_s=tostring(events.signal_version_s),
+product_s=tostring(events.product_s),
+other_dhcp_machost_pairs_s=tostring(events.other_dhcp_machost_pairs_s),
+Category=tostring(events.Category),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table FncEventsDetections_CL policy update @'[{"Source": "FncEventsDetections_CLRaw", "Query": "FncEventsDetections_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

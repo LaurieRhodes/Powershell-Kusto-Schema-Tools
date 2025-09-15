@@ -1,0 +1,73 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Perf - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:18:58
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 19, Final columns: 19
+// ============================================================================
+
+.create-merge table PerfRaw (records:dynamic)
+
+.alter-merge table PerfRaw policy retention softdelete = 1d
+
+.alter table PerfRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table PerfRaw ingestion json mapping 'PerfRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Perf(
+TimeGenerated:datetime,
+TenantId:guid,
+Computer:string,
+ObjectName:string,
+CounterName:string,
+InstanceName:string,
+Min:real,
+Max:real,
+SampleCount:int,
+Average:real,
+BucketStartTime:datetime,
+BucketEndTime:datetime,
+SourceSystem:string,
+CounterPath:string,
+StandardDeviation:real,
+MG:guid,
+CounterValue:real,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table Perf policy caching hot = 1d
+
+.create-or-alter function PerfExpand() {
+PerfRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Computer=tostring(events.Computer),
+ObjectName=tostring(events.ObjectName),
+CounterName=tostring(events.CounterName),
+InstanceName=tostring(events.InstanceName),
+Min=toreal(events.Min),
+Max=toreal(events.Max),
+SampleCount=toint(events.SampleCount),
+Average=toreal(events.Average),
+BucketStartTime=todatetime(events.BucketStartTime),
+BucketEndTime=todatetime(events.BucketEndTime),
+SourceSystem=tostring(events.SourceSystem),
+CounterPath=tostring(events.CounterPath),
+StandardDeviation=toreal(events.StandardDeviation),
+MG=toguid(events.MG),
+CounterValue=toreal(events.CounterValue),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Perf policy update @'[{"Source": "PerfRaw", "Query": "PerfExpand()", "IsEnabled": "True", "IsTransactional": true}]'

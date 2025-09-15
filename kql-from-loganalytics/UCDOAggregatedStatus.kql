@@ -1,0 +1,63 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for UCDOAggregatedStatus - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:22:11
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 14, Final columns: 14
+// ============================================================================
+
+.create-merge table UCDOAggregatedStatusRaw (records:dynamic)
+
+.alter-merge table UCDOAggregatedStatusRaw policy retention softdelete = 1d
+
+.alter table UCDOAggregatedStatusRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table UCDOAggregatedStatusRaw ingestion json mapping 'UCDOAggregatedStatusRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table UCDOAggregatedStatus(
+TimeGenerated:datetime,
+TenantId:guid,
+AzureADTenantId:string,
+AzureADDeviceId:string,
+DeviceCount:long,
+ContentType:string,
+BytesFromCDN:long,
+BytesFromIntPeers:long,
+BytesFromPeers:long,
+BytesFromGroupPeers:long,
+BytesFromCache:long,
+BWOptPercent28Days:real,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table UCDOAggregatedStatus policy caching hot = 1d
+
+.create-or-alter function UCDOAggregatedStatusExpand() {
+UCDOAggregatedStatusRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+AzureADTenantId=tostring(events.AzureADTenantId),
+AzureADDeviceId=tostring(events.AzureADDeviceId),
+DeviceCount=tolong(events.DeviceCount),
+ContentType=tostring(events.ContentType),
+BytesFromCDN=tolong(events.BytesFromCDN),
+BytesFromIntPeers=tolong(events.BytesFromIntPeers),
+BytesFromPeers=tolong(events.BytesFromPeers),
+BytesFromGroupPeers=tolong(events.BytesFromGroupPeers),
+BytesFromCache=tolong(events.BytesFromCache),
+BWOptPercent28Days=toreal(events.BWOptPercent28Days),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table UCDOAggregatedStatus policy update @'[{"Source": "UCDOAggregatedStatusRaw", "Query": "UCDOAggregatedStatusExpand()", "IsEnabled": "True", "IsTransactional": true}]'

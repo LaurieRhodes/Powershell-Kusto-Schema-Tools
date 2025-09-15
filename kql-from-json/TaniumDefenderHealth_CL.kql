@@ -1,0 +1,70 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for TaniumDefenderHealth_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table TaniumDefenderHealth_CLRaw (records:dynamic)
+
+.alter-merge table TaniumDefenderHealth_CLRaw policy retention softdelete = 1d
+
+.alter table TaniumDefenderHealth_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table TaniumDefenderHealth_CLRaw ingestion json mapping 'TaniumDefenderHealth_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table TaniumDefenderHealth_CL(
+TimeGenerated:datetime,
+Age_s:string,
+Signature_Update_Age_s:string,
+RawData:string,
+QuickScan_Age_s:string,
+Health_s:string,
+Defender_Process_StartType_s:string,
+Defender_Process_s:string,
+Windows_Defender_Client_Version_s:string,
+Count_s:string,
+Computer_ID_s:string,
+Computer:string,
+Asset_OS_Platform_s:string,
+Asset_IP_Address_s:string,
+Antivirus_State_s:string,
+AntiSpyware_State_s:string,
+Computer_Name_s:string,
+Windows_Defender_Installed_s:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table TaniumDefenderHealth_CL policy caching hot = 1d
+
+.create-or-alter function TaniumDefenderHealth_CLExpand() {
+TaniumDefenderHealth_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+Age_s=tostring(events.Age_s),
+Signature_Update_Age_s=tostring(events.Signature_Update_Age_s),
+RawData=tostring(events.RawData),
+QuickScan_Age_s=tostring(events.QuickScan_Age_s),
+Health_s=tostring(events.Health_s),
+Defender_Process_StartType_s=tostring(events.Defender_Process_StartType_s),
+Defender_Process_s=tostring(events.Defender_Process_s),
+Windows_Defender_Client_Version_s=tostring(events.Windows_Defender_Client_Version_s),
+Count_s=tostring(events.Count_s),
+Computer_ID_s=tostring(events.Computer_ID_s),
+Computer=tostring(events.Computer),
+Asset_OS_Platform_s=tostring(events.Asset_OS_Platform_s),
+Asset_IP_Address_s=tostring(events.Asset_IP_Address_s),
+Antivirus_State_s=tostring(events.Antivirus_State_s),
+AntiSpyware_State_s=tostring(events.AntiSpyware_State_s),
+Computer_Name_s=tostring(events.Computer_Name_s),
+Windows_Defender_Installed_s=tostring(events.Windows_Defender_Installed_s),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table TaniumDefenderHealth_CL policy update @'[{"Source": "TaniumDefenderHealth_CLRaw", "Query": "TaniumDefenderHealth_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

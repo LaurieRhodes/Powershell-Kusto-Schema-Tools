@@ -1,0 +1,57 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AZMSVnetConnectionEvents - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:24:31
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 11, Final columns: 11
+// ============================================================================
+
+.create-merge table AZMSVnetConnectionEventsRaw (records:dynamic)
+
+.alter-merge table AZMSVnetConnectionEventsRaw policy retention softdelete = 1d
+
+.alter table AZMSVnetConnectionEventsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AZMSVnetConnectionEventsRaw ingestion json mapping 'AZMSVnetConnectionEventsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AZMSVnetConnectionEvents(
+TimeGenerated:datetime,
+TenantId:guid,
+NamespaceName:string,
+AddressIp:string,
+Action:string,
+Message:string,
+Count:int,
+Provider:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AZMSVnetConnectionEvents policy caching hot = 1d
+
+.create-or-alter function AZMSVnetConnectionEventsExpand() {
+AZMSVnetConnectionEventsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+NamespaceName=tostring(events.NamespaceName),
+AddressIp=tostring(events.AddressIp),
+Action=tostring(events.Action),
+Message=tostring(events.Message),
+Count=toint(events.Count),
+Provider=tostring(events.Provider),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AZMSVnetConnectionEvents policy update @'[{"Source": "AZMSVnetConnectionEventsRaw", "Query": "AZMSVnetConnectionEventsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

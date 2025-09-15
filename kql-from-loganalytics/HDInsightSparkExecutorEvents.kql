@@ -1,0 +1,73 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for HDInsightSparkExecutorEvents - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:15:32
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 19, Final columns: 19
+// ============================================================================
+
+.create-merge table HDInsightSparkExecutorEventsRaw (records:dynamic)
+
+.alter-merge table HDInsightSparkExecutorEventsRaw policy retention softdelete = 1d
+
+.alter table HDInsightSparkExecutorEventsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table HDInsightSparkExecutorEventsRaw ingestion json mapping 'HDInsightSparkExecutorEventsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table HDInsightSparkExecutorEvents(
+TimeGenerated:datetime,
+TenantId:guid,
+ApplicationId:string,
+ExecutorId:string,
+ExecutorCores:int,
+AddedTime:datetime,
+RemovedTime:datetime,
+RemovedReason:string,
+ClusterTenantId:string,
+Role:string,
+Host:string,
+ClusterDnsName:string,
+Region:string,
+IpAddress:string,
+UserSubscriptionId:string,
+ExecutorHost:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table HDInsightSparkExecutorEvents policy caching hot = 1d
+
+.create-or-alter function HDInsightSparkExecutorEventsExpand() {
+HDInsightSparkExecutorEventsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ApplicationId=tostring(events.ApplicationId),
+ExecutorId=tostring(events.ExecutorId),
+ExecutorCores=toint(events.ExecutorCores),
+AddedTime=todatetime(events.AddedTime),
+RemovedTime=todatetime(events.RemovedTime),
+RemovedReason=tostring(events.RemovedReason),
+ClusterTenantId=tostring(events.ClusterTenantId),
+Role=tostring(events.Role),
+Host=tostring(events.Host),
+ClusterDnsName=tostring(events.ClusterDnsName),
+Region=tostring(events.Region),
+IpAddress=tostring(events.IpAddress),
+UserSubscriptionId=tostring(events.UserSubscriptionId),
+ExecutorHost=tostring(events.ExecutorHost),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table HDInsightSparkExecutorEvents policy update @'[{"Source": "HDInsightSparkExecutorEventsRaw", "Query": "HDInsightSparkExecutorEventsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

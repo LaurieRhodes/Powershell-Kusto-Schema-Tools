@@ -1,0 +1,155 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for UCClient - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 10:22:04
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 60, Final columns: 60
+// ============================================================================
+
+.create-merge table UCClientRaw (records:dynamic)
+
+.alter-merge table UCClientRaw policy retention softdelete = 1d
+
+.alter table UCClientRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table UCClientRaw ingestion json mapping 'UCClientRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table UCClient(
+TimeGenerated:datetime,
+TenantId:guid,
+WUFeatureDeferralDays:int,
+WUQualityDeferralDays:int,
+WUQualityPauseState:string,
+WUFeatureDeadlineDays:int,
+WUQualityDeadlineDays:int,
+WUFeatureGracePeriodDays:int,
+WUQualityGracePeriodDays:int,
+WUDODownloadMode:string,
+UpdateConnectivityLevel:string,
+WUFeaturePauseStartTime:datetime,
+WUFeaturePauseEndTime:datetime,
+WUQualityPauseStartTime:datetime,
+WUQualityPauseEndTime:datetime,
+WUAutomaticUpdates:int,
+WUDeadlineNoAutoRestart:int,
+WUNotificationLevel:int,
+WUPauseUXDisabled:int,
+WUUXDisabled:int,
+WUServiceURLConfigured:string,
+WURestartNotification:int,
+LastWUScanTime:datetime,
+LastCensusScanTime:datetime,
+IsDeviceHotpatchEnrolled:bool,
+IsDeviceVBSEnabled:bool,
+IsDeviceHotpatchEligible:bool,
+WUFeaturePauseState:string,
+OSFeatureUpdateEOSTime:datetime,
+OSQualityUpdateReleaseTime:datetime,
+OSFeatureUpdateReleaseTime:datetime,
+GlobalDeviceId:string,
+AzureADTenantId:string,
+AzureADDeviceId:string,
+SCCMClientId:string,
+DeviceName:string,
+DeviceFamily:string,
+DeviceFormFactor:string,
+DeviceManufacturer:string,
+DeviceModel:string,
+Country:string,
+City:string,
+PrimaryDiskFreeCapacityMb:int,
+LastHotpatchEnrolledTime:datetime,
+OSVersion:string,
+OSBuildNumber:int,
+OSRevisionNumber:int,
+OSEdition:string,
+OSArchitecture:string,
+IsVirtual:bool,
+OSServicingChannel:string,
+OSFeatureUpdateStatus:string,
+OSQualityUpdateStatus:string,
+OSSecurityUpdateStatus:string,
+OSFeatureUpdateComplianceStatus:string,
+OSSecurityUpdateComplianceStatus:string,
+OSQualityUpdateComplianceStatus:string,
+OSBuild:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table UCClient policy caching hot = 1d
+
+.create-or-alter function UCClientExpand() {
+UCClientRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+WUFeatureDeferralDays=toint(events.WUFeatureDeferralDays),
+WUQualityDeferralDays=toint(events.WUQualityDeferralDays),
+WUQualityPauseState=tostring(events.WUQualityPauseState),
+WUFeatureDeadlineDays=toint(events.WUFeatureDeadlineDays),
+WUQualityDeadlineDays=toint(events.WUQualityDeadlineDays),
+WUFeatureGracePeriodDays=toint(events.WUFeatureGracePeriodDays),
+WUQualityGracePeriodDays=toint(events.WUQualityGracePeriodDays),
+WUDODownloadMode=tostring(events.WUDODownloadMode),
+UpdateConnectivityLevel=tostring(events.UpdateConnectivityLevel),
+WUFeaturePauseStartTime=todatetime(events.WUFeaturePauseStartTime),
+WUFeaturePauseEndTime=todatetime(events.WUFeaturePauseEndTime),
+WUQualityPauseStartTime=todatetime(events.WUQualityPauseStartTime),
+WUQualityPauseEndTime=todatetime(events.WUQualityPauseEndTime),
+WUAutomaticUpdates=toint(events.WUAutomaticUpdates),
+WUDeadlineNoAutoRestart=toint(events.WUDeadlineNoAutoRestart),
+WUNotificationLevel=toint(events.WUNotificationLevel),
+WUPauseUXDisabled=toint(events.WUPauseUXDisabled),
+WUUXDisabled=toint(events.WUUXDisabled),
+WUServiceURLConfigured=tostring(events.WUServiceURLConfigured),
+WURestartNotification=toint(events.WURestartNotification),
+LastWUScanTime=todatetime(events.LastWUScanTime),
+LastCensusScanTime=todatetime(events.LastCensusScanTime),
+IsDeviceHotpatchEnrolled=tobool(events.IsDeviceHotpatchEnrolled),
+IsDeviceVBSEnabled=tobool(events.IsDeviceVBSEnabled),
+IsDeviceHotpatchEligible=tobool(events.IsDeviceHotpatchEligible),
+WUFeaturePauseState=tostring(events.WUFeaturePauseState),
+OSFeatureUpdateEOSTime=todatetime(events.OSFeatureUpdateEOSTime),
+OSQualityUpdateReleaseTime=todatetime(events.OSQualityUpdateReleaseTime),
+OSFeatureUpdateReleaseTime=todatetime(events.OSFeatureUpdateReleaseTime),
+GlobalDeviceId=tostring(events.GlobalDeviceId),
+AzureADTenantId=tostring(events.AzureADTenantId),
+AzureADDeviceId=tostring(events.AzureADDeviceId),
+SCCMClientId=tostring(events.SCCMClientId),
+DeviceName=tostring(events.DeviceName),
+DeviceFamily=tostring(events.DeviceFamily),
+DeviceFormFactor=tostring(events.DeviceFormFactor),
+DeviceManufacturer=tostring(events.DeviceManufacturer),
+DeviceModel=tostring(events.DeviceModel),
+Country=tostring(events.Country),
+City=tostring(events.City),
+PrimaryDiskFreeCapacityMb=toint(events.PrimaryDiskFreeCapacityMb),
+LastHotpatchEnrolledTime=todatetime(events.LastHotpatchEnrolledTime),
+OSVersion=tostring(events.OSVersion),
+OSBuildNumber=toint(events.OSBuildNumber),
+OSRevisionNumber=toint(events.OSRevisionNumber),
+OSEdition=tostring(events.OSEdition),
+OSArchitecture=tostring(events.OSArchitecture),
+IsVirtual=tobool(events.IsVirtual),
+OSServicingChannel=tostring(events.OSServicingChannel),
+OSFeatureUpdateStatus=tostring(events.OSFeatureUpdateStatus),
+OSQualityUpdateStatus=tostring(events.OSQualityUpdateStatus),
+OSSecurityUpdateStatus=tostring(events.OSSecurityUpdateStatus),
+OSFeatureUpdateComplianceStatus=tostring(events.OSFeatureUpdateComplianceStatus),
+OSSecurityUpdateComplianceStatus=tostring(events.OSSecurityUpdateComplianceStatus),
+OSQualityUpdateComplianceStatus=tostring(events.OSQualityUpdateComplianceStatus),
+OSBuild=tostring(events.OSBuild),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table UCClient policy update @'[{"Source": "UCClientRaw", "Query": "UCClientExpand()", "IsEnabled": "True", "IsTransactional": true}]'

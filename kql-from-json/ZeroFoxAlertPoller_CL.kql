@@ -1,0 +1,132 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ZeroFoxAlertPoller_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:17
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table ZeroFoxAlertPoller_CLRaw (records:dynamic)
+
+.alter-merge table ZeroFoxAlertPoller_CLRaw policy retention softdelete = 1d
+
+.alter table ZeroFoxAlertPoller_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ZeroFoxAlertPoller_CLRaw ingestion json mapping 'ZeroFoxAlertPoller_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ZeroFoxAlertPoller_CL(
+TimeGenerated:datetime,
+alert_type_s:string,
+asset_image_s:string,
+asset_labels_s:string,
+asset_entity_group_id_d:real,
+asset_entity_group_name_s:string,
+entered_by_s:string,
+metadata_s:string,
+status_s:string,
+timestamp_t:datetime,
+rule_name_s:string,
+last_modified_t:datetime,
+protected_locations_s:string,
+darkweb_term_s:string,
+business_network_s:string,
+reviewed_b:bool,
+escalated_b:bool,
+network_s:string,
+protected_social_object_s:string,
+notes_s:string,
+reviews_s:string,
+rule_id_d:real,
+entity_account_s:string,
+asset_name_s:string,
+entity_email_receiver_id_s:string,
+asset_id_d:real,
+perpetrator_network_s:string,
+logs_s:string,
+offending_content_url_s:string,
+asset_term_s:string,
+assignee_s:string,
+entity_id_d:real,
+entity_name_s:string,
+entity_image_s:string,
+entity_labels_s:string,
+entity_entity_group_id_d:real,
+entity_entity_group_name_s:string,
+entity_term_s:string,
+content_created_at_t:datetime,
+id_d:real,
+Severity:real,
+perpetrator_name_s:string,
+perpetrator_display_name_s:string,
+perpetrator_id_d:real,
+perpetrator_url_s:string,
+perpetrator_content_s:string,
+perpetrator_type_s:string,
+perpetrator_timestamp_t:datetime,
+rule_group_id_d:real,
+tags_s:string,
+_TimeReceived:datetime)
+
+.alter table ZeroFoxAlertPoller_CL policy caching hot = 1d
+
+.create-or-alter function ZeroFoxAlertPoller_CLExpand() {
+ZeroFoxAlertPoller_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+alert_type_s=tostring(events.alert_type_s),
+asset_image_s=tostring(events.asset_image_s),
+asset_labels_s=tostring(events.asset_labels_s),
+asset_entity_group_id_d=toreal(events.asset_entity_group_id_d),
+asset_entity_group_name_s=tostring(events.asset_entity_group_name_s),
+entered_by_s=tostring(events.entered_by_s),
+metadata_s=tostring(events.metadata_s),
+status_s=tostring(events.status_s),
+timestamp_t=todatetime(events.timestamp_t),
+rule_name_s=tostring(events.rule_name_s),
+last_modified_t=todatetime(events.last_modified_t),
+protected_locations_s=tostring(events.protected_locations_s),
+darkweb_term_s=tostring(events.darkweb_term_s),
+business_network_s=tostring(events.business_network_s),
+reviewed_b=tobool(events.reviewed_b),
+escalated_b=tobool(events.escalated_b),
+network_s=tostring(events.network_s),
+protected_social_object_s=tostring(events.protected_social_object_s),
+notes_s=tostring(events.notes_s),
+reviews_s=tostring(events.reviews_s),
+rule_id_d=toreal(events.rule_id_d),
+entity_account_s=tostring(events.entity_account_s),
+asset_name_s=tostring(events.asset_name_s),
+entity_email_receiver_id_s=tostring(events.entity_email_receiver_id_s),
+asset_id_d=toreal(events.asset_id_d),
+perpetrator_network_s=tostring(events.perpetrator_network_s),
+logs_s=tostring(events.logs_s),
+offending_content_url_s=tostring(events.offending_content_url_s),
+asset_term_s=tostring(events.asset_term_s),
+assignee_s=tostring(events.assignee_s),
+entity_id_d=toreal(events.entity_id_d),
+entity_name_s=tostring(events.entity_name_s),
+entity_image_s=tostring(events.entity_image_s),
+entity_labels_s=tostring(events.entity_labels_s),
+entity_entity_group_id_d=toreal(events.entity_entity_group_id_d),
+entity_entity_group_name_s=tostring(events.entity_entity_group_name_s),
+entity_term_s=tostring(events.entity_term_s),
+content_created_at_t=todatetime(events.content_created_at_t),
+id_d=toreal(events.id_d),
+Severity=toreal(events.Severity),
+perpetrator_name_s=tostring(events.perpetrator_name_s),
+perpetrator_display_name_s=tostring(events.perpetrator_display_name_s),
+perpetrator_id_d=toreal(events.perpetrator_id_d),
+perpetrator_url_s=tostring(events.perpetrator_url_s),
+perpetrator_content_s=tostring(events.perpetrator_content_s),
+perpetrator_type_s=tostring(events.perpetrator_type_s),
+perpetrator_timestamp_t=todatetime(events.perpetrator_timestamp_t),
+rule_group_id_d=toreal(events.rule_group_id_d),
+tags_s=tostring(events.tags_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ZeroFoxAlertPoller_CL policy update @'[{"Source": "ZeroFoxAlertPoller_CLRaw", "Query": "ZeroFoxAlertPoller_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,137 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AutoscaleEvaluationsLog - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-14 11:23:25
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 51, Final columns: 51
+// ============================================================================
+
+.create-merge table AutoscaleEvaluationsLogRaw (records:dynamic)
+
+.alter-merge table AutoscaleEvaluationsLogRaw policy retention softdelete = 1d
+
+.alter table AutoscaleEvaluationsLogRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AutoscaleEvaluationsLogRaw ingestion json mapping 'AutoscaleEvaluationsLogRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AutoscaleEvaluationsLog(
+TimeGenerated:datetime,
+TenantId:guid,
+MinimumInstanceCount:int,
+NewInstanceCount:int,
+ObservedValue:real,
+Operator:string,
+Profile:string,
+ProfileEvaluationTime:datetime,
+ProfileSelected:bool,
+Projection:real,
+InstanceUpdateReason:string,
+MetricNamespace:string,
+CloudServiceRole:string,
+ServerFarm:string,
+ShouldUpdateInstance:bool,
+SkipCurrentAutoscaleEvaluation:bool,
+SkipRuleEvaluationForCooldown:bool,
+MetricStartTime:datetime,
+Threshold:real,
+TimeAggregationType:string,
+MetricTimeGrain:string,
+TimeGrainStatistic:string,
+SelectedAutoscaleProfile:string,
+AutoscaleMetricName:string,
+MaximumInstanceCount:int,
+LastScaleActionTime:datetime,
+SourceSystem:string,
+ResourceId:string,
+OperationName:string,
+Category:string,
+ResultType:string,
+ResultDescription:string,
+CorrelationId:string,
+TargetResourceId:string,
+AvailabilitySet:string,
+CloudServiceName:string,
+CoolDown:int,
+CurrentInstanceCount:int,
+MetricData:string,
+DefaultInstanceCount:int,
+DeploymentSlot:string,
+MetricEndTime:datetime,
+EstimateScaleResult:string,
+EvaluationResult:string,
+EvaluationTime:datetime,
+LastScaleActionOperationId:string,
+LastScaleActionOperationStatus:string,
+TimeWindow:string,
+Webspace:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AutoscaleEvaluationsLog policy caching hot = 1d
+
+.create-or-alter function AutoscaleEvaluationsLogExpand() {
+AutoscaleEvaluationsLogRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+MinimumInstanceCount=toint(events.MinimumInstanceCount),
+NewInstanceCount=toint(events.NewInstanceCount),
+ObservedValue=toreal(events.ObservedValue),
+Operator=tostring(events.Operator),
+Profile=tostring(events.Profile),
+ProfileEvaluationTime=todatetime(events.ProfileEvaluationTime),
+ProfileSelected=tobool(events.ProfileSelected),
+Projection=toreal(events.Projection),
+InstanceUpdateReason=tostring(events.InstanceUpdateReason),
+MetricNamespace=tostring(events.MetricNamespace),
+CloudServiceRole=tostring(events.CloudServiceRole),
+ServerFarm=tostring(events.ServerFarm),
+ShouldUpdateInstance=tobool(events.ShouldUpdateInstance),
+SkipCurrentAutoscaleEvaluation=tobool(events.SkipCurrentAutoscaleEvaluation),
+SkipRuleEvaluationForCooldown=tobool(events.SkipRuleEvaluationForCooldown),
+MetricStartTime=todatetime(events.MetricStartTime),
+Threshold=toreal(events.Threshold),
+TimeAggregationType=tostring(events.TimeAggregationType),
+MetricTimeGrain=tostring(events.MetricTimeGrain),
+TimeGrainStatistic=tostring(events.TimeGrainStatistic),
+SelectedAutoscaleProfile=tostring(events.SelectedAutoscaleProfile),
+AutoscaleMetricName=tostring(events.AutoscaleMetricName),
+MaximumInstanceCount=toint(events.MaximumInstanceCount),
+LastScaleActionTime=todatetime(events.LastScaleActionTime),
+SourceSystem=tostring(events.SourceSystem),
+ResourceId=tostring(events.ResourceId),
+OperationName=tostring(events.OperationName),
+Category=tostring(events.Category),
+ResultType=tostring(events.ResultType),
+ResultDescription=tostring(events.ResultDescription),
+CorrelationId=tostring(events.CorrelationId),
+TargetResourceId=tostring(events.TargetResourceId),
+AvailabilitySet=tostring(events.AvailabilitySet),
+CloudServiceName=tostring(events.CloudServiceName),
+CoolDown=toint(events.CoolDown),
+CurrentInstanceCount=toint(events.CurrentInstanceCount),
+MetricData=tostring(events.MetricData),
+DefaultInstanceCount=toint(events.DefaultInstanceCount),
+DeploymentSlot=tostring(events.DeploymentSlot),
+MetricEndTime=todatetime(events.MetricEndTime),
+EstimateScaleResult=tostring(events.EstimateScaleResult),
+EvaluationResult=tostring(events.EvaluationResult),
+EvaluationTime=todatetime(events.EvaluationTime),
+LastScaleActionOperationId=tostring(events.LastScaleActionOperationId),
+LastScaleActionOperationStatus=tostring(events.LastScaleActionOperationStatus),
+TimeWindow=tostring(events.TimeWindow),
+Webspace=tostring(events.Webspace),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AutoscaleEvaluationsLog policy update @'[{"Source": "AutoscaleEvaluationsLogRaw", "Query": "AutoscaleEvaluationsLogExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,90 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Corelight_v2_files_red_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:12
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Corelight_v2_files_red_CLRaw (records:dynamic)
+
+.alter-merge table Corelight_v2_files_red_CLRaw policy retention softdelete = 1d
+
+.alter table Corelight_v2_files_red_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Corelight_v2_files_red_CLRaw ingestion json mapping 'Corelight_v2_files_red_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Corelight_v2_files_red_CL(
+TimeGenerated:datetime,
+ts_s:string,
+sha1_s:string,
+md5_s:string,
+extracted_size_d:real,
+extracted_cutoff_b:bool,
+extracted_s:string,
+parent_fuid_s:string,
+timedout_b:bool,
+overflow_bytes_d:real,
+missing_bytes_d:real,
+total_bytes_d:real,
+sha256_s:string,
+seen_bytes_d:real,
+local_orig_b:bool,
+filename_s:string,
+mime_type_s:string,
+analyzers_s:string,
+depth_d:real,
+source_s:string,
+conn_uids_s:string,
+rx_hosts_s:string,
+tx_hosts_s:string,
+fuid_s:string,
+is_orig_b:bool,
+num_d:real,
+_path_s:string,
+_system_name_s:string,
+_write_ts_t:datetime,
+_TimeReceived:datetime)
+
+.alter table Corelight_v2_files_red_CL policy caching hot = 1d
+
+.create-or-alter function Corelight_v2_files_red_CLExpand() {
+Corelight_v2_files_red_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+ts_s=tostring(events.ts_s),
+sha1_s=tostring(events.sha1_s),
+md5_s=tostring(events.md5_s),
+extracted_size_d=toreal(events.extracted_size_d),
+extracted_cutoff_b=tobool(events.extracted_cutoff_b),
+extracted_s=tostring(events.extracted_s),
+parent_fuid_s=tostring(events.parent_fuid_s),
+timedout_b=tobool(events.timedout_b),
+overflow_bytes_d=toreal(events.overflow_bytes_d),
+missing_bytes_d=toreal(events.missing_bytes_d),
+total_bytes_d=toreal(events.total_bytes_d),
+sha256_s=tostring(events.sha256_s),
+seen_bytes_d=toreal(events.seen_bytes_d),
+local_orig_b=tobool(events.local_orig_b),
+filename_s=tostring(events.filename_s),
+mime_type_s=tostring(events.mime_type_s),
+analyzers_s=tostring(events.analyzers_s),
+depth_d=toreal(events.depth_d),
+source_s=tostring(events.source_s),
+conn_uids_s=tostring(events.conn_uids_s),
+rx_hosts_s=tostring(events.rx_hosts_s),
+tx_hosts_s=tostring(events.tx_hosts_s),
+fuid_s=tostring(events.fuid_s),
+is_orig_b=tobool(events.is_orig_b),
+num_d=toreal(events.num_d),
+_path_s=tostring(events._path_s),
+_system_name_s=tostring(events._system_name_s),
+_write_ts_t=todatetime(events._write_ts_t),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Corelight_v2_files_red_CL policy update @'[{"Source": "Corelight_v2_files_red_CLRaw", "Query": "Corelight_v2_files_red_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

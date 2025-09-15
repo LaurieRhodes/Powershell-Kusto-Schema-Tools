@@ -1,0 +1,78 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for SophosCloudOptix_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table SophosCloudOptix_CLRaw (records:dynamic)
+
+.alter-merge table SophosCloudOptix_CLRaw policy retention softdelete = 1d
+
+.alter table SophosCloudOptix_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table SophosCloudOptix_CLRaw ingestion json mapping 'SophosCloudOptix_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table SophosCloudOptix_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+lastSeen_s:string,
+firstSeen_s:string,
+alertType_s:string,
+alertSummary_s:string,
+alertState_s:string,
+alertRemediation_s:string,
+alertLink_s:string,
+alertId_s:string,
+alertDescription_s:string,
+affectedResources_s:string,
+accountName_s:string,
+accountId_s:string,
+RawData:string,
+Computer:string,
+ManagementGroupName:string,
+MG:string,
+SourceSystem:string,
+policyTagName_s:string,
+severity_s:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table SophosCloudOptix_CL policy caching hot = 1d
+
+.create-or-alter function SophosCloudOptix_CLExpand() {
+SophosCloudOptix_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+lastSeen_s=tostring(events.lastSeen_s),
+firstSeen_s=tostring(events.firstSeen_s),
+alertType_s=tostring(events.alertType_s),
+alertSummary_s=tostring(events.alertSummary_s),
+alertState_s=tostring(events.alertState_s),
+alertRemediation_s=tostring(events.alertRemediation_s),
+alertLink_s=tostring(events.alertLink_s),
+alertId_s=tostring(events.alertId_s),
+alertDescription_s=tostring(events.alertDescription_s),
+affectedResources_s=tostring(events.affectedResources_s),
+accountName_s=tostring(events.accountName_s),
+accountId_s=tostring(events.accountId_s),
+RawData=tostring(events.RawData),
+Computer=tostring(events.Computer),
+ManagementGroupName=tostring(events.ManagementGroupName),
+MG=tostring(events.MG),
+SourceSystem=tostring(events.SourceSystem),
+policyTagName_s=tostring(events.policyTagName_s),
+severity_s=tostring(events.severity_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table SophosCloudOptix_CL policy update @'[{"Source": "SophosCloudOptix_CLRaw", "Query": "SophosCloudOptix_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

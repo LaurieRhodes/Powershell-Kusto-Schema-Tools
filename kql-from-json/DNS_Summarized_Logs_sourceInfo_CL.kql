@@ -1,0 +1,48 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for DNS_Summarized_Logs_sourceInfo_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table DNS_Summarized_Logs_sourceInfo_CLRaw (records:dynamic)
+
+.alter-merge table DNS_Summarized_Logs_sourceInfo_CLRaw policy retention softdelete = 1d
+
+.alter table DNS_Summarized_Logs_sourceInfo_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table DNS_Summarized_Logs_sourceInfo_CLRaw ingestion json mapping 'DNS_Summarized_Logs_sourceInfo_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table DNS_Summarized_Logs_sourceInfo_CL(
+TimeGenerated:datetime,
+EventTime_t:datetime,
+EventProduct_s:string,
+DvcHostname_s:string,
+EventType_s:string,
+EventSubType_s:string,
+DnsQueryTypeName_s:string,
+count__d:int,
+_TimeReceived:datetime)
+
+.alter table DNS_Summarized_Logs_sourceInfo_CL policy caching hot = 1d
+
+.create-or-alter function DNS_Summarized_Logs_sourceInfo_CLExpand() {
+DNS_Summarized_Logs_sourceInfo_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+EventTime_t=todatetime(events.EventTime_t),
+EventProduct_s=tostring(events.EventProduct_s),
+DvcHostname_s=tostring(events.DvcHostname_s),
+EventType_s=tostring(events.EventType_s),
+EventSubType_s=tostring(events.EventSubType_s),
+DnsQueryTypeName_s=tostring(events.DnsQueryTypeName_s),
+count__d=toint(events.count__d),
+_TimeReceived=todatetime(now())
+}
+
+.alter table DNS_Summarized_Logs_sourceInfo_CL policy update @'[{"Source": "DNS_Summarized_Logs_sourceInfo_CLRaw", "Query": "DNS_Summarized_Logs_sourceInfo_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

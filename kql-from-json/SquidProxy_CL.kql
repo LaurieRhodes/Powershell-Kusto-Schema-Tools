@@ -1,0 +1,84 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for SquidProxy_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table SquidProxy_CLRaw (records:dynamic)
+
+.alter-merge table SquidProxy_CLRaw policy retention softdelete = 1d
+
+.alter table SquidProxy_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table SquidProxy_CLRaw ingestion json mapping 'SquidProxy_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table SquidProxy_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+ContentType_s:string,
+PeerHost:string,
+PeerStatus_s:string,
+Username_s:string,
+Url_s:string,
+RequstMethod_s:string,
+Bytes_s:string,
+StatusCode_s:string,
+ResultCode:string,
+SrcIpAddr_s:string,
+Duration_s:string,
+Type_s:string,
+MG_s:string,
+TenantId_s:string,
+RawData:string,
+Computer:string,
+ManagementGroupName:string,
+MG:string,
+SourceSystem:string,
+EventTime_UTC__s:string,
+Description_s:string,
+Type:string,
+_ResourceId_s:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table SquidProxy_CL policy caching hot = 1d
+
+.create-or-alter function SquidProxy_CLExpand() {
+SquidProxy_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ContentType_s=tostring(events.ContentType_s),
+PeerHost=tostring(events.PeerHost),
+PeerStatus_s=tostring(events.PeerStatus_s),
+Username_s=tostring(events.Username_s),
+Url_s=tostring(events.Url_s),
+RequstMethod_s=tostring(events.RequstMethod_s),
+Bytes_s=tostring(events.Bytes_s),
+StatusCode_s=tostring(events.StatusCode_s),
+ResultCode=tostring(events.ResultCode),
+SrcIpAddr_s=tostring(events.SrcIpAddr_s),
+Duration_s=tostring(events.Duration_s),
+Type_s=tostring(events.Type_s),
+MG_s=tostring(events.MG_s),
+TenantId_s=tostring(events.TenantId_s),
+RawData=tostring(events.RawData),
+Computer=tostring(events.Computer),
+ManagementGroupName=tostring(events.ManagementGroupName),
+MG=tostring(events.MG),
+SourceSystem=tostring(events.SourceSystem),
+EventTime_UTC__s=tostring(events.EventTime_UTC__s),
+Description_s=tostring(events.Description_s),
+Type=tostring(events.Type),
+_ResourceId_s=tostring(events._ResourceId_s),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table SquidProxy_CL policy update @'[{"Source": "SquidProxy_CLRaw", "Query": "SquidProxy_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

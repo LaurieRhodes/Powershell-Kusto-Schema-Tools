@@ -1,0 +1,38 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for CrowdStrike_Secondary_Data_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:14
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table CrowdStrike_Secondary_Data_CLRaw (records:dynamic)
+
+.alter-merge table CrowdStrike_Secondary_Data_CLRaw policy retention softdelete = 1d
+
+.alter table CrowdStrike_Secondary_Data_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table CrowdStrike_Secondary_Data_CLRaw ingestion json mapping 'CrowdStrike_Secondary_Data_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table CrowdStrike_Secondary_Data_CL(
+TimeGenerated:datetime,
+FolderName:string,
+AdditionalFields:dynamic,
+_TimeReceived:datetime)
+
+.alter table CrowdStrike_Secondary_Data_CL policy caching hot = 1d
+
+.create-or-alter function CrowdStrike_Secondary_Data_CLExpand() {
+CrowdStrike_Secondary_Data_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+FolderName=tostring(events.FolderName),
+AdditionalFields=todynamic(events.AdditionalFields),
+_TimeReceived=todatetime(now())
+}
+
+.alter table CrowdStrike_Secondary_Data_CL policy update @'[{"Source": "CrowdStrike_Secondary_Data_CLRaw", "Query": "CrowdStrike_Secondary_Data_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

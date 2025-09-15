@@ -1,0 +1,74 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for QualysKB_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:16
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table QualysKB_CLRaw (records:dynamic)
+
+.alter-merge table QualysKB_CLRaw policy retention softdelete = 1d
+
+.alter table QualysKB_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table QualysKB_CLRaw ingestion json mapping 'QualysKB_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table QualysKB_CL(
+TimeGenerated:datetime,
+QID_s:string,
+Discovery_Additional_Info_s:string,
+Vuln_Type_s:string,
+Solution_s:string,
+Software_Vendor_s:string,
+Software_Product_s:string,
+Severity_Level_s:string,
+Published_DateTime_s:string,
+PCI_Flag_s:string,
+Vendor_Reference_URL_s:string,
+Vendor_Reference_ID_s:string,
+CVE_URL_s:string,
+CVE_ID_s:string,
+Last_Service_Modification_DateTime_s:string,
+Diagnosis_s:string,
+Consequence_s:string,
+Category_s:string,
+Title_s:string,
+Discovery_Auth_Type_s:string,
+Discovery_Remote_s:string,
+_TimeReceived:datetime)
+
+.alter table QualysKB_CL policy caching hot = 1d
+
+.create-or-alter function QualysKB_CLExpand() {
+QualysKB_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+QID_s=tostring(events.QID_s),
+Discovery_Additional_Info_s=tostring(events.Discovery_Additional_Info_s),
+Vuln_Type_s=tostring(events.Vuln_Type_s),
+Solution_s=tostring(events.Solution_s),
+Software_Vendor_s=tostring(events.Software_Vendor_s),
+Software_Product_s=tostring(events.Software_Product_s),
+Severity_Level_s=tostring(events.Severity_Level_s),
+Published_DateTime_s=tostring(events.Published_DateTime_s),
+PCI_Flag_s=tostring(events.PCI_Flag_s),
+Vendor_Reference_URL_s=tostring(events.Vendor_Reference_URL_s),
+Vendor_Reference_ID_s=tostring(events.Vendor_Reference_ID_s),
+CVE_URL_s=tostring(events.CVE_URL_s),
+CVE_ID_s=tostring(events.CVE_ID_s),
+Last_Service_Modification_DateTime_s=tostring(events.Last_Service_Modification_DateTime_s),
+Diagnosis_s=tostring(events.Diagnosis_s),
+Consequence_s=tostring(events.Consequence_s),
+Category_s=tostring(events.Category_s),
+Title_s=tostring(events.Title_s),
+Discovery_Auth_Type_s=tostring(events.Discovery_Auth_Type_s),
+Discovery_Remote_s=tostring(events.Discovery_Remote_s),
+_TimeReceived=todatetime(now())
+}
+
+.alter table QualysKB_CL policy update @'[{"Source": "QualysKB_CLRaw", "Query": "QualysKB_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,88 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Armorblox_CL
+// ============================================================================
+// Generated: 2025-09-13 20:17:10
+// Table type: Custom (presumed for JSON exports)
+// Schema imported from JSON export file
+// ============================================================================
+
+.create-merge table Armorblox_CLRaw (records:dynamic)
+
+.alter-merge table Armorblox_CLRaw policy retention softdelete = 1d
+
+.alter table Armorblox_CLRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Armorblox_CLRaw ingestion json mapping 'Armorblox_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Armorblox_CL(
+TimeGenerated:datetime,
+TenantId:guid,
+status_counts_process_count_s:string,
+status_counts_done_count_s:string,
+folder_categories_s:string,
+external_senders_s:string,
+external_users_s:string,
+app_name_s:string,
+research_status_s:string,
+id_s:string,
+object_type_s:string,
+resolution_state_s:string,
+status_counts_error_count_s:string,
+remediation_actions_s:string,
+policy_names_s:string,
+users_s:string,
+date_t:datetime,
+tagged_b:bool,
+priority_s:string,
+RawData:string,
+Computer:string,
+ManagementGroupName:string,
+MG:string,
+SourceSystem:string,
+title_s:string,
+attachment_list_s:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table Armorblox_CL policy caching hot = 1d
+
+.create-or-alter function Armorblox_CLExpand() {
+Armorblox_CLRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+status_counts_process_count_s=tostring(events.status_counts_process_count_s),
+status_counts_done_count_s=tostring(events.status_counts_done_count_s),
+folder_categories_s=tostring(events.folder_categories_s),
+external_senders_s=tostring(events.external_senders_s),
+external_users_s=tostring(events.external_users_s),
+app_name_s=tostring(events.app_name_s),
+research_status_s=tostring(events.research_status_s),
+id_s=tostring(events.id_s),
+object_type_s=tostring(events.object_type_s),
+resolution_state_s=tostring(events.resolution_state_s),
+status_counts_error_count_s=tostring(events.status_counts_error_count_s),
+remediation_actions_s=tostring(events.remediation_actions_s),
+policy_names_s=tostring(events.policy_names_s),
+users_s=tostring(events.users_s),
+date_t=todatetime(events.date_t),
+tagged_b=tobool(events.tagged_b),
+priority_s=tostring(events.priority_s),
+RawData=tostring(events.RawData),
+Computer=tostring(events.Computer),
+ManagementGroupName=tostring(events.ManagementGroupName),
+MG=tostring(events.MG),
+SourceSystem=tostring(events.SourceSystem),
+title_s=tostring(events.title_s),
+attachment_list_s=tostring(events.attachment_list_s),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Armorblox_CL policy update @'[{"Source": "Armorblox_CLRaw", "Query": "Armorblox_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'
