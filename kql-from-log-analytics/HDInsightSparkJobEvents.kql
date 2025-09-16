@@ -1,0 +1,71 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for HDInsightSparkJobEvents - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:25:44
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 18, Final columns: 18
+// ============================================================================
+
+.create-merge table HDInsightSparkJobEventsRaw (records:dynamic)
+
+.alter-merge table HDInsightSparkJobEventsRaw policy retention softdelete = 1d
+
+.alter table HDInsightSparkJobEventsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table HDInsightSparkJobEventsRaw ingestion json mapping 'HDInsightSparkJobEventsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table HDInsightSparkJobEvents(
+TimeGenerated:datetime,
+TenantId:guid,
+ApplicationId:string,
+JobId:string,
+SubmissionTime:datetime,
+CompletionTime:datetime,
+JobResult:string,
+StageIds:string,
+ClusterTenantId:string,
+Role:string,
+Host:string,
+ClusterDnsName:string,
+Region:string,
+IpAddress:string,
+UserSubscriptionId:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table HDInsightSparkJobEvents policy caching hot = 1d
+
+.create-or-alter function HDInsightSparkJobEventsExpand() {
+HDInsightSparkJobEventsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ApplicationId=tostring(events.ApplicationId),
+JobId=tostring(events.JobId),
+SubmissionTime=todatetime(events.SubmissionTime),
+CompletionTime=todatetime(events.CompletionTime),
+JobResult=tostring(events.JobResult),
+StageIds=tostring(events.StageIds),
+ClusterTenantId=tostring(events.ClusterTenantId),
+Role=tostring(events.Role),
+Host=tostring(events.Host),
+ClusterDnsName=tostring(events.ClusterDnsName),
+Region=tostring(events.Region),
+IpAddress=tostring(events.IpAddress),
+UserSubscriptionId=tostring(events.UserSubscriptionId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table HDInsightSparkJobEvents policy update @'[{"Source": "HDInsightSparkJobEventsRaw", "Query": "HDInsightSparkJobEventsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,125 @@
+﻿{
+    "Name":  "ACSCallSummary",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "CallDebuggingInfo",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DiagnosticOptions",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultCategory",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ParticipantEndSubCode",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ParticipantType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PstnParticipantCallType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OsVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SdkVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EndpointType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EndpointId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ParticipantEndReason",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TPE",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "ParticipantDuration",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ParticipantTenantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ParticipantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TeamsThreadId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CallType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CallDuration",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "CallStartTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Identifier",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ParticipantStartTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

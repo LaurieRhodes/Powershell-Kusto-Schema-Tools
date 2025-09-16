@@ -1,0 +1,57 @@
+﻿{
+    "Name":  "InsightsMetrics",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Origin",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Namespace",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Name",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Val",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "Tags",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AgentId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Value",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

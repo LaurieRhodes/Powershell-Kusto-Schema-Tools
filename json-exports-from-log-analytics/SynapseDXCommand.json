@@ -1,0 +1,93 @@
+﻿{
+    "Name":  "SynapseDXCommand",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "WorkloadGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Principal",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "User",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Duration",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceUtilization",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "ApplicationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CommandType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Text",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TotalCPU",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "State",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DatabaseName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LastUpdatedOn",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "StartedOn",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "RootActivityId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FailureReason",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

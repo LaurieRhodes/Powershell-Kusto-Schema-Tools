@@ -1,0 +1,441 @@
+﻿{
+    "Name":  "AADDomainServicesPolicyChange",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SubcategoryId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CategoryId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccessRemoved",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccessGranted",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "KerberosPolicyChange",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SidFilteringEnabled",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DomainSid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DomainName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DisabledPrivilegeList",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EnabledPrivilegeList",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SubcategoryGuid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TdoType",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "TdoDirection",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "NewSd",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OldSd",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "HandleId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ObjectName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ObjectType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ObjectServer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CrashOnAuditFailValue",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "aadds_RecordId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_EventSourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TdoAttributes",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "AuditPolicyChanges",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DomainPolicyChanged",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MinPasswordAge",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AuditSourceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EntryType",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "OperationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ForestRootSid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Flags",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "NetbiosName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DnsName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TopLevelName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ForestRoot",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CollisionTargetName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CollisionTargetType",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "OemInformation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DomainBehaviorVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MixedDomainMode",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MachineAccountQuota",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PasswordHistoryLength",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MinPasswordLength",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PasswordProperties",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LockoutDuration",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LockoutObservationWindow",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LockoutThreshold",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ForceLogoff",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MaxPasswordAge",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_AuditSourceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_EntryType",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "aadds_OperationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_ForestRootSid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_KerberosPolicyChange",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_SidFilteringEnabled",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_DomainSid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_DomainName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_DisabledPrivilegeList",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_EnabledPrivilegeList",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_TdoType",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "aadds_TdoAttributes",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "aadds_TdoDirection",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "aadds_NewSd",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_OldSd",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_HandleId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_ObjectName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_ObjectType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_ObjectServer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_CrashOnAuditFailValue",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_AccessGranted",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventSourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_AccessRemoved",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_SubcategoryId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_Flags",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "aadds_NetbiosName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_DnsName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_TopLevelName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_ForestRoot",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_CollisionTargetName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_CollisionTargetType",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "aadds_OemInformation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_DomainBehaviorVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_MixedDomainMode",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_MachineAccountQuota",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_PasswordHistoryLength",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_MinPasswordLength",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_PasswordProperties",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_LockoutDuration",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_LockoutObservationWindow",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_LockoutThreshold",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_ForceLogoff",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_MaxPasswordAge",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_MinPasswordAge",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_DomainPolicyChanged",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_AuditPolicyChanges",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_SubcategoryGuid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "aadds_CategoryId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecordId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

@@ -1,0 +1,53 @@
+﻿{
+    "Name":  "StorageMoverCopyLogsFailed",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "JobRunName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ItemPath",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ItemType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TransferResult",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "StatusCode",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Details",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileSize",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

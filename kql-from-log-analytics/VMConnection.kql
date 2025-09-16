@@ -1,0 +1,123 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for VMConnection - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:31:12
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 44, Final columns: 44
+// ============================================================================
+
+.create-merge table VMConnectionRaw (records:dynamic)
+
+.alter-merge table VMConnectionRaw policy retention softdelete = 1d
+
+.alter table VMConnectionRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table VMConnectionRaw ingestion json mapping 'VMConnectionRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table VMConnection(
+TimeGenerated:datetime,
+Computer:string,
+ResponseTimeMin:long,
+ResponseTimeMax:long,
+MaliciousIp:string,
+IndicatorThreatType:string,
+Description:string,
+TLPLevel:string,
+Confidence:string,
+Severity:int,
+FirstReportedDateTime:string,
+LastReportedDateTime:string,
+IsActive:string,
+ReportReferenceLink:string,
+AdditionalInformation:string,
+ConnectionId:string,
+Machine:string,
+Process:string,
+AgentId:string,
+ResponseTimeSum:long,
+TenantId:guid,
+Responses:long,
+LinksEstablished:long,
+Direction:string,
+ProcessName:string,
+SourceIp:string,
+DestinationIp:string,
+DestinationPort:int,
+Protocol:string,
+RemoteIp:string,
+RemoteDnsQuestions:string,
+RemoteDnsCanonicalNames:string,
+RemoteClassification:string,
+RemoteLongitude:real,
+RemoteLatitude:real,
+RemoteCountry:string,
+BytesSent:long,
+BytesReceived:long,
+LinksLive:long,
+LinksTerminated:long,
+LinksFailed:long,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table VMConnection policy caching hot = 1d
+
+.create-or-alter function VMConnectionExpand() {
+VMConnectionRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+Computer=tostring(events.Computer),
+ResponseTimeMin=tolong(events.ResponseTimeMin),
+ResponseTimeMax=tolong(events.ResponseTimeMax),
+MaliciousIp=tostring(events.MaliciousIp),
+IndicatorThreatType=tostring(events.IndicatorThreatType),
+Description=tostring(events.Description),
+TLPLevel=tostring(events.TLPLevel),
+Confidence=tostring(events.Confidence),
+Severity=toint(events.Severity),
+FirstReportedDateTime=tostring(events.FirstReportedDateTime),
+LastReportedDateTime=tostring(events.LastReportedDateTime),
+IsActive=tostring(events.IsActive),
+ReportReferenceLink=tostring(events.ReportReferenceLink),
+AdditionalInformation=tostring(events.AdditionalInformation),
+ConnectionId=tostring(events.ConnectionId),
+Machine=tostring(events.Machine),
+Process=tostring(events.Process),
+AgentId=tostring(events.AgentId),
+ResponseTimeSum=tolong(events.ResponseTimeSum),
+TenantId=toguid(events.TenantId),
+Responses=tolong(events.Responses),
+LinksEstablished=tolong(events.LinksEstablished),
+Direction=tostring(events.Direction),
+ProcessName=tostring(events.ProcessName),
+SourceIp=tostring(events.SourceIp),
+DestinationIp=tostring(events.DestinationIp),
+DestinationPort=toint(events.DestinationPort),
+Protocol=tostring(events.Protocol),
+RemoteIp=tostring(events.RemoteIp),
+RemoteDnsQuestions=tostring(events.RemoteDnsQuestions),
+RemoteDnsCanonicalNames=tostring(events.RemoteDnsCanonicalNames),
+RemoteClassification=tostring(events.RemoteClassification),
+RemoteLongitude=toreal(events.RemoteLongitude),
+RemoteLatitude=toreal(events.RemoteLatitude),
+RemoteCountry=tostring(events.RemoteCountry),
+BytesSent=tolong(events.BytesSent),
+BytesReceived=tolong(events.BytesReceived),
+LinksLive=tolong(events.LinksLive),
+LinksTerminated=tolong(events.LinksTerminated),
+LinksFailed=tolong(events.LinksFailed),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table VMConnection policy update @'[{"Source": "VMConnectionRaw", "Query": "VMConnectionExpand()", "IsEnabled": "True", "IsTransactional": true}]'

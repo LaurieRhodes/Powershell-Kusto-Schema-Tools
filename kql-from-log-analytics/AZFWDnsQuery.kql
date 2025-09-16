@@ -1,0 +1,77 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AZFWDnsQuery - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:20:00
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 21, Final columns: 21
+// ============================================================================
+
+.create-merge table AZFWDnsQueryRaw (records:dynamic)
+
+.alter-merge table AZFWDnsQueryRaw policy retention softdelete = 1d
+
+.alter table AZFWDnsQueryRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AZFWDnsQueryRaw ingestion json mapping 'AZFWDnsQueryRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AZFWDnsQuery(
+TimeGenerated:datetime,
+TenantId:guid,
+ErrorNumber:int,
+RequestDurationSecs:real,
+ResponseSize:int,
+ResponseFlags:string,
+ResponseCode:string,
+EDNS0BufferSize:int,
+DnssecOkBit:bool,
+RequestSize:int,
+Protocol:string,
+QueryName:string,
+QueryClass:string,
+QueryType:string,
+QueryId:int,
+SourcePort:int,
+SourceIp:string,
+ErrorMessage:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AZFWDnsQuery policy caching hot = 1d
+
+.create-or-alter function AZFWDnsQueryExpand() {
+AZFWDnsQueryRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ErrorNumber=toint(events.ErrorNumber),
+RequestDurationSecs=toreal(events.RequestDurationSecs),
+ResponseSize=toint(events.ResponseSize),
+ResponseFlags=tostring(events.ResponseFlags),
+ResponseCode=tostring(events.ResponseCode),
+EDNS0BufferSize=toint(events.EDNS0BufferSize),
+DnssecOkBit=tobool(events.DnssecOkBit),
+RequestSize=toint(events.RequestSize),
+Protocol=tostring(events.Protocol),
+QueryName=tostring(events.QueryName),
+QueryClass=tostring(events.QueryClass),
+QueryType=tostring(events.QueryType),
+QueryId=toint(events.QueryId),
+SourcePort=toint(events.SourcePort),
+SourceIp=tostring(events.SourceIp),
+ErrorMessage=tostring(events.ErrorMessage),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AZFWDnsQuery policy update @'[{"Source": "AZFWDnsQueryRaw", "Query": "AZFWDnsQueryExpand()", "IsEnabled": "True", "IsTransactional": true}]'

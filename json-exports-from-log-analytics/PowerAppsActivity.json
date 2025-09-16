@@ -1,0 +1,73 @@
+﻿{
+    "Name":  "PowerAppsActivity",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "EventOriginalUid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecordType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventOriginalType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OrganizationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActorUserType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActorUserId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventResult",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ObjectId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActorName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SrcIpAddr",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TargetAppName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Workload",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AdditionalInfo",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

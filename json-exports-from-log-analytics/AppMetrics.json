@@ -1,0 +1,137 @@
+﻿{
+    "Name":  "AppMetrics",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "IKey",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceGUID",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientBrowser",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientCountryOrRegion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientStateOrProvince",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientCity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientOS",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientModel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppRoleInstance",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppRoleName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserAccountId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserAuthenticatedId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SessionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SyntheticSource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ParentId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Properties",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Max",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "Min",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "Sum",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ItemCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Name",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SDKVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

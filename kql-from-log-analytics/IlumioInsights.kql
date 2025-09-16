@@ -1,0 +1,109 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for IlumioInsights - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:26:07
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 37, Final columns: 37
+// ============================================================================
+
+.create-merge table IlumioInsightsRaw (records:dynamic)
+
+.alter-merge table IlumioInsightsRaw policy retention softdelete = 1d
+
+.alter table IlumioInsightsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table IlumioInsightsRaw ingestion json mapping 'IlumioInsightsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table IlumioInsights(
+TimeGenerated:datetime,
+TenantId:guid,
+SrcPort:int,
+VEScore:real,
+DestIsWellKnown:bool,
+FlowCount:int,
+CvssSeverity:string,
+SrcIP:string,
+DestThreatLevel:string,
+DestIP:string,
+DestCity:string,
+SrcIsWellKnown:bool,
+Status:string,
+SrcLabel:string,
+Proto:string,
+TotalSentBytes:int,
+UniqueId:string,
+SrcCountry:string,
+SrcCity:string,
+DestPort:int,
+Name:string,
+AzureResourceId:string,
+ResourceInternalId:string,
+IllumioTenantId:string,
+ResourceTenantId:string,
+ResourceSubId:string,
+SrcThreatLevel:string,
+ResourceRegion:string,
+IllumioUrl:string,
+Service:string,
+Port:int,
+DestLabel:string,
+TotalReceivedBytes:int,
+DestCountry:string,
+ResourceVnetId:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table IlumioInsights policy caching hot = 1d
+
+.create-or-alter function IlumioInsightsExpand() {
+IlumioInsightsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SrcPort=toint(events.SrcPort),
+VEScore=toreal(events.VEScore),
+DestIsWellKnown=tobool(events.DestIsWellKnown),
+FlowCount=toint(events.FlowCount),
+CvssSeverity=tostring(events.CvssSeverity),
+SrcIP=tostring(events.SrcIP),
+DestThreatLevel=tostring(events.DestThreatLevel),
+DestIP=tostring(events.DestIP),
+DestCity=tostring(events.DestCity),
+SrcIsWellKnown=tobool(events.SrcIsWellKnown),
+Status=tostring(events.Status),
+SrcLabel=tostring(events.SrcLabel),
+Proto=tostring(events.Proto),
+TotalSentBytes=toint(events.TotalSentBytes),
+UniqueId=tostring(events.UniqueId),
+SrcCountry=tostring(events.SrcCountry),
+SrcCity=tostring(events.SrcCity),
+DestPort=toint(events.DestPort),
+Name=tostring(events.Name),
+AzureResourceId=tostring(events.AzureResourceId),
+ResourceInternalId=tostring(events.ResourceInternalId),
+IllumioTenantId=tostring(events.IllumioTenantId),
+ResourceTenantId=tostring(events.ResourceTenantId),
+ResourceSubId=tostring(events.ResourceSubId),
+SrcThreatLevel=tostring(events.SrcThreatLevel),
+ResourceRegion=tostring(events.ResourceRegion),
+IllumioUrl=tostring(events.IllumioUrl),
+Service=tostring(events.Service),
+Port=toint(events.Port),
+DestLabel=tostring(events.DestLabel),
+TotalReceivedBytes=toint(events.TotalReceivedBytes),
+DestCountry=tostring(events.DestCountry),
+ResourceVnetId=tostring(events.ResourceVnetId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table IlumioInsights policy update @'[{"Source": "IlumioInsightsRaw", "Query": "IlumioInsightsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

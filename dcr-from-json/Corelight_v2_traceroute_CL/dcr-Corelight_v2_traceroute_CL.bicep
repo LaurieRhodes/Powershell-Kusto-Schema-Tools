@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_traceroute_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:39
+// Generated: 2025-09-17 06:20:52
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 8, DCR columns: 5 (Type column filtered out)
+// Underscore columns included
+// Original columns: 8, DCR columns: 8 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_traceroute_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -32,6 +33,18 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
         columns: [
           {
             name: 'TimeGenerated'
+            type: 'string'
+          }
+          {
+            name: '_path_s'
+            type: 'string'
+          }
+          {
+            name: '_system_name_s'
+            type: 'string'
+          }
+          {
+            name: '_write_ts_t'
             type: 'string'
           }
           {
@@ -66,7 +79,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_traceroute_CL']
         destinations: ['Sentinel-Corelight_v2_traceroute_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), src_s = tostring(src_s), dst_s = tostring(dst_s), proto_s = tostring(proto_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), _system_name_s = tostring(_system_name_s), _write_ts_t = todatetime(_write_ts_t), ts_t = todatetime(ts_t), src_s = tostring(src_s), dst_s = tostring(dst_s), proto_s = tostring(proto_s)'
         outputStream: 'Custom-Corelight_v2_traceroute_CL'
       }
     ]

@@ -1,0 +1,63 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for NatGatewayFlowlogsV1 - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:27:06
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 14, Final columns: 14
+// ============================================================================
+
+.create-merge table NatGatewayFlowlogsV1Raw (records:dynamic)
+
+.alter-merge table NatGatewayFlowlogsV1Raw policy retention softdelete = 1d
+
+.alter table NatGatewayFlowlogsV1Raw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table NatGatewayFlowlogsV1Raw ingestion json mapping 'NatGatewayFlowlogsV1RawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table NatGatewayFlowlogsV1(
+TimeGenerated:datetime,
+TenantId:guid,
+SourceIP:string,
+DestinationIP:string,
+NatGatewayIP:string,
+PacketsReceived:long,
+PacketsSent:long,
+BytesReceived:long,
+BytesSent:long,
+PacketsReceivedDropped:long,
+PacketsSentDropped:long,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table NatGatewayFlowlogsV1 policy caching hot = 1d
+
+.create-or-alter function NatGatewayFlowlogsV1Expand() {
+NatGatewayFlowlogsV1Raw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SourceIP=tostring(events.SourceIP),
+DestinationIP=tostring(events.DestinationIP),
+NatGatewayIP=tostring(events.NatGatewayIP),
+PacketsReceived=tolong(events.PacketsReceived),
+PacketsSent=tolong(events.PacketsSent),
+BytesReceived=tolong(events.BytesReceived),
+BytesSent=tolong(events.BytesSent),
+PacketsReceivedDropped=tolong(events.PacketsReceivedDropped),
+PacketsSentDropped=tolong(events.PacketsSentDropped),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table NatGatewayFlowlogsV1 policy update @'[{"Source": "NatGatewayFlowlogsV1Raw", "Query": "NatGatewayFlowlogsV1Expand()", "IsEnabled": "True", "IsTransactional": true}]'

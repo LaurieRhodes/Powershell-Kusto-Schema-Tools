@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for CommonSecurityLog
 // ============================================================================
-// Generated: 2025-09-13 20:13:32
+// Generated: 2025-09-17 06:20:46
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 159, DCR columns: 158 (Type column filtered out)
+// Underscore columns included
+// Original columns: 159, DCR columns: 158 (Type column always filtered)
 // Output stream: Custom-CommonSecurityLog
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================

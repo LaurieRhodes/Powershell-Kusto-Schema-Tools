@@ -1,0 +1,93 @@
+﻿{
+    "Name":  "AgriFoodSatelliteLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ClientTenantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ObjectId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ApplicationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DurationMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Location",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestBody",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "ResultType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Level",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CallerIpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DataPlaneResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FarmerId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestUri",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultSignature",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

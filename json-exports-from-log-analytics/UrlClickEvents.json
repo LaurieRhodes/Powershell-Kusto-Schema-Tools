@@ -1,0 +1,69 @@
+﻿{
+    "Name":  "UrlClickEvents",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Timestamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Url",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActionType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountUpn",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Workload",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NetworkMessageId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IPAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ThreatTypes",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DetectionMethods",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsClickedThrough",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "UrlChain",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ReportId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

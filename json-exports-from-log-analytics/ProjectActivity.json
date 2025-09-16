@@ -1,0 +1,93 @@
+﻿{
+    "Name":  "ProjectActivity",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "EventProduct",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OnBehalfOfResId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProjectAction",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProjectEntity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Scope",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SrcIpAddr",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActorName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ObjectId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventResult",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Workload",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActorUserId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActorUserType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OrganizationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventOriginalType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecordType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventOriginalUid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventVendor",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

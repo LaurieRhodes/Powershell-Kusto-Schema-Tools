@@ -1,0 +1,81 @@
+﻿{
+    "Name":  "DevCenterAgentHealthLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ActivityId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SessionHostName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SessionHostResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AgentVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Status",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LastHeartBeat",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "EndpointState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UpgradeState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SessionHostHealthCheckResult",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "CloudPcId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DevBoxName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SubnetResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NicResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

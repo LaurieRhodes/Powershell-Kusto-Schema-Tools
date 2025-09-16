@@ -1,0 +1,117 @@
+﻿{
+    "Name":  "Watchlist",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SearchKey",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EntityMapping",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "WatchlistItem",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "TimeToLive",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "DefaultDuration",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Tags",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Notes",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LastUpdatedTimeUTC",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "CreatedTimeUTC",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "UpdatedBy",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "CreatedBy",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Provider",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Source",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "WatchlistAlias",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "WatchlistName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "WatchlistItemId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "WatchlistId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureTenantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "WatchlistCategory",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_DTTimestamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "_DTItemId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_DTItemType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_DTItemStatus",
+                           "Type":  "String"
+                       }
+                   ]
+}

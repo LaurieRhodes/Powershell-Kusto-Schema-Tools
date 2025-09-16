@@ -1,0 +1,205 @@
+﻿{
+    "Name":  "EmailEvents",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SenderIPv4",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SenderIPv6",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SenderMailFromAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SenderMailFromDomain",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Subject",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ThreatTypes",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ThreatNames",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Timestamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "UrlCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SenderObjectId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserLevelAction",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BulkComplaintLevel",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "LatestDeliveryLocation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LatestDeliveryAction",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExchangeTransportRule",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DistributionList",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ForwardingInformation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Context",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "To",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Cc",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "UserLevelPolicy",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SenderFromDomain",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SenderFromAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SenderDisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AttachmentCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "AuthenticationDetails",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AdditionalFields",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "ConfidenceLevel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Connectors",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DetectionMethods",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeliveryAction",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeliveryLocation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EmailClusterId",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "EmailDirection",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EmailLanguage",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EmailAction",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EmailActionPolicy",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EmailActionPolicyGuid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OrgLevelAction",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OrgLevelPolicy",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InternetMessageId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NetworkMessageId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecipientEmailAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecipientObjectId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ReportId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ThreatClassification",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

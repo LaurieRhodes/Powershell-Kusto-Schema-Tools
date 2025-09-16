@@ -1,0 +1,141 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for SQLSecurityAuditEvents - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:29:19
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 53, Final columns: 53
+// ============================================================================
+
+.create-merge table SQLSecurityAuditEventsRaw (records:dynamic)
+
+.alter-merge table SQLSecurityAuditEventsRaw policy retention softdelete = 1d
+
+.alter table SQLSecurityAuditEventsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table SQLSecurityAuditEventsRaw ingestion json mapping 'SQLSecurityAuditEventsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table SQLSecurityAuditEvents(
+TimeGenerated:datetime,
+TenantId:guid,
+PermissionBitmask:string,
+SequenceGroupId:string,
+SessionServerPrincipalName:string,
+ServerPrincipalName:string,
+ServerPrincipalSid:string,
+DatabasePrincipalName:string,
+TargetServerPrincipalName:string,
+TargetServerPrincipalSid:string,
+TargetDatabasePrincipalName:string,
+DatabaseName:string,
+SchemaName:string,
+ObjectName:string,
+Statement:string,
+AdditionalInformation:string,
+UserDefinedInformation:string,
+ApplicationName:string,
+ConnectionId:string,
+DataSensitivityInformation:string,
+HostName:string,
+SessionContext:string,
+IsServerLevelAudit:bool,
+ClientIp:string,
+ClientTlsVersion:int,
+AffectedRows:long,
+ResponseRows:long,
+LogicalServerName:string,
+ResourceGroup:string,
+Category:string,
+AuditSchemaVersion:int,
+EventTime:datetime,
+SequenceNumber:int,
+ActionId:string,
+ActionName:string,
+Succeeded:bool,
+IsColumnPermission:bool,
+EventId:string,
+SessionId:int,
+DatabasePrincipalId:int,
+TargetServerPrincipalId:int,
+TargetDatabasePrincipalId:int,
+ObjectId:int,
+UserDefinedEventId:int,
+TransactionId:long,
+ClassType:string,
+ClassTypeDescription:string,
+SecurableClassType:string,
+DurationMs:long,
+ServerPrincipalId:int,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table SQLSecurityAuditEvents policy caching hot = 1d
+
+.create-or-alter function SQLSecurityAuditEventsExpand() {
+SQLSecurityAuditEventsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+PermissionBitmask=tostring(events.PermissionBitmask),
+SequenceGroupId=tostring(events.SequenceGroupId),
+SessionServerPrincipalName=tostring(events.SessionServerPrincipalName),
+ServerPrincipalName=tostring(events.ServerPrincipalName),
+ServerPrincipalSid=tostring(events.ServerPrincipalSid),
+DatabasePrincipalName=tostring(events.DatabasePrincipalName),
+TargetServerPrincipalName=tostring(events.TargetServerPrincipalName),
+TargetServerPrincipalSid=tostring(events.TargetServerPrincipalSid),
+TargetDatabasePrincipalName=tostring(events.TargetDatabasePrincipalName),
+DatabaseName=tostring(events.DatabaseName),
+SchemaName=tostring(events.SchemaName),
+ObjectName=tostring(events.ObjectName),
+Statement=tostring(events.Statement),
+AdditionalInformation=tostring(events.AdditionalInformation),
+UserDefinedInformation=tostring(events.UserDefinedInformation),
+ApplicationName=tostring(events.ApplicationName),
+ConnectionId=tostring(events.ConnectionId),
+DataSensitivityInformation=tostring(events.DataSensitivityInformation),
+HostName=tostring(events.HostName),
+SessionContext=tostring(events.SessionContext),
+IsServerLevelAudit=tobool(events.IsServerLevelAudit),
+ClientIp=tostring(events.ClientIp),
+ClientTlsVersion=toint(events.ClientTlsVersion),
+AffectedRows=tolong(events.AffectedRows),
+ResponseRows=tolong(events.ResponseRows),
+LogicalServerName=tostring(events.LogicalServerName),
+ResourceGroup=tostring(events.ResourceGroup),
+Category=tostring(events.Category),
+AuditSchemaVersion=toint(events.AuditSchemaVersion),
+EventTime=todatetime(events.EventTime),
+SequenceNumber=toint(events.SequenceNumber),
+ActionId=tostring(events.ActionId),
+ActionName=tostring(events.ActionName),
+Succeeded=tobool(events.Succeeded),
+IsColumnPermission=tobool(events.IsColumnPermission),
+EventId=tostring(events.EventId),
+SessionId=toint(events.SessionId),
+DatabasePrincipalId=toint(events.DatabasePrincipalId),
+TargetServerPrincipalId=toint(events.TargetServerPrincipalId),
+TargetDatabasePrincipalId=toint(events.TargetDatabasePrincipalId),
+ObjectId=toint(events.ObjectId),
+UserDefinedEventId=toint(events.UserDefinedEventId),
+TransactionId=tolong(events.TransactionId),
+ClassType=tostring(events.ClassType),
+ClassTypeDescription=tostring(events.ClassTypeDescription),
+SecurableClassType=tostring(events.SecurableClassType),
+DurationMs=tolong(events.DurationMs),
+ServerPrincipalId=toint(events.ServerPrincipalId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table SQLSecurityAuditEvents policy update @'[{"Source": "SQLSecurityAuditEventsRaw", "Query": "SQLSecurityAuditEventsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

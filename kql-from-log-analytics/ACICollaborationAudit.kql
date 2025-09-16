@@ -1,0 +1,77 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ACICollaborationAudit - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:14:56
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 21, Final columns: 21
+// ============================================================================
+
+.create-merge table ACICollaborationAuditRaw (records:dynamic)
+
+.alter-merge table ACICollaborationAuditRaw policy retention softdelete = 1d
+
+.alter table ACICollaborationAuditRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ACICollaborationAuditRaw ingestion json mapping 'ACICollaborationAuditRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ACICollaborationAudit(
+TimeGenerated:datetime,
+TenantId:guid,
+ReferencedResourceType:string,
+ReferencedResourceId:string,
+EntitlementSummary:string,
+GrantCorrelationId:string,
+GrantSourceType:string,
+GrantSource:string,
+GrantType:string,
+UserName:string,
+ParticipantTenantId:string,
+ParticipantName:string,
+TargetResourceType:string,
+TargetResourceId:string,
+EntitlementResult:string,
+CorrelationId:string,
+OperationName:string,
+Location:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ACICollaborationAudit policy caching hot = 1d
+
+.create-or-alter function ACICollaborationAuditExpand() {
+ACICollaborationAuditRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ReferencedResourceType=tostring(events.ReferencedResourceType),
+ReferencedResourceId=tostring(events.ReferencedResourceId),
+EntitlementSummary=tostring(events.EntitlementSummary),
+GrantCorrelationId=tostring(events.GrantCorrelationId),
+GrantSourceType=tostring(events.GrantSourceType),
+GrantSource=tostring(events.GrantSource),
+GrantType=tostring(events.GrantType),
+UserName=tostring(events.UserName),
+ParticipantTenantId=tostring(events.ParticipantTenantId),
+ParticipantName=tostring(events.ParticipantName),
+TargetResourceType=tostring(events.TargetResourceType),
+TargetResourceId=tostring(events.TargetResourceId),
+EntitlementResult=tostring(events.EntitlementResult),
+CorrelationId=tostring(events.CorrelationId),
+OperationName=tostring(events.OperationName),
+Location=tostring(events.Location),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ACICollaborationAudit policy update @'[{"Source": "ACICollaborationAuditRaw", "Query": "ACICollaborationAuditExpand()", "IsEnabled": "True", "IsTransactional": true}]'

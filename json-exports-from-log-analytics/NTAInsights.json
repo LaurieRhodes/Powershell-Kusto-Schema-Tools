@@ -1,0 +1,97 @@
+﻿{
+    "Name":  "NTAInsights",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "AdFlag",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "TrafficTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TrafficVolumeBaseline",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "TrafficVolumeActual",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "Periodicity",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ProcessingTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "SeriesNumber",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "FlowStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AdScore",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "TrafficVolumeUnit",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Region",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InsightsResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PivotType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IntervalEnd",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "IntervalStart",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "AggregationType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SchemaVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SubType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DataPoints",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

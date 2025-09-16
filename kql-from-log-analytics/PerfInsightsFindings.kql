@@ -1,0 +1,65 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for PerfInsightsFindings - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:28:12
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 15, Final columns: 15
+// ============================================================================
+
+.create-merge table PerfInsightsFindingsRaw (records:dynamic)
+
+.alter-merge table PerfInsightsFindingsRaw policy retention softdelete = 1d
+
+.alter table PerfInsightsFindingsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table PerfInsightsFindingsRaw ingestion json mapping 'PerfInsightsFindingsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table PerfInsightsFindings(
+TimeGenerated:datetime,
+TenantId:guid,
+DataSetRunId:string,
+FindingPartitionKey:string,
+FindingId:string,
+ReportId:string,
+RuleFriendlyName:string,
+RuleCategory:string,
+ImpactLevel:string,
+Recommendation:string,
+ReferenceLinks:dynamic,
+Finding:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table PerfInsightsFindings policy caching hot = 1d
+
+.create-or-alter function PerfInsightsFindingsExpand() {
+PerfInsightsFindingsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+DataSetRunId=tostring(events.DataSetRunId),
+FindingPartitionKey=tostring(events.FindingPartitionKey),
+FindingId=tostring(events.FindingId),
+ReportId=tostring(events.ReportId),
+RuleFriendlyName=tostring(events.RuleFriendlyName),
+RuleCategory=tostring(events.RuleCategory),
+ImpactLevel=tostring(events.ImpactLevel),
+Recommendation=tostring(events.Recommendation),
+ReferenceLinks=todynamic(events.ReferenceLinks),
+Finding=tostring(events.Finding),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table PerfInsightsFindings policy update @'[{"Source": "PerfInsightsFindingsRaw", "Query": "PerfInsightsFindingsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

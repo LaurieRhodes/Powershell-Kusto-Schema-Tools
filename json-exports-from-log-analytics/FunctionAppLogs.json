@@ -1,0 +1,97 @@
+﻿{
+    "Name":  "FunctionAppLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "EventId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ProcessId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "LevelId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "RoleInstance",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExceptionType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExceptionMessage",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExceptionDetails",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Level",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActivityId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "HostInstanceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FunctionName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FunctionInvocationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "HostVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Message",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Location",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

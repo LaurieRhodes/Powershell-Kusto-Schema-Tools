@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Audits_Data_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:29
+// Generated: 2025-09-17 06:20:43
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 23, DCR columns: 21 (Type column filtered out)
+// Underscore columns included
+// Original columns: 23, DCR columns: 22 (Type column always filtered)
 // Output stream: Custom-Audits_Data_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -36,6 +37,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
+            type: 'string'
+          }
+          {
+            name: 'event_action_s'
             type: 'string'
           }
           {
@@ -67,11 +72,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'user_role_s'
+            name: 'api_client_id_g'
             type: 'string'
           }
           {
-            name: 'user_type_s'
+            name: 'user_role_s'
             type: 'string'
           }
           {
@@ -107,11 +112,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'event_action_s'
+            name: 'user_type_s'
             type: 'string'
           }
           {
-            name: 'api_client_id_g'
+            name: '_ResourceId'
             type: 'string'
           }
         ]
@@ -130,7 +135,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Audits_Data_CL']
         destinations: ['Sentinel-Audits_Data_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), event_object_s = tostring(event_object_s), event_data_s = tostring(event_data_s), result_status_s = tostring(result_status_s), Message = tostring(Message), event_timestamp_t = todatetime(event_timestamp_t), source_ip_s = tostring(source_ip_s), version_s = tostring(version_s), user_role_s = tostring(user_role_s), user_type_s = tostring(user_type_s), username_s = tostring(username_s), user_id_d = toreal(user_id_d), id_d = toreal(id_d), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), event_action_s = tostring(event_action_s), api_client_id_g = tostring(api_client_id_g)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), event_action_s = tostring(event_action_s), event_object_s = tostring(event_object_s), event_data_s = tostring(event_data_s), result_status_s = tostring(result_status_s), Message = tostring(Message), event_timestamp_t = todatetime(event_timestamp_t), source_ip_s = tostring(source_ip_s), version_s = tostring(version_s), api_client_id_g = tostring(api_client_id_g), user_role_s = tostring(user_role_s), username_s = tostring(username_s), user_id_d = toreal(user_id_d), id_d = toreal(id_d), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), user_type_s = tostring(user_type_s), _ResourceId = tostring(_ResourceId)'
         outputStream: 'Custom-Audits_Data_CL'
       }
     ]

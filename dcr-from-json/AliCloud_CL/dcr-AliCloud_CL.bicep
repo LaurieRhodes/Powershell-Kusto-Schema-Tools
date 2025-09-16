@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for AliCloud_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:27
+// Generated: 2025-09-17 06:20:41
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 28, DCR columns: 27 (Type column filtered out)
+// Underscore columns included
+// Original columns: 28, DCR columns: 27 (Type column always filtered)
 // Output stream: Custom-AliCloud_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================

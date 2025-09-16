@@ -1,0 +1,41 @@
+﻿{
+    "Name":  "WorkloadDiagnosticLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Status",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Message",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Tags",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

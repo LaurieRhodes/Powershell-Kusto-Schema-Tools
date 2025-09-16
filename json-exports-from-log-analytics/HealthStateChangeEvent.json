@@ -1,0 +1,85 @@
+﻿{
+    "Name":  "HealthStateChangeEvent",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "MonitorConfiguration",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Evidence",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "MonitoredObject",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MonitorType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CurrentStateFirstObservedTimestamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ImpactStartTimestamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "InstrumentationData",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "ParentMonitorName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MonitorResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CurrentMonitorState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PreviousMonitorState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EvaluationTimestamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "StateChangePayload",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "MonitorName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

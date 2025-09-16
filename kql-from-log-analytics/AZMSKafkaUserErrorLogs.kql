@@ -1,0 +1,55 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AZMSKafkaUserErrorLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:20:29
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 10, Final columns: 10
+// ============================================================================
+
+.create-merge table AZMSKafkaUserErrorLogsRaw (records:dynamic)
+
+.alter-merge table AZMSKafkaUserErrorLogsRaw policy retention softdelete = 1d
+
+.alter table AZMSKafkaUserErrorLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AZMSKafkaUserErrorLogsRaw ingestion json mapping 'AZMSKafkaUserErrorLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AZMSKafkaUserErrorLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+TrackingId:string,
+NamespaceName:string,
+EventhubName:string,
+Message:string,
+Provider:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AZMSKafkaUserErrorLogs policy caching hot = 1d
+
+.create-or-alter function AZMSKafkaUserErrorLogsExpand() {
+AZMSKafkaUserErrorLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+TrackingId=tostring(events.TrackingId),
+NamespaceName=tostring(events.NamespaceName),
+EventhubName=tostring(events.EventhubName),
+Message=tostring(events.Message),
+Provider=tostring(events.Provider),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AZMSKafkaUserErrorLogs policy update @'[{"Source": "AZMSKafkaUserErrorLogsRaw", "Query": "AZMSKafkaUserErrorLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

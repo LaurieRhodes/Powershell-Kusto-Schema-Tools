@@ -1,0 +1,41 @@
+﻿{
+    "Name":  "WVDHostRegistrations",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SessionHostName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SessionHostIPAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsSessionHostPrivateLink",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

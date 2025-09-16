@@ -1,0 +1,77 @@
+﻿{
+    "Name":  "APIMDevPortalAuditDiagnosticLog",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActivityId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Version",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "HashedUserId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestPath",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestMethod",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserAgent",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResponseCode",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Region",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServiceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ApimClient",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

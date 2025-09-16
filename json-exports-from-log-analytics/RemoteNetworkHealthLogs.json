@@ -1,0 +1,61 @@
+﻿{
+    "Name":  "RemoteNetworkHealthLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "CreatedDateTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Id",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemoteNetworkId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceIp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationIp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Description",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BgpRoutesAdvertisedCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SentBytes",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ReceivedBytes",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "Status",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

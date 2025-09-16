@@ -1,0 +1,97 @@
+﻿{
+    "Name":  "ThreatIntelIndicators",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Pattern",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Confidence",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Tags",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Modified",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Created",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ValidFrom",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ValidUntil",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Revoked",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "IsActive",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "Data",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "AdditionalFields",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "IsDeleted",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "LastUpdateMethod",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Id",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureTenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "WorkspaceId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ObservableKey",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ObservableValue",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

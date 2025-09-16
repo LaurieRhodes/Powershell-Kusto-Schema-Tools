@@ -1,0 +1,209 @@
+﻿{
+    "Name":  "AutoscaleEvaluationsLog",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "MinimumInstanceCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "NewInstanceCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ObservedValue",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "Operator",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Profile",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProfileEvaluationTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ProfileSelected",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "Projection",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "InstanceUpdateReason",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MetricNamespace",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CloudServiceRole",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServerFarm",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ShouldUpdateInstance",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "SkipCurrentAutoscaleEvaluation",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "SkipRuleEvaluationForCooldown",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "MetricStartTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Threshold",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "TimeAggregationType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MetricTimeGrain",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TimeGrainStatistic",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SelectedAutoscaleProfile",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AutoscaleMetricName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MaximumInstanceCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "LastScaleActionTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TargetResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AvailabilitySet",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CloudServiceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CoolDown",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "CurrentInstanceCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "MetricData",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DefaultInstanceCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "DeploymentSlot",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MetricEndTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "EstimateScaleResult",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EvaluationResult",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EvaluationTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "LastScaleActionOperationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LastScaleActionOperationStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TimeWindow",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Webspace",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

@@ -1,0 +1,95 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for IntuneDeviceComplianceOrg - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:26:10
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 30, Final columns: 30
+// ============================================================================
+
+.create-merge table IntuneDeviceComplianceOrgRaw (records:dynamic)
+
+.alter-merge table IntuneDeviceComplianceOrgRaw policy retention softdelete = 1d
+
+.alter table IntuneDeviceComplianceOrgRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table IntuneDeviceComplianceOrgRaw ingestion json mapping 'IntuneDeviceComplianceOrgRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table IntuneDeviceComplianceOrg(
+TimeGenerated:datetime,
+TenantId:guid,
+AADTenantId:guid,
+IntuneAccountId:guid,
+UserEmail:string,
+DeviceHealthThreatLevel:string,
+InGracePeriodUntil:string,
+BatchId:guid,
+UserName:string,
+DeviceType:string,
+ManagementAgents:string,
+RetireAfterDatetime:string,
+SerialNumber:string,
+Stats:dynamic,
+IMEI:string,
+LastContact:string,
+DeviceId:string,
+OwnerType:string,
+OS:string,
+OSVersion:string,
+OSDescription:string,
+ComplianceState:string,
+UPN:string,
+DeviceName:string,
+Result:string,
+OperationName:string,
+UserId:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table IntuneDeviceComplianceOrg policy caching hot = 1d
+
+.create-or-alter function IntuneDeviceComplianceOrgExpand() {
+IntuneDeviceComplianceOrgRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+AADTenantId=toguid(events.AADTenantId),
+IntuneAccountId=toguid(events.IntuneAccountId),
+UserEmail=tostring(events.UserEmail),
+DeviceHealthThreatLevel=tostring(events.DeviceHealthThreatLevel),
+InGracePeriodUntil=tostring(events.InGracePeriodUntil),
+BatchId=toguid(events.BatchId),
+UserName=tostring(events.UserName),
+DeviceType=tostring(events.DeviceType),
+ManagementAgents=tostring(events.ManagementAgents),
+RetireAfterDatetime=tostring(events.RetireAfterDatetime),
+SerialNumber=tostring(events.SerialNumber),
+Stats=todynamic(events.Stats),
+IMEI=tostring(events.IMEI),
+LastContact=tostring(events.LastContact),
+DeviceId=tostring(events.DeviceId),
+OwnerType=tostring(events.OwnerType),
+OS=tostring(events.OS),
+OSVersion=tostring(events.OSVersion),
+OSDescription=tostring(events.OSDescription),
+ComplianceState=tostring(events.ComplianceState),
+UPN=tostring(events.UPN),
+DeviceName=tostring(events.DeviceName),
+Result=tostring(events.Result),
+OperationName=tostring(events.OperationName),
+UserId=tostring(events.UserId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table IntuneDeviceComplianceOrg policy update @'[{"Source": "IntuneDeviceComplianceOrgRaw", "Query": "IntuneDeviceComplianceOrgExpand()", "IsEnabled": "True", "IsTransactional": true}]'

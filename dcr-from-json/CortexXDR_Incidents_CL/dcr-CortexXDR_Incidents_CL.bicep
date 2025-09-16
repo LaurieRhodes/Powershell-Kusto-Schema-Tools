@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for CortexXDR_Incidents_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:40
+// Generated: 2025-09-17 06:20:53
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 43, DCR columns: 41 (Type column filtered out)
+// Underscore columns included
+// Original columns: 43, DCR columns: 42 (Type column always filtered)
 // Output stream: Custom-CortexXDR_Incidents_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -67,11 +68,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'status_s'
+            name: 'host_count_d'
             type: 'string'
           }
           {
-            name: 'host_count_d'
+            name: 'xdr_url_s'
             type: 'string'
           }
           {
@@ -103,15 +104,19 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'xdr_url_s'
+            name: 'mitre_techniques_ids_and_names_s'
+            type: 'string'
+          }
+          {
+            name: 'status_s'
+            type: 'string'
+          }
+          {
+            name: 'alert_categories_s'
             type: 'string'
           }
           {
             name: 'modification_time_d'
-            type: 'string'
-          }
-          {
-            name: 'creation_time_d'
             type: 'string'
           }
           {
@@ -187,11 +192,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'mitre_techniques_ids_and_names_s'
+            name: 'creation_time_d'
             type: 'string'
           }
           {
-            name: 'alert_categories_s'
+            name: '_ResourceId'
             type: 'string'
           }
         ]
@@ -210,7 +215,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-CortexXDR_Incidents_CL']
         destinations: ['Sentinel-CortexXDR_Incidents_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), severity_s = tostring(severity_s), description_s = tostring(description_s), alert_count_d = toreal(alert_count_d), low_severity_alert_count_d = toreal(low_severity_alert_count_d), med_severity_alert_count_d = toreal(med_severity_alert_count_d), high_severity_alert_count_d = toreal(high_severity_alert_count_d), user_count_d = toreal(user_count_d), status_s = tostring(status_s), host_count_d = toreal(host_count_d), starred_b = tobool(starred_b), hosts_s = tostring(hosts_s), users_s = tostring(users_s), incident_sources_s = tostring(incident_sources_s), wildfire_hits_d = toreal(wildfire_hits_d), alerts_grouping_status_s = tostring(alerts_grouping_status_s), mitre_tactics_ids_and_names_s = tostring(mitre_tactics_ids_and_names_s), xdr_url_s = tostring(xdr_url_s), modification_time_d = toreal(modification_time_d), creation_time_d = toreal(creation_time_d), incident_id_s = tostring(incident_id_s), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), aggregated_score_d = toreal(aggregated_score_d), original_tags_s = tostring(original_tags_s), manual_description_s = tostring(manual_description_s), predicted_score_d = toreal(predicted_score_d), tags_s = tostring(tags_s), manual_severity_s = tostring(manual_severity_s), critical_severity_alert_count_d = toreal(critical_severity_alert_count_d), assigned_user_mail_s = tostring(assigned_user_mail_s), assigned_user_pretty_name_s = tostring(assigned_user_pretty_name_s), notes_s = tostring(notes_s), resolve_comment_s = tostring(resolve_comment_s), resolved_timestamp_d = toreal(resolved_timestamp_d), mitre_techniques_ids_and_names_s = tostring(mitre_techniques_ids_and_names_s), alert_categories_s = tostring(alert_categories_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), severity_s = tostring(severity_s), description_s = tostring(description_s), alert_count_d = toreal(alert_count_d), low_severity_alert_count_d = toreal(low_severity_alert_count_d), med_severity_alert_count_d = toreal(med_severity_alert_count_d), high_severity_alert_count_d = toreal(high_severity_alert_count_d), user_count_d = toreal(user_count_d), host_count_d = toreal(host_count_d), xdr_url_s = tostring(xdr_url_s), starred_b = tobool(starred_b), hosts_s = tostring(hosts_s), users_s = tostring(users_s), incident_sources_s = tostring(incident_sources_s), wildfire_hits_d = toreal(wildfire_hits_d), alerts_grouping_status_s = tostring(alerts_grouping_status_s), mitre_tactics_ids_and_names_s = tostring(mitre_tactics_ids_and_names_s), mitre_techniques_ids_and_names_s = tostring(mitre_techniques_ids_and_names_s), status_s = tostring(status_s), alert_categories_s = tostring(alert_categories_s), modification_time_d = toreal(modification_time_d), incident_id_s = tostring(incident_id_s), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), aggregated_score_d = toreal(aggregated_score_d), original_tags_s = tostring(original_tags_s), manual_description_s = tostring(manual_description_s), predicted_score_d = toreal(predicted_score_d), tags_s = tostring(tags_s), manual_severity_s = tostring(manual_severity_s), critical_severity_alert_count_d = toreal(critical_severity_alert_count_d), assigned_user_mail_s = tostring(assigned_user_mail_s), assigned_user_pretty_name_s = tostring(assigned_user_pretty_name_s), notes_s = tostring(notes_s), resolve_comment_s = tostring(resolve_comment_s), resolved_timestamp_d = toreal(resolved_timestamp_d), creation_time_d = toreal(creation_time_d), _ResourceId = tostring(_ResourceId)'
         outputStream: 'Custom-CortexXDR_Incidents_CL'
       }
     ]

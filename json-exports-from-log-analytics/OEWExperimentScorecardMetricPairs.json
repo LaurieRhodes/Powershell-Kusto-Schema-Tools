@@ -1,0 +1,117 @@
+﻿{
+    "Name":  "OEWExperimentScorecardMetricPairs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "RelativeDifference",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "TreatmentEffect",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PValue",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ControlStandardErrorNormalized",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ControlMetricValueNormalized",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ControlMetricValue",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ControlCount",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ControlVariant",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TreatmentStandardErrorNormalized",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "TreatmentMetricValueNormalized",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "Insights",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "TreatmentMetricValue",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "TreatmentVariant",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MetricETag",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DesiredDirection",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MetricCategories",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "MetricLifecycle",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MetricType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MetricDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MetricDisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MetricId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ScorecardId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TreatmentCount",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

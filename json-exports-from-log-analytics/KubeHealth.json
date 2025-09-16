@@ -1,0 +1,65 @@
+﻿{
+    "Name":  "KubeHealth",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MonitorTypeId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MonitorInstanceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ParentMonitorInstanceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClusterId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OldState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NewState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TimeFirstObserved",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "MonitorLabels",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Details",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MonitorConfig",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

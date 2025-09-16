@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for beSECURE_Audit_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:30
+// Generated: 2025-09-17 06:20:43
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 16, DCR columns: 14 (Type column filtered out)
+// Underscore columns included
+// Original columns: 16, DCR columns: 15 (Type column always filtered)
 // Output stream: Custom-beSECURE_Audit_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -86,6 +87,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             name: 'triggered_by'
             type: 'string'
           }
+          {
+            name: '_ResourceId'
+            type: 'string'
+          }
         ]
       }
     }
@@ -102,7 +107,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-beSECURE_Audit_CL']
         destinations: ['Sentinel-beSECURE_Audit_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), additional_information = tostring(additional_information), audit_code = tostring(audit_code), audit_id = tostring(audit_id), audit_name = tostring(audit_name), audit_event_s = tostring(audit_event_s), originator_ip = tostring(originator_ip), triggered_by = tostring(triggered_by)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), additional_information = tostring(additional_information), audit_code = tostring(audit_code), audit_id = tostring(audit_id), audit_name = tostring(audit_name), audit_event_s = tostring(audit_event_s), originator_ip = tostring(originator_ip), triggered_by = tostring(triggered_by), _ResourceId = tostring(_ResourceId)'
         outputStream: 'Custom-beSECURE_Audit_CL'
       }
     ]

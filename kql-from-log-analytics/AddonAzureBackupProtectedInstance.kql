@@ -1,0 +1,101 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AddonAzureBackupProtectedInstance - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:15:46
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 33, Final columns: 33
+// ============================================================================
+
+.create-merge table AddonAzureBackupProtectedInstanceRaw (records:dynamic)
+
+.alter-merge table AddonAzureBackupProtectedInstanceRaw policy retention softdelete = 1d
+
+.alter table AddonAzureBackupProtectedInstanceRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AddonAzureBackupProtectedInstanceRaw ingestion json mapping 'AddonAzureBackupProtectedInstanceRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AddonAzureBackupProtectedInstance(
+TimeGenerated:datetime,
+TenantId:guid,
+SourceSizeInMBs:real,
+BillingGroupType:string,
+DatasourceType:string,
+VaultName:string,
+ResourceGroupName:string,
+SubscriptionId:string,
+ArchiveTierStorageReplicationType:string,
+StorageReplicationType:string,
+VaultType:string,
+AzureDataCenter:string,
+VaultTags:string,
+ArchiveTierStorageConsumedInMBs:real,
+StorageConsumedInMBs:real,
+BillingGroupUniqueId:string,
+BillingGroupFriendlyName:string,
+VaultUniqueId:string,
+State:string,
+SchemaVersion:string,
+ProtectedInstanceCount:int,
+ProtectedContainerUniqueId:string,
+BackupManagementType:string,
+BackupManagementServerUniqueId:string,
+BackupItemUniqueId:string,
+Category:string,
+OperationName:string,
+ResourceId:string,
+SourceSystem:string,
+BillingGroupResourceGroupName:string,
+ExtendedProperties:dynamic,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AddonAzureBackupProtectedInstance policy caching hot = 1d
+
+.create-or-alter function AddonAzureBackupProtectedInstanceExpand() {
+AddonAzureBackupProtectedInstanceRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SourceSizeInMBs=toreal(events.SourceSizeInMBs),
+BillingGroupType=tostring(events.BillingGroupType),
+DatasourceType=tostring(events.DatasourceType),
+VaultName=tostring(events.VaultName),
+ResourceGroupName=tostring(events.ResourceGroupName),
+SubscriptionId=tostring(events.SubscriptionId),
+ArchiveTierStorageReplicationType=tostring(events.ArchiveTierStorageReplicationType),
+StorageReplicationType=tostring(events.StorageReplicationType),
+VaultType=tostring(events.VaultType),
+AzureDataCenter=tostring(events.AzureDataCenter),
+VaultTags=tostring(events.VaultTags),
+ArchiveTierStorageConsumedInMBs=toreal(events.ArchiveTierStorageConsumedInMBs),
+StorageConsumedInMBs=toreal(events.StorageConsumedInMBs),
+BillingGroupUniqueId=tostring(events.BillingGroupUniqueId),
+BillingGroupFriendlyName=tostring(events.BillingGroupFriendlyName),
+VaultUniqueId=tostring(events.VaultUniqueId),
+State=tostring(events.State),
+SchemaVersion=tostring(events.SchemaVersion),
+ProtectedInstanceCount=toint(events.ProtectedInstanceCount),
+ProtectedContainerUniqueId=tostring(events.ProtectedContainerUniqueId),
+BackupManagementType=tostring(events.BackupManagementType),
+BackupManagementServerUniqueId=tostring(events.BackupManagementServerUniqueId),
+BackupItemUniqueId=tostring(events.BackupItemUniqueId),
+Category=tostring(events.Category),
+OperationName=tostring(events.OperationName),
+ResourceId=tostring(events.ResourceId),
+SourceSystem=tostring(events.SourceSystem),
+BillingGroupResourceGroupName=tostring(events.BillingGroupResourceGroupName),
+ExtendedProperties=todynamic(events.ExtendedProperties),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AddonAzureBackupProtectedInstance policy update @'[{"Source": "AddonAzureBackupProtectedInstanceRaw", "Query": "AddonAzureBackupProtectedInstanceExpand()", "IsEnabled": "True", "IsTransactional": true}]'

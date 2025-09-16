@@ -1,0 +1,157 @@
+﻿{
+    "Name":  "AppBrowserTimings",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "AppVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppRoleName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppRoleInstance",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientModel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientOS",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserAccountId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientStateOrProvince",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientCountryOrRegion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientBrowser",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceGUID",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IKey",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SDKVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientCity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ItemCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "UserAuthenticatedId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SessionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Name",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Url",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NetworkDurationMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "SendDurationMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ReceiveDurationMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ProcessingDurationMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "UserId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TotalDurationMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "Properties",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Measurements",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ParentId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SyntheticSource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PerformanceBucket",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

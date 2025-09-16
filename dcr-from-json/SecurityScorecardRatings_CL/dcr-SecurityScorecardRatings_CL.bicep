@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for SecurityScorecardRatings_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:49
+// Generated: 2025-09-17 06:21:02
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 24, DCR columns: 22 (Type column filtered out)
+// Underscore columns included
+// Original columns: 24, DCR columns: 23 (Type column always filtered)
 // Output stream: Custom-SecurityScorecardRatings_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -40,6 +41,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
+            type: 'string'
+          }
+          {
+            name: 'portfolioName_s'
             type: 'string'
           }
           {
@@ -71,11 +76,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'dateYesterday_t'
+            name: 'portfolioId_g_s'
             type: 'string'
           }
           {
-            name: 'subject_s'
+            name: 'dateYesterday_t'
             type: 'string'
           }
           {
@@ -111,11 +116,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'portfolioName_s'
+            name: 'subject_s'
             type: 'string'
           }
           {
-            name: 'portfolioId_g_s'
+            name: '_ResourceId'
             type: 'string'
           }
         ]
@@ -134,7 +139,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-SecurityScorecardRatings_CL']
         destinations: ['Sentinel-SecurityScorecardRatings_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), portfolioId_g = tostring(portfolioId_g), severity_s = tostring(severity_s), industry_s = tostring(industry_s), scoreChange_d = toreal(scoreChange_d), scoreToday_d = toreal(scoreToday_d), scoreYesterday_d = toreal(scoreYesterday_d), dateToday_t = todatetime(dateToday_t), dateYesterday_t = todatetime(dateYesterday_t), subject_s = tostring(subject_s), src_s = tostring(src_s), body_s = tostring(body_s), portfolioId_s = tostring(portfolioId_s), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), portfolioName_s = tostring(portfolioName_s), portfolioId_g_s = tostring(portfolioId_g_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), portfolioName_s = tostring(portfolioName_s), portfolioId_g = tostring(portfolioId_g), severity_s = tostring(severity_s), industry_s = tostring(industry_s), scoreChange_d = toreal(scoreChange_d), scoreToday_d = toreal(scoreToday_d), scoreYesterday_d = toreal(scoreYesterday_d), dateToday_t = todatetime(dateToday_t), portfolioId_g_s = tostring(portfolioId_g_s), dateYesterday_t = todatetime(dateYesterday_t), src_s = tostring(src_s), body_s = tostring(body_s), portfolioId_s = tostring(portfolioId_s), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), subject_s = tostring(subject_s), _ResourceId = tostring(_ResourceId)'
         outputStream: 'Custom-SecurityScorecardRatings_CL'
       }
     ]

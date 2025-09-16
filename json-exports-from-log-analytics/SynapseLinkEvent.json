@@ -1,0 +1,45 @@
+﻿{
+    "Name":  "SynapseLinkEvent",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Level",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Location",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LinkConnectionName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Properties",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

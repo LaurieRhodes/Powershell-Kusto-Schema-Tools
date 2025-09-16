@@ -1,0 +1,53 @@
+﻿{
+    "Name":  "HDInsightStormLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Message",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClusterName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "HostName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LogType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LogLevel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

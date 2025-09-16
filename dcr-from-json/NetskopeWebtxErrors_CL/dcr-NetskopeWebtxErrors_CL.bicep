@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for NetskopeWebtxErrors_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:46
+// Generated: 2025-09-17 06:20:59
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 10, DCR columns: 8 (Type column filtered out)
+// Underscore columns included
+// Original columns: 10, DCR columns: 9 (Type column always filtered)
 // Output stream: Custom-NetskopeWebtxErrors_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -62,6 +63,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             name: 'error_s'
             type: 'string'
           }
+          {
+            name: '_ResourceId'
+            type: 'string'
+          }
         ]
       }
     }
@@ -78,7 +83,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-NetskopeWebtxErrors_CL']
         destinations: ['Sentinel-NetskopeWebtxErrors_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), error_s = tostring(error_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), error_s = tostring(error_s), _ResourceId = tostring(_ResourceId)'
         outputStream: 'Custom-NetskopeWebtxErrors_CL'
       }
     ]

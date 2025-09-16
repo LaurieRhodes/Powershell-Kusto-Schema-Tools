@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_files_red_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:34
+// Generated: 2025-09-17 06:20:48
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 29, DCR columns: 26 (Type column filtered out)
+// Underscore columns included
+// Original columns: 29, DCR columns: 29 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_files_red_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -35,7 +36,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ts_s'
+            name: '_path_s'
             type: 'string'
           }
           {
@@ -79,11 +80,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'sha256_s'
+            name: 'seen_bytes_d'
             type: 'string'
           }
           {
-            name: 'seen_bytes_d'
+            name: 'is_orig_b'
             type: 'string'
           }
           {
@@ -127,7 +128,19 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'is_orig_b'
+            name: 'ts_s'
+            type: 'string'
+          }
+          {
+            name: '_write_ts_t'
+            type: 'string'
+          }
+          {
+            name: '_system_name_s'
+            type: 'string'
+          }
+          {
+            name: 'sha256_s'
             type: 'string'
           }
           {
@@ -150,7 +163,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_files_red_CL']
         destinations: ['Sentinel-Corelight_v2_files_red_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_s = tostring(ts_s), sha1_s = tostring(sha1_s), md5_s = tostring(md5_s), extracted_size_d = toreal(extracted_size_d), extracted_cutoff_b = tobool(extracted_cutoff_b), extracted_s = tostring(extracted_s), parent_fuid_s = tostring(parent_fuid_s), timedout_b = tobool(timedout_b), overflow_bytes_d = toreal(overflow_bytes_d), missing_bytes_d = toreal(missing_bytes_d), total_bytes_d = toreal(total_bytes_d), sha256_s = tostring(sha256_s), seen_bytes_d = toreal(seen_bytes_d), local_orig_b = tobool(local_orig_b), filename_s = tostring(filename_s), mime_type_s = tostring(mime_type_s), analyzers_s = tostring(analyzers_s), depth_d = toreal(depth_d), source_s = tostring(source_s), conn_uids_s = tostring(conn_uids_s), rx_hosts_s = tostring(rx_hosts_s), tx_hosts_s = tostring(tx_hosts_s), fuid_s = tostring(fuid_s), is_orig_b = tobool(is_orig_b), num_d = toreal(num_d)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), sha1_s = tostring(sha1_s), md5_s = tostring(md5_s), extracted_size_d = toreal(extracted_size_d), extracted_cutoff_b = tobool(extracted_cutoff_b), extracted_s = tostring(extracted_s), parent_fuid_s = tostring(parent_fuid_s), timedout_b = tobool(timedout_b), overflow_bytes_d = toreal(overflow_bytes_d), missing_bytes_d = toreal(missing_bytes_d), total_bytes_d = toreal(total_bytes_d), seen_bytes_d = toreal(seen_bytes_d), is_orig_b = tobool(is_orig_b), local_orig_b = tobool(local_orig_b), filename_s = tostring(filename_s), mime_type_s = tostring(mime_type_s), analyzers_s = tostring(analyzers_s), depth_d = toreal(depth_d), source_s = tostring(source_s), conn_uids_s = tostring(conn_uids_s), rx_hosts_s = tostring(rx_hosts_s), tx_hosts_s = tostring(tx_hosts_s), fuid_s = tostring(fuid_s), ts_s = tostring(ts_s), _write_ts_t = todatetime(_write_ts_t), _system_name_s = tostring(_system_name_s), sha256_s = tostring(sha256_s), num_d = toreal(num_d)'
         outputStream: 'Custom-Corelight_v2_files_red_CL'
       }
     ]

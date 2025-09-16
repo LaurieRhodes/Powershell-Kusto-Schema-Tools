@@ -1,0 +1,149 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for CassandraLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:20:52
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 57, Final columns: 57
+// ============================================================================
+
+.create-merge table CassandraLogsRaw (records:dynamic)
+
+.alter-merge table CassandraLogsRaw policy retention softdelete = 1d
+
+.alter table CassandraLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table CassandraLogsRaw ingestion json mapping 'CassandraLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table CassandraLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+DurationMs:int,
+EdenSpaceBefore:long,
+EdenSpaceAfter:long,
+GCType:string,
+MaxMemory:long,
+MetaspaceBefore:long,
+MetaspaceAfter:long,
+OldGenAfter:long,
+OldGenBefore:long,
+PercentFull:real,
+PermGenAfter:long,
+PermGenBefore:long,
+SurvivorSpaceBefore:long,
+SurvivorSpaceAfter:long,
+UsedMemory:long,
+DroppedCrossNodeTimeout:int,
+DroppedInternalTimeout:int,
+DroppedMessagesType:string,
+DroppedMessages:int,
+Endpoint:string,
+HostId:string,
+PendingTasks:int,
+SessionId:string,
+CompressedClassSpaceBefore:long,
+CompressedClassSpaceAfter:long,
+Collections:int,
+CodeCacheAfter:long,
+ClusterName:string,
+Level:string,
+AddressIp:string,
+ThreadName:string,
+ThreadId:string,
+SourceFile:string,
+SourceLine:int,
+Message:string,
+Exception:string,
+EventProduct:string,
+EventCategory:string,
+SSTableName:string,
+EventType:string,
+CassandraTable:string,
+PartitionKey:string,
+PartitionSize:int,
+TombstonedCells:int,
+LiveCells:int,
+CassandraKey:string,
+RequestedColumns:int,
+SliceStart:string,
+SliceEnd:string,
+DeletionInfo:string,
+CodeCacheBefore:long,
+CassandraKeyspace:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table CassandraLogs policy caching hot = 1d
+
+.create-or-alter function CassandraLogsExpand() {
+CassandraLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+DurationMs=toint(events.DurationMs),
+EdenSpaceBefore=tolong(events.EdenSpaceBefore),
+EdenSpaceAfter=tolong(events.EdenSpaceAfter),
+GCType=tostring(events.GCType),
+MaxMemory=tolong(events.MaxMemory),
+MetaspaceBefore=tolong(events.MetaspaceBefore),
+MetaspaceAfter=tolong(events.MetaspaceAfter),
+OldGenAfter=tolong(events.OldGenAfter),
+OldGenBefore=tolong(events.OldGenBefore),
+PercentFull=toreal(events.PercentFull),
+PermGenAfter=tolong(events.PermGenAfter),
+PermGenBefore=tolong(events.PermGenBefore),
+SurvivorSpaceBefore=tolong(events.SurvivorSpaceBefore),
+SurvivorSpaceAfter=tolong(events.SurvivorSpaceAfter),
+UsedMemory=tolong(events.UsedMemory),
+DroppedCrossNodeTimeout=toint(events.DroppedCrossNodeTimeout),
+DroppedInternalTimeout=toint(events.DroppedInternalTimeout),
+DroppedMessagesType=tostring(events.DroppedMessagesType),
+DroppedMessages=toint(events.DroppedMessages),
+Endpoint=tostring(events.Endpoint),
+HostId=tostring(events.HostId),
+PendingTasks=toint(events.PendingTasks),
+SessionId=tostring(events.SessionId),
+CompressedClassSpaceBefore=tolong(events.CompressedClassSpaceBefore),
+CompressedClassSpaceAfter=tolong(events.CompressedClassSpaceAfter),
+Collections=toint(events.Collections),
+CodeCacheAfter=tolong(events.CodeCacheAfter),
+ClusterName=tostring(events.ClusterName),
+Level=tostring(events.Level),
+AddressIp=tostring(events.AddressIp),
+ThreadName=tostring(events.ThreadName),
+ThreadId=tostring(events.ThreadId),
+SourceFile=tostring(events.SourceFile),
+SourceLine=toint(events.SourceLine),
+Message=tostring(events.Message),
+Exception=tostring(events.Exception),
+EventProduct=tostring(events.EventProduct),
+EventCategory=tostring(events.EventCategory),
+SSTableName=tostring(events.SSTableName),
+EventType=tostring(events.EventType),
+CassandraTable=tostring(events.CassandraTable),
+PartitionKey=tostring(events.PartitionKey),
+PartitionSize=toint(events.PartitionSize),
+TombstonedCells=toint(events.TombstonedCells),
+LiveCells=toint(events.LiveCells),
+CassandraKey=tostring(events.CassandraKey),
+RequestedColumns=toint(events.RequestedColumns),
+SliceStart=tostring(events.SliceStart),
+SliceEnd=tostring(events.SliceEnd),
+DeletionInfo=tostring(events.DeletionInfo),
+CodeCacheBefore=tolong(events.CodeCacheBefore),
+CassandraKeyspace=tostring(events.CassandraKeyspace),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table CassandraLogs policy update @'[{"Source": "CassandraLogsRaw", "Query": "CassandraLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

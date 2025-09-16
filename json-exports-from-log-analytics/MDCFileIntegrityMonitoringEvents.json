@@ -1,0 +1,257 @@
+﻿{
+    "Name":  "MDCFileIntegrityMonitoringEvents",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "NewValueName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessId",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "InitiatingProcessName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessCreationTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "InitiatingProcessSessionId",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "InitiatingProcessFirstSeen",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "InitiatingProcessAccountSid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessAccountDomainName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessAccountName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessImageFileName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessImageFilePath",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessImageFileType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitProcImageFileSizeInBytes",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "InitProcImageCreationTimeUtc",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "InitProcImagePeTimestampUtc",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "InitProcImageLastWriteTimeUtc",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "InitProcImageLastAccessTimeUtc",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "InitProcImageLsHash",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitProcImageMd5",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitProcImageSha256",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitProcImageSha1",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessSource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitProcVersionInfoCompanyName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitProcVersionInfoProductName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitProcVersionInfoProductVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitProcVersionInfoInternalFileName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitProcVersionInfoOriginalFileName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NewValueType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitProcVersionInfoFileDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NewValueData",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OldValueName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AADTenantID",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CloudProvider",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CloudIdentifier",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CloudResourceType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MonitoredEntityType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ChangeType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FilePath",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileSize",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "OriginalFileName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OriginalFilePath",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileMd5",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileSha256",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileSha1",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestAccountName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestAccountDomain",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestAccountSid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestSourceIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestSourcePort",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestSource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RegistryKey",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RegistryHive",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OldValueData",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OldValueType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OldValueFullRegistryKey",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

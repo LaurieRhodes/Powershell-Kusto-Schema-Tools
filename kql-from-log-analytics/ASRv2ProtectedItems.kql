@@ -1,0 +1,79 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ASRv2ProtectedItems - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:19:12
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 22, Final columns: 22
+// ============================================================================
+
+.create-merge table ASRv2ProtectedItemsRaw (records:dynamic)
+
+.alter-merge table ASRv2ProtectedItemsRaw policy retention softdelete = 1d
+
+.alter table ASRv2ProtectedItemsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ASRv2ProtectedItemsRaw ingestion json mapping 'ASRv2ProtectedItemsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ASRv2ProtectedItems(
+TimeGenerated:datetime,
+TenantId:guid,
+LastSuccessfulPlannedFailoverTime:datetime,
+ProtectionState:string,
+TargetFabricId:string,
+FabricId:string,
+FabricObjectName:string,
+FabricObjectId:string,
+TargetFabricAgentId:string,
+ReplicationHealth:string,
+FabricAgentId:string,
+SourceFabricProviderId:string,
+ReplicationExtensionName:string,
+PolicyName:string,
+ProviderId:string,
+CorrelationId:string,
+Category:string,
+OperationName:string,
+TargetFabricProviderId:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ASRv2ProtectedItems policy caching hot = 1d
+
+.create-or-alter function ASRv2ProtectedItemsExpand() {
+ASRv2ProtectedItemsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+LastSuccessfulPlannedFailoverTime=todatetime(events.LastSuccessfulPlannedFailoverTime),
+ProtectionState=tostring(events.ProtectionState),
+TargetFabricId=tostring(events.TargetFabricId),
+FabricId=tostring(events.FabricId),
+FabricObjectName=tostring(events.FabricObjectName),
+FabricObjectId=tostring(events.FabricObjectId),
+TargetFabricAgentId=tostring(events.TargetFabricAgentId),
+ReplicationHealth=tostring(events.ReplicationHealth),
+FabricAgentId=tostring(events.FabricAgentId),
+SourceFabricProviderId=tostring(events.SourceFabricProviderId),
+ReplicationExtensionName=tostring(events.ReplicationExtensionName),
+PolicyName=tostring(events.PolicyName),
+ProviderId=tostring(events.ProviderId),
+CorrelationId=tostring(events.CorrelationId),
+Category=tostring(events.Category),
+OperationName=tostring(events.OperationName),
+TargetFabricProviderId=tostring(events.TargetFabricProviderId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ASRv2ProtectedItems policy update @'[{"Source": "ASRv2ProtectedItemsRaw", "Query": "ASRv2ProtectedItemsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

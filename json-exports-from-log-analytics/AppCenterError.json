@@ -1,0 +1,101 @@
+﻿{
+    "Name":  "AppCenterError",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "CreatedAt",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Annotation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Status",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExceptionType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ErrorReason",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ErrorLine",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ErrorFile",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ErrorMethod",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ErrorClass",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ErrorType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "JailBreak",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "OsVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Model",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Oem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserString",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ErrorGroupId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ErrorId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SchemaType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SymbolicatedAt",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "LastErrorAt",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

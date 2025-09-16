@@ -1,0 +1,77 @@
+﻿{
+    "Name":  "KubeEvents",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ObjectKind",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Namespace",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Name",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Reason",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Message",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "KubeEventType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceComponent",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FirstSeen",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "LastSeen",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Count",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ClusterName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClusterId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

@@ -1,0 +1,57 @@
+﻿{
+    "Name":  "MCCEventLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "HitRatio",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "HitRatioMbps",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "CacheNodeId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MissMbps",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "HitMbps",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "Hits",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Misses",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "EgressMbps",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

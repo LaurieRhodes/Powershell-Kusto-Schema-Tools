@@ -1,0 +1,89 @@
+﻿{
+    "Name":  "ETWEvent",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Role",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureDeploymentID",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RowKey",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ChannelName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TaskName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "KeywordName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OpcodeName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventMessage",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Tid",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "EventId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "EventSourceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProviderGuid",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Level",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PartitionKey",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Pid",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Message",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

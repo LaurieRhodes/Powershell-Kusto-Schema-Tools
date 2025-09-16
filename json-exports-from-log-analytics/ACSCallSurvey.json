@@ -1,0 +1,129 @@
+﻿{
+    "Name":  "ACSCallSurvey",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ScreenshareRatingScoreThreshold",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ScreenshareRatingScoreUpperBound",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ScreenshareRatingScoreLowerBound",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ScreenshareRatingScore",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "VideoIssues",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VideoRatingScoreThreshold",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "VideoRatingScoreUpperBound",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "VideoRatingScoreLowerBound",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "VideoRatingScore",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "AudioIssues",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AudioRatingScoreThreshold",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "AudioRatingScoreUpperBound",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "AudioRatingScoreLowerBound",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "AudioRatingScore",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "OverallCallIssues",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OverallRatingScoreThreshold",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "OverallRatingScoreUpperBound",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "OverallRatingScoreLowerBound",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "OverallRatingScore",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SurveyId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ParticipantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CallId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ScreenshareIssues",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

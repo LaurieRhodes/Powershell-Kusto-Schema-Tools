@@ -1,0 +1,85 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for PGSQLDbTransactionsStats - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:28:20
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 25, Final columns: 25
+// ============================================================================
+
+.create-merge table PGSQLDbTransactionsStatsRaw (records:dynamic)
+
+.alter-merge table PGSQLDbTransactionsStatsRaw policy retention softdelete = 1d
+
+.alter table PGSQLDbTransactionsStatsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table PGSQLDbTransactionsStatsRaw ingestion json mapping 'PGSQLDbTransactionsStatsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table PGSQLDbTransactionsStats(
+TimeGenerated:datetime,
+TenantId:guid,
+RemainingMultixactIdsTillWraparound:long,
+RemainingMultixactIdsTillEmergencyAV:long,
+RemainingMultixactIds:long,
+AutovacuumMultixactFreezeMaxAge:int,
+VacuumMultixactFreezeMinAge:int,
+RemainingTransactionIdsTillWraparound:long,
+RemainingTransactionIdsTillEmergencyAV:long,
+RemainingTransactionIds:long,
+AutovacuumFreezeMaxAge:int,
+VacuumFreezeMinAge:int,
+TransactionIdFrozenAge:long,
+TransactionIdFrozen:long,
+MinMultixactIdAge:long,
+MinMultixactId:long,
+ConnectionsLimit:int,
+UserId:int,
+DatabaseName:string,
+ReplicaRole:string,
+LogicalServerName:string,
+Location:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table PGSQLDbTransactionsStats policy caching hot = 1d
+
+.create-or-alter function PGSQLDbTransactionsStatsExpand() {
+PGSQLDbTransactionsStatsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+RemainingMultixactIdsTillWraparound=tolong(events.RemainingMultixactIdsTillWraparound),
+RemainingMultixactIdsTillEmergencyAV=tolong(events.RemainingMultixactIdsTillEmergencyAV),
+RemainingMultixactIds=tolong(events.RemainingMultixactIds),
+AutovacuumMultixactFreezeMaxAge=toint(events.AutovacuumMultixactFreezeMaxAge),
+VacuumMultixactFreezeMinAge=toint(events.VacuumMultixactFreezeMinAge),
+RemainingTransactionIdsTillWraparound=tolong(events.RemainingTransactionIdsTillWraparound),
+RemainingTransactionIdsTillEmergencyAV=tolong(events.RemainingTransactionIdsTillEmergencyAV),
+RemainingTransactionIds=tolong(events.RemainingTransactionIds),
+AutovacuumFreezeMaxAge=toint(events.AutovacuumFreezeMaxAge),
+VacuumFreezeMinAge=toint(events.VacuumFreezeMinAge),
+TransactionIdFrozenAge=tolong(events.TransactionIdFrozenAge),
+TransactionIdFrozen=tolong(events.TransactionIdFrozen),
+MinMultixactIdAge=tolong(events.MinMultixactIdAge),
+MinMultixactId=tolong(events.MinMultixactId),
+ConnectionsLimit=toint(events.ConnectionsLimit),
+UserId=toint(events.UserId),
+DatabaseName=tostring(events.DatabaseName),
+ReplicaRole=tostring(events.ReplicaRole),
+LogicalServerName=tostring(events.LogicalServerName),
+Location=tostring(events.Location),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table PGSQLDbTransactionsStats policy update @'[{"Source": "PGSQLDbTransactionsStatsRaw", "Query": "PGSQLDbTransactionsStatsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

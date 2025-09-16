@@ -1,0 +1,97 @@
+﻿{
+    "Name":  "AADFirstPartyToFirstPartySignInLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ServicePrincipalName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServicePrincipalId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServicePrincipalCredentialThumbprint",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServicePrincipalCredentialKeyId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultSignature",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceServicePrincipalId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceOwnerTenantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceIdentity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DurationMs",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "CreatedDateTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppOwnerTenantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceDisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UniqueTokenIdentifier",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

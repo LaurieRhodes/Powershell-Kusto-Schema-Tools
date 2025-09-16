@@ -1,0 +1,77 @@
+﻿{
+    "Name":  "FailedIngestion",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "FailedOn",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "OperationId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Database",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Table",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IngestionSourceId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "IngestionSourcePath",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RootActivityId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Details",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ErrorCode",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FailureStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OriginatesFromUpdatePolicy",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "ShouldRetry",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

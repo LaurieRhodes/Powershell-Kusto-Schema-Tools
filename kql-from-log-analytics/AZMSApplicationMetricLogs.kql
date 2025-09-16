@@ -1,0 +1,69 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AZMSApplicationMetricLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:20:22
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 17, Final columns: 17
+// ============================================================================
+
+.create-merge table AZMSApplicationMetricLogsRaw (records:dynamic)
+
+.alter-merge table AZMSApplicationMetricLogsRaw policy retention softdelete = 1d
+
+.alter table AZMSApplicationMetricLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AZMSApplicationMetricLogsRaw ingestion json mapping 'AZMSApplicationMetricLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AZMSApplicationMetricLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+ActivityId:string,
+OperationName:string,
+Value:int,
+NamespaceName:string,
+EntityType:string,
+EntityName:string,
+Properties:dynamic,
+Outcome:string,
+Protocol:string,
+AuthType:string,
+AuthId:string,
+Provider:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AZMSApplicationMetricLogs policy caching hot = 1d
+
+.create-or-alter function AZMSApplicationMetricLogsExpand() {
+AZMSApplicationMetricLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ActivityId=tostring(events.ActivityId),
+OperationName=tostring(events.OperationName),
+Value=toint(events.Value),
+NamespaceName=tostring(events.NamespaceName),
+EntityType=tostring(events.EntityType),
+EntityName=tostring(events.EntityName),
+Properties=todynamic(events.Properties),
+Outcome=tostring(events.Outcome),
+Protocol=tostring(events.Protocol),
+AuthType=tostring(events.AuthType),
+AuthId=tostring(events.AuthId),
+Provider=tostring(events.Provider),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AZMSApplicationMetricLogs policy update @'[{"Source": "AZMSApplicationMetricLogsRaw", "Query": "AZMSApplicationMetricLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

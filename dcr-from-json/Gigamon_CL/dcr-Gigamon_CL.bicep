@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Gigamon_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:43
+// Generated: 2025-09-17 06:20:55
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 52, DCR columns: 48 (Type column filtered out)
+// Underscore columns included
+// Original columns: 52, DCR columns: 51 (Type column always filtered)
 // Output stream: Custom-Gigamon_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -36,10 +37,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
-            type: 'string'
-          }
-          {
-            name: 'uri_fileextension_s'
             type: 'string'
           }
           {
@@ -71,15 +68,19 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
+            name: '_timestamp_t'
+            type: 'string'
+          }
+          {
             name: 'severity_ISG_PostQuantum_Security_s'
             type: 'string'
           }
           {
-            name: 'certificatenotbefore_t'
+            name: 'rank_s'
             type: 'string'
           }
           {
-            name: 'rank_s'
+            name: 'standard_cse_classification_s'
             type: 'string'
           }
           {
@@ -119,11 +120,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'standard_cse_classification_s'
+            name: 'library_severity_description_s'
             type: 'string'
           }
           {
-            name: 'library_severity_description_s'
+            name: 'uri_fileextension_s'
+            type: 'string'
+          }
+          {
+            name: 'certificatenotbefore_t'
             type: 'string'
           }
           {
@@ -131,7 +136,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'certificatepublickeysize_d'
+            name: 'resultsscheme_s'
             type: 'string'
           }
           {
@@ -171,11 +176,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'resultsscheme_s'
+            name: 'certificatekeyusage_s'
             type: 'string'
           }
           {
-            name: 'certificatekeyusage_s'
+            name: '_version_s'
+            type: 'string'
+          }
+          {
+            name: 'uri_filetype_s'
             type: 'string'
           }
           {
@@ -215,7 +224,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'uri_filetype_s'
+            name: 'certificatepublickeysize_d'
+            type: 'string'
+          }
+          {
+            name: '_ResourceId'
             type: 'string'
           }
           {
@@ -238,7 +251,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Gigamon_CL']
         destinations: ['Sentinel-Gigamon_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), uri_fileextension_s = tostring(uri_fileextension_s), basic_constraints_subject_type_s = tostring(basic_constraints_subject_type_s), certificateserialnumber_s = tostring(certificateserialnumber_s), certificatesha256fingerprint_s = tostring(certificatesha256fingerprint_s), severity_type_s = tostring(severity_type_s), truststatus_s = tostring(truststatus_s), agentlastip_s = tostring(agentlastip_s), resultsuri_s = tostring(resultsuri_s), severity_ISG_PostQuantum_Security_s = tostring(severity_ISG_PostQuantum_Security_s), certificatenotbefore_t = tostring(certificatenotbefore_t), rank_s = tostring(rank_s), agentid_s = tostring(agentid_s), standard_name_s = tostring(standard_name_s), crypto_scanid_d = toreal(crypto_scanid_d), uri_filename_s = tostring(uri_filename_s), uri_filepath_s = tostring(uri_filepath_s), agenthostname_s = tostring(agenthostname_s), starttime_t = tostring(starttime_t), object_fingerprint_s = tostring(object_fingerprint_s), endtime_t = tostring(endtime_t), standard_cse_classification_s = tostring(standard_cse_classification_s), library_severity_description_s = tostring(library_severity_description_s), severity_description_s = tostring(severity_description_s), certificatepublickeysize_d = toreal(certificatepublickeysize_d), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), RawData = tostring(RawData), certificateextensions_s = toreal(certificateextensions_s), certificateextkeyusage_s = tostring(certificateextkeyusage_s), certificatesha1fingerprint_s = tostring(certificatesha1fingerprint_s), certificatepublickeyalgorithm_s = tostring(certificatepublickeyalgorithm_s), certificatesignaturealgorithm_s = tostring(certificatesignaturealgorithm_s), resultsscheme_s = tostring(resultsscheme_s), certificatekeyusage_s = tostring(certificatekeyusage_s), severity_score_s = tostring(severity_score_s), certificatevaliditydays_d = toreal(certificatevaliditydays_d), basic_constraints_path_length_s = tostring(basic_constraints_path_length_s), certificate_issuer_type_s = tostring(certificate_issuer_type_s), certificateselfsigned_s = tostring(certificateselfsigned_s), cnformat_s = tostring(cnformat_s), certificateparsingerror_s = tostring(certificateparsingerror_s), certificate_usage_s = tostring(certificate_usage_s), certs_scanid_d = toreal(certs_scanid_d), uri_filetype_s = tostring(uri_filetype_s), keyid_s = tostring(keyid_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), basic_constraints_subject_type_s = tostring(basic_constraints_subject_type_s), certificateserialnumber_s = tostring(certificateserialnumber_s), certificatesha256fingerprint_s = tostring(certificatesha256fingerprint_s), severity_type_s = tostring(severity_type_s), truststatus_s = tostring(truststatus_s), agentlastip_s = tostring(agentlastip_s), resultsuri_s = tostring(resultsuri_s), _timestamp_t = tostring(_timestamp_t), severity_ISG_PostQuantum_Security_s = tostring(severity_ISG_PostQuantum_Security_s), rank_s = tostring(rank_s), standard_cse_classification_s = tostring(standard_cse_classification_s), agentid_s = tostring(agentid_s), standard_name_s = tostring(standard_name_s), crypto_scanid_d = toreal(crypto_scanid_d), uri_filename_s = tostring(uri_filename_s), uri_filepath_s = tostring(uri_filepath_s), agenthostname_s = tostring(agenthostname_s), starttime_t = tostring(starttime_t), object_fingerprint_s = tostring(object_fingerprint_s), endtime_t = tostring(endtime_t), library_severity_description_s = tostring(library_severity_description_s), uri_fileextension_s = tostring(uri_fileextension_s), certificatenotbefore_t = tostring(certificatenotbefore_t), severity_description_s = tostring(severity_description_s), resultsscheme_s = tostring(resultsscheme_s), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), RawData = tostring(RawData), certificateextensions_s = toreal(certificateextensions_s), certificateextkeyusage_s = tostring(certificateextkeyusage_s), certificatesha1fingerprint_s = tostring(certificatesha1fingerprint_s), certificatepublickeyalgorithm_s = tostring(certificatepublickeyalgorithm_s), certificatesignaturealgorithm_s = tostring(certificatesignaturealgorithm_s), certificatekeyusage_s = tostring(certificatekeyusage_s), _version_s = tostring(_version_s), uri_filetype_s = tostring(uri_filetype_s), severity_score_s = tostring(severity_score_s), certificatevaliditydays_d = toreal(certificatevaliditydays_d), basic_constraints_path_length_s = tostring(basic_constraints_path_length_s), certificate_issuer_type_s = tostring(certificate_issuer_type_s), certificateselfsigned_s = tostring(certificateselfsigned_s), cnformat_s = tostring(cnformat_s), certificateparsingerror_s = tostring(certificateparsingerror_s), certificate_usage_s = tostring(certificate_usage_s), certs_scanid_d = toreal(certs_scanid_d), certificatepublickeysize_d = toreal(certificatepublickeysize_d), _ResourceId = tostring(_ResourceId), keyid_s = tostring(keyid_s)'
         outputStream: 'Custom-Gigamon_CL'
       }
     ]

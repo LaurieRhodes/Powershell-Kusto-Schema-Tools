@@ -1,0 +1,69 @@
+﻿{
+    "Name":  "WVDConnectionGraphicsDataPreview",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServerSkippedFramesPercentage",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "NetworkSkippedFramesPercentage",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ClientSkippedFramesPercentage",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "EncodingDelayOnServerInMs",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "DecodingTimeOnClientInMs",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "RenderingTimeOnClientInMs",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "EstRoundTripTimeInMs",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "EstAvailableBandwidthKBps",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "CompressedFrameSizeInBytes",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "EndToEndDelayInMs",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

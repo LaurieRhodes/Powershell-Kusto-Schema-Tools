@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_specific_dns_tunnels_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:38
+// Generated: 2025-09-17 06:20:51
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 14, DCR columns: 11 (Type column filtered out)
+// Underscore columns included
+// Original columns: 14, DCR columns: 14 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_specific_dns_tunnels_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -32,6 +33,18 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
         columns: [
           {
             name: 'TimeGenerated'
+            type: 'string'
+          }
+          {
+            name: '_path_s'
+            type: 'string'
+          }
+          {
+            name: '_system_name_s'
+            type: 'string'
+          }
+          {
+            name: '_write_ts_t'
             type: 'string'
           }
           {
@@ -90,7 +103,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_specific_dns_tunnels_CL']
         destinations: ['Sentinel-Corelight_v2_specific_dns_tunnels_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), uid_s = tostring(uid_s), trans_id_d = toreal(trans_id_d), dns_client_s = tostring(dns_client_s), resolver_s = tostring(resolver_s), query_s = tostring(query_s), program_s = tostring(program_s), session_id_d = toreal(session_id_d), detection_s = tostring(detection_s), sods_id_d = toreal(sods_id_d)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), _system_name_s = tostring(_system_name_s), _write_ts_t = todatetime(_write_ts_t), ts_t = todatetime(ts_t), uid_s = tostring(uid_s), trans_id_d = toreal(trans_id_d), dns_client_s = tostring(dns_client_s), resolver_s = tostring(resolver_s), query_s = tostring(query_s), program_s = tostring(program_s), session_id_d = toreal(session_id_d), detection_s = tostring(detection_s), sods_id_d = toreal(sods_id_d)'
         outputStream: 'Custom-Corelight_v2_specific_dns_tunnels_CL'
       }
     ]

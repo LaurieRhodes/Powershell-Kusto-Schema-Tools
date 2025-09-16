@@ -1,0 +1,93 @@
+﻿{
+    "Name":  "HuntingBookmarks",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Notes",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "QueryResultRow",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "QueryText",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventTimeUtc",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "LastUpdatedTimeUtc",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "CreatedTimeUtc",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "UpdatedBy",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CreatedBy",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SoftDeleted",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "BookmarkType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BookmarkId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BookmarkName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Tags",
+                           "Type":  "String"
+                       }
+                   ]
+}

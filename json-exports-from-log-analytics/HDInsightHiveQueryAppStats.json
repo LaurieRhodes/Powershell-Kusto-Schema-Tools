@@ -1,0 +1,121 @@
+﻿{
+    "Name":  "HDInsightHiveQueryAppStats",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SessionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "HiveInstanceType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ThreadName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsMapReduce",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "IsTez",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "ClientIpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TablesRead",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Queue",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "User",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExecutionMode",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestUser",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Domain",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "QueryCompletionTime",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "QuerySubmissionTime",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "HostName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClusterType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClusterName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Tags",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "MetricValue",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "MetricName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EntityType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Entity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

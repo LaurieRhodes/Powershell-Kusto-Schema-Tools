@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for BetterMTDAppLog_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:30
+// Generated: 2025-09-17 06:20:43
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 18, DCR columns: 16 (Type column filtered out)
+// Underscore columns included
+// Original columns: 18, DCR columns: 17 (Type column always filtered)
 // Output stream: Custom-BetterMTDAppLog_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -94,6 +95,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             name: 'Version'
             type: 'string'
           }
+          {
+            name: '_ResourceId'
+            type: 'string'
+          }
         ]
       }
     }
@@ -110,7 +115,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-BetterMTDAppLog_CL']
         destinations: ['Sentinel-BetterMTDAppLog_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), AppName = tostring(AppName), AppStatus_s = tostring(AppStatus_s), BundleId = tostring(BundleId), CompanyId = toreal(CompanyId), Computer = tostring(Computer), DateAdded = todatetime(DateAdded), DeviceUDID = tostring(DeviceUDID), IsMdm = toreal(IsMdm), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), Platform = tostring(Platform), RawData = tostring(RawData), SourceSystem = tostring(SourceSystem), TenantId = toguid(TenantId), Version = toreal(Version)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), AppName = tostring(AppName), AppStatus_s = tostring(AppStatus_s), BundleId = tostring(BundleId), CompanyId = toreal(CompanyId), Computer = tostring(Computer), DateAdded = todatetime(DateAdded), DeviceUDID = tostring(DeviceUDID), IsMdm = toreal(IsMdm), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), Platform = tostring(Platform), RawData = tostring(RawData), SourceSystem = tostring(SourceSystem), TenantId = toguid(TenantId), Version = toreal(Version), _ResourceId = tostring(_ResourceId)'
         outputStream: 'Custom-BetterMTDAppLog_CL'
       }
     ]

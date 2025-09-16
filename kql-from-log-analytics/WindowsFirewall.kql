@@ -1,0 +1,103 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for WindowsFirewall - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:08:27
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 34, Final columns: 34
+// ============================================================================
+
+.create-merge table WindowsFirewallRaw (records:dynamic)
+
+.alter-merge table WindowsFirewallRaw policy retention softdelete = 1d
+
+.alter table WindowsFirewallRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table WindowsFirewallRaw ingestion json mapping 'WindowsFirewallRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table WindowsFirewall(
+TimeGenerated:datetime,
+TenantId:guid,
+MaliciousIPLongitude:real,
+AdditionalInformation:string,
+ReportReferenceLink:string,
+IsActive:string,
+LastReportedDateTime:string,
+FirstReportedDateTime:string,
+Severity:int,
+Confidence:string,
+TLPLevel:string,
+Description:string,
+IndicatorThreatType:string,
+MaliciousIP:string,
+ManagementGroupName:string,
+MaliciousIPLatitude:real,
+TimeCollected:datetime,
+Info:string,
+RequestSizeInBytes:long,
+DestinationPort:int,
+FullDestinationAddress:string,
+SourcePort:int,
+RemoteIP:string,
+DestinationIP:string,
+SourceIP:string,
+Protocol:string,
+FirewallAction:string,
+CommunicationDirection:string,
+Computer:string,
+SourceSystem:string,
+MG:guid,
+MaliciousIPCountry:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table WindowsFirewall policy caching hot = 1d
+
+.create-or-alter function WindowsFirewallExpand() {
+WindowsFirewallRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+MaliciousIPLongitude=toreal(events.MaliciousIPLongitude),
+AdditionalInformation=tostring(events.AdditionalInformation),
+ReportReferenceLink=tostring(events.ReportReferenceLink),
+IsActive=tostring(events.IsActive),
+LastReportedDateTime=tostring(events.LastReportedDateTime),
+FirstReportedDateTime=tostring(events.FirstReportedDateTime),
+Severity=toint(events.Severity),
+Confidence=tostring(events.Confidence),
+TLPLevel=tostring(events.TLPLevel),
+Description=tostring(events.Description),
+IndicatorThreatType=tostring(events.IndicatorThreatType),
+MaliciousIP=tostring(events.MaliciousIP),
+ManagementGroupName=tostring(events.ManagementGroupName),
+MaliciousIPLatitude=toreal(events.MaliciousIPLatitude),
+TimeCollected=todatetime(events.TimeCollected),
+Info=tostring(events.Info),
+RequestSizeInBytes=tolong(events.RequestSizeInBytes),
+DestinationPort=toint(events.DestinationPort),
+FullDestinationAddress=tostring(events.FullDestinationAddress),
+SourcePort=toint(events.SourcePort),
+RemoteIP=tostring(events.RemoteIP),
+DestinationIP=tostring(events.DestinationIP),
+SourceIP=tostring(events.SourceIP),
+Protocol=tostring(events.Protocol),
+FirewallAction=tostring(events.FirewallAction),
+CommunicationDirection=tostring(events.CommunicationDirection),
+Computer=tostring(events.Computer),
+SourceSystem=tostring(events.SourceSystem),
+MG=toguid(events.MG),
+MaliciousIPCountry=tostring(events.MaliciousIPCountry),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table WindowsFirewall policy update @'[{"Source": "WindowsFirewallRaw", "Query": "WindowsFirewallExpand()", "IsEnabled": "True", "IsTransactional": true}]'

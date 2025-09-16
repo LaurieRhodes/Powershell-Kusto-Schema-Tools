@@ -1,0 +1,45 @@
+﻿{
+    "Name":  "EmailUrlInfo",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "NetworkMessageId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ReportId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Timestamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Url",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UrlLocation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UrlDomain",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

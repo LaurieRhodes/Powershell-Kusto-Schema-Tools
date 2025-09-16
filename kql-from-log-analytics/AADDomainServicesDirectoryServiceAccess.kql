@@ -1,0 +1,117 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AADDomainServicesDirectoryServiceAccess - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:14:20
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 41, Final columns: 41
+// ============================================================================
+
+.create-merge table AADDomainServicesDirectoryServiceAccessRaw (records:dynamic)
+
+.alter-merge table AADDomainServicesDirectoryServiceAccessRaw policy retention softdelete = 1d
+
+.alter table AADDomainServicesDirectoryServiceAccessRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AADDomainServicesDirectoryServiceAccessRaw ingestion json mapping 'AADDomainServicesDirectoryServiceAccessRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AADDomainServicesDirectoryServiceAccess(
+TimeGenerated:datetime,
+TenantId:guid,
+aadds_TreeDelete:string,
+aadds_RecordId:string,
+OpCorrelationID:string,
+AppCorrelationID:string,
+DSName:string,
+DSType:string,
+ObjectDN:string,
+ObjectGUID:string,
+ObjectClass:string,
+AttributeLDAPDisplayName:string,
+AttributeSyntaxOID:string,
+AttributeValue:string,
+OperationType:string,
+OldObjectDN:string,
+NewObjectDN:string,
+aadds_NewObjectDN:string,
+aadds_OldObjectDN:string,
+aadds_OperationType:string,
+aadds_AttributeValue:string,
+SourceSystem:string,
+ResourceId:string,
+OperationName:string,
+Category:string,
+ResultType:string,
+ResultDescription:string,
+CorrelationId:string,
+TreeDelete:string,
+aadds_OpCorrelationID:string,
+aadds_DSName:string,
+aadds_DSType:string,
+aadds_ObjectDN:string,
+aadds_ObjectGUID:string,
+aadds_ObjectClass:string,
+aadds_AttributeLDAPDisplayName:string,
+aadds_AttributeSyntaxOID:string,
+aadds_AppCorrelationID:string,
+RecordId:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AADDomainServicesDirectoryServiceAccess policy caching hot = 1d
+
+.create-or-alter function AADDomainServicesDirectoryServiceAccessExpand() {
+AADDomainServicesDirectoryServiceAccessRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+aadds_TreeDelete=tostring(events.aadds_TreeDelete),
+aadds_RecordId=tostring(events.aadds_RecordId),
+OpCorrelationID=tostring(events.OpCorrelationID),
+AppCorrelationID=tostring(events.AppCorrelationID),
+DSName=tostring(events.DSName),
+DSType=tostring(events.DSType),
+ObjectDN=tostring(events.ObjectDN),
+ObjectGUID=tostring(events.ObjectGUID),
+ObjectClass=tostring(events.ObjectClass),
+AttributeLDAPDisplayName=tostring(events.AttributeLDAPDisplayName),
+AttributeSyntaxOID=tostring(events.AttributeSyntaxOID),
+AttributeValue=tostring(events.AttributeValue),
+OperationType=tostring(events.OperationType),
+OldObjectDN=tostring(events.OldObjectDN),
+NewObjectDN=tostring(events.NewObjectDN),
+aadds_NewObjectDN=tostring(events.aadds_NewObjectDN),
+aadds_OldObjectDN=tostring(events.aadds_OldObjectDN),
+aadds_OperationType=tostring(events.aadds_OperationType),
+aadds_AttributeValue=tostring(events.aadds_AttributeValue),
+SourceSystem=tostring(events.SourceSystem),
+ResourceId=tostring(events.ResourceId),
+OperationName=tostring(events.OperationName),
+Category=tostring(events.Category),
+ResultType=tostring(events.ResultType),
+ResultDescription=tostring(events.ResultDescription),
+CorrelationId=tostring(events.CorrelationId),
+TreeDelete=tostring(events.TreeDelete),
+aadds_OpCorrelationID=tostring(events.aadds_OpCorrelationID),
+aadds_DSName=tostring(events.aadds_DSName),
+aadds_DSType=tostring(events.aadds_DSType),
+aadds_ObjectDN=tostring(events.aadds_ObjectDN),
+aadds_ObjectGUID=tostring(events.aadds_ObjectGUID),
+aadds_ObjectClass=tostring(events.aadds_ObjectClass),
+aadds_AttributeLDAPDisplayName=tostring(events.aadds_AttributeLDAPDisplayName),
+aadds_AttributeSyntaxOID=tostring(events.aadds_AttributeSyntaxOID),
+aadds_AppCorrelationID=tostring(events.aadds_AppCorrelationID),
+RecordId=tostring(events.RecordId),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AADDomainServicesDirectoryServiceAccess policy update @'[{"Source": "AADDomainServicesDirectoryServiceAccessRaw", "Query": "AADDomainServicesDirectoryServiceAccessExpand()", "IsEnabled": "True", "IsTransactional": true}]'

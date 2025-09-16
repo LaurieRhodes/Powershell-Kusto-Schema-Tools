@@ -1,0 +1,49 @@
+﻿{
+    "Name":  "MNFSystemStateMessageUpdates",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "EventName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventCategory",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FabricId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceTime",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "Properties",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

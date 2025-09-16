@@ -1,0 +1,161 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for MDCFileIntegrityMonitoringEvents - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:26:44
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 63, Final columns: 63
+// ============================================================================
+
+.create-merge table MDCFileIntegrityMonitoringEventsRaw (records:dynamic)
+
+.alter-merge table MDCFileIntegrityMonitoringEventsRaw policy retention softdelete = 1d
+
+.alter table MDCFileIntegrityMonitoringEventsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table MDCFileIntegrityMonitoringEventsRaw ingestion json mapping 'MDCFileIntegrityMonitoringEventsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table MDCFileIntegrityMonitoringEvents(
+TimeGenerated:datetime,
+TenantId:guid,
+NewValueName:string,
+InitiatingProcessId:long,
+InitiatingProcessName:string,
+InitiatingProcessCreationTime:datetime,
+InitiatingProcessSessionId:long,
+InitiatingProcessFirstSeen:datetime,
+InitiatingProcessAccountSid:string,
+InitiatingProcessAccountDomainName:string,
+InitiatingProcessAccountName:string,
+InitiatingProcessImageFileName:string,
+InitiatingProcessImageFilePath:string,
+InitiatingProcessImageFileType:string,
+InitProcImageFileSizeInBytes:long,
+InitProcImageCreationTimeUtc:datetime,
+InitProcImagePeTimestampUtc:datetime,
+InitProcImageLastWriteTimeUtc:datetime,
+InitProcImageLastAccessTimeUtc:datetime,
+InitProcImageLsHash:string,
+InitProcImageMd5:string,
+InitProcImageSha256:string,
+InitProcImageSha1:string,
+InitiatingProcessSource:string,
+InitProcVersionInfoCompanyName:string,
+InitProcVersionInfoProductName:string,
+InitProcVersionInfoProductVersion:string,
+InitProcVersionInfoInternalFileName:string,
+InitProcVersionInfoOriginalFileName:string,
+NewValueType:string,
+InitProcVersionInfoFileDescription:string,
+NewValueData:string,
+OldValueName:string,
+AzureResourceId:string,
+AADTenantID:string,
+Computer:string,
+CloudProvider:string,
+CloudIdentifier:string,
+CloudResourceType:string,
+MonitoredEntityType:string,
+ChangeType:string,
+FileName:string,
+FileType:string,
+FilePath:string,
+FileSize:long,
+OriginalFileName:string,
+OriginalFilePath:string,
+FileMd5:string,
+FileSha256:string,
+FileSha1:string,
+RequestAccountName:string,
+RequestAccountDomain:string,
+RequestAccountSid:string,
+RequestSourceIP:string,
+RequestSourcePort:string,
+RequestSource:string,
+RegistryKey:string,
+RegistryHive:string,
+OldValueData:string,
+OldValueType:string,
+OldValueFullRegistryKey:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table MDCFileIntegrityMonitoringEvents policy caching hot = 1d
+
+.create-or-alter function MDCFileIntegrityMonitoringEventsExpand() {
+MDCFileIntegrityMonitoringEventsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+NewValueName=tostring(events.NewValueName),
+InitiatingProcessId=tolong(events.InitiatingProcessId),
+InitiatingProcessName=tostring(events.InitiatingProcessName),
+InitiatingProcessCreationTime=todatetime(events.InitiatingProcessCreationTime),
+InitiatingProcessSessionId=tolong(events.InitiatingProcessSessionId),
+InitiatingProcessFirstSeen=todatetime(events.InitiatingProcessFirstSeen),
+InitiatingProcessAccountSid=tostring(events.InitiatingProcessAccountSid),
+InitiatingProcessAccountDomainName=tostring(events.InitiatingProcessAccountDomainName),
+InitiatingProcessAccountName=tostring(events.InitiatingProcessAccountName),
+InitiatingProcessImageFileName=tostring(events.InitiatingProcessImageFileName),
+InitiatingProcessImageFilePath=tostring(events.InitiatingProcessImageFilePath),
+InitiatingProcessImageFileType=tostring(events.InitiatingProcessImageFileType),
+InitProcImageFileSizeInBytes=tolong(events.InitProcImageFileSizeInBytes),
+InitProcImageCreationTimeUtc=todatetime(events.InitProcImageCreationTimeUtc),
+InitProcImagePeTimestampUtc=todatetime(events.InitProcImagePeTimestampUtc),
+InitProcImageLastWriteTimeUtc=todatetime(events.InitProcImageLastWriteTimeUtc),
+InitProcImageLastAccessTimeUtc=todatetime(events.InitProcImageLastAccessTimeUtc),
+InitProcImageLsHash=tostring(events.InitProcImageLsHash),
+InitProcImageMd5=tostring(events.InitProcImageMd5),
+InitProcImageSha256=tostring(events.InitProcImageSha256),
+InitProcImageSha1=tostring(events.InitProcImageSha1),
+InitiatingProcessSource=tostring(events.InitiatingProcessSource),
+InitProcVersionInfoCompanyName=tostring(events.InitProcVersionInfoCompanyName),
+InitProcVersionInfoProductName=tostring(events.InitProcVersionInfoProductName),
+InitProcVersionInfoProductVersion=tostring(events.InitProcVersionInfoProductVersion),
+InitProcVersionInfoInternalFileName=tostring(events.InitProcVersionInfoInternalFileName),
+InitProcVersionInfoOriginalFileName=tostring(events.InitProcVersionInfoOriginalFileName),
+NewValueType=tostring(events.NewValueType),
+InitProcVersionInfoFileDescription=tostring(events.InitProcVersionInfoFileDescription),
+NewValueData=tostring(events.NewValueData),
+OldValueName=tostring(events.OldValueName),
+AzureResourceId=tostring(events.AzureResourceId),
+AADTenantID=tostring(events.AADTenantID),
+Computer=tostring(events.Computer),
+CloudProvider=tostring(events.CloudProvider),
+CloudIdentifier=tostring(events.CloudIdentifier),
+CloudResourceType=tostring(events.CloudResourceType),
+MonitoredEntityType=tostring(events.MonitoredEntityType),
+ChangeType=tostring(events.ChangeType),
+FileName=tostring(events.FileName),
+FileType=tostring(events.FileType),
+FilePath=tostring(events.FilePath),
+FileSize=tolong(events.FileSize),
+OriginalFileName=tostring(events.OriginalFileName),
+OriginalFilePath=tostring(events.OriginalFilePath),
+FileMd5=tostring(events.FileMd5),
+FileSha256=tostring(events.FileSha256),
+FileSha1=tostring(events.FileSha1),
+RequestAccountName=tostring(events.RequestAccountName),
+RequestAccountDomain=tostring(events.RequestAccountDomain),
+RequestAccountSid=tostring(events.RequestAccountSid),
+RequestSourceIP=tostring(events.RequestSourceIP),
+RequestSourcePort=tostring(events.RequestSourcePort),
+RequestSource=tostring(events.RequestSource),
+RegistryKey=tostring(events.RegistryKey),
+RegistryHive=tostring(events.RegistryHive),
+OldValueData=tostring(events.OldValueData),
+OldValueType=tostring(events.OldValueType),
+OldValueFullRegistryKey=tostring(events.OldValueFullRegistryKey),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table MDCFileIntegrityMonitoringEvents policy update @'[{"Source": "MDCFileIntegrityMonitoringEventsRaw", "Query": "MDCFileIntegrityMonitoringEventsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

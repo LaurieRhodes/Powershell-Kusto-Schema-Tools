@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_vpn_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:39
+// Generated: 2025-09-17 06:20:52
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 27, DCR columns: 24 (Type column filtered out)
+// Underscore columns included
+// Original columns: 27, DCR columns: 27 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_vpn_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -35,7 +36,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ts_t'
+            name: '_path_s'
             type: 'string'
           }
           {
@@ -75,11 +76,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'subject_s'
+            name: 'client_info_s'
             type: 'string'
           }
           {
-            name: 'client_info_s'
+            name: 'server_name_s'
             type: 'string'
           }
           {
@@ -119,7 +120,19 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'server_name_s'
+            name: 'ts_t'
+            type: 'string'
+          }
+          {
+            name: '_write_ts_t'
+            type: 'string'
+          }
+          {
+            name: '_system_name_s'
+            type: 'string'
+          }
+          {
+            name: 'subject_s'
             type: 'string'
           }
           {
@@ -142,7 +155,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_vpn_CL']
         destinations: ['Sentinel-Corelight_v2_vpn_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), resp_city_s = tostring(resp_city_s), resp_region_s = tostring(resp_region_s), resp_cc_s = tostring(resp_cc_s), orig_city_s = tostring(orig_city_s), orig_region_s = tostring(orig_region_s), orig_cc_s = tostring(orig_cc_s), resp_bytes_d = toreal(resp_bytes_d), orig_bytes_d = toreal(orig_bytes_d), duration_d = toreal(duration_d), subject_s = tostring(subject_s), client_info_s = tostring(client_info_s), inferences_s = tostring(inferences_s), service_s = tostring(service_s), vpn_type_s = tostring(vpn_type_s), proto_s = tostring(proto_s), id_resp_p_d = toreal(id_resp_p_d), id_resp_h_s = tostring(id_resp_h_s), id_orig_p_d = toreal(id_orig_p_d), id_orig_h_s = tostring(id_orig_h_s), uid_s = tostring(uid_s), server_name_s = tostring(server_name_s), issuer_s = tostring(issuer_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), resp_city_s = tostring(resp_city_s), resp_region_s = tostring(resp_region_s), resp_cc_s = tostring(resp_cc_s), orig_city_s = tostring(orig_city_s), orig_region_s = tostring(orig_region_s), orig_cc_s = tostring(orig_cc_s), resp_bytes_d = toreal(resp_bytes_d), orig_bytes_d = toreal(orig_bytes_d), duration_d = toreal(duration_d), client_info_s = tostring(client_info_s), server_name_s = tostring(server_name_s), inferences_s = tostring(inferences_s), service_s = tostring(service_s), vpn_type_s = tostring(vpn_type_s), proto_s = tostring(proto_s), id_resp_p_d = toreal(id_resp_p_d), id_resp_h_s = tostring(id_resp_h_s), id_orig_p_d = toreal(id_orig_p_d), id_orig_h_s = tostring(id_orig_h_s), uid_s = tostring(uid_s), ts_t = todatetime(ts_t), _write_ts_t = todatetime(_write_ts_t), _system_name_s = tostring(_system_name_s), subject_s = tostring(subject_s), issuer_s = tostring(issuer_s)'
         outputStream: 'Custom-Corelight_v2_vpn_CL'
       }
     ]

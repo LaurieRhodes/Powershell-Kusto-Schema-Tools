@@ -1,0 +1,121 @@
+﻿{
+    "Name":  "KubePodInventory",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "PodIp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClusterName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PodStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Namespace",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PodLabel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Name",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ContainerName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ContainerID",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ContainerStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ControllerName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ControllerKind",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServiceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ContainerStartTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "PodStartTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "PodRestartCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ContainerRestartCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "InstanceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PodCreationTimeStamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "PodUid",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ContainerCreationTimeStamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ClusterId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ContainerStatusReason",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ContainerLastStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

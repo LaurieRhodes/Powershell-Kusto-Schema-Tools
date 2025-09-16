@@ -1,0 +1,89 @@
+﻿{
+    "Name":  "AgriFoodJobProcessedLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ClientTenantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ObjectId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ApplicationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DurationMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Location",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Level",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatedBy",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "JobRunType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FarmerId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "JobId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Properties",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

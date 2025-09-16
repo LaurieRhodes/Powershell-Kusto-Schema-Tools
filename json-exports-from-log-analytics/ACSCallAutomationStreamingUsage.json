@@ -1,0 +1,53 @@
+﻿{
+    "Name":  "ACSCallAutomationStreamingUsage",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "StreamingModality",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "StreamingSessionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ParticipantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "StreamingStartTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "StreamingDurationInMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "CallConnectionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

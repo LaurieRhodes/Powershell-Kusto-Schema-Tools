@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for AIShield_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:27
+// Generated: 2025-09-17 06:20:40
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 17, DCR columns: 15 (Type column filtered out)
+// Underscore columns included
+// Original columns: 17, DCR columns: 16 (Type column always filtered)
 // Output stream: Custom-AIShield_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -87,6 +88,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
+            name: '_ResourceId'
+            type: 'string'
+          }
+          {
             name: 'SuspiciousLevel'
             type: 'string'
           }
@@ -106,7 +111,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-AIShield_CL']
         destinations: ['Sentinel-AIShield_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), probability = toreal(probability), RawMessage = tostring(RawMessage), service_name = tostring(service_name), asset_id = tostring(asset_id), source_name = tostring(source_name), attack_name = tostring(attack_name), timestamp = todatetime(timestamp), SuspiciousLevel = tostring(SuspiciousLevel)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), probability = toreal(probability), RawMessage = tostring(RawMessage), service_name = tostring(service_name), asset_id = tostring(asset_id), source_name = tostring(source_name), attack_name = tostring(attack_name), timestamp = todatetime(timestamp), _ResourceId = tostring(_ResourceId), SuspiciousLevel = tostring(SuspiciousLevel)'
         outputStream: 'Custom-AIShield_CL'
       }
     ]

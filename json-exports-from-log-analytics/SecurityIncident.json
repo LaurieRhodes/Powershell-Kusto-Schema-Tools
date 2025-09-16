@@ -1,0 +1,129 @@
+﻿{
+    "Name":  "SecurityIncident",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "AdditionalData",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "IncidentUrl",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Labels",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Tasks",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Comments",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "BookmarkIds",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "AlertIds",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "RelatedAnalyticRuleIds",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "IncidentNumber",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ClosedTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "CreatedTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "LastModifiedTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ModifiedBy",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FirstModifiedTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "FirstActivityTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ProviderIncidentId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProviderName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Owner",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "ClassificationReason",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClassificationComment",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Classification",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Status",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Severity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Description",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Title",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IncidentName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LastActivityTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

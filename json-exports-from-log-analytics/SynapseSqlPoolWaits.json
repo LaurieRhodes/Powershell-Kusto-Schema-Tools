@@ -1,0 +1,61 @@
+﻿{
+    "Name":  "SynapseSqlPoolWaits",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "LogicalServerName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SessionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "State",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Priority",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "LockType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

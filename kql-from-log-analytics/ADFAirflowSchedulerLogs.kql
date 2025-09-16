@@ -1,0 +1,57 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ADFAirflowSchedulerLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:15:53
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 11, Final columns: 11
+// ============================================================================
+
+.create-merge table ADFAirflowSchedulerLogsRaw (records:dynamic)
+
+.alter-merge table ADFAirflowSchedulerLogsRaw policy retention softdelete = 1d
+
+.alter table ADFAirflowSchedulerLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ADFAirflowSchedulerLogsRaw ingestion json mapping 'ADFAirflowSchedulerLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ADFAirflowSchedulerLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+CorrelationId:string,
+Category:string,
+DataFactoryName:string,
+IntegrationRuntimeName:string,
+Message:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ADFAirflowSchedulerLogs policy caching hot = 1d
+
+.create-or-alter function ADFAirflowSchedulerLogsExpand() {
+ADFAirflowSchedulerLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+CorrelationId=tostring(events.CorrelationId),
+Category=tostring(events.Category),
+DataFactoryName=tostring(events.DataFactoryName),
+IntegrationRuntimeName=tostring(events.IntegrationRuntimeName),
+Message=tostring(events.Message),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ADFAirflowSchedulerLogs policy update @'[{"Source": "ADFAirflowSchedulerLogsRaw", "Query": "ADFAirflowSchedulerLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

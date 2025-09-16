@@ -1,0 +1,105 @@
+﻿{
+    "Name":  "PGSQLPgStatActivitySessions",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "BackendType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OldestTransactionId",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "TransactionId",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "CollectionTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "StateChangeTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "QueryStartTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TransactionStartTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "BackendStartTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "WaitEvent",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "WaitEventType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "State",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientIpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ApplicationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ProcessId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "DatabaseName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DatabaseId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ReplicaRole",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LogicalServerName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Location",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

@@ -1,0 +1,79 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for EnrichedMicrosoft365AuditLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:24:23
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 22, Final columns: 22
+// ============================================================================
+
+.create-merge table EnrichedMicrosoft365AuditLogsRaw (records:dynamic)
+
+.alter-merge table EnrichedMicrosoft365AuditLogsRaw policy retention softdelete = 1d
+
+.alter table EnrichedMicrosoft365AuditLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table EnrichedMicrosoft365AuditLogsRaw ingestion json mapping 'EnrichedMicrosoft365AuditLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table EnrichedMicrosoft365AuditLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+SourceIp:string,
+DeviceOperatingSystemVersion:string,
+DeviceOperatingSystem:string,
+DeviceId:string,
+UniqueTokenId:string,
+ClientIp:string,
+UserId:string,
+ObjectId:string,
+ResultStatus:string,
+Workload:string,
+UserKey:string,
+ActorUserType:string,
+UserType:string,
+OrganizationId:string,
+Operation:string,
+RecordType:int,
+Id:string,
+AdditionalProperties:dynamic,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table EnrichedMicrosoft365AuditLogs policy caching hot = 1d
+
+.create-or-alter function EnrichedMicrosoft365AuditLogsExpand() {
+EnrichedMicrosoft365AuditLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SourceIp=tostring(events.SourceIp),
+DeviceOperatingSystemVersion=tostring(events.DeviceOperatingSystemVersion),
+DeviceOperatingSystem=tostring(events.DeviceOperatingSystem),
+DeviceId=tostring(events.DeviceId),
+UniqueTokenId=tostring(events.UniqueTokenId),
+ClientIp=tostring(events.ClientIp),
+UserId=tostring(events.UserId),
+ObjectId=tostring(events.ObjectId),
+ResultStatus=tostring(events.ResultStatus),
+Workload=tostring(events.Workload),
+UserKey=tostring(events.UserKey),
+ActorUserType=tostring(events.ActorUserType),
+UserType=tostring(events.UserType),
+OrganizationId=tostring(events.OrganizationId),
+Operation=tostring(events.Operation),
+RecordType=toint(events.RecordType),
+Id=tostring(events.Id),
+AdditionalProperties=todynamic(events.AdditionalProperties),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table EnrichedMicrosoft365AuditLogs policy update @'[{"Source": "EnrichedMicrosoft365AuditLogsRaw", "Query": "EnrichedMicrosoft365AuditLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

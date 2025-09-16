@@ -1,0 +1,149 @@
+﻿{
+    "Name":  "NWConnectionMonitorTestResult",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "JitterMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "AvgRoundTripTimeMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "MaxRoundTripTimeMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "MinRoundTripTimeMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "RoundTripTimeMsThreshold",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ChecksFailedPercentThreshold",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "TestResultCriterion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TestResult",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ChecksFailed",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ChecksTotal",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Protocol",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationAgentId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AdditionalData",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationSubnet",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationPort",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SourceAgentId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSubnet",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TestConfigurationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TestGroupName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ConnectionMonitorResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecordId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

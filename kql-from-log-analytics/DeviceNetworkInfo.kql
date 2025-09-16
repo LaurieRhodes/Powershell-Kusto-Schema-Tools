@@ -1,0 +1,77 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for DeviceNetworkInfo - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:23:50
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 21, Final columns: 21
+// ============================================================================
+
+.create-merge table DeviceNetworkInfoRaw (records:dynamic)
+
+.alter-merge table DeviceNetworkInfoRaw policy retention softdelete = 1d
+
+.alter table DeviceNetworkInfoRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table DeviceNetworkInfoRaw ingestion json mapping 'DeviceNetworkInfoRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table DeviceNetworkInfo(
+TimeGenerated:datetime,
+TenantId:guid,
+TunnelType:string,
+Timestamp:datetime,
+ReportId:long,
+NetworkAdapterType:string,
+NetworkAdapterStatus:string,
+NetworkAdapterName:string,
+MachineGroup:string,
+NetworkAdapterVendor:string,
+MacAddress:string,
+IPv4Dhcp:string,
+IPAddresses:dynamic,
+DnsAddresses:dynamic,
+DeviceName:string,
+DeviceId:string,
+DefaultGateways:dynamic,
+ConnectedNetworks:dynamic,
+IPv6Dhcp:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table DeviceNetworkInfo policy caching hot = 1d
+
+.create-or-alter function DeviceNetworkInfoExpand() {
+DeviceNetworkInfoRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+TunnelType=tostring(events.TunnelType),
+Timestamp=todatetime(events.Timestamp),
+ReportId=tolong(events.ReportId),
+NetworkAdapterType=tostring(events.NetworkAdapterType),
+NetworkAdapterStatus=tostring(events.NetworkAdapterStatus),
+NetworkAdapterName=tostring(events.NetworkAdapterName),
+MachineGroup=tostring(events.MachineGroup),
+NetworkAdapterVendor=tostring(events.NetworkAdapterVendor),
+MacAddress=tostring(events.MacAddress),
+IPv4Dhcp=tostring(events.IPv4Dhcp),
+IPAddresses=todynamic(events.IPAddresses),
+DnsAddresses=todynamic(events.DnsAddresses),
+DeviceName=tostring(events.DeviceName),
+DeviceId=tostring(events.DeviceId),
+DefaultGateways=todynamic(events.DefaultGateways),
+ConnectedNetworks=todynamic(events.ConnectedNetworks),
+IPv6Dhcp=tostring(events.IPv6Dhcp),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table DeviceNetworkInfo policy update @'[{"Source": "DeviceNetworkInfoRaw", "Query": "DeviceNetworkInfoExpand()", "IsEnabled": "True", "IsTransactional": true}]'

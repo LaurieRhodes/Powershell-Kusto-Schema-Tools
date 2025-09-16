@@ -1,0 +1,137 @@
+﻿{
+    "Name":  "MicrosoftGraphActivityLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ATContentH",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ATContent",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Wids",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientAuthMethod",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "IdentityProvider",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Scopes",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServicePrincipalId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TokenIssuedAt",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "UniqueTokenId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SessionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ATContentP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Roles",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResponseSizeBytes",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "DurationMs",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "RequestUri",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserAgent",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IPAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AadTenantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResponseStatusCode",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "RequestMethod",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ApiVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientRequestId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Location",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SignInActivityId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

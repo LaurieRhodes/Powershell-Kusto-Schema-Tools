@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for CyberArkEPM_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:40
+// Generated: 2025-09-17 06:20:53
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 85, DCR columns: 83 (Type column filtered out)
+// Underscore columns included
+// Original columns: 85, DCR columns: 84 (Type column always filtered)
 // Output stream: Custom-CyberArkEPM_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -36,6 +37,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
+            type: 'string'
+          }
+          {
+            name: 'productVersion_s'
             type: 'string'
           }
           {
@@ -67,11 +72,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'productVersion_s'
+            name: 'fileName_s'
             type: 'string'
           }
           {
-            name: 'fileName_s'
+            name: 'userName_s'
             type: 'string'
           }
           {
@@ -103,11 +108,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'userName_s'
+            name: 'fileVersion_s'
             type: 'string'
           }
           {
-            name: 'fileVersion_s'
+            name: 'aggregatedBy_s'
             type: 'string'
           }
           {
@@ -115,7 +120,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'userIsAdmin_b'
+            name: 'agentEventCount_d'
+            type: 'string'
+          }
+          {
+            name: 'evidences_s'
             type: 'string'
           }
           {
@@ -183,19 +192,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'agentEventCount_d'
+            name: 'userIsAdmin_b'
             type: 'string'
           }
           {
-            name: 'aggregatedBy_s'
+            name: 'processCommandLine_g'
             type: 'string'
           }
           {
             name: 'skipped_b'
-            type: 'string'
-          }
-          {
-            name: 'skippedCount_d'
             type: 'string'
           }
           {
@@ -275,7 +280,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'evidences_s'
+            name: 'skippedCount_d'
             type: 'string'
           }
           {
@@ -359,7 +364,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'processCommandLine_g'
+            name: '_ResourceId'
             type: 'string'
           }
         ]
@@ -378,7 +383,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-CyberArkEPM_CL']
         destinations: ['Sentinel-CyberArkEPM_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), productName_s = tostring(productName_s), fileDescription_s = tostring(fileDescription_s), filePath_s = tostring(filePath_s), company_s = tostring(company_s), packageName_s = tostring(packageName_s), threatProtectionAction_s = tostring(threatProtectionAction_s), originalFileName_s = tostring(originalFileName_s), productVersion_s = tostring(productVersion_s), fileName_s = tostring(fileName_s), sourceName_s = tostring(sourceName_s), sourceType_s = tostring(sourceType_s), policyName_s = tostring(policyName_s), event_type_s = tostring(event_type_s), lastAgentId_g = tostring(lastAgentId_g), defenceActionId_d = toreal(defenceActionId_d), deceptionType_d = toreal(deceptionType_d), userName_s = tostring(userName_s), fileVersion_s = tostring(fileVersion_s), modificationTime_t = todatetime(modificationTime_t), userIsAdmin_b = tobool(userIsAdmin_b), sourceProcessSigner_s = tostring(sourceProcessSigner_s), sourceProcessPublisher_s = tostring(sourceProcessPublisher_s), sourceProcessHash_s = tostring(sourceProcessHash_s), sourceProcessUsername_s = tostring(sourceProcessUsername_s), sourceProcessCommandLine_s = tostring(sourceProcessCommandLine_s), accessTargetName_s = tostring(accessTargetName_s), justification_s = tostring(justification_s), logonStatusId_d = toreal(logonStatusId_d), logonAttemptTypeId_d = toreal(logonAttemptTypeId_d), winEventRecordId_d = toreal(winEventRecordId_d), winEventType_d = toreal(winEventType_d), owner_s = tostring(owner_s), displayName_s = tostring(displayName_s), processCommandLine_s = tostring(processCommandLine_s), accessTargetType_s = tostring(accessTargetType_s), accessAction_s = tostring(accessAction_s), agentEventCount_d = toreal(agentEventCount_d), aggregatedBy_s = tostring(aggregatedBy_s), skipped_b = tobool(skipped_b), skippedCount_d = toreal(skippedCount_d), fileLocation_s = tostring(fileLocation_s), hash_s = tostring(hash_s), lastEventDisplayName_s = tostring(lastEventDisplayName_s), fileQualifier_s = tostring(fileQualifier_s), bundleId_s = tostring(bundleId_s), bundleVersion_s = tostring(bundleVersion_s), bundleName_s = tostring(bundleName_s), applicationSubType_s = tostring(applicationSubType_s), justificationEmail_s = tostring(justificationEmail_s), fileAccessPermission_s = tostring(fileAccessPermission_s), adminTaskId_s = tostring(adminTaskId_s), policyId_d = toreal(policyId_d), set_name_s = tostring(set_name_s), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), publisher_s = tostring(publisher_s), evidences_s = tostring(evidences_s), totalEvents_d = toreal(totalEvents_d), eventType_s = tostring(eventType_s), agentId_g = tostring(agentId_g), appPackageDisplayName_s = tostring(appPackageDisplayName_s), url_s = tostring(url_s), mimeType_s = tostring(mimeType_s), CLSID_s = tostring(CLSID_s), fileSize_d = toreal(fileSize_d), firstEventUserName_s = tostring(firstEventUserName_s), firstEventDate_t = todatetime(firstEventDate_t), affectedUsers_d = toreal(affectedUsers_d), affectedComputers_d = toreal(affectedComputers_d), lastEventFileName_s = tostring(lastEventFileName_s), threatDetectionAction_s = tostring(threatDetectionAction_s), lastEventJustification_s = tostring(lastEventJustification_s), lastEventUserName_s = tostring(lastEventUserName_s), lastEventDate_t = todatetime(lastEventDate_t), lastEventSourceName_s = tostring(lastEventSourceName_s), lastEventSourceType_s = tostring(lastEventSourceType_s), applicationType_s = tostring(applicationType_s), processCommandLine_g = tostring(processCommandLine_g)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), productVersion_s = tostring(productVersion_s), productName_s = tostring(productName_s), fileDescription_s = tostring(fileDescription_s), filePath_s = tostring(filePath_s), company_s = tostring(company_s), packageName_s = tostring(packageName_s), threatProtectionAction_s = tostring(threatProtectionAction_s), originalFileName_s = tostring(originalFileName_s), fileName_s = tostring(fileName_s), userName_s = tostring(userName_s), sourceName_s = tostring(sourceName_s), sourceType_s = tostring(sourceType_s), policyName_s = tostring(policyName_s), event_type_s = tostring(event_type_s), lastAgentId_g = tostring(lastAgentId_g), defenceActionId_d = toreal(defenceActionId_d), deceptionType_d = toreal(deceptionType_d), fileVersion_s = tostring(fileVersion_s), aggregatedBy_s = tostring(aggregatedBy_s), modificationTime_t = todatetime(modificationTime_t), agentEventCount_d = toreal(agentEventCount_d), evidences_s = tostring(evidences_s), sourceProcessSigner_s = tostring(sourceProcessSigner_s), sourceProcessPublisher_s = tostring(sourceProcessPublisher_s), sourceProcessHash_s = tostring(sourceProcessHash_s), sourceProcessUsername_s = tostring(sourceProcessUsername_s), sourceProcessCommandLine_s = tostring(sourceProcessCommandLine_s), accessTargetName_s = tostring(accessTargetName_s), justification_s = tostring(justification_s), logonStatusId_d = toreal(logonStatusId_d), logonAttemptTypeId_d = toreal(logonAttemptTypeId_d), winEventRecordId_d = toreal(winEventRecordId_d), winEventType_d = toreal(winEventType_d), owner_s = tostring(owner_s), displayName_s = tostring(displayName_s), processCommandLine_s = tostring(processCommandLine_s), accessTargetType_s = tostring(accessTargetType_s), accessAction_s = tostring(accessAction_s), userIsAdmin_b = tobool(userIsAdmin_b), processCommandLine_g = tostring(processCommandLine_g), skipped_b = tobool(skipped_b), fileLocation_s = tostring(fileLocation_s), hash_s = tostring(hash_s), lastEventDisplayName_s = tostring(lastEventDisplayName_s), fileQualifier_s = tostring(fileQualifier_s), bundleId_s = tostring(bundleId_s), bundleVersion_s = tostring(bundleVersion_s), bundleName_s = tostring(bundleName_s), applicationSubType_s = tostring(applicationSubType_s), justificationEmail_s = tostring(justificationEmail_s), fileAccessPermission_s = tostring(fileAccessPermission_s), adminTaskId_s = tostring(adminTaskId_s), policyId_d = toreal(policyId_d), set_name_s = tostring(set_name_s), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), publisher_s = tostring(publisher_s), skippedCount_d = toreal(skippedCount_d), totalEvents_d = toreal(totalEvents_d), eventType_s = tostring(eventType_s), agentId_g = tostring(agentId_g), appPackageDisplayName_s = tostring(appPackageDisplayName_s), url_s = tostring(url_s), mimeType_s = tostring(mimeType_s), CLSID_s = tostring(CLSID_s), fileSize_d = toreal(fileSize_d), firstEventUserName_s = tostring(firstEventUserName_s), firstEventDate_t = todatetime(firstEventDate_t), affectedUsers_d = toreal(affectedUsers_d), affectedComputers_d = toreal(affectedComputers_d), lastEventFileName_s = tostring(lastEventFileName_s), threatDetectionAction_s = tostring(threatDetectionAction_s), lastEventJustification_s = tostring(lastEventJustification_s), lastEventUserName_s = tostring(lastEventUserName_s), lastEventDate_t = todatetime(lastEventDate_t), lastEventSourceName_s = tostring(lastEventSourceName_s), lastEventSourceType_s = tostring(lastEventSourceType_s), applicationType_s = tostring(applicationType_s), _ResourceId = tostring(_ResourceId)'
         outputStream: 'Custom-CyberArkEPM_CL'
       }
     ]

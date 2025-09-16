@@ -1,0 +1,181 @@
+﻿{
+    "Name":  "VMConnection",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResponseTimeMin",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ResponseTimeMax",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "MaliciousIp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IndicatorThreatType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Description",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TLPLevel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Confidence",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Severity",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "FirstReportedDateTime",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LastReportedDateTime",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsActive",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ReportReferenceLink",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AdditionalInformation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ConnectionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Machine",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Process",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AgentId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResponseTimeSum",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Responses",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "LinksEstablished",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "Direction",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProcessName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceIp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationIp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationPort",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Protocol",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemoteIp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemoteDnsQuestions",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemoteDnsCanonicalNames",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemoteClassification",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemoteLongitude",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "RemoteLatitude",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "RemoteCountry",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BytesSent",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "BytesReceived",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "LinksLive",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "LinksTerminated",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "LinksFailed",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

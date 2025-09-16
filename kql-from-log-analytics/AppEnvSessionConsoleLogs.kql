@@ -1,0 +1,69 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AppEnvSessionConsoleLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:18:08
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 17, Final columns: 17
+// ============================================================================
+
+.create-merge table AppEnvSessionConsoleLogsRaw (records:dynamic)
+
+.alter-merge table AppEnvSessionConsoleLogsRaw policy retention softdelete = 1d
+
+.alter table AppEnvSessionConsoleLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AppEnvSessionConsoleLogsRaw ingestion json mapping 'AppEnvSessionConsoleLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AppEnvSessionConsoleLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+Location:string,
+Log:string,
+Stream:string,
+SessionPoolName:string,
+SessionIdentifier:string,
+EnvironmentName:string,
+ContainerName:string,
+ContainerId:string,
+ContainerGroupName:string,
+ContainerGroupId:string,
+ContainerImage:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AppEnvSessionConsoleLogs policy caching hot = 1d
+
+.create-or-alter function AppEnvSessionConsoleLogsExpand() {
+AppEnvSessionConsoleLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+Location=tostring(events.Location),
+Log=tostring(events.Log),
+Stream=tostring(events.Stream),
+SessionPoolName=tostring(events.SessionPoolName),
+SessionIdentifier=tostring(events.SessionIdentifier),
+EnvironmentName=tostring(events.EnvironmentName),
+ContainerName=tostring(events.ContainerName),
+ContainerId=tostring(events.ContainerId),
+ContainerGroupName=tostring(events.ContainerGroupName),
+ContainerGroupId=tostring(events.ContainerGroupId),
+ContainerImage=tostring(events.ContainerImage),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AppEnvSessionConsoleLogs policy update @'[{"Source": "AppEnvSessionConsoleLogsRaw", "Query": "AppEnvSessionConsoleLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

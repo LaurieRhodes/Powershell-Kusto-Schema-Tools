@@ -1,0 +1,113 @@
+﻿{
+    "Name":  "IdentityDirectoryEvents",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ReportId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ISP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Location",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TargetAccountDisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TargetAccountUpn",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TargetDeviceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationPort",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationIPAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationDeviceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Port",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AdditionalFields",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "IPAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountDisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountObjectId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountSid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountUpn",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountDomain",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Protocol",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Application",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActionType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Timestamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "DeviceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

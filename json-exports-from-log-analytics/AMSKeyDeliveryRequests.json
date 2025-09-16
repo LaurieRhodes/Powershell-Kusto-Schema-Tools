@@ -1,0 +1,77 @@
+﻿{
+    "Name":  "AMSKeyDeliveryRequests",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultSignature",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DurationMs",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Level",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Location",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "KeyType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "KeyId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TokenType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PolicyName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "StatusMessage",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

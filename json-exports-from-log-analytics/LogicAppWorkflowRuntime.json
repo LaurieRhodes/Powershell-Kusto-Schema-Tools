@@ -1,0 +1,101 @@
+﻿{
+    "Name":  "LogicAppWorkflowRuntime",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "TrackedProperties",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Tags",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientKeywords",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Location",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActionTrackingId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientTrackingId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OriginRunId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActionName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RetryHistory",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TriggerName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "WorkflowName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "WorkflowId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Error",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Code",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Status",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EndTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "StartTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RunId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

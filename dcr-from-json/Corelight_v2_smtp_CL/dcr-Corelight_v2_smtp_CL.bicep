@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_smtp_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:38
+// Generated: 2025-09-17 06:20:51
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 33, DCR columns: 30 (Type column filtered out)
+// Underscore columns included
+// Original columns: 33, DCR columns: 33 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_smtp_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -35,7 +36,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ts_t'
+            name: '_path_s'
             type: 'string'
           }
           {
@@ -87,11 +88,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'urls_s'
+            name: 'reply_to_s'
             type: 'string'
           }
           {
-            name: 'reply_to_s'
+            name: 'cc_s'
             type: 'string'
           }
           {
@@ -143,7 +144,19 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'cc_s'
+            name: 'ts_t'
+            type: 'string'
+          }
+          {
+            name: '_write_ts_t'
+            type: 'string'
+          }
+          {
+            name: '_system_name_s'
+            type: 'string'
+          }
+          {
+            name: 'urls_s'
             type: 'string'
           }
           {
@@ -166,7 +179,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_smtp_CL']
         destinations: ['Sentinel-Corelight_v2_smtp_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), is_webmail_b = tobool(is_webmail_b), fuids_s = tostring(fuids_s), tls_b = tobool(tls_b), user_agent_s = tostring(user_agent_s), path_s = tostring(path_s), last_reply_s = tostring(last_reply_s), second_received_s = tostring(second_received_s), first_received_s = tostring(first_received_s), x_originating_ip_s = tostring(x_originating_ip_s), subject_s = tostring(subject_s), in_reply_to_s = tostring(in_reply_to_s), msg_id_s = tostring(msg_id_s), urls_s = tostring(urls_s), reply_to_s = tostring(reply_to_s), to_s = tostring(to_s), from_s = tostring(from_s), date_s = tostring(date_s), rcptto_s = tostring(rcptto_s), mailfrom_s = tostring(mailfrom_s), helo_s = tostring(helo_s), trans_depth_d = toreal(trans_depth_d), id_resp_p_d = toreal(id_resp_p_d), id_resp_h_s = tostring(id_resp_h_s), id_orig_p_d = toreal(id_orig_p_d), id_orig_h_s = tostring(id_orig_h_s), uid_s = tostring(uid_s), cc_s = tostring(cc_s), domains_s = tostring(domains_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), is_webmail_b = tobool(is_webmail_b), fuids_s = tostring(fuids_s), tls_b = tobool(tls_b), user_agent_s = tostring(user_agent_s), path_s = tostring(path_s), last_reply_s = tostring(last_reply_s), second_received_s = tostring(second_received_s), first_received_s = tostring(first_received_s), x_originating_ip_s = tostring(x_originating_ip_s), subject_s = tostring(subject_s), in_reply_to_s = tostring(in_reply_to_s), msg_id_s = tostring(msg_id_s), reply_to_s = tostring(reply_to_s), cc_s = tostring(cc_s), to_s = tostring(to_s), from_s = tostring(from_s), date_s = tostring(date_s), rcptto_s = tostring(rcptto_s), mailfrom_s = tostring(mailfrom_s), helo_s = tostring(helo_s), trans_depth_d = toreal(trans_depth_d), id_resp_p_d = toreal(id_resp_p_d), id_resp_h_s = tostring(id_resp_h_s), id_orig_p_d = toreal(id_orig_p_d), id_orig_h_s = tostring(id_orig_h_s), uid_s = tostring(uid_s), ts_t = todatetime(ts_t), _write_ts_t = todatetime(_write_ts_t), _system_name_s = tostring(_system_name_s), urls_s = tostring(urls_s), domains_s = tostring(domains_s)'
         outputStream: 'Custom-Corelight_v2_smtp_CL'
       }
     ]

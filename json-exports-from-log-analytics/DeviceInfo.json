@@ -1,0 +1,209 @@
+﻿{
+    "Name":  "DeviceInfo",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "OSDistribution",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OSVersionInfo",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Vendor",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SensorHealthState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsExcluded",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "ExclusionReason",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AssetValue",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExposureLevel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsInternetFacing",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "DeviceManualTags",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceDynamicTags",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AwsResourceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "GcpFullResourceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureVmId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureVmSubscriptionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CloudPlatforms",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "HardwareUuid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "HostDeviceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsTransient",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "MitigationStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OnboardingStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OsBuildRevision",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Model",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MergedDeviceIds",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AdditionalFields",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "ClientVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceObjectId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsAzureADJoined",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "LoggedOnUsers",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "MachineGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OSArchitecture",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OSBuild",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "OSPlatform",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OSVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PublicIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RegistryDeviceTag",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ReportId",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "Timestamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "AadDeviceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceCategory",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceSubtype",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "JoinType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MergedToDeviceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

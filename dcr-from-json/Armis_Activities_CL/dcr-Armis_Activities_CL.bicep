@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Armis_Activities_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:27
+// Generated: 2025-09-17 06:20:41
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 20, DCR columns: 17 (Type column filtered out)
+// Underscore columns included
+// Original columns: 20, DCR columns: 18 (Type column always filtered)
 // Output stream: Custom-Armis_Activities_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -39,51 +40,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'SourceSystem'
-            type: 'string'
-          }
-          {
-            name: 'MG'
-            type: 'string'
-          }
-          {
-            name: 'ManagementGroupName'
-            type: 'string'
-          }
-          {
-            name: 'Computer'
-            type: 'string'
-          }
-          {
-            name: 'RawData'
-            type: 'string'
-          }
-          {
-            name: 'EventVendor'
-            type: 'string'
-          }
-          {
-            name: 'EventProduct'
-            type: 'string'
-          }
-          {
-            name: 'ActivityUUID'
-            type: 'string'
-          }
-          {
-            name: 'Content'
-            type: 'string'
-          }
-          {
-            name: 'Protocol'
-            type: 'string'
-          }
-          {
-            name: 'SensorName'
-            type: 'string'
-          }
-          {
-            name: 'SensorType'
+            name: 'SiteName'
             type: 'string'
           }
           {
@@ -91,11 +48,59 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'SiteName'
+            name: 'SensorType'
+            type: 'string'
+          }
+          {
+            name: 'SensorName'
+            type: 'string'
+          }
+          {
+            name: 'Protocol'
+            type: 'string'
+          }
+          {
+            name: 'Content'
             type: 'string'
           }
           {
             name: 'Title'
+            type: 'string'
+          }
+          {
+            name: 'ActivityUUID'
+            type: 'string'
+          }
+          {
+            name: 'EventVendor'
+            type: 'string'
+          }
+          {
+            name: 'RawData'
+            type: 'string'
+          }
+          {
+            name: 'Computer'
+            type: 'string'
+          }
+          {
+            name: 'ManagementGroupName'
+            type: 'string'
+          }
+          {
+            name: 'MG'
+            type: 'string'
+          }
+          {
+            name: 'SourceSystem'
+            type: 'string'
+          }
+          {
+            name: 'EventProduct'
+            type: 'string'
+          }
+          {
+            name: '_ResourceId'
             type: 'string'
           }
         ]
@@ -114,7 +119,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Armis_Activities_CL']
         destinations: ['Sentinel-Armis_Activities_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), EventVendor = tostring(EventVendor), EventProduct = tostring(EventProduct), ActivityUUID = tostring(ActivityUUID), Content = tostring(Content), Protocol = tostring(Protocol), SensorName = tostring(SensorName), SensorType = tostring(SensorType), SiteLocation = tostring(SiteLocation), SiteName = tostring(SiteName), Title = tostring(Title)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SiteName = tostring(SiteName), SiteLocation = tostring(SiteLocation), SensorType = tostring(SensorType), SensorName = tostring(SensorName), Protocol = tostring(Protocol), Content = tostring(Content), Title = tostring(Title), ActivityUUID = tostring(ActivityUUID), EventVendor = tostring(EventVendor), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), EventProduct = tostring(EventProduct), _ResourceId = tostring(_ResourceId)'
         outputStream: 'Custom-Armis_Activities_CL'
       }
     ]

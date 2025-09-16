@@ -1,0 +1,101 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ACSCallingMetrics - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:15:15
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 33, Final columns: 33
+// ============================================================================
+
+.create-merge table ACSCallingMetricsRaw (records:dynamic)
+
+.alter-merge table ACSCallingMetricsRaw policy retention softdelete = 1d
+
+.alter table ACSCallingMetricsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ACSCallingMetricsRaw ingestion json mapping 'ACSCallingMetricsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ACSCallingMetrics(
+TimeGenerated:datetime,
+TenantId:guid,
+SdkVersion:string,
+DeviceBrowser:string,
+DeviceOsName:string,
+DeviceBrowserVersionMajor:string,
+DeviceBrowserVersionMinor:string,
+DeviceOsVersionMinor:string,
+DeviceOsVersionMajor:string,
+DeviceFamily:string,
+DeviceBrand:string,
+DeviceModel:string,
+ResultType:string,
+Platform:string,
+CallType:string,
+SubCode:string,
+LegsDcount:int,
+CallsDcount:int,
+SuccessLegsDcount:int,
+FailedLegsDcount:int,
+Goal:string,
+Unit:string,
+MetricValueAvg:real,
+TimestampBin:datetime,
+TimestampMax:datetime,
+CorrelationId:string,
+Category:string,
+OperationVersion:string,
+OperationName:string,
+MetricName:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ACSCallingMetrics policy caching hot = 1d
+
+.create-or-alter function ACSCallingMetricsExpand() {
+ACSCallingMetricsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SdkVersion=tostring(events.SdkVersion),
+DeviceBrowser=tostring(events.DeviceBrowser),
+DeviceOsName=tostring(events.DeviceOsName),
+DeviceBrowserVersionMajor=tostring(events.DeviceBrowserVersionMajor),
+DeviceBrowserVersionMinor=tostring(events.DeviceBrowserVersionMinor),
+DeviceOsVersionMinor=tostring(events.DeviceOsVersionMinor),
+DeviceOsVersionMajor=tostring(events.DeviceOsVersionMajor),
+DeviceFamily=tostring(events.DeviceFamily),
+DeviceBrand=tostring(events.DeviceBrand),
+DeviceModel=tostring(events.DeviceModel),
+ResultType=tostring(events.ResultType),
+Platform=tostring(events.Platform),
+CallType=tostring(events.CallType),
+SubCode=tostring(events.SubCode),
+LegsDcount=toint(events.LegsDcount),
+CallsDcount=toint(events.CallsDcount),
+SuccessLegsDcount=toint(events.SuccessLegsDcount),
+FailedLegsDcount=toint(events.FailedLegsDcount),
+Goal=tostring(events.Goal),
+Unit=tostring(events.Unit),
+MetricValueAvg=toreal(events.MetricValueAvg),
+TimestampBin=todatetime(events.TimestampBin),
+TimestampMax=todatetime(events.TimestampMax),
+CorrelationId=tostring(events.CorrelationId),
+Category=tostring(events.Category),
+OperationVersion=tostring(events.OperationVersion),
+OperationName=tostring(events.OperationName),
+MetricName=tostring(events.MetricName),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ACSCallingMetrics policy update @'[{"Source": "ACSCallingMetricsRaw", "Query": "ACSCallingMetricsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

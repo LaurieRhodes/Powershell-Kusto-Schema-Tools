@@ -1,0 +1,71 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for KubeEvents - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:26:13
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 18, Final columns: 18
+// ============================================================================
+
+.create-merge table KubeEventsRaw (records:dynamic)
+
+.alter-merge table KubeEventsRaw policy retention softdelete = 1d
+
+.alter table KubeEventsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table KubeEventsRaw ingestion json mapping 'KubeEventsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table KubeEvents(
+TimeGenerated:datetime,
+TenantId:guid,
+SourceSystem:string,
+Computer:string,
+ObjectKind:string,
+Namespace:string,
+Name:string,
+Reason:string,
+Message:string,
+KubeEventType:string,
+SourceComponent:string,
+FirstSeen:datetime,
+LastSeen:datetime,
+Count:real,
+ClusterName:string,
+ClusterId:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table KubeEvents policy caching hot = 1d
+
+.create-or-alter function KubeEventsExpand() {
+KubeEventsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SourceSystem=tostring(events.SourceSystem),
+Computer=tostring(events.Computer),
+ObjectKind=tostring(events.ObjectKind),
+Namespace=tostring(events.Namespace),
+Name=tostring(events.Name),
+Reason=tostring(events.Reason),
+Message=tostring(events.Message),
+KubeEventType=tostring(events.KubeEventType),
+SourceComponent=tostring(events.SourceComponent),
+FirstSeen=todatetime(events.FirstSeen),
+LastSeen=todatetime(events.LastSeen),
+Count=toreal(events.Count),
+ClusterName=tostring(events.ClusterName),
+ClusterId=tostring(events.ClusterId),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table KubeEvents policy update @'[{"Source": "KubeEventsRaw", "Query": "KubeEventsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,97 @@
+﻿{
+    "Name":  "DeviceFileCertificateInfo",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "CertificateCreationTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "CertificateCountersignatureTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Timestamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "SignerHash",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Signer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SignatureType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SHA1",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ReportId",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "CertificateExpirationTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "MachineGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Issuer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsTrusted",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "IsSigned",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "IsRootSignerMicrosoft",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "DeviceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CrlDistributionPointUrls",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CertificateSerialNumber",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IssuerHash",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

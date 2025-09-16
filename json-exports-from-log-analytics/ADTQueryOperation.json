@@ -1,0 +1,101 @@
+﻿{
+    "Name":  "ADTQueryOperation",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "TraceState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TraceFlags",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ParentId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SpanId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TraceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestUri",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Location",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Level",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "QueryCharge",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ApplicationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CallerIpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DurationMs",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultSignature",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

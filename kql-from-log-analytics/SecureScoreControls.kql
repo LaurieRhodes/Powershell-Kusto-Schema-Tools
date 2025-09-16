@@ -1,0 +1,81 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for SecureScoreControls - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:05:48
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 23, Final columns: 23
+// ============================================================================
+
+.create-merge table SecureScoreControlsRaw (records:dynamic)
+
+.alter-merge table SecureScoreControlsRaw policy retention softdelete = 1d
+
+.alter table SecureScoreControlsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table SecureScoreControlsRaw ingestion json mapping 'SecureScoreControlsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table SecureScoreControls(
+TimeGenerated:datetime,
+TenantId:guid,
+Environment:string,
+IsSnapshot:bool,
+ResourceProviderType:string,
+ControlType:string,
+RecommendationResourceIds:dynamic,
+Description:string,
+NotApplicableResources:int,
+UnhealthyResources:int,
+HealthyResources:int,
+Weight:long,
+PercentageScore:real,
+MaxScore:int,
+CurrentScore:real,
+ControlName:string,
+ControlId:string,
+AssessedResourceId:string,
+SecureScoresSubscriptionId:string,
+Properties:dynamic,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table SecureScoreControls policy caching hot = 1d
+
+.create-or-alter function SecureScoreControlsExpand() {
+SecureScoreControlsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Environment=tostring(events.Environment),
+IsSnapshot=tobool(events.IsSnapshot),
+ResourceProviderType=tostring(events.ResourceProviderType),
+ControlType=tostring(events.ControlType),
+RecommendationResourceIds=todynamic(events.RecommendationResourceIds),
+Description=tostring(events.Description),
+NotApplicableResources=toint(events.NotApplicableResources),
+UnhealthyResources=toint(events.UnhealthyResources),
+HealthyResources=toint(events.HealthyResources),
+Weight=tolong(events.Weight),
+PercentageScore=toreal(events.PercentageScore),
+MaxScore=toint(events.MaxScore),
+CurrentScore=toreal(events.CurrentScore),
+ControlName=tostring(events.ControlName),
+ControlId=tostring(events.ControlId),
+AssessedResourceId=tostring(events.AssessedResourceId),
+SecureScoresSubscriptionId=tostring(events.SecureScoresSubscriptionId),
+Properties=todynamic(events.Properties),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table SecureScoreControls policy update @'[{"Source": "SecureScoreControlsRaw", "Query": "SecureScoreControlsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

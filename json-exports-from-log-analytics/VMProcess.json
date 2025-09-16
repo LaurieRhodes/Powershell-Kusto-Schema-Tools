@@ -1,0 +1,113 @@
+﻿{
+    "Name":  "VMProcess",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserDomain",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Services",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "WorkingDirectory",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CommandLine",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExecutablePath",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProductVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProductName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InternalName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CompanyName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Description",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FirstPid",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "StartTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Group",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Role",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExecutableName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Process",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Machine",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AgentId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

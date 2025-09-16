@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for WebSession_Summarized_SrcInfo_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:52
+// Generated: 2025-09-17 06:21:05
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 15, DCR columns: 15 (Type column filtered out)
+// Underscore columns included
+// Original columns: 15, DCR columns: 15 (Type column always filtered)
 // Output stream: Custom-WebSession_Summarized_SrcInfo_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================

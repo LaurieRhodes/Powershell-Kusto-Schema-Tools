@@ -1,0 +1,57 @@
+﻿{
+    "Name":  "OmsCustomerProfileFact",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CustomerId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "CustomerType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CreatedDate",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "AccountState",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "WorkspaceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureSubscriptionId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ServiceTier",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Environment",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Features",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Solutions",
+                           "Type":  "String"
+                       }
+                   ]
+}

@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_rdp_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:37
+// Generated: 2025-09-17 06:20:50
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 32, DCR columns: 29 (Type column filtered out)
+// Underscore columns included
+// Original columns: 32, DCR columns: 32 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_rdp_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -35,7 +36,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ts_t'
+            name: '_path_s'
             type: 'string'
           }
           {
@@ -91,11 +92,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'client_name_s'
+            name: 'rdfp_string_s'
             type: 'string'
           }
           {
-            name: 'client_build_s'
+            name: 'client_name_s'
             type: 'string'
           }
           {
@@ -139,7 +140,19 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'rdfp_string_s'
+            name: 'ts_t'
+            type: 'string'
+          }
+          {
+            name: '_write_ts_t'
+            type: 'string'
+          }
+          {
+            name: '_system_name_s'
+            type: 'string'
+          }
+          {
+            name: 'client_build_s'
             type: 'string'
           }
           {
@@ -162,7 +175,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_rdp_CL']
         destinations: ['Sentinel-Corelight_v2_rdp_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), rdpeudp_uid_s = tostring(rdpeudp_uid_s), inferences_s = tostring(inferences_s), channels_joined_d = toreal(channels_joined_d), auth_success_b = tobool(auth_success_b), encryption_method_s = tostring(encryption_method_s), encryption_level_s = tostring(encryption_level_s), cert_permanent_b = tobool(cert_permanent_b), cert_count_d = toreal(cert_count_d), cert_type_s = tostring(cert_type_s), requested_color_depth_s = tostring(requested_color_depth_s), desktop_height_d = toreal(desktop_height_d), desktop_width_d = toreal(desktop_width_d), client_dig_product_id_s = tostring(client_dig_product_id_s), client_name_s = tostring(client_name_s), client_build_s = tostring(client_build_s), keyboard_layout_s = tostring(keyboard_layout_s), client_channels_s = tostring(client_channels_s), security_protocol_s = tostring(security_protocol_s), result_s = tostring(result_s), cookie_s = tostring(cookie_s), id_resp_p_d = toreal(id_resp_p_d), id_resp_h_s = tostring(id_resp_h_s), id_orig_p_d = toreal(id_orig_p_d), id_orig_h_s = tostring(id_orig_h_s), uid_s = tostring(uid_s), rdfp_string_s = tostring(rdfp_string_s), rdfp_hash_s = tostring(rdfp_hash_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), rdpeudp_uid_s = tostring(rdpeudp_uid_s), inferences_s = tostring(inferences_s), channels_joined_d = toreal(channels_joined_d), auth_success_b = tobool(auth_success_b), encryption_method_s = tostring(encryption_method_s), encryption_level_s = tostring(encryption_level_s), cert_permanent_b = tobool(cert_permanent_b), cert_count_d = toreal(cert_count_d), cert_type_s = tostring(cert_type_s), requested_color_depth_s = tostring(requested_color_depth_s), desktop_height_d = toreal(desktop_height_d), desktop_width_d = toreal(desktop_width_d), client_dig_product_id_s = tostring(client_dig_product_id_s), rdfp_string_s = tostring(rdfp_string_s), client_name_s = tostring(client_name_s), keyboard_layout_s = tostring(keyboard_layout_s), client_channels_s = tostring(client_channels_s), security_protocol_s = tostring(security_protocol_s), result_s = tostring(result_s), cookie_s = tostring(cookie_s), id_resp_p_d = toreal(id_resp_p_d), id_resp_h_s = tostring(id_resp_h_s), id_orig_p_d = toreal(id_orig_p_d), id_orig_h_s = tostring(id_orig_h_s), uid_s = tostring(uid_s), ts_t = todatetime(ts_t), _write_ts_t = todatetime(_write_ts_t), _system_name_s = tostring(_system_name_s), client_build_s = tostring(client_build_s), rdfp_hash_s = tostring(rdfp_hash_s)'
         outputStream: 'Custom-Corelight_v2_rdp_CL'
       }
     ]

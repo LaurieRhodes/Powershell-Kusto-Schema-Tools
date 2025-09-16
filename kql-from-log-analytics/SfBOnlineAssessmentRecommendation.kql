@@ -1,0 +1,91 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for SfBOnlineAssessmentRecommendation - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:29:09
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 28, Final columns: 28
+// ============================================================================
+
+.create-merge table SfBOnlineAssessmentRecommendationRaw (records:dynamic)
+
+.alter-merge table SfBOnlineAssessmentRecommendationRaw policy retention softdelete = 1d
+
+.alter table SfBOnlineAssessmentRecommendationRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table SfBOnlineAssessmentRecommendationRaw ingestion json mapping 'SfBOnlineAssessmentRecommendationRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table SfBOnlineAssessmentRecommendation(
+TimeGenerated:datetime,
+TenantId:guid,
+Domain:string,
+TenantName:string,
+O365TenantId:guid,
+AffectedObjectDetails:string,
+AffectedObjectUniqueName:string,
+AffectedObjectName:string,
+AffectedObjectType:string,
+Computer:string,
+TargetCount:int,
+RecommendationWeight:real,
+RecommendationScore:real,
+ActionArea:string,
+ActionAreaId:guid,
+FocusArea:string,
+FocusAreaId:guid,
+RecommendationResult:string,
+Description:string,
+Recommendation:string,
+RecommendationId:guid,
+AssessmentName:string,
+AssessmentId:guid,
+SourceSystem:string,
+MG:guid,
+Technology:string,
+CustomData:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table SfBOnlineAssessmentRecommendation policy caching hot = 1d
+
+.create-or-alter function SfBOnlineAssessmentRecommendationExpand() {
+SfBOnlineAssessmentRecommendationRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Domain=tostring(events.Domain),
+TenantName=tostring(events.TenantName),
+O365TenantId=toguid(events.O365TenantId),
+AffectedObjectDetails=tostring(events.AffectedObjectDetails),
+AffectedObjectUniqueName=tostring(events.AffectedObjectUniqueName),
+AffectedObjectName=tostring(events.AffectedObjectName),
+AffectedObjectType=tostring(events.AffectedObjectType),
+Computer=tostring(events.Computer),
+TargetCount=toint(events.TargetCount),
+RecommendationWeight=toreal(events.RecommendationWeight),
+RecommendationScore=toreal(events.RecommendationScore),
+ActionArea=tostring(events.ActionArea),
+ActionAreaId=toguid(events.ActionAreaId),
+FocusArea=tostring(events.FocusArea),
+FocusAreaId=toguid(events.FocusAreaId),
+RecommendationResult=tostring(events.RecommendationResult),
+Description=tostring(events.Description),
+Recommendation=tostring(events.Recommendation),
+RecommendationId=toguid(events.RecommendationId),
+AssessmentName=tostring(events.AssessmentName),
+AssessmentId=toguid(events.AssessmentId),
+SourceSystem=tostring(events.SourceSystem),
+MG=toguid(events.MG),
+Technology=tostring(events.Technology),
+CustomData=tostring(events.CustomData),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table SfBOnlineAssessmentRecommendation policy update @'[{"Source": "SfBOnlineAssessmentRecommendationRaw", "Query": "SfBOnlineAssessmentRecommendationExpand()", "IsEnabled": "True", "IsTransactional": true}]'

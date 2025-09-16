@@ -1,0 +1,57 @@
+﻿{
+    "Name":  "UserPeerAnalytics",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "AADTenantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserPrincipalName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PeerUserId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PeerUserPrincipalName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PeerUserName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Rank",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

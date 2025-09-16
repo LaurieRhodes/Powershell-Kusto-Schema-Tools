@@ -1,0 +1,85 @@
+﻿{
+    "Name":  "AZFWApplicationRule",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "WebCategory",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsTlsInspected",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "ActionReason",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Rule",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RuleCollection",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RuleCollectionGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsExplicitProxyRequest",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "Policy",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TargetUrl",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Fqdn",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationPort",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SourcePort",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SourceIp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Protocol",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Action",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

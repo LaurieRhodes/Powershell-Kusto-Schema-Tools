@@ -1,0 +1,77 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Usage - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:31:02
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 21, Final columns: 21
+// ============================================================================
+
+.create-merge table UsageRaw (records:dynamic)
+
+.alter-merge table UsageRaw policy retention softdelete = 1d
+
+.alter table UsageRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table UsageRaw ingestion json mapping 'UsageRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Usage(
+TimeGenerated:datetime,
+TenantId:guid,
+IsBillable:bool,
+QuantityUnit:string,
+Quantity:real,
+AvgLatencyInSeconds:real,
+TotalBatches:long,
+BatchesCapped:long,
+BatchesOutsideSla:long,
+MeterId:string,
+BatchesWithinSla:long,
+DataType:string,
+LinkedResourceUri:string,
+ResourceUri:string,
+EndTime:datetime,
+StartTime:datetime,
+SourceSystem:string,
+Computer:string,
+Solution:string,
+LinkedMeterId:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table Usage policy caching hot = 1d
+
+.create-or-alter function UsageExpand() {
+UsageRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+IsBillable=tobool(events.IsBillable),
+QuantityUnit=tostring(events.QuantityUnit),
+Quantity=toreal(events.Quantity),
+AvgLatencyInSeconds=toreal(events.AvgLatencyInSeconds),
+TotalBatches=tolong(events.TotalBatches),
+BatchesCapped=tolong(events.BatchesCapped),
+BatchesOutsideSla=tolong(events.BatchesOutsideSla),
+MeterId=tostring(events.MeterId),
+BatchesWithinSla=tolong(events.BatchesWithinSla),
+DataType=tostring(events.DataType),
+LinkedResourceUri=tostring(events.LinkedResourceUri),
+ResourceUri=tostring(events.ResourceUri),
+EndTime=todatetime(events.EndTime),
+StartTime=todatetime(events.StartTime),
+SourceSystem=tostring(events.SourceSystem),
+Computer=tostring(events.Computer),
+Solution=tostring(events.Solution),
+LinkedMeterId=tostring(events.LinkedMeterId),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Usage policy update @'[{"Source": "UsageRaw", "Query": "UsageExpand()", "IsEnabled": "True", "IsTransactional": true}]'

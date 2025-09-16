@@ -1,0 +1,145 @@
+﻿{
+    "Name":  "SecurityAlert",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Tactics",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CompromisedEntity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Status",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AlertLink",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProductComponentName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProductName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExtendedLinks",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "WorkspaceResourceGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "WorkspaceSubscriptionId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Entities",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExtendedProperties",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemediationSteps",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProcessingEndTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Techniques",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EndTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "IsIncident",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "ConfidenceScore",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ConfidenceLevel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AlertType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceComputerId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SystemAlertId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VendorOriginalId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VendorName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProviderName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Description",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AlertSeverity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AlertName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "StartTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "SubTechniques",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

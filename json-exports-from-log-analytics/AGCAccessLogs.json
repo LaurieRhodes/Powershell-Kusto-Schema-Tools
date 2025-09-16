@@ -1,0 +1,125 @@
+﻿{
+    "Name":  "AGCAccessLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "TrackingId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TlsProtocol",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TlsCipher",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TimeTaken",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ResponseHeaderBytes",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ResponseBodyBytes",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "RequestUri",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestHeaderBytes",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "RequestBodyBytes",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "Referrer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "HttpVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserAgent",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "HttpStatusCode",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "HostName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FrontendPort",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "FrontendName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientIp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackendTimeTaken",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "BackendResponseLatency",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "BackendPort",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "BackendIp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackendHost",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Region",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "HttpMethod",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

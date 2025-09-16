@@ -1,0 +1,51 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ASRv2ReplicationPolicies - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:19:16
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 8, Final columns: 8
+// ============================================================================
+
+.create-merge table ASRv2ReplicationPoliciesRaw (records:dynamic)
+
+.alter-merge table ASRv2ReplicationPoliciesRaw policy retention softdelete = 1d
+
+.alter table ASRv2ReplicationPoliciesRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ASRv2ReplicationPoliciesRaw ingestion json mapping 'ASRv2ReplicationPoliciesRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ASRv2ReplicationPolicies(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+Category:string,
+ProvisioningState:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ASRv2ReplicationPolicies policy caching hot = 1d
+
+.create-or-alter function ASRv2ReplicationPoliciesExpand() {
+ASRv2ReplicationPoliciesRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+Category=tostring(events.Category),
+ProvisioningState=tostring(events.ProvisioningState),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ASRv2ReplicationPolicies policy update @'[{"Source": "ASRv2ReplicationPoliciesRaw", "Query": "ASRv2ReplicationPoliciesExpand()", "IsEnabled": "True", "IsTransactional": true}]'

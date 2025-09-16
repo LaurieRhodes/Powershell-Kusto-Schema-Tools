@@ -1,0 +1,53 @@
+﻿{
+    "Name":  "CampaignInfo",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Timestamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "CampaignName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CampaignId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CampaignType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CampaignSubType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NetworkMessageId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecipientEmailAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ReportId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

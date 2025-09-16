@@ -1,0 +1,101 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AzureActivityV2 - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:20:34
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 33, Final columns: 33
+// ============================================================================
+
+.create-merge table AzureActivityV2Raw (records:dynamic)
+
+.alter-merge table AzureActivityV2Raw policy retention softdelete = 1d
+
+.alter table AzureActivityV2Raw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AzureActivityV2Raw ingestion json mapping 'AzureActivityV2RawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AzureActivityV2(
+TimeGenerated:datetime,
+TenantId:guid,
+AzureResourceId:string,
+AzureTenantId:string,
+AzureSubscriptionId:string,
+Hierarchy:string,
+ActivitySubstatusValue:string,
+ActivityStatusValue:string,
+Channel:string,
+EventName:string,
+ResourceTypeValue:string,
+ResourceProviderValue:string,
+AzureResourceGroup:string,
+OperationId:string,
+HTTPRequest:string,
+EventSubmissionTimestamp:datetime,
+EventDataId:string,
+Caller:string,
+PropertiesBackCompat:string,
+Properties:string,
+OperationNameValue:string,
+Level:string,
+Claims:string,
+Authorization:string,
+CorrelationId:string,
+CategoryValue:string,
+CallerIpAddress:string,
+SourceSystem:string,
+MoboTenantId:guid,
+Description:string,
+Misc:dynamic,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AzureActivityV2 policy caching hot = 1d
+
+.create-or-alter function AzureActivityV2Expand() {
+AzureActivityV2Raw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+AzureResourceId=tostring(events.AzureResourceId),
+AzureTenantId=tostring(events.AzureTenantId),
+AzureSubscriptionId=tostring(events.AzureSubscriptionId),
+Hierarchy=tostring(events.Hierarchy),
+ActivitySubstatusValue=tostring(events.ActivitySubstatusValue),
+ActivityStatusValue=tostring(events.ActivityStatusValue),
+Channel=tostring(events.Channel),
+EventName=tostring(events.EventName),
+ResourceTypeValue=tostring(events.ResourceTypeValue),
+ResourceProviderValue=tostring(events.ResourceProviderValue),
+AzureResourceGroup=tostring(events.AzureResourceGroup),
+OperationId=tostring(events.OperationId),
+HTTPRequest=tostring(events.HTTPRequest),
+EventSubmissionTimestamp=todatetime(events.EventSubmissionTimestamp),
+EventDataId=tostring(events.EventDataId),
+Caller=tostring(events.Caller),
+PropertiesBackCompat=tostring(events.PropertiesBackCompat),
+Properties=tostring(events.Properties),
+OperationNameValue=tostring(events.OperationNameValue),
+Level=tostring(events.Level),
+Claims=tostring(events.Claims),
+Authorization=tostring(events.Authorization),
+CorrelationId=tostring(events.CorrelationId),
+CategoryValue=tostring(events.CategoryValue),
+CallerIpAddress=tostring(events.CallerIpAddress),
+SourceSystem=tostring(events.SourceSystem),
+MoboTenantId=toguid(events.MoboTenantId),
+Description=tostring(events.Description),
+Misc=todynamic(events.Misc),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AzureActivityV2 policy update @'[{"Source": "AzureActivityV2Raw", "Query": "AzureActivityV2Expand()", "IsEnabled": "True", "IsTransactional": true}]'

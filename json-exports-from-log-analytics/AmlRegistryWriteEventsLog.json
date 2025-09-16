@@ -1,0 +1,57 @@
+﻿{
+    "Name":  "AmlRegistryWriteEventsLog",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RegistryResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserObjectId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RegistryTenantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AssetName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AssetVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Labels",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

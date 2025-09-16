@@ -1,0 +1,91 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for DynamicSummary - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:24:07
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 28, Final columns: 28
+// ============================================================================
+
+.create-merge table DynamicSummaryRaw (records:dynamic)
+
+.alter-merge table DynamicSummaryRaw policy retention softdelete = 1d
+
+.alter table DynamicSummaryRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table DynamicSummaryRaw ingestion json mapping 'DynamicSummaryRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table DynamicSummary(
+TimeGenerated:datetime,
+TenantId:guid,
+PackedContent:dynamic,
+ObservableValue:string,
+ObservableType:string,
+EventTimeUTC:datetime,
+QueryEndDate:datetime,
+QueryStartDate:datetime,
+Query:string,
+SourceInfo:dynamic,
+SummaryStatus:string,
+Techniques:dynamic,
+Tactics:dynamic,
+SummaryDescription:string,
+UpdatedTimeUTC:datetime,
+UpdatedBy:dynamic,
+CreatedTimeUTC:datetime,
+CreatedBy:dynamic,
+SearchKey:string,
+RelationId:string,
+RelationName:string,
+SummaryName:string,
+SummaryItemId:string,
+SummaryId:string,
+AzureTenantId:string,
+SummaryDataType:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table DynamicSummary policy caching hot = 1d
+
+.create-or-alter function DynamicSummaryExpand() {
+DynamicSummaryRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+PackedContent=todynamic(events.PackedContent),
+ObservableValue=tostring(events.ObservableValue),
+ObservableType=tostring(events.ObservableType),
+EventTimeUTC=todatetime(events.EventTimeUTC),
+QueryEndDate=todatetime(events.QueryEndDate),
+QueryStartDate=todatetime(events.QueryStartDate),
+Query=tostring(events.Query),
+SourceInfo=todynamic(events.SourceInfo),
+SummaryStatus=tostring(events.SummaryStatus),
+Techniques=todynamic(events.Techniques),
+Tactics=todynamic(events.Tactics),
+SummaryDescription=tostring(events.SummaryDescription),
+UpdatedTimeUTC=todatetime(events.UpdatedTimeUTC),
+UpdatedBy=todynamic(events.UpdatedBy),
+CreatedTimeUTC=todatetime(events.CreatedTimeUTC),
+CreatedBy=todynamic(events.CreatedBy),
+SearchKey=tostring(events.SearchKey),
+RelationId=tostring(events.RelationId),
+RelationName=tostring(events.RelationName),
+SummaryName=tostring(events.SummaryName),
+SummaryItemId=tostring(events.SummaryItemId),
+SummaryId=tostring(events.SummaryId),
+AzureTenantId=tostring(events.AzureTenantId),
+SummaryDataType=tostring(events.SummaryDataType),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table DynamicSummary policy update @'[{"Source": "DynamicSummaryRaw", "Query": "DynamicSummaryExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,79 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AppPlatformLogsforSpring - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:18:28
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 22, Final columns: 22
+// ============================================================================
+
+.create-merge table AppPlatformLogsforSpringRaw (records:dynamic)
+
+.alter-merge table AppPlatformLogsforSpringRaw policy retention softdelete = 1d
+
+.alter table AppPlatformLogsforSpringRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AppPlatformLogsforSpringRaw ingestion json mapping 'AppPlatformLogsforSpringRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AppPlatformLogsforSpring(
+TimeGenerated:datetime,
+TenantId:guid,
+Category:string,
+Stream:string,
+SpanId:string,
+TraceId:string,
+ExceptionClass:string,
+Mdc:string,
+StackTrace:string,
+OperationName:string,
+Message:string,
+CustomLevel:string,
+Logger:string,
+AppTimestamp:datetime,
+Log:string,
+InstanceName:string,
+AppName:string,
+ServiceName:string,
+Thread:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AppPlatformLogsforSpring policy caching hot = 1d
+
+.create-or-alter function AppPlatformLogsforSpringExpand() {
+AppPlatformLogsforSpringRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Category=tostring(events.Category),
+Stream=tostring(events.Stream),
+SpanId=tostring(events.SpanId),
+TraceId=tostring(events.TraceId),
+ExceptionClass=tostring(events.ExceptionClass),
+Mdc=tostring(events.Mdc),
+StackTrace=tostring(events.StackTrace),
+OperationName=tostring(events.OperationName),
+Message=tostring(events.Message),
+CustomLevel=tostring(events.CustomLevel),
+Logger=tostring(events.Logger),
+AppTimestamp=todatetime(events.AppTimestamp),
+Log=tostring(events.Log),
+InstanceName=tostring(events.InstanceName),
+AppName=tostring(events.AppName),
+ServiceName=tostring(events.ServiceName),
+Thread=tostring(events.Thread),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AppPlatformLogsforSpring policy update @'[{"Source": "AppPlatformLogsforSpringRaw", "Query": "AppPlatformLogsforSpringExpand()", "IsEnabled": "True", "IsTransactional": true}]'

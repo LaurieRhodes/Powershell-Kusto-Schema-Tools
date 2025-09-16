@@ -1,0 +1,65 @@
+﻿{
+    "Name":  "ATCMicrosoftPeeringMetadata",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ATCResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ATCRegion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SchemaVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IpSubnet",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IpMask",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServiceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PrefixRegion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServiceBgpCommunity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RegionalBgpCommunity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

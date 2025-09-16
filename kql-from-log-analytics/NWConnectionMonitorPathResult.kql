@@ -1,0 +1,121 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for NWConnectionMonitorPathResult - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:27:39
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 43, Final columns: 43
+// ============================================================================
+
+.create-merge table NWConnectionMonitorPathResultRaw (records:dynamic)
+
+.alter-merge table NWConnectionMonitorPathResultRaw policy retention softdelete = 1d
+
+.alter table NWConnectionMonitorPathResultRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table NWConnectionMonitorPathResultRaw ingestion json mapping 'NWConnectionMonitorPathResultRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table NWConnectionMonitorPathResult(
+TimeGenerated:datetime,
+TenantId:guid,
+ChecksTotal:int,
+ChecksFailed:int,
+PathTestResult:string,
+PathTestResultCriterion:string,
+ChecksFailedPercentThreshold:int,
+RoundTripTimeMsThreshold:real,
+MinRoundTripTimeMs:real,
+Protocol:string,
+MaxRoundTripTimeMs:real,
+JitterMs:real,
+HopAddresses:string,
+HopTypes:string,
+HopLinkTypes:string,
+HopResourceIds:string,
+Issues:string,
+Hops:string,
+AvgRoundTripTimeMs:real,
+DestinationAgentId:string,
+DestinationName:string,
+DestinationIP:string,
+RecordId:string,
+TopologyId:string,
+ConnectionMonitorResourceId:string,
+TestGroupName:string,
+TestConfigurationName:string,
+SourceType:string,
+SourceResourceId:string,
+SourceAddress:string,
+SourceSubnet:string,
+SourceIP:string,
+SourceName:string,
+SourceAgentId:string,
+DestinationPort:int,
+DestinationType:string,
+DestinationResourceId:string,
+DestinationAddress:string,
+DestinationSubnet:string,
+AdditionalData:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table NWConnectionMonitorPathResult policy caching hot = 1d
+
+.create-or-alter function NWConnectionMonitorPathResultExpand() {
+NWConnectionMonitorPathResultRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ChecksTotal=toint(events.ChecksTotal),
+ChecksFailed=toint(events.ChecksFailed),
+PathTestResult=tostring(events.PathTestResult),
+PathTestResultCriterion=tostring(events.PathTestResultCriterion),
+ChecksFailedPercentThreshold=toint(events.ChecksFailedPercentThreshold),
+RoundTripTimeMsThreshold=toreal(events.RoundTripTimeMsThreshold),
+MinRoundTripTimeMs=toreal(events.MinRoundTripTimeMs),
+Protocol=tostring(events.Protocol),
+MaxRoundTripTimeMs=toreal(events.MaxRoundTripTimeMs),
+JitterMs=toreal(events.JitterMs),
+HopAddresses=tostring(events.HopAddresses),
+HopTypes=tostring(events.HopTypes),
+HopLinkTypes=tostring(events.HopLinkTypes),
+HopResourceIds=tostring(events.HopResourceIds),
+Issues=tostring(events.Issues),
+Hops=tostring(events.Hops),
+AvgRoundTripTimeMs=toreal(events.AvgRoundTripTimeMs),
+DestinationAgentId=tostring(events.DestinationAgentId),
+DestinationName=tostring(events.DestinationName),
+DestinationIP=tostring(events.DestinationIP),
+RecordId=tostring(events.RecordId),
+TopologyId=tostring(events.TopologyId),
+ConnectionMonitorResourceId=tostring(events.ConnectionMonitorResourceId),
+TestGroupName=tostring(events.TestGroupName),
+TestConfigurationName=tostring(events.TestConfigurationName),
+SourceType=tostring(events.SourceType),
+SourceResourceId=tostring(events.SourceResourceId),
+SourceAddress=tostring(events.SourceAddress),
+SourceSubnet=tostring(events.SourceSubnet),
+SourceIP=tostring(events.SourceIP),
+SourceName=tostring(events.SourceName),
+SourceAgentId=tostring(events.SourceAgentId),
+DestinationPort=toint(events.DestinationPort),
+DestinationType=tostring(events.DestinationType),
+DestinationResourceId=tostring(events.DestinationResourceId),
+DestinationAddress=tostring(events.DestinationAddress),
+DestinationSubnet=tostring(events.DestinationSubnet),
+AdditionalData=tostring(events.AdditionalData),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table NWConnectionMonitorPathResult policy update @'[{"Source": "NWConnectionMonitorPathResultRaw", "Query": "NWConnectionMonitorPathResultExpand()", "IsEnabled": "True", "IsTransactional": true}]'

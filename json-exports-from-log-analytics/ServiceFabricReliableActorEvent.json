@@ -1,0 +1,161 @@
+﻿{
+    "Name":  "ServiceFabricReliableActorEvent",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ActorIdKind",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "IsStateful",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "ReplicaOrInstanceId",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "PartitionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServiceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ApplicationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServiceTypeName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ApplicationTypeName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NodeName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NodeId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "CountOfWaitingMethodCalls",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "MethodName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MethodSignature",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MethodExecutionTimeTicks",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "Exception",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActorId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SaveStateExecutionTimeTicks",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ActorType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Role",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PartitionKey",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Level",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProviderGuid",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "EventSourceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Pid",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Tid",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "OpcodeName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "KeywordName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TaskName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ChannelName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RowKey",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureDeploymentID",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventMessage",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ReplicaId",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

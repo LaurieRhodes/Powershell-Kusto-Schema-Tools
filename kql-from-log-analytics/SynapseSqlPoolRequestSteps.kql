@@ -1,0 +1,77 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for SynapseSqlPoolRequestSteps - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:30:22
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 21, Final columns: 21
+// ============================================================================
+
+.create-merge table SynapseSqlPoolRequestStepsRaw (records:dynamic)
+
+.alter-merge table SynapseSqlPoolRequestStepsRaw policy retention softdelete = 1d
+
+.alter table SynapseSqlPoolRequestStepsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table SynapseSqlPoolRequestStepsRaw ingestion json mapping 'SynapseSqlPoolRequestStepsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table SynapseSqlPoolRequestSteps(
+TimeGenerated:datetime,
+TenantId:guid,
+RowCount:int,
+EndTime:datetime,
+EndCompileTime:datetime,
+StartTime:datetime,
+ErrorId:string,
+Status:string,
+LocationType:string,
+DistributionType:string,
+OperationType:string,
+StepIndex:int,
+RequestId:string,
+Category:string,
+OperationName:string,
+ResourceGroup:string,
+LogicalServerName:string,
+Command:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table SynapseSqlPoolRequestSteps policy caching hot = 1d
+
+.create-or-alter function SynapseSqlPoolRequestStepsExpand() {
+SynapseSqlPoolRequestStepsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+RowCount=toint(events.RowCount),
+EndTime=todatetime(events.EndTime),
+EndCompileTime=todatetime(events.EndCompileTime),
+StartTime=todatetime(events.StartTime),
+ErrorId=tostring(events.ErrorId),
+Status=tostring(events.Status),
+LocationType=tostring(events.LocationType),
+DistributionType=tostring(events.DistributionType),
+OperationType=tostring(events.OperationType),
+StepIndex=toint(events.StepIndex),
+RequestId=tostring(events.RequestId),
+Category=tostring(events.Category),
+OperationName=tostring(events.OperationName),
+ResourceGroup=tostring(events.ResourceGroup),
+LogicalServerName=tostring(events.LogicalServerName),
+Command=tostring(events.Command),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table SynapseSqlPoolRequestSteps policy update @'[{"Source": "SynapseSqlPoolRequestStepsRaw", "Query": "SynapseSqlPoolRequestStepsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

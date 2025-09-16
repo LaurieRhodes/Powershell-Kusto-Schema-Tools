@@ -1,0 +1,57 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AADB2CRequestLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:14:17
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 11, Final columns: 11
+// ============================================================================
+
+.create-merge table AADB2CRequestLogsRaw (records:dynamic)
+
+.alter-merge table AADB2CRequestLogsRaw policy retention softdelete = 1d
+
+.alter table AADB2CRequestLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AADB2CRequestLogsRaw ingestion json mapping 'AADB2CRequestLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AADB2CRequestLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+AADTenantId:string,
+ResultType:string,
+ResultSignature:string,
+CallerIpAddress:string,
+OperationName:string,
+CorrelationId:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AADB2CRequestLogs policy caching hot = 1d
+
+.create-or-alter function AADB2CRequestLogsExpand() {
+AADB2CRequestLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+AADTenantId=tostring(events.AADTenantId),
+ResultType=tostring(events.ResultType),
+ResultSignature=tostring(events.ResultSignature),
+CallerIpAddress=tostring(events.CallerIpAddress),
+OperationName=tostring(events.OperationName),
+CorrelationId=tostring(events.CorrelationId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AADB2CRequestLogs policy update @'[{"Source": "AADB2CRequestLogsRaw", "Query": "AADB2CRequestLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

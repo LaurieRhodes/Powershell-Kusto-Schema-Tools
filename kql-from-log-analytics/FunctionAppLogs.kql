@@ -1,0 +1,81 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for FunctionAppLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:24:31
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 23, Final columns: 23
+// ============================================================================
+
+.create-merge table FunctionAppLogsRaw (records:dynamic)
+
+.alter-merge table FunctionAppLogsRaw policy retention softdelete = 1d
+
+.alter table FunctionAppLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table FunctionAppLogsRaw ingestion json mapping 'FunctionAppLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table FunctionAppLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+EventId:int,
+ProcessId:int,
+LevelId:int,
+RoleInstance:string,
+AppName:string,
+ExceptionType:string,
+ExceptionMessage:string,
+ExceptionDetails:string,
+Level:string,
+ActivityId:string,
+HostInstanceId:string,
+FunctionName:string,
+FunctionInvocationId:string,
+HostVersion:string,
+Message:string,
+Location:string,
+Category:string,
+EventName:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table FunctionAppLogs policy caching hot = 1d
+
+.create-or-alter function FunctionAppLogsExpand() {
+FunctionAppLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+EventId=toint(events.EventId),
+ProcessId=toint(events.ProcessId),
+LevelId=toint(events.LevelId),
+RoleInstance=tostring(events.RoleInstance),
+AppName=tostring(events.AppName),
+ExceptionType=tostring(events.ExceptionType),
+ExceptionMessage=tostring(events.ExceptionMessage),
+ExceptionDetails=tostring(events.ExceptionDetails),
+Level=tostring(events.Level),
+ActivityId=tostring(events.ActivityId),
+HostInstanceId=tostring(events.HostInstanceId),
+FunctionName=tostring(events.FunctionName),
+FunctionInvocationId=tostring(events.FunctionInvocationId),
+HostVersion=tostring(events.HostVersion),
+Message=tostring(events.Message),
+Location=tostring(events.Location),
+Category=tostring(events.Category),
+EventName=tostring(events.EventName),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table FunctionAppLogs policy update @'[{"Source": "FunctionAppLogsRaw", "Query": "FunctionAppLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

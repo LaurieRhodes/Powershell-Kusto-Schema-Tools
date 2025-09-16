@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Cofense_Triage_failed_indicators_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:32
+// Generated: 2025-09-17 06:20:46
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 19, DCR columns: 17 (Type column filtered out)
+// Underscore columns included
+// Original columns: 19, DCR columns: 18 (Type column always filtered)
 // Output stream: Custom-Cofense_Triage_failed_indicators_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -39,51 +40,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'SourceSystem'
-            type: 'string'
-          }
-          {
-            name: 'MG'
-            type: 'string'
-          }
-          {
-            name: 'Computer'
-            type: 'string'
-          }
-          {
-            name: 'RawData'
-            type: 'string'
-          }
-          {
-            name: 'ManagementGroupName'
-            type: 'string'
-          }
-          {
-            name: 'kind_s'
-            type: 'string'
-          }
-          {
-            name: 'properties_source_s'
-            type: 'string'
-          }
-          {
-            name: 'properties_displayName_s'
-            type: 'string'
-          }
-          {
-            name: 'properties_confidence_d'
-            type: 'string'
-          }
-          {
-            name: 'properties_patternType_s'
-            type: 'string'
-          }
-          {
-            name: 'properties_threatTypes_s'
-            type: 'string'
-          }
-          {
-            name: 'properties_pattern_s'
+            name: 'properties_externalLastUpdatedTimeUtc_t'
             type: 'string'
           }
           {
@@ -91,11 +48,59 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'properties_externalLastUpdatedTimeUtc_t'
+            name: 'properties_pattern_s'
+            type: 'string'
+          }
+          {
+            name: 'properties_threatTypes_s'
+            type: 'string'
+          }
+          {
+            name: 'properties_patternType_s'
+            type: 'string'
+          }
+          {
+            name: 'properties_confidence_d'
             type: 'string'
           }
           {
             name: 'report_link_s'
+            type: 'string'
+          }
+          {
+            name: 'properties_displayName_s'
+            type: 'string'
+          }
+          {
+            name: 'kind_s'
+            type: 'string'
+          }
+          {
+            name: 'ManagementGroupName'
+            type: 'string'
+          }
+          {
+            name: 'RawData'
+            type: 'string'
+          }
+          {
+            name: 'Computer'
+            type: 'string'
+          }
+          {
+            name: 'MG'
+            type: 'string'
+          }
+          {
+            name: 'SourceSystem'
+            type: 'string'
+          }
+          {
+            name: 'properties_source_s'
+            type: 'string'
+          }
+          {
+            name: '_ResourceId'
             type: 'string'
           }
         ]
@@ -114,7 +119,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Cofense_Triage_failed_indicators_CL']
         destinations: ['Sentinel-Cofense_Triage_failed_indicators_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), Computer = tostring(Computer), RawData = tostring(RawData), ManagementGroupName = tostring(ManagementGroupName), kind_s = tostring(kind_s), properties_source_s = tostring(properties_source_s), properties_displayName_s = tostring(properties_displayName_s), properties_confidence_d = toreal(properties_confidence_d), properties_patternType_s = tostring(properties_patternType_s), properties_threatTypes_s = tostring(properties_threatTypes_s), properties_pattern_s = tostring(properties_pattern_s), properties_created_t = todatetime(properties_created_t), properties_externalLastUpdatedTimeUtc_t = todatetime(properties_externalLastUpdatedTimeUtc_t), report_link_s = tostring(report_link_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), properties_externalLastUpdatedTimeUtc_t = todatetime(properties_externalLastUpdatedTimeUtc_t), properties_created_t = todatetime(properties_created_t), properties_pattern_s = tostring(properties_pattern_s), properties_threatTypes_s = tostring(properties_threatTypes_s), properties_patternType_s = tostring(properties_patternType_s), properties_confidence_d = toreal(properties_confidence_d), report_link_s = tostring(report_link_s), properties_displayName_s = tostring(properties_displayName_s), kind_s = tostring(kind_s), ManagementGroupName = tostring(ManagementGroupName), RawData = tostring(RawData), Computer = tostring(Computer), MG = tostring(MG), SourceSystem = tostring(SourceSystem), properties_source_s = tostring(properties_source_s), _ResourceId = tostring(_ResourceId)'
         outputStream: 'Custom-Cofense_Triage_failed_indicators_CL'
       }
     ]

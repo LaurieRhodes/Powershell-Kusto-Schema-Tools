@@ -1,0 +1,69 @@
+﻿{
+    "Name":  "SecureScores",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SecureScoresSubscriptionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AssessedResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CurrentScore",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "MaxScore",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "PercentageScore",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "Weight",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ResourceProviderType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsSnapshot",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "Environment",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Properties",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

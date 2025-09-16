@@ -1,0 +1,169 @@
+﻿{
+    "Name":  "ABAPAuditLog",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SapProcessType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SapWorkProcessName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Email",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Host",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SalIpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TerminalIpV6",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AbapProgramName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Variable1",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Variable3",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Variable4",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SystemRole",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SystemUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AgentId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemoteIpLongitude",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "RemoteIpLatitude",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "Variable2",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemoteIpCountry",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TransactionCode",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AlertSeverityText",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UpdatedOn",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "SystemId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SystemNumber",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Instance",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AuditClassId",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "MonitoringObjectName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "User",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SalDateChar8",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MonitorShortName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MessageId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MessageText",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MessageClass",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MessageContainerId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AlertValue",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "AlertSeverity",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "SalTimeChar6",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

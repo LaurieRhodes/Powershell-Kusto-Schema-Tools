@@ -1,0 +1,281 @@
+﻿{
+    "Name":  "NetworkAccessTraffic",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "DestinationUrl",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Description",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ConnectorId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ConnectorName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ConnectorIp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ConnectionStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccessType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProcessingRegion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppSegmentId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemoteNetworkId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "HttpMethod",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResponseCode",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Token3PExpiry",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ThreatType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Token3PValidFrom",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Token3PUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TlsAction",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TlsStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TlsPolicyId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TlsPolicyName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UniqueTokenId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VendorNames",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CloudAppCatalogId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CloudAppName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CloudAppCategory",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CloudAppGeneralScore",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "CloudAppRiskScore",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "CloudAppComplianceScore",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "CloudAppLegalScore",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Token3PIssuedAt",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "CloudAppLoginUser",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceTenantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RuleName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TransactionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ConnectionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SessionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TrafficType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceCategory",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationIp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationPort",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "DestinationFqdn",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceIp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourcePort",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "DeviceOperatingSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceOperatingSystemVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AgentVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TransportProtocol",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NetworkProtocol",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Action",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PolicyRuleId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PolicyId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SentBytes",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ReceivedBytes",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ReferrerHeader",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OriginHeader",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "XForwardedFor",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationWebCategories",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FilteringProfileId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FilteringProfileName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PolicyName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserPrincipalName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

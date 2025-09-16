@@ -1,0 +1,57 @@
+﻿{
+    "Name":  "SucceededIngestion",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SucceededOn",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "OperationId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Database",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Table",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IngestionSourceId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "IngestionSourcePath",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RootActivityId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

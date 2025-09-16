@@ -1,0 +1,317 @@
+﻿{
+    "Name":  "MicrosoftPurviewInformationProtection",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ItemLastModifiedTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ItemCreationTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "OverRideType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsViewableByExternalUsers",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "SensitiveInfoDetectionIsIncluded",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "OverriddenActions",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "WorkLoadItemId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RuleActions",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "ConditionMatch",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "ExchangeMetaData",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "ApplicationMode",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LabelAppliedDateTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "LabelAction",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LabelName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ItemName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ItemSize",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Receivers",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "OverRideReason",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ScopedLocationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SensitivityLabelEventFailureData",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "PreviousProtectionType",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "CurrentProtectionType",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SharePointMetaData",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "MgtRuleId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LabelVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Severity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RuleMode",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExecutionRuleVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExecutionRuleName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExecutionRuleId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PolicyVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PolicyName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PolicyId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MachineName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Sender",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProtectionEventTypeName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DataState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Application",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppAccessContext",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Scope",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ObjectId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Workload",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserKey",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OrganizationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Operation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecordTypeName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecordType",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Id",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Platform",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EmailInfo",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "CurrentProtectionTypeName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Common",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "ProtectionEventData",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SensitiveInfoTypeData",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "JustificationText",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActionSourceDetail",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActionSource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LabelEventType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AutoSensitivityLabelPolicyInfo",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SensitivityLabelPolicyId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OldSensitivityLabelId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SensitivityLabelOwnerEmail",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SensitivityLabelId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IrmContentId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TargetLocation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ContentType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PreviousProtectionTypeName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OldSensitivityLabelOwnerEmail",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

@@ -1,0 +1,67 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for PerfInsightsRun - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:28:16
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 16, Final columns: 16
+// ============================================================================
+
+.create-merge table PerfInsightsRunRaw (records:dynamic)
+
+.alter-merge table PerfInsightsRunRaw policy retention softdelete = 1d
+
+.alter table PerfInsightsRunRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table PerfInsightsRunRaw ingestion json mapping 'PerfInsightsRunRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table PerfInsightsRun(
+TimeGenerated:datetime,
+TenantId:guid,
+DataSetRunId:string,
+PerfInsightsResourceId:string,
+ReportId:string,
+Scenario:string,
+PerfInsightsExeFileVersion:string,
+StartTimeUtc:datetime,
+EndTimeUtc:datetime,
+CommandLine:string,
+HighImpactFindings:int,
+MediumImpactFindings:int,
+LowImpactFindings:int,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table PerfInsightsRun policy caching hot = 1d
+
+.create-or-alter function PerfInsightsRunExpand() {
+PerfInsightsRunRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+DataSetRunId=tostring(events.DataSetRunId),
+PerfInsightsResourceId=tostring(events.PerfInsightsResourceId),
+ReportId=tostring(events.ReportId),
+Scenario=tostring(events.Scenario),
+PerfInsightsExeFileVersion=tostring(events.PerfInsightsExeFileVersion),
+StartTimeUtc=todatetime(events.StartTimeUtc),
+EndTimeUtc=todatetime(events.EndTimeUtc),
+CommandLine=tostring(events.CommandLine),
+HighImpactFindings=toint(events.HighImpactFindings),
+MediumImpactFindings=toint(events.MediumImpactFindings),
+LowImpactFindings=toint(events.LowImpactFindings),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table PerfInsightsRun policy update @'[{"Source": "PerfInsightsRunRaw", "Query": "PerfInsightsRunExpand()", "IsEnabled": "True", "IsTransactional": true}]'

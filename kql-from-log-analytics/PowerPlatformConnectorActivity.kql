@@ -1,0 +1,69 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for PowerPlatformConnectorActivity - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:28:39
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 17, Final columns: 17
+// ============================================================================
+
+.create-merge table PowerPlatformConnectorActivityRaw (records:dynamic)
+
+.alter-merge table PowerPlatformConnectorActivityRaw policy retention softdelete = 1d
+
+.alter table PowerPlatformConnectorActivityRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table PowerPlatformConnectorActivityRaw ingestion json mapping 'PowerPlatformConnectorActivityRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table PowerPlatformConnectorActivity(
+TimeGenerated:datetime,
+TenantId:guid,
+EventOriginalUid:string,
+RecordType:string,
+EventOriginalType:string,
+OrganizationId:string,
+ActorUserType:string,
+ActorUserId:string,
+EventResult:string,
+ObjectId:string,
+ActorName:string,
+SrcIpAddr:string,
+Workload:string,
+ConnectorId:string,
+AdditionalInfo:dynamic,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table PowerPlatformConnectorActivity policy caching hot = 1d
+
+.create-or-alter function PowerPlatformConnectorActivityExpand() {
+PowerPlatformConnectorActivityRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+EventOriginalUid=tostring(events.EventOriginalUid),
+RecordType=tostring(events.RecordType),
+EventOriginalType=tostring(events.EventOriginalType),
+OrganizationId=tostring(events.OrganizationId),
+ActorUserType=tostring(events.ActorUserType),
+ActorUserId=tostring(events.ActorUserId),
+EventResult=tostring(events.EventResult),
+ObjectId=tostring(events.ObjectId),
+ActorName=tostring(events.ActorName),
+SrcIpAddr=tostring(events.SrcIpAddr),
+Workload=tostring(events.Workload),
+ConnectorId=tostring(events.ConnectorId),
+AdditionalInfo=todynamic(events.AdditionalInfo),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table PowerPlatformConnectorActivity policy update @'[{"Source": "PowerPlatformConnectorActivityRaw", "Query": "PowerPlatformConnectorActivityExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,153 @@
+﻿{
+    "Name":  "CDBDataPlaneRequests15M",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "AuthTokenType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "KeyType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceTokenUserRid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceTokenPermissionMode",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceTokenPermissionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CollectionName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DatabaseName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AadPrincipalId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AadAppliedRoleAssignmentId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PartitionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RegionName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MaxResponseLength",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "AvgResponseLength",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "TotalResponseLength",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "MaxRequestLength",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "AvgRequestLength",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "TotalRequestLength",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "AccountName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ConnectionMode",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserAgent",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestResourceType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestCount",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "StatusCode",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "TotalRequestCharge",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "AvgRequestCharge",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "MaxRequestCharge",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "TotalDurationMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "AvgDurationMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "MaxDurationMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ClientIpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

@@ -1,0 +1,97 @@
+﻿{
+    "Name":  "DevCenterConnectionLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SubnetResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DevBoxName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CloudPcId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UdpType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SessionHostOSVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SessionHostOSDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SessionHostAgentVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SessionHostPoolType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientOS",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "State",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SessionHostResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SessionHostName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActivityId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NicResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

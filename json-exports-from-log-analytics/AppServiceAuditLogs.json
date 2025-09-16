@@ -1,0 +1,49 @@
+﻿{
+    "Name":  "AppServiceAuditLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "User",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserDisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Protocol",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

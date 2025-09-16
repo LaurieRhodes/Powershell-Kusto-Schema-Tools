@@ -1,0 +1,105 @@
+﻿{
+    "Name":  "PGSQLDbTransactionsStats",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "RemainingMultixactIdsTillWraparound",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "RemainingMultixactIdsTillEmergencyAV",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "RemainingMultixactIds",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "AutovacuumMultixactFreezeMaxAge",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "VacuumMultixactFreezeMinAge",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "RemainingTransactionIdsTillWraparound",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "RemainingTransactionIdsTillEmergencyAV",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "RemainingTransactionIds",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "AutovacuumFreezeMaxAge",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "VacuumFreezeMinAge",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "TransactionIdFrozenAge",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "TransactionIdFrozen",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "MinMultixactIdAge",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "MinMultixactId",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ConnectionsLimit",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "UserId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "DatabaseName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ReplicaRole",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LogicalServerName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Location",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

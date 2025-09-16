@@ -1,0 +1,71 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for HDInsightSparkApplicationEvents - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:25:30
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 18, Final columns: 18
+// ============================================================================
+
+.create-merge table HDInsightSparkApplicationEventsRaw (records:dynamic)
+
+.alter-merge table HDInsightSparkApplicationEventsRaw policy retention softdelete = 1d
+
+.alter table HDInsightSparkApplicationEventsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table HDInsightSparkApplicationEventsRaw ingestion json mapping 'HDInsightSparkApplicationEventsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table HDInsightSparkApplicationEvents(
+TimeGenerated:datetime,
+TenantId:guid,
+ApplicationId:string,
+SparkUser:string,
+AppAttemptId:string,
+AppName:string,
+SubmissionTime:datetime,
+CompletionTime:datetime,
+ClusterTenantId:string,
+Role:string,
+Host:string,
+ClusterDnsName:string,
+Region:string,
+IpAddress:string,
+UserSubscriptionId:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table HDInsightSparkApplicationEvents policy caching hot = 1d
+
+.create-or-alter function HDInsightSparkApplicationEventsExpand() {
+HDInsightSparkApplicationEventsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ApplicationId=tostring(events.ApplicationId),
+SparkUser=tostring(events.SparkUser),
+AppAttemptId=tostring(events.AppAttemptId),
+AppName=tostring(events.AppName),
+SubmissionTime=todatetime(events.SubmissionTime),
+CompletionTime=todatetime(events.CompletionTime),
+ClusterTenantId=tostring(events.ClusterTenantId),
+Role=tostring(events.Role),
+Host=tostring(events.Host),
+ClusterDnsName=tostring(events.ClusterDnsName),
+Region=tostring(events.Region),
+IpAddress=tostring(events.IpAddress),
+UserSubscriptionId=tostring(events.UserSubscriptionId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table HDInsightSparkApplicationEvents policy update @'[{"Source": "HDInsightSparkApplicationEventsRaw", "Query": "HDInsightSparkApplicationEventsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

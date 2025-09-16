@@ -1,0 +1,105 @@
+﻿{
+    "Name":  "McasShadowItReporting",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "RawUserName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Date",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "AppScore",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "AppTags",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "AppCategory",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppInstance",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EnrichedUserName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RichUserName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DownloadedBytes",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "TotalBytes",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "UploadedBytes",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "BlockedEvents",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "TotalEvents",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "MachineId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MachineName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "StreamName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AadTenantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

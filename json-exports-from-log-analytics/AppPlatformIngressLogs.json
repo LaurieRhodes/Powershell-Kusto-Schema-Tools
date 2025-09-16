@@ -1,0 +1,117 @@
+﻿{
+    "Name":  "AppPlatformIngressLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "RemoteAddr",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestHeaders",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ReqId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UpstreamStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UpstreamResponseTime",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UpstreamResponseLength",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UpstreamAddr",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProxyAltUpstreamName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TimeLocal",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProxyUpstreamName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestLength",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "HttpUserAgent",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "HttpReferer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BodyBytesSent",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Status",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Request",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Host",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LocalTime",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemoteUser",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemoteIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestTime",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ProxyAlternativeUpstreamName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

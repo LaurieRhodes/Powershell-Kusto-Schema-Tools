@@ -1,0 +1,113 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ATCExpressRouteCircuitIpfix - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:19:18
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 39, Final columns: 39
+// ============================================================================
+
+.create-merge table ATCExpressRouteCircuitIpfixRaw (records:dynamic)
+
+.alter-merge table ATCExpressRouteCircuitIpfixRaw policy retention softdelete = 1d
+
+.alter table ATCExpressRouteCircuitIpfixRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ATCExpressRouteCircuitIpfixRaw ingestion json mapping 'ATCExpressRouteCircuitIpfixRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ATCExpressRouteCircuitIpfix(
+TimeGenerated:datetime,
+TenantId:guid,
+SrcMask:int,
+DstMask:int,
+SrcAsn:int,
+DstAsn:int,
+NextHop:string,
+TcpFlag:int,
+IcmpType:int,
+MinTtl:int,
+SrcSubnet:string,
+DstSubnet:string,
+IpVerCode:int,
+BgpNextHop:string,
+PeeringType:string,
+Dot1qVlanId:int,
+MaxTtl:int,
+IpProtocolIdentifier:int,
+IpClassOfService:int,
+Flowsequence:long,
+OperationName:string,
+ATCResourceId:string,
+ATCRegion:string,
+SchemaVersion:string,
+FlowRecordTime:datetime,
+ExRCircuitId:string,
+ExRCircuitServiceKey:string,
+ExRCircuitDirectPortId:string,
+SourceIp:string,
+DestinationIp:string,
+SourcePort:int,
+DestinationPort:int,
+Protocol:int,
+NumberOfBytes:long,
+NumberOfPackets:long,
+Dot1qCustomerVlanId:int,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ATCExpressRouteCircuitIpfix policy caching hot = 1d
+
+.create-or-alter function ATCExpressRouteCircuitIpfixExpand() {
+ATCExpressRouteCircuitIpfixRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SrcMask=toint(events.SrcMask),
+DstMask=toint(events.DstMask),
+SrcAsn=toint(events.SrcAsn),
+DstAsn=toint(events.DstAsn),
+NextHop=tostring(events.NextHop),
+TcpFlag=toint(events.TcpFlag),
+IcmpType=toint(events.IcmpType),
+MinTtl=toint(events.MinTtl),
+SrcSubnet=tostring(events.SrcSubnet),
+DstSubnet=tostring(events.DstSubnet),
+IpVerCode=toint(events.IpVerCode),
+BgpNextHop=tostring(events.BgpNextHop),
+PeeringType=tostring(events.PeeringType),
+Dot1qVlanId=toint(events.Dot1qVlanId),
+MaxTtl=toint(events.MaxTtl),
+IpProtocolIdentifier=toint(events.IpProtocolIdentifier),
+IpClassOfService=toint(events.IpClassOfService),
+Flowsequence=tolong(events.Flowsequence),
+OperationName=tostring(events.OperationName),
+ATCResourceId=tostring(events.ATCResourceId),
+ATCRegion=tostring(events.ATCRegion),
+SchemaVersion=tostring(events.SchemaVersion),
+FlowRecordTime=todatetime(events.FlowRecordTime),
+ExRCircuitId=tostring(events.ExRCircuitId),
+ExRCircuitServiceKey=tostring(events.ExRCircuitServiceKey),
+ExRCircuitDirectPortId=tostring(events.ExRCircuitDirectPortId),
+SourceIp=tostring(events.SourceIp),
+DestinationIp=tostring(events.DestinationIp),
+SourcePort=toint(events.SourcePort),
+DestinationPort=toint(events.DestinationPort),
+Protocol=toint(events.Protocol),
+NumberOfBytes=tolong(events.NumberOfBytes),
+NumberOfPackets=tolong(events.NumberOfPackets),
+Dot1qCustomerVlanId=toint(events.Dot1qCustomerVlanId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ATCExpressRouteCircuitIpfix policy update @'[{"Source": "ATCExpressRouteCircuitIpfixRaw", "Query": "ATCExpressRouteCircuitIpfixExpand()", "IsEnabled": "True", "IsTransactional": true}]'

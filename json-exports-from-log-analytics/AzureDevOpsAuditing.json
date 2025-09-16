@@ -1,0 +1,109 @@
+﻿{
+    "Name":  "AzureDevOpsAuditing",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "CategoryDisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Area",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Details",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Data",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserAgent",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProjectName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProjectId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ScopeId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ScopeDisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ScopeType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AuthenticationMechanism",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActorUPN",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActorUserId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ActorCUID",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ActorClientId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActivityId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Id",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActorDisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

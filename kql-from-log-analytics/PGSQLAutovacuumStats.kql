@@ -1,0 +1,95 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for PGSQLAutovacuumStats - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:28:19
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 30, Final columns: 30
+// ============================================================================
+
+.create-merge table PGSQLAutovacuumStatsRaw (records:dynamic)
+
+.alter-merge table PGSQLAutovacuumStatsRaw policy retention softdelete = 1d
+
+.alter table PGSQLAutovacuumStatsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table PGSQLAutovacuumStatsRaw ingestion json mapping 'PGSQLAutovacuumStatsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table PGSQLAutovacuumStats(
+TimeGenerated:datetime,
+TenantId:guid,
+TablesAutoanalyzedCount:long,
+TablesAnalyzedCount:long,
+TablesAutovacuumedCount:long,
+TablesVacuumedCount:long,
+TablesCount:long,
+AutoanalyzeCount:long,
+AnalyzeCount:long,
+AutovacuumCount:long,
+VacuumCount:long,
+ModificationsSinceAnalyzeCount:long,
+RowsHotUpdatedCount:long,
+Location:string,
+RowsDeletedCount:long,
+RowsInsertedCount:long,
+RowsFromIndexScansCount:long,
+IndexScansCount:long,
+RowsFromSeqentialScansCount:long,
+SeqentialScansCount:long,
+DeadRowsCount:long,
+LiveRowsCount:long,
+SchemaName:string,
+DatabaseName:string,
+ReplicaRole:string,
+LogicalServerName:string,
+RowsUpdatedCount:long,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table PGSQLAutovacuumStats policy caching hot = 1d
+
+.create-or-alter function PGSQLAutovacuumStatsExpand() {
+PGSQLAutovacuumStatsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+TablesAutoanalyzedCount=tolong(events.TablesAutoanalyzedCount),
+TablesAnalyzedCount=tolong(events.TablesAnalyzedCount),
+TablesAutovacuumedCount=tolong(events.TablesAutovacuumedCount),
+TablesVacuumedCount=tolong(events.TablesVacuumedCount),
+TablesCount=tolong(events.TablesCount),
+AutoanalyzeCount=tolong(events.AutoanalyzeCount),
+AnalyzeCount=tolong(events.AnalyzeCount),
+AutovacuumCount=tolong(events.AutovacuumCount),
+VacuumCount=tolong(events.VacuumCount),
+ModificationsSinceAnalyzeCount=tolong(events.ModificationsSinceAnalyzeCount),
+RowsHotUpdatedCount=tolong(events.RowsHotUpdatedCount),
+Location=tostring(events.Location),
+RowsDeletedCount=tolong(events.RowsDeletedCount),
+RowsInsertedCount=tolong(events.RowsInsertedCount),
+RowsFromIndexScansCount=tolong(events.RowsFromIndexScansCount),
+IndexScansCount=tolong(events.IndexScansCount),
+RowsFromSeqentialScansCount=tolong(events.RowsFromSeqentialScansCount),
+SeqentialScansCount=tolong(events.SeqentialScansCount),
+DeadRowsCount=tolong(events.DeadRowsCount),
+LiveRowsCount=tolong(events.LiveRowsCount),
+SchemaName=tostring(events.SchemaName),
+DatabaseName=tostring(events.DatabaseName),
+ReplicaRole=tostring(events.ReplicaRole),
+LogicalServerName=tostring(events.LogicalServerName),
+RowsUpdatedCount=tolong(events.RowsUpdatedCount),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table PGSQLAutovacuumStats policy update @'[{"Source": "PGSQLAutovacuumStatsRaw", "Query": "PGSQLAutovacuumStatsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

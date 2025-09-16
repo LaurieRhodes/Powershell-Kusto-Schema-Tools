@@ -1,0 +1,89 @@
+﻿{
+    "Name":  "HDInsightSparkBlockManagerEvents",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "BlockHost",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserSubscriptionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Region",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClusterDnsName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Role",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClusterTenantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MaxOffHeapMemory",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "MaxOnHeapMemory",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "MaxMemory",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "RemovedTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "AddedTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Host",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExecutorId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ApplicationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BlockManagerHost",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

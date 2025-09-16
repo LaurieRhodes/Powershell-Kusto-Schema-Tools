@@ -1,0 +1,155 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for StorageFileLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:29:34
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 60, Final columns: 60
+// ============================================================================
+
+.create-merge table StorageFileLogsRaw (records:dynamic)
+
+.alter-merge table StorageFileLogsRaw policy retention softdelete = 1d
+
+.alter table StorageFileLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table StorageFileLogsRaw ingestion json mapping 'StorageFileLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table StorageFileLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationCount:int,
+ObjectKey:string,
+RequestHeaderSize:long,
+RequestBodySize:long,
+ResponseHeaderSize:long,
+ResponseBodySize:long,
+RequestMd5:string,
+ResponseMd5:string,
+LastModifiedTime:datetime,
+ConditionsUsed:string,
+ContentLengthHeader:long,
+Category:string,
+TlsVersion:string,
+SmbTreeConnectID:string,
+SmbPersistentHandleID:string,
+SmbVolatileHandleID:string,
+SmbMessageID:string,
+SmbCreditsConsumed:int,
+SmbCommandDetail:string,
+SmbFileId:string,
+SmbSessionID:string,
+SmbCommandMajor:int,
+SmbCommandMinor:string,
+SasExpiryStatus:string,
+MetricResponseType:string,
+ServiceType:string,
+SmbStatusCode:string,
+Etag:string,
+ReferrerHeader:string,
+AccountName:string,
+Location:string,
+Protocol:string,
+OperationName:string,
+AuthenticationType:string,
+StatusCode:string,
+StatusText:string,
+DurationMs:real,
+ServerLatencyMs:real,
+Uri:string,
+CallerIpAddress:string,
+CorrelationId:string,
+SchemaVersion:string,
+OperationVersion:string,
+AuthenticationHash:string,
+RequesterObjectId:string,
+RequesterTenantId:string,
+RequesterAppId:string,
+RequesterAudience:string,
+RequesterTokenIssuer:string,
+RequesterUpn:string,
+RequesterUserName:string,
+AuthorizationDetails:dynamic,
+SmbPrimarySID:string,
+UserAgentHeader:string,
+ClientRequestId:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table StorageFileLogs policy caching hot = 1d
+
+.create-or-alter function StorageFileLogsExpand() {
+StorageFileLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationCount=toint(events.OperationCount),
+ObjectKey=tostring(events.ObjectKey),
+RequestHeaderSize=tolong(events.RequestHeaderSize),
+RequestBodySize=tolong(events.RequestBodySize),
+ResponseHeaderSize=tolong(events.ResponseHeaderSize),
+ResponseBodySize=tolong(events.ResponseBodySize),
+RequestMd5=tostring(events.RequestMd5),
+ResponseMd5=tostring(events.ResponseMd5),
+LastModifiedTime=todatetime(events.LastModifiedTime),
+ConditionsUsed=tostring(events.ConditionsUsed),
+ContentLengthHeader=tolong(events.ContentLengthHeader),
+Category=tostring(events.Category),
+TlsVersion=tostring(events.TlsVersion),
+SmbTreeConnectID=tostring(events.SmbTreeConnectID),
+SmbPersistentHandleID=tostring(events.SmbPersistentHandleID),
+SmbVolatileHandleID=tostring(events.SmbVolatileHandleID),
+SmbMessageID=tostring(events.SmbMessageID),
+SmbCreditsConsumed=toint(events.SmbCreditsConsumed),
+SmbCommandDetail=tostring(events.SmbCommandDetail),
+SmbFileId=tostring(events.SmbFileId),
+SmbSessionID=tostring(events.SmbSessionID),
+SmbCommandMajor=toint(events.SmbCommandMajor),
+SmbCommandMinor=tostring(events.SmbCommandMinor),
+SasExpiryStatus=tostring(events.SasExpiryStatus),
+MetricResponseType=tostring(events.MetricResponseType),
+ServiceType=tostring(events.ServiceType),
+SmbStatusCode=tostring(events.SmbStatusCode),
+Etag=tostring(events.Etag),
+ReferrerHeader=tostring(events.ReferrerHeader),
+AccountName=tostring(events.AccountName),
+Location=tostring(events.Location),
+Protocol=tostring(events.Protocol),
+OperationName=tostring(events.OperationName),
+AuthenticationType=tostring(events.AuthenticationType),
+StatusCode=tostring(events.StatusCode),
+StatusText=tostring(events.StatusText),
+DurationMs=toreal(events.DurationMs),
+ServerLatencyMs=toreal(events.ServerLatencyMs),
+Uri=tostring(events.Uri),
+CallerIpAddress=tostring(events.CallerIpAddress),
+CorrelationId=tostring(events.CorrelationId),
+SchemaVersion=tostring(events.SchemaVersion),
+OperationVersion=tostring(events.OperationVersion),
+AuthenticationHash=tostring(events.AuthenticationHash),
+RequesterObjectId=tostring(events.RequesterObjectId),
+RequesterTenantId=tostring(events.RequesterTenantId),
+RequesterAppId=tostring(events.RequesterAppId),
+RequesterAudience=tostring(events.RequesterAudience),
+RequesterTokenIssuer=tostring(events.RequesterTokenIssuer),
+RequesterUpn=tostring(events.RequesterUpn),
+RequesterUserName=tostring(events.RequesterUserName),
+AuthorizationDetails=todynamic(events.AuthorizationDetails),
+SmbPrimarySID=tostring(events.SmbPrimarySID),
+UserAgentHeader=tostring(events.UserAgentHeader),
+ClientRequestId=tostring(events.ClientRequestId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table StorageFileLogs policy update @'[{"Source": "StorageFileLogsRaw", "Query": "StorageFileLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

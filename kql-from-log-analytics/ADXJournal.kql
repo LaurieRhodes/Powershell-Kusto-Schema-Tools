@@ -1,0 +1,75 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ADXJournal - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:16:20
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 20, Final columns: 20
+// ============================================================================
+
+.create-merge table ADXJournalRaw (records:dynamic)
+
+.alter-merge table ADXJournalRaw policy retention softdelete = 1d
+
+.alter table ADXJournalRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ADXJournalRaw ingestion json mapping 'ADXJournalRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ADXJournal(
+TimeGenerated:datetime,
+TenantId:guid,
+User:string,
+ChangeCommand:string,
+UpdatedEntityState:string,
+OriginalEntityState:string,
+EntityContainerName:string,
+EntityVersion:string,
+Principal:string,
+OriginalEntityVersion:string,
+EntityName:string,
+DatabaseName:string,
+OperationTimestamp:datetime,
+Event:string,
+RootActivityId:string,
+CorrelationId:string,
+UpdatedEntityName:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ADXJournal policy caching hot = 1d
+
+.create-or-alter function ADXJournalExpand() {
+ADXJournalRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+User=tostring(events.User),
+ChangeCommand=tostring(events.ChangeCommand),
+UpdatedEntityState=tostring(events.UpdatedEntityState),
+OriginalEntityState=tostring(events.OriginalEntityState),
+EntityContainerName=tostring(events.EntityContainerName),
+EntityVersion=tostring(events.EntityVersion),
+Principal=tostring(events.Principal),
+OriginalEntityVersion=tostring(events.OriginalEntityVersion),
+EntityName=tostring(events.EntityName),
+DatabaseName=tostring(events.DatabaseName),
+OperationTimestamp=todatetime(events.OperationTimestamp),
+Event=tostring(events.Event),
+RootActivityId=tostring(events.RootActivityId),
+CorrelationId=tostring(events.CorrelationId),
+UpdatedEntityName=tostring(events.UpdatedEntityName),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ADXJournal policy update @'[{"Source": "ADXJournalRaw", "Query": "ADXJournalExpand()", "IsEnabled": "True", "IsTransactional": true}]'

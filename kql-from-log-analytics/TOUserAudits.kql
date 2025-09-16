@@ -1,0 +1,69 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for TOUserAudits - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:30:41
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 17, Final columns: 17
+// ============================================================================
+
+.create-merge table TOUserAuditsRaw (records:dynamic)
+
+.alter-merge table TOUserAuditsRaw policy retention softdelete = 1d
+
+.alter table TOUserAuditsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table TOUserAuditsRaw ingestion json mapping 'TOUserAuditsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table TOUserAudits(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+Category:string,
+Location:string,
+Properties:dynamic,
+OperatingResourceId:string,
+OperatingResourceK8SId:string,
+Message:string,
+User:guid,
+CorrelationId:guid,
+TOServiceName:string,
+TOServiceInstance:string,
+EdgeLocation:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table TOUserAudits policy caching hot = 1d
+
+.create-or-alter function TOUserAuditsExpand() {
+TOUserAuditsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+Category=tostring(events.Category),
+Location=tostring(events.Location),
+Properties=todynamic(events.Properties),
+OperatingResourceId=tostring(events.OperatingResourceId),
+OperatingResourceK8SId=tostring(events.OperatingResourceK8SId),
+Message=tostring(events.Message),
+User=toguid(events.User),
+CorrelationId=toguid(events.CorrelationId),
+TOServiceName=tostring(events.TOServiceName),
+TOServiceInstance=tostring(events.TOServiceInstance),
+EdgeLocation=tostring(events.EdgeLocation),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table TOUserAudits policy update @'[{"Source": "TOUserAuditsRaw", "Query": "TOUserAuditsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,97 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ServiceFabricReliableServiceEvent - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:29:04
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 31, Final columns: 31
+// ============================================================================
+
+.create-merge table ServiceFabricReliableServiceEventRaw (records:dynamic)
+
+.alter-merge table ServiceFabricReliableServiceEventRaw policy retention softdelete = 1d
+
+.alter table ServiceFabricReliableServiceEventRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ServiceFabricReliableServiceEventRaw ingestion json mapping 'ServiceFabricReliableServiceEventRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ServiceFabricReliableServiceEvent(
+TimeGenerated:datetime,
+TenantId:guid,
+Exception:string,
+WasCanceled:bool,
+SlowCancellationTimeMillis:real,
+ReplicaId:long,
+PartitionId:string,
+ServiceName:string,
+ServiceTypeName:string,
+ApplicationName:string,
+ApplicationTypeName:string,
+EventMessage:string,
+Role:string,
+AzureDeploymentID:string,
+ActualCancellationTimeMillis:real,
+RowKey:string,
+TaskName:string,
+KeywordName:string,
+OpcodeName:string,
+Tid:int,
+Pid:int,
+EventId:int,
+EventSourceName:string,
+ProviderGuid:guid,
+Level:string,
+Computer:string,
+PartitionKey:string,
+SourceSystem:string,
+ChannelName:string,
+InstanceId:long,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table ServiceFabricReliableServiceEvent policy caching hot = 1d
+
+.create-or-alter function ServiceFabricReliableServiceEventExpand() {
+ServiceFabricReliableServiceEventRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Exception=tostring(events.Exception),
+WasCanceled=tobool(events.WasCanceled),
+SlowCancellationTimeMillis=toreal(events.SlowCancellationTimeMillis),
+ReplicaId=tolong(events.ReplicaId),
+PartitionId=tostring(events.PartitionId),
+ServiceName=tostring(events.ServiceName),
+ServiceTypeName=tostring(events.ServiceTypeName),
+ApplicationName=tostring(events.ApplicationName),
+ApplicationTypeName=tostring(events.ApplicationTypeName),
+EventMessage=tostring(events.EventMessage),
+Role=tostring(events.Role),
+AzureDeploymentID=tostring(events.AzureDeploymentID),
+ActualCancellationTimeMillis=toreal(events.ActualCancellationTimeMillis),
+RowKey=tostring(events.RowKey),
+TaskName=tostring(events.TaskName),
+KeywordName=tostring(events.KeywordName),
+OpcodeName=tostring(events.OpcodeName),
+Tid=toint(events.Tid),
+Pid=toint(events.Pid),
+EventId=toint(events.EventId),
+EventSourceName=tostring(events.EventSourceName),
+ProviderGuid=toguid(events.ProviderGuid),
+Level=tostring(events.Level),
+Computer=tostring(events.Computer),
+PartitionKey=tostring(events.PartitionKey),
+SourceSystem=tostring(events.SourceSystem),
+ChannelName=tostring(events.ChannelName),
+InstanceId=tolong(events.InstanceId),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ServiceFabricReliableServiceEvent policy update @'[{"Source": "ServiceFabricReliableServiceEventRaw", "Query": "ServiceFabricReliableServiceEventExpand()", "IsEnabled": "True", "IsTransactional": true}]'

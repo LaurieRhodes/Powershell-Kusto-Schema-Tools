@@ -1,0 +1,145 @@
+﻿{
+    "Name":  "UpdateSummary",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SecurityUpdatesMissing",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "CriticalUpdatesMissing",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "VMUUID",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ComputerEnvironment",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Resource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceProvider",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SubscriptionId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "RestartPending",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "TotalMissingCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "OtherCategoryMissingCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SecurityUpdatesCategoryMissingCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "CriticalUpdatesCategoryMissingCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "NETRuntimeVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OsVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "WSUSServer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "WindowsUpdateAgentVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "WindowsUpdateSetting",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OldestMissingSecurityUpdateBucket",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OldestMissingSecurityUpdateInDays",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "LastUpdateApplied",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "DateStampUTC",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "SourceComputerId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ManagementGroupName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MG",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OtherUpdatesMissing",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "TotalUpdatesMissing",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

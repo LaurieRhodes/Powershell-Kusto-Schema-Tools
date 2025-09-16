@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for PaloAltoPrismaCloudAudit_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:47
+// Generated: 2025-09-17 06:21:00
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 18, DCR columns: 16 (Type column filtered out)
+// Underscore columns included
+// Original columns: 18, DCR columns: 17 (Type column always filtered)
 // Output stream: Custom-PaloAltoPrismaCloudAudit_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -94,6 +95,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             name: 'result_s'
             type: 'string'
           }
+          {
+            name: '_ResourceId'
+            type: 'string'
+          }
         ]
       }
     }
@@ -110,7 +115,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-PaloAltoPrismaCloudAudit_CL']
         destinations: ['Sentinel-PaloAltoPrismaCloudAudit_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), user_g = tostring(user_g), resourceName_g = tostring(resourceName_g), timestamp_s = tostring(timestamp_s), user_s = tostring(user_s), IPAddress = tostring(IPAddress), ResourceType = tostring(ResourceType), resourceName_s = tostring(resourceName_s), action_s = tostring(action_s), result_s = tostring(result_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), user_g = tostring(user_g), resourceName_g = tostring(resourceName_g), timestamp_s = tostring(timestamp_s), user_s = tostring(user_s), IPAddress = tostring(IPAddress), ResourceType = tostring(ResourceType), resourceName_s = tostring(resourceName_s), action_s = tostring(action_s), result_s = tostring(result_s), _ResourceId = tostring(_ResourceId)'
         outputStream: 'Custom-PaloAltoPrismaCloudAudit_CL'
       }
     ]

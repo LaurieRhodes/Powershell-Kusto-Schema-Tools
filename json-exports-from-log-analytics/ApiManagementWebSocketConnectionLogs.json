@@ -1,0 +1,49 @@
+﻿{
+    "Name":  "ApiManagementWebSocketConnectionLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Region",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Source",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Destination",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Error",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

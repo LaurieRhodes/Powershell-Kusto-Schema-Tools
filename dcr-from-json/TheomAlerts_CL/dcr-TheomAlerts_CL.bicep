@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for TheomAlerts_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:51
+// Generated: 2025-09-17 06:21:04
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 23, DCR columns: 23 (Type column filtered out)
+// Underscore columns included
+// Original columns: 23, DCR columns: 23 (Type column always filtered)
 // Output stream: Custom-TheomAlerts_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================

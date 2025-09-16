@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_log4shell_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:36
+// Generated: 2025-09-17 06:20:50
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 17, DCR columns: 14 (Type column filtered out)
+// Underscore columns included
+// Original columns: 17, DCR columns: 17 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_log4shell_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -32,6 +33,18 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
         columns: [
           {
             name: 'TimeGenerated'
+            type: 'string'
+          }
+          {
+            name: '_path_s'
+            type: 'string'
+          }
+          {
+            name: '_system_name_s'
+            type: 'string'
+          }
+          {
+            name: '_write_ts_t'
             type: 'string'
           }
           {
@@ -102,7 +115,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_log4shell_CL']
         destinations: ['Sentinel-Corelight_v2_log4shell_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), uid_s = tostring(uid_s), http_uri_s = tostring(http_uri_s), uri_s = tostring(uri_s), stem_s = tostring(stem_s), target_host_s = tostring(target_host_s), target_port_s = tostring(target_port_s), method_s = tostring(method_s), is_orig_b = tobool(is_orig_b), name_s = tostring(name_s), value_s = tostring(value_s), matched_name_b = tobool(matched_name_b), matched_value_b = tobool(matched_value_b)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), _system_name_s = tostring(_system_name_s), _write_ts_t = todatetime(_write_ts_t), ts_t = todatetime(ts_t), uid_s = tostring(uid_s), http_uri_s = tostring(http_uri_s), uri_s = tostring(uri_s), stem_s = tostring(stem_s), target_host_s = tostring(target_host_s), target_port_s = tostring(target_port_s), method_s = tostring(method_s), is_orig_b = tobool(is_orig_b), name_s = tostring(name_s), value_s = tostring(value_s), matched_name_b = tobool(matched_name_b), matched_value_b = tobool(matched_value_b)'
         outputStream: 'Custom-Corelight_v2_log4shell_CL'
       }
     ]

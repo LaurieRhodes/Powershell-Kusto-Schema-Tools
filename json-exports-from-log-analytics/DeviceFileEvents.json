@@ -1,0 +1,257 @@
+﻿{
+    "Name":  "DeviceFileEvents",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "PreviousFolderPath",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ReportId",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "RequestAccountDomain",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestAccountName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestAccountSid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestProtocol",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestSourceIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestSourcePort",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SHA1",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SHA256",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SensitivityLabel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SensitivitySubLabel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ShareName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Timestamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "InitiatingProcessParentCreationTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "InitiatingProcessCreationTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "InitiatingProcessFileSize",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "InitiatingProcessVersionInfoCompanyName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessVersionInfoFileDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessVersionInfoInternalFileName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessVersionInfoOriginalFileName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessVersionInfoProductName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessVersionInfoProductVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessSessionId",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "IsInitiatingProcessRemoteSession",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "InitiatingProcessRemoteSessionDeviceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessRemoteSessionIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PreviousFileName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MachineGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsAzureInfoProtectionApplied",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "ActionType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AdditionalFields",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "AppGuardContainerId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileOriginIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileOriginReferrerUrl",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileOriginUrl",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileSize",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "FolderPath",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessAccountDomain",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessAccountName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessAccountObjectId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessAccountSid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessAccountUpn",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessCommandLine",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessFileName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessFolderPath",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessId",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "InitiatingProcessIntegrityLevel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessMD5",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessParentFileName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessParentId",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "InitiatingProcessSHA1",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessSHA256",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessTokenElevation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MD5",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

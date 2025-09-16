@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Ipinfo_Company_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:44
+// Generated: 2025-09-17 06:20:57
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 10, DCR columns: 10 (Type column filtered out)
+// Underscore columns included
+// Original columns: 10, DCR columns: 10 (Type column always filtered)
 // Output stream: Custom-Ipinfo_Company_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================

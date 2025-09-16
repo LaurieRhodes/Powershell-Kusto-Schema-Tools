@@ -1,0 +1,67 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for WVDManagement - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:31:45
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 16, Final columns: 16
+// ============================================================================
+
+.create-merge table WVDManagementRaw (records:dynamic)
+
+.alter-merge table WVDManagementRaw policy retention softdelete = 1d
+
+.alter table WVDManagementRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table WVDManagementRaw ingestion json mapping 'WVDManagementRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table WVDManagement(
+TimeGenerated:datetime,
+TenantId:guid,
+CorrelationId:string,
+UserName:string,
+Route:string,
+ArmObjectScope:string,
+ClientSideIPAddress:string,
+ObjectsFetched:int,
+ObjectsCreated:int,
+ObjectsUpdated:int,
+ObjectsDeleted:int,
+ProvisioningCorrelationId:string,
+AadTenantId:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table WVDManagement policy caching hot = 1d
+
+.create-or-alter function WVDManagementExpand() {
+WVDManagementRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+CorrelationId=tostring(events.CorrelationId),
+UserName=tostring(events.UserName),
+Route=tostring(events.Route),
+ArmObjectScope=tostring(events.ArmObjectScope),
+ClientSideIPAddress=tostring(events.ClientSideIPAddress),
+ObjectsFetched=toint(events.ObjectsFetched),
+ObjectsCreated=toint(events.ObjectsCreated),
+ObjectsUpdated=toint(events.ObjectsUpdated),
+ObjectsDeleted=toint(events.ObjectsDeleted),
+ProvisioningCorrelationId=tostring(events.ProvisioningCorrelationId),
+AadTenantId=tostring(events.AadTenantId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table WVDManagement policy update @'[{"Source": "WVDManagementRaw", "Query": "WVDManagementExpand()", "IsEnabled": "True", "IsTransactional": true}]'

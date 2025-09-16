@@ -1,0 +1,77 @@
+﻿{
+    "Name":  "DatabricksClamAVScan",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Identity",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SourceIPAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LogId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServiceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserAgent",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SessionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActionName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Response",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "RequestParams",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

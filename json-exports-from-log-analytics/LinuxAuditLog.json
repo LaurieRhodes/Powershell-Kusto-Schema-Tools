@@ -1,0 +1,269 @@
+﻿{
+    "Name":  "LinuxAuditLog",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "arch",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "cmd",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "comm",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "cwd",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "data",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "exe",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "exit",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "family",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "filetype",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "gid",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "group",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "egid",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "effective_group",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "addr",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "hostname",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "key",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "name",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "path",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "pid",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ppid",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "res",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "result",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ses",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "success",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "syscall",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "terminal",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "tty",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "vm",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "icmptype",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RawRecord",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "acct",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "op",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceComputerId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ManagementGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TimeUploaded",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ManagementGroupName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExternalAgentIp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecordType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AuditID",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SerialNumber",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "uid",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "user",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "effective_user",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "node",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "a0",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "a1",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "a2",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "a3",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "a4",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "a5",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "a6",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "a7",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "a8",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "a9",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "auid",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "audit_user",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "euid",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "argc",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ComputerEnvironment",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

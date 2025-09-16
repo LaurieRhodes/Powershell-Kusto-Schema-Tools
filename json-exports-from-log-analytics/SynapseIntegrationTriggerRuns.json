@@ -1,0 +1,93 @@
+﻿{
+    "Name":  "SynapseIntegrationTriggerRuns",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SystemParameters",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Parameters",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Start",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TriggerEvent",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TriggerType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TriggerName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TriggerId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PipelineTenantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Annotations",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Status",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Tags",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Location",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Level",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserProperties",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

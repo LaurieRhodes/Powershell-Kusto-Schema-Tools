@@ -1,0 +1,65 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AADDomainServicesSystemSecurity - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:14:30
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 15, Final columns: 15
+// ============================================================================
+
+.create-merge table AADDomainServicesSystemSecurityRaw (records:dynamic)
+
+.alter-merge table AADDomainServicesSystemSecurityRaw policy retention softdelete = 1d
+
+.alter table AADDomainServicesSystemSecurityRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AADDomainServicesSystemSecurityRaw ingestion json mapping 'AADDomainServicesSystemSecurityRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AADDomainServicesSystemSecurity(
+TimeGenerated:datetime,
+TenantId:guid,
+SourceSystem:string,
+ResourceId:string,
+OperationName:string,
+Category:string,
+ResultType:string,
+ResultDescription:string,
+CorrelationId:string,
+aadds_AuditsDiscarded:int,
+aadds_RecordId:string,
+AuditsDiscarded:int,
+RecordId:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AADDomainServicesSystemSecurity policy caching hot = 1d
+
+.create-or-alter function AADDomainServicesSystemSecurityExpand() {
+AADDomainServicesSystemSecurityRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SourceSystem=tostring(events.SourceSystem),
+ResourceId=tostring(events.ResourceId),
+OperationName=tostring(events.OperationName),
+Category=tostring(events.Category),
+ResultType=tostring(events.ResultType),
+ResultDescription=tostring(events.ResultDescription),
+CorrelationId=tostring(events.CorrelationId),
+aadds_AuditsDiscarded=toint(events.aadds_AuditsDiscarded),
+aadds_RecordId=tostring(events.aadds_RecordId),
+AuditsDiscarded=toint(events.AuditsDiscarded),
+RecordId=tostring(events.RecordId),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AADDomainServicesSystemSecurity policy update @'[{"Source": "AADDomainServicesSystemSecurityRaw", "Query": "AADDomainServicesSystemSecurityExpand()", "IsEnabled": "True", "IsTransactional": true}]'

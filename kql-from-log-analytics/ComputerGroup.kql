@@ -1,0 +1,57 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ComputerGroup - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:21:22
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 11, Final columns: 11
+// ============================================================================
+
+.create-merge table ComputerGroupRaw (records:dynamic)
+
+.alter-merge table ComputerGroupRaw policy retention softdelete = 1d
+
+.alter table ComputerGroupRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ComputerGroupRaw ingestion json mapping 'ComputerGroupRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ComputerGroup(
+TimeGenerated:datetime,
+TenantId:guid,
+SourceSystem:string,
+Computer:string,
+Group:string,
+GroupId:string,
+GroupSourceName:string,
+GroupSource:string,
+GroupFullName:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ComputerGroup policy caching hot = 1d
+
+.create-or-alter function ComputerGroupExpand() {
+ComputerGroupRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SourceSystem=tostring(events.SourceSystem),
+Computer=tostring(events.Computer),
+Group=tostring(events.Group),
+GroupId=tostring(events.GroupId),
+GroupSourceName=tostring(events.GroupSourceName),
+GroupSource=tostring(events.GroupSource),
+GroupFullName=tostring(events.GroupFullName),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ComputerGroup policy update @'[{"Source": "ComputerGroupRaw", "Query": "ComputerGroupExpand()", "IsEnabled": "True", "IsTransactional": true}]'

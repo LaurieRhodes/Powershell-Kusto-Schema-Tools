@@ -1,0 +1,81 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ADTModelsOperation - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:16:14
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 23, Final columns: 23
+// ============================================================================
+
+.create-merge table ADTModelsOperationRaw (records:dynamic)
+
+.alter-merge table ADTModelsOperationRaw policy retention softdelete = 1d
+
+.alter table ADTModelsOperationRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ADTModelsOperationRaw ingestion json mapping 'ADTModelsOperationRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ADTModelsOperation(
+TimeGenerated:datetime,
+TenantId:guid,
+TraceFlags:string,
+ParentId:string,
+SpanId:string,
+TraceId:string,
+RequestUri:string,
+Location:string,
+Level:string,
+ApplicationId:string,
+CorrelationId:guid,
+CallerIpAddress:string,
+DurationMs:string,
+ResultDescription:string,
+ResultSignature:string,
+ResultType:string,
+OperationVersion:string,
+OperationName:string,
+Category:string,
+TraceState:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ADTModelsOperation policy caching hot = 1d
+
+.create-or-alter function ADTModelsOperationExpand() {
+ADTModelsOperationRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+TraceFlags=tostring(events.TraceFlags),
+ParentId=tostring(events.ParentId),
+SpanId=tostring(events.SpanId),
+TraceId=tostring(events.TraceId),
+RequestUri=tostring(events.RequestUri),
+Location=tostring(events.Location),
+Level=tostring(events.Level),
+ApplicationId=tostring(events.ApplicationId),
+CorrelationId=toguid(events.CorrelationId),
+CallerIpAddress=tostring(events.CallerIpAddress),
+DurationMs=tostring(events.DurationMs),
+ResultDescription=tostring(events.ResultDescription),
+ResultSignature=tostring(events.ResultSignature),
+ResultType=tostring(events.ResultType),
+OperationVersion=tostring(events.OperationVersion),
+OperationName=tostring(events.OperationName),
+Category=tostring(events.Category),
+TraceState=tostring(events.TraceState),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ADTModelsOperation policy update @'[{"Source": "ADTModelsOperationRaw", "Query": "ADTModelsOperationExpand()", "IsEnabled": "True", "IsTransactional": true}]'

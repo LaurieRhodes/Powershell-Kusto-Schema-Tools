@@ -1,0 +1,67 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for OEWExperimentAssignmentSummary - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:27:53
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 16, Final columns: 16
+// ============================================================================
+
+.create-merge table OEWExperimentAssignmentSummaryRaw (records:dynamic)
+
+.alter-merge table OEWExperimentAssignmentSummaryRaw policy retention softdelete = 1d
+
+.alter table OEWExperimentAssignmentSummaryRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table OEWExperimentAssignmentSummaryRaw ingestion json mapping 'OEWExperimentAssignmentSummaryRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table OEWExperimentAssignmentSummary(
+TimeGenerated:datetime,
+TenantId:guid,
+FeatureFlagReference:string,
+FeatureName:string,
+AllocationId:string,
+Variant:string,
+VariantAssignmentPercentage:real,
+IsControlVariant:bool,
+AssignmentEventCount:long,
+FirstAssignmentTimestamp:datetime,
+LastAssignmentTimestamp:datetime,
+BinStartTime:datetime,
+BinSize:long,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table OEWExperimentAssignmentSummary policy caching hot = 1d
+
+.create-or-alter function OEWExperimentAssignmentSummaryExpand() {
+OEWExperimentAssignmentSummaryRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+FeatureFlagReference=tostring(events.FeatureFlagReference),
+FeatureName=tostring(events.FeatureName),
+AllocationId=tostring(events.AllocationId),
+Variant=tostring(events.Variant),
+VariantAssignmentPercentage=toreal(events.VariantAssignmentPercentage),
+IsControlVariant=tobool(events.IsControlVariant),
+AssignmentEventCount=tolong(events.AssignmentEventCount),
+FirstAssignmentTimestamp=todatetime(events.FirstAssignmentTimestamp),
+LastAssignmentTimestamp=todatetime(events.LastAssignmentTimestamp),
+BinStartTime=todatetime(events.BinStartTime),
+BinSize=tolong(events.BinSize),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table OEWExperimentAssignmentSummary policy update @'[{"Source": "OEWExperimentAssignmentSummaryRaw", "Query": "OEWExperimentAssignmentSummaryExpand()", "IsEnabled": "True", "IsTransactional": true}]'

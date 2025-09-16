@@ -1,0 +1,105 @@
+﻿{
+    "Name":  "SecurityBaselineSummary",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "CriticalFailedRules",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "PercentageOfPassedRules",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "TotalAssessedRules",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "AssessmentId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "OSName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BaselineType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BaselineId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ComputerEnvironment",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Resource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceProvider",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SubscriptionId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SourceComputerId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ManagementGroupName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MG",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "WarningFailedRules",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "InformationalFailedRules",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

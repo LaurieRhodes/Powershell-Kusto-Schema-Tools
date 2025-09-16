@@ -1,0 +1,133 @@
+﻿{
+    "Name":  "RetinaNetworkFlowLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Policies",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "PacketsReceived",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "PacketsSent",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "TraceObservationPoint",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TrafficDirection",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Service",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "EventType",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Reply",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "Layer7",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "NodeName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FlowType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationWorkloads",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "AdditionalFlowData",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "DestinationPodName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationClusterName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationIdentity",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SourceWorkloads",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SourcePodName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceNamespace",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceClusterName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceIdentity",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Layer4",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "IP",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "DropReason",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Verdict",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UUID",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationNamespace",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

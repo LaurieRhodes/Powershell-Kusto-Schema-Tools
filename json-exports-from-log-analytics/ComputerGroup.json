@@ -1,0 +1,49 @@
+﻿{
+    "Name":  "ComputerGroup",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Group",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "GroupId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "GroupSourceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "GroupSource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "GroupFullName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

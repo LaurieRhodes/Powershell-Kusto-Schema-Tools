@@ -1,0 +1,141 @@
+﻿{
+    "Name":  "ABAPChangeDocsLog",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ValueOld",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ValueNew",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UOMOld",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UOMNew",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ItemTypeOfChange",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "HeaderTypeOfChange",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TransactionCode",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TableName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PlannedChangeNumber",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ObjectId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ObjectClass",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Language",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FlagText",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FieldName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CurrencyKeyOld",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CurrencyKeyNew",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CreatedFromPlannedChange",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ChangeNumber",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ChangedTableKey",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActualChangeNumber",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AgentId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SystemUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SystemRole",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "User",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Instance",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SystemNumber",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SystemId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UpdatedOn",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Version",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

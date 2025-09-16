@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for ZPA_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:54
+// Generated: 2025-09-17 06:21:07
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 7, DCR columns: 4 (Type column filtered out)
+// Underscore columns included
+// Original columns: 7, DCR columns: 6 (Type column always filtered)
 // Output stream: Custom-ZPA_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -46,6 +47,14 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             name: 'Message'
             type: 'string'
           }
+          {
+            name: '_ResourceId'
+            type: 'string'
+          }
+          {
+            name: '_SubscriptionId'
+            type: 'string'
+          }
         ]
       }
     }
@@ -62,7 +71,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-ZPA_CL']
         destinations: ['Sentinel-ZPA_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), Computer = tostring(Computer), RawData = tostring(RawData), Message = tostring(Message)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), Computer = tostring(Computer), RawData = tostring(RawData), Message = tostring(Message), _ResourceId = tostring(_ResourceId), _SubscriptionId = tostring(_SubscriptionId)'
         outputStream: 'Custom-ZPA_CL'
       }
     ]

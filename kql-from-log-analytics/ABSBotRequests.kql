@@ -1,0 +1,63 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ABSBotRequests - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:14:53
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 14, Final columns: 14
+// ============================================================================
+
+.create-merge table ABSBotRequestsRaw (records:dynamic)
+
+.alter-merge table ABSBotRequestsRaw policy retention softdelete = 1d
+
+.alter table ABSBotRequestsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ABSBotRequestsRaw ingestion json mapping 'ABSBotRequestsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ABSBotRequests(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+CorrelationId:string,
+Category:string,
+Location:string,
+Level:string,
+BotId:string,
+ResultCode:int,
+Channel:string,
+DurationMs:real,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ABSBotRequests policy caching hot = 1d
+
+.create-or-alter function ABSBotRequestsExpand() {
+ABSBotRequestsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+CorrelationId=tostring(events.CorrelationId),
+Category=tostring(events.Category),
+Location=tostring(events.Location),
+Level=tostring(events.Level),
+BotId=tostring(events.BotId),
+ResultCode=toint(events.ResultCode),
+Channel=tostring(events.Channel),
+DurationMs=toreal(events.DurationMs),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ABSBotRequests policy update @'[{"Source": "ABSBotRequestsRaw", "Query": "ABSBotRequestsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

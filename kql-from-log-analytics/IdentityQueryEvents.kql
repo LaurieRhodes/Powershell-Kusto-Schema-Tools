@@ -1,0 +1,93 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for IdentityQueryEvents - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:26:06
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 29, Final columns: 29
+// ============================================================================
+
+.create-merge table IdentityQueryEventsRaw (records:dynamic)
+
+.alter-merge table IdentityQueryEventsRaw policy retention softdelete = 1d
+
+.alter table IdentityQueryEventsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table IdentityQueryEventsRaw ingestion json mapping 'IdentityQueryEventsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table IdentityQueryEvents(
+TimeGenerated:datetime,
+TenantId:guid,
+ReportId:string,
+Location:string,
+TargetAccountDisplayName:string,
+TargetAccountUpn:string,
+TargetDeviceName:string,
+DestinationPort:string,
+DestinationIPAddress:string,
+DestinationDeviceName:string,
+Port:string,
+IPAddress:string,
+DeviceName:string,
+AdditionalFields:dynamic,
+AccountDisplayName:string,
+AccountSid:string,
+AccountUpn:string,
+AccountDomain:string,
+AccountName:string,
+Protocol:string,
+Query:string,
+QueryTarget:string,
+QueryType:string,
+Application:string,
+ActionType:string,
+Timestamp:datetime,
+AccountObjectId:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table IdentityQueryEvents policy caching hot = 1d
+
+.create-or-alter function IdentityQueryEventsExpand() {
+IdentityQueryEventsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ReportId=tostring(events.ReportId),
+Location=tostring(events.Location),
+TargetAccountDisplayName=tostring(events.TargetAccountDisplayName),
+TargetAccountUpn=tostring(events.TargetAccountUpn),
+TargetDeviceName=tostring(events.TargetDeviceName),
+DestinationPort=tostring(events.DestinationPort),
+DestinationIPAddress=tostring(events.DestinationIPAddress),
+DestinationDeviceName=tostring(events.DestinationDeviceName),
+Port=tostring(events.Port),
+IPAddress=tostring(events.IPAddress),
+DeviceName=tostring(events.DeviceName),
+AdditionalFields=todynamic(events.AdditionalFields),
+AccountDisplayName=tostring(events.AccountDisplayName),
+AccountSid=tostring(events.AccountSid),
+AccountUpn=tostring(events.AccountUpn),
+AccountDomain=tostring(events.AccountDomain),
+AccountName=tostring(events.AccountName),
+Protocol=tostring(events.Protocol),
+Query=tostring(events.Query),
+QueryTarget=tostring(events.QueryTarget),
+QueryType=tostring(events.QueryType),
+Application=tostring(events.Application),
+ActionType=tostring(events.ActionType),
+Timestamp=todatetime(events.Timestamp),
+AccountObjectId=tostring(events.AccountObjectId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table IdentityQueryEvents policy update @'[{"Source": "IdentityQueryEventsRaw", "Query": "IdentityQueryEventsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

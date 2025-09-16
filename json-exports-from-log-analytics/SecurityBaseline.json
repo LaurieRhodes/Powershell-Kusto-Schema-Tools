@@ -1,0 +1,137 @@
+﻿{
+    "Name":  "SecurityBaseline",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "BaselineRuleId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AnalyzeResult",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActualResult",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExpectedResult",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RuleSetting",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Description",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BaselineRuleType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RuleSeverity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TimeAnalyzed",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "AssessmentId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "OSName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BaselineType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BaselineId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ComputerEnvironment",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Resource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceProvider",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SubscriptionId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SourceComputerId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ManagementGroupName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MG",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SitePath",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AnalyzeOperation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

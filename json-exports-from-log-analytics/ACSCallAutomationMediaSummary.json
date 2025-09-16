@@ -1,0 +1,73 @@
+﻿{
+    "Name":  "ACSCallAutomationMediaSummary",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Level",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PlayInLoop",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "PlayToParticipant",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "PlayInterrupted",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "RecognizePromptSubOperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultCode",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ResultSubcode",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ResultMessage",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

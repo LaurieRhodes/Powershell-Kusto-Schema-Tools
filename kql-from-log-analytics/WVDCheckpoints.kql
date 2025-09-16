@@ -1,0 +1,57 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for WVDCheckpoints - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:31:37
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 11, Final columns: 11
+// ============================================================================
+
+.create-merge table WVDCheckpointsRaw (records:dynamic)
+
+.alter-merge table WVDCheckpointsRaw policy retention softdelete = 1d
+
+.alter table WVDCheckpointsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table WVDCheckpointsRaw ingestion json mapping 'WVDCheckpointsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table WVDCheckpoints(
+TimeGenerated:datetime,
+TenantId:guid,
+ActivityType:string,
+CorrelationId:string,
+UserName:string,
+Name:string,
+Source:string,
+Parameters:dynamic,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table WVDCheckpoints policy caching hot = 1d
+
+.create-or-alter function WVDCheckpointsExpand() {
+WVDCheckpointsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ActivityType=tostring(events.ActivityType),
+CorrelationId=tostring(events.CorrelationId),
+UserName=tostring(events.UserName),
+Name=tostring(events.Name),
+Source=tostring(events.Source),
+Parameters=todynamic(events.Parameters),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table WVDCheckpoints policy update @'[{"Source": "WVDCheckpointsRaw", "Query": "WVDCheckpointsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

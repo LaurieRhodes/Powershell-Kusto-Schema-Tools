@@ -1,0 +1,161 @@
+﻿{
+    "Name":  "ATCExpressRouteCircuitIpfix",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SrcMask",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "DstMask",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SrcAsn",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "DstAsn",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "NextHop",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TcpFlag",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "IcmpType",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "MinTtl",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SrcSubnet",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DstSubnet",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IpVerCode",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "BgpNextHop",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PeeringType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Dot1qVlanId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "MaxTtl",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "IpProtocolIdentifier",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "IpClassOfService",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Flowsequence",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ATCResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ATCRegion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SchemaVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FlowRecordTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ExRCircuitId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExRCircuitServiceKey",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExRCircuitDirectPortId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceIp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationIp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourcePort",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "DestinationPort",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Protocol",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "NumberOfBytes",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "NumberOfPackets",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "Dot1qCustomerVlanId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

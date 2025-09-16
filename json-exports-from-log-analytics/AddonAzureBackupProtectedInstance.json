@@ -1,0 +1,137 @@
+﻿{
+    "Name":  "AddonAzureBackupProtectedInstance",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SourceSizeInMBs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "BillingGroupType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DatasourceType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VaultName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceGroupName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SubscriptionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ArchiveTierStorageReplicationType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "StorageReplicationType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VaultType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureDataCenter",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VaultTags",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ArchiveTierStorageConsumedInMBs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "StorageConsumedInMBs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "BillingGroupUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BillingGroupFriendlyName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VaultUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "State",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SchemaVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProtectedInstanceCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ProtectedContainerUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackupManagementType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackupManagementServerUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackupItemUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BillingGroupResourceGroupName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExtendedProperties",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

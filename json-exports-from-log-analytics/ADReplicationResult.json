@@ -1,0 +1,113 @@
+﻿{
+    "Name":  "ADReplicationResult",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "LastSyncResult",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "MG",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "PercentOfTSLRange",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LastSyncResultMessage",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AssessmentId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SourceInvocationId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ReplicationNeighborOption",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationSiteName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSiteName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsDestinationGC",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "IsSourceGC",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "PercentOfTSL",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "TombstoneLifetime",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "HelpLink",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ConsecutiveFailures",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "LastSuccessfulSync",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "LastAttemptedSync",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "PartitionName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationServer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceServer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LastSyncMessage",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

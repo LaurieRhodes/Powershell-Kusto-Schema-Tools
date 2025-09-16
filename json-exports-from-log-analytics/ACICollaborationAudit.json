@@ -1,0 +1,89 @@
+﻿{
+    "Name":  "ACICollaborationAudit",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ReferencedResourceType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ReferencedResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EntitlementSummary",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "GrantCorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "GrantSourceType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "GrantSource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "GrantType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ParticipantTenantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ParticipantName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TargetResourceType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TargetResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EntitlementResult",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Location",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

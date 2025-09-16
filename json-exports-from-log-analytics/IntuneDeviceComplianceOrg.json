@@ -1,0 +1,125 @@
+﻿{
+    "Name":  "IntuneDeviceComplianceOrg",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "AADTenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "IntuneAccountId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "UserEmail",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceHealthThreatLevel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InGracePeriodUntil",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BatchId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "UserName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ManagementAgents",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RetireAfterDatetime",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SerialNumber",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Stats",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "IMEI",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LastContact",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OwnerType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OS",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OSVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OSDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ComplianceState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UPN",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Result",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

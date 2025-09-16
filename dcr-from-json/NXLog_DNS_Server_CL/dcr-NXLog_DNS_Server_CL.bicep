@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for NXLog_DNS_Server_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:46
+// Generated: 2025-09-17 06:20:59
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 69, DCR columns: 66 (Type column filtered out)
+// Underscore columns included
+// Original columns: 69, DCR columns: 68 (Type column always filtered)
 // Output stream: Custom-NXLog_DNS_Server_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -35,7 +36,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'TenantId'
+            name: '_ItemId'
             type: 'string'
           }
           {
@@ -95,11 +96,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'HostIP_s'
+            name: 'AD_s'
             type: 'string'
           }
           {
-            name: 'Destination_s'
+            name: 'HostIP_s'
             type: 'string'
           }
           {
@@ -155,11 +156,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'AD_s'
+            name: 'VirtualizationID_s'
             type: 'string'
           }
           {
-            name: 'VirtualizationID_s'
+            name: 'Destination_s'
+            type: 'string'
+          }
+          {
+            name: 'Reason_s'
             type: 'string'
           }
           {
@@ -168,6 +173,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'Source_s'
+            type: 'string'
+          }
+          {
+            name: 'TenantId'
             type: 'string'
           }
           {
@@ -223,11 +232,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'OpcodeValue_d'
+            name: 'InterfaceIP_s'
             type: 'string'
           }
           {
-            name: 'TaskValue_d'
+            name: 'OpcodeValue_d'
             type: 'string'
           }
           {
@@ -287,11 +296,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'InterfaceIP_s'
+            name: 'TaskValue_d'
             type: 'string'
           }
           {
-            name: 'Reason_s'
+            name: '_ResourceId'
             type: 'string'
           }
         ]
@@ -310,7 +319,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-NXLog_DNS_Server_CL']
         destinations: ['Sentinel-NXLog_DNS_Server_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), QNAME_s = tostring(QNAME_s), QTYPE_s = tostring(QTYPE_s), XID_s = tostring(XID_s), RecursionDepth_s = tostring(RecursionDepth_s), Port_s = tostring(Port_s), RecursionScope_s = tostring(RecursionScope_s), CacheScope_s = tostring(CacheScope_s), BufferSize_s = tostring(BufferSize_s), PacketData_s = tostring(PacketData_s), AdditionalInfo_s = tostring(AdditionalInfo_s), GUID_g = tostring(GUID_g), EventReceivedTime_t = todatetime(EventReceivedTime_t), SourceModuleName_s = tostring(SourceModuleName_s), SourceModuleType_s = tostring(SourceModuleType_s), HostIP_s = tostring(HostIP_s), Destination_s = tostring(Destination_s), RD_s = tostring(RD_s), QXID_s = tostring(QXID_s), PolicyName_s = tostring(PolicyName_s), DNSSEC_s = tostring(DNSSEC_s), RCODE_s = tostring(RCODE_s), Scope_s = tostring(Scope_s), Zone_s = tostring(Zone_s), ElapsedTime_s = tostring(ElapsedTime_s), Type_s = tostring(Type_s), NAME_s = tostring(NAME_s), TTL_s = tostring(TTL_s), RDATA_s = tostring(RDATA_s), ZoneScope_s = tostring(ZoneScope_s), AD_s = tostring(AD_s), VirtualizationID_s = tostring(VirtualizationID_s), AA_s = tostring(AA_s), Source_s = tostring(Source_s), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), DNS_LogType_s = tostring(DNS_LogType_s), FilePath_s = tostring(FilePath_s), DNSSeverType_s = tostring(DNSSeverType_s), SourceName_s = tostring(SourceName_s), ProviderGuid_g = tostring(ProviderGuid_g), EventID_d = toreal(EventID_d), Version_d = toreal(Version_d), ChannelID_d = toreal(ChannelID_d), OpcodeValue_d = toreal(OpcodeValue_d), TaskValue_d = toreal(TaskValue_d), Keywords_s = tostring(Keywords_s), EventTime_t = todatetime(EventTime_t), ExecutionProcessID_d = toreal(ExecutionProcessID_d), ExecutionThreadID_d = toreal(ExecutionThreadID_d), EventType_s = tostring(EventType_s), SeverityValue_d = toreal(SeverityValue_d), Severity_s = tostring(Severity_s), Hostname_s = tostring(Hostname_s), Domain_s = tostring(Domain_s), AccountName_s = tostring(AccountName_s), UserID_s = tostring(UserID_s), AccountType_s = tostring(AccountType_s), Flags_s = tostring(Flags_s), TCP_s = tostring(TCP_s), InterfaceIP_s = tostring(InterfaceIP_s), Reason_s = tostring(Reason_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _ItemId = tostring(_ItemId), QNAME_s = tostring(QNAME_s), QTYPE_s = tostring(QTYPE_s), XID_s = tostring(XID_s), RecursionDepth_s = tostring(RecursionDepth_s), Port_s = tostring(Port_s), RecursionScope_s = tostring(RecursionScope_s), CacheScope_s = tostring(CacheScope_s), BufferSize_s = tostring(BufferSize_s), PacketData_s = tostring(PacketData_s), AdditionalInfo_s = tostring(AdditionalInfo_s), GUID_g = tostring(GUID_g), EventReceivedTime_t = todatetime(EventReceivedTime_t), SourceModuleName_s = tostring(SourceModuleName_s), SourceModuleType_s = tostring(SourceModuleType_s), AD_s = tostring(AD_s), HostIP_s = tostring(HostIP_s), RD_s = tostring(RD_s), QXID_s = tostring(QXID_s), PolicyName_s = tostring(PolicyName_s), DNSSEC_s = tostring(DNSSEC_s), RCODE_s = tostring(RCODE_s), Scope_s = tostring(Scope_s), Zone_s = tostring(Zone_s), ElapsedTime_s = tostring(ElapsedTime_s), Type_s = tostring(Type_s), NAME_s = tostring(NAME_s), TTL_s = tostring(TTL_s), RDATA_s = tostring(RDATA_s), ZoneScope_s = tostring(ZoneScope_s), VirtualizationID_s = tostring(VirtualizationID_s), Destination_s = tostring(Destination_s), Reason_s = tostring(Reason_s), AA_s = tostring(AA_s), Source_s = tostring(Source_s), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), DNS_LogType_s = tostring(DNS_LogType_s), FilePath_s = tostring(FilePath_s), DNSSeverType_s = tostring(DNSSeverType_s), SourceName_s = tostring(SourceName_s), ProviderGuid_g = tostring(ProviderGuid_g), EventID_d = toreal(EventID_d), Version_d = toreal(Version_d), ChannelID_d = toreal(ChannelID_d), InterfaceIP_s = tostring(InterfaceIP_s), OpcodeValue_d = toreal(OpcodeValue_d), Keywords_s = tostring(Keywords_s), EventTime_t = todatetime(EventTime_t), ExecutionProcessID_d = toreal(ExecutionProcessID_d), ExecutionThreadID_d = toreal(ExecutionThreadID_d), EventType_s = tostring(EventType_s), SeverityValue_d = toreal(SeverityValue_d), Severity_s = tostring(Severity_s), Hostname_s = tostring(Hostname_s), Domain_s = tostring(Domain_s), AccountName_s = tostring(AccountName_s), UserID_s = tostring(UserID_s), AccountType_s = tostring(AccountType_s), Flags_s = tostring(Flags_s), TCP_s = tostring(TCP_s), TaskValue_d = toreal(TaskValue_d), _ResourceId = tostring(_ResourceId)'
         outputStream: 'Custom-NXLog_DNS_Server_CL'
       }
     ]

@@ -1,0 +1,125 @@
+﻿{
+    "Name":  "AmlOnlineEndpointTrafficLog",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "AuthType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResponseThrottlingDelayMs",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "RequestThrottlingDelayMs",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ResponseDurationMs",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "RequestDurationMs",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "TotalDurationMs",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "XMSClientRequestId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "XRequestId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserAgent",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResponsePayloadSize",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "RequestPayloadSize",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "IdentityData",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ModelStatusReason",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResponseCodeReason",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResponseCode",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Protocol",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeploymentName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EndpointName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureMLWorkspaceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureMLWorkspaceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Path",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Method",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Location",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ModelStatusCode",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

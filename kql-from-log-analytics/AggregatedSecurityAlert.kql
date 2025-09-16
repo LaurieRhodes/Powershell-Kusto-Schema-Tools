@@ -1,0 +1,105 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AggregatedSecurityAlert - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:16:41
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 35, Final columns: 35
+// ============================================================================
+
+.create-merge table AggregatedSecurityAlertRaw (records:dynamic)
+
+.alter-merge table AggregatedSecurityAlertRaw policy retention softdelete = 1d
+
+.alter table AggregatedSecurityAlertRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AggregatedSecurityAlertRaw ingestion json mapping 'AggregatedSecurityAlertRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AggregatedSecurityAlert(
+TimeGenerated:datetime,
+TenantId:guid,
+PartnerMetadata:string,
+PartnerDisplayName:string,
+PartnerId:string,
+SubTechniques:string,
+Techniques:string,
+Tactics:string,
+CompromisedEntity:string,
+Status:string,
+ProductComponentName:string,
+ProductName:string,
+ExtendedLinks:string,
+SourceSystem:string,
+Entities:string,
+ExtendedProperties:string,
+RemediationSteps:string,
+ProcessingEndTime:datetime,
+EndTime:datetime,
+StartTime:datetime,
+ConfidenceScore:real,
+ConfidenceLevel:string,
+AlertType:string,
+SystemAlertId:string,
+VendorOriginalId:string,
+VendorName:string,
+ProviderName:string,
+Description:string,
+AlertSeverity:string,
+AlertName:string,
+DisplayName:string,
+AggregatedSecurityAlertRuleIds:string,
+AggregatedSecurityAlertRuleNames:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AggregatedSecurityAlert policy caching hot = 1d
+
+.create-or-alter function AggregatedSecurityAlertExpand() {
+AggregatedSecurityAlertRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+PartnerMetadata=tostring(events.PartnerMetadata),
+PartnerDisplayName=tostring(events.PartnerDisplayName),
+PartnerId=tostring(events.PartnerId),
+SubTechniques=tostring(events.SubTechniques),
+Techniques=tostring(events.Techniques),
+Tactics=tostring(events.Tactics),
+CompromisedEntity=tostring(events.CompromisedEntity),
+Status=tostring(events.Status),
+ProductComponentName=tostring(events.ProductComponentName),
+ProductName=tostring(events.ProductName),
+ExtendedLinks=tostring(events.ExtendedLinks),
+SourceSystem=tostring(events.SourceSystem),
+Entities=tostring(events.Entities),
+ExtendedProperties=tostring(events.ExtendedProperties),
+RemediationSteps=tostring(events.RemediationSteps),
+ProcessingEndTime=todatetime(events.ProcessingEndTime),
+EndTime=todatetime(events.EndTime),
+StartTime=todatetime(events.StartTime),
+ConfidenceScore=toreal(events.ConfidenceScore),
+ConfidenceLevel=tostring(events.ConfidenceLevel),
+AlertType=tostring(events.AlertType),
+SystemAlertId=tostring(events.SystemAlertId),
+VendorOriginalId=tostring(events.VendorOriginalId),
+VendorName=tostring(events.VendorName),
+ProviderName=tostring(events.ProviderName),
+Description=tostring(events.Description),
+AlertSeverity=tostring(events.AlertSeverity),
+AlertName=tostring(events.AlertName),
+DisplayName=tostring(events.DisplayName),
+AggregatedSecurityAlertRuleIds=tostring(events.AggregatedSecurityAlertRuleIds),
+AggregatedSecurityAlertRuleNames=tostring(events.AggregatedSecurityAlertRuleNames),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AggregatedSecurityAlert policy update @'[{"Source": "AggregatedSecurityAlertRaw", "Query": "AggregatedSecurityAlertExpand()", "IsEnabled": "True", "IsTransactional": true}]'

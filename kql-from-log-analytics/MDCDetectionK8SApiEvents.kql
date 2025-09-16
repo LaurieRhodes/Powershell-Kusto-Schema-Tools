@@ -1,0 +1,99 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for MDCDetectionK8SApiEvents - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:26:42
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 32, Final columns: 32
+// ============================================================================
+
+.create-merge table MDCDetectionK8SApiEventsRaw (records:dynamic)
+
+.alter-merge table MDCDetectionK8SApiEventsRaw policy retention softdelete = 1d
+
+.alter table MDCDetectionK8SApiEventsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table MDCDetectionK8SApiEventsRaw ingestion json mapping 'MDCDetectionK8SApiEventsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table MDCDetectionK8SApiEvents(
+TimeGenerated:datetime,
+TenantId:guid,
+AdditionalMetadata:dynamic,
+Elapsed:real,
+ContainsPublicIp:bool,
+ClientIPs:dynamic,
+ContainsAuthentication:bool,
+AuthenticationTypes:dynamic,
+PayloadEncoding:string,
+PayloadType:string,
+IsLastChunk:bool,
+ChunkNum:int,
+PayloadLength:int,
+Payload:string,
+StatusCode:int,
+Url:string,
+Method:string,
+IsRequest:bool,
+RequestId:string,
+K8SPodName:string,
+K8SNodeName:string,
+K8SStatefulsetName:string,
+K8SDaemonsetName:string,
+K8SDeploymentName:string,
+K8SNamespaceName:string,
+K8SClusterName:string,
+Timestamp:datetime,
+Region:string,
+AzureResourceId:string,
+DataPipelineMetadata:dynamic,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table MDCDetectionK8SApiEvents policy caching hot = 1d
+
+.create-or-alter function MDCDetectionK8SApiEventsExpand() {
+MDCDetectionK8SApiEventsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+AdditionalMetadata=todynamic(events.AdditionalMetadata),
+Elapsed=toreal(events.Elapsed),
+ContainsPublicIp=tobool(events.ContainsPublicIp),
+ClientIPs=todynamic(events.ClientIPs),
+ContainsAuthentication=tobool(events.ContainsAuthentication),
+AuthenticationTypes=todynamic(events.AuthenticationTypes),
+PayloadEncoding=tostring(events.PayloadEncoding),
+PayloadType=tostring(events.PayloadType),
+IsLastChunk=tobool(events.IsLastChunk),
+ChunkNum=toint(events.ChunkNum),
+PayloadLength=toint(events.PayloadLength),
+Payload=tostring(events.Payload),
+StatusCode=toint(events.StatusCode),
+Url=tostring(events.Url),
+Method=tostring(events.Method),
+IsRequest=tobool(events.IsRequest),
+RequestId=tostring(events.RequestId),
+K8SPodName=tostring(events.K8SPodName),
+K8SNodeName=tostring(events.K8SNodeName),
+K8SStatefulsetName=tostring(events.K8SStatefulsetName),
+K8SDaemonsetName=tostring(events.K8SDaemonsetName),
+K8SDeploymentName=tostring(events.K8SDeploymentName),
+K8SNamespaceName=tostring(events.K8SNamespaceName),
+K8SClusterName=tostring(events.K8SClusterName),
+Timestamp=todatetime(events.Timestamp),
+Region=tostring(events.Region),
+AzureResourceId=tostring(events.AzureResourceId),
+DataPipelineMetadata=todynamic(events.DataPipelineMetadata),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table MDCDetectionK8SApiEvents policy update @'[{"Source": "MDCDetectionK8SApiEventsRaw", "Query": "MDCDetectionK8SApiEventsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

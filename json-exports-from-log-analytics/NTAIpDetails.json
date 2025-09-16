@@ -1,0 +1,73 @@
+﻿{
+    "Name":  "NTAIpDetails",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SubType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FaSchemaVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FlowIntervalStartTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "FlowIntervalEndTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "FlowType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Ip",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PublicIpDetails",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ThreatType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DnsDomain",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ThreatDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Location",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Url",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Port",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

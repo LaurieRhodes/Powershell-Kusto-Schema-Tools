@@ -1,0 +1,55 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for GCPMonitoring - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:24:46
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 10, Final columns: 10
+// ============================================================================
+
+.create-merge table GCPMonitoringRaw (records:dynamic)
+
+.alter-merge table GCPMonitoringRaw policy retention softdelete = 1d
+
+.alter table GCPMonitoringRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table GCPMonitoringRaw ingestion json mapping 'GCPMonitoringRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table GCPMonitoring(
+TimeGenerated:datetime,
+TenantId:guid,
+MetricLabels:dynamic,
+MetricType:string,
+MetricKind:string,
+GCPResource:dynamic,
+ValueType:string,
+Points:dynamic,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table GCPMonitoring policy caching hot = 1d
+
+.create-or-alter function GCPMonitoringExpand() {
+GCPMonitoringRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+MetricLabels=todynamic(events.MetricLabels),
+MetricType=tostring(events.MetricType),
+MetricKind=tostring(events.MetricKind),
+GCPResource=todynamic(events.GCPResource),
+ValueType=tostring(events.ValueType),
+Points=todynamic(events.Points),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table GCPMonitoring policy update @'[{"Source": "GCPMonitoringRaw", "Query": "GCPMonitoringExpand()", "IsEnabled": "True", "IsTransactional": true}]'

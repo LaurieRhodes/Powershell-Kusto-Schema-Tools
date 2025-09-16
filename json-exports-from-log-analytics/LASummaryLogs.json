@@ -1,0 +1,57 @@
+﻿{
+    "Name":  "LASummaryLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "BinStartTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "BinSize",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Status",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "QueryDurationMs",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ResultsRecordCount",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "Message",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RuleName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RuleLastModifiedTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

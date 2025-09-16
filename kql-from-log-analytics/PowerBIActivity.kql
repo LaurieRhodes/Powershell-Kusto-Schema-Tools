@@ -1,0 +1,113 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for PowerBIActivity - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:28:28
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 39, Final columns: 39
+// ============================================================================
+
+.create-merge table PowerBIActivityRaw (records:dynamic)
+
+.alter-merge table PowerBIActivityRaw policy retention softdelete = 1d
+
+.alter table PowerBIActivityRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table PowerBIActivityRaw ingestion json mapping 'PowerBIActivityRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table PowerBIActivity(
+TimeGenerated:datetime,
+TenantId:guid,
+SharingInformation:string,
+SwitchState:string,
+PbiWorkspaceName:string,
+EventProduct:string,
+EventVendor:string,
+UserAgent:string,
+Activity:string,
+ItemName:string,
+WorkspaceId:guid,
+DashboardId:string,
+IsSuccess:string,
+RequestId:string,
+Workload:string,
+ActivityId:string,
+DistributionMethod:string,
+ReportName:string,
+FolderAccessRequests:dynamic,
+OrgAppPermission:string,
+DatasetName:string,
+EventOriginalUid:string,
+RecordType:string,
+EventOriginalType:string,
+OrganizationId:string,
+UserType:string,
+ActorUserType:string,
+ActorUserId:string,
+EventResult:string,
+ObjectId:string,
+ActorName:string,
+SrcIpAddr:string,
+Scope:string,
+TargetAppName:string,
+DashboardName:string,
+DataClassification:string,
+MembershipInformation:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table PowerBIActivity policy caching hot = 1d
+
+.create-or-alter function PowerBIActivityExpand() {
+PowerBIActivityRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SharingInformation=tostring(events.SharingInformation),
+SwitchState=tostring(events.SwitchState),
+PbiWorkspaceName=tostring(events.PbiWorkspaceName),
+EventProduct=tostring(events.EventProduct),
+EventVendor=tostring(events.EventVendor),
+UserAgent=tostring(events.UserAgent),
+Activity=tostring(events.Activity),
+ItemName=tostring(events.ItemName),
+WorkspaceId=toguid(events.WorkspaceId),
+DashboardId=tostring(events.DashboardId),
+IsSuccess=tostring(events.IsSuccess),
+RequestId=tostring(events.RequestId),
+Workload=tostring(events.Workload),
+ActivityId=tostring(events.ActivityId),
+DistributionMethod=tostring(events.DistributionMethod),
+ReportName=tostring(events.ReportName),
+FolderAccessRequests=todynamic(events.FolderAccessRequests),
+OrgAppPermission=tostring(events.OrgAppPermission),
+DatasetName=tostring(events.DatasetName),
+EventOriginalUid=tostring(events.EventOriginalUid),
+RecordType=tostring(events.RecordType),
+EventOriginalType=tostring(events.EventOriginalType),
+OrganizationId=tostring(events.OrganizationId),
+UserType=tostring(events.UserType),
+ActorUserType=tostring(events.ActorUserType),
+ActorUserId=tostring(events.ActorUserId),
+EventResult=tostring(events.EventResult),
+ObjectId=tostring(events.ObjectId),
+ActorName=tostring(events.ActorName),
+SrcIpAddr=tostring(events.SrcIpAddr),
+Scope=tostring(events.Scope),
+TargetAppName=tostring(events.TargetAppName),
+DashboardName=tostring(events.DashboardName),
+DataClassification=tostring(events.DataClassification),
+MembershipInformation=tostring(events.MembershipInformation),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table PowerBIActivity policy update @'[{"Source": "PowerBIActivityRaw", "Query": "PowerBIActivityExpand()", "IsEnabled": "True", "IsTransactional": true}]'

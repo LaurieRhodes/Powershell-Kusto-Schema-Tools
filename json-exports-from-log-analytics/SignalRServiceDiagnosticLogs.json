@@ -1,0 +1,85 @@
+﻿{
+    "Name":  "SignalRServiceDiagnosticLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "MessageTracingId",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "MessageType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TransportType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ConnectionType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ConnectionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InvocationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "GroupName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Message",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Collection",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CallerIpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Level",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Location",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "HubName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

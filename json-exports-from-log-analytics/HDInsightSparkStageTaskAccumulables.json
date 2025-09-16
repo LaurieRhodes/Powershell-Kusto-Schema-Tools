@@ -1,0 +1,81 @@
+﻿{
+    "Name":  "HDInsightSparkStageTaskAccumulables",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ApplicationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Entity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EntityId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ParentId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MetricId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MetricName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MetricValue",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ClusterTenantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Role",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Host",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClusterDnsName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Region",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserSubscriptionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

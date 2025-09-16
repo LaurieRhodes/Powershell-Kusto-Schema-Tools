@@ -1,0 +1,49 @@
+﻿{
+    "Name":  "AZMSOperationalLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ActivityId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventProperties",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Status",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Caller",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Provider",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

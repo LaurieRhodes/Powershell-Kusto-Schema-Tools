@@ -1,0 +1,149 @@
+﻿{
+    "Name":  "HDInsightAmbariSystemMetrics",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "HostName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClusterName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TotalProcesses",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ProcessesRun",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "PacketsOut",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "PacketsIn",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "BytesOut",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "BytesIn",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "FreeSwapMemory",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "TotalMemory",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "SharedMemory",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "FreeMemory",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "CachedMemory",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "OneMinuteLoad",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ClusterType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FiveMinuteLoad",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "WriteTime",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "WriteCount",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "WriteBytes",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ReadTime",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ReadCount",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ReadBytes",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "DiskTotal",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "DiskFree",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "CpuIOWait",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "CpuUser",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "CpuSystem",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "NumberOfCpu",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "CpuNice",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "CpuIdle",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "FifteenMinutLoad",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

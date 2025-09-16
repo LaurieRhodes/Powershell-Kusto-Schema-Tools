@@ -1,0 +1,99 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ExchangeAssessmentRecommendation - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:24:27
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 32, Final columns: 32
+// ============================================================================
+
+.create-merge table ExchangeAssessmentRecommendationRaw (records:dynamic)
+
+.alter-merge table ExchangeAssessmentRecommendationRaw policy retention softdelete = 1d
+
+.alter table ExchangeAssessmentRecommendationRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ExchangeAssessmentRecommendationRaw ingestion json mapping 'ExchangeAssessmentRecommendationRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ExchangeAssessmentRecommendation(
+TimeGenerated:datetime,
+TenantId:guid,
+ActiveDirectorySite:string,
+ExchangeServer:string,
+ExchangePublicFolderDatabase:string,
+ExchangeMailboxDatabase:string,
+ExchangeDAG:string,
+ExchangeAdminGroup:string,
+ExchangeOrganization:string,
+AffectedObjectDetails:string,
+AffectedObjectUniqueName:string,
+AffectedObjectName:string,
+AffectedObjectType:string,
+Computer:string,
+TargetCount:int,
+RecommendationWeight:real,
+RecommendationScore:real,
+ActionArea:string,
+ActionAreaId:guid,
+FocusArea:string,
+FocusAreaId:guid,
+RecommendationResult:string,
+Description:string,
+Recommendation:string,
+RecommendationId:guid,
+AssessmentName:string,
+AssessmentId:guid,
+SourceSystem:string,
+MG:guid,
+Technology:string,
+CustomData:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table ExchangeAssessmentRecommendation policy caching hot = 1d
+
+.create-or-alter function ExchangeAssessmentRecommendationExpand() {
+ExchangeAssessmentRecommendationRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ActiveDirectorySite=tostring(events.ActiveDirectorySite),
+ExchangeServer=tostring(events.ExchangeServer),
+ExchangePublicFolderDatabase=tostring(events.ExchangePublicFolderDatabase),
+ExchangeMailboxDatabase=tostring(events.ExchangeMailboxDatabase),
+ExchangeDAG=tostring(events.ExchangeDAG),
+ExchangeAdminGroup=tostring(events.ExchangeAdminGroup),
+ExchangeOrganization=tostring(events.ExchangeOrganization),
+AffectedObjectDetails=tostring(events.AffectedObjectDetails),
+AffectedObjectUniqueName=tostring(events.AffectedObjectUniqueName),
+AffectedObjectName=tostring(events.AffectedObjectName),
+AffectedObjectType=tostring(events.AffectedObjectType),
+Computer=tostring(events.Computer),
+TargetCount=toint(events.TargetCount),
+RecommendationWeight=toreal(events.RecommendationWeight),
+RecommendationScore=toreal(events.RecommendationScore),
+ActionArea=tostring(events.ActionArea),
+ActionAreaId=toguid(events.ActionAreaId),
+FocusArea=tostring(events.FocusArea),
+FocusAreaId=toguid(events.FocusAreaId),
+RecommendationResult=tostring(events.RecommendationResult),
+Description=tostring(events.Description),
+Recommendation=tostring(events.Recommendation),
+RecommendationId=toguid(events.RecommendationId),
+AssessmentName=tostring(events.AssessmentName),
+AssessmentId=toguid(events.AssessmentId),
+SourceSystem=tostring(events.SourceSystem),
+MG=toguid(events.MG),
+Technology=tostring(events.Technology),
+CustomData=tostring(events.CustomData),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ExchangeAssessmentRecommendation policy update @'[{"Source": "ExchangeAssessmentRecommendationRaw", "Query": "ExchangeAssessmentRecommendationExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for MimecastDLP_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:45
+// Generated: 2025-09-17 06:20:58
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 12, DCR columns: 12 (Type column filtered out)
+// Underscore columns included
+// Original columns: 12, DCR columns: 12 (Type column always filtered)
 // Output stream: Custom-MimecastDLP_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================

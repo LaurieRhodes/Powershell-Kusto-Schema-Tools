@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Syslog
 // ============================================================================
-// Generated: 2025-09-13 20:13:50
+// Generated: 2025-09-17 06:21:03
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 17, DCR columns: 16 (Type column filtered out)
+// Underscore columns included
+// Original columns: 17, DCR columns: 16 (Type column always filtered)
 // Output stream: Custom-Syslog
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================

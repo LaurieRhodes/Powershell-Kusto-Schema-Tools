@@ -1,0 +1,97 @@
+﻿{
+    "Name":  "BlockchainProxyLog",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Tenant",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestSize",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Remote",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Consortium",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BlockchainMemberName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestMethodName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NodeHost",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Code",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Agent",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EthMethod",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BlockchainNodeName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NodeLocation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LogLevel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PublicUser",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestTime",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

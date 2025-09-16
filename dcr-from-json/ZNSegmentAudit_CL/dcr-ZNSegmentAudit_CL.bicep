@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for ZNSegmentAudit_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:54
+// Generated: 2025-09-17 06:21:07
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 22, DCR columns: 20 (Type column filtered out)
+// Underscore columns included
+// Original columns: 22, DCR columns: 21 (Type column always filtered)
 // Output stream: Custom-ZNSegmentAudit_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -63,15 +64,19 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
+            name: '_ResourceId'
+            type: 'string'
+          }
+          {
             name: 'auditType_d'
             type: 'string'
           }
           {
-            name: 'performedBy_id_g'
+            name: 'timestamp_d'
             type: 'string'
           }
           {
-            name: 'timestamp_d'
+            name: 'performedBy_id_s'
             type: 'string'
           }
           {
@@ -103,7 +108,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'performedBy_id_s'
+            name: 'performedBy_id_g'
             type: 'string'
           }
           {
@@ -126,7 +131,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-ZNSegmentAudit_CL']
         destinations: ['Sentinel-ZNSegmentAudit_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), reportedObjectGeneration_d = toreal(reportedObjectGeneration_d), reportedObjectId_g = tostring(reportedObjectId_g), details_s = tostring(details_s), destinationEntitiesList_s = tostring(destinationEntitiesList_s), userRole_d = toreal(userRole_d), enforcementSource_d = toreal(enforcementSource_d), auditType_d = toreal(auditType_d), performedBy_id_g = tostring(performedBy_id_g), timestamp_d = tostring(timestamp_d), reportedObjectId_s = tostring(reportedObjectId_s), parentObjectId_g = tostring(parentObjectId_g), RawData = tostring(RawData), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), Computer = tostring(Computer), SourceSystem = tostring(SourceSystem), performedBy_id_s = tostring(performedBy_id_s), performedBy_name_s = tostring(performedBy_name_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), reportedObjectGeneration_d = toreal(reportedObjectGeneration_d), reportedObjectId_g = tostring(reportedObjectId_g), details_s = tostring(details_s), destinationEntitiesList_s = tostring(destinationEntitiesList_s), userRole_d = toreal(userRole_d), enforcementSource_d = toreal(enforcementSource_d), _ResourceId = tostring(_ResourceId), auditType_d = toreal(auditType_d), timestamp_d = tostring(timestamp_d), performedBy_id_s = tostring(performedBy_id_s), reportedObjectId_s = tostring(reportedObjectId_s), parentObjectId_g = tostring(parentObjectId_g), RawData = tostring(RawData), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), Computer = tostring(Computer), SourceSystem = tostring(SourceSystem), performedBy_id_g = tostring(performedBy_id_g), performedBy_name_s = tostring(performedBy_name_s)'
         outputStream: 'Custom-ZNSegmentAudit_CL'
       }
     ]

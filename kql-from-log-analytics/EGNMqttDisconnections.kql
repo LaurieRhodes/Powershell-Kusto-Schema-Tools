@@ -1,0 +1,57 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for EGNMqttDisconnections - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:24:13
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 11, Final columns: 11
+// ============================================================================
+
+.create-merge table EGNMqttDisconnectionsRaw (records:dynamic)
+
+.alter-merge table EGNMqttDisconnectionsRaw policy retention softdelete = 1d
+
+.alter table EGNMqttDisconnectionsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table EGNMqttDisconnectionsRaw ingestion json mapping 'EGNMqttDisconnectionsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table EGNMqttDisconnections(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+ResultSignature:string,
+ResultDescription:string,
+ClientIdentity:string,
+SessionName:string,
+Protocol:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table EGNMqttDisconnections policy caching hot = 1d
+
+.create-or-alter function EGNMqttDisconnectionsExpand() {
+EGNMqttDisconnectionsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+ResultSignature=tostring(events.ResultSignature),
+ResultDescription=tostring(events.ResultDescription),
+ClientIdentity=tostring(events.ClientIdentity),
+SessionName=tostring(events.SessionName),
+Protocol=tostring(events.Protocol),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table EGNMqttDisconnections policy update @'[{"Source": "EGNMqttDisconnectionsRaw", "Query": "EGNMqttDisconnectionsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,85 @@
+﻿{
+    "Name":  "MicrosoftHealthcareApisAuditLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Location",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CallerIdentity",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "CallerIdentityObjectId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CallerIdentityIssuer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CallerIPAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LogCategory",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Properties",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "OperationDurationMs",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "StatusCode",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "FhirResourceType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestUri",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationDuration",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

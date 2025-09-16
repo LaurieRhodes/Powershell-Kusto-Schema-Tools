@@ -1,0 +1,117 @@
+﻿{
+    "Name":  "DynamicSummary",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "PackedContent",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "ObservableValue",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ObservableType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventTimeUTC",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "QueryEndDate",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "QueryStartDate",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Query",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceInfo",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SummaryStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Techniques",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Tactics",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SummaryDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UpdatedTimeUTC",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "UpdatedBy",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "CreatedTimeUTC",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "CreatedBy",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SearchKey",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RelationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SummaryName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SummaryItemId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SummaryId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureTenantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SummaryDataType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

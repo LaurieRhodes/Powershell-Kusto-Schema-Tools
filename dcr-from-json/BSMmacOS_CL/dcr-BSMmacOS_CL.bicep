@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for BSMmacOS_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:31
+// Generated: 2025-09-17 06:20:44
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 38, DCR columns: 36 (Type column filtered out)
+// Underscore columns included
+// Original columns: 38, DCR columns: 37 (Type column always filtered)
 // Output stream: Custom-BSMmacOS_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -39,10 +40,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'SubjectTerminal_Port_s'
-            type: 'string'
-          }
-          {
             name: 'SubjectTerminal_Host_s'
             type: 'string'
           }
@@ -63,15 +60,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'SubjectTerminal_s'
-            type: 'string'
-          }
-          {
             name: 'Identity_SignerType_s'
             type: 'string'
           }
           {
-            name: 'Identity_SignerIdTruncated_s'
+            name: 'SubjectTerminal_Port_s'
+            type: 'string'
+          }
+          {
+            name: 'Identity_SignerId_s'
             type: 'string'
           }
           {
@@ -95,11 +92,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'Identity_SignerId_s'
+            name: 'SourceModuleName_s'
             type: 'string'
           }
           {
-            name: 'SourceModuleName_s'
+            name: 'Identity_SignerIdTruncated_s'
+            type: 'string'
+          }
+          {
+            name: 'SubjectTerminal_s'
             type: 'string'
           }
           {
@@ -107,7 +108,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'SubjectRealGID_s'
+            name: 'SubjectPID_s'
             type: 'string'
           }
           {
@@ -135,11 +136,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'SubjectPID_s'
+            name: 'EventType_s'
             type: 'string'
           }
           {
-            name: 'EventType_s'
+            name: 'EventName_s'
             type: 'string'
           }
           {
@@ -167,11 +168,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'EventName_s'
+            name: 'SubjectRealGID_s'
             type: 'string'
           }
           {
             name: 'SourceModuleType_s'
+            type: 'string'
+          }
+          {
+            name: '_ResourceId'
             type: 'string'
           }
         ]
@@ -190,7 +195,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-BSMmacOS_CL']
         destinations: ['Sentinel-BSMmacOS_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SubjectTerminal_Port_s = tostring(SubjectTerminal_Port_s), SubjectTerminal_Host_s = tostring(SubjectTerminal_Host_s), Text_s = tostring(Text_s), ReturnErrno_s = tostring(ReturnErrno_s), ReturnRetval_s = tostring(ReturnRetval_s), Identity_s = tostring(Identity_s), SubjectTerminal_s = tostring(SubjectTerminal_s), Identity_SignerType_s = tostring(Identity_SignerType_s), Identity_SignerIdTruncated_s = tostring(Identity_SignerIdTruncated_s), Identity_TeamId_s = tostring(Identity_TeamId_s), Identity_TeamIdTruncated_s = tostring(Identity_TeamIdTruncated_s), Identity_CDHash_s = tostring(Identity_CDHash_s), TrailerCount_s = tostring(TrailerCount_s), EventReceivedTime_t = todatetime(EventReceivedTime_t), Identity_SignerId_s = tostring(Identity_SignerId_s), SourceModuleName_s = tostring(SourceModuleName_s), SubjectSID_s = tostring(SubjectSID_s), SubjectRealGID_s = tostring(SubjectRealGID_s), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), TokenVersion_s = tostring(TokenVersion_s), SubjectPID_s = tostring(SubjectPID_s), EventType_s = tostring(EventType_s), EventModifier_s = tostring(EventModifier_s), EventTime_s = tostring(EventTime_s), SubjectAuditID_s = tostring(SubjectAuditID_s), SubjectUID_s = tostring(SubjectUID_s), SubjectGID_s = tostring(SubjectGID_s), SubjectRealUID_s = tostring(SubjectRealUID_s), EventName_s = tostring(EventName_s), SourceModuleType_s = tostring(SourceModuleType_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SubjectTerminal_Host_s = tostring(SubjectTerminal_Host_s), Text_s = tostring(Text_s), ReturnErrno_s = tostring(ReturnErrno_s), ReturnRetval_s = tostring(ReturnRetval_s), Identity_s = tostring(Identity_s), Identity_SignerType_s = tostring(Identity_SignerType_s), SubjectTerminal_Port_s = tostring(SubjectTerminal_Port_s), Identity_SignerId_s = tostring(Identity_SignerId_s), Identity_TeamId_s = tostring(Identity_TeamId_s), Identity_TeamIdTruncated_s = tostring(Identity_TeamIdTruncated_s), Identity_CDHash_s = tostring(Identity_CDHash_s), TrailerCount_s = tostring(TrailerCount_s), EventReceivedTime_t = todatetime(EventReceivedTime_t), SourceModuleName_s = tostring(SourceModuleName_s), Identity_SignerIdTruncated_s = tostring(Identity_SignerIdTruncated_s), SubjectTerminal_s = tostring(SubjectTerminal_s), SubjectSID_s = tostring(SubjectSID_s), SubjectPID_s = tostring(SubjectPID_s), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), TokenVersion_s = tostring(TokenVersion_s), EventType_s = tostring(EventType_s), EventName_s = tostring(EventName_s), EventModifier_s = tostring(EventModifier_s), EventTime_s = tostring(EventTime_s), SubjectAuditID_s = tostring(SubjectAuditID_s), SubjectUID_s = tostring(SubjectUID_s), SubjectGID_s = tostring(SubjectGID_s), SubjectRealUID_s = tostring(SubjectRealUID_s), SubjectRealGID_s = tostring(SubjectRealGID_s), SourceModuleType_s = tostring(SourceModuleType_s), _ResourceId = tostring(_ResourceId)'
         outputStream: 'Custom-BSMmacOS_CL'
       }
     ]

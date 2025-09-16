@@ -1,0 +1,97 @@
+﻿{
+    "Name":  "ContainerRegistryRepositoryEvents",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "DurationMs",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CallerIpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Region",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ArtifactType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Size",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "MediaType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Digest",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Tag",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Repository",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Identity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LoginServer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserTenantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserAgent",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

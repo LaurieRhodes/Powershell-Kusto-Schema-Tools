@@ -1,0 +1,53 @@
+﻿{
+    "Name":  "AzureBackupOperations",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationStartTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "SchemaVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExtendedProperties",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "BackupManagementType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

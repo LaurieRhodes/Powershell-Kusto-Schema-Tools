@@ -1,0 +1,101 @@
+﻿{
+    "Name":  "HDInsightJupyterNotebookEvents",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "IpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Region",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClusterDnsName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Host",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Role",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClusterTenantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Dim10",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Dim9",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserSubscriptionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Dim8",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Dim6",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Dim5",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Dim4",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Dim3",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Dim2",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Dim1",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Dim0",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Dim7",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

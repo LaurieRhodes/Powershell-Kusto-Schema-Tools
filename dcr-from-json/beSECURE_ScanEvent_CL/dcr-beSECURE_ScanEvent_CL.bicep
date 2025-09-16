@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for beSECURE_ScanEvent_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:30
+// Generated: 2025-09-17 06:20:43
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 18, DCR columns: 16 (Type column filtered out)
+// Underscore columns included
+// Original columns: 18, DCR columns: 17 (Type column always filtered)
 // Output stream: Custom-beSECURE_ScanEvent_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -94,6 +95,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             name: 'scan_event_s'
             type: 'string'
           }
+          {
+            name: '_ResourceId'
+            type: 'string'
+          }
         ]
       }
     }
@@ -110,7 +115,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-beSECURE_ScanEvent_CL']
         destinations: ['Sentinel-beSECURE_ScanEvent_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), additional_information = tostring(additional_information), event_code = tostring(event_code), event_id = tostring(event_id), event_name = tostring(event_name), event_time = tostring(event_time), scan_id = tostring(scan_id), scan_name = tostring(scan_name), scan_type = tostring(scan_type), scan_event_s = tostring(scan_event_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), additional_information = tostring(additional_information), event_code = tostring(event_code), event_id = tostring(event_id), event_name = tostring(event_name), event_time = tostring(event_time), scan_id = tostring(scan_id), scan_name = tostring(scan_name), scan_type = tostring(scan_type), scan_event_s = tostring(scan_event_s), _ResourceId = tostring(_ResourceId)'
         outputStream: 'Custom-beSECURE_ScanEvent_CL'
       }
     ]

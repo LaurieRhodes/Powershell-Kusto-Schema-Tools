@@ -1,0 +1,69 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ResourceManagementPublicAccessLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:28:48
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 17, Final columns: 17
+// ============================================================================
+
+.create-merge table ResourceManagementPublicAccessLogsRaw (records:dynamic)
+
+.alter-merge table ResourceManagementPublicAccessLogsRaw policy retention softdelete = 1d
+
+.alter table ResourceManagementPublicAccessLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ResourceManagementPublicAccessLogsRaw ingestion json mapping 'ResourceManagementPublicAccessLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ResourceManagementPublicAccessLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+OperationType:string,
+ProviderName:string,
+CorrelationId:string,
+OperationVersion:string,
+Category:string,
+ResultType:string,
+ResultSignature:int,
+DurationMs:long,
+CallerIpAddress:string,
+Uri:string,
+PrivateLinkAssociationIds:dynamic,
+ObjectIdentifier:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table ResourceManagementPublicAccessLogs policy caching hot = 1d
+
+.create-or-alter function ResourceManagementPublicAccessLogsExpand() {
+ResourceManagementPublicAccessLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+OperationType=tostring(events.OperationType),
+ProviderName=tostring(events.ProviderName),
+CorrelationId=tostring(events.CorrelationId),
+OperationVersion=tostring(events.OperationVersion),
+Category=tostring(events.Category),
+ResultType=tostring(events.ResultType),
+ResultSignature=toint(events.ResultSignature),
+DurationMs=tolong(events.DurationMs),
+CallerIpAddress=tostring(events.CallerIpAddress),
+Uri=tostring(events.Uri),
+PrivateLinkAssociationIds=todynamic(events.PrivateLinkAssociationIds),
+ObjectIdentifier=tostring(events.ObjectIdentifier),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ResourceManagementPublicAccessLogs policy update @'[{"Source": "ResourceManagementPublicAccessLogsRaw", "Query": "ResourceManagementPublicAccessLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -28,6 +28,9 @@ $jsonExportDirectory = Join-Path $PSScriptRoot "json-exports"
 $outputDirectory = $PSScriptRoot
 $dcrDirectory = Join-Path $outputDirectory "dcr-from-json"
 
+# Column filtering options
+$FilterUnderscoreColumns = $false        # Set to $false to include underscore columns in DCR
+
 # Bicep template configuration
 $bicepConfig = @{
     DefaultLocation = "Australia East"
@@ -48,35 +51,41 @@ function Filter-DCRReservedColumns {
     Filters out reserved columns that cannot be included in DCR schemas
     
     .DESCRIPTION
-    Based on empirical testing, 'Type' column is reserved for DCRs and causes deployment failures.
-    Also filters out underscore system columns.
+    'Type' column is always filtered as it's reserved for DCRs and causes deployment failures.
+    Underscore columns filtering is controlled by $FilterUnderscoreColumns variable.
     
     .PARAMETER columns
     Array of column definitions
-    #>
-    param([array]$columns)
     
-    # DCR reserved columns (confirmed through testing)
+    .PARAMETER filterUnderscore
+    Whether to filter out underscore columns
+    #>
+    param([array]$columns, [bool]$filterUnderscore)
+    
+    # DCR reserved columns (always filtered - confirmed through testing)
     $dcrReservedColumns = @(
         'Type'  # Confirmed reserved for DCRs - deployment fails with this column
     )
     
-    # Filter out reserved columns and underscore columns
+    # Apply filtering based on parameters
     $filteredColumns = $columns | Where-Object { 
-        $_.name -notin $dcrReservedColumns -and -not $_.name.StartsWith("_")
+        # Always filter reserved columns
+        $_.name -notin $dcrReservedColumns -and
+        # Conditionally filter underscore columns
+        (-not $filterUnderscore -or -not $_.name.StartsWith("_"))
     }
     
     $removedCount = $columns.Count - $filteredColumns.Count
     if ($removedCount -gt 0) {
-        Write-Host "    Filtered out $removedCount reserved/system columns for DCR:" -ForegroundColor Yellow
+        Write-Host "    Filtered out $removedCount columns for DCR:" -ForegroundColor Yellow
         $removedColumns = $columns | Where-Object { 
-            $_.name -in $dcrReservedColumns -or $_.name.StartsWith("_")
+            $_.name -in $dcrReservedColumns -or ($filterUnderscore -and $_.name.StartsWith("_"))
         }
         foreach ($col in $removedColumns) {
             if ($col.name -in $dcrReservedColumns) {
                 Write-Host "      - $($col.name) (reserved for DCR)" -ForegroundColor Gray
             } else {
-                Write-Host "      - $($col.name) (system column)" -ForegroundColor Gray
+                Write-Host "      - $($col.name) (underscore column)" -ForegroundColor Gray
             }
         }
     }
@@ -163,15 +172,19 @@ function Generate-BicepDCRFromJSON {
     
     .PARAMETER tableType
     Type of table (Custom for JSON exports)
+    
+    .PARAMETER filterUnderscore
+    Whether to filter underscore columns
     #>
     param(
         [string]$tableName, 
         [array]$columnDefinitions, 
-        [string]$tableType = "Custom"
+        [string]$tableType = "Custom",
+        [bool]$filterUnderscore
     )
     
-    # Filter out reserved columns for DCR (including Type column)
-    $filteredColumns = Filter-DCRReservedColumns -columns $columnDefinitions
+    # Filter out reserved columns for DCR (Type always filtered, underscore based on parameter)
+    $filteredColumns = Filter-DCRReservedColumns -columns $columnDefinitions -filterUnderscore $filterUnderscore
     
     # Sort columns following Microsoft's convention
     $timeGeneratedCol = $filteredColumns | Where-Object { $_.name -eq "TimeGenerated" }
@@ -214,6 +227,7 @@ function Generate-BicepDCRFromJSON {
     
     $discoveryComment = "// Schema imported from JSON export file"
     $tableTypeComment = "// Table type: $tableType (presumed custom for JSON exports)"
+    $filterComment = if ($filterUnderscore) { "// Underscore columns filtered out" } else { "// Underscore columns included" }
     
     # Build template using string concatenation to avoid here-string issues
     $template = "@description('The location of the resources')`n"
@@ -233,7 +247,8 @@ function Generate-BicepDCRFromJSON {
     $template += "// Generated: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')`n"
     $template += "$tableTypeComment`n"
     $template += "$discoveryComment`n"
-    $template += "// Original columns: $($columnDefinitions.Count), DCR columns: $($sortedColumns.Count) (Type column filtered out)`n"
+    $template += "$filterComment`n"
+    $template += "// Original columns: $($columnDefinitions.Count), DCR columns: $($sortedColumns.Count) (Type column always filtered)`n"
     $template += "// Output stream: $outputStreamName`n"
     $template += "// Note: Input stream uses string/dynamic only. Type conversions in transform.`n"
     $template += "// ============================================================================`n`n"
@@ -377,10 +392,11 @@ Write-Host "===============================================" -ForegroundColor Cy
 Write-Host "`nConfiguration:" -ForegroundColor Yellow
 Write-Host "  JSON Directory: $jsonExportDirectory"
 Write-Host "  Output Directory: $dcrDirectory"
+Write-Host "  Filter Underscore Columns: $FilterUnderscoreColumns"
 Write-Host "  Processing: JSON schema exports with corrected data types"
 Write-Host "  Table Type: All tables treated as custom (per requirements)"
 Write-Host "  DCR Approach: JSON-compatible input types with KQL transforms"
-Write-Host "  Reserved Columns: Type column filtered out for DCRs"
+Write-Host "  Reserved Columns: Type column always filtered out for DCRs"
 
 # Validate directories
 if (-not (Test-Path $jsonExportDirectory)) {
@@ -422,13 +438,13 @@ foreach ($jsonFile in $jsonFiles) {
         }
         
         # Generate Bicep DCR template
-        $bicepTemplate = Generate-BicepDCRFromJSON -tableName $schemaResult.tableName -columnDefinitions $schemaResult.columns -tableType $schemaResult.tableType
+        $bicepTemplate = Generate-BicepDCRFromJSON -tableName $schemaResult.tableName -columnDefinitions $schemaResult.columns -tableType $schemaResult.tableType -filterUnderscore $FilterUnderscoreColumns
         
         # Save all DCR files
         $savedFiles = Save-DCRFilesFromJSON -tableName $schemaResult.tableName -bicepTemplate $bicepTemplate -columnDefinitions $schemaResult.columns -tableType $schemaResult.tableType
         
         # Filter columns for DCR count
-        $filteredColumns = Filter-DCRReservedColumns -columns $schemaResult.columns
+        $filteredColumns = Filter-DCRReservedColumns -columns $schemaResult.columns -filterUnderscore $FilterUnderscoreColumns
         $filteredCount = $filteredColumns.Count
         
         # Show output stream info
@@ -490,7 +506,12 @@ if ($failureCount -gt 0) {
 Write-Host "`nDCR Design Summary:" -ForegroundColor Cyan
 Write-Host "- Input streams use JSON-compatible types only (string/dynamic)" -ForegroundColor White
 Write-Host "- Type conversions handled in KQL transform layer" -ForegroundColor White
-Write-Host "- Type column filtered out (reserved for DCRs)" -ForegroundColor White
+Write-Host "- Type column always filtered out (reserved for DCRs)" -ForegroundColor White
+if ($FilterUnderscoreColumns) {
+    Write-Host "- Underscore columns filtered out" -ForegroundColor White
+} else {
+    Write-Host "- Underscore columns included in DCR" -ForegroundColor White
+}
 Write-Host "- All tables treated as custom tables (Custom-TableName output streams)" -ForegroundColor White
 Write-Host "- Each table directory contains complete deployment package" -ForegroundColor White
 Write-Host "- Defensive casting ensures resilience against operator errors" -ForegroundColor White

@@ -1,0 +1,121 @@
+﻿{
+    "Name":  "IdentityQueryEvents",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ReportId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Location",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TargetAccountDisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TargetAccountUpn",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TargetDeviceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationPort",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationIPAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationDeviceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Port",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IPAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AdditionalFields",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "AccountDisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountSid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountUpn",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountDomain",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Protocol",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Query",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "QueryTarget",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "QueryType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Application",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActionType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Timestamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "AccountObjectId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

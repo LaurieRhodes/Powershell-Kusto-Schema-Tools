@@ -1,22 +1,18 @@
-# log-analytics-to-adx-kql-export.ps1
+# Log-Analytics-to-ADX-kql-export.ps1
 
 ## Overview
 
-Exports Log Analytics table schemas as KQL scripts for Azure Data Explorer (ADX) with empirical data type corrections. Creates complete ADX table structures with ingestion mappings and update policies for seamless data migration.
+Exports Log Analytics table schemas as KQL scripts for Azure Data Explorer (ADX) with data type corrections. Creates complete ADX table structures with ingestion mappings and update policies for seamless data migration.
 
 ## Purpose
 
 - **ADX Migration**: Generate complete KQL scripts for recreating Log Analytics tables in ADX
-- **Data Type Accuracy**: Apply empirical fixes for Microsoft API bugs before KQL generation
-- **Ingestion Pipeline**: Create raw tables, mappings, and update policies for data flow
-- **Flexible Export**: Support for all workspace tables or specific lists with filtering options
 
 ## Key Features
 
 - ✅ **Microsoft API Bug Fixes**: TenantId→guid, Double→real, TimeGenerated→datetime
-- ✅ **Complete ADX Pipeline**: Raw tables + main tables + update policies
 - ✅ **Hybrid Discovery**: Management API + getschema for comprehensive column coverage
-- ✅ **Consistent Filtering**: Configurable "underscore"" table/column filtering. Typically tables prefaced with underscores are only used by Microsoft although theses columns (normally __ResourceId) can be of benefit. Consider your needs when selecting to export tables with underscores or not.
+- ✅ **Optional Filtering**: Configurable "underscore"" table/column filtering. Typically tables prefaced with underscores are only used by Microsoft although theses columns (normally __ResourceId) can be of benefit. Consider your needs when selecting to export tables with underscores or not.
 
 ## Configuration Settings
 
@@ -76,13 +72,13 @@ $tablesToExport = @(
 
 ### KQL Script Files
 
-**Location**: `kql\` directory  
+**Location**: `kql-from-log-analytics\` directory  
 **Format**: Complete ADX table creation scripts
 **Naming**: `{TableName}.kql`
 
 ### KQL Script Structure
 
-Each generated script contains:
+Each generated script contains a standard template for creating that table in Kusto / ADX:
 
 #### 1. Raw Table Creation
 
@@ -92,31 +88,27 @@ Each generated script contains:
 .alter table GCP_DNS_CLRaw policy caching hot = 1h
 ```
 
+Every table has a "Raw" injection table for receiving dynamic, unstructure records.  These records will be transformed almost instantly by your ETL / Expand function into a fully structured data format.  Retention of these records is only for troubleshooting purposes.  
+
 #### 2. JSON Ingestion Mapping
 
 ```kusto
 .create-or-alter table GCP_DNS_CLRaw ingestion json mapping 'GCP_DNS_CLRawMapping' 
 '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
 ```
 
-#### 3. Main Table Creation
+For standardisation, a mapping file is created for all Raw tables.  The Mapping is used when creating a [Data Connection](https://learn.microsoft.com/en-us/azure/data-explorer/create-event-hubs-connection?tabs=get-data%2Cget-data-2) from Kusto to an Event Hub.  It instructs the data pipeline to target incoming data to the records column of the raw table.
 
-```kusto
-.create-merge table GCP_DNS_CL(
-TimeGenerated:datetime,
-TenantId:guid,
-payload_vmInstanceId_d:real,
-payload_serverLatency_d:real,
-_TimeReceived:datetime
-)
-```
+Two typical patterns are normally seen with incoming data.  Microsoft systems typically export data in a nested format under a records array.  Other systems tend to submit event records un-nested.  Both patterns are shown in the template.
 
-#### 4. Expansion Function
+#### 3. Expansion Function
 
 ```kusto
 .create-or-alter function GCP_DNS_CLExpand() {
 GCP_DNS_CLRaw
 | mv-expand events = records
+// Alternative for non-nested: | extend events = records
 | project
 TimeGenerated = todatetime(events.TimeGenerated),
 TenantId = toguid(events.TenantId),
@@ -126,20 +118,20 @@ _TimeReceived = todatetime(now())
 }
 ```
 
-#### 5. Update Policy
+The Expansion function is the ETL process for mapping incoming log events to the currect destination table.
+
+**Important** Depending on the original log source producing nested arrays of events or non-nested sequences of events the ETL may need to mv-expand data for each record to be represented as an individual row of data.  Both patterns are included in the template
+
+Data exported directly from Log Analytics tends to have a straightforward 1-to-1 correlation of events.<field> to the intended destination field names.  Directly ingested data for other source systems will require some experimentation and often some KQL work to get data to align as expected.
+
+#### 4. Update Policy
 
 ```kusto
 .alter table GCP_DNS_CL policy update 
 @'[{"Source": "GCP_DNS_CLRaw", "Query": "GCP_DNS_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'
 ```
 
-### Console Output
-
-- **Configuration Summary**: All settings and table counts
-- **Processing Progress**: Real-time status for each table
-- **Data Type Corrections**: Shows what Microsoft API bugs were fixed
-- **Export Statistics**: Success/failure counts with discovery methods
-- **Usage Instructions**: Next steps for ADX deployment
+Once an Expand function is doing ETL properly, a table update policy based on events arriving in the Raw table is enabled.  This ensures that each record is automatically transformed in realtime.
 
 ## Data Type Corrections Applied
 
@@ -165,172 +157,17 @@ _TimeReceived = todatetime(now())
 
 ## Prerequisites
 
-### PowerShell Modules
-
-```powershell
-Install-Module Az.Accounts
-Install-Module Az.OperationalInsights
-```
-
 ### Required Files
 
-- `LogAnalyticsCommon.psm1` (in same directory)
-
-### Azure Permissions
-
-- **Reader** access to Log Analytics workspace
-- **Authenticated session**: `Connect-AzAccount`
-
-### ADX Environment
-
-- Azure Data Explorer cluster
-- Database with appropriate permissions
-- Ingestion permissions for data loading
+- **Input**: JSON schema files in `json-exports\` directory
+- **Module**: `LogAnalyticsCommon.psm1` in same directory
 
 ## Usage Examples
 
-### Export Specific Tables for ADX
+### Deploy to ADX
 
 ```powershell
-# Configure tables to export
-$tablesToExport = @('CommonSecurityLog', 'SecurityEvent', 'GCP_DNS_CL')
-$ExportAll = $false
-$FilterUnderscoreTables = $true
-
-# Run export
-.\log-analytics-to-adx-kql-export.ps1
-```
-
-### Export All Workspace Tables
-
-```powershell
-# Configure for complete workspace export
-$ExportAll = $true  
-$FilterUnderscoreTables = $true
-
-# Run export
-.\log-analytics-to-adx-kql-export.ps1
-```
-
-### Include System Columns for Analysis
-
-```powershell
-# Include underscore columns like _ResourceId for enriched analysis
-$ExportAll = $false
-$FilterUnderscoreTables = $false
-
-# Run export  
-.\log-analytics-to-adx-kql-export.ps1
-```
-
-## ADX Deployment Workflow
-
-### 1. Generate KQL Scripts
-
-```powershell
-.\log-analytics-to-adx-kql-export.ps1
-```
-
-### 2. Deploy to ADX
-
-```kusto
-// In ADX, run each generated .kql file
+# In ADX Web UI or Kusto Explorer
 .execute database script <|
-// Paste contents of TableName.kql here
+// Paste contents of generated .kql file
 ```
-
-### 3. Verify Table Structure
-
-```kusto
-// Check table schema
-TableName | getschema
-
-// Verify update policy
-.show table TableName policy update
-```
-
-### 4. Test Data Ingestion
-
-```kusto
-// Ingest test data to raw table
-.ingest into table TableNameRaw (@'{"records":[{"TimeGenerated":"2024-01-01T00:00:00Z","TenantId":"guid-here"}]}') 
-with (format='json', jsonMappingReference='TableNameRawMapping')
-
-// Verify data flows to main table
-TableName | count
-```
-
-## Integration with Data Pipeline
-
-### Source: Log Analytics
-
-```
-Log Analytics Workspace
-        ↓
-log-analytics-to-adx-kql-export.ps1
-        ↓  
-KQL Scripts (.kql files)
-```
-
-### Target: Azure Data Explorer
-
-```
-ADX Raw Tables (dynamic records)
-        ↓ (JSON mapping)
-ADX Main Tables (structured columns)  
-        ↓ (update policy)
-Queryable ADX Data
-```
-
-### Data Flow Architecture
-
-```
-JSON Data → Raw Table → Expansion Function → Main Table
-     ↓           ↓              ↓              ↓
- Ingestion   Storage      Transformation   Analytics
-```
-
-## Troubleshooting
-
-### Common Issues
-
-- **Authentication**: Run `Connect-AzAccount` first
-- **No tables found**: Verify workspace name and resource group
-- **Type conversion errors**: Check for unsupported Log Analytics types
-- **ADX deployment failures**: Verify ADX permissions and cluster connectivity
-
-### Error Resolution
-
-- **Token expired**: Re-authenticate with Azure
-- **Schema mismatches**: Re-run export after Log Analytics schema changes  
-- **Update policy failures**: Check expansion function syntax in ADX
-- **Ingestion issues**: Verify JSON mapping configuration
-
-## Advanced Configuration
-
-### Custom Retention Policies
-
-```powershell
-$rawTableRetention = "7d"        # Longer raw data retention
-$mainTableCaching = "3d"         # Extended hot cache for frequently accessed data
-```
-
-### Alternative JSON Mappings
-
-The generated scripts include mapping options:
-
-```kusto
-// For nested records structure
-'[{"column":"records","Properties":{"path":"$.records"}}]'
-
-// For direct event structure  
-'[{"column":"records","Properties":{"path":"$"}}]'
-```
-
-### Disable Hybrid Discovery
-
-```powershell
-$useHybridDiscovery = $false     # Management API only (faster, less comprehensive)
-```
-
-This script provides a complete migration path from Log Analytics to Azure Data Explorer with empirically corrected data types and production-ready ingestion pipelines.

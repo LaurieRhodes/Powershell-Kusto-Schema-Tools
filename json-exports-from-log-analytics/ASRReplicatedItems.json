@@ -1,0 +1,153 @@
+﻿{
+    "Name":  "ASRReplicatedItems",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ReplicatedItemFriendlyName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PolicyId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PolicyUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ReplicatedItemUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ReplicatedItemId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Version",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LastRpoCalculatedTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "DatasourceType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IRProgressPercentage",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "OSFamily",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PolicyFriendlyName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActiveLocation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProtectionInfo",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecoveryFabricType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PrimaryFabricType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecoveryFabricName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VaultType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VaultName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ReplicationHealthErrors",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecoveryRegion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VaultLocation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MultiVMGroupId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LastHeartbeat",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ReplicationStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FailoverReadiness",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DatasourceFriendlyName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DatasourceUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PrimaryFabricName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LastSuccessfulTestFailoverTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

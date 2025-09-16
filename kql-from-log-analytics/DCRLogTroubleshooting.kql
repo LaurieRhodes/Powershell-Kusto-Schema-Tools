@@ -1,0 +1,55 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for DCRLogTroubleshooting - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:23:24
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 10, Final columns: 10
+// ============================================================================
+
+.create-merge table DCRLogTroubleshootingRaw (records:dynamic)
+
+.alter-merge table DCRLogTroubleshootingRaw policy retention softdelete = 1d
+
+.alter table DCRLogTroubleshootingRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table DCRLogTroubleshootingRaw ingestion json mapping 'DCRLogTroubleshootingRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table DCRLogTroubleshooting(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+CorrelationId:string,
+InputStreamId:string,
+Message:string,
+ClientRequestId:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table DCRLogTroubleshooting policy caching hot = 1d
+
+.create-or-alter function DCRLogTroubleshootingExpand() {
+DCRLogTroubleshootingRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+CorrelationId=tostring(events.CorrelationId),
+InputStreamId=tostring(events.InputStreamId),
+Message=tostring(events.Message),
+ClientRequestId=tostring(events.ClientRequestId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table DCRLogTroubleshooting policy update @'[{"Source": "DCRLogTroubleshootingRaw", "Query": "DCRLogTroubleshootingExpand()", "IsEnabled": "True", "IsTransactional": true}]'

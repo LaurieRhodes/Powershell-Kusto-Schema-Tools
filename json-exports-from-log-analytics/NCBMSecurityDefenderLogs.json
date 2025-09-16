@@ -1,0 +1,73 @@
+﻿{
+    "Name":  "NCBMSecurityDefenderLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ContainerName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NamespaceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Node",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PodName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ComponentName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ComponentVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Message",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Severity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Location",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LogType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClusterManagerName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClusterName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

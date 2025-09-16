@@ -16,7 +16,7 @@ $ErrorActionPreference = "Stop"
 $modulePath = Join-Path $PSScriptRoot "LogAnalyticsCommon.psm1"
 if (Test-Path $modulePath) { Import-Module $modulePath -Force }
 
-Write-Host "ADX to JSON Export - Simplified Version" -ForegroundColor Cyan
+Write-Host "ADX to JSON Export" -ForegroundColor Cyan
 Write-Host "Cluster: $adxClusterUri" -ForegroundColor Gray
 Write-Host "Database: $adxDatabase" -ForegroundColor Gray
 

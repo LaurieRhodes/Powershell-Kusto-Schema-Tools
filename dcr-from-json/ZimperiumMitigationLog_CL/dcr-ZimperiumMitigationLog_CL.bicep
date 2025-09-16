@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for ZimperiumMitigationLog_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:54
+// Generated: 2025-09-17 06:21:07
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 17, DCR columns: 15 (Type column filtered out)
+// Underscore columns included
+// Original columns: 17, DCR columns: 16 (Type column always filtered)
 // Output stream: Custom-ZimperiumMitigationLog_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -90,6 +91,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             name: 'mitigated'
             type: 'string'
           }
+          {
+            name: '_ResourceId'
+            type: 'string'
+          }
         ]
       }
     }
@@ -106,7 +111,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-ZimperiumMitigationLog_CL']
         destinations: ['Sentinel-ZimperiumMitigationLog_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), threat_uuid = tostring(threat_uuid), event_id_s = tostring(event_id_s), zdevice_id = tostring(zdevice_id), device_os_s = tostring(device_os_s), event_timestamp_s = tostring(event_timestamp_s), account_id = tostring(account_id), detection_app_instance_id = tostring(detection_app_instance_id), mitigated = tobool(mitigated)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), threat_uuid = tostring(threat_uuid), event_id_s = tostring(event_id_s), zdevice_id = tostring(zdevice_id), device_os_s = tostring(device_os_s), event_timestamp_s = tostring(event_timestamp_s), account_id = tostring(account_id), detection_app_instance_id = tostring(detection_app_instance_id), mitigated = tobool(mitigated), _ResourceId = tostring(_ResourceId)'
         outputStream: 'Custom-ZimperiumMitigationLog_CL'
       }
     ]

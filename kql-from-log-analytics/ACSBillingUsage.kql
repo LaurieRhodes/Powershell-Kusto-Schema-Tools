@@ -1,0 +1,71 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ACSBillingUsage - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:15:01
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 18, Final columns: 18
+// ============================================================================
+
+.create-merge table ACSBillingUsageRaw (records:dynamic)
+
+.alter-merge table ACSBillingUsageRaw policy retention softdelete = 1d
+
+.alter table ACSBillingUsageRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ACSBillingUsageRaw ingestion json mapping 'ACSBillingUsageRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ACSBillingUsage(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+CorrelationId:string,
+OperationVersion:string,
+Category:string,
+RecordId:string,
+UsageType:string,
+UnitType:string,
+Quantity:real,
+StartTime:datetime,
+EndTime:datetime,
+UserIdA:string,
+UserIdB:string,
+ParticipantId:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ACSBillingUsage policy caching hot = 1d
+
+.create-or-alter function ACSBillingUsageExpand() {
+ACSBillingUsageRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+CorrelationId=tostring(events.CorrelationId),
+OperationVersion=tostring(events.OperationVersion),
+Category=tostring(events.Category),
+RecordId=tostring(events.RecordId),
+UsageType=tostring(events.UsageType),
+UnitType=tostring(events.UnitType),
+Quantity=toreal(events.Quantity),
+StartTime=todatetime(events.StartTime),
+EndTime=todatetime(events.EndTime),
+UserIdA=tostring(events.UserIdA),
+UserIdB=tostring(events.UserIdB),
+ParticipantId=tostring(events.ParticipantId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ACSBillingUsage policy update @'[{"Source": "ACSBillingUsageRaw", "Query": "ACSBillingUsageExpand()", "IsEnabled": "True", "IsTransactional": true}]'

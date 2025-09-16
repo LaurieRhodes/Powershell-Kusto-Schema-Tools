@@ -1,0 +1,149 @@
+﻿{
+    "Name":  "SecurityDetection",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ReportingSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsFirstParty",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "ServiceId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SubscriptionId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ExtendedProperties",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ParentProcess",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ChildProcess",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FullPath",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SuspiciousProcess",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountsSeen",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "FailedAttempts",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SuccessfulLogins",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ValidAccountsSeen",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "InvalidAccountsSeen",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "OccuringDatacenter",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Duration",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CommandLine",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProcessName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SubjectDomainName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SubjectUserName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DetectionID",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OriginalSeverity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemediationSteps",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Description",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AlertSeverity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AlertType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AlertTitle",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Provider",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LogChannel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AssociatedResource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Sonrai_Tickets_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:49
+// Generated: 2025-09-17 06:21:03
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 36, DCR columns: 36 (Type column filtered out)
+// Underscore columns included
+// Original columns: 36, DCR columns: 36 (Type column always filtered)
 // Output stream: Custom-Sonrai_Tickets_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================

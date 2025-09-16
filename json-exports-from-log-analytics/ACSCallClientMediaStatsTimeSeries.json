@@ -1,0 +1,101 @@
+﻿{
+    "Name":  "ACSCallClientMediaStatsTimeSeries",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "MediaStreamId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemoteEndpointId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemoteParticipantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EndpointId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientInstanceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ParticipantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MediaStreamCodec",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MediaStreamType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AggregationIntervalSeconds",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "MediaStreamDirection",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Minimum",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "Average",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "Sum",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "Count",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "MetricName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CallClientTimeStamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "CallId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Maximum",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

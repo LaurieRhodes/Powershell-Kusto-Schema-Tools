@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for LinuxAudit_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:44
+// Generated: 2025-09-17 06:20:57
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 53, DCR columns: 51 (Type column filtered out)
+// Underscore columns included
+// Original columns: 53, DCR columns: 52 (Type column always filtered)
 // Output stream: Custom-LinuxAudit_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -79,11 +80,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'items_d'
+            name: 'argc_s'
             type: 'string'
           }
           {
-            name: 'ppid_d'
+            name: 'items_d'
             type: 'string'
           }
           {
@@ -123,15 +124,19 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'argc_s'
+            name: 'comm_s'
+            type: 'string'
+          }
+          {
+            name: 'ppid_d'
+            type: 'string'
+          }
+          {
+            name: 'exe_s'
             type: 'string'
           }
           {
             name: 'SourceModuleType_s'
-            type: 'string'
-          }
-          {
-            name: 'SourceModuleName_s'
             type: 'string'
           }
           {
@@ -179,7 +184,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'comm_s'
+            name: 'SourceModuleName_s'
             type: 'string'
           }
           {
@@ -231,7 +236,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'exe_s'
+            name: '_ResourceId'
             type: 'string'
           }
         ]
@@ -250,7 +255,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-LinuxAudit_CL']
         destinations: ['Sentinel-LinuxAudit_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), auid_s = tostring(auid_s), ses_s = tostring(ses_s), path_s = tostring(path_s), key_s = tostring(key_s), list_s = tostring(list_s), res_s = tostring(res_s), arch_s = tostring(arch_s), syscall_s = tostring(syscall_s), success_s = tostring(success_s), exit_d = toreal(exit_d), items_d = toreal(items_d), ppid_d = toreal(ppid_d), pid_d = toreal(pid_d), uid_s = tostring(uid_s), gid_s = tostring(gid_s), euid_s = tostring(euid_s), suid_s = tostring(suid_s), fsuid_s = tostring(fsuid_s), egid_s = tostring(egid_s), sgid_s = tostring(sgid_s), fsgid_s = tostring(fsgid_s), argc_s = tostring(argc_s), SourceModuleType_s = tostring(SourceModuleType_s), SourceModuleName_s = tostring(SourceModuleName_s), EventReceivedTime_t = todatetime(EventReceivedTime_t), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), type_s = tostring(type_s), time_t = todatetime(time_t), seq_d = toreal(seq_d), item_d = toreal(item_d), name_s = tostring(name_s), comm_s = tostring(comm_s), inode_d = toreal(inode_d), mode_s = tostring(mode_s), ouid_s = tostring(ouid_s), ogid_s = tostring(ogid_s), rdev_s = tostring(rdev_s), nametype_s = tostring(nametype_s), cap_fp_s = tostring(cap_fp_s), cap_fi_s = tostring(cap_fi_s), cap_fe_s = tostring(cap_fe_s), cap_fver_s = tostring(cap_fver_s), cap_frootid_s = tostring(cap_frootid_s), dev_s = tostring(dev_s), exe_s = tostring(exe_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), auid_s = tostring(auid_s), ses_s = tostring(ses_s), path_s = tostring(path_s), key_s = tostring(key_s), list_s = tostring(list_s), res_s = tostring(res_s), arch_s = tostring(arch_s), syscall_s = tostring(syscall_s), success_s = tostring(success_s), exit_d = toreal(exit_d), argc_s = tostring(argc_s), items_d = toreal(items_d), pid_d = toreal(pid_d), uid_s = tostring(uid_s), gid_s = tostring(gid_s), euid_s = tostring(euid_s), suid_s = tostring(suid_s), fsuid_s = tostring(fsuid_s), egid_s = tostring(egid_s), sgid_s = tostring(sgid_s), fsgid_s = tostring(fsgid_s), comm_s = tostring(comm_s), ppid_d = toreal(ppid_d), exe_s = tostring(exe_s), SourceModuleType_s = tostring(SourceModuleType_s), EventReceivedTime_t = todatetime(EventReceivedTime_t), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), type_s = tostring(type_s), time_t = todatetime(time_t), seq_d = toreal(seq_d), item_d = toreal(item_d), name_s = tostring(name_s), SourceModuleName_s = tostring(SourceModuleName_s), inode_d = toreal(inode_d), mode_s = tostring(mode_s), ouid_s = tostring(ouid_s), ogid_s = tostring(ogid_s), rdev_s = tostring(rdev_s), nametype_s = tostring(nametype_s), cap_fp_s = tostring(cap_fp_s), cap_fi_s = tostring(cap_fi_s), cap_fe_s = tostring(cap_fe_s), cap_fver_s = tostring(cap_fver_s), cap_frootid_s = tostring(cap_frootid_s), dev_s = tostring(dev_s), _ResourceId = tostring(_ResourceId)'
         outputStream: 'Custom-LinuxAudit_CL'
       }
     ]

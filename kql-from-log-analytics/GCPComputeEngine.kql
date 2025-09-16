@@ -1,0 +1,59 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for GCPComputeEngine - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:24:37
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 12, Final columns: 12
+// ============================================================================
+
+.create-merge table GCPComputeEngineRaw (records:dynamic)
+
+.alter-merge table GCPComputeEngineRaw policy retention softdelete = 1d
+
+.alter table GCPComputeEngineRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table GCPComputeEngineRaw ingestion json mapping 'GCPComputeEngineRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table GCPComputeEngine(
+TimeGenerated:datetime,
+TenantId:guid,
+InsertId:string,
+Labels:dynamic,
+LogName:string,
+Operation:dynamic,
+ProtoPayload:dynamic,
+ReceiveTimestamp:datetime,
+GCPResource:dynamic,
+Severity:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table GCPComputeEngine policy caching hot = 1d
+
+.create-or-alter function GCPComputeEngineExpand() {
+GCPComputeEngineRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+InsertId=tostring(events.InsertId),
+Labels=todynamic(events.Labels),
+LogName=tostring(events.LogName),
+Operation=todynamic(events.Operation),
+ProtoPayload=todynamic(events.ProtoPayload),
+ReceiveTimestamp=todatetime(events.ReceiveTimestamp),
+GCPResource=todynamic(events.GCPResource),
+Severity=tostring(events.Severity),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table GCPComputeEngine policy update @'[{"Source": "GCPComputeEngineRaw", "Query": "GCPComputeEngineExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_stepping_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:39
+// Generated: 2025-09-17 06:20:51
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 17, DCR columns: 14 (Type column filtered out)
+// Underscore columns included
+// Original columns: 17, DCR columns: 17 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_stepping_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -32,6 +33,18 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
         columns: [
           {
             name: 'TimeGenerated'
+            type: 'string'
+          }
+          {
+            name: '_path_s'
+            type: 'string'
+          }
+          {
+            name: '_system_name_s'
+            type: 'string'
+          }
+          {
+            name: '_write_ts_t'
             type: 'string'
           }
           {
@@ -102,7 +115,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_stepping_CL']
         destinations: ['Sentinel-Corelight_v2_stepping_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), dt_d = toreal(dt_d), uid1_s = tostring(uid1_s), uid2_s = tostring(uid2_s), direct_b = tobool(direct_b), client1_h_s = tostring(client1_h_s), client1_p_d = toreal(client1_p_d), server1_h_s = tostring(server1_h_s), server1_p_d = toreal(server1_p_d), client2_h_s = tostring(client2_h_s), client2_p_d = toreal(client2_p_d), server2_h_s = tostring(server2_h_s), server2_p_d = toreal(server2_p_d)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), _system_name_s = tostring(_system_name_s), _write_ts_t = todatetime(_write_ts_t), ts_t = todatetime(ts_t), dt_d = toreal(dt_d), uid1_s = tostring(uid1_s), uid2_s = tostring(uid2_s), direct_b = tobool(direct_b), client1_h_s = tostring(client1_h_s), client1_p_d = toreal(client1_p_d), server1_h_s = tostring(server1_h_s), server1_p_d = toreal(server1_p_d), client2_h_s = tostring(client2_h_s), client2_p_d = toreal(client2_p_d), server2_h_s = tostring(server2_h_s), server2_p_d = toreal(server2_p_d)'
         outputStream: 'Custom-Corelight_v2_stepping_CL'
       }
     ]

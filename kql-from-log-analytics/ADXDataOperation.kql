@@ -1,0 +1,73 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ADXDataOperation - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:16:17
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 19, Final columns: 19
+// ============================================================================
+
+.create-merge table ADXDataOperationRaw (records:dynamic)
+
+.alter-merge table ADXDataOperationRaw policy retention softdelete = 1d
+
+.alter table ADXDataOperationRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ADXDataOperationRaw ingestion json mapping 'ADXDataOperationRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ADXDataOperation(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+Category:string,
+CorrelationId:string,
+RootActivityId:string,
+DatabaseName:string,
+TableName:string,
+DataOperationKind:string,
+OriginalSize:long,
+ExtentSize:long,
+RowCount:long,
+ExtentCount:int,
+TotalCPU:string,
+Duration:string,
+Principal:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ADXDataOperation policy caching hot = 1d
+
+.create-or-alter function ADXDataOperationExpand() {
+ADXDataOperationRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+Category=tostring(events.Category),
+CorrelationId=tostring(events.CorrelationId),
+RootActivityId=tostring(events.RootActivityId),
+DatabaseName=tostring(events.DatabaseName),
+TableName=tostring(events.TableName),
+DataOperationKind=tostring(events.DataOperationKind),
+OriginalSize=tolong(events.OriginalSize),
+ExtentSize=tolong(events.ExtentSize),
+RowCount=tolong(events.RowCount),
+ExtentCount=toint(events.ExtentCount),
+TotalCPU=tostring(events.TotalCPU),
+Duration=tostring(events.Duration),
+Principal=tostring(events.Principal),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ADXDataOperation policy update @'[{"Source": "ADXDataOperationRaw", "Query": "ADXDataOperationExpand()", "IsEnabled": "True", "IsTransactional": true}]'

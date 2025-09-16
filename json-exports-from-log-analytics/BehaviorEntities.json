@@ -1,0 +1,165 @@
+﻿{
+    "Name":  "BehaviorEntities",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "AccountObjectId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountUpn",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LocalIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NetworkMessageId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EmailSubject",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EmailClusterId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Application",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ApplicationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OAuthApplicationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProcessCommandLine",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RegistryKey",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RegistryValueName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RegistryValueData",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountSid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountDomain",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemoteUrl",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BehaviorId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActionType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Categories",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServiceSource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DetectionSource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DataSources",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EntityType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AdditionalFields",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EntityRole",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FolderPath",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SHA1",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SHA256",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileSize",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ThreatFamily",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemoteIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DetailedEntityRole",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

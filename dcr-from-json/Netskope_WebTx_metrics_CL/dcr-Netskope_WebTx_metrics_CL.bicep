@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Netskope_WebTx_metrics_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:46
+// Generated: 2025-09-17 06:20:59
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 12, DCR columns: 10 (Type column filtered out)
+// Underscore columns included
+// Original columns: 12, DCR columns: 11 (Type column always filtered)
 // Output stream: Custom-Netskope_WebTx_metrics_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -70,6 +71,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             name: 'oldest_unacked_message_age_s'
             type: 'string'
           }
+          {
+            name: '_ResourceId'
+            type: 'string'
+          }
         ]
       }
     }
@@ -86,7 +91,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Netskope_WebTx_metrics_CL']
         destinations: ['Sentinel-Netskope_WebTx_metrics_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), timestamp_t = todatetime(timestamp_t), backlog_message_count_d = toreal(backlog_message_count_d), oldest_unacked_message_age_s = tostring(oldest_unacked_message_age_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), timestamp_t = todatetime(timestamp_t), backlog_message_count_d = toreal(backlog_message_count_d), oldest_unacked_message_age_s = tostring(oldest_unacked_message_age_s), _ResourceId = tostring(_ResourceId)'
         outputStream: 'Custom-Netskope_WebTx_metrics_CL'
       }
     ]

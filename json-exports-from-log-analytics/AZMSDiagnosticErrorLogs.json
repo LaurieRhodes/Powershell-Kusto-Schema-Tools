@@ -1,0 +1,61 @@
+﻿{
+    "Name":  "AZMSDiagnosticErrorLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ActivityId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActivityName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NamespaceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EntityType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EntityName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationResult",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ErrorCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ErrorMessage",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Provider",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

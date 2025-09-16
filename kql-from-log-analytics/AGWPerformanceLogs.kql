@@ -1,0 +1,61 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AGWPerformanceLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:17:00
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 13, Final columns: 13
+// ============================================================================
+
+.create-merge table AGWPerformanceLogsRaw (records:dynamic)
+
+.alter-merge table AGWPerformanceLogsRaw policy retention softdelete = 1d
+
+.alter table AGWPerformanceLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AGWPerformanceLogsRaw ingestion json mapping 'AGWPerformanceLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AGWPerformanceLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+InstanceId:string,
+HealthyHostCount:int,
+UnHealthyHostCount:int,
+RequestCount:int,
+Latency:int,
+FailedRequestCount:int,
+Throughput:int,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AGWPerformanceLogs policy caching hot = 1d
+
+.create-or-alter function AGWPerformanceLogsExpand() {
+AGWPerformanceLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+InstanceId=tostring(events.InstanceId),
+HealthyHostCount=toint(events.HealthyHostCount),
+UnHealthyHostCount=toint(events.UnHealthyHostCount),
+RequestCount=toint(events.RequestCount),
+Latency=toint(events.Latency),
+FailedRequestCount=toint(events.FailedRequestCount),
+Throughput=toint(events.Throughput),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AGWPerformanceLogs policy update @'[{"Source": "AGWPerformanceLogsRaw", "Query": "AGWPerformanceLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

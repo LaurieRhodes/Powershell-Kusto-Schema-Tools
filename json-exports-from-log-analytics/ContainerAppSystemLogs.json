@@ -1,0 +1,81 @@
+﻿{
+    "Name":  "ContainerAppSystemLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Location",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ContainerName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EnvironmentName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Log",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RevisionName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ContainerAppName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ReplicaName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Reason",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventSource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Count",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "JobName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ComponentName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ComponentType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

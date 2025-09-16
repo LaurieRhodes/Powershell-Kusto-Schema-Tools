@@ -1,0 +1,75 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AZFWApplicationRule - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:19:58
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 20, Final columns: 20
+// ============================================================================
+
+.create-merge table AZFWApplicationRuleRaw (records:dynamic)
+
+.alter-merge table AZFWApplicationRuleRaw policy retention softdelete = 1d
+
+.alter table AZFWApplicationRuleRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AZFWApplicationRuleRaw ingestion json mapping 'AZFWApplicationRuleRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AZFWApplicationRule(
+TimeGenerated:datetime,
+TenantId:guid,
+WebCategory:string,
+IsTlsInspected:bool,
+ActionReason:string,
+Rule:string,
+RuleCollection:string,
+RuleCollectionGroup:string,
+IsExplicitProxyRequest:bool,
+Policy:string,
+TargetUrl:string,
+Fqdn:string,
+DestinationPort:int,
+SourcePort:int,
+SourceIp:string,
+Protocol:string,
+Action:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AZFWApplicationRule policy caching hot = 1d
+
+.create-or-alter function AZFWApplicationRuleExpand() {
+AZFWApplicationRuleRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+WebCategory=tostring(events.WebCategory),
+IsTlsInspected=tobool(events.IsTlsInspected),
+ActionReason=tostring(events.ActionReason),
+Rule=tostring(events.Rule),
+RuleCollection=tostring(events.RuleCollection),
+RuleCollectionGroup=tostring(events.RuleCollectionGroup),
+IsExplicitProxyRequest=tobool(events.IsExplicitProxyRequest),
+Policy=tostring(events.Policy),
+TargetUrl=tostring(events.TargetUrl),
+Fqdn=tostring(events.Fqdn),
+DestinationPort=toint(events.DestinationPort),
+SourcePort=toint(events.SourcePort),
+SourceIp=tostring(events.SourceIp),
+Protocol=tostring(events.Protocol),
+Action=tostring(events.Action),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AZFWApplicationRule policy update @'[{"Source": "AZFWApplicationRuleRaw", "Query": "AZFWApplicationRuleExpand()", "IsEnabled": "True", "IsTransactional": true}]'

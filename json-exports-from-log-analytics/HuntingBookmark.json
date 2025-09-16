@@ -1,0 +1,89 @@
+﻿{
+    "Name":  "HuntingBookmark",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SoftDeleted",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "Entities",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Notes",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "QueryEndTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "QueryStartTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "QueryResultRow",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "QueryText",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "LastUpdatedTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "CreatedTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "UpdatedBy",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CreatedBy",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BookmarkType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BookmarkName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BookmarkId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Tags",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

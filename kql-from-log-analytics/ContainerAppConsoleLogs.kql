@@ -1,0 +1,71 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ContainerAppConsoleLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:21:23
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 18, Final columns: 18
+// ============================================================================
+
+.create-merge table ContainerAppConsoleLogsRaw (records:dynamic)
+
+.alter-merge table ContainerAppConsoleLogsRaw policy retention softdelete = 1d
+
+.alter table ContainerAppConsoleLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ContainerAppConsoleLogsRaw ingestion json mapping 'ContainerAppConsoleLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ContainerAppConsoleLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+Location:string,
+ContainerName:string,
+ContainerGroupName:string,
+ContainerImage:string,
+Stream:string,
+ContainerGroupId:string,
+EnvironmentName:string,
+Log:string,
+ContainerAppName:string,
+ContainerId:string,
+RevisionName:string,
+JobName:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ContainerAppConsoleLogs policy caching hot = 1d
+
+.create-or-alter function ContainerAppConsoleLogsExpand() {
+ContainerAppConsoleLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+Location=tostring(events.Location),
+ContainerName=tostring(events.ContainerName),
+ContainerGroupName=tostring(events.ContainerGroupName),
+ContainerImage=tostring(events.ContainerImage),
+Stream=tostring(events.Stream),
+ContainerGroupId=tostring(events.ContainerGroupId),
+EnvironmentName=tostring(events.EnvironmentName),
+Log=tostring(events.Log),
+ContainerAppName=tostring(events.ContainerAppName),
+ContainerId=tostring(events.ContainerId),
+RevisionName=tostring(events.RevisionName),
+JobName=tostring(events.JobName),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ContainerAppConsoleLogs policy update @'[{"Source": "ContainerAppConsoleLogsRaw", "Query": "ContainerAppConsoleLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

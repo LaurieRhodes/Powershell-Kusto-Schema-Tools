@@ -1,0 +1,97 @@
+﻿{
+    "Name":  "SecureScoreControls",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Environment",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsSnapshot",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "ResourceProviderType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ControlType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecommendationResourceIds",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Description",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NotApplicableResources",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "UnhealthyResources",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "HealthyResources",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Weight",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "PercentageScore",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "MaxScore",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "CurrentScore",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ControlName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ControlId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AssessedResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SecureScoresSubscriptionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Properties",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

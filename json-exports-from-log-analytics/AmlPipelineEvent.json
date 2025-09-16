@@ -1,0 +1,85 @@
+﻿{
+    "Name":  "AmlPipelineEvent",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "AmlPipelineEndpointId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AmlPipelineDraftName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AmlPipelineDraftId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AmlParentPipelineId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AmlPipelineId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AmlWorkspaceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AmlPipelineEndpointName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AmlWorkspaceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AadTenantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AmlModuleId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Identity",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AmlModuleName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

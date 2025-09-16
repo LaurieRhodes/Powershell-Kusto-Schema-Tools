@@ -1,0 +1,101 @@
+﻿{
+    "Name":  "AppServiceHTTPLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Referer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CsUsername",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CsUriQuery",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Cookie",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Result",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TimeTaken",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "CsBytes",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ScBytes",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ComputerName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ScWin32Status",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ScStatus",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "CsHost",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserAgent",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CIp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SPort",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CsUriStem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CsMethod",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ScSubStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

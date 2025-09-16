@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for SecurityBridgeLogs_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:48
+// Generated: 2025-09-17 06:21:01
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 9, DCR columns: 7 (Type column filtered out)
+// Underscore columns included
+// Original columns: 9, DCR columns: 8 (Type column always filtered)
 // Output stream: Custom-SecurityBridgeLogs_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -58,6 +59,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             name: 'RawData'
             type: 'string'
           }
+          {
+            name: '_ResourceId'
+            type: 'string'
+          }
         ]
       }
     }
@@ -74,7 +79,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-SecurityBridgeLogs_CL']
         destinations: ['Sentinel-SecurityBridgeLogs_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), _ResourceId = tostring(_ResourceId)'
         outputStream: 'Custom-SecurityBridgeLogs_CL'
       }
     ]

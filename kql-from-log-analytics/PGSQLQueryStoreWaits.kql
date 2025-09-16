@@ -1,0 +1,67 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for PGSQLQueryStoreWaits - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:28:24
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 16, Final columns: 16
+// ============================================================================
+
+.create-merge table PGSQLQueryStoreWaitsRaw (records:dynamic)
+
+.alter-merge table PGSQLQueryStoreWaitsRaw policy retention softdelete = 1d
+
+.alter table PGSQLQueryStoreWaitsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table PGSQLQueryStoreWaitsRaw ingestion json mapping 'PGSQLQueryStoreWaitsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table PGSQLQueryStoreWaits(
+TimeGenerated:datetime,
+TenantId:guid,
+LogicalServerName:string,
+ReplicaRole:string,
+UserId:int,
+DatabaseId:int,
+QueryId:string,
+StartTime:datetime,
+EndTime:datetime,
+EventType:string,
+Event:string,
+Calls:long,
+Location:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table PGSQLQueryStoreWaits policy caching hot = 1d
+
+.create-or-alter function PGSQLQueryStoreWaitsExpand() {
+PGSQLQueryStoreWaitsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+LogicalServerName=tostring(events.LogicalServerName),
+ReplicaRole=tostring(events.ReplicaRole),
+UserId=toint(events.UserId),
+DatabaseId=toint(events.DatabaseId),
+QueryId=tostring(events.QueryId),
+StartTime=todatetime(events.StartTime),
+EndTime=todatetime(events.EndTime),
+EventType=tostring(events.EventType),
+Event=tostring(events.Event),
+Calls=tolong(events.Calls),
+Location=tostring(events.Location),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table PGSQLQueryStoreWaits policy update @'[{"Source": "PGSQLQueryStoreWaitsRaw", "Query": "PGSQLQueryStoreWaitsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

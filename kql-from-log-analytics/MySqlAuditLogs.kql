@@ -1,0 +1,77 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for MySqlAuditLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:27:02
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 21, Final columns: 21
+// ============================================================================
+
+.create-merge table MySqlAuditLogsRaw (records:dynamic)
+
+.alter-merge table MySqlAuditLogsRaw policy retention softdelete = 1d
+
+.alter table MySqlAuditLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table MySqlAuditLogsRaw ingestion json mapping 'MySqlAuditLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table MySqlAuditLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+IsAadAuth:string,
+Category:string,
+Status:int,
+SqlText:string,
+Table:string,
+Db:string,
+User:string,
+Ip:string,
+Host:string,
+ThreadId:int,
+ErrorCode:int,
+EventTime:datetime,
+ConnectionId:string,
+EventSubclass:string,
+EventClass:string,
+ReplicationSetRole:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table MySqlAuditLogs policy caching hot = 1d
+
+.create-or-alter function MySqlAuditLogsExpand() {
+MySqlAuditLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+IsAadAuth=tostring(events.IsAadAuth),
+Category=tostring(events.Category),
+Status=toint(events.Status),
+SqlText=tostring(events.SqlText),
+Table=tostring(events.Table),
+Db=tostring(events.Db),
+User=tostring(events.User),
+Ip=tostring(events.Ip),
+Host=tostring(events.Host),
+ThreadId=toint(events.ThreadId),
+ErrorCode=toint(events.ErrorCode),
+EventTime=todatetime(events.EventTime),
+ConnectionId=tostring(events.ConnectionId),
+EventSubclass=tostring(events.EventSubclass),
+EventClass=tostring(events.EventClass),
+ReplicationSetRole=tostring(events.ReplicationSetRole),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table MySqlAuditLogs policy update @'[{"Source": "MySqlAuditLogsRaw", "Query": "MySqlAuditLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

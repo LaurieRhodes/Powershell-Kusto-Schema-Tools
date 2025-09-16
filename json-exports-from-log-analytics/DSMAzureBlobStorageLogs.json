@@ -1,0 +1,89 @@
+﻿{
+    "Name":  "DSMAzureBlobStorageLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "AccountName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceSubscriptionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SumResponseBodySize",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "AggregationLastEventTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "AggregationCount",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserAgentHeader",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Uri",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "StatusCode",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequesterUpn",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequesterAppId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AuthenticationType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Location",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CallerIpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

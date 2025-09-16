@@ -1,0 +1,133 @@
+﻿{
+    "Name":  "MDCDetectionK8SApiEvents",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "AdditionalMetadata",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Elapsed",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ContainsPublicIp",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "ClientIPs",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "ContainsAuthentication",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "AuthenticationTypes",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "PayloadEncoding",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PayloadType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsLastChunk",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "ChunkNum",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "PayloadLength",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Payload",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "StatusCode",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Url",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Method",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsRequest",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "RequestId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "K8SPodName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "K8SNodeName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "K8SStatefulsetName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "K8SDaemonsetName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "K8SDeploymentName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "K8SNamespaceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "K8SClusterName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Timestamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Region",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DataPipelineMetadata",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

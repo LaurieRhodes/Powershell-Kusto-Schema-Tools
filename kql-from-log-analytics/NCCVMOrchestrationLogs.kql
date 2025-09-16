@@ -1,0 +1,63 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for NCCVMOrchestrationLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:27:15
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 14, Final columns: 14
+// ============================================================================
+
+.create-merge table NCCVMOrchestrationLogsRaw (records:dynamic)
+
+.alter-merge table NCCVMOrchestrationLogsRaw policy retention softdelete = 1d
+
+.alter table NCCVMOrchestrationLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table NCCVMOrchestrationLogsRaw ingestion json mapping 'NCCVMOrchestrationLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table NCCVMOrchestrationLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+Node:string,
+ContainerName:string,
+PodName:string,
+NamespaceName:string,
+Message:string,
+Severity:string,
+Location:string,
+ClusterManagerName:string,
+ClusterName:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table NCCVMOrchestrationLogs policy caching hot = 1d
+
+.create-or-alter function NCCVMOrchestrationLogsExpand() {
+NCCVMOrchestrationLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Node=tostring(events.Node),
+ContainerName=tostring(events.ContainerName),
+PodName=tostring(events.PodName),
+NamespaceName=tostring(events.NamespaceName),
+Message=tostring(events.Message),
+Severity=tostring(events.Severity),
+Location=tostring(events.Location),
+ClusterManagerName=tostring(events.ClusterManagerName),
+ClusterName=tostring(events.ClusterName),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table NCCVMOrchestrationLogs policy update @'[{"Source": "NCCVMOrchestrationLogsRaw", "Query": "NCCVMOrchestrationLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

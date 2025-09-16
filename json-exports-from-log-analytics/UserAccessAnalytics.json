@@ -1,0 +1,77 @@
+﻿{
+    "Name":  "UserAccessAnalytics",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "AADTenantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceEntityType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceEntityId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceEntityName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TargetEntityType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TargetEntityId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TargetEntityName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccessLevel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccessType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccessStartTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "AccessEndTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "AccessEndReason",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccessId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

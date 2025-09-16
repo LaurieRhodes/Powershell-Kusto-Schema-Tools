@@ -1,0 +1,185 @@
+﻿{
+    "Name":  "AddonAzureBackupJobs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "State",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VaultUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DatasourceSetFriendlyName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DatasourceSetResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DatasourceSetType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DatasourceResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DatasourceType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DatasourceFriendlyName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SubscriptionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceGroupName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VaultName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VaultTags",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VaultType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "StorageReplicationType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ArchiveTierStorageReplicationType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureDataCenter",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackupItemId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SchemaVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecoveryLocationType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecoveryJobRPLocation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecoveryJobRPDateTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AdHocOrScheduledJob",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackupItemUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackupManagementServerUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackupManagementType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackupItemFriendlyName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DataTransferredInMB",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "JobFailureCode",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "JobOperation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "JobOperationSubType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "JobStartDateTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "JobStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "JobUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProtectedContainerUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecoveryJobDestination",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "JobDurationInSecs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ExtendedProperties",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

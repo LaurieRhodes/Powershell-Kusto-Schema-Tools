@@ -1,0 +1,65 @@
+﻿{
+    "Name":  "MDCDetectionGatingValidationEvents",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "AzureResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Region",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Action",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RuleProperties",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "AdmissionControlVersions",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "EvaluatedResourceKind",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EvaluatedResourceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EvaluatedResourceParentKind",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EvaluatedResourceParentName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EvaluatedResourceDetails",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Namespace",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

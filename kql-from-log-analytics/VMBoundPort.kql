@@ -1,0 +1,83 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for VMBoundPort - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:31:09
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 24, Final columns: 24
+// ============================================================================
+
+.create-merge table VMBoundPortRaw (records:dynamic)
+
+.alter-merge table VMBoundPortRaw policy retention softdelete = 1d
+
+.alter table VMBoundPortRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table VMBoundPortRaw ingestion json mapping 'VMBoundPortRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table VMBoundPort(
+TimeGenerated:datetime,
+Computer:string,
+AgentId:string,
+Process:string,
+Machine:string,
+PortId:string,
+ResponseTimeMax:long,
+ResponseTimeMin:long,
+ResponseTimeSum:long,
+Responses:long,
+TenantId:guid,
+LinksEstablished:long,
+LinksLive:long,
+BytesReceived:long,
+BytesSent:long,
+IsWildcardBind:bool,
+Protocol:string,
+Port:int,
+Ip:string,
+ProcessName:string,
+LinksTerminated:long,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table VMBoundPort policy caching hot = 1d
+
+.create-or-alter function VMBoundPortExpand() {
+VMBoundPortRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+Computer=tostring(events.Computer),
+AgentId=tostring(events.AgentId),
+Process=tostring(events.Process),
+Machine=tostring(events.Machine),
+PortId=tostring(events.PortId),
+ResponseTimeMax=tolong(events.ResponseTimeMax),
+ResponseTimeMin=tolong(events.ResponseTimeMin),
+ResponseTimeSum=tolong(events.ResponseTimeSum),
+Responses=tolong(events.Responses),
+TenantId=toguid(events.TenantId),
+LinksEstablished=tolong(events.LinksEstablished),
+LinksLive=tolong(events.LinksLive),
+BytesReceived=tolong(events.BytesReceived),
+BytesSent=tolong(events.BytesSent),
+IsWildcardBind=tobool(events.IsWildcardBind),
+Protocol=tostring(events.Protocol),
+Port=toint(events.Port),
+Ip=tostring(events.Ip),
+ProcessName=tostring(events.ProcessName),
+LinksTerminated=tolong(events.LinksTerminated),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table VMBoundPort policy update @'[{"Source": "VMBoundPortRaw", "Query": "VMBoundPortExpand()", "IsEnabled": "True", "IsTransactional": true}]'

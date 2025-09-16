@@ -1,0 +1,85 @@
+﻿{
+    "Name":  "NWConnectionMonitorDestinationListenerResult",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ListeningOutcome",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Protocol",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationAgentId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationSubnet",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Issues",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationPort",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "TestConfigurationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TestGroupName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ConnectionMonitorResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecordId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

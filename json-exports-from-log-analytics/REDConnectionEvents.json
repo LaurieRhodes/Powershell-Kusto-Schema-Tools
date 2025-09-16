@@ -1,0 +1,57 @@
+﻿{
+    "Name":  "REDConnectionEvents",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "EventEpochTime",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Location",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientIp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PrivateLinkIPv6",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ConnectionId",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "EventType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventStatus",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

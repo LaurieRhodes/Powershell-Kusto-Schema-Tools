@@ -1,0 +1,165 @@
+﻿{
+    "Name":  "CloudAppEvents",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "OSPlatform",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsAdminOperation",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "AccountDisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountObjectId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppInstanceId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ApplicationId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Application",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActionType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserAgentTags",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Timestamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "AuditSource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LastSeenForUser",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "OAuthAppId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SessionData",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "IPTags",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "IPCategory",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IPAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsImpersonated",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "AccountId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AdditionalFields",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "RawEventData",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "ReportId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ObjectId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ObjectType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UncommonForUser",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "ObjectName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActivityType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserAgent",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ISP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "City",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CountryCode",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsAnonymousProxy",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "IsExternalUser",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "ActivityObjects",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

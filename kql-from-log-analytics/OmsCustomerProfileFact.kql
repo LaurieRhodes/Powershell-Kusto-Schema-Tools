@@ -1,0 +1,61 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for OmsCustomerProfileFact - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:28:04
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 13, Final columns: 13
+// ============================================================================
+
+.create-merge table OmsCustomerProfileFactRaw (records:dynamic)
+
+.alter-merge table OmsCustomerProfileFactRaw policy retention softdelete = 1d
+
+.alter table OmsCustomerProfileFactRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table OmsCustomerProfileFactRaw ingestion json mapping 'OmsCustomerProfileFactRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table OmsCustomerProfileFact(
+TimeGenerated:datetime,
+TenantId:guid,
+SourceSystem:string,
+CustomerId:guid,
+CustomerType:string,
+CreatedDate:datetime,
+AccountState:int,
+WorkspaceName:string,
+AzureSubscriptionId:guid,
+ServiceTier:string,
+Environment:string,
+Features:string,
+Solutions:string,
+_TimeReceived:datetime)
+
+.alter table OmsCustomerProfileFact policy caching hot = 1d
+
+.create-or-alter function OmsCustomerProfileFactExpand() {
+OmsCustomerProfileFactRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SourceSystem=tostring(events.SourceSystem),
+CustomerId=toguid(events.CustomerId),
+CustomerType=tostring(events.CustomerType),
+CreatedDate=todatetime(events.CreatedDate),
+AccountState=toint(events.AccountState),
+WorkspaceName=tostring(events.WorkspaceName),
+AzureSubscriptionId=toguid(events.AzureSubscriptionId),
+ServiceTier=tostring(events.ServiceTier),
+Environment=tostring(events.Environment),
+Features=tostring(events.Features),
+Solutions=tostring(events.Solutions),
+_TimeReceived=todatetime(now())
+}
+
+.alter table OmsCustomerProfileFact policy update @'[{"Source": "OmsCustomerProfileFactRaw", "Query": "OmsCustomerProfileFactExpand()", "IsEnabled": "True", "IsTransactional": true}]'

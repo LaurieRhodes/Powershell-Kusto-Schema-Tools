@@ -1,0 +1,93 @@
+﻿{
+    "Name":  "ASRv2ProtectedItems",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "LastSuccessfulPlannedFailoverTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ProtectionState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TargetFabricId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FabricId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FabricObjectName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FabricObjectId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TargetFabricAgentId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ReplicationHealth",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FabricAgentId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceFabricProviderId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ReplicationExtensionName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PolicyName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProviderId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TargetFabricProviderId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

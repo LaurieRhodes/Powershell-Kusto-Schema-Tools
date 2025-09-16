@@ -1,0 +1,93 @@
+﻿{
+    "Name":  "WVDAgentHealthStatus",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ActiveSessions",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SessionHostHealthCheckResult",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "LastUpgradeTimeStamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "UpgradeErrorMsg",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UpgradeState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EndpointState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LastHeartBeat",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "InactiveSessions",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "StatusTimeStamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "AllowNewSessions",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SxSStackVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OSVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AgentVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SessionHostResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SessionHostName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Status",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

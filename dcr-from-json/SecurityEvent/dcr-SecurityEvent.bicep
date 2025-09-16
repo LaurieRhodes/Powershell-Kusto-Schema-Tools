@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for SecurityEvent
 // ============================================================================
-// Generated: 2025-09-13 20:13:49
+// Generated: 2025-09-17 06:21:01
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 233, DCR columns: 232 (Type column filtered out)
+// Underscore columns included
+// Original columns: 233, DCR columns: 232 (Type column always filtered)
 // Output stream: Custom-SecurityEvent
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================

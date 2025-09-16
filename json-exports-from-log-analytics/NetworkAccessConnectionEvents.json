@@ -1,0 +1,129 @@
+﻿{
+    "Name":  "NetworkAccessConnectionEvents",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Token3PIssuedAt",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Token3PValidFrom",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Token3PExpiry",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "RemoteNetworkId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PopProcessingRegion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NetworkProtocol",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TransportProtocol",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserPrincipalName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Token3PUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AgentVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceOperatingSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourcePort",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "RemoteNetworkSourceIp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourcePrivateIp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceIp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationFqdn",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationPort",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "DestinationIp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceCategory",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TrafficType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ConnectionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceOperatingSystemVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

@@ -1,0 +1,77 @@
+﻿{
+    "Name":  "SecurityAttackPathData",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "AttackPathId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Description",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EntrypointId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TargetId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AdditionalRemediationSteps",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Path",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Assessments",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "RiskLevel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RiskFactors",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "PotentialImpact",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Mitre",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AttackStory",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

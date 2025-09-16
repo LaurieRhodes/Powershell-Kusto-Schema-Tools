@@ -1,0 +1,129 @@
+﻿{
+    "Name":  "HDInsightRangerAuditLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Tags",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventDurationMs",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "EventCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SequenceNumber",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Id",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LogType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CliIpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CliType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SessionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestData",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Enforcer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Policy",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Result",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Action",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClusterResourceType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClusterResource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccessName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestUser",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Repo",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RepoType",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ClusterType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "HostName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClusterName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AdditionalInfo",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

@@ -1,0 +1,229 @@
+﻿{
+    "Name":  "ApiManagementGatewayLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "LastErrorElapsed",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "LastErrorSource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LastErrorScope",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LastErrorSection",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LastErrorReason",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LastErrorMessage",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ApiRevision",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientTlsVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestHeaders",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "ResponseHeaders",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "BackendRequestHeaders",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "BackendResponseHeaders",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "RequestBody",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResponseBody",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackendRequestBody",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackendResponseBody",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Errors",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "TraceRecords",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "IsTraceRequested",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "IsTraceExpired",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "IsTraceAllowed",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "IsMasterTrace",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "WorkspaceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackendId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ApimSubscriptionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProductId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Region",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsRequestSuccess",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TotalTime",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "CallerIpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Method",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Url",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientProtocol",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResponseCode",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "BackendMethod",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackendUrl",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackendResponseCode",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "BackendProtocol",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestSize",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ResponseSize",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Cache",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CacheTime",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "BackendTime",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ClientTime",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ApiId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Timestamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

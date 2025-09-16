@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Cohesity_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:32
+// Generated: 2025-09-17 06:20:46
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 7, DCR columns: 5 (Type column filtered out)
+// Underscore columns included
+// Original columns: 7, DCR columns: 6 (Type column always filtered)
 // Output stream: Custom-Cohesity_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -50,6 +51,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             name: 'ManagementGroupName'
             type: 'string'
           }
+          {
+            name: '_ResourceId'
+            type: 'string'
+          }
         ]
       }
     }
@@ -66,7 +71,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Cohesity_CL']
         destinations: ['Sentinel-Cohesity_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), _ResourceId = tostring(_ResourceId)'
         outputStream: 'Custom-Cohesity_CL'
       }
     ]

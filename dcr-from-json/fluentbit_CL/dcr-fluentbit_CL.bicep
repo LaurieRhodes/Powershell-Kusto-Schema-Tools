@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for fluentbit_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:42
+// Generated: 2025-09-17 06:20:55
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 23, DCR columns: 17 (Type column filtered out)
+// Underscore columns included
+// Original columns: 23, DCR columns: 22 (Type column always filtered)
 // Output stream: Custom-fluentbit_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -39,51 +40,19 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'SourceSystem'
+            name: '_ResourceId'
             type: 'string'
           }
           {
-            name: 'pri_s'
+            name: '_IsBillable'
             type: 'string'
           }
           {
-            name: 'time_s'
+            name: '_BilledSize'
             type: 'string'
           }
           {
-            name: 'host_s'
-            type: 'string'
-          }
-          {
-            name: 'ident_s'
-            type: 'string'
-          }
-          {
-            name: 'Year_s'
-            type: 'string'
-          }
-          {
-            name: 'Month_s'
-            type: 'string'
-          }
-          {
-            name: 'Day_s'
-            type: 'string'
-          }
-          {
-            name: 'Hour_s'
-            type: 'string'
-          }
-          {
-            name: 'Min_s'
-            type: 'string'
-          }
-          {
-            name: 'Sec_s'
-            type: 'string'
-          }
-          {
-            name: 'Message'
+            name: 'RawData'
             type: 'string'
           }
           {
@@ -91,7 +60,59 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'RawData'
+            name: 'Message'
+            type: 'string'
+          }
+          {
+            name: 'Sec_s'
+            type: 'string'
+          }
+          {
+            name: 'Min_s'
+            type: 'string'
+          }
+          {
+            name: '_SubscriptionId'
+            type: 'string'
+          }
+          {
+            name: 'Hour_s'
+            type: 'string'
+          }
+          {
+            name: 'Month_s'
+            type: 'string'
+          }
+          {
+            name: 'Year_s'
+            type: 'string'
+          }
+          {
+            name: 'ident_s'
+            type: 'string'
+          }
+          {
+            name: 'host_s'
+            type: 'string'
+          }
+          {
+            name: 'time_s'
+            type: 'string'
+          }
+          {
+            name: 'pri_s'
+            type: 'string'
+          }
+          {
+            name: '_timestamp_d'
+            type: 'string'
+          }
+          {
+            name: 'SourceSystem'
+            type: 'string'
+          }
+          {
+            name: 'Day_s'
             type: 'string'
           }
           {
@@ -114,7 +135,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-fluentbit_CL']
         destinations: ['Sentinel-fluentbit_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), pri_s = tostring(pri_s), time_s = tostring(time_s), host_s = tostring(host_s), ident_s = tostring(ident_s), Year_s = tostring(Year_s), Month_s = tostring(Month_s), Day_s = tostring(Day_s), Hour_s = tostring(Hour_s), Min_s = tostring(Min_s), Sec_s = tostring(Sec_s), Message = tostring(Message), FirewallName_s = tostring(FirewallName_s), RawData = tostring(RawData), action = tostring(action)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), _ResourceId = tostring(_ResourceId), _IsBillable = tostring(_IsBillable), _BilledSize = tostring(_BilledSize), RawData = tostring(RawData), FirewallName_s = tostring(FirewallName_s), Message = tostring(Message), Sec_s = tostring(Sec_s), Min_s = tostring(Min_s), _SubscriptionId = tostring(_SubscriptionId), Hour_s = tostring(Hour_s), Month_s = tostring(Month_s), Year_s = tostring(Year_s), ident_s = tostring(ident_s), host_s = tostring(host_s), time_s = tostring(time_s), pri_s = tostring(pri_s), _timestamp_d = toreal(_timestamp_d), SourceSystem = tostring(SourceSystem), Day_s = tostring(Day_s), action = tostring(action)'
         outputStream: 'Custom-fluentbit_CL'
       }
     ]

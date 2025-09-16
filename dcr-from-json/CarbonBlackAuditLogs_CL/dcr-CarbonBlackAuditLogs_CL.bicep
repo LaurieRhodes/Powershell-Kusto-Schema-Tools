@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for CarbonBlackAuditLogs_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:31
+// Generated: 2025-09-17 06:20:44
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 28, DCR columns: 25 (Type column filtered out)
+// Underscore columns included
+// Original columns: 28, DCR columns: 27 (Type column always filtered)
 // Output stream: Custom-CarbonBlackAuditLogs_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -36,6 +37,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
+            type: 'string'
+          }
+          {
+            name: 'orgName_s'
             type: 'string'
           }
           {
@@ -60,6 +65,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'flagged_b'
+            type: 'string'
+          }
+          {
+            name: '_ResourceId'
             type: 'string'
           }
           {
@@ -123,11 +132,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'orgName_s'
+            name: 'clientIp_s'
             type: 'string'
           }
           {
-            name: 'clientIp_s'
+            name: '_ItemId'
             type: 'string'
           }
         ]
@@ -146,7 +155,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-CarbonBlackAuditLogs_CL']
         destinations: ['Sentinel-CarbonBlackAuditLogs_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), eventTime_d = toreal(eventTime_d), eventId_g = tostring(eventId_g), requestUrl_s = tostring(requestUrl_s), description_s = tostring(description_s), verbose_b = tobool(verbose_b), flagged_b = tobool(flagged_b), TenantId = toguid(TenantId), requestUrl = tostring(requestUrl), description = tostring(description), verbose = tobool(verbose), clientIp = tostring(clientIp), flagged = tobool(flagged), orgName = tostring(orgName), loginName_s = tostring(loginName_s), eventId = tostring(eventId), eventTime = toreal(eventTime), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), orgName_s = tostring(orgName_s), clientIp_s = tostring(clientIp_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), orgName_s = tostring(orgName_s), eventTime_d = toreal(eventTime_d), eventId_g = tostring(eventId_g), requestUrl_s = tostring(requestUrl_s), description_s = tostring(description_s), verbose_b = tobool(verbose_b), flagged_b = tobool(flagged_b), _ResourceId = tostring(_ResourceId), TenantId = toguid(TenantId), requestUrl = tostring(requestUrl), description = tostring(description), verbose = tobool(verbose), clientIp = tostring(clientIp), flagged = tobool(flagged), orgName = tostring(orgName), loginName_s = tostring(loginName_s), eventId = tostring(eventId), eventTime = toreal(eventTime), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), clientIp_s = tostring(clientIp_s), _ItemId = tostring(_ItemId)'
         outputStream: 'Custom-CarbonBlackAuditLogs_CL'
       }
     ]

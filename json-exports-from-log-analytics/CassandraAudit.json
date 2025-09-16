@@ -1,0 +1,65 @@
+﻿{
+    "Name":  "CassandraAudit",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ClusterName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientPort",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CoordinatorIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "User",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BatchId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Status",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Operation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationNaked",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExternalUserId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

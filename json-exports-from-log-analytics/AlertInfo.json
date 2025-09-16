@@ -1,0 +1,53 @@
+﻿{
+    "Name":  "AlertInfo",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Timestamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "AlertId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Title",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Severity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServiceSource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DetectionSource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AttackTechniques",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

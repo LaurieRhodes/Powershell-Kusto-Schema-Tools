@@ -1,0 +1,65 @@
+﻿{
+    "Name":  "PerfInsightsFindings",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "DataSetRunId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FindingPartitionKey",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FindingId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ReportId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RuleFriendlyName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RuleCategory",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ImpactLevel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Recommendation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ReferenceLinks",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Finding",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

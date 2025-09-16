@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for NCProtectUAL_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:45
+// Generated: 2025-09-17 06:20:58
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 22, DCR columns: 19 (Type column filtered out)
+// Underscore columns included
+// Original columns: 22, DCR columns: 21 (Type column always filtered)
 // Output stream: Custom-NCProtectUAL_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -36,6 +37,14 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'Application_s'
+            type: 'string'
+          }
+          {
+            name: '_ResourceId'
+            type: 'string'
+          }
+          {
+            name: 'UserLoginName_s'
             type: 'string'
           }
           {
@@ -99,7 +108,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'UserLoginName_s'
+            name: '_SubscriptionId'
             type: 'string'
           }
           {
@@ -122,7 +131,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-NCProtectUAL_CL']
         destinations: ['Sentinel-NCProtectUAL_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), Application_s = tostring(Application_s), UserDisplayName_s = tostring(UserDisplayName_s), Type_s = tostring(Type_s), Status_s = tostring(Status_s), SHA512Hash_s = tostring(SHA512Hash_s), Sender_s = tostring(Sender_s), RuleUrl_s = tostring(RuleUrl_s), RuleName_s = tostring(RuleName_s), RawData = tostring(RawData), OS_s = tostring(OS_s), JSONExtra_s = tostring(JSONExtra_s), Id_s = tostring(Id_s), DocumentUrl_s = tostring(DocumentUrl_s), DocumentProtectionId_g = tostring(DocumentProtectionId_g), Computer_s = tostring(Computer_s), Browser_s = tostring(Browser_s), UserLoginName_s = tostring(UserLoginName_s), UserEmail_s = tostring(UserEmail_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), Application_s = tostring(Application_s), _ResourceId = tostring(_ResourceId), UserLoginName_s = tostring(UserLoginName_s), UserDisplayName_s = tostring(UserDisplayName_s), Type_s = tostring(Type_s), Status_s = tostring(Status_s), SHA512Hash_s = tostring(SHA512Hash_s), Sender_s = tostring(Sender_s), RuleUrl_s = tostring(RuleUrl_s), RuleName_s = tostring(RuleName_s), RawData = tostring(RawData), OS_s = tostring(OS_s), JSONExtra_s = tostring(JSONExtra_s), Id_s = tostring(Id_s), DocumentUrl_s = tostring(DocumentUrl_s), DocumentProtectionId_g = tostring(DocumentProtectionId_g), Computer_s = tostring(Computer_s), Browser_s = tostring(Browser_s), _SubscriptionId = tostring(_SubscriptionId), UserEmail_s = tostring(UserEmail_s)'
         outputStream: 'Custom-NCProtectUAL_CL'
       }
     ]

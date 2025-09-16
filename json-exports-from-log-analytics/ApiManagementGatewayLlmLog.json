@@ -1,0 +1,81 @@
+﻿{
+    "Name":  "ApiManagementGatewayLlmLog",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Region",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SequenceNumber",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "PromptTokens",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "CompletionTokens",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "TotalTokens",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ModelName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsStreamCompletion",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "RequestId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeploymentName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ApiVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestMessages",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "ResponseMessages",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

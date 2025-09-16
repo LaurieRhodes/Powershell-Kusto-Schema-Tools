@@ -1,0 +1,93 @@
+﻿{
+    "Name":  "AGWFirewallLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Hostname",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LineDetails",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileDetails",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DetailedData",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DetailedMessage",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Site",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Action",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TransactionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Message",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RuleSetVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RuleSetType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestUri",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientPort",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ClientIp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InstanceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RuleId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

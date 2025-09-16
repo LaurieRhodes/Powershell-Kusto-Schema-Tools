@@ -1,0 +1,95 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for DataverseActivity - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:23:23
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 30, Final columns: 30
+// ============================================================================
+
+.create-merge table DataverseActivityRaw (records:dynamic)
+
+.alter-merge table DataverseActivityRaw policy retention softdelete = 1d
+
+.alter table DataverseActivityRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table DataverseActivityRaw ingestion json mapping 'DataverseActivityRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table DataverseActivity(
+TimeGenerated:datetime,
+TenantId:guid,
+ServiceName:string,
+ServiceContextIdType:string,
+ServiceContextId:string,
+QueryResults:dynamic,
+Query:string,
+Fields:dynamic,
+EntityName:string,
+EntityId:string,
+Message:string,
+ItemType:string,
+ItemUrl:string,
+InstanceUrl:string,
+CrmOrganizationUniqueName:string,
+CorrelationId:string,
+ClientIp:string,
+UserUpn:string,
+UserId:string,
+OriginalObjectId:string,
+ResultStatus:string,
+UserKey:string,
+UserType:string,
+OrganizationId:string,
+Operation:string,
+UserAgent:string,
+SourceRecordId:string,
+SystemUserId:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table DataverseActivity policy caching hot = 1d
+
+.create-or-alter function DataverseActivityExpand() {
+DataverseActivityRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ServiceName=tostring(events.ServiceName),
+ServiceContextIdType=tostring(events.ServiceContextIdType),
+ServiceContextId=tostring(events.ServiceContextId),
+QueryResults=todynamic(events.QueryResults),
+Query=tostring(events.Query),
+Fields=todynamic(events.Fields),
+EntityName=tostring(events.EntityName),
+EntityId=tostring(events.EntityId),
+Message=tostring(events.Message),
+ItemType=tostring(events.ItemType),
+ItemUrl=tostring(events.ItemUrl),
+InstanceUrl=tostring(events.InstanceUrl),
+CrmOrganizationUniqueName=tostring(events.CrmOrganizationUniqueName),
+CorrelationId=tostring(events.CorrelationId),
+ClientIp=tostring(events.ClientIp),
+UserUpn=tostring(events.UserUpn),
+UserId=tostring(events.UserId),
+OriginalObjectId=tostring(events.OriginalObjectId),
+ResultStatus=tostring(events.ResultStatus),
+UserKey=tostring(events.UserKey),
+UserType=tostring(events.UserType),
+OrganizationId=tostring(events.OrganizationId),
+Operation=tostring(events.Operation),
+UserAgent=tostring(events.UserAgent),
+SourceRecordId=tostring(events.SourceRecordId),
+SystemUserId=tostring(events.SystemUserId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table DataverseActivity policy update @'[{"Source": "DataverseActivityRaw", "Query": "DataverseActivityExpand()", "IsEnabled": "True", "IsTransactional": true}]'

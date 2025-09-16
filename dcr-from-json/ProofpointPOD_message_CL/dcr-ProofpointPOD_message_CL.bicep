@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for ProofpointPOD_message_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:48
+// Generated: 2025-09-17 06:21:01
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 110, DCR columns: 110 (Type column filtered out)
+// Underscore columns included
+// Original columns: 110, DCR columns: 110 (Type column always filtered)
 // Output stream: Custom-ProofpointPOD_message_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================

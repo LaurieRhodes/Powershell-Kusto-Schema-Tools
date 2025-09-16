@@ -1,0 +1,57 @@
+﻿{
+    "Name":  "AZFWInternalFqdnResolutionFailure",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Fqdn",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServerIp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServerPort",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Policy",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RuleCollectionGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RuleCollection",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Rule",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Error",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

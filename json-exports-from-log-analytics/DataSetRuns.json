@@ -1,0 +1,53 @@
+﻿{
+    "Name":  "DataSetRuns",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Name",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DataSetRunId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DCRId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CorrelationParams",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Status",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "StatusDetail",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "TimeoutMinutes",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

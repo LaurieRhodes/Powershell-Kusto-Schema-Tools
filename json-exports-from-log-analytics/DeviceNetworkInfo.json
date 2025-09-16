@@ -1,0 +1,89 @@
+﻿{
+    "Name":  "DeviceNetworkInfo",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "TunnelType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Timestamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ReportId",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "NetworkAdapterType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NetworkAdapterStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NetworkAdapterName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MachineGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NetworkAdapterVendor",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MacAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IPv4Dhcp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IPAddresses",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "DnsAddresses",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "DeviceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DefaultGateways",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "ConnectedNetworks",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "IPv6Dhcp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

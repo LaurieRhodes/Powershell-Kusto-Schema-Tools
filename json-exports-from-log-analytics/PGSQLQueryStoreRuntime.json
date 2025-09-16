@@ -1,0 +1,161 @@
+﻿{
+    "Name":  "PGSQLQueryStoreRuntime",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SharedBlksWritten",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "LocalBlksHit",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "LocalBlksRead",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "LocalBlksDirtied",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "LocalBlksWritten",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "TempBlksRead",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "SharedBlksDirtied",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "TempBlksWritten",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "BlkWriteTime",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "IsSystemQuery",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "QueryType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SearchPath",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SearchPathCaptureStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ParametersCaptureStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BlkReadTime",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "SharedBlksRead",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "SharedBlksHit",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "Rows",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "LogicalServerName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ReplicaRole",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RuntimeStatsEntryId",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "UserId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "DatabaseId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "QueryId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PlanId",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "StartTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "EndTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Calls",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "TotalExecDurationMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "MinExecDurationMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "MaxExecDurationMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "MeanExecDurationMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "StdDevExecDurationMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "Location",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

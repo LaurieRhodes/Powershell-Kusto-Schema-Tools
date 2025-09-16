@@ -1,0 +1,233 @@
+﻿{
+    "Name":  "CassandraLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "DurationMs",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "EdenSpaceBefore",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "EdenSpaceAfter",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "GCType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MaxMemory",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "MetaspaceBefore",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "MetaspaceAfter",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "OldGenAfter",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "OldGenBefore",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "PercentFull",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "PermGenAfter",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "PermGenBefore",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "SurvivorSpaceBefore",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "SurvivorSpaceAfter",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "UsedMemory",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "DroppedCrossNodeTimeout",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "DroppedInternalTimeout",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "DroppedMessagesType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DroppedMessages",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Endpoint",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "HostId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PendingTasks",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SessionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CompressedClassSpaceBefore",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "CompressedClassSpaceAfter",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "Collections",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "CodeCacheAfter",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ClusterName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Level",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AddressIp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ThreadName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ThreadId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceFile",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceLine",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Message",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Exception",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventProduct",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventCategory",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SSTableName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CassandraTable",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PartitionKey",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PartitionSize",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "TombstonedCells",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "LiveCells",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "CassandraKey",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestedColumns",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SliceStart",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SliceEnd",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeletionInfo",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CodeCacheBefore",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "CassandraKeyspace",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

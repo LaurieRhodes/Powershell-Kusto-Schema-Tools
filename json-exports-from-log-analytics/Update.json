@@ -1,0 +1,185 @@
+﻿{
+    "Name":  "Update",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "OSType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProductVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProductArch",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CVENumbers",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BulletinUrl",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BulletinID",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PackageRepository",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PackageSeverity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OSName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OSVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OSFullName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SubscriptionId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ResourceGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceProvider",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Resource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InstallTimeAvailable",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "InstallTimeDeviationRangeSeconds",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "InstallTimePredictionSeconds",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ApprovalSource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MG",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ManagementGroupName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceComputerId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Title",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MSRCSeverity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Classification",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PublishedDate",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ComputerEnvironment",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Product",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "KBID",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UpdateID",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RevisionNumber",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Optional",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "RebootBehavior",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MSRCBulletinID",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Approved",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "UpdateState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VMUUID",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

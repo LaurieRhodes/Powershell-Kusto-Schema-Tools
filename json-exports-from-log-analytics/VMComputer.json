@@ -1,0 +1,229 @@
+﻿{
+    "Name":  "VMComputer",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureSubscriptionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureResourceGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureResourceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureLocation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureUpdateDomain",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureFaultDomain",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureVmId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureSize",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureImagePublisher",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureImageOffering",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureImageSku",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureImageVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureCloudServiceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureCloudServiceDeployment",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureCloudServiceRoleName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureCloudServiceRoleType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureCloudServiceInstanceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureVmScaleSetName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureVmScaleSetDeployment",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureVmScaleSetResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureVmScaleSetInstanceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureServiceFabricClusterId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureServiceFabricClusterName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "HostingProvider",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "HypervisorId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VirtualMachineHypervisorId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AgentId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Machine",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FullDisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "HostName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BootTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TimeZone",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VirtualizationState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Ipv4Addresses",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Ipv4SubnetMasks",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Ipv4DefaultGateways",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Ipv6Addresses",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "MacAddresses",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "DnsNames",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "DependencyAgentVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperatingSystemFamily",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperatingSystemFullName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PhysicalMemoryMB",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "Cpus",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "CpuSpeed",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "VirtualMachineType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VirtualMachineNativeId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VirtualMachineNativeName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "HypervisorType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

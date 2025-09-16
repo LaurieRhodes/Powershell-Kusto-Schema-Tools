@@ -1,0 +1,101 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for PowerBIDatasetsTenant - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:28:33
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 33, Final columns: 33
+// ============================================================================
+
+.create-merge table PowerBIDatasetsTenantRaw (records:dynamic)
+
+.alter-merge table PowerBIDatasetsTenantRaw policy retention softdelete = 1d
+
+.alter table PowerBIDatasetsTenantRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table PowerBIDatasetsTenantRaw ingestion json mapping 'PowerBIDatasetsTenantRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table PowerBIDatasetsTenant(
+TimeGenerated:datetime,
+TenantId:guid,
+CustomerTenantId:string,
+EventText:string,
+Status:string,
+Identity:dynamic,
+Level:string,
+XmlaSessionId:string,
+XmlaProperties:string,
+ProgressCounter:long,
+StatusCode:int,
+PowerBIWorkspaceName:string,
+XmlaObjectPath:string,
+OperationDetailName:string,
+ExecutingUser:string,
+User:string,
+DurationMs:long,
+DatasetMode:string,
+LogAnalyticsCategory:string,
+ArtifactName:string,
+CpuTimeMs:long,
+ArtifactKind:string,
+ArtifactId:string,
+ApplicationName:string,
+ApplicationContext:dynamic,
+PremiumCapacityId:string,
+PowerBIWorkspaceId:string,
+CorrelationId:string,
+OperationName:string,
+XmlaRequestId:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table PowerBIDatasetsTenant policy caching hot = 1d
+
+.create-or-alter function PowerBIDatasetsTenantExpand() {
+PowerBIDatasetsTenantRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+CustomerTenantId=tostring(events.CustomerTenantId),
+EventText=tostring(events.EventText),
+Status=tostring(events.Status),
+Identity=todynamic(events.Identity),
+Level=tostring(events.Level),
+XmlaSessionId=tostring(events.XmlaSessionId),
+XmlaProperties=tostring(events.XmlaProperties),
+ProgressCounter=tolong(events.ProgressCounter),
+StatusCode=toint(events.StatusCode),
+PowerBIWorkspaceName=tostring(events.PowerBIWorkspaceName),
+XmlaObjectPath=tostring(events.XmlaObjectPath),
+OperationDetailName=tostring(events.OperationDetailName),
+ExecutingUser=tostring(events.ExecutingUser),
+User=tostring(events.User),
+DurationMs=tolong(events.DurationMs),
+DatasetMode=tostring(events.DatasetMode),
+LogAnalyticsCategory=tostring(events.LogAnalyticsCategory),
+ArtifactName=tostring(events.ArtifactName),
+CpuTimeMs=tolong(events.CpuTimeMs),
+ArtifactKind=tostring(events.ArtifactKind),
+ArtifactId=tostring(events.ArtifactId),
+ApplicationName=tostring(events.ApplicationName),
+ApplicationContext=todynamic(events.ApplicationContext),
+PremiumCapacityId=tostring(events.PremiumCapacityId),
+PowerBIWorkspaceId=tostring(events.PowerBIWorkspaceId),
+CorrelationId=tostring(events.CorrelationId),
+OperationName=tostring(events.OperationName),
+XmlaRequestId=tostring(events.XmlaRequestId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table PowerBIDatasetsTenant policy update @'[{"Source": "PowerBIDatasetsTenantRaw", "Query": "PowerBIDatasetsTenantExpand()", "IsEnabled": "True", "IsTransactional": true}]'

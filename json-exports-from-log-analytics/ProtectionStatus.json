@@ -1,0 +1,137 @@
+﻿{
+    "Name":  "ProtectionStatus",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ResourceProvider",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SubscriptionId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Resource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ComputerEnvironment",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ComputerIP_Hidden",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ManagementGroupName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MG",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "AMProductVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DateCollected",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ScanDate",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TypeofProtection",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SignatureVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProtectionStatusDetails",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProtectionStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProtectionStatusRank",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ThreatStatusDetails",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ThreatStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ThreatStatusRank",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Threat",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OSName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DetectionId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "DeviceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceComputerId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VMUUID",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

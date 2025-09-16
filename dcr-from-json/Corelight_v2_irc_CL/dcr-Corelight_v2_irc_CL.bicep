@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_irc_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:35
+// Generated: 2025-09-17 06:20:49
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 19, DCR columns: 16 (Type column filtered out)
+// Underscore columns included
+// Original columns: 19, DCR columns: 19 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_irc_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -35,47 +36,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ts_t'
+            name: '_path_s'
             type: 'string'
           }
           {
-            name: 'uid_s'
-            type: 'string'
-          }
-          {
-            name: 'id_orig_h_s'
-            type: 'string'
-          }
-          {
-            name: 'id_orig_p_d'
-            type: 'string'
-          }
-          {
-            name: 'id_resp_h_s'
-            type: 'string'
-          }
-          {
-            name: 'id_resp_p_d'
-            type: 'string'
-          }
-          {
-            name: 'nick_s'
-            type: 'string'
-          }
-          {
-            name: 'user_s'
-            type: 'string'
-          }
-          {
-            name: 'command_s'
-            type: 'string'
-          }
-          {
-            name: 'value_s'
-            type: 'string'
-          }
-          {
-            name: 'addl_s'
+            name: 'dcc_file_size_d'
             type: 'string'
           }
           {
@@ -83,7 +48,55 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'dcc_file_size_d'
+            name: 'addl_s'
+            type: 'string'
+          }
+          {
+            name: 'value_s'
+            type: 'string'
+          }
+          {
+            name: 'command_s'
+            type: 'string'
+          }
+          {
+            name: 'user_s'
+            type: 'string'
+          }
+          {
+            name: 'nick_s'
+            type: 'string'
+          }
+          {
+            name: 'id_resp_p_d'
+            type: 'string'
+          }
+          {
+            name: 'id_resp_h_s'
+            type: 'string'
+          }
+          {
+            name: 'id_orig_p_d'
+            type: 'string'
+          }
+          {
+            name: 'id_orig_h_s'
+            type: 'string'
+          }
+          {
+            name: 'uid_s'
+            type: 'string'
+          }
+          {
+            name: 'ts_t'
+            type: 'string'
+          }
+          {
+            name: '_write_ts_t'
+            type: 'string'
+          }
+          {
+            name: '_system_name_s'
             type: 'string'
           }
           {
@@ -110,7 +123,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_irc_CL']
         destinations: ['Sentinel-Corelight_v2_irc_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), uid_s = tostring(uid_s), id_orig_h_s = tostring(id_orig_h_s), id_orig_p_d = toreal(id_orig_p_d), id_resp_h_s = tostring(id_resp_h_s), id_resp_p_d = toreal(id_resp_p_d), nick_s = tostring(nick_s), user_s = tostring(user_s), command_s = tostring(command_s), value_s = tostring(value_s), addl_s = tostring(addl_s), dcc_file_name_s = tostring(dcc_file_name_s), dcc_file_size_d = toreal(dcc_file_size_d), dcc_mime_type_s = tostring(dcc_mime_type_s), fuid_s = tostring(fuid_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), dcc_file_size_d = toreal(dcc_file_size_d), dcc_file_name_s = tostring(dcc_file_name_s), addl_s = tostring(addl_s), value_s = tostring(value_s), command_s = tostring(command_s), user_s = tostring(user_s), nick_s = tostring(nick_s), id_resp_p_d = toreal(id_resp_p_d), id_resp_h_s = tostring(id_resp_h_s), id_orig_p_d = toreal(id_orig_p_d), id_orig_h_s = tostring(id_orig_h_s), uid_s = tostring(uid_s), ts_t = todatetime(ts_t), _write_ts_t = todatetime(_write_ts_t), _system_name_s = tostring(_system_name_s), dcc_mime_type_s = tostring(dcc_mime_type_s), fuid_s = tostring(fuid_s)'
         outputStream: 'Custom-Corelight_v2_irc_CL'
       }
     ]

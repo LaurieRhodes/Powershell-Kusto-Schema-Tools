@@ -1,0 +1,141 @@
+﻿{
+    "Name":  "WindowsFirewall",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "MaliciousIPLongitude",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "AdditionalInformation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ReportReferenceLink",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsActive",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LastReportedDateTime",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FirstReportedDateTime",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Severity",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Confidence",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TLPLevel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Description",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IndicatorThreatType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MaliciousIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ManagementGroupName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MaliciousIPLatitude",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "TimeCollected",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Info",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestSizeInBytes",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "DestinationPort",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "FullDestinationAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourcePort",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "RemoteIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Protocol",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FirewallAction",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CommunicationDirection",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MG",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "MaliciousIPCountry",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

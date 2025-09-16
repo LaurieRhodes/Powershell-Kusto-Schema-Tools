@@ -1,0 +1,83 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for HDInsightJupyterNotebookEvents - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:25:21
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 24, Final columns: 24
+// ============================================================================
+
+.create-merge table HDInsightJupyterNotebookEventsRaw (records:dynamic)
+
+.alter-merge table HDInsightJupyterNotebookEventsRaw policy retention softdelete = 1d
+
+.alter table HDInsightJupyterNotebookEventsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table HDInsightJupyterNotebookEventsRaw ingestion json mapping 'HDInsightJupyterNotebookEventsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table HDInsightJupyterNotebookEvents(
+TimeGenerated:datetime,
+TenantId:guid,
+IpAddress:string,
+Region:string,
+ClusterDnsName:string,
+Host:string,
+Role:string,
+ClusterTenantId:string,
+Dim10:string,
+Dim9:string,
+UserSubscriptionId:string,
+Dim8:string,
+Dim6:string,
+Dim5:int,
+Dim4:string,
+Dim3:int,
+Dim2:int,
+Dim1:datetime,
+Dim0:string,
+EventName:string,
+Dim7:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table HDInsightJupyterNotebookEvents policy caching hot = 1d
+
+.create-or-alter function HDInsightJupyterNotebookEventsExpand() {
+HDInsightJupyterNotebookEventsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+IpAddress=tostring(events.IpAddress),
+Region=tostring(events.Region),
+ClusterDnsName=tostring(events.ClusterDnsName),
+Host=tostring(events.Host),
+Role=tostring(events.Role),
+ClusterTenantId=tostring(events.ClusterTenantId),
+Dim10=tostring(events.Dim10),
+Dim9=tostring(events.Dim9),
+UserSubscriptionId=tostring(events.UserSubscriptionId),
+Dim8=tostring(events.Dim8),
+Dim6=tostring(events.Dim6),
+Dim5=toint(events.Dim5),
+Dim4=tostring(events.Dim4),
+Dim3=toint(events.Dim3),
+Dim2=toint(events.Dim2),
+Dim1=todatetime(events.Dim1),
+Dim0=tostring(events.Dim0),
+EventName=tostring(events.EventName),
+Dim7=tostring(events.Dim7),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table HDInsightJupyterNotebookEvents policy update @'[{"Source": "HDInsightJupyterNotebookEventsRaw", "Query": "HDInsightJupyterNotebookEventsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

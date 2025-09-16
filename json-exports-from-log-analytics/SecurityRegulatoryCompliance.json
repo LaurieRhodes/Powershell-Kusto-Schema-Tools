@@ -1,0 +1,81 @@
+﻿{
+    "Name":  "SecurityRegulatoryCompliance",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "RegulatoryComplianceSubscriptionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AssessedResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecommendationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecommendationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ComplianceStandard",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ComplianceControl",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SkippedResources",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "PassedResources",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "FailedResources",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "State",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceProviderType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecommendationLink",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsSnapshot",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "Properties",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

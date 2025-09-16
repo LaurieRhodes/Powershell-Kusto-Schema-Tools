@@ -1,0 +1,141 @@
+﻿{
+    "Name":  "AADGraphActivityLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SessionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestUri",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserAgent",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CallerIpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Wids",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientAuthMethod",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IdentityProvider",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Scopes",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServicePrincipalId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActorType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TokenIssuedAt",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "DeviceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Roles",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResponseSizeBytes",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ResponseStatusCode",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "RequestMethod",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Level",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DurationMs",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ResultSignature",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ApiVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AADTenantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Location",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TimeRequested",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "SignInActivityId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

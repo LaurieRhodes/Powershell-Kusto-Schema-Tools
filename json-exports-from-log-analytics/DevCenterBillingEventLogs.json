@@ -1,0 +1,85 @@
+﻿{
+    "Name":  "DevCenterBillingEventLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "MeterId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsOverMonthlyBillingCap",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "UsageType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UnitType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Quantity",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "EndTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "EventId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "StartTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Sku",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BillingRegion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UsageResourceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UsageResourceUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BilledResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

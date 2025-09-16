@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Talon_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:50
+// Generated: 2025-09-17 06:21:03
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 44, DCR columns: 42 (Type column filtered out)
+// Underscore columns included
+// Original columns: 44, DCR columns: 43 (Type column always filtered)
 // Output stream: Custom-Talon_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -36,10 +37,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
-            type: 'string'
-          }
-          {
-            name: 'eventCategory_s'
             type: 'string'
           }
           {
@@ -107,11 +104,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'id_s'
+            name: 'time_s'
             type: 'string'
           }
           {
-            name: 'time_s'
+            name: 'eventCategory_s'
+            type: 'string'
+          }
+          {
+            name: 'id_s'
             type: 'string'
           }
           {
@@ -119,7 +120,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'eventDetails_path_s'
+            name: 'eventDetails_name_s'
             type: 'string'
           }
           {
@@ -155,11 +156,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'eventDetails_reasons_s'
+            name: 'description_s'
             type: 'string'
           }
           {
-            name: 'eventDetails_failedAttempts_d'
+            name: 'eventDetails_reasons_s'
             type: 'string'
           }
           {
@@ -191,11 +192,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'eventDetails_name_s'
+            name: 'eventDetails_path_s'
             type: 'string'
           }
           {
-            name: 'description_s'
+            name: 'eventDetails_failedAttempts_d'
+            type: 'string'
+          }
+          {
+            name: '_ResourceId'
             type: 'string'
           }
         ]
@@ -214,7 +219,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Talon_CL']
         destinations: ['Sentinel-Talon_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), eventCategory_s = tostring(eventCategory_s), eventType_s = tostring(eventType_s), url_s = tostring(url_s), severity_s = tostring(severity_s), action_s = tostring(action_s), userEmail_s = tostring(userEmail_s), deviceHostname_s = tostring(deviceHostname_s), IPAddress = tostring(IPAddress), browserVersion_s = tostring(browserVersion_s), userAgent_s = tostring(userAgent_s), osPlatform_s = tostring(osPlatform_s), osVersion_s = tostring(osVersion_s), mitreTechniques_s = tostring(mitreTechniques_s), policyRule_s = tostring(policyRule_s), eventDetails_protocol_s = tostring(eventDetails_protocol_s), eventDetails_method_s = tostring(eventDetails_method_s), type_s = tostring(type_s), id_s = tostring(id_s), time_s = tostring(time_s), eventDetails_type_s = tostring(eventDetails_type_s), eventDetails_path_s = tostring(eventDetails_path_s), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), eventDetails_loginUsername_s = tostring(eventDetails_loginUsername_s), eventDetails_matchedURL_s = tostring(eventDetails_matchedURL_s), eventDetails_categories_s = tostring(eventDetails_categories_s), eventDetails_reasons_s = tostring(eventDetails_reasons_s), eventDetails_failedAttempts_d = toreal(eventDetails_failedAttempts_d), eventDetails_engine_s = tostring(eventDetails_engine_s), eventDetails_activity_s = tostring(eventDetails_activity_s), eventDetails_printerName_s = tostring(eventDetails_printerName_s), eventDetails_fromURL_s = tostring(eventDetails_fromURL_s), eventDetails_installSource_s = tostring(eventDetails_installSource_s), eventDetails_id_s = tostring(eventDetails_id_s), eventDetails_version_s = tostring(eventDetails_version_s), eventDetails_name_s = tostring(eventDetails_name_s), description_s = tostring(description_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), eventType_s = tostring(eventType_s), url_s = tostring(url_s), severity_s = tostring(severity_s), action_s = tostring(action_s), userEmail_s = tostring(userEmail_s), deviceHostname_s = tostring(deviceHostname_s), IPAddress = tostring(IPAddress), browserVersion_s = tostring(browserVersion_s), userAgent_s = tostring(userAgent_s), osPlatform_s = tostring(osPlatform_s), osVersion_s = tostring(osVersion_s), mitreTechniques_s = tostring(mitreTechniques_s), policyRule_s = tostring(policyRule_s), eventDetails_protocol_s = tostring(eventDetails_protocol_s), eventDetails_method_s = tostring(eventDetails_method_s), type_s = tostring(type_s), time_s = tostring(time_s), eventCategory_s = tostring(eventCategory_s), id_s = tostring(id_s), eventDetails_type_s = tostring(eventDetails_type_s), eventDetails_name_s = tostring(eventDetails_name_s), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), eventDetails_loginUsername_s = tostring(eventDetails_loginUsername_s), eventDetails_matchedURL_s = tostring(eventDetails_matchedURL_s), eventDetails_categories_s = tostring(eventDetails_categories_s), description_s = tostring(description_s), eventDetails_reasons_s = tostring(eventDetails_reasons_s), eventDetails_engine_s = tostring(eventDetails_engine_s), eventDetails_activity_s = tostring(eventDetails_activity_s), eventDetails_printerName_s = tostring(eventDetails_printerName_s), eventDetails_fromURL_s = tostring(eventDetails_fromURL_s), eventDetails_installSource_s = tostring(eventDetails_installSource_s), eventDetails_id_s = tostring(eventDetails_id_s), eventDetails_version_s = tostring(eventDetails_version_s), eventDetails_path_s = tostring(eventDetails_path_s), eventDetails_failedAttempts_d = toreal(eventDetails_failedAttempts_d), _ResourceId = tostring(_ResourceId)'
         outputStream: 'Custom-Talon_CL'
       }
     ]

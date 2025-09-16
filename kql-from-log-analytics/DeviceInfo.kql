@@ -1,0 +1,137 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for DeviceInfo - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:23:46
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 51, Final columns: 51
+// ============================================================================
+
+.create-merge table DeviceInfoRaw (records:dynamic)
+
+.alter-merge table DeviceInfoRaw policy retention softdelete = 1d
+
+.alter table DeviceInfoRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table DeviceInfoRaw ingestion json mapping 'DeviceInfoRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table DeviceInfo(
+TimeGenerated:datetime,
+TenantId:guid,
+OSDistribution:string,
+OSVersionInfo:string,
+Vendor:string,
+SensorHealthState:string,
+IsExcluded:bool,
+ExclusionReason:string,
+AssetValue:string,
+ExposureLevel:string,
+IsInternetFacing:bool,
+DeviceManualTags:string,
+DeviceDynamicTags:string,
+AzureResourceId:string,
+AwsResourceName:string,
+GcpFullResourceName:string,
+AzureVmId:string,
+AzureVmSubscriptionId:string,
+CloudPlatforms:string,
+HardwareUuid:string,
+HostDeviceId:string,
+IsTransient:bool,
+MitigationStatus:string,
+OnboardingStatus:string,
+OsBuildRevision:string,
+Model:string,
+MergedDeviceIds:string,
+AdditionalFields:dynamic,
+ClientVersion:string,
+DeviceId:string,
+DeviceName:string,
+DeviceObjectId:string,
+IsAzureADJoined:bool,
+LoggedOnUsers:dynamic,
+MachineGroup:string,
+OSArchitecture:string,
+OSBuild:long,
+OSPlatform:string,
+OSVersion:string,
+PublicIP:string,
+RegistryDeviceTag:string,
+ReportId:long,
+Timestamp:datetime,
+AadDeviceId:string,
+DeviceCategory:string,
+DeviceSubtype:string,
+DeviceType:string,
+JoinType:string,
+MergedToDeviceId:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table DeviceInfo policy caching hot = 1d
+
+.create-or-alter function DeviceInfoExpand() {
+DeviceInfoRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OSDistribution=tostring(events.OSDistribution),
+OSVersionInfo=tostring(events.OSVersionInfo),
+Vendor=tostring(events.Vendor),
+SensorHealthState=tostring(events.SensorHealthState),
+IsExcluded=tobool(events.IsExcluded),
+ExclusionReason=tostring(events.ExclusionReason),
+AssetValue=tostring(events.AssetValue),
+ExposureLevel=tostring(events.ExposureLevel),
+IsInternetFacing=tobool(events.IsInternetFacing),
+DeviceManualTags=tostring(events.DeviceManualTags),
+DeviceDynamicTags=tostring(events.DeviceDynamicTags),
+AzureResourceId=tostring(events.AzureResourceId),
+AwsResourceName=tostring(events.AwsResourceName),
+GcpFullResourceName=tostring(events.GcpFullResourceName),
+AzureVmId=tostring(events.AzureVmId),
+AzureVmSubscriptionId=tostring(events.AzureVmSubscriptionId),
+CloudPlatforms=tostring(events.CloudPlatforms),
+HardwareUuid=tostring(events.HardwareUuid),
+HostDeviceId=tostring(events.HostDeviceId),
+IsTransient=tobool(events.IsTransient),
+MitigationStatus=tostring(events.MitigationStatus),
+OnboardingStatus=tostring(events.OnboardingStatus),
+OsBuildRevision=tostring(events.OsBuildRevision),
+Model=tostring(events.Model),
+MergedDeviceIds=tostring(events.MergedDeviceIds),
+AdditionalFields=todynamic(events.AdditionalFields),
+ClientVersion=tostring(events.ClientVersion),
+DeviceId=tostring(events.DeviceId),
+DeviceName=tostring(events.DeviceName),
+DeviceObjectId=tostring(events.DeviceObjectId),
+IsAzureADJoined=tobool(events.IsAzureADJoined),
+LoggedOnUsers=todynamic(events.LoggedOnUsers),
+MachineGroup=tostring(events.MachineGroup),
+OSArchitecture=tostring(events.OSArchitecture),
+OSBuild=tolong(events.OSBuild),
+OSPlatform=tostring(events.OSPlatform),
+OSVersion=tostring(events.OSVersion),
+PublicIP=tostring(events.PublicIP),
+RegistryDeviceTag=tostring(events.RegistryDeviceTag),
+ReportId=tolong(events.ReportId),
+Timestamp=todatetime(events.Timestamp),
+AadDeviceId=tostring(events.AadDeviceId),
+DeviceCategory=tostring(events.DeviceCategory),
+DeviceSubtype=tostring(events.DeviceSubtype),
+DeviceType=tostring(events.DeviceType),
+JoinType=tostring(events.JoinType),
+MergedToDeviceId=tostring(events.MergedToDeviceId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table DeviceInfo policy update @'[{"Source": "DeviceInfoRaw", "Query": "DeviceInfoExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for BoxEvents_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:31
+// Generated: 2025-09-17 06:20:44
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 72, DCR columns: 70 (Type column filtered out)
+// Underscore columns included
+// Original columns: 72, DCR columns: 71 (Type column always filtered)
 // Output stream: Custom-BoxEvents_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -36,10 +37,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'additional_details_advancedFolderSettings_oldOwnerOnlyInvite_b'
-            type: 'string'
-          }
-          {
-            name: 'source_owned_by_login_s'
             type: 'string'
           }
           {
@@ -107,6 +104,14 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
+            name: 'source_name_s'
+            type: 'string'
+          }
+          {
+            name: 'additional_details_role_s'
+            type: 'string'
+          }
+          {
             name: 'additional_details_collab_id_s'
             type: 'string'
           }
@@ -127,15 +132,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
+            name: 'source_owned_by_login_s'
+            type: 'string'
+          }
+          {
             name: 'accessible_by_type_s'
             type: 'string'
           }
           {
-            name: 'source_owned_by_name_s'
-            type: 'string'
-          }
-          {
-            name: 'source_user_name_s'
+            name: 'source_user_id_s'
             type: 'string'
           }
           {
@@ -159,15 +164,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'source_name_s'
+            name: 'source_user_name_s'
             type: 'string'
           }
           {
-            name: 'source_user_id_s'
-            type: 'string'
-          }
-          {
-            name: 'additional_details_role_s'
+            name: 'source_owned_by_name_s'
             type: 'string'
           }
           {
@@ -175,59 +176,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'source_parent_id_s'
-            type: 'string'
-          }
-          {
-            name: 'additional_details_advancedFolderSettings_newOwnerOnlyInvite_b'
-            type: 'string'
-          }
-          {
-            name: 'source_item_name_g'
-            type: 'string'
-          }
-          {
-            name: 'additional_details_metadata_type_s'
-            type: 'string'
-          }
-          {
-            name: 'additional_details_metadata_operationParams_s'
-            type: 'string'
-          }
-          {
-            name: 'additional_details_task_due_at_t'
-            type: 'string'
-          }
-          {
-            name: 'action_by_type_s'
-            type: 'string'
-          }
-          {
-            name: 'action_by_id_s'
-            type: 'string'
-          }
-          {
-            name: 'action_by_name_s'
-            type: 'string'
-          }
-          {
-            name: 'action_by_login_s'
-            type: 'string'
-          }
-          {
-            name: 'additional_details_annotation_id_d'
-            type: 'string'
-          }
-          {
-            name: 'additional_details_group_id_s'
-            type: 'string'
-          }
-          {
-            name: 'additional_details_group_name_s'
-            type: 'string'
-          }
-          {
-            name: 'source_user_email_s'
+            name: 'source_owned_by_type_s'
             type: 'string'
           }
           {
@@ -235,7 +184,63 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
+            name: 'source_user_email_s'
+            type: 'string'
+          }
+          {
+            name: 'additional_details_group_name_s'
+            type: 'string'
+          }
+          {
+            name: 'additional_details_group_id_s'
+            type: 'string'
+          }
+          {
+            name: 'additional_details_annotation_id_d'
+            type: 'string'
+          }
+          {
+            name: 'action_by_login_s'
+            type: 'string'
+          }
+          {
             name: 'additional_details_message_s'
+            type: 'string'
+          }
+          {
+            name: 'action_by_name_s'
+            type: 'string'
+          }
+          {
+            name: 'action_by_type_s'
+            type: 'string'
+          }
+          {
+            name: 'additional_details_task_due_at_t'
+            type: 'string'
+          }
+          {
+            name: 'additional_details_metadata_operationParams_s'
+            type: 'string'
+          }
+          {
+            name: 'additional_details_metadata_type_s'
+            type: 'string'
+          }
+          {
+            name: 'source_item_name_g'
+            type: 'string'
+          }
+          {
+            name: 'additional_details_advancedFolderSettings_newOwnerOnlyInvite_b'
+            type: 'string'
+          }
+          {
+            name: 'action_by_id_s'
+            type: 'string'
+          }
+          {
+            name: 'additional_details_is_performed_by_admin_b'
             type: 'string'
           }
           {
@@ -243,7 +248,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'additional_details_task_message_s'
+            name: 'additional_details_task_created_by_id_d'
+            type: 'string'
+          }
+          {
+            name: 'source_parent_id_s'
             type: 'string'
           }
           {
@@ -267,15 +276,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
+            name: 'additional_details_task_message_s'
+            type: 'string'
+          }
+          {
             name: 'source_parent_name_g'
             type: 'string'
           }
           {
-            name: 'source_owned_by_type_s'
-            type: 'string'
-          }
-          {
-            name: 'source_file_name_s'
+            name: 'source_file_id_s'
             type: 'string'
           }
           {
@@ -299,15 +308,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'additional_details_task_created_by_id_d'
+            name: 'source_file_name_s'
             type: 'string'
           }
           {
-            name: 'source_file_id_s'
-            type: 'string'
-          }
-          {
-            name: 'additional_details_is_performed_by_admin_b'
+            name: '_ResourceId'
             type: 'string'
           }
         ]
@@ -326,7 +331,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-BoxEvents_CL']
         destinations: ['Sentinel-BoxEvents_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), additional_details_advancedFolderSettings_oldOwnerOnlyInvite_b = tobool(additional_details_advancedFolderSettings_oldOwnerOnlyInvite_b), source_owned_by_login_s = tostring(source_owned_by_login_s), created_by_type_s = tostring(created_by_type_s), created_by_id_s = tostring(created_by_id_s), created_by_name_s = tostring(created_by_name_s), created_by_login_s = tostring(created_by_login_s), created_at_t = todatetime(created_at_t), event_id_g = tostring(event_id_g), event_type_s = tostring(event_type_s), ip_address_s = tostring(ip_address_s), type_s = tostring(type_s), additional_details_size_d = toreal(additional_details_size_d), additional_details_ekm_id_g = tostring(additional_details_ekm_id_g), additional_details_version_id_s = tostring(additional_details_version_id_s), additional_details_service_id_s = tostring(additional_details_service_id_s), additional_details_service_name_s = tostring(additional_details_service_name_s), source_type_s = tostring(source_type_s), source_id_s = tostring(source_id_s), additional_details_collab_id_s = tostring(additional_details_collab_id_s), additional_details_type_s = tostring(additional_details_type_s), accessible_by_login_s = tostring(accessible_by_login_s), accessible_by_name_s = tostring(accessible_by_name_s), accessible_by_id_s = tostring(accessible_by_id_s), accessible_by_type_s = tostring(accessible_by_type_s), source_owned_by_name_s = tostring(source_owned_by_name_s), source_user_name_s = tostring(source_user_name_s), source_folder_name_s = tostring(source_folder_name_s), source_folder_id_s = tostring(source_folder_id_s), additional_details_shared_link_id_s = tostring(additional_details_shared_link_id_s), additional_details_access_token_identifier_s = tostring(additional_details_access_token_identifier_s), source_login_s = tostring(source_login_s), source_name_s = tostring(source_name_s), source_user_id_s = tostring(source_user_id_s), additional_details_role_s = tostring(additional_details_role_s), source_owned_by_id_s = tostring(source_owned_by_id_s), source_parent_id_s = tostring(source_parent_id_s), additional_details_advancedFolderSettings_newOwnerOnlyInvite_b = tobool(additional_details_advancedFolderSettings_newOwnerOnlyInvite_b), source_item_name_g = tostring(source_item_name_g), additional_details_metadata_type_s = tostring(additional_details_metadata_type_s), additional_details_metadata_operationParams_s = tostring(additional_details_metadata_operationParams_s), additional_details_task_due_at_t = todatetime(additional_details_task_due_at_t), action_by_type_s = tostring(action_by_type_s), action_by_id_s = tostring(action_by_id_s), action_by_name_s = tostring(action_by_name_s), action_by_login_s = tostring(action_by_login_s), additional_details_annotation_id_d = toreal(additional_details_annotation_id_d), additional_details_group_id_s = tostring(additional_details_group_id_s), additional_details_group_name_s = tostring(additional_details_group_name_s), source_user_email_s = tostring(source_user_email_s), additional_details_comment_id_d = toreal(additional_details_comment_id_d), additional_details_message_s = tostring(additional_details_message_s), additional_details_task_id_d = toreal(additional_details_task_id_d), additional_details_task_message_s = tostring(additional_details_task_message_s), source_parent_name_s = tostring(source_parent_name_s), source_parent_type_s = tostring(source_parent_type_s), source_item_name_s = tostring(source_item_name_s), source_item_id_s = tostring(source_item_id_s), source_item_type_s = tostring(source_item_type_s), source_parent_name_g = tostring(source_parent_name_g), source_owned_by_type_s = tostring(source_owned_by_type_s), source_file_name_s = tostring(source_file_name_s), additional_details_task_assignment_message_s = tostring(additional_details_task_assignment_message_s), additional_details_task_assignment_status_s = tostring(additional_details_task_assignment_status_s), additional_details_task_assignment_assigned_to_login_s = tostring(additional_details_task_assignment_assigned_to_login_s), additional_details_task_assignment_assigned_to_id_d = toreal(additional_details_task_assignment_assigned_to_id_d), additional_details_task_created_by_login_s = tostring(additional_details_task_created_by_login_s), additional_details_task_created_by_id_d = toreal(additional_details_task_created_by_id_d), source_file_id_s = tostring(source_file_id_s), additional_details_is_performed_by_admin_b = tobool(additional_details_is_performed_by_admin_b)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), additional_details_advancedFolderSettings_oldOwnerOnlyInvite_b = tobool(additional_details_advancedFolderSettings_oldOwnerOnlyInvite_b), created_by_type_s = tostring(created_by_type_s), created_by_id_s = tostring(created_by_id_s), created_by_name_s = tostring(created_by_name_s), created_by_login_s = tostring(created_by_login_s), created_at_t = todatetime(created_at_t), event_id_g = tostring(event_id_g), event_type_s = tostring(event_type_s), ip_address_s = tostring(ip_address_s), type_s = tostring(type_s), additional_details_size_d = toreal(additional_details_size_d), additional_details_ekm_id_g = tostring(additional_details_ekm_id_g), additional_details_version_id_s = tostring(additional_details_version_id_s), additional_details_service_id_s = tostring(additional_details_service_id_s), additional_details_service_name_s = tostring(additional_details_service_name_s), source_type_s = tostring(source_type_s), source_id_s = tostring(source_id_s), source_name_s = tostring(source_name_s), additional_details_role_s = tostring(additional_details_role_s), additional_details_collab_id_s = tostring(additional_details_collab_id_s), additional_details_type_s = tostring(additional_details_type_s), accessible_by_login_s = tostring(accessible_by_login_s), accessible_by_name_s = tostring(accessible_by_name_s), accessible_by_id_s = tostring(accessible_by_id_s), source_owned_by_login_s = tostring(source_owned_by_login_s), accessible_by_type_s = tostring(accessible_by_type_s), source_user_id_s = tostring(source_user_id_s), source_folder_name_s = tostring(source_folder_name_s), source_folder_id_s = tostring(source_folder_id_s), additional_details_shared_link_id_s = tostring(additional_details_shared_link_id_s), additional_details_access_token_identifier_s = tostring(additional_details_access_token_identifier_s), source_login_s = tostring(source_login_s), source_user_name_s = tostring(source_user_name_s), source_owned_by_name_s = tostring(source_owned_by_name_s), source_owned_by_id_s = tostring(source_owned_by_id_s), source_owned_by_type_s = tostring(source_owned_by_type_s), additional_details_comment_id_d = toreal(additional_details_comment_id_d), source_user_email_s = tostring(source_user_email_s), additional_details_group_name_s = tostring(additional_details_group_name_s), additional_details_group_id_s = tostring(additional_details_group_id_s), additional_details_annotation_id_d = toreal(additional_details_annotation_id_d), action_by_login_s = tostring(action_by_login_s), additional_details_message_s = tostring(additional_details_message_s), action_by_name_s = tostring(action_by_name_s), action_by_type_s = tostring(action_by_type_s), additional_details_task_due_at_t = todatetime(additional_details_task_due_at_t), additional_details_metadata_operationParams_s = tostring(additional_details_metadata_operationParams_s), additional_details_metadata_type_s = tostring(additional_details_metadata_type_s), source_item_name_g = tostring(source_item_name_g), additional_details_advancedFolderSettings_newOwnerOnlyInvite_b = tobool(additional_details_advancedFolderSettings_newOwnerOnlyInvite_b), action_by_id_s = tostring(action_by_id_s), additional_details_is_performed_by_admin_b = tobool(additional_details_is_performed_by_admin_b), additional_details_task_id_d = toreal(additional_details_task_id_d), additional_details_task_created_by_id_d = toreal(additional_details_task_created_by_id_d), source_parent_id_s = tostring(source_parent_id_s), source_parent_name_s = tostring(source_parent_name_s), source_parent_type_s = tostring(source_parent_type_s), source_item_name_s = tostring(source_item_name_s), source_item_id_s = tostring(source_item_id_s), source_item_type_s = tostring(source_item_type_s), additional_details_task_message_s = tostring(additional_details_task_message_s), source_parent_name_g = tostring(source_parent_name_g), source_file_id_s = tostring(source_file_id_s), additional_details_task_assignment_message_s = tostring(additional_details_task_assignment_message_s), additional_details_task_assignment_status_s = tostring(additional_details_task_assignment_status_s), additional_details_task_assignment_assigned_to_login_s = tostring(additional_details_task_assignment_assigned_to_login_s), additional_details_task_assignment_assigned_to_id_d = toreal(additional_details_task_assignment_assigned_to_id_d), additional_details_task_created_by_login_s = tostring(additional_details_task_created_by_login_s), source_file_name_s = tostring(source_file_name_s), _ResourceId = tostring(_ResourceId)'
         outputStream: 'Custom-BoxEvents_CL'
       }
     ]

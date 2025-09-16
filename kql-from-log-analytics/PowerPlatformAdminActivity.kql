@@ -1,0 +1,69 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for PowerPlatformAdminActivity - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:28:37
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 17, Final columns: 17
+// ============================================================================
+
+.create-merge table PowerPlatformAdminActivityRaw (records:dynamic)
+
+.alter-merge table PowerPlatformAdminActivityRaw policy retention softdelete = 1d
+
+.alter table PowerPlatformAdminActivityRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table PowerPlatformAdminActivityRaw ingestion json mapping 'PowerPlatformAdminActivityRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table PowerPlatformAdminActivity(
+TimeGenerated:datetime,
+TenantId:guid,
+EventOriginalUid:string,
+RecordType:string,
+EventOriginalType:string,
+OrganizationId:string,
+ActorUserType:string,
+ActorUserId:string,
+EventResult:string,
+ActorName:string,
+Workload:string,
+PropertyCollection:dynamic,
+Properties:dynamic,
+EnvironmentId:string,
+RequiresCustomerKeyEncryption:bool,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table PowerPlatformAdminActivity policy caching hot = 1d
+
+.create-or-alter function PowerPlatformAdminActivityExpand() {
+PowerPlatformAdminActivityRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+EventOriginalUid=tostring(events.EventOriginalUid),
+RecordType=tostring(events.RecordType),
+EventOriginalType=tostring(events.EventOriginalType),
+OrganizationId=tostring(events.OrganizationId),
+ActorUserType=tostring(events.ActorUserType),
+ActorUserId=tostring(events.ActorUserId),
+EventResult=tostring(events.EventResult),
+ActorName=tostring(events.ActorName),
+Workload=tostring(events.Workload),
+PropertyCollection=todynamic(events.PropertyCollection),
+Properties=todynamic(events.Properties),
+EnvironmentId=tostring(events.EnvironmentId),
+RequiresCustomerKeyEncryption=tobool(events.RequiresCustomerKeyEncryption),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table PowerPlatformAdminActivity policy update @'[{"Source": "PowerPlatformAdminActivityRaw", "Query": "PowerPlatformAdminActivityExpand()", "IsEnabled": "True", "IsTransactional": true}]'

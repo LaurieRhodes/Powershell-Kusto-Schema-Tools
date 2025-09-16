@@ -1,0 +1,113 @@
+﻿{
+    "Name":  "ADFSSISPackageEventMessages",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "MessageCode",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ThreadId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ExecutionPath",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PackagePath",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SubcomponentName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MessageSourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MessageSourceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PackageName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExtendedInfoId",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "Message",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MessageSourceType",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "MessageType",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "MessageTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "OperationId",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "Level",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IntegrationRuntimeName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DataFactoryName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventMessageGuid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

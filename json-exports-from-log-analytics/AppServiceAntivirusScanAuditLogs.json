@@ -1,0 +1,53 @@
+﻿{
+    "Name":  "AppServiceAntivirusScanAuditLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ScanStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TotalFilesScanned",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "NumberOfInfectedFiles",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ListOfInfectedFiles",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ErrorMessage",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TimeStamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

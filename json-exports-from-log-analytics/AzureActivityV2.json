@@ -1,0 +1,137 @@
+﻿{
+    "Name":  "AzureActivityV2",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "AzureResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureTenantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureSubscriptionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Hierarchy",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActivitySubstatusValue",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActivityStatusValue",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Channel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceTypeValue",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceProviderValue",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureResourceGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "HTTPRequest",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventSubmissionTimestamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "EventDataId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Caller",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PropertiesBackCompat",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Properties",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationNameValue",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Level",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Claims",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Authorization",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CategoryValue",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CallerIpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MoboTenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Description",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Misc",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

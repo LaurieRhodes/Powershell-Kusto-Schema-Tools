@@ -1,0 +1,113 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for PGSQLQueryStoreRuntime - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:28:23
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 39, Final columns: 39
+// ============================================================================
+
+.create-merge table PGSQLQueryStoreRuntimeRaw (records:dynamic)
+
+.alter-merge table PGSQLQueryStoreRuntimeRaw policy retention softdelete = 1d
+
+.alter table PGSQLQueryStoreRuntimeRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table PGSQLQueryStoreRuntimeRaw ingestion json mapping 'PGSQLQueryStoreRuntimeRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table PGSQLQueryStoreRuntime(
+TimeGenerated:datetime,
+TenantId:guid,
+SharedBlksWritten:long,
+LocalBlksHit:long,
+LocalBlksRead:long,
+LocalBlksDirtied:long,
+LocalBlksWritten:long,
+TempBlksRead:long,
+SharedBlksDirtied:long,
+TempBlksWritten:long,
+BlkWriteTime:real,
+IsSystemQuery:bool,
+QueryType:string,
+SearchPath:string,
+SearchPathCaptureStatus:string,
+ParametersCaptureStatus:string,
+BlkReadTime:real,
+SharedBlksRead:long,
+SharedBlksHit:long,
+Rows:long,
+LogicalServerName:string,
+ReplicaRole:string,
+RuntimeStatsEntryId:long,
+UserId:int,
+DatabaseId:int,
+QueryId:string,
+PlanId:long,
+StartTime:datetime,
+EndTime:datetime,
+Calls:long,
+TotalExecDurationMs:real,
+MinExecDurationMs:real,
+MaxExecDurationMs:real,
+MeanExecDurationMs:real,
+StdDevExecDurationMs:real,
+Location:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table PGSQLQueryStoreRuntime policy caching hot = 1d
+
+.create-or-alter function PGSQLQueryStoreRuntimeExpand() {
+PGSQLQueryStoreRuntimeRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SharedBlksWritten=tolong(events.SharedBlksWritten),
+LocalBlksHit=tolong(events.LocalBlksHit),
+LocalBlksRead=tolong(events.LocalBlksRead),
+LocalBlksDirtied=tolong(events.LocalBlksDirtied),
+LocalBlksWritten=tolong(events.LocalBlksWritten),
+TempBlksRead=tolong(events.TempBlksRead),
+SharedBlksDirtied=tolong(events.SharedBlksDirtied),
+TempBlksWritten=tolong(events.TempBlksWritten),
+BlkWriteTime=toreal(events.BlkWriteTime),
+IsSystemQuery=tobool(events.IsSystemQuery),
+QueryType=tostring(events.QueryType),
+SearchPath=tostring(events.SearchPath),
+SearchPathCaptureStatus=tostring(events.SearchPathCaptureStatus),
+ParametersCaptureStatus=tostring(events.ParametersCaptureStatus),
+BlkReadTime=toreal(events.BlkReadTime),
+SharedBlksRead=tolong(events.SharedBlksRead),
+SharedBlksHit=tolong(events.SharedBlksHit),
+Rows=tolong(events.Rows),
+LogicalServerName=tostring(events.LogicalServerName),
+ReplicaRole=tostring(events.ReplicaRole),
+RuntimeStatsEntryId=tolong(events.RuntimeStatsEntryId),
+UserId=toint(events.UserId),
+DatabaseId=toint(events.DatabaseId),
+QueryId=tostring(events.QueryId),
+PlanId=tolong(events.PlanId),
+StartTime=todatetime(events.StartTime),
+EndTime=todatetime(events.EndTime),
+Calls=tolong(events.Calls),
+TotalExecDurationMs=toreal(events.TotalExecDurationMs),
+MinExecDurationMs=toreal(events.MinExecDurationMs),
+MaxExecDurationMs=toreal(events.MaxExecDurationMs),
+MeanExecDurationMs=toreal(events.MeanExecDurationMs),
+StdDevExecDurationMs=toreal(events.StdDevExecDurationMs),
+Location=tostring(events.Location),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table PGSQLQueryStoreRuntime policy update @'[{"Source": "PGSQLQueryStoreRuntimeRaw", "Query": "PGSQLQueryStoreRuntimeExpand()", "IsEnabled": "True", "IsTransactional": true}]'

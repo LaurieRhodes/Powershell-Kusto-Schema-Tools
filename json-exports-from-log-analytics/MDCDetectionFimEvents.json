@@ -1,0 +1,93 @@
+﻿{
+    "Name":  "MDCDetectionFimEvents",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "DataPipelineMetadata",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Inode",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "AgentId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessAccountName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessAccountDomainName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingParentProcessName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingParentProcessId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsDir",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "FilePath",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Region",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AdditionalData",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

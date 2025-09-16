@@ -1,0 +1,89 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AADCustomSecurityAttributeAuditLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:14:18
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 27, Final columns: 27
+// ============================================================================
+
+.create-merge table AADCustomSecurityAttributeAuditLogsRaw (records:dynamic)
+
+.alter-merge table AADCustomSecurityAttributeAuditLogsRaw policy retention softdelete = 1d
+
+.alter table AADCustomSecurityAttributeAuditLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AADCustomSecurityAttributeAuditLogsRaw ingestion json mapping 'AADCustomSecurityAttributeAuditLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AADCustomSecurityAttributeAuditLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+AADOperationType:string,
+ActivityDateTime:datetime,
+ActivityDisplayName:string,
+AADTenantId:string,
+TargetResources:dynamic,
+ResultReason:string,
+Result:string,
+LoggedByService:string,
+InitiatedBy:dynamic,
+Id:string,
+CallerIpAddress:string,
+AdditionalDetails:dynamic,
+Level:string,
+Identity:string,
+CorrelationId:string,
+DurationMs:long,
+ResultDescription:string,
+ResultSignature:string,
+ResultType:string,
+OperationVersion:string,
+OperationName:string,
+SourceSystem:string,
+Location:string,
+UserAgent:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table AADCustomSecurityAttributeAuditLogs policy caching hot = 1d
+
+.create-or-alter function AADCustomSecurityAttributeAuditLogsExpand() {
+AADCustomSecurityAttributeAuditLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+AADOperationType=tostring(events.AADOperationType),
+ActivityDateTime=todatetime(events.ActivityDateTime),
+ActivityDisplayName=tostring(events.ActivityDisplayName),
+AADTenantId=tostring(events.AADTenantId),
+TargetResources=todynamic(events.TargetResources),
+ResultReason=tostring(events.ResultReason),
+Result=tostring(events.Result),
+LoggedByService=tostring(events.LoggedByService),
+InitiatedBy=todynamic(events.InitiatedBy),
+Id=tostring(events.Id),
+CallerIpAddress=tostring(events.CallerIpAddress),
+AdditionalDetails=todynamic(events.AdditionalDetails),
+Level=tostring(events.Level),
+Identity=tostring(events.Identity),
+CorrelationId=tostring(events.CorrelationId),
+DurationMs=tolong(events.DurationMs),
+ResultDescription=tostring(events.ResultDescription),
+ResultSignature=tostring(events.ResultSignature),
+ResultType=tostring(events.ResultType),
+OperationVersion=tostring(events.OperationVersion),
+OperationName=tostring(events.OperationName),
+SourceSystem=tostring(events.SourceSystem),
+Location=tostring(events.Location),
+UserAgent=tostring(events.UserAgent),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AADCustomSecurityAttributeAuditLogs policy update @'[{"Source": "AADCustomSecurityAttributeAuditLogsRaw", "Query": "AADCustomSecurityAttributeAuditLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

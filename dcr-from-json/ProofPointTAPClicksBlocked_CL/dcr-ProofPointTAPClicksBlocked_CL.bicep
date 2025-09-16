@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for ProofPointTAPClicksBlocked_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:48
+// Generated: 2025-09-17 06:21:01
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 24, DCR columns: 22 (Type column filtered out)
+// Underscore columns included
+// Original columns: 24, DCR columns: 23 (Type column always filtered)
 // Output stream: Custom-ProofPointTAPClicksBlocked_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -36,6 +37,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
+            type: 'string'
+          }
+          {
+            name: 'threatURL_s'
             type: 'string'
           }
           {
@@ -71,11 +76,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'threatURL_s'
+            name: 'messageID_s'
             type: 'string'
           }
           {
-            name: 'messageID_s'
+            name: 'senderIP_s'
             type: 'string'
           }
           {
@@ -111,11 +116,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'senderIP_s'
+            name: 'threatStatus_s'
             type: 'string'
           }
           {
-            name: 'threatStatus_s'
+            name: '_ResourceId'
             type: 'string'
           }
         ]
@@ -134,7 +139,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-ProofPointTAPClicksBlocked_CL']
         destinations: ['Sentinel-ProofPointTAPClicksBlocked_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), threatID_s = tostring(threatID_s), campaignId_s = tostring(campaignId_s), userAgent_s = tostring(userAgent_s), threatTime_t = todatetime(threatTime_t), classification_s = tostring(classification_s), url_s = tostring(url_s), GUID_s = tostring(GUID_s), clickIP_s = toreal(clickIP_s), threatURL_s = tostring(threatURL_s), messageID_s = tostring(messageID_s), recipient_s = tostring(recipient_s), sender_s = tostring(sender_s), clickTime_t = todatetime(clickTime_t), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), senderIP_s = tostring(senderIP_s), threatStatus_s = tostring(threatStatus_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), threatURL_s = tostring(threatURL_s), threatID_s = tostring(threatID_s), campaignId_s = tostring(campaignId_s), userAgent_s = tostring(userAgent_s), threatTime_t = todatetime(threatTime_t), classification_s = tostring(classification_s), url_s = tostring(url_s), GUID_s = tostring(GUID_s), clickIP_s = toreal(clickIP_s), messageID_s = tostring(messageID_s), senderIP_s = tostring(senderIP_s), recipient_s = tostring(recipient_s), sender_s = tostring(sender_s), clickTime_t = todatetime(clickTime_t), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), threatStatus_s = tostring(threatStatus_s), _ResourceId = tostring(_ResourceId)'
         outputStream: 'Custom-ProofPointTAPClicksBlocked_CL'
       }
     ]

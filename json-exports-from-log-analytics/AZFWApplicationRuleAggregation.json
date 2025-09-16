@@ -1,0 +1,73 @@
+﻿{
+    "Name":  "AZFWApplicationRuleAggregation",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Protocol",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceIp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationPort",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Fqdn",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TargetUrl",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Action",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Policy",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RuleCollectionGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RuleCollection",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Rule",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActionReason",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ApplicationRuleCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

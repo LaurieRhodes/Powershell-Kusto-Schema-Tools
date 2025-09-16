@@ -1,0 +1,81 @@
+﻿{
+    "Name":  "ATCPrivatePeeringMetadata",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ATCResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ATCRegion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SchemaVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExRCircuitId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExRCircuitServiceKey",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VnetId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VnetSubscriptionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VnetResourceGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VnetName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VnetLocation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VnetAddressPrefix",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IpMask",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "IpSubnet",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

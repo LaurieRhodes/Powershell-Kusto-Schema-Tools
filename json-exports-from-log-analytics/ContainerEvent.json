@@ -1,0 +1,61 @@
+﻿{
+    "Name":  "ContainerEvent",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ContainerGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ContainerGroupInstanceID",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ContainerID",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ContainerName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Count",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Location",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Message",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OSType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Reason",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

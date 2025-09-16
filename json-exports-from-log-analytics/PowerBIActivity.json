@@ -1,0 +1,161 @@
+﻿{
+    "Name":  "PowerBIActivity",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SharingInformation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SwitchState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PbiWorkspaceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventProduct",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventVendor",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserAgent",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Activity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ItemName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "WorkspaceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DashboardId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsSuccess",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Workload",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActivityId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DistributionMethod",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ReportName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FolderAccessRequests",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "OrgAppPermission",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DatasetName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventOriginalUid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecordType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventOriginalType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OrganizationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActorUserType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActorUserId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventResult",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ObjectId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActorName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SrcIpAddr",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Scope",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TargetAppName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DashboardName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DataClassification",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MembershipInformation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

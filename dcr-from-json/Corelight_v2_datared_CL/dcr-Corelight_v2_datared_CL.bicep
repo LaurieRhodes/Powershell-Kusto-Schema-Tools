@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_datared_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:33
+// Generated: 2025-09-17 06:20:47
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 23, DCR columns: 20 (Type column filtered out)
+// Underscore columns included
+// Original columns: 23, DCR columns: 23 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_datared_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -35,7 +36,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ts_t'
+            name: '_path_s'
             type: 'string'
           }
           {
@@ -67,11 +68,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'x509_total_d'
+            name: 'http_red_d'
             type: 'string'
           }
           {
-            name: 'http_red_d'
+            name: 'files_coal_miss_d'
             type: 'string'
           }
           {
@@ -103,7 +104,19 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'files_coal_miss_d'
+            name: 'ts_t'
+            type: 'string'
+          }
+          {
+            name: '_write_ts_t'
+            type: 'string'
+          }
+          {
+            name: '_system_name_s'
+            type: 'string'
+          }
+          {
+            name: 'x509_total_d'
             type: 'string'
           }
           {
@@ -126,7 +139,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_datared_CL']
         destinations: ['Sentinel-Corelight_v2_datared_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), x509_red_d = toreal(x509_red_d), weird_total_d = toreal(weird_total_d), weird_red_d = toreal(weird_red_d), ssl_coal_miss_d = toreal(ssl_coal_miss_d), ssl_total_d = toreal(ssl_total_d), ssl_red_d = toreal(ssl_red_d), http_total_d = toreal(http_total_d), x509_total_d = toreal(x509_total_d), http_red_d = toreal(http_red_d), files_total_d = toreal(files_total_d), files_red_d = toreal(files_red_d), dns_coal_miss_d = toreal(dns_coal_miss_d), dns_total_d = toreal(dns_total_d), dns_red_d = toreal(dns_red_d), conn_total_d = toreal(conn_total_d), conn_red_d = toreal(conn_red_d), files_coal_miss_d = toreal(files_coal_miss_d), x509_coal_miss_d = toreal(x509_coal_miss_d)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), x509_red_d = toreal(x509_red_d), weird_total_d = toreal(weird_total_d), weird_red_d = toreal(weird_red_d), ssl_coal_miss_d = toreal(ssl_coal_miss_d), ssl_total_d = toreal(ssl_total_d), ssl_red_d = toreal(ssl_red_d), http_total_d = toreal(http_total_d), http_red_d = toreal(http_red_d), files_coal_miss_d = toreal(files_coal_miss_d), files_total_d = toreal(files_total_d), files_red_d = toreal(files_red_d), dns_coal_miss_d = toreal(dns_coal_miss_d), dns_total_d = toreal(dns_total_d), dns_red_d = toreal(dns_red_d), conn_total_d = toreal(conn_total_d), conn_red_d = toreal(conn_red_d), ts_t = todatetime(ts_t), _write_ts_t = todatetime(_write_ts_t), _system_name_s = tostring(_system_name_s), x509_total_d = toreal(x509_total_d), x509_coal_miss_d = toreal(x509_coal_miss_d)'
         outputStream: 'Custom-Corelight_v2_datared_CL'
       }
     ]

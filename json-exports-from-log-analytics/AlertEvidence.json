@@ -1,0 +1,177 @@
+﻿{
+    "Name":  "AlertEvidence",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "AccountObjectId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountUpn",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LocalIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NetworkMessageId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EmailSubject",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ApplicationId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Application",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OAuthApplicationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProcessCommandLine",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AdditionalFields",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "RegistryKey",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RegistryValueName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RegistryValueData",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CloudPlatform",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CloudResource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountSid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Severity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountDomain",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemoteUrl",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Timestamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "AlertId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Title",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Categories",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AttackTechniques",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServiceSource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DetectionSource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EntityType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EvidenceRole",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EvidenceDirection",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FolderPath",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SHA1",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SHA256",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileSize",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ThreatFamily",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemoteIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

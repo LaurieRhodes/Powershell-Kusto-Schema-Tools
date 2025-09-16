@@ -1,0 +1,125 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Update - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:08:01
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 45, Final columns: 45
+// ============================================================================
+
+.create-merge table UpdateRaw (records:dynamic)
+
+.alter-merge table UpdateRaw policy retention softdelete = 1d
+
+.alter table UpdateRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table UpdateRaw ingestion json mapping 'UpdateRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Update(
+TimeGenerated:datetime,
+TenantId:guid,
+OSType:string,
+ProductVersion:string,
+ProductArch:string,
+CVENumbers:string,
+BulletinUrl:string,
+BulletinID:string,
+PackageRepository:string,
+PackageSeverity:string,
+OSName:string,
+OSVersion:string,
+OSFullName:string,
+SubscriptionId:guid,
+ResourceGroup:string,
+ResourceProvider:string,
+Resource:string,
+ResourceId:string,
+ResourceType:string,
+InstallTimeAvailable:bool,
+InstallTimeDeviationRangeSeconds:real,
+InstallTimePredictionSeconds:real,
+ApprovalSource:string,
+SourceSystem:string,
+MG:guid,
+ManagementGroupName:string,
+SourceComputerId:guid,
+Title:string,
+MSRCSeverity:string,
+Classification:string,
+PublishedDate:datetime,
+ComputerEnvironment:string,
+Computer:string,
+Product:string,
+KBID:string,
+UpdateID:string,
+RevisionNumber:string,
+Optional:bool,
+RebootBehavior:string,
+MSRCBulletinID:string,
+Approved:bool,
+UpdateState:string,
+VMUUID:guid,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table Update policy caching hot = 1d
+
+.create-or-alter function UpdateExpand() {
+UpdateRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OSType=tostring(events.OSType),
+ProductVersion=tostring(events.ProductVersion),
+ProductArch=tostring(events.ProductArch),
+CVENumbers=tostring(events.CVENumbers),
+BulletinUrl=tostring(events.BulletinUrl),
+BulletinID=tostring(events.BulletinID),
+PackageRepository=tostring(events.PackageRepository),
+PackageSeverity=tostring(events.PackageSeverity),
+OSName=tostring(events.OSName),
+OSVersion=tostring(events.OSVersion),
+OSFullName=tostring(events.OSFullName),
+SubscriptionId=toguid(events.SubscriptionId),
+ResourceGroup=tostring(events.ResourceGroup),
+ResourceProvider=tostring(events.ResourceProvider),
+Resource=tostring(events.Resource),
+ResourceId=tostring(events.ResourceId),
+ResourceType=tostring(events.ResourceType),
+InstallTimeAvailable=tobool(events.InstallTimeAvailable),
+InstallTimeDeviationRangeSeconds=toreal(events.InstallTimeDeviationRangeSeconds),
+InstallTimePredictionSeconds=toreal(events.InstallTimePredictionSeconds),
+ApprovalSource=tostring(events.ApprovalSource),
+SourceSystem=tostring(events.SourceSystem),
+MG=toguid(events.MG),
+ManagementGroupName=tostring(events.ManagementGroupName),
+SourceComputerId=toguid(events.SourceComputerId),
+Title=tostring(events.Title),
+MSRCSeverity=tostring(events.MSRCSeverity),
+Classification=tostring(events.Classification),
+PublishedDate=todatetime(events.PublishedDate),
+ComputerEnvironment=tostring(events.ComputerEnvironment),
+Computer=tostring(events.Computer),
+Product=tostring(events.Product),
+KBID=tostring(events.KBID),
+UpdateID=tostring(events.UpdateID),
+RevisionNumber=tostring(events.RevisionNumber),
+Optional=tobool(events.Optional),
+RebootBehavior=tostring(events.RebootBehavior),
+MSRCBulletinID=tostring(events.MSRCBulletinID),
+Approved=tobool(events.Approved),
+UpdateState=tostring(events.UpdateState),
+VMUUID=toguid(events.VMUUID),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Update policy update @'[{"Source": "UpdateRaw", "Query": "UpdateExpand()", "IsEnabled": "True", "IsTransactional": true}]'

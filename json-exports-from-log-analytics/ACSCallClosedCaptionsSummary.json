@@ -1,0 +1,65 @@
+﻿{
+    "Name":  "ACSCallClosedCaptionsSummary",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Level",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SpeechRecognitionSessionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SpokenLanguage",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EndReason",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CancelReason",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "StartTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Duration",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

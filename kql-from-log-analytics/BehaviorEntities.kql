@@ -1,0 +1,115 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for BehaviorEntities - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:20:45
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 40, Final columns: 40
+// ============================================================================
+
+.create-merge table BehaviorEntitiesRaw (records:dynamic)
+
+.alter-merge table BehaviorEntitiesRaw policy retention softdelete = 1d
+
+.alter table BehaviorEntitiesRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table BehaviorEntitiesRaw ingestion json mapping 'BehaviorEntitiesRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table BehaviorEntities(
+TimeGenerated:datetime,
+TenantId:guid,
+AccountObjectId:string,
+AccountUpn:string,
+DeviceId:string,
+DeviceName:string,
+LocalIP:string,
+NetworkMessageId:string,
+EmailSubject:string,
+EmailClusterId:string,
+Application:string,
+ApplicationId:string,
+OAuthApplicationId:string,
+ProcessCommandLine:string,
+RegistryKey:string,
+RegistryValueName:string,
+RegistryValueData:string,
+AccountSid:string,
+AccountDomain:string,
+AccountName:string,
+RemoteUrl:string,
+BehaviorId:string,
+ActionType:string,
+Categories:string,
+ServiceSource:string,
+DetectionSource:string,
+DataSources:string,
+EntityType:string,
+AdditionalFields:string,
+EntityRole:string,
+FileName:string,
+FolderPath:string,
+SHA1:string,
+SHA256:string,
+FileSize:long,
+ThreatFamily:string,
+RemoteIP:string,
+DetailedEntityRole:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table BehaviorEntities policy caching hot = 1d
+
+.create-or-alter function BehaviorEntitiesExpand() {
+BehaviorEntitiesRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+AccountObjectId=tostring(events.AccountObjectId),
+AccountUpn=tostring(events.AccountUpn),
+DeviceId=tostring(events.DeviceId),
+DeviceName=tostring(events.DeviceName),
+LocalIP=tostring(events.LocalIP),
+NetworkMessageId=tostring(events.NetworkMessageId),
+EmailSubject=tostring(events.EmailSubject),
+EmailClusterId=tostring(events.EmailClusterId),
+Application=tostring(events.Application),
+ApplicationId=tostring(events.ApplicationId),
+OAuthApplicationId=tostring(events.OAuthApplicationId),
+ProcessCommandLine=tostring(events.ProcessCommandLine),
+RegistryKey=tostring(events.RegistryKey),
+RegistryValueName=tostring(events.RegistryValueName),
+RegistryValueData=tostring(events.RegistryValueData),
+AccountSid=tostring(events.AccountSid),
+AccountDomain=tostring(events.AccountDomain),
+AccountName=tostring(events.AccountName),
+RemoteUrl=tostring(events.RemoteUrl),
+BehaviorId=tostring(events.BehaviorId),
+ActionType=tostring(events.ActionType),
+Categories=tostring(events.Categories),
+ServiceSource=tostring(events.ServiceSource),
+DetectionSource=tostring(events.DetectionSource),
+DataSources=tostring(events.DataSources),
+EntityType=tostring(events.EntityType),
+AdditionalFields=tostring(events.AdditionalFields),
+EntityRole=tostring(events.EntityRole),
+FileName=tostring(events.FileName),
+FolderPath=tostring(events.FolderPath),
+SHA1=tostring(events.SHA1),
+SHA256=tostring(events.SHA256),
+FileSize=tolong(events.FileSize),
+ThreatFamily=tostring(events.ThreatFamily),
+RemoteIP=tostring(events.RemoteIP),
+DetailedEntityRole=tostring(events.DetailedEntityRole),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table BehaviorEntities policy update @'[{"Source": "BehaviorEntitiesRaw", "Query": "BehaviorEntitiesExpand()", "IsEnabled": "True", "IsTransactional": true}]'

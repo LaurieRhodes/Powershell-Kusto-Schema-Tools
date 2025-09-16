@@ -1,0 +1,189 @@
+﻿{
+    "Name":  "AppExceptions",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SessionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserAuthenticatedId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserAccountId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppRoleName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppRoleInstance",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SyntheticSource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientModel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientCity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientStateOrProvince",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientCountryOrRegion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientBrowser",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceGUID",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IKey",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SDKVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientOS",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ItemCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ParentId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProblemId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "HandledAt",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExceptionType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Message",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Assembly",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Method",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OuterType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OuterMessage",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OuterAssembly",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InnermostType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InnermostMessage",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InnermostAssembly",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InnermostMethod",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SeverityLevel",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Details",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Properties",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Measurements",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "OuterMethod",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

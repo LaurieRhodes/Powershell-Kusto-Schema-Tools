@@ -1,0 +1,89 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AddonAzureBackupAlerts - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:15:37
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 27, Final columns: 27
+// ============================================================================
+
+.create-merge table AddonAzureBackupAlertsRaw (records:dynamic)
+
+.alter-merge table AddonAzureBackupAlertsRaw policy retention softdelete = 1d
+
+.alter table AddonAzureBackupAlertsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AddonAzureBackupAlertsRaw ingestion json mapping 'AddonAzureBackupAlertsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AddonAzureBackupAlerts(
+TimeGenerated:datetime,
+TenantId:guid,
+State:string,
+SchemaVersion:string,
+RecommendedAction:string,
+ProtectedContainerUniqueId:string,
+CountOfAlertsConsolidated:int,
+BackupManagementType:string,
+BackupManagementServerUniqueId:string,
+BackupItemUniqueId:string,
+AlertUniqueId:string,
+AlertType:string,
+AlertTimeToResolveInMinutes:real,
+AlertStatus:string,
+AlertSeverity:string,
+AlertRaisedOn:string,
+AlertOccurrenceDateTime:datetime,
+AlertConsolidationStatus:string,
+AlertCode:string,
+Category:string,
+OperationName:string,
+ResourceId:string,
+SourceSystem:string,
+StorageUniqueId:string,
+VaultUniqueId:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AddonAzureBackupAlerts policy caching hot = 1d
+
+.create-or-alter function AddonAzureBackupAlertsExpand() {
+AddonAzureBackupAlertsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+State=tostring(events.State),
+SchemaVersion=tostring(events.SchemaVersion),
+RecommendedAction=tostring(events.RecommendedAction),
+ProtectedContainerUniqueId=tostring(events.ProtectedContainerUniqueId),
+CountOfAlertsConsolidated=toint(events.CountOfAlertsConsolidated),
+BackupManagementType=tostring(events.BackupManagementType),
+BackupManagementServerUniqueId=tostring(events.BackupManagementServerUniqueId),
+BackupItemUniqueId=tostring(events.BackupItemUniqueId),
+AlertUniqueId=tostring(events.AlertUniqueId),
+AlertType=tostring(events.AlertType),
+AlertTimeToResolveInMinutes=toreal(events.AlertTimeToResolveInMinutes),
+AlertStatus=tostring(events.AlertStatus),
+AlertSeverity=tostring(events.AlertSeverity),
+AlertRaisedOn=tostring(events.AlertRaisedOn),
+AlertOccurrenceDateTime=todatetime(events.AlertOccurrenceDateTime),
+AlertConsolidationStatus=tostring(events.AlertConsolidationStatus),
+AlertCode=tostring(events.AlertCode),
+Category=tostring(events.Category),
+OperationName=tostring(events.OperationName),
+ResourceId=tostring(events.ResourceId),
+SourceSystem=tostring(events.SourceSystem),
+StorageUniqueId=tostring(events.StorageUniqueId),
+VaultUniqueId=tostring(events.VaultUniqueId),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AddonAzureBackupAlerts policy update @'[{"Source": "AddonAzureBackupAlertsRaw", "Query": "AddonAzureBackupAlertsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

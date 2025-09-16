@@ -1,0 +1,93 @@
+﻿{
+    "Name":  "NetworkAccessAlerts",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ExtendedProperties",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "IsPreview",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "PolicyId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DetectionTechnology",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SubTechniques",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Techniques",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Severity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Description",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AlertType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ComponentName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProductName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VendorName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Id",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LastActivityDateTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "FirstActivityDateTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "CreationDateTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "RelatedResources",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

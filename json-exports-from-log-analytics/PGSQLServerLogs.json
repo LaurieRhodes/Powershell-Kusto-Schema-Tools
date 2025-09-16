@@ -1,0 +1,101 @@
+﻿{
+    "Name":  "PGSQLServerLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "BackendType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ConstraintName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DatatypeName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ColumnName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TableName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SchemaName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Statement",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Context",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Location",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Query",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DetailLog",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Detail",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Message",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SqlErrorCode",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ErrorLevel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProcessId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ReplicaRole",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LogicalServerName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Hint",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

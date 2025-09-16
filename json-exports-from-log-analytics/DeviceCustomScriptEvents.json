@@ -1,0 +1,157 @@
+﻿{
+    "Name":  "DeviceCustomScriptEvents",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "InitiatingProcessSignerType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessAccountSid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessAccountUpn",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessAccountObjectId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessFileSize",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "InitiatingProcessVersionInfoCompanyName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessSignatureStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessVersionInfoProductName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessVersionInfoInternalFileName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessVersionInfoOriginalFileName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessVersionInfoFileDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ScriptContent",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ScriptContentSHA256",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RuleName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessVersionInfoProductVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessAccountDomain",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessAccountName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessFolderPath",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActionType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ReportId",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "Timestamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "InitiatingProcessId",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "InitiatingProcessCreationTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "InitiatingProcessCommandLine",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessParentFileName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessParentId",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "InitiatingProcessParentCreationTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "InitiatingProcessSHA1",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessSHA256",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessMD5",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessFileName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RuleLastModificationTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

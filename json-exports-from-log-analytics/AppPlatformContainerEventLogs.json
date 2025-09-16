@@ -1,0 +1,57 @@
+﻿{
+    "Name":  "AppPlatformContainerEventLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "App",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Deployment",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Instance",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Event",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Message",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FirstTimestamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "LastTimestamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Count",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

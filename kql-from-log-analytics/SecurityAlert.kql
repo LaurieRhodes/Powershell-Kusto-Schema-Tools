@@ -1,0 +1,105 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for SecurityAlert - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:28:56
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 35, Final columns: 35
+// ============================================================================
+
+.create-merge table SecurityAlertRaw (records:dynamic)
+
+.alter-merge table SecurityAlertRaw policy retention softdelete = 1d
+
+.alter table SecurityAlertRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table SecurityAlertRaw ingestion json mapping 'SecurityAlertRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table SecurityAlert(
+TimeGenerated:datetime,
+TenantId:guid,
+Tactics:string,
+CompromisedEntity:string,
+Status:string,
+AlertLink:string,
+ProductComponentName:string,
+ProductName:string,
+ExtendedLinks:string,
+WorkspaceResourceGroup:string,
+WorkspaceSubscriptionId:guid,
+SourceSystem:string,
+Entities:string,
+ExtendedProperties:string,
+RemediationSteps:string,
+ProcessingEndTime:datetime,
+Techniques:string,
+EndTime:datetime,
+IsIncident:bool,
+ConfidenceScore:real,
+ConfidenceLevel:string,
+AlertType:string,
+SourceComputerId:guid,
+ResourceId:string,
+SystemAlertId:string,
+VendorOriginalId:string,
+VendorName:string,
+ProviderName:string,
+Description:string,
+AlertSeverity:string,
+AlertName:string,
+DisplayName:string,
+StartTime:datetime,
+SubTechniques:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table SecurityAlert policy caching hot = 1d
+
+.create-or-alter function SecurityAlertExpand() {
+SecurityAlertRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Tactics=tostring(events.Tactics),
+CompromisedEntity=tostring(events.CompromisedEntity),
+Status=tostring(events.Status),
+AlertLink=tostring(events.AlertLink),
+ProductComponentName=tostring(events.ProductComponentName),
+ProductName=tostring(events.ProductName),
+ExtendedLinks=tostring(events.ExtendedLinks),
+WorkspaceResourceGroup=tostring(events.WorkspaceResourceGroup),
+WorkspaceSubscriptionId=toguid(events.WorkspaceSubscriptionId),
+SourceSystem=tostring(events.SourceSystem),
+Entities=tostring(events.Entities),
+ExtendedProperties=tostring(events.ExtendedProperties),
+RemediationSteps=tostring(events.RemediationSteps),
+ProcessingEndTime=todatetime(events.ProcessingEndTime),
+Techniques=tostring(events.Techniques),
+EndTime=todatetime(events.EndTime),
+IsIncident=tobool(events.IsIncident),
+ConfidenceScore=toreal(events.ConfidenceScore),
+ConfidenceLevel=tostring(events.ConfidenceLevel),
+AlertType=tostring(events.AlertType),
+SourceComputerId=toguid(events.SourceComputerId),
+ResourceId=tostring(events.ResourceId),
+SystemAlertId=tostring(events.SystemAlertId),
+VendorOriginalId=tostring(events.VendorOriginalId),
+VendorName=tostring(events.VendorName),
+ProviderName=tostring(events.ProviderName),
+Description=tostring(events.Description),
+AlertSeverity=tostring(events.AlertSeverity),
+AlertName=tostring(events.AlertName),
+DisplayName=tostring(events.DisplayName),
+StartTime=todatetime(events.StartTime),
+SubTechniques=tostring(events.SubTechniques),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table SecurityAlert policy update @'[{"Source": "SecurityAlertRaw", "Query": "SecurityAlertExpand()", "IsEnabled": "True", "IsTransactional": true}]'

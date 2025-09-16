@@ -1,0 +1,69 @@
+﻿{
+    "Name":  "DeviceTvmSecureConfigurationAssessment",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Timestamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ConfigurationImpact",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "Context",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "IsCompliant",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "IsApplicable",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "IsExpectedUserImpact",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "DeviceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OSPlatform",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ConfigurationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ConfigurationCategory",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ConfigurationSubcategory",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

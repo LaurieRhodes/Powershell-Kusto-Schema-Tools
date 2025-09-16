@@ -1,0 +1,77 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for DSMAzureBlobStorageLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:24:03
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 21, Final columns: 21
+// ============================================================================
+
+.create-merge table DSMAzureBlobStorageLogsRaw (records:dynamic)
+
+.alter-merge table DSMAzureBlobStorageLogsRaw policy retention softdelete = 1d
+
+.alter table DSMAzureBlobStorageLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table DSMAzureBlobStorageLogsRaw ingestion json mapping 'DSMAzureBlobStorageLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table DSMAzureBlobStorageLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+AccountName:string,
+ResourceGroup:string,
+ResourceSubscriptionId:string,
+SumResponseBodySize:long,
+AggregationLastEventTime:datetime,
+AggregationCount:long,
+Category:string,
+CorrelationId:string,
+UserAgentHeader:string,
+Uri:string,
+StatusCode:string,
+RequesterUpn:string,
+RequesterAppId:string,
+AuthenticationType:string,
+OperationName:string,
+Location:string,
+CallerIpAddress:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table DSMAzureBlobStorageLogs policy caching hot = 1d
+
+.create-or-alter function DSMAzureBlobStorageLogsExpand() {
+DSMAzureBlobStorageLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+AccountName=tostring(events.AccountName),
+ResourceGroup=tostring(events.ResourceGroup),
+ResourceSubscriptionId=tostring(events.ResourceSubscriptionId),
+SumResponseBodySize=tolong(events.SumResponseBodySize),
+AggregationLastEventTime=todatetime(events.AggregationLastEventTime),
+AggregationCount=tolong(events.AggregationCount),
+Category=tostring(events.Category),
+CorrelationId=tostring(events.CorrelationId),
+UserAgentHeader=tostring(events.UserAgentHeader),
+Uri=tostring(events.Uri),
+StatusCode=tostring(events.StatusCode),
+RequesterUpn=tostring(events.RequesterUpn),
+RequesterAppId=tostring(events.RequesterAppId),
+AuthenticationType=tostring(events.AuthenticationType),
+OperationName=tostring(events.OperationName),
+Location=tostring(events.Location),
+CallerIpAddress=tostring(events.CallerIpAddress),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table DSMAzureBlobStorageLogs policy update @'[{"Source": "DSMAzureBlobStorageLogsRaw", "Query": "DSMAzureBlobStorageLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

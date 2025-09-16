@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for ASimAuditEventLogs
 // ============================================================================
-// Generated: 2025-09-13 20:13:28
+// Generated: 2025-09-17 06:20:41
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 124, DCR columns: 123 (Type column filtered out)
+// Underscore columns included
+// Original columns: 124, DCR columns: 123 (Type column always filtered)
 // Output stream: Custom-ASimAuditEventLogs
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================

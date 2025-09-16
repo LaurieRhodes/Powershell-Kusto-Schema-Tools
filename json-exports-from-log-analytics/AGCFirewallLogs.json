@@ -1,0 +1,101 @@
+﻿{
+    "Name":  "AGCFirewallLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "RuleId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RuleSetVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RuleSetType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestUri",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PolicyScopeName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PolicyScope",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PolicyId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Hostname",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TrackingId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LineDetails",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DetailedData",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DetailedMessage",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Message",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Action",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientPort",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ClientIp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InstanceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileDetails",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

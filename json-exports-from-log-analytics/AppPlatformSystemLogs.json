@@ -1,0 +1,65 @@
+﻿{
+    "Name":  "AppPlatformSystemLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ServiceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InstanceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Level",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Thread",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Logger",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Log",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Stack",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LogType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

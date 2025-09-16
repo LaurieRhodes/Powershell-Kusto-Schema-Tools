@@ -1,0 +1,61 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for SynapseDXSucceededIngestion - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:29:59
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 13, Final columns: 13
+// ============================================================================
+
+.create-merge table SynapseDXSucceededIngestionRaw (records:dynamic)
+
+.alter-merge table SynapseDXSucceededIngestionRaw policy retention softdelete = 1d
+
+.alter table SynapseDXSucceededIngestionRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table SynapseDXSucceededIngestionRaw ingestion json mapping 'SynapseDXSucceededIngestionRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table SynapseDXSucceededIngestion(
+TimeGenerated:datetime,
+TenantId:guid,
+SucceededOn:datetime,
+OperationId:guid,
+Database:string,
+Table:string,
+IngestionSourceId:guid,
+IngestionSourcePath:string,
+ResultType:string,
+RootActivityId:guid,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table SynapseDXSucceededIngestion policy caching hot = 1d
+
+.create-or-alter function SynapseDXSucceededIngestionExpand() {
+SynapseDXSucceededIngestionRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SucceededOn=todatetime(events.SucceededOn),
+OperationId=toguid(events.OperationId),
+Database=tostring(events.Database),
+Table=tostring(events.Table),
+IngestionSourceId=toguid(events.IngestionSourceId),
+IngestionSourcePath=tostring(events.IngestionSourcePath),
+ResultType=tostring(events.ResultType),
+RootActivityId=toguid(events.RootActivityId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table SynapseDXSucceededIngestion policy update @'[{"Source": "SynapseDXSucceededIngestionRaw", "Query": "SynapseDXSucceededIngestionExpand()", "IsEnabled": "True", "IsTransactional": true}]'

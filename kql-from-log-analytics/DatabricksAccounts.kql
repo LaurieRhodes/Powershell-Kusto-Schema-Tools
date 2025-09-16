@@ -1,0 +1,71 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for DatabricksAccounts - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:21:49
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 18, Final columns: 18
+// ============================================================================
+
+.create-merge table DatabricksAccountsRaw (records:dynamic)
+
+.alter-merge table DatabricksAccountsRaw policy retention softdelete = 1d
+
+.alter table DatabricksAccountsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table DatabricksAccountsRaw ingestion json mapping 'DatabricksAccountsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table DatabricksAccounts(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+OperationVersion:string,
+Category:string,
+Identity:string,
+SourceIPAddress:string,
+LogId:string,
+ServiceName:string,
+UserAgent:string,
+SessionId:string,
+ActionName:string,
+RequestId:string,
+Response:string,
+RequestParams:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table DatabricksAccounts policy caching hot = 1d
+
+.create-or-alter function DatabricksAccountsExpand() {
+DatabricksAccountsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+OperationVersion=tostring(events.OperationVersion),
+Category=tostring(events.Category),
+Identity=tostring(events.Identity),
+SourceIPAddress=tostring(events.SourceIPAddress),
+LogId=tostring(events.LogId),
+ServiceName=tostring(events.ServiceName),
+UserAgent=tostring(events.UserAgent),
+SessionId=tostring(events.SessionId),
+ActionName=tostring(events.ActionName),
+RequestId=tostring(events.RequestId),
+Response=tostring(events.Response),
+RequestParams=tostring(events.RequestParams),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table DatabricksAccounts policy update @'[{"Source": "DatabricksAccountsRaw", "Query": "DatabricksAccountsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

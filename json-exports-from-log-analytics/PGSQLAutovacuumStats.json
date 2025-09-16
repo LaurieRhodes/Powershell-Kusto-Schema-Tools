@@ -1,0 +1,125 @@
+﻿{
+    "Name":  "PGSQLAutovacuumStats",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "TablesAutoanalyzedCount",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "TablesAnalyzedCount",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "TablesAutovacuumedCount",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "TablesVacuumedCount",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "TablesCount",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "AutoanalyzeCount",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "AnalyzeCount",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "AutovacuumCount",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "VacuumCount",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ModificationsSinceAnalyzeCount",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "RowsHotUpdatedCount",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "Location",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RowsDeletedCount",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "RowsInsertedCount",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "RowsFromIndexScansCount",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "IndexScansCount",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "RowsFromSeqentialScansCount",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "SeqentialScansCount",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "DeadRowsCount",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "LiveRowsCount",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "SchemaName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DatabaseName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ReplicaRole",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LogicalServerName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RowsUpdatedCount",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

@@ -1,0 +1,61 @@
+﻿{
+    "Name":  "AppServiceIPSecAuditLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Result",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CsHost",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServiceEndpoint",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CIp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "XForwardedFor",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "XForwardedHost",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "XAzureFDID",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "XFDHealthProbe",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Details",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

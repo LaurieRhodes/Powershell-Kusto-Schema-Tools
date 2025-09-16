@@ -1,0 +1,261 @@
+﻿{
+    "Name":  "ThreatIntelligenceIndicator",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "EmailSourceIpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EmailSubject",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EmailXMailer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileCompileDateTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "FileCreatedDateTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "FileHashType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileHashValue",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileMutexName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FilePacker",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FilePath",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileSize",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "FileType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DomainName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NetworkIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NetworkPort",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "NetworkDestinationAsn",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "NetworkDestinationCidrBlock",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NetworkDestinationIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NetworkCidrBlock",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NetworkDestinationPort",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "NetworkProtocol",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "NetworkSourceAsn",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "NetworkSourceCidrBlock",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NetworkSourceIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NetworkSourcePort",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Url",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EmailSourceDomain",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EmailSenderName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EmailSenderAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EmailRecipient",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Action",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActivityGroupNames",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AdditionalInformation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ApplicationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureTenantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ConfidenceScore",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "Description",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DiamondModel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExternalIndicatorId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExpirationDateTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "IndicatorId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ThreatType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserAgent",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Active",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "KillChainC2",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "KillChainDelivery",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "KillChainExploitation",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "KillChainReconnaissance",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "KillChainWeaponization",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "KnownFalsePositives",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MalwareNames",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PassiveOnly",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "ThreatSeverity",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Tags",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TrafficLightProtocolLevel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EmailEncoding",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EmailLanguage",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "KillChainActions",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "IndicatorProvider",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

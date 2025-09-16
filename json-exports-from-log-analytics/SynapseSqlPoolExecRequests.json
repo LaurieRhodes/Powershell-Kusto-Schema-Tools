@@ -1,0 +1,125 @@
+﻿{
+    "Name":  "SynapseSqlPoolExecRequests",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ResourceAllocationPercent",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClassifierName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Importance",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExplainOutput",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientCorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RootQueryId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ScopeDepth",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "StatementType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceClass",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Command",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DatabaseId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultCacheHit",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ErrorId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EndTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "EndCompileTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "StartTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "SubmitTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Status",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SessionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LogicalServerName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Label",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

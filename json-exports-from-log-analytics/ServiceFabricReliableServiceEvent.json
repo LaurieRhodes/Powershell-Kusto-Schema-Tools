@@ -1,0 +1,129 @@
+﻿{
+    "Name":  "ServiceFabricReliableServiceEvent",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Exception",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "WasCanceled",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "SlowCancellationTimeMillis",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ReplicaId",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "PartitionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServiceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServiceTypeName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ApplicationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ApplicationTypeName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventMessage",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Role",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureDeploymentID",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActualCancellationTimeMillis",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "RowKey",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TaskName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "KeywordName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OpcodeName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Tid",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Pid",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "EventId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "EventSourceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProviderGuid",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Level",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PartitionKey",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ChannelName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InstanceId",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

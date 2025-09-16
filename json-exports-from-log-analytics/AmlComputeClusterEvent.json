@@ -1,0 +1,265 @@
+﻿{
+    "Name":  "AmlComputeClusterEvent",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Sku",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Version",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SubnetId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AllocationState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CurrentNodeCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "TargetNodeCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "EventType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NodeIdleTimeSecondsBeforeScaleDown",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "PreemptedNodeCount",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsResizeGrow",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VmFamilyName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LeavingNodeCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "UnusableNodeCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "IdleNodeCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "RunningNodeCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "PreparingNodeCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "QuotaAllocated",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "QuotaUtilized",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AllocationStateTransitionTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ClusterErrorCodes",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CreationApiVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InternalOperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Node",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EnvNamespace",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Pod",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Container",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Host",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Offer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Publisher",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NodeDeallocationOption",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MaximumNodeCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Stream",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Docker",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Kubernetes",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Tag",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LogEpochTimestamp",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "OperationVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultSignature",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DurationMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "CallerIpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "env_time",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Identity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Location",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProvisioningState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClusterName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClusterType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CreatedBy",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CoreCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "VmSize",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VmPriority",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ScalingType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitialNodeCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "MinimumNodeCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Level",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FluentdIngestTimestamp",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

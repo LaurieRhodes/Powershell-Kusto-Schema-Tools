@@ -1,0 +1,77 @@
+﻿{
+    "Name":  "HDInsightSparkJobEvents",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ApplicationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "JobId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SubmissionTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "CompletionTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "JobResult",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "StageIds",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClusterTenantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Role",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Host",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClusterDnsName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Region",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserSubscriptionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

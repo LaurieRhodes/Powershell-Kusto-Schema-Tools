@@ -1,0 +1,105 @@
+﻿{
+    "Name":  "Windows365AuditLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ResourceExtendedProperties",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Tid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Pid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BuildVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ApplicationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServiceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ScenarioInstanceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ScenarioId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SessionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RelatedActivityId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActivityId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OtherAuditEventProperties",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ComponentName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OtherIdentityProperties",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserPrincipalName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ApplicationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Result",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CallerExtendedProperties",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

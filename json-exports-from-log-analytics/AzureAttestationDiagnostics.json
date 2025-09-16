@@ -1,0 +1,89 @@
+﻿{
+    "Name":  "AzureAttestationDiagnostics",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ContentLength",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ContentType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserAgent",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FailureDetails",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServiceLocation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TraceContext",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Level",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Identity",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "CallerIpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DurationMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ResultSignature",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceUri",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceRegion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultDetails",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

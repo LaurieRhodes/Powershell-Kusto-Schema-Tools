@@ -1,0 +1,205 @@
+﻿{
+    "Name":  "W3CIISLog",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "scSubStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "scWin32Status",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "scBytes",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "csBytes",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "TimeTaken",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MG",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ManagementGroupName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MaliciousIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "scStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IndicatorThreatType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TLPLevel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Confidence",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Severity",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "FirstReportedDateTime",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LastReportedDateTime",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsActive",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ReportReferenceLink",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AdditionalInformation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemoteIPLongitude",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "Description",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemoteIPLatitude",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "csHost",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "csCookie",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileUri",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileOffset",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "StorageAccount",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureDeploymentID",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Role",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RoleInstance",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Date",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Time",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "csReferer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "sSiteName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "sIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "csMethod",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "csUriStem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "csUriQuery",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "sPort",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "csUserName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "cIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "csVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "csUserAgent",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "sComputerName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemoteIPCountry",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

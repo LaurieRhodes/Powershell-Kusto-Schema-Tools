@@ -1,0 +1,73 @@
+﻿{
+    "Name":  "DeviceTvmSecureConfigurationAssessmentKB",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Timestamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ConfigurationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ConfigurationImpact",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ConfigurationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ConfigurationDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RiskDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ConfigurationCategory",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ConfigurationSubcategory",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ConfigurationBenchmarks",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Tags",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "RemediationOptions",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RelatedMitreTechniques",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "RelatedMitreTactics",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

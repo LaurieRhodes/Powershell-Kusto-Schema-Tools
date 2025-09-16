@@ -1,0 +1,115 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for CloudAppEvents - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:21:15
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 40, Final columns: 40
+// ============================================================================
+
+.create-merge table CloudAppEventsRaw (records:dynamic)
+
+.alter-merge table CloudAppEventsRaw policy retention softdelete = 1d
+
+.alter table CloudAppEventsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table CloudAppEventsRaw ingestion json mapping 'CloudAppEventsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table CloudAppEvents(
+TimeGenerated:datetime,
+TenantId:guid,
+OSPlatform:string,
+DeviceType:string,
+IsAdminOperation:bool,
+AccountDisplayName:string,
+AccountObjectId:string,
+AppInstanceId:int,
+ApplicationId:int,
+Application:string,
+ActionType:string,
+UserAgentTags:dynamic,
+Timestamp:datetime,
+AuditSource:string,
+LastSeenForUser:dynamic,
+OAuthAppId:string,
+SessionData:dynamic,
+IPTags:dynamic,
+IPCategory:string,
+IPAddress:string,
+IsImpersonated:bool,
+AccountId:string,
+AccountType:string,
+AdditionalFields:dynamic,
+RawEventData:dynamic,
+ReportId:string,
+ObjectId:string,
+ObjectType:string,
+UncommonForUser:dynamic,
+ObjectName:string,
+ActivityType:string,
+UserAgent:string,
+ISP:string,
+City:string,
+CountryCode:string,
+IsAnonymousProxy:bool,
+IsExternalUser:bool,
+ActivityObjects:dynamic,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table CloudAppEvents policy caching hot = 1d
+
+.create-or-alter function CloudAppEventsExpand() {
+CloudAppEventsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OSPlatform=tostring(events.OSPlatform),
+DeviceType=tostring(events.DeviceType),
+IsAdminOperation=tobool(events.IsAdminOperation),
+AccountDisplayName=tostring(events.AccountDisplayName),
+AccountObjectId=tostring(events.AccountObjectId),
+AppInstanceId=toint(events.AppInstanceId),
+ApplicationId=toint(events.ApplicationId),
+Application=tostring(events.Application),
+ActionType=tostring(events.ActionType),
+UserAgentTags=todynamic(events.UserAgentTags),
+Timestamp=todatetime(events.Timestamp),
+AuditSource=tostring(events.AuditSource),
+LastSeenForUser=todynamic(events.LastSeenForUser),
+OAuthAppId=tostring(events.OAuthAppId),
+SessionData=todynamic(events.SessionData),
+IPTags=todynamic(events.IPTags),
+IPCategory=tostring(events.IPCategory),
+IPAddress=tostring(events.IPAddress),
+IsImpersonated=tobool(events.IsImpersonated),
+AccountId=tostring(events.AccountId),
+AccountType=tostring(events.AccountType),
+AdditionalFields=todynamic(events.AdditionalFields),
+RawEventData=todynamic(events.RawEventData),
+ReportId=tostring(events.ReportId),
+ObjectId=tostring(events.ObjectId),
+ObjectType=tostring(events.ObjectType),
+UncommonForUser=todynamic(events.UncommonForUser),
+ObjectName=tostring(events.ObjectName),
+ActivityType=tostring(events.ActivityType),
+UserAgent=tostring(events.UserAgent),
+ISP=tostring(events.ISP),
+City=tostring(events.City),
+CountryCode=tostring(events.CountryCode),
+IsAnonymousProxy=tobool(events.IsAnonymousProxy),
+IsExternalUser=tobool(events.IsExternalUser),
+ActivityObjects=todynamic(events.ActivityObjects),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table CloudAppEvents policy update @'[{"Source": "CloudAppEventsRaw", "Query": "CloudAppEventsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

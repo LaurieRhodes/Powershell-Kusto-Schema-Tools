@@ -1,0 +1,217 @@
+﻿{
+    "Name":  "SQLSecurityAuditEvents",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "PermissionBitmask",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SequenceGroupId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SessionServerPrincipalName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServerPrincipalName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServerPrincipalSid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DatabasePrincipalName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TargetServerPrincipalName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TargetServerPrincipalSid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TargetDatabasePrincipalName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DatabaseName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SchemaName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ObjectName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Statement",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AdditionalInformation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserDefinedInformation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ApplicationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ConnectionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DataSensitivityInformation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "HostName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SessionContext",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsServerLevelAudit",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "ClientIp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientTlsVersion",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "AffectedRows",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ResponseRows",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "LogicalServerName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AuditSchemaVersion",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "EventTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "SequenceNumber",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ActionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActionName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Succeeded",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "IsColumnPermission",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "EventId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SessionId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "DatabasePrincipalId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "TargetServerPrincipalId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "TargetDatabasePrincipalId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ObjectId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "UserDefinedEventId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "TransactionId",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ClassType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClassTypeDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SecurableClassType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DurationMs",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ServerPrincipalId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

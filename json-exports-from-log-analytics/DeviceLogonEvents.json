@@ -1,0 +1,221 @@
+﻿{
+    "Name":  "DeviceLogonEvents",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "LogonType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MachineGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Protocol",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemoteDeviceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemoteIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemoteIPType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemotePort",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ReportId",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "Timestamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "InitiatingProcessParentCreationTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "LogonId",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "InitiatingProcessCreationTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "InitiatingProcessVersionInfoCompanyName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessVersionInfoFileDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessVersionInfoInternalFileName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessVersionInfoOriginalFileName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessVersionInfoProductName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessVersionInfoProductVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessSessionId",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "IsInitiatingProcessRemoteSession",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "InitiatingProcessRemoteSessionDeviceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessRemoteSessionIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessFileSize",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "IsLocalAdmin",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "InitiatingProcessTokenElevation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessSHA256",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountDomain",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountSid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActionType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AdditionalFields",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "AppGuardContainerId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FailureReason",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessAccountDomain",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessAccountName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessAccountObjectId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessAccountSid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessAccountUpn",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessCommandLine",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessFileName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessFolderPath",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessId",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "InitiatingProcessIntegrityLevel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessMD5",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessParentFileName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessParentId",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "InitiatingProcessSHA1",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InitiatingProcessUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

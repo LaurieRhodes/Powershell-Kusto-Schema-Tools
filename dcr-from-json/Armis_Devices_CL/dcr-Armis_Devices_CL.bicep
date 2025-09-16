@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Armis_Devices_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:28
+// Generated: 2025-09-17 06:20:41
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 33, DCR columns: 30 (Type column filtered out)
+// Underscore columns included
+// Original columns: 33, DCR columns: 31 (Type column always filtered)
 // Output stream: Custom-Armis_Devices_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -36,6 +37,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
+            type: 'string'
+          }
+          {
+            name: 'Visibility'
             type: 'string'
           }
           {
@@ -87,11 +92,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'Visibility'
+            name: 'MacAddress'
             type: 'string'
           }
           {
-            name: 'MacAddress'
+            name: 'LastSeen'
             type: 'string'
           }
           {
@@ -143,11 +148,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'LastSeen'
+            name: 'Name'
             type: 'string'
           }
           {
-            name: 'Name'
+            name: '_ResourceId'
             type: 'string'
           }
         ]
@@ -166,7 +171,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Armis_Devices_CL']
         destinations: ['Sentinel-Armis_Devices_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), Tags = tostring(Tags), SiteName = tostring(SiteName), SiteLocation = tostring(SiteLocation), SensorType = tostring(SensorType), SensorName = tostring(SensorName), RiskLevel = tostring(RiskLevel), PurdueLevel = tostring(PurdueLevel), PlcModule = tostring(PlcModule), OperatingSystem = tostring(OperatingSystem), OperatingSystemVersion = tostring(OperatingSystemVersion), Manufacturer = tostring(Manufacturer), Model = tostring(Model), Visibility = tostring(Visibility), MacAddress = tostring(MacAddress), IPAddress = tostring(IPAddress), Id = tostring(Id), FirstSeen = tostring(FirstSeen), FirmwareVersion = tostring(FirmwareVersion), Category = tostring(Category), EventProduct = tostring(EventProduct), EventVendor = tostring(EventVendor), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), LastSeen = tostring(LastSeen), Name = tostring(Name)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), Visibility = tostring(Visibility), Tags = tostring(Tags), SiteName = tostring(SiteName), SiteLocation = tostring(SiteLocation), SensorType = tostring(SensorType), SensorName = tostring(SensorName), RiskLevel = tostring(RiskLevel), PurdueLevel = tostring(PurdueLevel), PlcModule = tostring(PlcModule), OperatingSystem = tostring(OperatingSystem), OperatingSystemVersion = tostring(OperatingSystemVersion), Manufacturer = tostring(Manufacturer), Model = tostring(Model), MacAddress = tostring(MacAddress), LastSeen = tostring(LastSeen), IPAddress = tostring(IPAddress), Id = tostring(Id), FirstSeen = tostring(FirstSeen), FirmwareVersion = tostring(FirmwareVersion), Category = tostring(Category), EventProduct = tostring(EventProduct), EventVendor = tostring(EventVendor), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), Name = tostring(Name), _ResourceId = tostring(_ResourceId)'
         outputStream: 'Custom-Armis_Devices_CL'
       }
     ]

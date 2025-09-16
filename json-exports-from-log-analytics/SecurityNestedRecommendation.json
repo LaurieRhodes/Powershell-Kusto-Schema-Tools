@@ -1,0 +1,113 @@
+﻿{
+    "Name":  "SecurityNestedRecommendation",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsSnapshot",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "VulnerabilityId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Cause",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Impact",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceDetails",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceProviderType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AdditionalData",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "RemediationDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecommendationState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecommendationSeverity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Description",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NestedRecommendationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecommendationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Id",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ParentRecommendationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AssessedResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecommendationSubscriptionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SubAssessmentTimeGeneration",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "RemidiationDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecommendationLink",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

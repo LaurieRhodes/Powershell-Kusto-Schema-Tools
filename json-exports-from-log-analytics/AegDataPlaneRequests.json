@@ -1,0 +1,53 @@
+﻿{
+    "Name":  "AegDataPlaneRequests",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NetworkAccess",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientIpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TlsVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Authentication",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationResult",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TotalOperations",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

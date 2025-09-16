@@ -1,0 +1,63 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for WVDErrors - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:31:41
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 14, Final columns: 14
+// ============================================================================
+
+.create-merge table WVDErrorsRaw (records:dynamic)
+
+.alter-merge table WVDErrorsRaw policy retention softdelete = 1d
+
+.alter table WVDErrorsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table WVDErrorsRaw ingestion json mapping 'WVDErrorsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table WVDErrors(
+TimeGenerated:datetime,
+TenantId:guid,
+CorrelationId:string,
+UserName:string,
+ActivityType:string,
+Source:string,
+Code:long,
+CodeSymbolic:string,
+Message:string,
+ServiceError:bool,
+Operation:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table WVDErrors policy caching hot = 1d
+
+.create-or-alter function WVDErrorsExpand() {
+WVDErrorsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+CorrelationId=tostring(events.CorrelationId),
+UserName=tostring(events.UserName),
+ActivityType=tostring(events.ActivityType),
+Source=tostring(events.Source),
+Code=tolong(events.Code),
+CodeSymbolic=tostring(events.CodeSymbolic),
+Message=tostring(events.Message),
+ServiceError=tobool(events.ServiceError),
+Operation=tostring(events.Operation),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table WVDErrors policy update @'[{"Source": "WVDErrorsRaw", "Query": "WVDErrorsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

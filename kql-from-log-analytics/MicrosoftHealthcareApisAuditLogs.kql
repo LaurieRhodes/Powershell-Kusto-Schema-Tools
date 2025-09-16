@@ -1,0 +1,75 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for MicrosoftHealthcareApisAuditLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:26:52
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 20, Final columns: 20
+// ============================================================================
+
+.create-merge table MicrosoftHealthcareApisAuditLogsRaw (records:dynamic)
+
+.alter-merge table MicrosoftHealthcareApisAuditLogsRaw policy retention softdelete = 1d
+
+.alter table MicrosoftHealthcareApisAuditLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table MicrosoftHealthcareApisAuditLogsRaw ingestion json mapping 'MicrosoftHealthcareApisAuditLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table MicrosoftHealthcareApisAuditLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+Location:string,
+CallerIdentity:dynamic,
+CallerIdentityObjectId:string,
+CallerIdentityIssuer:string,
+CallerIPAddress:string,
+LogCategory:string,
+Properties:dynamic,
+OperationDurationMs:int,
+StatusCode:int,
+FhirResourceType:string,
+RequestUri:string,
+CorrelationId:string,
+OperationName:string,
+SourceSystem:string,
+ResultType:string,
+OperationDuration:int,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table MicrosoftHealthcareApisAuditLogs policy caching hot = 1d
+
+.create-or-alter function MicrosoftHealthcareApisAuditLogsExpand() {
+MicrosoftHealthcareApisAuditLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Location=tostring(events.Location),
+CallerIdentity=todynamic(events.CallerIdentity),
+CallerIdentityObjectId=tostring(events.CallerIdentityObjectId),
+CallerIdentityIssuer=tostring(events.CallerIdentityIssuer),
+CallerIPAddress=tostring(events.CallerIPAddress),
+LogCategory=tostring(events.LogCategory),
+Properties=todynamic(events.Properties),
+OperationDurationMs=toint(events.OperationDurationMs),
+StatusCode=toint(events.StatusCode),
+FhirResourceType=tostring(events.FhirResourceType),
+RequestUri=tostring(events.RequestUri),
+CorrelationId=tostring(events.CorrelationId),
+OperationName=tostring(events.OperationName),
+SourceSystem=tostring(events.SourceSystem),
+ResultType=tostring(events.ResultType),
+OperationDuration=toint(events.OperationDuration),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table MicrosoftHealthcareApisAuditLogs policy update @'[{"Source": "MicrosoftHealthcareApisAuditLogsRaw", "Query": "MicrosoftHealthcareApisAuditLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

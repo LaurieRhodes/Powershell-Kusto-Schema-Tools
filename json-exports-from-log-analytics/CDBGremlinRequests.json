@@ -1,0 +1,97 @@
+﻿{
+    "Name":  "CDBGremlinRequests",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "RegionName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResponseLength",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "RequestLength",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "RequestCharge",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "DurationMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "CollectionName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DatabaseName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RetriedDueToRateLimiting",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "RateLimitingDelayMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "PIICommandText",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Address",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RetryCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "AuthorizationTokenType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ErrorCode",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserAgent",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActivityId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

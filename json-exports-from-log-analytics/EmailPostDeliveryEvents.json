@@ -1,0 +1,77 @@
+﻿{
+    "Name":  "EmailPostDeliveryEvents",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Action",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActionResult",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActionTrigger",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActionType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeliveryLocation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InternetMessageId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NetworkMessageId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecipientEmailAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ReportId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ThreatTypes",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DetectionMethods",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Timestamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "SenderFromAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EmailDirection",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

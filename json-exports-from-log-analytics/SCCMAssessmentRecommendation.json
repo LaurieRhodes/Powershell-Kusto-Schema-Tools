@@ -1,0 +1,113 @@
+﻿{
+    "Name":  "SCCMAssessmentRecommendation",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SiteServer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SiteCode",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AffectedObjectDetails",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AffectedObjectUniqueName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AffectedObjectName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AffectedObjectType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TargetCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "RecommendationWeight",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "RecommendationScore",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "Technology",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActionArea",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FocusArea",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FocusAreaId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "RecommendationResult",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Description",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Recommendation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecommendationId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "AssessmentName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AssessmentId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MG",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ActionAreaId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "CustomData",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

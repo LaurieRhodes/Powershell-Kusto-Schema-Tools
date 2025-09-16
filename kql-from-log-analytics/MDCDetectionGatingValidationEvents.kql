@@ -1,0 +1,65 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for MDCDetectionGatingValidationEvents - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:26:41
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 15, Final columns: 15
+// ============================================================================
+
+.create-merge table MDCDetectionGatingValidationEventsRaw (records:dynamic)
+
+.alter-merge table MDCDetectionGatingValidationEventsRaw policy retention softdelete = 1d
+
+.alter table MDCDetectionGatingValidationEventsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table MDCDetectionGatingValidationEventsRaw ingestion json mapping 'MDCDetectionGatingValidationEventsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table MDCDetectionGatingValidationEvents(
+TimeGenerated:datetime,
+TenantId:guid,
+AzureResourceId:string,
+Region:string,
+Action:string,
+RuleProperties:dynamic,
+AdmissionControlVersions:dynamic,
+EvaluatedResourceKind:string,
+EvaluatedResourceName:string,
+EvaluatedResourceParentKind:string,
+EvaluatedResourceParentName:string,
+EvaluatedResourceDetails:dynamic,
+Namespace:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table MDCDetectionGatingValidationEvents policy caching hot = 1d
+
+.create-or-alter function MDCDetectionGatingValidationEventsExpand() {
+MDCDetectionGatingValidationEventsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+AzureResourceId=tostring(events.AzureResourceId),
+Region=tostring(events.Region),
+Action=tostring(events.Action),
+RuleProperties=todynamic(events.RuleProperties),
+AdmissionControlVersions=todynamic(events.AdmissionControlVersions),
+EvaluatedResourceKind=tostring(events.EvaluatedResourceKind),
+EvaluatedResourceName=tostring(events.EvaluatedResourceName),
+EvaluatedResourceParentKind=tostring(events.EvaluatedResourceParentKind),
+EvaluatedResourceParentName=tostring(events.EvaluatedResourceParentName),
+EvaluatedResourceDetails=todynamic(events.EvaluatedResourceDetails),
+Namespace=tostring(events.Namespace),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table MDCDetectionGatingValidationEvents policy update @'[{"Source": "MDCDetectionGatingValidationEventsRaw", "Query": "MDCDetectionGatingValidationEventsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

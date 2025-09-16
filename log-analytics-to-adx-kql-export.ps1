@@ -58,15 +58,12 @@ $tablesToExport = @(
     'GoogleCloudSCC',
     'SecurityEvent',
     'Syslog',
-    'WindowsEvent',
-    'OktaV2_CL',
-    'GCP_DNS_CL',
-    'ZeroFoxAlertPoller_CL'
+    'WindowsEvent'
 )
 
 # Output directories
 $outputDirectory = $PSScriptRoot
-$kqlDirectory = Join-Path $outputDirectory "kql-complete"
+$kqlDirectory = Join-Path $outputDirectory "kql-from-log-analytics"
 
 # ADX Configuration
 $rawTableRetention = "1d"

@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for CrowdStrike_Additional_Events_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:40
+// Generated: 2025-09-17 06:20:53
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 461, DCR columns: 461 (Type column filtered out)
+// Underscore columns included
+// Original columns: 461, DCR columns: 461 (Type column always filtered)
 // Output stream: Custom-CrowdStrike_Additional_Events_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================

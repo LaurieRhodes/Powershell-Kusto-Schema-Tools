@@ -1,0 +1,189 @@
+﻿{
+    "Name":  "ADFSSignInLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "CreatedDateTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "DeviceDetail",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsInteractive",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "Id",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IPAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NetworkLocationDetails",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OriginalRequestId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProcessingTimeInMs",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ConditionalAccessStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceDisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceTenantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Requirement",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Status",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TokenIssuerName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TokenIssuerType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UniqueTokenIdentifier",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserAgent",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserDisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceIdentity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ConditionalAccessPoliciesV2",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "ConditionalAccessPolicies",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AuthenticationRequirementPolicies",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultSignature",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DurationMs",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Identity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Level",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Location",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AlternateSignInName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppDisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AuthenticationDetails",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AuthenticationProcessingDetails",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AuthenticationRequirement",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserPrincipalName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

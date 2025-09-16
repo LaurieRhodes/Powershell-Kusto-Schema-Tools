@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_smb_files_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:38
+// Generated: 2025-09-17 06:20:51
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 23, DCR columns: 20 (Type column filtered out)
+// Underscore columns included
+// Original columns: 23, DCR columns: 23 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_smb_files_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -35,7 +36,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ts_t'
+            name: '_path_s'
             type: 'string'
           }
           {
@@ -67,11 +68,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'data_len_req_d'
+            name: 'name_s'
             type: 'string'
           }
           {
-            name: 'name_s'
+            name: 'path_s'
             type: 'string'
           }
           {
@@ -103,7 +104,19 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'path_s'
+            name: 'ts_t'
+            type: 'string'
+          }
+          {
+            name: '_write_ts_t'
+            type: 'string'
+          }
+          {
+            name: '_system_name_s'
+            type: 'string'
+          }
+          {
+            name: 'data_len_req_d'
             type: 'string'
           }
           {
@@ -126,7 +139,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_smb_files_CL']
         destinations: ['Sentinel-Corelight_v2_smb_files_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), data_offset_req_d = toreal(data_offset_req_d), times_changed_t = todatetime(times_changed_t), times_created_t = todatetime(times_created_t), times_accessed_t = todatetime(times_accessed_t), times_modified_t = todatetime(times_modified_t), prev_name_s = tostring(prev_name_s), size_d = toreal(size_d), data_len_req_d = toreal(data_len_req_d), name_s = tostring(name_s), action_s = tostring(action_s), fuid_s = tostring(fuid_s), id_resp_p_d = toreal(id_resp_p_d), id_resp_h_s = tostring(id_resp_h_s), id_orig_p_d = toreal(id_orig_p_d), id_orig_h_s = tostring(id_orig_h_s), uid_s = tostring(uid_s), path_s = tostring(path_s), data_len_rsp_d = toreal(data_len_rsp_d)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), data_offset_req_d = toreal(data_offset_req_d), times_changed_t = todatetime(times_changed_t), times_created_t = todatetime(times_created_t), times_accessed_t = todatetime(times_accessed_t), times_modified_t = todatetime(times_modified_t), prev_name_s = tostring(prev_name_s), size_d = toreal(size_d), name_s = tostring(name_s), path_s = tostring(path_s), action_s = tostring(action_s), fuid_s = tostring(fuid_s), id_resp_p_d = toreal(id_resp_p_d), id_resp_h_s = tostring(id_resp_h_s), id_orig_p_d = toreal(id_orig_p_d), id_orig_h_s = tostring(id_orig_h_s), uid_s = tostring(uid_s), ts_t = todatetime(ts_t), _write_ts_t = todatetime(_write_ts_t), _system_name_s = tostring(_system_name_s), data_len_req_d = toreal(data_len_req_d), data_len_rsp_d = toreal(data_len_rsp_d)'
         outputStream: 'Custom-Corelight_v2_smb_files_CL'
       }
     ]

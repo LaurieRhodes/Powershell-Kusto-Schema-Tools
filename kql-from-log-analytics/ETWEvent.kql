@@ -1,0 +1,77 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ETWEvent - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:24:26
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 21, Final columns: 21
+// ============================================================================
+
+.create-merge table ETWEventRaw (records:dynamic)
+
+.alter-merge table ETWEventRaw policy retention softdelete = 1d
+
+.alter table ETWEventRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ETWEventRaw ingestion json mapping 'ETWEventRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ETWEvent(
+TimeGenerated:datetime,
+TenantId:guid,
+Role:string,
+AzureDeploymentID:string,
+RowKey:string,
+ChannelName:string,
+TaskName:string,
+KeywordName:string,
+OpcodeName:string,
+EventMessage:string,
+Tid:int,
+EventId:int,
+EventSourceName:string,
+ProviderGuid:guid,
+Level:string,
+Computer:string,
+PartitionKey:string,
+SourceSystem:string,
+Pid:int,
+Message:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table ETWEvent policy caching hot = 1d
+
+.create-or-alter function ETWEventExpand() {
+ETWEventRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Role=tostring(events.Role),
+AzureDeploymentID=tostring(events.AzureDeploymentID),
+RowKey=tostring(events.RowKey),
+ChannelName=tostring(events.ChannelName),
+TaskName=tostring(events.TaskName),
+KeywordName=tostring(events.KeywordName),
+OpcodeName=tostring(events.OpcodeName),
+EventMessage=tostring(events.EventMessage),
+Tid=toint(events.Tid),
+EventId=toint(events.EventId),
+EventSourceName=tostring(events.EventSourceName),
+ProviderGuid=toguid(events.ProviderGuid),
+Level=tostring(events.Level),
+Computer=tostring(events.Computer),
+PartitionKey=tostring(events.PartitionKey),
+SourceSystem=tostring(events.SourceSystem),
+Pid=toint(events.Pid),
+Message=tostring(events.Message),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ETWEvent policy update @'[{"Source": "ETWEventRaw", "Query": "ETWEventExpand()", "IsEnabled": "True", "IsTransactional": true}]'

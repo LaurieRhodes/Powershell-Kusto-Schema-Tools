@@ -1,0 +1,69 @@
+﻿{
+    "Name":  "AADRiskyServicePrincipals",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "AccountEnabled",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "AppId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Id",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsProcessing",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "RiskDetail",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RiskLastUpdatedDateTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "RiskLevel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RiskState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServicePrincipalType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

@@ -1,0 +1,73 @@
+﻿{
+    "Name":  "WVDFeeds",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientOS",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientSideIPAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RDPTotal",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "RDPFail",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "IconTotal",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "IconFail",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "IsClientPrivateLink",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AadTenantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

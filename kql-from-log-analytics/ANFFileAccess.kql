@@ -1,0 +1,73 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ANFFileAccess - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:17:53
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 19, Final columns: 19
+// ============================================================================
+
+.create-merge table ANFFileAccessRaw (records:dynamic)
+
+.alter-merge table ANFFileAccessRaw policy retention softdelete = 1d
+
+.alter table ANFFileAccessRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ANFFileAccessRaw ingestion json mapping 'ANFFileAccessRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ANFFileAccess(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationTime:datetime,
+Category:string,
+OperationName:string,
+OperationVersion:string,
+SchemaVersion:string,
+ResultType:string,
+CallerIpAddress:string,
+Location:string,
+Level:string,
+ObjectName:string,
+SubjectUnix:string,
+IsUserLocal:bool,
+ObjectType:string,
+Properties:dynamic,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ANFFileAccess policy caching hot = 1d
+
+.create-or-alter function ANFFileAccessExpand() {
+ANFFileAccessRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationTime=todatetime(events.OperationTime),
+Category=tostring(events.Category),
+OperationName=tostring(events.OperationName),
+OperationVersion=tostring(events.OperationVersion),
+SchemaVersion=tostring(events.SchemaVersion),
+ResultType=tostring(events.ResultType),
+CallerIpAddress=tostring(events.CallerIpAddress),
+Location=tostring(events.Location),
+Level=tostring(events.Level),
+ObjectName=tostring(events.ObjectName),
+SubjectUnix=tostring(events.SubjectUnix),
+IsUserLocal=tobool(events.IsUserLocal),
+ObjectType=tostring(events.ObjectType),
+Properties=todynamic(events.Properties),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ANFFileAccess policy update @'[{"Source": "ANFFileAccessRaw", "Query": "ANFFileAccessExpand()", "IsEnabled": "True", "IsTransactional": true}]'

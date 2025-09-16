@@ -1,0 +1,153 @@
+﻿{
+    "Name":  "NSPAccessLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "RuleType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultAction",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultDirection",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccessRuleVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationPhoneNumber",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationEmailAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationProtocol",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationPort",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationParameters",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationFqdn",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceParameters",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceAppId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourcePerimeterGuids",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceProtocol",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourcePort",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceIpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TimeGeneratedEndTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Count",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Location",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TrafficType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Parameters",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServiceResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServiceFqdn",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MatchedRule",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Profile",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

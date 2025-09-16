@@ -1,0 +1,73 @@
+﻿{
+    "Name":  "PowerPlatformAdminActivity",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "EventOriginalUid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecordType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventOriginalType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OrganizationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActorUserType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActorUserId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventResult",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActorName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Workload",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PropertyCollection",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Properties",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "EnvironmentId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequiresCustomerKeyEncryption",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

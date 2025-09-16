@@ -1,0 +1,85 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ABAPTableDataLog - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:14:51
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 25, Final columns: 25
+// ============================================================================
+
+.create-merge table ABAPTableDataLogRaw (records:dynamic)
+
+.alter-merge table ABAPTableDataLogRaw policy retention softdelete = 1d
+
+.alter table ABAPTableDataLogRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ABAPTableDataLogRaw ingestion json mapping 'ABAPTableDataLogRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ABAPTableDataLog(
+TimeGenerated:datetime,
+TenantId:guid,
+OldValue:string,
+TableField:string,
+TableName:string,
+Language:string,
+VersionNumber:string,
+OperationTypeSQL:string,
+Program:string,
+TransactionCode:string,
+Host:string,
+NewValue:string,
+LogKey:string,
+AgentId:string,
+SystemUniqueId:string,
+SystemRole:string,
+User:string,
+ClientId:string,
+Instance:string,
+SystemNumber:string,
+SystemId:string,
+UpdatedOn:datetime,
+DBLogId:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table ABAPTableDataLog policy caching hot = 1d
+
+.create-or-alter function ABAPTableDataLogExpand() {
+ABAPTableDataLogRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OldValue=tostring(events.OldValue),
+TableField=tostring(events.TableField),
+TableName=tostring(events.TableName),
+Language=tostring(events.Language),
+VersionNumber=tostring(events.VersionNumber),
+OperationTypeSQL=tostring(events.OperationTypeSQL),
+Program=tostring(events.Program),
+TransactionCode=tostring(events.TransactionCode),
+Host=tostring(events.Host),
+NewValue=tostring(events.NewValue),
+LogKey=tostring(events.LogKey),
+AgentId=tostring(events.AgentId),
+SystemUniqueId=tostring(events.SystemUniqueId),
+SystemRole=tostring(events.SystemRole),
+User=tostring(events.User),
+ClientId=tostring(events.ClientId),
+Instance=tostring(events.Instance),
+SystemNumber=tostring(events.SystemNumber),
+SystemId=tostring(events.SystemId),
+UpdatedOn=todatetime(events.UpdatedOn),
+DBLogId=tostring(events.DBLogId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ABAPTableDataLog policy update @'[{"Source": "ABAPTableDataLogRaw", "Query": "ABAPTableDataLogExpand()", "IsEnabled": "True", "IsTransactional": true}]'

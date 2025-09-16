@@ -1,0 +1,101 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for Dynamics365Activity - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:24:06
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 33, Final columns: 33
+// ============================================================================
+
+.create-merge table Dynamics365ActivityRaw (records:dynamic)
+
+.alter-merge table Dynamics365ActivityRaw policy retention softdelete = 1d
+
+.alter table Dynamics365ActivityRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table Dynamics365ActivityRaw ingestion json mapping 'Dynamics365ActivityRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table Dynamics365Activity(
+TimeGenerated:datetime,
+TenantId:guid,
+SystemUserId:string,
+ServiceName:string,
+ServiceContextIdType:string,
+ServiceContextId:string,
+QueryResults:dynamic,
+Query:string,
+Fields:dynamic,
+EntityName:string,
+EntityId:guid,
+Message:string,
+ItemType:string,
+ItemUrl:string,
+InstanceUrl:string,
+CrmOrganizationUniqueName:string,
+CorrelationId:string,
+ClientIP:string,
+UserId:string,
+OriginalObjectId:string,
+ResultStatus:string,
+RecordType:string,
+OfficeWorkload:string,
+UserKey:string,
+UserType:string,
+OrganizationId:guid,
+Operation:string,
+UserAgent:string,
+SourceRecordId:guid,
+SourceSystem:string,
+Scope:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table Dynamics365Activity policy caching hot = 1d
+
+.create-or-alter function Dynamics365ActivityExpand() {
+Dynamics365ActivityRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SystemUserId=tostring(events.SystemUserId),
+ServiceName=tostring(events.ServiceName),
+ServiceContextIdType=tostring(events.ServiceContextIdType),
+ServiceContextId=tostring(events.ServiceContextId),
+QueryResults=todynamic(events.QueryResults),
+Query=tostring(events.Query),
+Fields=todynamic(events.Fields),
+EntityName=tostring(events.EntityName),
+EntityId=toguid(events.EntityId),
+Message=tostring(events.Message),
+ItemType=tostring(events.ItemType),
+ItemUrl=tostring(events.ItemUrl),
+InstanceUrl=tostring(events.InstanceUrl),
+CrmOrganizationUniqueName=tostring(events.CrmOrganizationUniqueName),
+CorrelationId=tostring(events.CorrelationId),
+ClientIP=tostring(events.ClientIP),
+UserId=tostring(events.UserId),
+OriginalObjectId=tostring(events.OriginalObjectId),
+ResultStatus=tostring(events.ResultStatus),
+RecordType=tostring(events.RecordType),
+OfficeWorkload=tostring(events.OfficeWorkload),
+UserKey=tostring(events.UserKey),
+UserType=tostring(events.UserType),
+OrganizationId=toguid(events.OrganizationId),
+Operation=tostring(events.Operation),
+UserAgent=tostring(events.UserAgent),
+SourceRecordId=toguid(events.SourceRecordId),
+SourceSystem=tostring(events.SourceSystem),
+Scope=tostring(events.Scope),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table Dynamics365Activity policy update @'[{"Source": "Dynamics365ActivityRaw", "Query": "Dynamics365ActivityExpand()", "IsEnabled": "True", "IsTransactional": true}]'

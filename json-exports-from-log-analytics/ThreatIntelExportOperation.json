@@ -1,0 +1,65 @@
+﻿{
+    "Name":  "ThreatIntelExportOperation",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "TimeExported",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Id",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "StixId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExportedBy",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExportDuration",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ExportId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ExportType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Status",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ErrorDetails",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationInfo",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

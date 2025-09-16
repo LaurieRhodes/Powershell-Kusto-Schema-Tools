@@ -1,0 +1,77 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AgriFoodJobProcessedLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:16:47
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 21, Final columns: 21
+// ============================================================================
+
+.create-merge table AgriFoodJobProcessedLogsRaw (records:dynamic)
+
+.alter-merge table AgriFoodJobProcessedLogsRaw policy retention softdelete = 1d
+
+.alter table AgriFoodJobProcessedLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AgriFoodJobProcessedLogsRaw ingestion json mapping 'AgriFoodJobProcessedLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AgriFoodJobProcessedLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+ClientTenantId:string,
+ObjectId:string,
+ApplicationId:string,
+DurationMs:real,
+CorrelationId:string,
+Location:string,
+ResultDescription:string,
+ResultType:string,
+Level:string,
+InitiatedBy:string,
+JobRunType:string,
+FarmerId:string,
+JobId:string,
+OperationName:string,
+Category:string,
+Properties:dynamic,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AgriFoodJobProcessedLogs policy caching hot = 1d
+
+.create-or-alter function AgriFoodJobProcessedLogsExpand() {
+AgriFoodJobProcessedLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ClientTenantId=tostring(events.ClientTenantId),
+ObjectId=tostring(events.ObjectId),
+ApplicationId=tostring(events.ApplicationId),
+DurationMs=toreal(events.DurationMs),
+CorrelationId=tostring(events.CorrelationId),
+Location=tostring(events.Location),
+ResultDescription=tostring(events.ResultDescription),
+ResultType=tostring(events.ResultType),
+Level=tostring(events.Level),
+InitiatedBy=tostring(events.InitiatedBy),
+JobRunType=tostring(events.JobRunType),
+FarmerId=tostring(events.FarmerId),
+JobId=tostring(events.JobId),
+OperationName=tostring(events.OperationName),
+Category=tostring(events.Category),
+Properties=todynamic(events.Properties),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AgriFoodJobProcessedLogs policy update @'[{"Source": "AgriFoodJobProcessedLogsRaw", "Query": "AgriFoodJobProcessedLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,61 @@
+﻿{
+    "Name":  "ContainerLogV2",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ContainerId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ContainerName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PodName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PodNamespace",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LogMessage",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "LogSource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "KubernetesMetadata",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "LogLevel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

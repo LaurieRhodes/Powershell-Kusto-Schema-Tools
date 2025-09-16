@@ -1,0 +1,85 @@
+﻿{
+    "Name":  "FileMaliciousContentInfo",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "FileCreationTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "LastModifiedTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "DetectionMethods",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ThreatNames",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ThreatTypes",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DocumentID",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LastModifyingAccountUpn",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileOwnerUpn",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileOwnerDisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SHA256",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileSize",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "FolderPath",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Workload",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Timestamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ReportId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

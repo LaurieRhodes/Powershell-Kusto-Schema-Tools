@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for SophosEPAlerts_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:50
+// Generated: 2025-09-17 06:21:03
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 18, DCR columns: 18 (Type column filtered out)
+// Underscore columns included
+// Original columns: 18, DCR columns: 18 (Type column always filtered)
 // Output stream: Custom-SophosEPAlerts_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================

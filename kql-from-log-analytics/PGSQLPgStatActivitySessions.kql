@@ -1,0 +1,85 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for PGSQLPgStatActivitySessions - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:28:21
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 25, Final columns: 25
+// ============================================================================
+
+.create-merge table PGSQLPgStatActivitySessionsRaw (records:dynamic)
+
+.alter-merge table PGSQLPgStatActivitySessionsRaw policy retention softdelete = 1d
+
+.alter table PGSQLPgStatActivitySessionsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table PGSQLPgStatActivitySessionsRaw ingestion json mapping 'PGSQLPgStatActivitySessionsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table PGSQLPgStatActivitySessions(
+TimeGenerated:datetime,
+TenantId:guid,
+BackendType:string,
+OldestTransactionId:long,
+TransactionId:long,
+CollectionTime:datetime,
+StateChangeTime:datetime,
+QueryStartTime:datetime,
+TransactionStartTime:datetime,
+BackendStartTime:datetime,
+WaitEvent:string,
+WaitEventType:string,
+State:string,
+ClientIpAddress:string,
+ApplicationName:string,
+UserId:int,
+ProcessId:int,
+DatabaseName:string,
+DatabaseId:int,
+ReplicaRole:string,
+LogicalServerName:string,
+Location:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table PGSQLPgStatActivitySessions policy caching hot = 1d
+
+.create-or-alter function PGSQLPgStatActivitySessionsExpand() {
+PGSQLPgStatActivitySessionsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+BackendType=tostring(events.BackendType),
+OldestTransactionId=tolong(events.OldestTransactionId),
+TransactionId=tolong(events.TransactionId),
+CollectionTime=todatetime(events.CollectionTime),
+StateChangeTime=todatetime(events.StateChangeTime),
+QueryStartTime=todatetime(events.QueryStartTime),
+TransactionStartTime=todatetime(events.TransactionStartTime),
+BackendStartTime=todatetime(events.BackendStartTime),
+WaitEvent=tostring(events.WaitEvent),
+WaitEventType=tostring(events.WaitEventType),
+State=tostring(events.State),
+ClientIpAddress=tostring(events.ClientIpAddress),
+ApplicationName=tostring(events.ApplicationName),
+UserId=toint(events.UserId),
+ProcessId=toint(events.ProcessId),
+DatabaseName=tostring(events.DatabaseName),
+DatabaseId=toint(events.DatabaseId),
+ReplicaRole=tostring(events.ReplicaRole),
+LogicalServerName=tostring(events.LogicalServerName),
+Location=tostring(events.Location),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table PGSQLPgStatActivitySessions policy update @'[{"Source": "PGSQLPgStatActivitySessionsRaw", "Query": "PGSQLPgStatActivitySessionsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

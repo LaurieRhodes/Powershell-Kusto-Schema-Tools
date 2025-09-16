@@ -1,0 +1,69 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ASRv2HealthEvents - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:19:10
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 17, Final columns: 17
+// ============================================================================
+
+.create-merge table ASRv2HealthEventsRaw (records:dynamic)
+
+.alter-merge table ASRv2HealthEventsRaw policy retention softdelete = 1d
+
+.alter table ASRv2HealthEventsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ASRv2HealthEventsRaw ingestion json mapping 'ASRv2HealthEventsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ASRv2HealthEvents(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+Category:string,
+CorrelationId:string,
+AffectedResourceId:string,
+AffectedResourceName:string,
+EventType:string,
+EventName:string,
+TimeOfOccurrence:datetime,
+EventSeverity:string,
+HealthErrors:dynamic,
+LogId:string,
+Version:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ASRv2HealthEvents policy caching hot = 1d
+
+.create-or-alter function ASRv2HealthEventsExpand() {
+ASRv2HealthEventsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+Category=tostring(events.Category),
+CorrelationId=tostring(events.CorrelationId),
+AffectedResourceId=tostring(events.AffectedResourceId),
+AffectedResourceName=tostring(events.AffectedResourceName),
+EventType=tostring(events.EventType),
+EventName=tostring(events.EventName),
+TimeOfOccurrence=todatetime(events.TimeOfOccurrence),
+EventSeverity=tostring(events.EventSeverity),
+HealthErrors=todynamic(events.HealthErrors),
+LogId=tostring(events.LogId),
+Version=tostring(events.Version),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ASRv2HealthEvents policy update @'[{"Source": "ASRv2HealthEventsRaw", "Query": "ASRv2HealthEventsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

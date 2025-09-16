@@ -1,0 +1,75 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AutoscaleScaleActionsLog - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:19:23
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 20, Final columns: 20
+// ============================================================================
+
+.create-merge table AutoscaleScaleActionsLogRaw (records:dynamic)
+
+.alter-merge table AutoscaleScaleActionsLogRaw policy retention softdelete = 1d
+
+.alter table AutoscaleScaleActionsLogRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AutoscaleScaleActionsLogRaw ingestion json mapping 'AutoscaleScaleActionsLogRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AutoscaleScaleActionsLog(
+TimeGenerated:datetime,
+TenantId:guid,
+ScaleActionOperationId:string,
+ScaleActionMessage:string,
+NewInstanceCount:int,
+CurrentInstanceCount:int,
+CreatedAsyncScaleActionJobId:string,
+CreatedAsyncScaleActionJob:bool,
+ScaleActionOperationStatus:string,
+TargetResourceId:string,
+ResultDescription:string,
+ResultType:string,
+Category:string,
+OperationName:string,
+ResourceId:string,
+SourceSystem:string,
+CorrelationId:string,
+ScaleDirection:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AutoscaleScaleActionsLog policy caching hot = 1d
+
+.create-or-alter function AutoscaleScaleActionsLogExpand() {
+AutoscaleScaleActionsLogRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ScaleActionOperationId=tostring(events.ScaleActionOperationId),
+ScaleActionMessage=tostring(events.ScaleActionMessage),
+NewInstanceCount=toint(events.NewInstanceCount),
+CurrentInstanceCount=toint(events.CurrentInstanceCount),
+CreatedAsyncScaleActionJobId=tostring(events.CreatedAsyncScaleActionJobId),
+CreatedAsyncScaleActionJob=tobool(events.CreatedAsyncScaleActionJob),
+ScaleActionOperationStatus=tostring(events.ScaleActionOperationStatus),
+TargetResourceId=tostring(events.TargetResourceId),
+ResultDescription=tostring(events.ResultDescription),
+ResultType=tostring(events.ResultType),
+Category=tostring(events.Category),
+OperationName=tostring(events.OperationName),
+ResourceId=tostring(events.ResourceId),
+SourceSystem=tostring(events.SourceSystem),
+CorrelationId=tostring(events.CorrelationId),
+ScaleDirection=tostring(events.ScaleDirection),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AutoscaleScaleActionsLog policy update @'[{"Source": "AutoscaleScaleActionsLogRaw", "Query": "AutoscaleScaleActionsLogExpand()", "IsEnabled": "True", "IsTransactional": true}]'

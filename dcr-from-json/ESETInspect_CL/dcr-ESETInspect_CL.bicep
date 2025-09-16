@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for ESETInspect_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:41
+// Generated: 2025-09-17 06:20:54
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 40, DCR columns: 38 (Type column filtered out)
+// Underscore columns included
+// Original columns: 40, DCR columns: 39 (Type column always filtered)
 // Output stream: Custom-ESETInspect_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -103,11 +104,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'type_s'
+            name: 'moduleLgAge_d'
             type: 'string'
           }
           {
-            name: 'moduleLgAge_d'
+            name: 'moduleLastExecutedLocally_t'
             type: 'string'
           }
           {
@@ -135,15 +136,19 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
+            name: '_ResourceId'
+            type: 'string'
+          }
+          {
             name: 'Severity'
             type: 'string'
           }
           {
-            name: 'TableName'
+            name: 'type_s'
             type: 'string'
           }
           {
-            name: 'computerId_d'
+            name: 'TableName'
             type: 'string'
           }
           {
@@ -175,7 +180,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'moduleLastExecutedLocally_t'
+            name: 'computerId_d'
             type: 'string'
           }
           {
@@ -198,7 +203,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-ESETInspect_CL']
         destinations: ['Sentinel-ESETInspect_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), moduleLgReputation_d = toreal(moduleLgReputation_d), moduleName_s = tostring(moduleName_s), moduleSha1_s = tostring(moduleSha1_s), moduleSignatureType_s = tostring(moduleSignatureType_s), moduleSigner_s = tostring(moduleSigner_s), priority_d = toreal(priority_d), processCommandLine_s = tostring(processCommandLine_s), processId_d = toreal(processId_d), processPath_s = tostring(processPath_s), processUser_s = tostring(processUser_s), resolved_b = tobool(resolved_b), ruleName_s = tostring(ruleName_s), severityScore_d = toreal(severityScore_d), threatName_s = tostring(threatName_s), threatUri_s = tostring(threatUri_s), moduleLgPopularity_d = toreal(moduleLgPopularity_d), type_s = tostring(type_s), moduleLgAge_d = toreal(moduleLgAge_d), moduleId_d = toreal(moduleId_d), SourceSystem = tostring(SourceSystem), Computer = tostring(Computer), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), RawData = tostring(RawData), Severity = tostring(Severity), TableName = tostring(TableName), computerId_d = toreal(computerId_d), computerName_s = tostring(computerName_s), computerUuid_g = tostring(computerUuid_g), creationTime_t = todatetime(creationTime_t), deepLink_s = tostring(deepLink_s), handled_d = toreal(handled_d), id_d = toreal(id_d), moduleFirstSeenLocally_t = tostring(moduleFirstSeenLocally_t), moduleLastExecutedLocally_t = tostring(moduleLastExecutedLocally_t), uuid_g = tostring(uuid_g)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), moduleLgReputation_d = toreal(moduleLgReputation_d), moduleName_s = tostring(moduleName_s), moduleSha1_s = tostring(moduleSha1_s), moduleSignatureType_s = tostring(moduleSignatureType_s), moduleSigner_s = tostring(moduleSigner_s), priority_d = toreal(priority_d), processCommandLine_s = tostring(processCommandLine_s), processId_d = toreal(processId_d), processPath_s = tostring(processPath_s), processUser_s = tostring(processUser_s), resolved_b = tobool(resolved_b), ruleName_s = tostring(ruleName_s), severityScore_d = toreal(severityScore_d), threatName_s = tostring(threatName_s), threatUri_s = tostring(threatUri_s), moduleLgPopularity_d = toreal(moduleLgPopularity_d), moduleLgAge_d = toreal(moduleLgAge_d), moduleLastExecutedLocally_t = tostring(moduleLastExecutedLocally_t), moduleId_d = toreal(moduleId_d), SourceSystem = tostring(SourceSystem), Computer = tostring(Computer), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), RawData = tostring(RawData), _ResourceId = tostring(_ResourceId), Severity = tostring(Severity), type_s = tostring(type_s), TableName = tostring(TableName), computerName_s = tostring(computerName_s), computerUuid_g = tostring(computerUuid_g), creationTime_t = todatetime(creationTime_t), deepLink_s = tostring(deepLink_s), handled_d = toreal(handled_d), id_d = toreal(id_d), moduleFirstSeenLocally_t = tostring(moduleFirstSeenLocally_t), computerId_d = toreal(computerId_d), uuid_g = tostring(uuid_g)'
         outputStream: 'Custom-ESETInspect_CL'
       }
     ]

@@ -1,0 +1,83 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for GKEControllerManager - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:24:56
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 24, Final columns: 24
+// ============================================================================
+
+.create-merge table GKEControllerManagerRaw (records:dynamic)
+
+.alter-merge table GKEControllerManagerRaw policy retention softdelete = 1d
+
+.alter table GKEControllerManagerRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table GKEControllerManagerRaw ingestion json mapping 'GKEControllerManagerRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table GKEControllerManager(
+TimeGenerated:datetime,
+TenantId:guid,
+Duration:string,
+Key:string,
+Kind:string,
+Logger:string,
+ComputeResourceName:string,
+ProjectID:string,
+Location:string,
+ComponentName:string,
+ComponentLocation:string,
+ClusterName:string,
+ReceiveTimestamp:datetime,
+SourceLine:string,
+SourceFile:string,
+Severity:string,
+Pid:string,
+LogName:string,
+Labels:dynamic,
+Message:string,
+InsertId:string,
+SyncStatus:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table GKEControllerManager policy caching hot = 1d
+
+.create-or-alter function GKEControllerManagerExpand() {
+GKEControllerManagerRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Duration=tostring(events.Duration),
+Key=tostring(events.Key),
+Kind=tostring(events.Kind),
+Logger=tostring(events.Logger),
+ComputeResourceName=tostring(events.ComputeResourceName),
+ProjectID=tostring(events.ProjectID),
+Location=tostring(events.Location),
+ComponentName=tostring(events.ComponentName),
+ComponentLocation=tostring(events.ComponentLocation),
+ClusterName=tostring(events.ClusterName),
+ReceiveTimestamp=todatetime(events.ReceiveTimestamp),
+SourceLine=tostring(events.SourceLine),
+SourceFile=tostring(events.SourceFile),
+Severity=tostring(events.Severity),
+Pid=tostring(events.Pid),
+LogName=tostring(events.LogName),
+Labels=todynamic(events.Labels),
+Message=tostring(events.Message),
+InsertId=tostring(events.InsertId),
+SyncStatus=tostring(events.SyncStatus),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table GKEControllerManager policy update @'[{"Source": "GKEControllerManagerRaw", "Query": "GKEControllerManagerExpand()", "IsEnabled": "True", "IsTransactional": true}]'

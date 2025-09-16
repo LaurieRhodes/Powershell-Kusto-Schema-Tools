@@ -1,0 +1,101 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for MicrosoftGraphActivityLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:26:52
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 33, Final columns: 33
+// ============================================================================
+
+.create-merge table MicrosoftGraphActivityLogsRaw (records:dynamic)
+
+.alter-merge table MicrosoftGraphActivityLogsRaw policy retention softdelete = 1d
+
+.alter table MicrosoftGraphActivityLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table MicrosoftGraphActivityLogsRaw ingestion json mapping 'MicrosoftGraphActivityLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table MicrosoftGraphActivityLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+ATContentH:string,
+ATContent:string,
+Wids:string,
+ClientAuthMethod:int,
+IdentityProvider:string,
+Scopes:string,
+ServicePrincipalId:string,
+UserId:string,
+AppId:string,
+TokenIssuedAt:datetime,
+UniqueTokenId:string,
+DeviceId:string,
+SessionId:string,
+ATContentP:string,
+Roles:string,
+ResponseSizeBytes:int,
+DurationMs:int,
+RequestUri:string,
+UserAgent:string,
+IPAddress:string,
+AadTenantId:string,
+ResponseStatusCode:int,
+RequestMethod:string,
+ApiVersion:string,
+ClientRequestId:string,
+OperationId:string,
+RequestId:string,
+Location:string,
+SignInActivityId:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table MicrosoftGraphActivityLogs policy caching hot = 1d
+
+.create-or-alter function MicrosoftGraphActivityLogsExpand() {
+MicrosoftGraphActivityLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ATContentH=tostring(events.ATContentH),
+ATContent=tostring(events.ATContent),
+Wids=tostring(events.Wids),
+ClientAuthMethod=toint(events.ClientAuthMethod),
+IdentityProvider=tostring(events.IdentityProvider),
+Scopes=tostring(events.Scopes),
+ServicePrincipalId=tostring(events.ServicePrincipalId),
+UserId=tostring(events.UserId),
+AppId=tostring(events.AppId),
+TokenIssuedAt=todatetime(events.TokenIssuedAt),
+UniqueTokenId=tostring(events.UniqueTokenId),
+DeviceId=tostring(events.DeviceId),
+SessionId=tostring(events.SessionId),
+ATContentP=tostring(events.ATContentP),
+Roles=tostring(events.Roles),
+ResponseSizeBytes=toint(events.ResponseSizeBytes),
+DurationMs=toint(events.DurationMs),
+RequestUri=tostring(events.RequestUri),
+UserAgent=tostring(events.UserAgent),
+IPAddress=tostring(events.IPAddress),
+AadTenantId=tostring(events.AadTenantId),
+ResponseStatusCode=toint(events.ResponseStatusCode),
+RequestMethod=tostring(events.RequestMethod),
+ApiVersion=tostring(events.ApiVersion),
+ClientRequestId=tostring(events.ClientRequestId),
+OperationId=tostring(events.OperationId),
+RequestId=tostring(events.RequestId),
+Location=tostring(events.Location),
+SignInActivityId=tostring(events.SignInActivityId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table MicrosoftGraphActivityLogs policy update @'[{"Source": "MicrosoftGraphActivityLogsRaw", "Query": "MicrosoftGraphActivityLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

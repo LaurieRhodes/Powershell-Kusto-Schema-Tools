@@ -1,0 +1,129 @@
+﻿{
+    "Name":  "LAQueryLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "WorkspaceRegion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ScannedGB",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "IsBillableQuery",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "StatsRegionCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "StatsWorkspaceCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "StatsDataProcessedEnd",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "StatsDataProcessedStart",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "StatsDataProcessedKB",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "StatsCPUTimeMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ResponseDurationMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ResponseRowCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ResponseCode",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "RequestContextFilters",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "RequestContext",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "RequestTarget",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestClientApp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "QueryText",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "QueryTimeRangeEnd",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "QueryTimeRangeStart",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ConditionalDataAccess",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AADClientId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AADEmail",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AADTenantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AADObjectId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsWorkspaceInFailover",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

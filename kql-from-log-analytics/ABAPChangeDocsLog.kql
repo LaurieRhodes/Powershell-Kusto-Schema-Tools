@@ -1,0 +1,103 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ABAPChangeDocsLog - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:14:45
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 34, Final columns: 34
+// ============================================================================
+
+.create-merge table ABAPChangeDocsLogRaw (records:dynamic)
+
+.alter-merge table ABAPChangeDocsLogRaw policy retention softdelete = 1d
+
+.alter table ABAPChangeDocsLogRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ABAPChangeDocsLogRaw ingestion json mapping 'ABAPChangeDocsLogRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ABAPChangeDocsLog(
+TimeGenerated:datetime,
+TenantId:guid,
+ValueOld:string,
+ValueNew:string,
+UOMOld:string,
+UOMNew:string,
+ItemTypeOfChange:string,
+HeaderTypeOfChange:string,
+TransactionCode:string,
+TableName:string,
+PlannedChangeNumber:string,
+ObjectId:string,
+ObjectClass:string,
+Language:string,
+FlagText:string,
+FieldName:string,
+CurrencyKeyOld:string,
+CurrencyKeyNew:string,
+CreatedFromPlannedChange:string,
+ChangeNumber:string,
+ChangedTableKey:string,
+ActualChangeNumber:string,
+AgentId:string,
+SystemUniqueId:string,
+SystemRole:string,
+User:string,
+Instance:string,
+ClientId:string,
+SystemNumber:string,
+SystemId:string,
+UpdatedOn:datetime,
+Version:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table ABAPChangeDocsLog policy caching hot = 1d
+
+.create-or-alter function ABAPChangeDocsLogExpand() {
+ABAPChangeDocsLogRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ValueOld=tostring(events.ValueOld),
+ValueNew=tostring(events.ValueNew),
+UOMOld=tostring(events.UOMOld),
+UOMNew=tostring(events.UOMNew),
+ItemTypeOfChange=tostring(events.ItemTypeOfChange),
+HeaderTypeOfChange=tostring(events.HeaderTypeOfChange),
+TransactionCode=tostring(events.TransactionCode),
+TableName=tostring(events.TableName),
+PlannedChangeNumber=tostring(events.PlannedChangeNumber),
+ObjectId=tostring(events.ObjectId),
+ObjectClass=tostring(events.ObjectClass),
+Language=tostring(events.Language),
+FlagText=tostring(events.FlagText),
+FieldName=tostring(events.FieldName),
+CurrencyKeyOld=tostring(events.CurrencyKeyOld),
+CurrencyKeyNew=tostring(events.CurrencyKeyNew),
+CreatedFromPlannedChange=tostring(events.CreatedFromPlannedChange),
+ChangeNumber=tostring(events.ChangeNumber),
+ChangedTableKey=tostring(events.ChangedTableKey),
+ActualChangeNumber=tostring(events.ActualChangeNumber),
+AgentId=tostring(events.AgentId),
+SystemUniqueId=tostring(events.SystemUniqueId),
+SystemRole=tostring(events.SystemRole),
+User=tostring(events.User),
+Instance=tostring(events.Instance),
+ClientId=tostring(events.ClientId),
+SystemNumber=tostring(events.SystemNumber),
+SystemId=tostring(events.SystemId),
+UpdatedOn=todatetime(events.UpdatedOn),
+Version=tostring(events.Version),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ABAPChangeDocsLog policy update @'[{"Source": "ABAPChangeDocsLogRaw", "Query": "ABAPChangeDocsLogExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,65 @@
+﻿{
+    "Name":  "AEWComputePipelinesLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "EventName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExperimentWorkspaceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExperimentationGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExperimentId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExperimentStepId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FeatureId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AnalysisId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ScorecardId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AnalysisType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Properties",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

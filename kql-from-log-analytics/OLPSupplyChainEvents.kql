@@ -1,0 +1,61 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for OLPSupplyChainEvents - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:28:03
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 13, Final columns: 13
+// ============================================================================
+
+.create-merge table OLPSupplyChainEventsRaw (records:dynamic)
+
+.alter-merge table OLPSupplyChainEventsRaw policy retention softdelete = 1d
+
+.alter table OLPSupplyChainEventsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table OLPSupplyChainEventsRaw ingestion json mapping 'OLPSupplyChainEventsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table OLPSupplyChainEvents(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+CorrelationId:string,
+RequestId:string,
+DurationMs:real,
+EventId:string,
+EventBody:dynamic,
+EventType:string,
+SupplyChainResourceType:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table OLPSupplyChainEvents policy caching hot = 1d
+
+.create-or-alter function OLPSupplyChainEventsExpand() {
+OLPSupplyChainEventsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+CorrelationId=tostring(events.CorrelationId),
+RequestId=tostring(events.RequestId),
+DurationMs=toreal(events.DurationMs),
+EventId=tostring(events.EventId),
+EventBody=todynamic(events.EventBody),
+EventType=tostring(events.EventType),
+SupplyChainResourceType=tostring(events.SupplyChainResourceType),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table OLPSupplyChainEvents policy update @'[{"Source": "OLPSupplyChainEventsRaw", "Query": "OLPSupplyChainEventsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

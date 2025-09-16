@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_bacnet_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:33
+// Generated: 2025-09-17 06:20:46
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 15, DCR columns: 12 (Type column filtered out)
+// Underscore columns included
+// Original columns: 15, DCR columns: 15 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_bacnet_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -32,6 +33,18 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
         columns: [
           {
             name: 'TimeGenerated'
+            type: 'string'
+          }
+          {
+            name: '_path_s'
+            type: 'string'
+          }
+          {
+            name: '_system_name_s'
+            type: 'string'
+          }
+          {
+            name: '_write_ts_t'
             type: 'string'
           }
           {
@@ -94,7 +107,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_bacnet_CL']
         destinations: ['Sentinel-Corelight_v2_bacnet_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), uid_s = tostring(uid_s), id_orig_h_s = tostring(id_orig_h_s), id_orig_p_d = toreal(id_orig_p_d), id_resp_h_s = tostring(id_resp_h_s), id_resp_p_d = toreal(id_resp_p_d), bvlc_function_s = tostring(bvlc_function_s), bvlc_len_d = toreal(bvlc_len_d), apdu_type_s = tostring(apdu_type_s), service_choice_s = tostring(service_choice_s), data_s = tostring(data_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), _system_name_s = tostring(_system_name_s), _write_ts_t = todatetime(_write_ts_t), ts_t = todatetime(ts_t), uid_s = tostring(uid_s), id_orig_h_s = tostring(id_orig_h_s), id_orig_p_d = toreal(id_orig_p_d), id_resp_h_s = tostring(id_resp_h_s), id_resp_p_d = toreal(id_resp_p_d), bvlc_function_s = tostring(bvlc_function_s), bvlc_len_d = toreal(bvlc_len_d), apdu_type_s = tostring(apdu_type_s), service_choice_s = tostring(service_choice_s), data_s = tostring(data_s)'
         outputStream: 'Custom-Corelight_v2_bacnet_CL'
       }
     ]

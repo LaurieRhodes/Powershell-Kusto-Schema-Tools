@@ -1,0 +1,75 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for FileMaliciousContentInfo - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:24:29
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 20, Final columns: 20
+// ============================================================================
+
+.create-merge table FileMaliciousContentInfoRaw (records:dynamic)
+
+.alter-merge table FileMaliciousContentInfoRaw policy retention softdelete = 1d
+
+.alter table FileMaliciousContentInfoRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table FileMaliciousContentInfoRaw ingestion json mapping 'FileMaliciousContentInfoRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table FileMaliciousContentInfo(
+TimeGenerated:datetime,
+TenantId:guid,
+FileCreationTime:datetime,
+LastModifiedTime:datetime,
+DetectionMethods:string,
+ThreatNames:string,
+ThreatTypes:string,
+DocumentID:string,
+LastModifyingAccountUpn:string,
+FileOwnerUpn:string,
+FileOwnerDisplayName:string,
+SHA256:string,
+FileSize:long,
+FolderPath:string,
+FileName:string,
+Workload:string,
+Timestamp:datetime,
+ReportId:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table FileMaliciousContentInfo policy caching hot = 1d
+
+.create-or-alter function FileMaliciousContentInfoExpand() {
+FileMaliciousContentInfoRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+FileCreationTime=todatetime(events.FileCreationTime),
+LastModifiedTime=todatetime(events.LastModifiedTime),
+DetectionMethods=tostring(events.DetectionMethods),
+ThreatNames=tostring(events.ThreatNames),
+ThreatTypes=tostring(events.ThreatTypes),
+DocumentID=tostring(events.DocumentID),
+LastModifyingAccountUpn=tostring(events.LastModifyingAccountUpn),
+FileOwnerUpn=tostring(events.FileOwnerUpn),
+FileOwnerDisplayName=tostring(events.FileOwnerDisplayName),
+SHA256=tostring(events.SHA256),
+FileSize=tolong(events.FileSize),
+FolderPath=tostring(events.FolderPath),
+FileName=tostring(events.FileName),
+Workload=tostring(events.Workload),
+Timestamp=todatetime(events.Timestamp),
+ReportId=tostring(events.ReportId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table FileMaliciousContentInfo policy update @'[{"Source": "FileMaliciousContentInfoRaw", "Query": "FileMaliciousContentInfoExpand()", "IsEnabled": "True", "IsTransactional": true}]'

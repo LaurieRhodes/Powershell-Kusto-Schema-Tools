@@ -1,0 +1,113 @@
+﻿{
+    "Name":  "AddonAzureBackupAlerts",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "State",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SchemaVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecommendedAction",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProtectedContainerUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CountOfAlertsConsolidated",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "BackupManagementType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackupManagementServerUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackupItemUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AlertUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AlertType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AlertTimeToResolveInMinutes",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "AlertStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AlertSeverity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AlertRaisedOn",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AlertOccurrenceDateTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "AlertConsolidationStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AlertCode",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "StorageUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VaultUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

@@ -1,0 +1,109 @@
+﻿{
+    "Name":  "AADServicePrincipalRiskEvents",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "TokenIssuerType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Source",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServicePrincipalId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServicePrincipalDisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RiskState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RiskLevel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RiskEventType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RiskDetail",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Location",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "LastUpdatedDateTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "KeyIds",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "IpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Id",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DetectionTimingType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DetectedDateTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AdditionalInfo",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "ActivityDateTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Activity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

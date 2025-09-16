@@ -1,0 +1,81 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for UCDeviceAlert - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:30:53
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 23, Final columns: 23
+// ============================================================================
+
+.create-merge table UCDeviceAlertRaw (records:dynamic)
+
+.alter-merge table UCDeviceAlertRaw policy retention softdelete = 1d
+
+.alter table UCDeviceAlertRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table UCDeviceAlertRaw ingestion json mapping 'UCDeviceAlertRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table UCDeviceAlert(
+TimeGenerated:datetime,
+TenantId:guid,
+StartTime:datetime,
+URL:string,
+ErrorSymName:string,
+ErrorCode:string,
+AlertData:string,
+Recommendation:string,
+Description:string,
+AlertClassification:string,
+ResolvedTime:datetime,
+AlertRank:int,
+AlertSubtype:string,
+AlertType:string,
+DeviceName:string,
+SCCMClientId:string,
+AzureADDeviceId:string,
+AzureADTenantId:string,
+GlobalDeviceId:string,
+AlertId:string,
+AlertStatus:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table UCDeviceAlert policy caching hot = 1d
+
+.create-or-alter function UCDeviceAlertExpand() {
+UCDeviceAlertRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+StartTime=todatetime(events.StartTime),
+URL=tostring(events.URL),
+ErrorSymName=tostring(events.ErrorSymName),
+ErrorCode=tostring(events.ErrorCode),
+AlertData=tostring(events.AlertData),
+Recommendation=tostring(events.Recommendation),
+Description=tostring(events.Description),
+AlertClassification=tostring(events.AlertClassification),
+ResolvedTime=todatetime(events.ResolvedTime),
+AlertRank=toint(events.AlertRank),
+AlertSubtype=tostring(events.AlertSubtype),
+AlertType=tostring(events.AlertType),
+DeviceName=tostring(events.DeviceName),
+SCCMClientId=tostring(events.SCCMClientId),
+AzureADDeviceId=tostring(events.AzureADDeviceId),
+AzureADTenantId=tostring(events.AzureADTenantId),
+GlobalDeviceId=tostring(events.GlobalDeviceId),
+AlertId=tostring(events.AlertId),
+AlertStatus=tostring(events.AlertStatus),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table UCDeviceAlert policy update @'[{"Source": "UCDeviceAlertRaw", "Query": "UCDeviceAlertExpand()", "IsEnabled": "True", "IsTransactional": true}]'

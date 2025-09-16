@@ -1,0 +1,63 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AVNMRuleCollectionChange - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:19:29
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 14, Final columns: 14
+// ============================================================================
+
+.create-merge table AVNMRuleCollectionChangeRaw (records:dynamic)
+
+.alter-merge table AVNMRuleCollectionChangeRaw policy retention softdelete = 1d
+
+.alter table AVNMRuleCollectionChangeRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AVNMRuleCollectionChangeRaw ingestion json mapping 'AVNMRuleCollectionChangeRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AVNMRuleCollectionChange(
+TimeGenerated:datetime,
+TenantId:guid,
+Location:string,
+OperationName:string,
+CorrelationId:string,
+ResultType:string,
+LogLevel:string,
+Message:string,
+SelfDiagnosis:string,
+NetworkResourceIds:dynamic,
+AppliedRuleCollectionIds:dynamic,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AVNMRuleCollectionChange policy caching hot = 1d
+
+.create-or-alter function AVNMRuleCollectionChangeExpand() {
+AVNMRuleCollectionChangeRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Location=tostring(events.Location),
+OperationName=tostring(events.OperationName),
+CorrelationId=tostring(events.CorrelationId),
+ResultType=tostring(events.ResultType),
+LogLevel=tostring(events.LogLevel),
+Message=tostring(events.Message),
+SelfDiagnosis=tostring(events.SelfDiagnosis),
+NetworkResourceIds=todynamic(events.NetworkResourceIds),
+AppliedRuleCollectionIds=todynamic(events.AppliedRuleCollectionIds),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AVNMRuleCollectionChange policy update @'[{"Source": "AVNMRuleCollectionChangeRaw", "Query": "AVNMRuleCollectionChangeExpand()", "IsEnabled": "True", "IsTransactional": true}]'

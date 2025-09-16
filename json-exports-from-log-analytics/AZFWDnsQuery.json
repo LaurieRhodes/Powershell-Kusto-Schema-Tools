@@ -1,0 +1,89 @@
+﻿{
+    "Name":  "AZFWDnsQuery",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ErrorNumber",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "RequestDurationSecs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ResponseSize",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ResponseFlags",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResponseCode",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EDNS0BufferSize",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "DnssecOkBit",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "RequestSize",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Protocol",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "QueryName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "QueryClass",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "QueryType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "QueryId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SourcePort",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SourceIp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ErrorMessage",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

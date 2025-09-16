@@ -1,0 +1,153 @@
+﻿{
+    "Name":  "AppAvailabilityResults",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ItemCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SDKVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IKey",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceGUID",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientBrowser",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientCountryOrRegion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientStateOrProvince",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientCity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientOS",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientModel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppRoleInstance",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppRoleName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserAccountId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserAuthenticatedId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AvailabilityResultId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Name",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Location",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Success",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "Message",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DurationMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Properties",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ParentId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SyntheticSource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SessionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Measurements",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Id",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

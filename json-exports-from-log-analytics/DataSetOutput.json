@@ -1,0 +1,45 @@
+﻿{
+    "Name":  "DataSetOutput",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "DataSetRunId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RawData",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RawDataLabel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DataSourceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DataSetRunSeqNum",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

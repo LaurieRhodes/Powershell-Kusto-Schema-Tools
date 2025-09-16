@@ -1,0 +1,65 @@
+﻿{
+    "Name":  "DeviceTvmSoftwareInventory",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "DeviceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OSPlatform",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OSVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OSArchitecture",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SoftwareVendor",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SoftwareName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SoftwareVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EndOfSupportStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EndOfSupportDate",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ProductCodeCpe",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

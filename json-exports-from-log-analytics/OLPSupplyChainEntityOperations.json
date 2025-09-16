@@ -1,0 +1,81 @@
+﻿{
+    "Name":  "OLPSupplyChainEntityOperations",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestUri",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestMethod",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "HttpStatusCode",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DurationMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ClientTenantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientObjectId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientApplicationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestBody",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "ResponseBody",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "CustomRequestAttributes",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

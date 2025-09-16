@@ -1,0 +1,85 @@
+﻿{
+    "Name":  "MySqlSlowLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "EventClass",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Db",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ThreadId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ServerId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SqlText",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ReplicationSetRole",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InsertId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "RowsExamined",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "RowsSent",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Host",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LockDurationMs",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "QueryDurationMs",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "StartTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "LastInsertId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

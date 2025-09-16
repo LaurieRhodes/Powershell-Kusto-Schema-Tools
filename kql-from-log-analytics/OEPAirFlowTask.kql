@@ -1,0 +1,69 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for OEPAirFlowTask - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:27:42
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 17, Final columns: 17
+// ============================================================================
+
+.create-merge table OEPAirFlowTaskRaw (records:dynamic)
+
+.alter-merge table OEPAirFlowTaskRaw policy retention softdelete = 1d
+
+.alter table OEPAirFlowTaskRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table OEPAirFlowTaskRaw ingestion json mapping 'OEPAirFlowTaskRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table OEPAirFlowTask(
+TimeGenerated:datetime,
+TenantId:guid,
+Category:string,
+OperationName:string,
+LogLevel:string,
+DagName:string,
+DagTaskName:string,
+RunId:string,
+CodePath:string,
+TryNumber:string,
+Content:string,
+AdditionalLogContent:string,
+Location:string,
+CorrelationId:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table OEPAirFlowTask policy caching hot = 1d
+
+.create-or-alter function OEPAirFlowTaskExpand() {
+OEPAirFlowTaskRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Category=tostring(events.Category),
+OperationName=tostring(events.OperationName),
+LogLevel=tostring(events.LogLevel),
+DagName=tostring(events.DagName),
+DagTaskName=tostring(events.DagTaskName),
+RunId=tostring(events.RunId),
+CodePath=tostring(events.CodePath),
+TryNumber=tostring(events.TryNumber),
+Content=tostring(events.Content),
+AdditionalLogContent=tostring(events.AdditionalLogContent),
+Location=tostring(events.Location),
+CorrelationId=tostring(events.CorrelationId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table OEPAirFlowTask policy update @'[{"Source": "OEPAirFlowTaskRaw", "Query": "OEPAirFlowTaskExpand()", "IsEnabled": "True", "IsTransactional": true}]'

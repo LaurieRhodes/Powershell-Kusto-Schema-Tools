@@ -1,0 +1,473 @@
+﻿{
+    "Name":  "NTATopologyDetails",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "BackendAddressPool",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FloatingIpEnabled",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "BackendPort",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "FrontendPort",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "BackendIpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FrontendIpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SubnetRegion2",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SubnetRegion1",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Subnet2",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Subnet1",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VirtualAppliances",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "GatewaySubnet",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PublicFrontendIps",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PrivateFrontendIps",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppGatewayType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackendSubnets",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FrontendIps",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FrontendSubnets",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FrontendSubnet",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LoadBalancerType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UseRemoteGateways",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "AllowGatewayTransit",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "AllowForwardedTraffic",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "AllowVirtualNetworkAccess",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "VirtualNetwork2",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CircuitProvisioningState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VirtualNetwork1",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServiceProviderProperties",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SkuDetail",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PrivateEndpointResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EncryptionEnforcement",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EncryptionEnabled",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "VnetEncryptionSupported",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "Status",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ComponentType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Weight",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Path",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LocalPreference",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SecondaryNextHop",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PrimaryNextHop",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Network",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VlanId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SecondaryBytesOut",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "SecondaryBytesIn",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "PrimaryBytesOut",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "PrimaryBytesIn",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "State",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SecondaryPeerAddressPrefix",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SecondaryAzurePort",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PrimaryPeerAddressPrefix",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PrimaryAzurePort",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PeeringType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PeerAsn",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "AzureAsn",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ServiceProviderProvisioningState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PrivateLinkResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EgressBytesTransferred",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "RoutingWeight",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "VmssName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsVirtualAppliance",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "SubnetPrefixes",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VpnClientAddressPrefixes",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BgpEnabled",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "Sku",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VipAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VirtualSubnetwork",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "GatewayType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RouteTable",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Nsg",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AddressPrefixes",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Tags",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DiscoveryRegion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SubscriptionName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Subscription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureResourceType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Region",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Name",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MacAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SchemaVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TopologyVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TimeProcessed",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "SubType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Zones",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IngressBytesTransferred",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "Priority",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "PrivateIpAddresses",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ConnectionStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ConnectionType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "GatewayConnectionType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Peer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LocalNetworkGateway",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VirtualNetworkGateway2",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VirtualNetworkGateway1",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NextHopIp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NextHopType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RuleType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Direction",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Access",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationAddressPrefix",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceAddressPrefix",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationPortRange",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourcePortRange",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Protocol",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Description",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FlowLogStorageAccount",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsFlowEnabled",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "ApplicationGatewayBackendPools",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LoadBalancerBackendPools",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EnableIpForwarding",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "Subnetwork",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PublicIpAddresses",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VirtualMachine",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

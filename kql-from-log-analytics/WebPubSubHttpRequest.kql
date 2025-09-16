@@ -1,0 +1,67 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for WebPubSubHttpRequest - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:31:23
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 16, Final columns: 16
+// ============================================================================
+
+.create-merge table WebPubSubHttpRequestRaw (records:dynamic)
+
+.alter-merge table WebPubSubHttpRequestRaw policy retention softdelete = 1d
+
+.alter table WebPubSubHttpRequestRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table WebPubSubHttpRequestRaw ingestion json mapping 'WebPubSubHttpRequestRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table WebPubSubHttpRequest(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+Location:string,
+Level:string,
+CallerIpAddress:string,
+Message:string,
+Url:string,
+StatusCode:string,
+HttpMethod:string,
+DurationMs:string,
+Headers:string,
+TraceId:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table WebPubSubHttpRequest policy caching hot = 1d
+
+.create-or-alter function WebPubSubHttpRequestExpand() {
+WebPubSubHttpRequestRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+Location=tostring(events.Location),
+Level=tostring(events.Level),
+CallerIpAddress=tostring(events.CallerIpAddress),
+Message=tostring(events.Message),
+Url=tostring(events.Url),
+StatusCode=tostring(events.StatusCode),
+HttpMethod=tostring(events.HttpMethod),
+DurationMs=tostring(events.DurationMs),
+Headers=tostring(events.Headers),
+TraceId=tostring(events.TraceId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table WebPubSubHttpRequest policy update @'[{"Source": "WebPubSubHttpRequestRaw", "Query": "WebPubSubHttpRequestExpand()", "IsEnabled": "True", "IsTransactional": true}]'

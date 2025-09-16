@@ -1,0 +1,73 @@
+﻿{
+    "Name":  "KubeNodeInventory",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClusterName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClusterId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LastTransitionTimeReady",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Labels",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Status",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "KubeletVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "KubeProxyVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CreationTimeStamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "KubernetesProviderID",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperatingSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DockerVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

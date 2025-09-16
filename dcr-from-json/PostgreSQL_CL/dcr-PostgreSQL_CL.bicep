@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for PostgreSQL_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:47
+// Generated: 2025-09-17 06:21:00
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 10, DCR columns: 7 (Type column filtered out)
+// Underscore columns included
+// Original columns: 10, DCR columns: 9 (Type column always filtered)
 // Output stream: Custom-PostgreSQL_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -58,6 +59,14 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             name: 'RawData'
             type: 'string'
           }
+          {
+            name: '_ResourceId'
+            type: 'string'
+          }
+          {
+            name: '_ItemId'
+            type: 'string'
+          }
         ]
       }
     }
@@ -74,7 +83,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-PostgreSQL_CL']
         destinations: ['Sentinel-PostgreSQL_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), _ResourceId = tostring(_ResourceId), _ItemId = tostring(_ItemId)'
         outputStream: 'Custom-PostgreSQL_CL'
       }
     ]

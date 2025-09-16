@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_ftp_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:34
+// Generated: 2025-09-17 06:20:48
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 23, DCR columns: 20 (Type column filtered out)
+// Underscore columns included
+// Original columns: 23, DCR columns: 23 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_ftp_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -35,7 +36,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ts_t'
+            name: '_path_s'
             type: 'string'
           }
           {
@@ -67,11 +68,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'data_channel_resp_p_d'
+            name: 'arg_s'
             type: 'string'
           }
           {
-            name: 'arg_s'
+            name: 'command_s'
             type: 'string'
           }
           {
@@ -103,7 +104,19 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'command_s'
+            name: 'ts_t'
+            type: 'string'
+          }
+          {
+            name: '_write_ts_t'
+            type: 'string'
+          }
+          {
+            name: '_system_name_s'
+            type: 'string'
+          }
+          {
+            name: 'data_channel_resp_p_d'
             type: 'string'
           }
           {
@@ -126,7 +139,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_ftp_CL']
         destinations: ['Sentinel-Corelight_v2_ftp_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), data_channel_resp_h_s = tostring(data_channel_resp_h_s), data_channel_orig_h_s = tostring(data_channel_orig_h_s), data_channel_passive_b = tobool(data_channel_passive_b), reply_msg_s = tostring(reply_msg_s), reply_code_d = toreal(reply_code_d), file_size_d = toreal(file_size_d), mime_type_s = tostring(mime_type_s), data_channel_resp_p_d = toreal(data_channel_resp_p_d), arg_s = tostring(arg_s), password_s = tostring(password_s), user_s = tostring(user_s), id_resp_p_d = toreal(id_resp_p_d), id_resp_h_s = tostring(id_resp_h_s), id_orig_p_d = toreal(id_orig_p_d), id_orig_h_s = tostring(id_orig_h_s), uid_s = tostring(uid_s), command_s = tostring(command_s), fuid_s = tostring(fuid_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), data_channel_resp_h_s = tostring(data_channel_resp_h_s), data_channel_orig_h_s = tostring(data_channel_orig_h_s), data_channel_passive_b = tobool(data_channel_passive_b), reply_msg_s = tostring(reply_msg_s), reply_code_d = toreal(reply_code_d), file_size_d = toreal(file_size_d), mime_type_s = tostring(mime_type_s), arg_s = tostring(arg_s), command_s = tostring(command_s), password_s = tostring(password_s), user_s = tostring(user_s), id_resp_p_d = toreal(id_resp_p_d), id_resp_h_s = tostring(id_resp_h_s), id_orig_p_d = toreal(id_orig_p_d), id_orig_h_s = tostring(id_orig_h_s), uid_s = tostring(uid_s), ts_t = todatetime(ts_t), _write_ts_t = todatetime(_write_ts_t), _system_name_s = tostring(_system_name_s), data_channel_resp_p_d = toreal(data_channel_resp_p_d), fuid_s = tostring(fuid_s)'
         outputStream: 'Custom-Corelight_v2_ftp_CL'
       }
     ]

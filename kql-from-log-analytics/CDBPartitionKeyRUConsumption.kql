@@ -1,0 +1,63 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for CDBPartitionKeyRUConsumption - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:21:01
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 14, Final columns: 14
+// ============================================================================
+
+.create-merge table CDBPartitionKeyRUConsumptionRaw (records:dynamic)
+
+.alter-merge table CDBPartitionKeyRUConsumptionRaw policy retention softdelete = 1d
+
+.alter table CDBPartitionKeyRUConsumptionRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table CDBPartitionKeyRUConsumptionRaw ingestion json mapping 'CDBPartitionKeyRUConsumptionRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table CDBPartitionKeyRUConsumption(
+TimeGenerated:datetime,
+TenantId:guid,
+AccountName:string,
+ActivityId:string,
+PartitionKey:string,
+PartitionKeyRangeId:string,
+OperationName:string,
+RegionName:string,
+DatabaseName:string,
+CollectionName:string,
+RequestCharge:real,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table CDBPartitionKeyRUConsumption policy caching hot = 1d
+
+.create-or-alter function CDBPartitionKeyRUConsumptionExpand() {
+CDBPartitionKeyRUConsumptionRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+AccountName=tostring(events.AccountName),
+ActivityId=tostring(events.ActivityId),
+PartitionKey=tostring(events.PartitionKey),
+PartitionKeyRangeId=tostring(events.PartitionKeyRangeId),
+OperationName=tostring(events.OperationName),
+RegionName=tostring(events.RegionName),
+DatabaseName=tostring(events.DatabaseName),
+CollectionName=tostring(events.CollectionName),
+RequestCharge=toreal(events.RequestCharge),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table CDBPartitionKeyRUConsumption policy update @'[{"Source": "CDBPartitionKeyRUConsumptionRaw", "Query": "CDBPartitionKeyRUConsumptionExpand()", "IsEnabled": "True", "IsTransactional": true}]'

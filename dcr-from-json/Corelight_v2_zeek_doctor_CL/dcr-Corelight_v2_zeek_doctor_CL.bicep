@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_zeek_doctor_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:40
+// Generated: 2025-09-17 06:20:53
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 12, DCR columns: 9 (Type column filtered out)
+// Underscore columns included
+// Original columns: 12, DCR columns: 12 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_zeek_doctor_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -32,6 +33,18 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
         columns: [
           {
             name: 'TimeGenerated'
+            type: 'string'
+          }
+          {
+            name: '_path_s'
+            type: 'string'
+          }
+          {
+            name: '_system_name_s'
+            type: 'string'
+          }
+          {
+            name: '_write_ts_t'
             type: 'string'
           }
           {
@@ -82,7 +95,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_zeek_doctor_CL']
         destinations: ['Sentinel-Corelight_v2_zeek_doctor_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), node_s = tostring(node_s), check_s = tostring(check_s), total_d = toreal(total_d), hits_d = toreal(hits_d), total_delta_d = toreal(total_delta_d), hits_delta_d = toreal(hits_delta_d), percent_d = toreal(percent_d)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), _system_name_s = tostring(_system_name_s), _write_ts_t = todatetime(_write_ts_t), ts_t = todatetime(ts_t), node_s = tostring(node_s), check_s = tostring(check_s), total_d = toreal(total_d), hits_d = toreal(hits_d), total_delta_d = toreal(total_delta_d), hits_delta_d = toreal(hits_delta_d), percent_d = toreal(percent_d)'
         outputStream: 'Custom-Corelight_v2_zeek_doctor_CL'
       }
     ]

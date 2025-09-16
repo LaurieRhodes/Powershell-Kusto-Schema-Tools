@@ -1,0 +1,65 @@
+﻿{
+    "Name":  "SentinelHealth",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SentinelResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SentinelResourceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Status",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Description",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Reason",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "WorkspaceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SentinelResourceType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SentinelResourceKind",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecordId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExtendedProperties",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

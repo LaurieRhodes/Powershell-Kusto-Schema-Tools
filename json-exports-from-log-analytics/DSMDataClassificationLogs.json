@@ -1,0 +1,53 @@
+﻿{
+    "Name":  "DSMDataClassificationLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Uri",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Classification",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Classifications",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AssetType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AssetLastScanTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ClassificationDetails",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

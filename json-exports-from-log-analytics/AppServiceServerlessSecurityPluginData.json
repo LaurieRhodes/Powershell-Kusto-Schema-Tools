@@ -1,0 +1,57 @@
+﻿{
+    "Name":  "AppServiceServerlessSecurityPluginData",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SlSecRequestId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Sender",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PayloadType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Payload",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Index",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SlSecMetadata",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SlSecProps",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "MsgVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

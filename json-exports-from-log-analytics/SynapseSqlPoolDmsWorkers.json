@@ -1,0 +1,105 @@
+﻿{
+    "Name":  "SynapseSqlPoolDmsWorkers",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SourceInfo",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ErrorId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DmsCpuId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SqlSpId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "CpuTime",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "EndTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "StartTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "RowsProcessed",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "BytesProcessed",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Status",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DistributionId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "PdwNodeId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "DmsStepIndex",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "StepIndex",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "RequestId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LogicalServerName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationInfo",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

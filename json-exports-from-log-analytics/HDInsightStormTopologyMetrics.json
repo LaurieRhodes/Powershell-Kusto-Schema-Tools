@@ -1,0 +1,233 @@
+﻿{
+    "Name":  "HDInsightStormTopologyMetrics",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "MsgTimeout",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "TopologyName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Owner",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProcessLatencyMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ReplicationCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "RequestedCpuPercent",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "RequestMemOffHeapMB",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "RequestMemOnHeapMB",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "SamplingPct",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "SchedulerDisplayResource",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "SpoutId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Status",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Tasks",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "TasksTotal",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "TopologyId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Transferred",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "Uptime",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UptimeSeconds",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "Window",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "WindowHint",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "WindowPretty",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Workers",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LastError",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InstanceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Id",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "HostName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Acked",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "AssignedCPUPercent",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "AssignedMemOffHeapMB",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "AssignedMemOnHeapMB",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "AssignedTotalMemMB",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "BoltId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Capacity",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ClusterName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClusterType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CompleteLatencyMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "WorkersTotal",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Debug",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "EncodedBoltId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EncodedId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EncodedSpoutId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ErrorHost",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ErrorPort",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ErrorWorkerLogLink",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Executed",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ExecuteLatencyMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "Executors",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ExecutorsTotal",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Failed",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "Emitted",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

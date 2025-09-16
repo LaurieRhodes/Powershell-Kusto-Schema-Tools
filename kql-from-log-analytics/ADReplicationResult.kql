@@ -1,0 +1,89 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ADReplicationResult - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:16:09
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 27, Final columns: 27
+// ============================================================================
+
+.create-merge table ADReplicationResultRaw (records:dynamic)
+
+.alter-merge table ADReplicationResultRaw policy retention softdelete = 1d
+
+.alter table ADReplicationResultRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ADReplicationResultRaw ingestion json mapping 'ADReplicationResultRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ADReplicationResult(
+TimeGenerated:datetime,
+LastSyncResult:int,
+MG:guid,
+TenantId:guid,
+PercentOfTSLRange:string,
+LastSyncResultMessage:string,
+AssessmentId:guid,
+SourceInvocationId:guid,
+ReplicationNeighborOption:string,
+DestinationSiteName:string,
+SourceSiteName:string,
+IsDestinationGC:bool,
+IsSourceGC:bool,
+PercentOfTSL:real,
+TombstoneLifetime:string,
+HelpLink:string,
+ConsecutiveFailures:int,
+LastSuccessfulSync:datetime,
+LastAttemptedSync:datetime,
+PartitionName:string,
+DestinationServer:string,
+SourceServer:string,
+LastSyncMessage:string,
+SourceSystem:string,
+Computer:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ADReplicationResult policy caching hot = 1d
+
+.create-or-alter function ADReplicationResultExpand() {
+ADReplicationResultRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+LastSyncResult=toint(events.LastSyncResult),
+MG=toguid(events.MG),
+TenantId=toguid(events.TenantId),
+PercentOfTSLRange=tostring(events.PercentOfTSLRange),
+LastSyncResultMessage=tostring(events.LastSyncResultMessage),
+AssessmentId=toguid(events.AssessmentId),
+SourceInvocationId=toguid(events.SourceInvocationId),
+ReplicationNeighborOption=tostring(events.ReplicationNeighborOption),
+DestinationSiteName=tostring(events.DestinationSiteName),
+SourceSiteName=tostring(events.SourceSiteName),
+IsDestinationGC=tobool(events.IsDestinationGC),
+IsSourceGC=tobool(events.IsSourceGC),
+PercentOfTSL=toreal(events.PercentOfTSL),
+TombstoneLifetime=tostring(events.TombstoneLifetime),
+HelpLink=tostring(events.HelpLink),
+ConsecutiveFailures=toint(events.ConsecutiveFailures),
+LastSuccessfulSync=todatetime(events.LastSuccessfulSync),
+LastAttemptedSync=todatetime(events.LastAttemptedSync),
+PartitionName=tostring(events.PartitionName),
+DestinationServer=tostring(events.DestinationServer),
+SourceServer=tostring(events.SourceServer),
+LastSyncMessage=tostring(events.LastSyncMessage),
+SourceSystem=tostring(events.SourceSystem),
+Computer=tostring(events.Computer),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ADReplicationResult policy update @'[{"Source": "ADReplicationResultRaw", "Query": "ADReplicationResultExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for CarbonBlackEvents_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:31
+// Generated: 2025-09-17 06:20:44
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 115, DCR columns: 112 (Type column filtered out)
+// Underscore columns included
+// Original columns: 115, DCR columns: 114 (Type column always filtered)
 // Output stream: Custom-CarbonBlackEvents_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -36,6 +37,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'eventTime_d'
+            type: 'string'
+          }
+          {
+            name: 'sensor_action_s'
             type: 'string'
           }
           {
@@ -79,15 +84,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
+            name: 'org_key_s'
+            type: 'string'
+          }
+          {
             name: 'parent_cmdline_s'
             type: 'string'
           }
           {
-            name: 'sensor_action_s'
-            type: 'string'
-          }
-          {
-            name: 'longDescription_s'
+            name: 'event_origin_s'
             type: 'string'
           }
           {
@@ -131,23 +136,27 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'processDetails_targetCommandLine_s'
+            name: 'longDescription_s'
             type: 'string'
           }
           {
-            name: 'event_origin_s'
-            type: 'string'
-          }
-          {
-            name: 'childproc_hash_s'
-            type: 'string'
-          }
-          {
-            name: 'org_key_s'
+            name: 'action_s'
             type: 'string'
           }
           {
             name: 'remote_ip_s'
+            type: 'string'
+          }
+          {
+            name: 'processDetails_processId_d'
+            type: 'string'
+          }
+          {
+            name: 'netFlow_peerIpAddress_s'
+            type: 'string'
+          }
+          {
+            name: 'parent_guid_s'
             type: 'string'
           }
           {
@@ -195,11 +204,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'action_s'
+            name: 'device_id_s'
             type: 'string'
           }
           {
-            name: 'device_id_s'
+            name: 'process_guid_s'
             type: 'string'
           }
           {
@@ -243,23 +252,19 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'processDetails_processId_d'
+            name: 'processDetails_targetCommandLine_s'
             type: 'string'
           }
           {
-            name: 'process_guid_s'
+            name: '_ResourceId'
             type: 'string'
           }
           {
-            name: 'parent_guid_s'
+            name: 'childproc_hash_s'
             type: 'string'
           }
           {
-            name: 'childproc_guid_s'
-            type: 'string'
-          }
-          {
-            name: 'childproc_name_s'
+            name: 'childproc_reputation_s'
             type: 'string'
           }
           {
@@ -363,15 +368,19 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'childproc_reputation_s'
-            type: 'string'
-          }
-          {
             name: 'scriptload_reputation_s'
             type: 'string'
           }
           {
+            name: 'scriptload_name_s'
+            type: 'string'
+          }
+          {
             name: 'childproc_publisher_s'
+            type: 'string'
+          }
+          {
+            name: 'childproc_name_s'
             type: 'string'
           }
           {
@@ -419,11 +428,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'scriptload_name_s'
+            name: 'modload_publisher_s'
             type: 'string'
           }
           {
-            name: 'modload_publisher_s'
+            name: 'modload_md5_g'
             type: 'string'
           }
           {
@@ -471,11 +480,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'modload_md5_g'
+            name: 'childproc_guid_s'
             type: 'string'
           }
           {
-            name: 'netFlow_peerIpAddress_s'
+            name: '_ItemId'
             type: 'string'
           }
         ]
@@ -494,7 +503,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-CarbonBlackEvents_CL']
         destinations: ['Sentinel-CarbonBlackEvents_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), eventTime_d = todatetime(eventTime_d), device_group_s = tostring(device_group_s), deviceDetails_msmGroupName_s = tostring(deviceDetails_msmGroupName_s), local_port_d = toreal(local_port_d), parent_hash_s = tostring(parent_hash_s), processDetails_parentPid_d = toreal(processDetails_parentPid_d), device_os_s = tostring(device_os_s), device_external_ip_s = tostring(device_external_ip_s), backend_timestamp_s = tostring(backend_timestamp_s), parent_path_s = tostring(parent_path_s), parent_pid_d = toreal(parent_pid_d), parent_cmdline_s = tostring(parent_cmdline_s), sensor_action_s = tostring(sensor_action_s), longDescription_s = tostring(longDescription_s), process_path_s = tostring(process_path_s), device_name_s = tostring(device_name_s), type_s = tostring(type_s), processDetails_parentName_s = tostring(processDetails_parentName_s), process_username_s = tostring(process_username_s), eventTime_s = tostring(eventTime_s), createTime_s = tostring(createTime_s), netconn_inbound_b = tobool(netconn_inbound_b), parent_reputation_s = tostring(parent_reputation_s), local_ip_s = tostring(local_ip_s), processDetails_targetCommandLine_s = tostring(processDetails_targetCommandLine_s), event_origin_s = tostring(event_origin_s), childproc_hash_s = tostring(childproc_hash_s), org_key_s = tostring(org_key_s), remote_ip_s = tostring(remote_ip_s), process_pid_d = toreal(process_pid_d), deviceDetails_deviceIpV4Address_s = tostring(deviceDetails_deviceIpV4Address_s), netconn_domain_s = tostring(netconn_domain_s), netFlow_peerFqdn_s = tostring(netFlow_peerFqdn_s), process_reputation_s = tostring(process_reputation_s), eventId_g = tostring(eventId_g), processDetails_parentCommandLine_s = tostring(processDetails_parentCommandLine_s), remote_port_d = toreal(remote_port_d), eventType_s = tostring(eventType_s), schema_d = toreal(schema_d), netconn_protocol_s = tostring(netconn_protocol_s), action_s = tostring(action_s), device_id_s = tostring(device_id_s), process_hash_s = tostring(process_hash_s), shortDescription_s = tostring(shortDescription_s), deviceDetails_deviceId_s = tostring(deviceDetails_deviceId_s), process_cmdline_s = tostring(process_cmdline_s), deviceDetails_deviceType_s = tostring(deviceDetails_deviceType_s), device_timestamp_s = tostring(device_timestamp_s), event_id_g = tostring(event_id_g), processDetails_commandLine_s = tostring(processDetails_commandLine_s), process_terminated_b = tobool(process_terminated_b), event_description_s = tostring(event_description_s), processDetails_processId_d = toreal(processDetails_processId_d), process_guid_s = tostring(process_guid_s), parent_guid_s = tostring(parent_guid_s), childproc_guid_s = tostring(childproc_guid_s), childproc_name_s = tostring(childproc_name_s), scriptload_publisher_s = tostring(scriptload_publisher_s), scriptload_effective_reputation_s = tostring(scriptload_effective_reputation_s), process_fork_pid_d = toreal(process_fork_pid_d), securityEventCode_g = tostring(securityEventCode_g), alert_id_g = tostring(alert_id_g), incidentId_g = tostring(incidentId_g), scriptload_content_s = tostring(scriptload_content_s), scriptload_content_length_d = toreal(scriptload_content_length_d), scriptload_hash_s = tostring(scriptload_hash_s), fileless_scriptload_cmdline_s = tostring(fileless_scriptload_cmdline_s), fileless_scriptload_cmdline_length_d = toreal(fileless_scriptload_cmdline_length_d), scriptload_count_d = toreal(scriptload_count_d), fileless_scriptload_hash_s = tostring(fileless_scriptload_hash_s), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), TenantId = toguid(TenantId), processDetails_targetName_s = tostring(processDetails_targetName_s), processDetails_fullUserName_s = tostring(processDetails_fullUserName_s), deviceDetails_deviceIpAddress_s = tostring(deviceDetails_deviceIpAddress_s), deviceDetails_deviceName_s = tostring(deviceDetails_deviceName_s), targetApp_effectiveReputation_s = tostring(targetApp_effectiveReputation_s), modload_md5_s = tostring(modload_md5_s), childproc_reputation_s = tostring(childproc_reputation_s), scriptload_reputation_s = tostring(scriptload_reputation_s), childproc_publisher_s = tostring(childproc_publisher_s), childproc_pid_d = toreal(childproc_pid_d), childproc_username_s = tostring(childproc_username_s), target_cmdline_s = tostring(target_cmdline_s), regmod_name_s = tostring(regmod_name_s), crossproc_api_s = tostring(crossproc_api_s), process_duration_d = toreal(process_duration_d), modload_count_d = toreal(modload_count_d), modload_sha256_s = tostring(modload_sha256_s), modload_name_s = tostring(modload_name_s), modload_effective_reputation_s = tostring(modload_effective_reputation_s), modload_hash_s = tostring(modload_hash_s), scriptload_name_s = tostring(scriptload_name_s), modload_publisher_s = tostring(modload_publisher_s), netconn_community_id_s = tostring(netconn_community_id_s), filemod_hash_s = tostring(filemod_hash_s), filemod_name_s = tostring(filemod_name_s), process_publisher_s = tostring(process_publisher_s), crossproc_reputation_s = tostring(crossproc_reputation_s), crossproc_target_b = tobool(crossproc_target_b), crossproc_publisher_s = tostring(crossproc_publisher_s), crossproc_action_s = tostring(crossproc_action_s), crossproc_guid_s = tostring(crossproc_guid_s), crossproc_hash_s = tostring(crossproc_hash_s), crossproc_name_s = tostring(crossproc_name_s), modload_md5_g = tostring(modload_md5_g), netFlow_peerIpAddress_s = tostring(netFlow_peerIpAddress_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), eventTime_d = todatetime(eventTime_d), sensor_action_s = tostring(sensor_action_s), device_group_s = tostring(device_group_s), deviceDetails_msmGroupName_s = tostring(deviceDetails_msmGroupName_s), local_port_d = toreal(local_port_d), parent_hash_s = tostring(parent_hash_s), processDetails_parentPid_d = toreal(processDetails_parentPid_d), device_os_s = tostring(device_os_s), device_external_ip_s = tostring(device_external_ip_s), backend_timestamp_s = tostring(backend_timestamp_s), parent_path_s = tostring(parent_path_s), parent_pid_d = toreal(parent_pid_d), org_key_s = tostring(org_key_s), parent_cmdline_s = tostring(parent_cmdline_s), event_origin_s = tostring(event_origin_s), process_path_s = tostring(process_path_s), device_name_s = tostring(device_name_s), type_s = tostring(type_s), processDetails_parentName_s = tostring(processDetails_parentName_s), process_username_s = tostring(process_username_s), eventTime_s = tostring(eventTime_s), createTime_s = tostring(createTime_s), netconn_inbound_b = tobool(netconn_inbound_b), parent_reputation_s = tostring(parent_reputation_s), local_ip_s = tostring(local_ip_s), longDescription_s = tostring(longDescription_s), action_s = tostring(action_s), remote_ip_s = tostring(remote_ip_s), processDetails_processId_d = toreal(processDetails_processId_d), netFlow_peerIpAddress_s = tostring(netFlow_peerIpAddress_s), parent_guid_s = tostring(parent_guid_s), process_pid_d = toreal(process_pid_d), deviceDetails_deviceIpV4Address_s = tostring(deviceDetails_deviceIpV4Address_s), netconn_domain_s = tostring(netconn_domain_s), netFlow_peerFqdn_s = tostring(netFlow_peerFqdn_s), process_reputation_s = tostring(process_reputation_s), eventId_g = tostring(eventId_g), processDetails_parentCommandLine_s = tostring(processDetails_parentCommandLine_s), remote_port_d = toreal(remote_port_d), eventType_s = tostring(eventType_s), schema_d = toreal(schema_d), netconn_protocol_s = tostring(netconn_protocol_s), device_id_s = tostring(device_id_s), process_guid_s = tostring(process_guid_s), process_hash_s = tostring(process_hash_s), shortDescription_s = tostring(shortDescription_s), deviceDetails_deviceId_s = tostring(deviceDetails_deviceId_s), process_cmdline_s = tostring(process_cmdline_s), deviceDetails_deviceType_s = tostring(deviceDetails_deviceType_s), device_timestamp_s = tostring(device_timestamp_s), event_id_g = tostring(event_id_g), processDetails_commandLine_s = tostring(processDetails_commandLine_s), process_terminated_b = tobool(process_terminated_b), event_description_s = tostring(event_description_s), processDetails_targetCommandLine_s = tostring(processDetails_targetCommandLine_s), _ResourceId = tostring(_ResourceId), childproc_hash_s = tostring(childproc_hash_s), childproc_reputation_s = tostring(childproc_reputation_s), scriptload_publisher_s = tostring(scriptload_publisher_s), scriptload_effective_reputation_s = tostring(scriptload_effective_reputation_s), process_fork_pid_d = toreal(process_fork_pid_d), securityEventCode_g = tostring(securityEventCode_g), alert_id_g = tostring(alert_id_g), incidentId_g = tostring(incidentId_g), scriptload_content_s = tostring(scriptload_content_s), scriptload_content_length_d = toreal(scriptload_content_length_d), scriptload_hash_s = tostring(scriptload_hash_s), fileless_scriptload_cmdline_s = tostring(fileless_scriptload_cmdline_s), fileless_scriptload_cmdline_length_d = toreal(fileless_scriptload_cmdline_length_d), scriptload_count_d = toreal(scriptload_count_d), fileless_scriptload_hash_s = tostring(fileless_scriptload_hash_s), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), TenantId = toguid(TenantId), processDetails_targetName_s = tostring(processDetails_targetName_s), processDetails_fullUserName_s = tostring(processDetails_fullUserName_s), deviceDetails_deviceIpAddress_s = tostring(deviceDetails_deviceIpAddress_s), deviceDetails_deviceName_s = tostring(deviceDetails_deviceName_s), targetApp_effectiveReputation_s = tostring(targetApp_effectiveReputation_s), modload_md5_s = tostring(modload_md5_s), scriptload_reputation_s = tostring(scriptload_reputation_s), scriptload_name_s = tostring(scriptload_name_s), childproc_publisher_s = tostring(childproc_publisher_s), childproc_name_s = tostring(childproc_name_s), childproc_pid_d = toreal(childproc_pid_d), childproc_username_s = tostring(childproc_username_s), target_cmdline_s = tostring(target_cmdline_s), regmod_name_s = tostring(regmod_name_s), crossproc_api_s = tostring(crossproc_api_s), process_duration_d = toreal(process_duration_d), modload_count_d = toreal(modload_count_d), modload_sha256_s = tostring(modload_sha256_s), modload_name_s = tostring(modload_name_s), modload_effective_reputation_s = tostring(modload_effective_reputation_s), modload_hash_s = tostring(modload_hash_s), modload_publisher_s = tostring(modload_publisher_s), modload_md5_g = tostring(modload_md5_g), netconn_community_id_s = tostring(netconn_community_id_s), filemod_hash_s = tostring(filemod_hash_s), filemod_name_s = tostring(filemod_name_s), process_publisher_s = tostring(process_publisher_s), crossproc_reputation_s = tostring(crossproc_reputation_s), crossproc_target_b = tobool(crossproc_target_b), crossproc_publisher_s = tostring(crossproc_publisher_s), crossproc_action_s = tostring(crossproc_action_s), crossproc_guid_s = tostring(crossproc_guid_s), crossproc_hash_s = tostring(crossproc_hash_s), crossproc_name_s = tostring(crossproc_name_s), childproc_guid_s = tostring(childproc_guid_s), _ItemId = tostring(_ItemId)'
         outputStream: 'Custom-CarbonBlackEvents_CL'
       }
     ]

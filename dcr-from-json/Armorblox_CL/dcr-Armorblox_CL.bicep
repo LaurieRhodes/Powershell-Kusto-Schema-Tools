@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Armorblox_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:28
+// Generated: 2025-09-17 06:20:41
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 28, DCR columns: 26 (Type column filtered out)
+// Underscore columns included
+// Original columns: 28, DCR columns: 27 (Type column always filtered)
 // Output stream: Custom-Armorblox_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -36,6 +37,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
+            type: 'string'
+          }
+          {
+            name: 'status_counts_error_count_s'
             type: 'string'
           }
           {
@@ -79,11 +84,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'status_counts_error_count_s'
+            name: 'remediation_actions_s'
             type: 'string'
           }
           {
-            name: 'remediation_actions_s'
+            name: 'title_s'
             type: 'string'
           }
           {
@@ -127,11 +132,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'title_s'
+            name: 'attachment_list_s'
             type: 'string'
           }
           {
-            name: 'attachment_list_s'
+            name: '_ResourceId'
             type: 'string'
           }
         ]
@@ -150,7 +155,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Armorblox_CL']
         destinations: ['Sentinel-Armorblox_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), status_counts_process_count_s = tostring(status_counts_process_count_s), status_counts_done_count_s = tostring(status_counts_done_count_s), folder_categories_s = tostring(folder_categories_s), external_senders_s = tostring(external_senders_s), external_users_s = tostring(external_users_s), app_name_s = tostring(app_name_s), research_status_s = tostring(research_status_s), id_s = tostring(id_s), object_type_s = tostring(object_type_s), resolution_state_s = tostring(resolution_state_s), status_counts_error_count_s = tostring(status_counts_error_count_s), remediation_actions_s = tostring(remediation_actions_s), policy_names_s = tostring(policy_names_s), users_s = tostring(users_s), date_t = todatetime(date_t), tagged_b = tobool(tagged_b), priority_s = tostring(priority_s), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), title_s = tostring(title_s), attachment_list_s = tostring(attachment_list_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), status_counts_error_count_s = tostring(status_counts_error_count_s), status_counts_process_count_s = tostring(status_counts_process_count_s), status_counts_done_count_s = tostring(status_counts_done_count_s), folder_categories_s = tostring(folder_categories_s), external_senders_s = tostring(external_senders_s), external_users_s = tostring(external_users_s), app_name_s = tostring(app_name_s), research_status_s = tostring(research_status_s), id_s = tostring(id_s), object_type_s = tostring(object_type_s), resolution_state_s = tostring(resolution_state_s), remediation_actions_s = tostring(remediation_actions_s), title_s = tostring(title_s), policy_names_s = tostring(policy_names_s), users_s = tostring(users_s), date_t = todatetime(date_t), tagged_b = tobool(tagged_b), priority_s = tostring(priority_s), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), attachment_list_s = tostring(attachment_list_s), _ResourceId = tostring(_ResourceId)'
         outputStream: 'Custom-Armorblox_CL'
       }
     ]

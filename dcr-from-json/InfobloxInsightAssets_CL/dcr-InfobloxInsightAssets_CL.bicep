@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for InfobloxInsightAssets_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:44
+// Generated: 2025-09-17 06:20:57
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 23, DCR columns: 21 (Type column filtered out)
+// Underscore columns included
+// Original columns: 23, DCR columns: 22 (Type column always filtered)
 // Output stream: Custom-InfobloxInsightAssets_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -36,6 +37,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
+            type: 'string'
+          }
+          {
+            name: 'InfobloxInsightID_g'
             type: 'string'
           }
           {
@@ -67,11 +72,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'qip_s'
+            name: 'InfobloxInsightLogType_s'
             type: 'string'
           }
           {
-            name: 'count_d'
+            name: 'qip_s'
             type: 'string'
           }
           {
@@ -107,11 +112,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'InfobloxInsightID_g'
+            name: 'count_d'
             type: 'string'
           }
           {
-            name: 'InfobloxInsightLogType_s'
+            name: '_ResourceId'
             type: 'string'
           }
         ]
@@ -130,7 +135,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-InfobloxInsightAssets_CL']
         destinations: ['Sentinel-InfobloxInsightAssets_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), user_s = tostring(user_s), timeMin_t = todatetime(timeMin_t), timeMax_t = todatetime(timeMax_t), threatIndicatorDistinctCount_s = tostring(threatIndicatorDistinctCount_s), threatLevelMax_s = tostring(threatLevelMax_s), osVersion_s = tostring(osVersion_s), location_s = tostring(location_s), qip_s = tostring(qip_s), count_d = toreal(count_d), cmac_s = tostring(cmac_s), cid_s = tostring(cid_s), InfobloxInsightID_s = tostring(InfobloxInsightID_s), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), InfobloxInsightID_g = tostring(InfobloxInsightID_g), InfobloxInsightLogType_s = tostring(InfobloxInsightLogType_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), InfobloxInsightID_g = tostring(InfobloxInsightID_g), user_s = tostring(user_s), timeMin_t = todatetime(timeMin_t), timeMax_t = todatetime(timeMax_t), threatIndicatorDistinctCount_s = tostring(threatIndicatorDistinctCount_s), threatLevelMax_s = tostring(threatLevelMax_s), osVersion_s = tostring(osVersion_s), location_s = tostring(location_s), InfobloxInsightLogType_s = tostring(InfobloxInsightLogType_s), qip_s = tostring(qip_s), cmac_s = tostring(cmac_s), cid_s = tostring(cid_s), InfobloxInsightID_s = tostring(InfobloxInsightID_s), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), count_d = toreal(count_d), _ResourceId = tostring(_ResourceId)'
         outputStream: 'Custom-InfobloxInsightAssets_CL'
       }
     ]

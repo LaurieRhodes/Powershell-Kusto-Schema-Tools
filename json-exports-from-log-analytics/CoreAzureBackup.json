@@ -1,0 +1,289 @@
+﻿{
+    "Name":  "CoreAzureBackup",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ResourceGroupName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SchemaVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SecondaryBackupProtectionState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "State",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "StorageReplicationType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SubscriptionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VaultName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VaultTags",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VaultUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ArchiveTierLatestRecoveryPointLocation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ArchiveTierLatestRecoveryPointTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ArchiveTierOldestRecoveryPointLocation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ArchiveTierOldestRecoveryPointTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ArchiveTierStorageReplicationType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProtectionGroupName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsArchiveEnabled",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "DatasourceSetResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DatasourceSetType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DatasourceFriendlyName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DatasourceResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DatasourceType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BillingGroupUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BillingGroupFriendlyName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DatasourceResourceGroupName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DatasourceSubscriptionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackupItemId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "StorageConsumedInMBs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ArchiveTierStorageConsumedInMBs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "VaultType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PolicyName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DatasourceSetFriendlyName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProtectedContainerWorkloadType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProtectedContainerUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProtectedContainerType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AgentVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureBackupAgentVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureDataCenter",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackupItemAppVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackupItemFriendlyName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackupItemName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackupItemProtectionState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackupItemFrontEndSize",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "BackupItemType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackupItemUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackupManagementServerType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackupManagementServerUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackupManagementType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProtectedContainerProtectionState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProtectedContainerOSVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProtectedContainerOSType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProtectedContainerName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProtectedContainerLocation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProtectedContainerFriendlyName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PolicyId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PolicyUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OldestRecoveryPointLocation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LatestRecoveryPointTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "LatestRecoveryPointLocation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackupManagementServerVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackupManagementServerOSVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackupManagementServerName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OldestRecoveryPointTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ExtendedProperties",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

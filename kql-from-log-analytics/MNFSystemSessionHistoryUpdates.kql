@@ -1,0 +1,67 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for MNFSystemSessionHistoryUpdates - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:26:59
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 16, Final columns: 16
+// ============================================================================
+
+.create-merge table MNFSystemSessionHistoryUpdatesRaw (records:dynamic)
+
+.alter-merge table MNFSystemSessionHistoryUpdatesRaw policy retention softdelete = 1d
+
+.alter table MNFSystemSessionHistoryUpdatesRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table MNFSystemSessionHistoryUpdatesRaw ingestion json mapping 'MNFSystemSessionHistoryUpdatesRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table MNFSystemSessionHistoryUpdates(
+TimeGenerated:datetime,
+TenantId:guid,
+EventCategory:string,
+FabricId:string,
+DeviceId:string,
+DeviceName:string,
+DiffTimeStamp:long,
+GnmiTimeStamp:long,
+SessionUpdateTimeStamp:long,
+SessionUpdateSize:long,
+SessionUpdateUser:string,
+SessionUpdateSessionId:string,
+SessionDiffs:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table MNFSystemSessionHistoryUpdates policy caching hot = 1d
+
+.create-or-alter function MNFSystemSessionHistoryUpdatesExpand() {
+MNFSystemSessionHistoryUpdatesRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+EventCategory=tostring(events.EventCategory),
+FabricId=tostring(events.FabricId),
+DeviceId=tostring(events.DeviceId),
+DeviceName=tostring(events.DeviceName),
+DiffTimeStamp=tolong(events.DiffTimeStamp),
+GnmiTimeStamp=tolong(events.GnmiTimeStamp),
+SessionUpdateTimeStamp=tolong(events.SessionUpdateTimeStamp),
+SessionUpdateSize=tolong(events.SessionUpdateSize),
+SessionUpdateUser=tostring(events.SessionUpdateUser),
+SessionUpdateSessionId=tostring(events.SessionUpdateSessionId),
+SessionDiffs=tostring(events.SessionDiffs),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table MNFSystemSessionHistoryUpdates policy update @'[{"Source": "MNFSystemSessionHistoryUpdatesRaw", "Query": "MNFSystemSessionHistoryUpdatesExpand()", "IsEnabled": "True", "IsTransactional": true}]'

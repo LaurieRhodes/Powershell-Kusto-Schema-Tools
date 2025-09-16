@@ -1,0 +1,61 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for SucceededIngestion - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:29:44
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 13, Final columns: 13
+// ============================================================================
+
+.create-merge table SucceededIngestionRaw (records:dynamic)
+
+.alter-merge table SucceededIngestionRaw policy retention softdelete = 1d
+
+.alter table SucceededIngestionRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table SucceededIngestionRaw ingestion json mapping 'SucceededIngestionRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table SucceededIngestion(
+TimeGenerated:datetime,
+TenantId:guid,
+SucceededOn:datetime,
+OperationId:guid,
+Database:string,
+Table:string,
+IngestionSourceId:guid,
+IngestionSourcePath:string,
+ResultType:string,
+RootActivityId:guid,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table SucceededIngestion policy caching hot = 1d
+
+.create-or-alter function SucceededIngestionExpand() {
+SucceededIngestionRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SucceededOn=todatetime(events.SucceededOn),
+OperationId=toguid(events.OperationId),
+Database=tostring(events.Database),
+Table=tostring(events.Table),
+IngestionSourceId=toguid(events.IngestionSourceId),
+IngestionSourcePath=tostring(events.IngestionSourcePath),
+ResultType=tostring(events.ResultType),
+RootActivityId=toguid(events.RootActivityId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table SucceededIngestion policy update @'[{"Source": "SucceededIngestionRaw", "Query": "SucceededIngestionExpand()", "IsEnabled": "True", "IsTransactional": true}]'

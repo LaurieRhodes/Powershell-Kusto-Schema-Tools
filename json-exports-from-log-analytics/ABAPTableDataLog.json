@@ -1,0 +1,105 @@
+﻿{
+    "Name":  "ABAPTableDataLog",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "OldValue",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TableField",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TableName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Language",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VersionNumber",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationTypeSQL",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Program",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TransactionCode",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Host",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NewValue",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LogKey",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AgentId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SystemUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SystemRole",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "User",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Instance",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SystemNumber",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SystemId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UpdatedOn",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "DBLogId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

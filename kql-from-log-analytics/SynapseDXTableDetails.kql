@@ -1,0 +1,79 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for SynapseDXTableDetails - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:30:02
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 22, Final columns: 22
+// ============================================================================
+
+.create-merge table SynapseDXTableDetailsRaw (records:dynamic)
+
+.alter-merge table SynapseDXTableDetailsRaw policy retention softdelete = 1d
+
+.alter table SynapseDXTableDetailsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table SynapseDXTableDetailsRaw ingestion json mapping 'SynapseDXTableDetailsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table SynapseDXTableDetails(
+TimeGenerated:datetime,
+TenantId:guid,
+HotOriginalSize:long,
+HotExtentCount:long,
+TotalRowCount:long,
+TotalExtentCount:long,
+MinExtentsCreationTime:datetime,
+MaxExtentsCreationTime:datetime,
+CachingPolicy:dynamic,
+HotRowCount:long,
+CachingPolicyOrigin:string,
+RetentionPolicyOrigin:string,
+HotExtentSize:real,
+TotalOriginalSize:real,
+TotalExtentSize:real,
+TableName:string,
+DatabaseName:string,
+CorrelationId:string,
+RetentionPolicy:dynamic,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table SynapseDXTableDetails policy caching hot = 1d
+
+.create-or-alter function SynapseDXTableDetailsExpand() {
+SynapseDXTableDetailsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+HotOriginalSize=tolong(events.HotOriginalSize),
+HotExtentCount=tolong(events.HotExtentCount),
+TotalRowCount=tolong(events.TotalRowCount),
+TotalExtentCount=tolong(events.TotalExtentCount),
+MinExtentsCreationTime=todatetime(events.MinExtentsCreationTime),
+MaxExtentsCreationTime=todatetime(events.MaxExtentsCreationTime),
+CachingPolicy=todynamic(events.CachingPolicy),
+HotRowCount=tolong(events.HotRowCount),
+CachingPolicyOrigin=tostring(events.CachingPolicyOrigin),
+RetentionPolicyOrigin=tostring(events.RetentionPolicyOrigin),
+HotExtentSize=toreal(events.HotExtentSize),
+TotalOriginalSize=toreal(events.TotalOriginalSize),
+TotalExtentSize=toreal(events.TotalExtentSize),
+TableName=tostring(events.TableName),
+DatabaseName=tostring(events.DatabaseName),
+CorrelationId=tostring(events.CorrelationId),
+RetentionPolicy=todynamic(events.RetentionPolicy),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table SynapseDXTableDetails policy update @'[{"Source": "SynapseDXTableDetailsRaw", "Query": "SynapseDXTableDetailsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

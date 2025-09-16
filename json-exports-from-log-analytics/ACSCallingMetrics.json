@@ -1,0 +1,137 @@
+﻿{
+    "Name":  "ACSCallingMetrics",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SdkVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceBrowser",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceOsName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceBrowserVersionMajor",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceBrowserVersionMinor",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceOsVersionMinor",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceOsVersionMajor",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceFamily",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceBrand",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceModel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Platform",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CallType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SubCode",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LegsDcount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "CallsDcount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SuccessLegsDcount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "FailedLegsDcount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Goal",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Unit",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MetricValueAvg",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "TimestampBin",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TimestampMax",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MetricName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

@@ -1,0 +1,69 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ContainerImageInventory - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:21:27
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 17, Final columns: 17
+// ============================================================================
+
+.create-merge table ContainerImageInventoryRaw (records:dynamic)
+
+.alter-merge table ContainerImageInventoryRaw policy retention softdelete = 1d
+
+.alter table ContainerImageInventoryRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ContainerImageInventoryRaw ingestion json mapping 'ContainerImageInventoryRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ContainerImageInventory(
+TimeGenerated:datetime,
+TenantId:guid,
+SourceSystem:string,
+Computer:string,
+ImageID:string,
+Repository:string,
+Image:string,
+ImageTag:string,
+ImageSize:string,
+VirtualSize:string,
+Running:int,
+Stopped:int,
+Failed:int,
+Paused:int,
+TotalContainer:long,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ContainerImageInventory policy caching hot = 1d
+
+.create-or-alter function ContainerImageInventoryExpand() {
+ContainerImageInventoryRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SourceSystem=tostring(events.SourceSystem),
+Computer=tostring(events.Computer),
+ImageID=tostring(events.ImageID),
+Repository=tostring(events.Repository),
+Image=tostring(events.Image),
+ImageTag=tostring(events.ImageTag),
+ImageSize=tostring(events.ImageSize),
+VirtualSize=tostring(events.VirtualSize),
+Running=toint(events.Running),
+Stopped=toint(events.Stopped),
+Failed=toint(events.Failed),
+Paused=toint(events.Paused),
+TotalContainer=tolong(events.TotalContainer),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ContainerImageInventory policy update @'[{"Source": "ContainerImageInventoryRaw", "Query": "ContainerImageInventoryExpand()", "IsEnabled": "True", "IsTransactional": true}]'

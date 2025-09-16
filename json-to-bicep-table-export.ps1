@@ -28,6 +28,9 @@ $jsonExportDirectory = Join-Path $PSScriptRoot "json-exports"
 $outputDirectory = $PSScriptRoot
 $bicepDirectory = Join-Path $outputDirectory "bicep-tables-from-json"
 
+# Column filtering options
+$FilterUnderscoreColumns = $false        # Set to $false to include underscore columns in table
+
 # Bicep template configuration
 $bicepConfig = @{
     WorkspaceSymbolicName = "logAnalyticsWorkspace"
@@ -65,38 +68,31 @@ function Convert-ToLogAnalyticsColumnType {
 }
 
 function Get-ColumnDataTypeHint {
-    <#
-    .SYNOPSIS
-    Gets data type hint integer value for a column based on its name
-    
-    .DESCRIPTION
-    Returns integer values for dataTypeHint based on Microsoft documentation:
-    0 = Uri, 1 = Guid, 2 = ArmPath, 3 = IP
-    
-    .PARAMETER columnName
-    Name of the column
-    #>
-    param([string]$columnName)
+    param(
+        [string]$columnName,
+        [string]$columnType
+    )
     
     $name = $columnName.ToLower()
+    $type = $columnType.ToLower()
     
-    # Check for GUID patterns (dataTypeHint: 1)
-    if ($name -match 'guid|tenantid|workspaceid|subscriptionid|objectid|userid$|_id$') { 
+    # Guid hint (1) - only for actual guid types or specific guid-related columns
+    if ($type -eq 'guid' -or ($type -eq 'string' -and $name -match '^(tenantid|workspaceid|subscriptionid|objectid|userid)$')) { 
         return 1  # Guid
     }
     
-    # Check for IP address patterns (dataTypeHint: 3)  
-    if ($name -match 'ip$|ipaddr|ipaddress|sourceip|destip|clientip|serverip') { 
+    # IP hint (3) - for string columns with IP-related names
+    if ($type -eq 'string' -and $name -match 'ip$|ipaddr|ipaddress|sourceip|destip|clientip|serverip') { 
         return 3  # IP
     }
     
-    # Check for URL patterns (dataTypeHint: 0)
-    if ($name -match 'url|uri|link|href') { 
+    # Uri hint (0) - for string columns with URL/URI-related names
+    if ($type -eq 'string' -and $name -match 'url|uri|link|href') { 
         return 0  # Uri
     }
     
-    # Check for ARM resource path patterns (dataTypeHint: 2)
-    if ($name -match 'resourceid|_resourceid|resourcename|resourcepath|armpath') { 
+    # ArmPath hint (2) - for string columns with resource-related names
+    if ($type -eq 'string' -and $name -match 'resourceid|_resourceid|resourcename|resourcepath|armpath') { 
         return 2  # ArmPath
     }
     
@@ -119,37 +115,21 @@ function Get-SanitizedTableName {
 }
 
 function Filter-ReservedColumns {
-    <#
-    .SYNOPSIS
-    Filters out reserved columns that cannot be included in custom table schemas
+    param([array]$columns, [bool]$filterUnderscore)
     
-    .DESCRIPTION
-    Based on empirical testing, only 'Type' column is actually reserved.
-    All other system columns like TenantId, _ResourceId, SourceSystem, etc. are allowed.
-    
-    .PARAMETER columns
-    Array of column definitions
-    #>
-    param([array]$columns)
-    
-    # Based on testing: ONLY 'Type' is actually reserved for custom tables
-    $reservedColumns = @(
-        'Type'  # Confirmed reserved - deployment fails with this column
-    )
+    $reservedColumns = @('Type')  # Only Type is actually reserved for custom tables
     
     $filteredColumns = $columns | Where-Object { 
-        $_.name -notin $reservedColumns
+        $_.name -notin $reservedColumns -and
+        (-not $filterUnderscore -or -not $_.name.StartsWith("_"))
     }
     
     $removedCount = $columns.Count - $filteredColumns.Count
     if ($removedCount -gt 0) {
-        Write-Host "    Filtered out $removedCount reserved column(s):" -ForegroundColor Yellow
         $removedColumns = $columns | Where-Object { 
-            $_.name -in $reservedColumns
+            $_.name -in $reservedColumns -or ($filterUnderscore -and $_.name.StartsWith("_"))
         }
-        foreach ($col in $removedColumns) {
-            Write-Host "      - $($col.name) (confirmed reserved)" -ForegroundColor Gray
-        }
+        Write-Host "    Filtered $removedCount columns: $($removedColumns.name -join ', ')" -ForegroundColor Yellow
     }
     
     return $filteredColumns
@@ -159,20 +139,19 @@ function New-BicepTableTemplate {
     param(
         [string]$tableName,
         [array]$columns,
-        [string]$workspaceName,
         [string]$plan,
         [int]$retention,
-        [int]$totalRetention
+        [int]$totalRetention,
+        [bool]$filterUnderscore
     )
     
-    # Filter out only the truly reserved columns (just 'Type')
-    $filteredColumns = Filter-ReservedColumns -columns $columns
+    $filteredColumns = Filter-ReservedColumns -columns $columns -filterUnderscore $filterUnderscore
     
     if ($filteredColumns.Count -eq 0) {
-        throw "No valid columns remaining after filtering out reserved columns"
+        throw "No valid columns remaining after filtering"
     }
     
-    # Sort columns following Microsoft's convention (TimeGenerated first, then alphabetical)
+    # Sort columns (TimeGenerated first, then alphabetical)
     $timeGeneratedCol = $filteredColumns | Where-Object { $_.name -eq "TimeGenerated" }
     $regularCols = $filteredColumns | Where-Object { $_.name -ne "TimeGenerated" } | Sort-Object name
     
@@ -180,25 +159,20 @@ function New-BicepTableTemplate {
     if ($timeGeneratedCol) { $sortedColumns += $timeGeneratedCol }
     $sortedColumns += $regularCols
     
-    # Generate column definitions with proper comma handling
+    # Generate column definitions
     $columnsLines = @()
     $columnsLines += "      columns: ["
     
     for ($i = 0; $i -lt $sortedColumns.Count; $i++) {
         $column = $sortedColumns[$i]
-        
-        # Start column object
         $columnsLines += "        {"
         
-        # Column properties
         $columnType = Convert-ToLogAnalyticsColumnType -inputType $column.type
-        $dataTypeHint = Get-ColumnDataTypeHint -columnName $column.name
+        $dataTypeHint = Get-ColumnDataTypeHint -columnName $column.name -columnType $column.type
         
-        # Required properties
         $columnsLines += "          name: '$($column.name)'"
         $columnsLines += "          type: '$columnType'"
         
-        # Optional properties
         if ($column.description) {
             $escapedDescription = $column.description -replace "'", "''"
             $columnsLines += "          description: '$escapedDescription'"
@@ -209,12 +183,10 @@ function New-BicepTableTemplate {
             $columnsLines += "          displayName: '$escapedDisplayName'"
         }
         
-        # Add dataTypeHint as integer if applicable
         if ($dataTypeHint -ne $null) {
             $columnsLines += "          dataTypeHint: $dataTypeHint"
         }
         
-        # Close column object - NO COMMA after closing brace
         $columnsLines += "        }"
     }
     
@@ -222,88 +194,90 @@ function New-BicepTableTemplate {
     $columnsString = $columnsLines -join "`r`n"
     
     $generatedDate = Get-Date -Format "yyyy-MM-dd HH:mm:ss UTC"
+    $filterComment = if ($filterUnderscore) { "// Underscore columns filtered out" } else { "// Underscore columns included" }
     
     # Build template
-    $template = "// Bicep template for Log Analytics custom table: $tableName`r`n"
-    $template += "// Generated on $generatedDate`r`n"
-    $template += "// Source: JSON schema export`r`n"
-    $template += "// Original columns: $($columns.Count), Deployed columns: $($sortedColumns.Count) (only 'Type' filtered out)`r`n"
-    $template += "// dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP`r`n"
-    $template += "`r`n"
-    $template += "@description('Log Analytics Workspace name')`r`n"
-    $template += "param workspaceName string`r`n"
-    $template += "`r`n"
-    $template += "@description('Table plan - Analytics or Basic')`r`n"
-    $template += "@allowed(['Analytics', 'Basic'])`r`n"
-    $template += "param tablePlan string = '$plan'`r`n"
-    $template += "`r`n"
-    $template += "@description('Data retention period in days')`r`n"
-    $template += "@minValue(4)`r`n"
-    $template += "@maxValue(730)`r`n"
-    $template += "param retentionInDays int = $retention`r`n"
-    $template += "`r`n"
-    $template += "@description('Total retention period in days')`r`n"
-    $template += "@minValue(4)`r`n"
-    $template += "@maxValue(4383)`r`n"
-    $template += "param totalRetentionInDays int = $totalRetention`r`n"
-    $template += "`r`n"
-    $template += "resource workspace 'Microsoft.OperationalInsights/workspaces@2025-02-01' existing = {`r`n"
-    $template += "  name: workspaceName`r`n"
-    $template += "}`r`n"
-    $template += "`r`n"
-    $template += "resource $($tableName.ToLower().Replace('_', ''))Table 'Microsoft.OperationalInsights/workspaces/tables@2025-02-01' = {`r`n"
-    $template += "  parent: workspace`r`n"
-    $template += "  name: '$tableName'`r`n"
-    $template += "  properties: {`r`n"
-    $template += "    plan: tablePlan`r`n"
-    $template += "    retentionInDays: retentionInDays`r`n"
-    $template += "    totalRetentionInDays: totalRetentionInDays`r`n"
-    $template += "    schema: {`r`n"
-    $template += "      name: '$tableName'`r`n"
-    $template += "      description: 'Custom table $tableName - imported from JSON schema'`r`n"
-    $template += "      displayName: '$tableName'`r`n"
-    $template += "$columnsString`r`n"
-    $template += "    }`r`n"
-    $template += "  }`r`n"
-    $template += "}`r`n"
-    $template += "`r`n"
-    $template += "output tableName string = $($tableName.ToLower().Replace('_', ''))Table.name`r`n"
-    $template += "output tableId string = $($tableName.ToLower().Replace('_', ''))Table.id`r`n"
-    $template += "output provisioningState string = $($tableName.ToLower().Replace('_', ''))Table.properties.provisioningState"
+    $template = @"
+// Bicep template for Log Analytics custom table: $tableName
+// Generated on $generatedDate
+// Source: JSON schema export
+// Original columns: $($columns.Count), Deployed columns: $($sortedColumns.Count) (Type column filtered)
+$filterComment
+// dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
+
+@description('Log Analytics Workspace name')
+param workspaceName string
+
+@description('Table plan - Analytics or Basic')
+@allowed(['Analytics', 'Basic'])
+param tablePlan string = '$plan'
+
+@description('Data retention period in days')
+@minValue(4)
+@maxValue(730)
+param retentionInDays int = $retention
+
+@description('Total retention period in days')
+@minValue(4)
+@maxValue(4383)
+param totalRetentionInDays int = $totalRetention
+
+resource workspace 'Microsoft.OperationalInsights/workspaces@2025-02-01' existing = {
+  name: workspaceName
+}
+
+resource $($tableName.ToLower().Replace('_', ''))Table 'Microsoft.OperationalInsights/workspaces/tables@2025-02-01' = {
+  parent: workspace
+  name: '$tableName'
+  properties: {
+    plan: tablePlan
+    retentionInDays: retentionInDays
+    totalRetentionInDays: totalRetentionInDays
+    schema: {
+      name: '$tableName'
+      description: 'Custom table $tableName - imported from JSON schema'
+      displayName: '$tableName'
+$columnsString
+    }
+  }
+}
+
+output tableName string = $($tableName.ToLower().Replace('_', ''))Table.name
+output tableId string = $($tableName.ToLower().Replace('_', ''))Table.id
+output provisioningState string = $($tableName.ToLower().Replace('_', ''))Table.properties.provisioningState
+"@
 
     return $template
 }
 
-function New-ParametersFile {
+function New-ParametersJSONFile {
     param(
         [string]$tableName,
-        [string]$workspaceName,
         [string]$plan,
         [int]$retention,
         [int]$totalRetention
     )
     
-    $generatedDate = Get-Date -Format "yyyy-MM-dd HH:mm:ss UTC"
-    
-    $parametersTemplate = "// Parameters file for $tableName table deployment`r`n"
-    $parametersTemplate += "// Generated on $generatedDate`r`n"
-    $parametersTemplate += "`r`n"
-    $parametersTemplate += "using './$($tableName.ToLower())-table.bicep'`r`n"
-    $parametersTemplate += "`r`n"
-    $parametersTemplate += "param workspaceName = '{workspace-name}'`r`n"
-    $parametersTemplate += "param tablePlan = '$plan'`r`n"
-    $parametersTemplate += "param retentionInDays = $retention`r`n"
-    $parametersTemplate += "param totalRetentionInDays = $totalRetention"
+    $parametersContent = @"
+{
+  "`$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "workspaceName": { "value": "{workspace-name}" },
+    "tablePlan": { "value": "$plan" },
+    "retentionInDays": { "value": "$retention" },
+    "totalRetentionInDays": { "value": "$totalRetention" }
+  }
+}
+"@
 
-    return $parametersTemplate
+    return $parametersContent
 }
 
 function Save-BicepTableFiles {
     param(
         [string]$tableName,
         [string]$bicepTemplate,
-        [array]$columns,
-        [string]$workspaceName,
         [string]$plan,
         [int]$retention,
         [int]$totalRetention,
@@ -320,59 +294,16 @@ function Save-BicepTableFiles {
     $bicepTemplate | Out-File -FilePath $bicepFile -Encoding UTF8 -Force
     
     # Save parameters file if requested
-    $parametersFile = $null
+    $parametersJSONFile = $null
     if ($generateParameters) {
-        $parametersContent = New-ParametersFile -tableName $tableName -workspaceName $workspaceName -plan $plan -retention $retention -totalRetention $totalRetention
-        $parametersFile = Join-Path $tableDirectory "$($tableName.ToLower())-table.bicepparam"
-        $parametersContent | Out-File -FilePath $parametersFile -Encoding UTF8 -Force
+        $parametersJSONContent = New-ParametersJSONFile -tableName $tableName -plan $plan -retention $retention -totalRetention $totalRetention
+        $parametersJSONFile = Join-Path $tableDirectory "$($tableName.ToLower())-table.parameters.json"
+        $parametersJSONContent | Out-File -FilePath $parametersJSONFile -Encoding UTF8 -Force
     }
-    
-    # Save deployment script
-    $generatedDate = Get-Date -Format "yyyy-MM-dd HH:mm:ss UTC"
-    $deployScript = "# Deploy $tableName Log Analytics Table`r`n"
-    $deployScript += "# Generated on $generatedDate`r`n"
-    $deployScript += "`r`n"
-    $deployScript += "param(`r`n"
-    $deployScript += "    [Parameter(Mandatory=`$true)]`r`n"
-    $deployScript += "    [string]`$ResourceGroupName,`r`n"
-    $deployScript += "    `r`n"
-    $deployScript += "    [Parameter(Mandatory=`$true)]`r`n"
-    $deployScript += "    [string]`$WorkspaceName,`r`n"
-    $deployScript += "    `r`n"
-    $deployScript += "    [Parameter(Mandatory=`$false)]`r`n"
-    $deployScript += "    [string]`$SubscriptionId = (Get-AzContext).Subscription.Id`r`n"
-    $deployScript += ")`r`n"
-    $deployScript += "`r`n"
-    $deployScript += "`$deploymentName = `"$tableName-table-deployment-`$((Get-Date -Format 'yyyyMMdd-HHmmss'))`"`r`n"
-    $deployScript += "`r`n"
-    $deployScript += "Write-Host `"Deploying $tableName table to Log Analytics workspace...`" -ForegroundColor Cyan`r`n"
-    $deployScript += "Write-Host `"  Workspace: `$WorkspaceName`" -ForegroundColor Gray`r`n"
-    $deployScript += "Write-Host `"  Resource Group: `$ResourceGroupName`" -ForegroundColor Gray`r`n"
-    $deployScript += "`r`n"
-    $deployScript += "try {`r`n"
-    $deployScript += "    `$deployment = New-AzResourceGroupDeployment ```r`n"
-    $deployScript += "        -ResourceGroupName `$ResourceGroupName ```r`n"
-    $deployScript += "        -Name `$deploymentName ```r`n"
-    $deployScript += "        -TemplateFile `"$($tableName.ToLower())-table.bicep`" ```r`n"
-    $deployScript += "        -workspaceName `$WorkspaceName ```r`n"
-    $deployScript += "        -Verbose`r`n"
-    $deployScript += "    `r`n"
-    $deployScript += "    Write-Host `"SUCCESS: Table $tableName deployed successfully`" -ForegroundColor Green`r`n"
-    $deployScript += "    Write-Host `"Table ID: `$(`$deployment.Outputs.tableId.Value)`" -ForegroundColor Gray`r`n"
-    $deployScript += "    Write-Host `"Provisioning State: `$(`$deployment.Outputs.provisioningState.Value)`" -ForegroundColor Gray`r`n"
-    $deployScript += "    `r`n"
-    $deployScript += "} catch {`r`n"
-    $deployScript += "    Write-Error `"Failed to deploy table $tableName`: `$(`$_.Exception.Message)`"`r`n"
-    $deployScript += "    exit 1`r`n"
-    $deployScript += "}"
-    
-    $deployFile = Join-Path $tableDirectory "deploy-$($tableName.ToLower()).ps1"
-    $deployScript | Out-File -FilePath $deployFile -Encoding UTF8 -Force
     
     return @{
         bicepFile = $bicepFile
-        parametersFile = $parametersFile
-        deployFile = $deployFile
+        parametersJSONFile = $parametersJSONFile
         directory = $tableDirectory
     }
 }
@@ -381,7 +312,6 @@ function Read-JSONSchemaForTable {
     param([string]$jsonFilePath)
     
     try {
-        Write-Host "    Reading JSON schema from file..." -ForegroundColor Gray
         $jsonContent = Get-Content -Path $jsonFilePath -Raw -Encoding UTF8
         $schemaObject = $jsonContent | ConvertFrom-Json
         
@@ -429,18 +359,15 @@ function Read-JSONSchemaForTable {
         }
         
         if (-not $tableName) {
-            # Extract table name from file name if not in JSON
             $tableName = [System.IO.Path]::GetFileNameWithoutExtension($jsonFilePath)
         }
         
-        Write-Host "    JSON Schema: Found $($columnDefinitions.Count) columns for $tableName" -ForegroundColor Gray
         return @{ 
             tableName = $tableName
             columns = $columnDefinitions
             success = $true 
         }
     } catch {
-        Write-Host "    JSON Schema: ERROR - $($_.Exception.Message)" -ForegroundColor Yellow
         return @{ 
             tableName = ""
             columns = @()
@@ -456,16 +383,13 @@ function Read-JSONSchemaForTable {
 
 Write-Host "JSON to Bicep Table Export Script - FIXED VERSION" -ForegroundColor Cyan
 Write-Host "==================================================" -ForegroundColor Cyan
-Write-Host "Part of the ADX-to-LogAnalytics-Scanner toolkit" -ForegroundColor Gray
-Write-Host "PowerShell Version: $($PSVersionTable.PSVersion)" -ForegroundColor Gray
 
 Write-Host "`nConfiguration:" -ForegroundColor Yellow
 Write-Host "  JSON Directory: $jsonExportDirectory"
 Write-Host "  Output Directory: $bicepDirectory"
-Write-Host "  Workspace Symbolic Name: $($bicepConfig.WorkspaceSymbolicName)"
+Write-Host "  Filter Underscore Columns: $FilterUnderscoreColumns"
 Write-Host "  Table Plan: $($bicepConfig.TablePlan)"
 Write-Host "  Retention: $($bicepConfig.RetentionInDays) days"
-Write-Host "  Total Retention: $($bicepConfig.TotalRetentionInDays) days"
 Write-Host "  Generate Parameters: $($bicepConfig.GenerateParameters)"
 
 # Validate input folder
@@ -487,10 +411,9 @@ if ($jsonFiles.Count -eq 0) {
     return
 }
 
-Write-Host "`nFound $($jsonFiles.Count) JSON schema file(s) to process" -ForegroundColor Green
+Write-Host "`nProcessing $($jsonFiles.Count) JSON schema files..." -ForegroundColor Green
 
 # Process each JSON file
-Write-Host "`nGenerating Bicep table resources..." -ForegroundColor Yellow
 $exportResults = @()
 $successCount = 0
 $failureCount = 0
@@ -512,21 +435,17 @@ foreach ($jsonFile in $jsonFiles) {
         
         # Generate sanitized table name
         $sanitizedTableName = Get-SanitizedTableName $schemaResult.tableName
-        Write-Host "  Table name: $sanitizedTableName" -ForegroundColor Gray
-        Write-Host "  Original columns: $($schemaResult.columns.Count)" -ForegroundColor Gray
         
-        # Generate Bicep table template (filtering happens inside the function)
-        $bicepTemplate = New-BicepTableTemplate -tableName $sanitizedTableName -columns $schemaResult.columns -workspaceName $bicepConfig.WorkspaceSymbolicName -plan $bicepConfig.TablePlan -retention $bicepConfig.RetentionInDays -totalRetention $bicepConfig.TotalRetentionInDays
+        # Generate Bicep table template
+        $bicepTemplate = New-BicepTableTemplate -tableName $sanitizedTableName -columns $schemaResult.columns -plan $bicepConfig.TablePlan -retention $bicepConfig.RetentionInDays -totalRetention $bicepConfig.TotalRetentionInDays -filterUnderscore $FilterUnderscoreColumns
         
         # Calculate filtered column count for reporting
-        $filteredColumns = Filter-ReservedColumns -columns $schemaResult.columns
+        $filteredColumns = Filter-ReservedColumns -columns $schemaResult.columns -filterUnderscore $FilterUnderscoreColumns
         
         # Save all table files
-        $savedFiles = Save-BicepTableFiles -tableName $sanitizedTableName -bicepTemplate $bicepTemplate -columns $schemaResult.columns -workspaceName $bicepConfig.WorkspaceSymbolicName -plan $bicepConfig.TablePlan -retention $bicepConfig.RetentionInDays -totalRetention $bicepConfig.TotalRetentionInDays -generateParameters $bicepConfig.GenerateParameters
+        $savedFiles = Save-BicepTableFiles -tableName $sanitizedTableName -bicepTemplate $bicepTemplate -plan $bicepConfig.TablePlan -retention $bicepConfig.RetentionInDays -totalRetention $bicepConfig.TotalRetentionInDays -generateParameters $bicepConfig.GenerateParameters
         
-        Write-Host "  SUCCESS: Generated Bicep table resource" -ForegroundColor Green
-        Write-Host "    Deployed columns: $($filteredColumns.Count) (only 'Type' filtered out)" -ForegroundColor Gray
-        Write-Host "    Files: $($savedFiles.directory)" -ForegroundColor Gray
+        Write-Host "  SUCCESS: $($filteredColumns.Count)/$($schemaResult.columns.Count) columns -> $($savedFiles.directory)" -ForegroundColor Green
         
         $exportResults += New-Object PSObject -Property @{
             SourceFile = $jsonFile.Name
@@ -557,37 +476,27 @@ foreach ($jsonFile in $jsonFiles) {
 }
 
 # Summary
-Write-Host "`nExport Summary:" -ForegroundColor Magenta
-Write-Host "===============" -ForegroundColor Magenta
-Write-Host "SUCCESS: $successCount/$($jsonFiles.Count) JSON files processed" -ForegroundColor Green
-
-if ($failureCount -gt 0) {
-    Write-Host "FAILED: $failureCount/$($jsonFiles.Count) JSON files failed" -ForegroundColor Red
-}
+Write-Host "`nSummary: $successCount success, $failureCount failed" -ForegroundColor Magenta
 
 if ($successCount -gt 0) {
-    Write-Host "`nSuccessful Exports:" -ForegroundColor Green
+    Write-Host "`nSuccessful exports:" -ForegroundColor Green
     $exportResults | Where-Object { $_.Status -eq "Success" } | ForEach-Object {
-        Write-Host "  * $($_.TableName): $($_.DeployedColumnCount) columns (was $($_.OriginalColumnCount))" -ForegroundColor White
+        Write-Host "  $($_.TableName): $($_.DeployedColumnCount) columns" -ForegroundColor White
     }
 }
 
 if ($failureCount -gt 0) {
-    Write-Host "`nFailed Exports:" -ForegroundColor Red
+    Write-Host "`nFailed exports:" -ForegroundColor Red
     $exportResults | Where-Object { $_.Status -eq "Failed" } | ForEach-Object {
-        Write-Host "  * $($_.SourceFile): $($_.Error)" -ForegroundColor Red
+        Write-Host "  $($_.SourceFile): $($_.Error)" -ForegroundColor Red
     }
 }
 
-Write-Host "`nLessons Learned and Applied:" -ForegroundColor Cyan
-Write-Host "- Only 'Type' column is actually reserved for custom tables" -ForegroundColor White
-Write-Host "- All system columns (TenantId, _ResourceId, SourceSystem, etc.) are allowed" -ForegroundColor White
-Write-Host "- dataTypeHint uses integers: 0=Uri, 1=Guid, 2=ArmPath, 3=IP" -ForegroundColor White
-Write-Host "- Correct Bicep column array syntax with no trailing commas" -ForegroundColor White
-Write-Host "- Tables use Microsoft.OperationalInsights/workspaces/tables@2025-02-01 resource" -ForegroundColor White
+Write-Host "`nFiles saved to: $bicepDirectory" -ForegroundColor Cyan
+if ($FilterUnderscoreColumns) {
+    Write-Host "Note: Type column and underscore columns were filtered out" -ForegroundColor Gray
+} else {
+    Write-Host "Note: Only Type column was filtered out" -ForegroundColor Gray
+}
 
-Write-Host "`nFiles Location:" -ForegroundColor Cyan
-Write-Host "  Directory: $bicepDirectory" -ForegroundColor White
-Write-Host "  Usage: Run deployment scripts with appropriate parameters" -ForegroundColor White
-
-Write-Host "`nJSON to Bicep Table Export completed - FIXED VERSION with empirical lessons applied." -ForegroundColor White
+Write-Host "`nJSON to Bicep Table Export completed." -ForegroundColor White

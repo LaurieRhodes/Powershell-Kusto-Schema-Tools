@@ -1,0 +1,61 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AZFWFlowTrace - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:20:02
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 13, Final columns: 13
+// ============================================================================
+
+.create-merge table AZFWFlowTraceRaw (records:dynamic)
+
+.alter-merge table AZFWFlowTraceRaw policy retention softdelete = 1d
+
+.alter table AZFWFlowTraceRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AZFWFlowTraceRaw ingestion json mapping 'AZFWFlowTraceRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AZFWFlowTrace(
+TimeGenerated:datetime,
+TenantId:guid,
+Protocol:string,
+SourceIp:string,
+SourcePort:int,
+DestinationIp:string,
+DestinationPort:int,
+Action:string,
+ActionReason:string,
+Flag:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AZFWFlowTrace policy caching hot = 1d
+
+.create-or-alter function AZFWFlowTraceExpand() {
+AZFWFlowTraceRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Protocol=tostring(events.Protocol),
+SourceIp=tostring(events.SourceIp),
+SourcePort=toint(events.SourcePort),
+DestinationIp=tostring(events.DestinationIp),
+DestinationPort=toint(events.DestinationPort),
+Action=tostring(events.Action),
+ActionReason=tostring(events.ActionReason),
+Flag=tostring(events.Flag),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AZFWFlowTrace policy update @'[{"Source": "AZFWFlowTraceRaw", "Query": "AZFWFlowTraceExpand()", "IsEnabled": "True", "IsTransactional": true}]'

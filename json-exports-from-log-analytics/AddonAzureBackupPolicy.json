@@ -1,0 +1,341 @@
+﻿{
+    "Name":  "AddonAzureBackupPolicy",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "IncrementalBackupFrequency",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IncrementalBackupDaysOfTheWeek",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DifferentialBackupTimes",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DifferentialBackupFrequency",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DifferentialBackupDaysOfTheWeek",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FullBackupTimes",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FullBackupFrequency",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IncrementalBackupTimes",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FullBackupDaysOfTheWeek",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ArchiveTieringDurationType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ArchiveTieringMode",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ScheduleWindowStartTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ScheduleWindowDuration",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "BackupIntervalInHours",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "PolicySubType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "YearlyRetentionWeeksOfTheMonth",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ArchiveTieringDuration",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "PolicyId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SnapshotTierDailyRetentionDuration",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SnapshotTierWeeklyRetentionDuration",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ResourceGroupName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SubscriptionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ArchiveTierStorageReplicationType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "StorageReplicationType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VaultType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureDataCenter",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VaultTags",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DatasourceType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SnapshotTierDefaultRetentionDuration",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "StandardTierDefaultRetentionDuration",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ArchiveTierDefaultRetentionDuration",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ArchiveTierYearlyRetentionDuration",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ArchiveTierMonthlyRetentionDuration",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ArchiveTierWeeklyRetentionDuration",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ArchiveTierDailyRetentionDuration",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SnapshotTierYearlyRetentionDuration",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SnapshotTierMonthlyRetentionDuration",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "YearlyRetentionTimes",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VaultName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "YearlyRetentionMonthsOfTheYear",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "YearlyRetentionDuration",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "LogBackupFrequency",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "DiffBackupTime",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DiffBackupRetentionDuration",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "DiffBackupFormat",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DiffBackupDaysofTheWeek",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DailyRetentionTimes",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DailyRetentionDuration",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "LogBackupRetentionDuration",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "BackupTimes",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackupManagementType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackupFrequency",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackupDaysOfTheWeek",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackupManagementServerUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MonthlyRetentionDaysOfTheMonth",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MonthlyRetentionDaysOfTheWeek",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MonthlyRetentionDuration",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "YearlyRetentionDaysOfTheWeek",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "YearlyRetentionDaysOfTheMonth",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "WeeklyRetentionTimes",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "WeeklyRetentionDuration",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "WeeklyRetentionDaysOfTheWeek",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VaultUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SynchronisationFrequencyPerDay",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "State",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SchemaVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RetentionType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RetentionDuration",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "PolicyTimeZone",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PolicyUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PolicyName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MonthlyRetentionWeeksOfTheMonth",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MonthlyRetentionTimes",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MonthlyRetentionFormat",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "YearlyRetentionFormat",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExtendedProperties",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

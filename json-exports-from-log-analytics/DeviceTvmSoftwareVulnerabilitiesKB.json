@@ -1,0 +1,57 @@
+﻿{
+    "Name":  "DeviceTvmSoftwareVulnerabilitiesKB",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Timestamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "CveId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CvssScore",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "IsExploitAvailable",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "VulnerabilitySeverityLevel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LastModifiedTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "PublishedDate",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "VulnerabilityDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AffectedSoftware",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

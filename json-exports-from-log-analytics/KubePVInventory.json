@@ -1,0 +1,85 @@
+﻿{
+    "Name":  "KubePVInventory",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "PVStorageClassName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PVStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PVCNamespace",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PVCName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PVName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PVCreationTimeStamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "PVType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PVCapacityBytes",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ClusterName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClusterId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "KubePVInventoryProperties",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AgentId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TimeIngested",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "PVAccessModes",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PVTypeInfo",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

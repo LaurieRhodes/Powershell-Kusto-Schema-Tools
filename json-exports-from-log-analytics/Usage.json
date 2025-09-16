@@ -1,0 +1,89 @@
+﻿{
+    "Name":  "Usage",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "IsBillable",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "QuantityUnit",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Quantity",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "AvgLatencyInSeconds",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "TotalBatches",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "BatchesCapped",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "BatchesOutsideSla",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "MeterId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BatchesWithinSla",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "DataType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LinkedResourceUri",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceUri",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EndTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "StartTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Solution",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LinkedMeterId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

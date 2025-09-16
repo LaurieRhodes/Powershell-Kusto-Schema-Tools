@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for F5Telemetry_system_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:42
+// Generated: 2025-09-17 06:20:55
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 14, DCR columns: 12 (Type column filtered out)
+// Underscore columns included
+// Original columns: 14, DCR columns: 13 (Type column always filtered)
 // Output stream: Custom-F5Telemetry_system_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -78,6 +79,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             name: 'geo_location_s'
             type: 'string'
           }
+          {
+            name: '_ResourceId'
+            type: 'string'
+          }
         ]
       }
     }
@@ -94,7 +99,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-F5Telemetry_system_CL']
         destinations: ['Sentinel-F5Telemetry_system_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), probability = toreal(probability), RawMessage = tostring(RawMessage), client_ip_s = tostring(client_ip_s), hostname_s = tostring(hostname_s), geo_location_s = tostring(geo_location_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), probability = toreal(probability), RawMessage = tostring(RawMessage), client_ip_s = tostring(client_ip_s), hostname_s = tostring(hostname_s), geo_location_s = tostring(geo_location_s), _ResourceId = tostring(_ResourceId)'
         outputStream: 'Custom-F5Telemetry_system_CL'
       }
     ]

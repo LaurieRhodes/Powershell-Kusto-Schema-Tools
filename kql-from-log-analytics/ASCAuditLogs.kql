@@ -1,0 +1,61 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ASCAuditLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:18:55
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 13, Final columns: 13
+// ============================================================================
+
+.create-merge table ASCAuditLogsRaw (records:dynamic)
+
+.alter-merge table ASCAuditLogsRaw policy retention softdelete = 1d
+
+.alter table ASCAuditLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ASCAuditLogsRaw ingestion json mapping 'ASCAuditLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ASCAuditLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+Location:string,
+OperationName:string,
+ResultType:string,
+ResultDescription:string,
+Identity:dynamic,
+Properties:dynamic,
+CorrelationId:string,
+DurationMs:int,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ASCAuditLogs policy caching hot = 1d
+
+.create-or-alter function ASCAuditLogsExpand() {
+ASCAuditLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Location=tostring(events.Location),
+OperationName=tostring(events.OperationName),
+ResultType=tostring(events.ResultType),
+ResultDescription=tostring(events.ResultDescription),
+Identity=todynamic(events.Identity),
+Properties=todynamic(events.Properties),
+CorrelationId=tostring(events.CorrelationId),
+DurationMs=toint(events.DurationMs),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ASCAuditLogs policy update @'[{"Source": "ASCAuditLogsRaw", "Query": "ASCAuditLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

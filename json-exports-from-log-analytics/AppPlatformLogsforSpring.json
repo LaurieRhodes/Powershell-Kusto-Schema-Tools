@@ -1,0 +1,93 @@
+﻿{
+    "Name":  "AppPlatformLogsforSpring",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Stream",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SpanId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TraceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExceptionClass",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Mdc",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "StackTrace",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Message",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CustomLevel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Logger",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppTimestamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Log",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InstanceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServiceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Thread",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

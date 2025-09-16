@@ -1,0 +1,61 @@
+﻿{
+    "Name":  "NatGatewayFlowlogsV1",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SourceIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NatGatewayIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PacketsReceived",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "PacketsSent",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "BytesReceived",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "BytesSent",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "PacketsReceivedDropped",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "PacketsSentDropped",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

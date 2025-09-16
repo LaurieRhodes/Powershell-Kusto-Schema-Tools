@@ -1,0 +1,145 @@
+﻿{
+    "Name":  "AGWAccessLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "UpstreamSourcePort",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "OriginalRequestUriWithArgs",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Host",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServerResponseLatency",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ErrorInfo",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServerStatus",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ServerRouted",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SslProtocol",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SslCipher",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SslEnabled",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TransactionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "WafMode",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "WafEvaluationTime",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "TimeTaken",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ClientResponseTime",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "SentBytes",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ReceivedBytes",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "HttpVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "HttpStatus",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "UserAgent",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestUri",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "HttpMethod",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientIp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InstanceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackendSettingName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackendPoolName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RuleName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ListenerName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OriginalHost",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

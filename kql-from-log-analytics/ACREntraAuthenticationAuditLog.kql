@@ -1,0 +1,67 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ACREntraAuthenticationAuditLog - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:14:57
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 16, Final columns: 16
+// ============================================================================
+
+.create-merge table ACREntraAuthenticationAuditLogRaw (records:dynamic)
+
+.alter-merge table ACREntraAuthenticationAuditLogRaw policy retention softdelete = 1d
+
+.alter table ACREntraAuthenticationAuditLogRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ACREntraAuthenticationAuditLogRaw ingestion json mapping 'ACREntraAuthenticationAuditLogRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ACREntraAuthenticationAuditLog(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+CacheName:string,
+Location:string,
+Message:string,
+Authentication:string,
+Username:string,
+IpAddress:string,
+ClientId:string,
+ClientName:string,
+Lifetime:string,
+RoleInstance:int,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ACREntraAuthenticationAuditLog policy caching hot = 1d
+
+.create-or-alter function ACREntraAuthenticationAuditLogExpand() {
+ACREntraAuthenticationAuditLogRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+CacheName=tostring(events.CacheName),
+Location=tostring(events.Location),
+Message=tostring(events.Message),
+Authentication=tostring(events.Authentication),
+Username=tostring(events.Username),
+IpAddress=tostring(events.IpAddress),
+ClientId=tostring(events.ClientId),
+ClientName=tostring(events.ClientName),
+Lifetime=tostring(events.Lifetime),
+RoleInstance=toint(events.RoleInstance),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ACREntraAuthenticationAuditLog policy update @'[{"Source": "ACREntraAuthenticationAuditLogRaw", "Query": "ACREntraAuthenticationAuditLogExpand()", "IsEnabled": "True", "IsTransactional": true}]'

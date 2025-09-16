@@ -1,0 +1,57 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for HDInsightSecurityLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:25:29
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 11, Final columns: 11
+// ============================================================================
+
+.create-merge table HDInsightSecurityLogsRaw (records:dynamic)
+
+.alter-merge table HDInsightSecurityLogsRaw policy retention softdelete = 1d
+
+.alter table HDInsightSecurityLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table HDInsightSecurityLogsRaw ingestion json mapping 'HDInsightSecurityLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table HDInsightSecurityLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+CorrelationId:string,
+Message:string,
+ClusterName:string,
+HostName:string,
+LogType:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table HDInsightSecurityLogs policy caching hot = 1d
+
+.create-or-alter function HDInsightSecurityLogsExpand() {
+HDInsightSecurityLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+CorrelationId=tostring(events.CorrelationId),
+Message=tostring(events.Message),
+ClusterName=tostring(events.ClusterName),
+HostName=tostring(events.HostName),
+LogType=tostring(events.LogType),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table HDInsightSecurityLogs policy update @'[{"Source": "HDInsightSecurityLogsRaw", "Query": "HDInsightSecurityLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

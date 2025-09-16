@@ -1,0 +1,89 @@
+﻿{
+    "Name":  "AKSAudit",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Annotations",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "StageReceivedTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "RequestReceivedTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ResponseObject",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "RequestObject",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "ResponseStatus",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "ObjectRef",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "UserAgent",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceIps",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "User",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Verb",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestUri",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Stage",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AuditId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Level",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PodName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

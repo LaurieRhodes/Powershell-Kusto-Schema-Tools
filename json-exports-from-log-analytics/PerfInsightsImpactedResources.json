@@ -1,0 +1,45 @@
+﻿{
+    "Name":  "PerfInsightsImpactedResources",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "DataSetRunId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FindingId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ImpactedResourceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ImpactedResourceValue",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Details",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

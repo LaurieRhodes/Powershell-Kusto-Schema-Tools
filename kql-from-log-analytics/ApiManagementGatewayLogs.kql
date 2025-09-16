@@ -1,0 +1,147 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ApiManagementGatewayLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:17:59
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 56, Final columns: 56
+// ============================================================================
+
+.create-merge table ApiManagementGatewayLogsRaw (records:dynamic)
+
+.alter-merge table ApiManagementGatewayLogsRaw policy retention softdelete = 1d
+
+.alter table ApiManagementGatewayLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ApiManagementGatewayLogsRaw ingestion json mapping 'ApiManagementGatewayLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ApiManagementGatewayLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+LastErrorElapsed:long,
+LastErrorSource:string,
+LastErrorScope:string,
+LastErrorSection:string,
+LastErrorReason:string,
+LastErrorMessage:string,
+ApiRevision:string,
+ClientTlsVersion:string,
+RequestHeaders:dynamic,
+ResponseHeaders:dynamic,
+BackendRequestHeaders:dynamic,
+BackendResponseHeaders:dynamic,
+RequestBody:string,
+ResponseBody:string,
+BackendRequestBody:string,
+BackendResponseBody:string,
+Errors:dynamic,
+TraceRecords:dynamic,
+IsTraceRequested:bool,
+IsTraceExpired:bool,
+IsTraceAllowed:bool,
+IsMasterTrace:bool,
+WorkspaceId:guid,
+BackendId:string,
+SourceSystem:string,
+ApimSubscriptionId:string,
+ProductId:string,
+OperationName:string,
+CorrelationId:guid,
+Region:string,
+IsRequestSuccess:bool,
+Category:string,
+TotalTime:long,
+CallerIpAddress:string,
+Method:string,
+Url:string,
+ClientProtocol:string,
+ResponseCode:int,
+BackendMethod:string,
+BackendUrl:string,
+BackendResponseCode:int,
+BackendProtocol:string,
+RequestSize:int,
+ResponseSize:int,
+Cache:string,
+CacheTime:long,
+BackendTime:long,
+ClientTime:long,
+ApiId:string,
+OperationId:string,
+UserId:string,
+Timestamp:datetime,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ApiManagementGatewayLogs policy caching hot = 1d
+
+.create-or-alter function ApiManagementGatewayLogsExpand() {
+ApiManagementGatewayLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+LastErrorElapsed=tolong(events.LastErrorElapsed),
+LastErrorSource=tostring(events.LastErrorSource),
+LastErrorScope=tostring(events.LastErrorScope),
+LastErrorSection=tostring(events.LastErrorSection),
+LastErrorReason=tostring(events.LastErrorReason),
+LastErrorMessage=tostring(events.LastErrorMessage),
+ApiRevision=tostring(events.ApiRevision),
+ClientTlsVersion=tostring(events.ClientTlsVersion),
+RequestHeaders=todynamic(events.RequestHeaders),
+ResponseHeaders=todynamic(events.ResponseHeaders),
+BackendRequestHeaders=todynamic(events.BackendRequestHeaders),
+BackendResponseHeaders=todynamic(events.BackendResponseHeaders),
+RequestBody=tostring(events.RequestBody),
+ResponseBody=tostring(events.ResponseBody),
+BackendRequestBody=tostring(events.BackendRequestBody),
+BackendResponseBody=tostring(events.BackendResponseBody),
+Errors=todynamic(events.Errors),
+TraceRecords=todynamic(events.TraceRecords),
+IsTraceRequested=tobool(events.IsTraceRequested),
+IsTraceExpired=tobool(events.IsTraceExpired),
+IsTraceAllowed=tobool(events.IsTraceAllowed),
+IsMasterTrace=tobool(events.IsMasterTrace),
+WorkspaceId=toguid(events.WorkspaceId),
+BackendId=tostring(events.BackendId),
+SourceSystem=tostring(events.SourceSystem),
+ApimSubscriptionId=tostring(events.ApimSubscriptionId),
+ProductId=tostring(events.ProductId),
+OperationName=tostring(events.OperationName),
+CorrelationId=toguid(events.CorrelationId),
+Region=tostring(events.Region),
+IsRequestSuccess=tobool(events.IsRequestSuccess),
+Category=tostring(events.Category),
+TotalTime=tolong(events.TotalTime),
+CallerIpAddress=tostring(events.CallerIpAddress),
+Method=tostring(events.Method),
+Url=tostring(events.Url),
+ClientProtocol=tostring(events.ClientProtocol),
+ResponseCode=toint(events.ResponseCode),
+BackendMethod=tostring(events.BackendMethod),
+BackendUrl=tostring(events.BackendUrl),
+BackendResponseCode=toint(events.BackendResponseCode),
+BackendProtocol=tostring(events.BackendProtocol),
+RequestSize=toint(events.RequestSize),
+ResponseSize=toint(events.ResponseSize),
+Cache=tostring(events.Cache),
+CacheTime=tolong(events.CacheTime),
+BackendTime=tolong(events.BackendTime),
+ClientTime=tolong(events.ClientTime),
+ApiId=tostring(events.ApiId),
+OperationId=tostring(events.OperationId),
+UserId=tostring(events.UserId),
+Timestamp=todatetime(events.Timestamp),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ApiManagementGatewayLogs policy update @'[{"Source": "ApiManagementGatewayLogsRaw", "Query": "ApiManagementGatewayLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for beSECURE_ScanResults_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:30
+// Generated: 2025-09-17 06:20:43
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 18, DCR columns: 16 (Type column filtered out)
+// Underscore columns included
+// Original columns: 18, DCR columns: 17 (Type column always filtered)
 // Output stream: Custom-beSECURE_ScanResults_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -94,6 +95,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             name: 'vulnerability_name'
             type: 'string'
           }
+          {
+            name: '_ResourceId'
+            type: 'string'
+          }
         ]
       }
     }
@@ -110,7 +115,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-beSECURE_ScanResults_CL']
         destinations: ['Sentinel-beSECURE_ScanResults_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), cves = tostring(cves), cvss_score_s = tostring(cvss_score_s), destination_host_s = tostring(destination_host_s), destination_port = tostring(destination_port), risk_name_s = tostring(risk_name_s), risk_value_s = tostring(risk_value_s), scan_name = tostring(scan_name), test_id = tostring(test_id), vulnerability_name = tostring(vulnerability_name)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), cves = tostring(cves), cvss_score_s = tostring(cvss_score_s), destination_host_s = tostring(destination_host_s), destination_port = tostring(destination_port), risk_name_s = tostring(risk_name_s), risk_value_s = tostring(risk_value_s), scan_name = tostring(scan_name), test_id = tostring(test_id), vulnerability_name = tostring(vulnerability_name), _ResourceId = tostring(_ResourceId)'
         outputStream: 'Custom-beSECURE_ScanResults_CL'
       }
     ]

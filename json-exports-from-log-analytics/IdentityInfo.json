@@ -1,0 +1,229 @@
+﻿{
+    "Name":  "IdentityInfo",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Manager",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "StreetAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "City",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CompanyName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Country",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "State",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Phone",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsAccountEnabled",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "IsServiceAccount",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "DeletedDateTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "LastSeenDate",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "UACFlags",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserStateChangedOn",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "UserType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExtensionProperty",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "AccountCloudSID",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsMFARegistered",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "Applications",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServicePrincipals",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserAccountControl",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "ChangeSource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AdditionalMailAddresses",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "MailAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RelatedAccounts",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "JobTitle",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountDomain",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountUPN",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountSID",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountObjectId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountTenantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountDisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "GivenName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Surname",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OnPremisesAccountObjectId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OnPremisesExtensionAttributes",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EntityRiskScore",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "OnPremisesDistinguishedName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountCreationTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "InvestigationPriority",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "InvestigationPriorityPercentile",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "RiskLevel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RiskLevelDetails",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RiskState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BlastRadius",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "GroupMembership",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "AssignedRoles",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Department",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EmployeeId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Tags",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SAMAccountName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for BitglassLogs_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:30
+// Generated: 2025-09-17 06:20:44
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 75, DCR columns: 75 (Type column filtered out)
+// Underscore columns included
+// Original columns: 75, DCR columns: 75 (Type column always filtered)
 // Output stream: Custom-BitglassLogs_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================

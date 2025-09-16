@@ -1,0 +1,61 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AmlRegistryReadEventsLog - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:17:41
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 13, Final columns: 13
+// ============================================================================
+
+.create-merge table AmlRegistryReadEventsLogRaw (records:dynamic)
+
+.alter-merge table AmlRegistryReadEventsLogRaw policy retention softdelete = 1d
+
+.alter table AmlRegistryReadEventsLogRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AmlRegistryReadEventsLogRaw ingestion json mapping 'AmlRegistryReadEventsLogRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AmlRegistryReadEventsLog(
+TimeGenerated:datetime,
+TenantId:guid,
+CorrelationId:string,
+RegistryResourceId:string,
+UserName:string,
+UserObjectId:string,
+RegistryTenantId:string,
+AssetName:string,
+AssetVersion:string,
+Labels:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table AmlRegistryReadEventsLog policy caching hot = 1d
+
+.create-or-alter function AmlRegistryReadEventsLogExpand() {
+AmlRegistryReadEventsLogRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+CorrelationId=tostring(events.CorrelationId),
+RegistryResourceId=tostring(events.RegistryResourceId),
+UserName=tostring(events.UserName),
+UserObjectId=tostring(events.UserObjectId),
+RegistryTenantId=tostring(events.RegistryTenantId),
+AssetName=tostring(events.AssetName),
+AssetVersion=tostring(events.AssetVersion),
+Labels=tostring(events.Labels),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AmlRegistryReadEventsLog policy update @'[{"Source": "AmlRegistryReadEventsLogRaw", "Query": "AmlRegistryReadEventsLogExpand()", "IsEnabled": "True", "IsTransactional": true}]'

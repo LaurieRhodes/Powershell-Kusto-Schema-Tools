@@ -1,0 +1,85 @@
+﻿{
+    "Name":  "ADXJournal",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "User",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ChangeCommand",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UpdatedEntityState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OriginalEntityState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EntityContainerName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EntityVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Principal",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OriginalEntityVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EntityName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DatabaseName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationTimestamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Event",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RootActivityId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UpdatedEntityName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

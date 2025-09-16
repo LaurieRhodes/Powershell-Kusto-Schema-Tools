@@ -1,0 +1,133 @@
+﻿{
+    "Name":  "MDCDetectionProcessV2Events",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "AdditionalData",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "UpperLayer",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "Memfd",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "Group",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "User",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DriftAction",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Namespace",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PodName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Success",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Exe",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Pname",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Comm",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Auid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Gid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Uid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AgentId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Ses",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Ppid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Pid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Cwd",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Cmdline",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ContainerName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ContainerID",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Digest",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Tag",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Repository",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PodLabels",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

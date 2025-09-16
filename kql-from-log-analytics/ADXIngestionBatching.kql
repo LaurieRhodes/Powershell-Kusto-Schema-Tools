@@ -1,0 +1,61 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ADXIngestionBatching - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:16:18
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 13, Final columns: 13
+// ============================================================================
+
+.create-merge table ADXIngestionBatchingRaw (records:dynamic)
+
+.alter-merge table ADXIngestionBatchingRaw policy retention softdelete = 1d
+
+.alter table ADXIngestionBatchingRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ADXIngestionBatchingRaw ingestion json mapping 'ADXIngestionBatchingRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ADXIngestionBatching(
+TimeGenerated:datetime,
+TenantId:guid,
+Database:string,
+Table:string,
+BatchingType:string,
+SourceCreationTime:datetime,
+BatchTimeSeconds:real,
+BatchSizeBytes:long,
+DataSourcesInBatch:int,
+RootActivityId:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table ADXIngestionBatching policy caching hot = 1d
+
+.create-or-alter function ADXIngestionBatchingExpand() {
+ADXIngestionBatchingRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Database=tostring(events.Database),
+Table=tostring(events.Table),
+BatchingType=tostring(events.BatchingType),
+SourceCreationTime=todatetime(events.SourceCreationTime),
+BatchTimeSeconds=toreal(events.BatchTimeSeconds),
+BatchSizeBytes=tolong(events.BatchSizeBytes),
+DataSourcesInBatch=toint(events.DataSourcesInBatch),
+RootActivityId=tostring(events.RootActivityId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ADXIngestionBatching policy update @'[{"Source": "ADXIngestionBatchingRaw", "Query": "ADXIngestionBatchingExpand()", "IsEnabled": "True", "IsTransactional": true}]'

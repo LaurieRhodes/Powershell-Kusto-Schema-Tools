@@ -1,0 +1,105 @@
+﻿{
+    "Name":  "DnsEvents",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "RemoteIPCountry",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemoteIPLatitude",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "RemoteIPLongitude",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ReportReferenceLink",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Severity",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Confidence",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Description",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IndicatorThreatType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MaliciousIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IPAddresses",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Result",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultCode",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "QueryType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Name",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SubType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventId",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Message",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TaskCategory",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for GCPAuditLogs
 // ============================================================================
-// Generated: 2025-09-13 20:13:43
+// Generated: 2025-09-17 06:20:55
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 27, DCR columns: 26 (Type column filtered out)
+// Underscore columns included
+// Original columns: 27, DCR columns: 26 (Type column always filtered)
 // Output stream: Custom-GCPAuditLogs
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================

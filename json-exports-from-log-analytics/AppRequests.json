@@ -1,0 +1,173 @@
+﻿{
+    "Name":  "AppRequests",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "AppRoleName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppRoleInstance",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientModel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientOS",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientCity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientStateOrProvince",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientBrowser",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceGUID",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IKey",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SDKVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ItemCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ReferencedItemId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ReferencedType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientCountryOrRegion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserAccountId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RequestId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Source",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Name",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Url",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Success",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "ResultCode",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DurationMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "UserAuthenticatedId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PerformanceBucket",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Measurements",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationLinks",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "ParentId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SyntheticSource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SessionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Properties",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Id",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

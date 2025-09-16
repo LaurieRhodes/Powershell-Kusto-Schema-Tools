@@ -1,0 +1,81 @@
+﻿{
+    "Name":  "EmailAttachmentInfo",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "FileSize",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "DetectionMethods",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ThreatNames",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SenderFromAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ThreatTypes",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SenderObjectId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Timestamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "SenderDisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ReportId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecipientObjectId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecipientEmailAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NetworkMessageId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SHA256",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

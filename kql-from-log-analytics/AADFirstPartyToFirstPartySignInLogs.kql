@@ -1,0 +1,81 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for AADFirstPartyToFirstPartySignInLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:14:32
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 23, Final columns: 23
+// ============================================================================
+
+.create-merge table AADFirstPartyToFirstPartySignInLogsRaw (records:dynamic)
+
+.alter-merge table AADFirstPartyToFirstPartySignInLogsRaw policy retention softdelete = 1d
+
+.alter table AADFirstPartyToFirstPartySignInLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table AADFirstPartyToFirstPartySignInLogsRaw ingestion json mapping 'AADFirstPartyToFirstPartySignInLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table AADFirstPartyToFirstPartySignInLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+ServicePrincipalName:string,
+ServicePrincipalId:string,
+ServicePrincipalCredentialThumbprint:string,
+ServicePrincipalCredentialKeyId:string,
+ResultSignature:string,
+ResourceServicePrincipalId:string,
+ResourceOwnerTenantId:string,
+ResourceIdentity:string,
+SourceSystem:string,
+ResourceGroup:string,
+OperationVersion:string,
+OperationName:string,
+DurationMs:long,
+CreatedDateTime:datetime,
+CorrelationId:string,
+Category:string,
+AppOwnerTenantId:string,
+AppId:string,
+ResourceDisplayName:string,
+UniqueTokenIdentifier:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table AADFirstPartyToFirstPartySignInLogs policy caching hot = 1d
+
+.create-or-alter function AADFirstPartyToFirstPartySignInLogsExpand() {
+AADFirstPartyToFirstPartySignInLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ServicePrincipalName=tostring(events.ServicePrincipalName),
+ServicePrincipalId=tostring(events.ServicePrincipalId),
+ServicePrincipalCredentialThumbprint=tostring(events.ServicePrincipalCredentialThumbprint),
+ServicePrincipalCredentialKeyId=tostring(events.ServicePrincipalCredentialKeyId),
+ResultSignature=tostring(events.ResultSignature),
+ResourceServicePrincipalId=tostring(events.ResourceServicePrincipalId),
+ResourceOwnerTenantId=tostring(events.ResourceOwnerTenantId),
+ResourceIdentity=tostring(events.ResourceIdentity),
+SourceSystem=tostring(events.SourceSystem),
+ResourceGroup=tostring(events.ResourceGroup),
+OperationVersion=tostring(events.OperationVersion),
+OperationName=tostring(events.OperationName),
+DurationMs=tolong(events.DurationMs),
+CreatedDateTime=todatetime(events.CreatedDateTime),
+CorrelationId=tostring(events.CorrelationId),
+Category=tostring(events.Category),
+AppOwnerTenantId=tostring(events.AppOwnerTenantId),
+AppId=tostring(events.AppId),
+ResourceDisplayName=tostring(events.ResourceDisplayName),
+UniqueTokenIdentifier=tostring(events.UniqueTokenIdentifier),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table AADFirstPartyToFirstPartySignInLogs policy update @'[{"Source": "AADFirstPartyToFirstPartySignInLogsRaw", "Query": "AADFirstPartyToFirstPartySignInLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

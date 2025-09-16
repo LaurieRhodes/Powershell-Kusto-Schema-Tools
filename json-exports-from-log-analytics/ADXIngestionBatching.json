@@ -1,0 +1,57 @@
+﻿{
+    "Name":  "ADXIngestionBatching",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Database",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Table",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BatchingType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceCreationTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "BatchTimeSeconds",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "BatchSizeBytes",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "DataSourcesInBatch",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "RootActivityId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

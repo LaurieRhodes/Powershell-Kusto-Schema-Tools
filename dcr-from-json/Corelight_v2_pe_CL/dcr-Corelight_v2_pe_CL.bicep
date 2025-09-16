@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_pe_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:37
+// Generated: 2025-09-17 06:20:50
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 21, DCR columns: 18 (Type column filtered out)
+// Underscore columns included
+// Original columns: 21, DCR columns: 21 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_pe_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -35,7 +36,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ts_t'
+            name: '_path_s'
             type: 'string'
           }
           {
@@ -63,11 +64,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'has_debug_data_b'
+            name: 'uses_aslr_b'
             type: 'string'
           }
           {
-            name: 'uses_aslr_b'
+            name: 'is_64bit_b'
             type: 'string'
           }
           {
@@ -95,7 +96,19 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'is_64bit_b'
+            name: 'ts_t'
+            type: 'string'
+          }
+          {
+            name: '_write_ts_t'
+            type: 'string'
+          }
+          {
+            name: '_system_name_s'
+            type: 'string'
+          }
+          {
+            name: 'has_debug_data_b'
             type: 'string'
           }
           {
@@ -118,7 +131,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_pe_CL']
         destinations: ['Sentinel-Corelight_v2_pe_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), has_cert_table_b = tobool(has_cert_table_b), has_export_table_b = tobool(has_export_table_b), has_import_table_b = tobool(has_import_table_b), uses_seh_b = tobool(uses_seh_b), uses_code_integrity_b = tobool(uses_code_integrity_b), uses_dep_b = tobool(uses_dep_b), has_debug_data_b = tobool(has_debug_data_b), uses_aslr_b = tobool(uses_aslr_b), is_exe_b = tobool(is_exe_b), subsystem_s = tostring(subsystem_s), os_s = tostring(os_s), compile_ts_t = todatetime(compile_ts_t), machine_s = tostring(machine_s), id_s = tostring(id_s), is_64bit_b = tobool(is_64bit_b), section_names_s = tostring(section_names_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), has_cert_table_b = tobool(has_cert_table_b), has_export_table_b = tobool(has_export_table_b), has_import_table_b = tobool(has_import_table_b), uses_seh_b = tobool(uses_seh_b), uses_code_integrity_b = tobool(uses_code_integrity_b), uses_dep_b = tobool(uses_dep_b), uses_aslr_b = tobool(uses_aslr_b), is_64bit_b = tobool(is_64bit_b), is_exe_b = tobool(is_exe_b), subsystem_s = tostring(subsystem_s), os_s = tostring(os_s), compile_ts_t = todatetime(compile_ts_t), machine_s = tostring(machine_s), id_s = tostring(id_s), ts_t = todatetime(ts_t), _write_ts_t = todatetime(_write_ts_t), _system_name_s = tostring(_system_name_s), has_debug_data_b = tobool(has_debug_data_b), section_names_s = tostring(section_names_s)'
         outputStream: 'Custom-Corelight_v2_pe_CL'
       }
     ]

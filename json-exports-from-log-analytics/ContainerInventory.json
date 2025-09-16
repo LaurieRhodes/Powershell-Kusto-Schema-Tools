@@ -1,0 +1,97 @@
+﻿{
+    "Name":  "ContainerInventory",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "CreatedTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Command",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EnvironmentVar",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ComposeGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExitCode",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Links",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Ports",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ContainerState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ImageTag",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Image",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Repository",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ImageID",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ContainerHostname",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Name",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ContainerID",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "StartedTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "FinishedTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

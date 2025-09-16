@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_suricata_corelight_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:39
+// Generated: 2025-09-17 06:20:52
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 29, DCR columns: 26 (Type column filtered out)
+// Underscore columns included
+// Original columns: 29, DCR columns: 29 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_suricata_corelight_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -35,7 +36,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ts_t'
+            name: '_path_s'
             type: 'string'
           }
           {
@@ -79,11 +80,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'packet_s'
+            name: 'pcap_cnt_d'
             type: 'string'
           }
           {
-            name: 'pcap_cnt_d'
+            name: 'tx_id_d'
             type: 'string'
           }
           {
@@ -127,7 +128,19 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'tx_id_d'
+            name: 'ts_t'
+            type: 'string'
+          }
+          {
+            name: '_write_ts_t'
+            type: 'string'
+          }
+          {
+            name: '_system_name_s'
+            type: 'string'
+          }
+          {
+            name: 'packet_s'
             type: 'string'
           }
           {
@@ -150,7 +163,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_suricata_corelight_CL']
         destinations: ['Sentinel-Corelight_v2_suricata_corelight_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), payload_s = tostring(payload_s), community_id_s = tostring(community_id_s), alert_metadata_s = tostring(alert_metadata_s), alert_severity_d = toreal(alert_severity_d), alert_category_s = tostring(alert_category_s), alert_signature_s = tostring(alert_signature_s), alert_rev_d = toreal(alert_rev_d), alert_signature_id_d = toreal(alert_signature_id_d), alert_gid_d = toreal(alert_gid_d), alert_action_s = tostring(alert_action_s), packet_s = tostring(packet_s), pcap_cnt_d = toreal(pcap_cnt_d), flow_id_d = toreal(flow_id_d), service_s = tostring(service_s), suri_id_s = tostring(suri_id_s), icmp_code_d = toreal(icmp_code_d), icmp_type_d = toreal(icmp_type_d), id_resp_p_d = toreal(id_resp_p_d), id_resp_h_s = tostring(id_resp_h_s), id_orig_p_d = toreal(id_orig_p_d), id_orig_h_s = tostring(id_orig_h_s), uid_s = tostring(uid_s), tx_id_d = toreal(tx_id_d), metadata_s = tostring(metadata_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), payload_s = tostring(payload_s), community_id_s = tostring(community_id_s), alert_metadata_s = tostring(alert_metadata_s), alert_severity_d = toreal(alert_severity_d), alert_category_s = tostring(alert_category_s), alert_signature_s = tostring(alert_signature_s), alert_rev_d = toreal(alert_rev_d), alert_signature_id_d = toreal(alert_signature_id_d), alert_gid_d = toreal(alert_gid_d), alert_action_s = tostring(alert_action_s), pcap_cnt_d = toreal(pcap_cnt_d), tx_id_d = toreal(tx_id_d), flow_id_d = toreal(flow_id_d), service_s = tostring(service_s), suri_id_s = tostring(suri_id_s), icmp_code_d = toreal(icmp_code_d), icmp_type_d = toreal(icmp_type_d), id_resp_p_d = toreal(id_resp_p_d), id_resp_h_s = tostring(id_resp_h_s), id_orig_p_d = toreal(id_orig_p_d), id_orig_h_s = tostring(id_orig_h_s), uid_s = tostring(uid_s), ts_t = todatetime(ts_t), _write_ts_t = todatetime(_write_ts_t), _system_name_s = tostring(_system_name_s), packet_s = tostring(packet_s), metadata_s = tostring(metadata_s)'
         outputStream: 'Custom-Corelight_v2_suricata_corelight_CL'
       }
     ]

@@ -1,0 +1,77 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for WVDSessionHostManagement - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:31:46
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 21, Final columns: 21
+// ============================================================================
+
+.create-merge table WVDSessionHostManagementRaw (records:dynamic)
+
+.alter-merge table WVDSessionHostManagementRaw policy retention softdelete = 1d
+
+.alter table WVDSessionHostManagementRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table WVDSessionHostManagementRaw ingestion json mapping 'WVDSessionHostManagementRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table WVDSessionHostManagement(
+TimeGenerated:datetime,
+TenantId:guid,
+UpdateStartWindowInMinutes:int,
+UpdateMethod:string,
+ToSessionHostConfigVer:string,
+ToInstanceCount:int,
+ScheduledDateTimeZone:string,
+ScheduledDateTime:string,
+ProvisioningCanaryPolicy:string,
+ProvisioningType:string,
+ProvisioningStatus:string,
+UpdateMaxVmsRemoved:int,
+FromSessionHostConfigVer:string,
+FromInstanceCount:int,
+FailedSessionHostCleanupPolicy:string,
+ClientType:string,
+CorrelationId:string,
+UpdateDeleteOriginalVm:bool,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table WVDSessionHostManagement policy caching hot = 1d
+
+.create-or-alter function WVDSessionHostManagementExpand() {
+WVDSessionHostManagementRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+UpdateStartWindowInMinutes=toint(events.UpdateStartWindowInMinutes),
+UpdateMethod=tostring(events.UpdateMethod),
+ToSessionHostConfigVer=tostring(events.ToSessionHostConfigVer),
+ToInstanceCount=toint(events.ToInstanceCount),
+ScheduledDateTimeZone=tostring(events.ScheduledDateTimeZone),
+ScheduledDateTime=tostring(events.ScheduledDateTime),
+ProvisioningCanaryPolicy=tostring(events.ProvisioningCanaryPolicy),
+ProvisioningType=tostring(events.ProvisioningType),
+ProvisioningStatus=tostring(events.ProvisioningStatus),
+UpdateMaxVmsRemoved=toint(events.UpdateMaxVmsRemoved),
+FromSessionHostConfigVer=tostring(events.FromSessionHostConfigVer),
+FromInstanceCount=toint(events.FromInstanceCount),
+FailedSessionHostCleanupPolicy=tostring(events.FailedSessionHostCleanupPolicy),
+ClientType=tostring(events.ClientType),
+CorrelationId=tostring(events.CorrelationId),
+UpdateDeleteOriginalVm=tobool(events.UpdateDeleteOriginalVm),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table WVDSessionHostManagement policy update @'[{"Source": "WVDSessionHostManagementRaw", "Query": "WVDSessionHostManagementExpand()", "IsEnabled": "True", "IsTransactional": true}]'

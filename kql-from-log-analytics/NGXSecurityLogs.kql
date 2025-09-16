@@ -1,0 +1,57 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for NGXSecurityLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:27:28
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 11, Final columns: 11
+// ============================================================================
+
+.create-merge table NGXSecurityLogsRaw (records:dynamic)
+
+.alter-merge table NGXSecurityLogsRaw policy retention softdelete = 1d
+
+.alter table NGXSecurityLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table NGXSecurityLogsRaw ingestion json mapping 'NGXSecurityLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table NGXSecurityLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+Location:string,
+Message:string,
+FilePath:string,
+Tag:string,
+Severity:string,
+Facility:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table NGXSecurityLogs policy caching hot = 1d
+
+.create-or-alter function NGXSecurityLogsExpand() {
+NGXSecurityLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Location=tostring(events.Location),
+Message=tostring(events.Message),
+FilePath=tostring(events.FilePath),
+Tag=tostring(events.Tag),
+Severity=tostring(events.Severity),
+Facility=tostring(events.Facility),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table NGXSecurityLogs policy update @'[{"Source": "NGXSecurityLogsRaw", "Query": "NGXSecurityLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

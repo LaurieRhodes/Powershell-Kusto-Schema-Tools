@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for RedCanaryDetections_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:48
+// Generated: 2025-09-17 06:21:01
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 23, DCR columns: 20 (Type column filtered out)
+// Underscore columns included
+// Original columns: 23, DCR columns: 22 (Type column always filtered)
 // Output stream: Custom-RedCanaryDetections_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -36,6 +37,14 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'child_process_iocs_s'
+            type: 'string'
+          }
+          {
+            name: 'tactics_s'
+            type: 'string'
+          }
+          {
+            name: 'registry_modification_iocs_s'
             type: 'string'
           }
           {
@@ -63,15 +72,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
+            name: '_ResourceId'
+            type: 'string'
+          }
+          {
             name: 'host_name_s'
             type: 'string'
           }
           {
-            name: 'registry_modification_iocs_s'
-            type: 'string'
-          }
-          {
-            name: 'host_full_name_s'
+            name: 'file_modification_iocs_s'
             type: 'string'
           }
           {
@@ -103,11 +112,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'file_modification_iocs_s'
+            name: 'host_full_name_s'
             type: 'string'
           }
           {
-            name: 'tactics_s'
+            name: '_SubscriptionId'
             type: 'string'
           }
         ]
@@ -126,7 +135,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-RedCanaryDetections_CL']
         destinations: ['Sentinel-RedCanaryDetections_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), child_process_iocs_s = tostring(child_process_iocs_s), RawData = tostring(RawData), process_iocs_s = tostring(process_iocs_s), network_connection_iocs_s = tostring(network_connection_iocs_s), identities_s = tostring(identities_s), host_os_version_s = tostring(host_os_version_s), host_os_family_s = tostring(host_os_family_s), host_name_s = tostring(host_name_s), registry_modification_iocs_s = tostring(registry_modification_iocs_s), host_full_name_s = tostring(host_full_name_s), detection_url_s = tostring(detection_url_s), detection_severity_s = tostring(detection_severity_s), detection_id_s = tostring(detection_id_s), detection_headline_s = tostring(detection_headline_s), detection_details_s = tostring(detection_details_s), cross_process_iocs_s = tostring(cross_process_iocs_s), Computer = tostring(Computer), file_modification_iocs_s = tostring(file_modification_iocs_s), tactics_s = tostring(tactics_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), child_process_iocs_s = tostring(child_process_iocs_s), tactics_s = tostring(tactics_s), registry_modification_iocs_s = tostring(registry_modification_iocs_s), RawData = tostring(RawData), process_iocs_s = tostring(process_iocs_s), network_connection_iocs_s = tostring(network_connection_iocs_s), identities_s = tostring(identities_s), host_os_version_s = tostring(host_os_version_s), host_os_family_s = tostring(host_os_family_s), _ResourceId = tostring(_ResourceId), host_name_s = tostring(host_name_s), file_modification_iocs_s = tostring(file_modification_iocs_s), detection_url_s = tostring(detection_url_s), detection_severity_s = tostring(detection_severity_s), detection_id_s = tostring(detection_id_s), detection_headline_s = tostring(detection_headline_s), detection_details_s = tostring(detection_details_s), cross_process_iocs_s = tostring(cross_process_iocs_s), Computer = tostring(Computer), host_full_name_s = tostring(host_full_name_s), _SubscriptionId = tostring(_SubscriptionId)'
         outputStream: 'Custom-RedCanaryDetections_CL'
       }
     ]

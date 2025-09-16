@@ -1,0 +1,101 @@
+﻿{
+    "Name":  "VMBoundPort",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AgentId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Process",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Machine",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PortId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResponseTimeMax",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ResponseTimeMin",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ResponseTimeSum",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "Responses",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "LinksEstablished",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "LinksLive",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "BytesReceived",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "BytesSent",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "IsWildcardBind",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "Protocol",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Port",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Ip",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProcessName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LinksTerminated",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

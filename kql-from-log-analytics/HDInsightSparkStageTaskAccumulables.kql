@@ -1,0 +1,73 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for HDInsightSparkStageTaskAccumulables - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:25:48
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 19, Final columns: 19
+// ============================================================================
+
+.create-merge table HDInsightSparkStageTaskAccumulablesRaw (records:dynamic)
+
+.alter-merge table HDInsightSparkStageTaskAccumulablesRaw policy retention softdelete = 1d
+
+.alter table HDInsightSparkStageTaskAccumulablesRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table HDInsightSparkStageTaskAccumulablesRaw ingestion json mapping 'HDInsightSparkStageTaskAccumulablesRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table HDInsightSparkStageTaskAccumulables(
+TimeGenerated:datetime,
+TenantId:guid,
+ApplicationId:string,
+Entity:string,
+EntityId:string,
+ParentId:string,
+MetricId:string,
+MetricName:string,
+MetricValue:long,
+ClusterTenantId:string,
+Role:string,
+Host:string,
+ClusterDnsName:string,
+Region:string,
+IpAddress:string,
+UserSubscriptionId:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table HDInsightSparkStageTaskAccumulables policy caching hot = 1d
+
+.create-or-alter function HDInsightSparkStageTaskAccumulablesExpand() {
+HDInsightSparkStageTaskAccumulablesRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ApplicationId=tostring(events.ApplicationId),
+Entity=tostring(events.Entity),
+EntityId=tostring(events.EntityId),
+ParentId=tostring(events.ParentId),
+MetricId=tostring(events.MetricId),
+MetricName=tostring(events.MetricName),
+MetricValue=tolong(events.MetricValue),
+ClusterTenantId=tostring(events.ClusterTenantId),
+Role=tostring(events.Role),
+Host=tostring(events.Host),
+ClusterDnsName=tostring(events.ClusterDnsName),
+Region=tostring(events.Region),
+IpAddress=tostring(events.IpAddress),
+UserSubscriptionId=tostring(events.UserSubscriptionId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table HDInsightSparkStageTaskAccumulables policy update @'[{"Source": "HDInsightSparkStageTaskAccumulablesRaw", "Query": "HDInsightSparkStageTaskAccumulablesExpand()", "IsEnabled": "True", "IsTransactional": true}]'

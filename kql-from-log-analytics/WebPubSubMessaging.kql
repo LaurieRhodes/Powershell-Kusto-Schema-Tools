@@ -1,0 +1,61 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for WebPubSubMessaging - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:31:25
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 13, Final columns: 13
+// ============================================================================
+
+.create-merge table WebPubSubMessagingRaw (records:dynamic)
+
+.alter-merge table WebPubSubMessagingRaw policy retention softdelete = 1d
+
+.alter table WebPubSubMessagingRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table WebPubSubMessagingRaw ingestion json mapping 'WebPubSubMessagingRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table WebPubSubMessaging(
+TimeGenerated:datetime,
+TenantId:guid,
+OperationName:string,
+Location:string,
+Level:string,
+CallerIpAddress:string,
+Message:string,
+UserId:string,
+ConnectionId:string,
+TraceId:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table WebPubSubMessaging policy caching hot = 1d
+
+.create-or-alter function WebPubSubMessagingExpand() {
+WebPubSubMessagingRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+OperationName=tostring(events.OperationName),
+Location=tostring(events.Location),
+Level=tostring(events.Level),
+CallerIpAddress=tostring(events.CallerIpAddress),
+Message=tostring(events.Message),
+UserId=tostring(events.UserId),
+ConnectionId=tostring(events.ConnectionId),
+TraceId=tostring(events.TraceId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table WebPubSubMessaging policy update @'[{"Source": "WebPubSubMessagingRaw", "Query": "WebPubSubMessagingExpand()", "IsEnabled": "True", "IsTransactional": true}]'

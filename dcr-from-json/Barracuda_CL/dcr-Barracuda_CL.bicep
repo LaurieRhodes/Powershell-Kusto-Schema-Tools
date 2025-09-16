@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Barracuda_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:30
+// Generated: 2025-09-17 06:20:43
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 69, DCR columns: 66 (Type column filtered out)
+// Underscore columns included
+// Original columns: 69, DCR columns: 68 (Type column always filtered)
 // Output stream: Custom-Barracuda_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -36,10 +37,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
-            type: 'string'
-          }
-          {
-            name: 'DestinationIP_s'
             type: 'string'
           }
           {
@@ -75,6 +72,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
+            name: '_ResourceId'
+            type: 'string'
+          }
+          {
             name: 'ServerIP_s'
             type: 'string'
           }
@@ -95,11 +96,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ServerPort_d'
+            name: 'DestinationIP_s'
             type: 'string'
           }
           {
-            name: 'ServicePort_d'
+            name: 'ServerPort_d'
             type: 'string'
           }
           {
@@ -155,19 +156,23 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'SourcePort_d'
-            type: 'string'
-          }
-          {
             name: 'ProxyIP_s'
             type: 'string'
           }
           {
-            name: 'SourceIP'
+            name: 'ServicePort_d'
             type: 'string'
           }
           {
-            name: 'Severity_s'
+            name: 'ProxyPort_d'
+            type: 'string'
+          }
+          {
+            name: 'SourcePort_d'
+            type: 'string'
+          }
+          {
+            name: 'LogType_s'
             type: 'string'
           }
           {
@@ -227,11 +232,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'NewValue_s'
+            name: 'SourceIP'
             type: 'string'
           }
           {
-            name: 'OldValue_s'
+            name: 'NewValue_s'
             type: 'string'
           }
           {
@@ -287,11 +292,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'LogType_s'
+            name: 'Severity_s'
             type: 'string'
           }
           {
-            name: 'ProxyPort_d'
+            name: 'OldValue_s'
+            type: 'string'
+          }
+          {
+            name: '_ItemId'
             type: 'string'
           }
         ]
@@ -310,7 +319,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Barracuda_CL']
         destinations: ['Sentinel-Barracuda_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), DestinationIP_s = tostring(DestinationIP_s), DestinationPort_d = toreal(DestinationPort_d), ActionID_s = tostring(ActionID_s), UnitName_s = tostring(UnitName_s), Protocol_s = tostring(Protocol_s), DeviceReceiptTime_s = tostring(DeviceReceiptTime_s), Details_s = tostring(Details_s), HostIP_s = tostring(HostIP_s), WAF_Serial_s = tostring(WAF_Serial_s), ServerIP_s = tostring(ServerIP_s), HTTPStatus_s = tostring(HTTPStatus_s), Action_s = tostring(Action_s), ClientIP_s = tostring(ClientIP_s), BytesReceived_d = toreal(BytesReceived_d), ServerPort_d = toreal(ServerPort_d), ServicePort_d = toreal(ServicePort_d), ProtocolVersion_s = tostring(ProtocolVersion_s), Cookie_s = tostring(Cookie_s), Referer_s = tostring(Referer_s), Method_s = tostring(Method_s), BytesSent_d = toreal(BytesSent_d), TimeTaken_d = toreal(TimeTaken_d), SessionID_s = tostring(SessionID_s), ClientPort_d = toreal(ClientPort_d), RuleType_s = tostring(RuleType_s), AuthenticatedUser_s = tostring(AuthenticatedUser_s), UserAgent_s = tostring(UserAgent_s), URL_s = tostring(URL_s), CacheHit_d = toreal(CacheHit_d), SourcePort_d = toreal(SourcePort_d), ProxyIP_s = tostring(ProxyIP_s), SourceIP = tostring(SourceIP), Severity_s = tostring(Severity_s), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), ObjectName_s = tostring(ObjectName_s), ObjectType_s = tostring(ObjectType_s), AdminName_s = tostring(AdminName_s), ClientType_s = tostring(ClientType_s), CommandName_s = tostring(CommandName_s), LoginIP_s = tostring(LoginIP_s), LoginPort_d = toreal(LoginPort_d), ChangeType_s = tostring(ChangeType_s), TransactionID_d = toreal(TransactionID_d), NewValue_s = tostring(NewValue_s), OldValue_s = tostring(OldValue_s), Variable_s = tostring(Variable_s), AdminRole_s = tostring(AdminRole_s), EventMessage_s = tostring(EventMessage_s), EventID_d = toreal(EventID_d), host_s = tostring(host_s), ident_s = tostring(ident_s), Message = tostring(Message), cef_version_d = toreal(cef_version_d), Vendor_s = tostring(Vendor_s), Product_s = tostring(Product_s), DeviceVersion_s = tostring(DeviceVersion_s), SignatureId_s = tostring(SignatureId_s), EventName_s = tostring(EventName_s), LogType_s = tostring(LogType_s), ProxyPort_d = toreal(ProxyPort_d)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), DestinationPort_d = toreal(DestinationPort_d), ActionID_s = tostring(ActionID_s), UnitName_s = tostring(UnitName_s), Protocol_s = tostring(Protocol_s), DeviceReceiptTime_s = tostring(DeviceReceiptTime_s), Details_s = tostring(Details_s), HostIP_s = tostring(HostIP_s), WAF_Serial_s = tostring(WAF_Serial_s), _ResourceId = tostring(_ResourceId), ServerIP_s = tostring(ServerIP_s), HTTPStatus_s = tostring(HTTPStatus_s), Action_s = tostring(Action_s), ClientIP_s = tostring(ClientIP_s), BytesReceived_d = toreal(BytesReceived_d), DestinationIP_s = tostring(DestinationIP_s), ServerPort_d = toreal(ServerPort_d), ProtocolVersion_s = tostring(ProtocolVersion_s), Cookie_s = tostring(Cookie_s), Referer_s = tostring(Referer_s), Method_s = tostring(Method_s), BytesSent_d = toreal(BytesSent_d), TimeTaken_d = toreal(TimeTaken_d), SessionID_s = tostring(SessionID_s), ClientPort_d = toreal(ClientPort_d), RuleType_s = tostring(RuleType_s), AuthenticatedUser_s = tostring(AuthenticatedUser_s), UserAgent_s = tostring(UserAgent_s), URL_s = tostring(URL_s), CacheHit_d = toreal(CacheHit_d), ProxyIP_s = tostring(ProxyIP_s), ServicePort_d = toreal(ServicePort_d), ProxyPort_d = toreal(ProxyPort_d), SourcePort_d = toreal(SourcePort_d), LogType_s = tostring(LogType_s), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), ObjectName_s = tostring(ObjectName_s), ObjectType_s = tostring(ObjectType_s), AdminName_s = tostring(AdminName_s), ClientType_s = tostring(ClientType_s), CommandName_s = tostring(CommandName_s), LoginIP_s = tostring(LoginIP_s), LoginPort_d = toreal(LoginPort_d), ChangeType_s = tostring(ChangeType_s), TransactionID_d = toreal(TransactionID_d), SourceIP = tostring(SourceIP), NewValue_s = tostring(NewValue_s), Variable_s = tostring(Variable_s), AdminRole_s = tostring(AdminRole_s), EventMessage_s = tostring(EventMessage_s), EventID_d = toreal(EventID_d), host_s = tostring(host_s), ident_s = tostring(ident_s), Message = tostring(Message), cef_version_d = toreal(cef_version_d), Vendor_s = tostring(Vendor_s), Product_s = tostring(Product_s), DeviceVersion_s = tostring(DeviceVersion_s), SignatureId_s = tostring(SignatureId_s), EventName_s = tostring(EventName_s), Severity_s = tostring(Severity_s), OldValue_s = tostring(OldValue_s), _ItemId = tostring(_ItemId)'
         outputStream: 'Custom-Barracuda_CL'
       }
     ]

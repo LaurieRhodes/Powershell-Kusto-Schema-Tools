@@ -1,0 +1,101 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for MDCDetectionDNSEvents - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:26:36
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 33, Final columns: 33
+// ============================================================================
+
+.create-merge table MDCDetectionDNSEventsRaw (records:dynamic)
+
+.alter-merge table MDCDetectionDNSEventsRaw policy retention softdelete = 1d
+
+.alter table MDCDetectionDNSEventsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table MDCDetectionDNSEventsRaw ingestion json mapping 'MDCDetectionDNSEventsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table MDCDetectionDNSEvents(
+TimeGenerated:datetime,
+TenantId:guid,
+Exe:string,
+Cwd:string,
+EventGuid:string,
+AdditionalData:dynamic,
+DataPipelineMetadata:dynamic,
+Domain:string,
+Tid:string,
+Rcode:string,
+Qtype:string,
+QR:string,
+NameServer:string,
+Latency:string,
+PacketId:string,
+Pcomm:string,
+Addresses:dynamic,
+NodeName:string,
+PodName:string,
+Comm:string,
+Gid:string,
+Uid:string,
+Ppid:string,
+PID:string,
+ContainerName:string,
+ContainerId:string,
+Digest:string,
+ImageName:string,
+Region:string,
+AzureResourceId:string,
+Namespace:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table MDCDetectionDNSEvents policy caching hot = 1d
+
+.create-or-alter function MDCDetectionDNSEventsExpand() {
+MDCDetectionDNSEventsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Exe=tostring(events.Exe),
+Cwd=tostring(events.Cwd),
+EventGuid=tostring(events.EventGuid),
+AdditionalData=todynamic(events.AdditionalData),
+DataPipelineMetadata=todynamic(events.DataPipelineMetadata),
+Domain=tostring(events.Domain),
+Tid=tostring(events.Tid),
+Rcode=tostring(events.Rcode),
+Qtype=tostring(events.Qtype),
+QR=tostring(events.QR),
+NameServer=tostring(events.NameServer),
+Latency=tostring(events.Latency),
+PacketId=tostring(events.PacketId),
+Pcomm=tostring(events.Pcomm),
+Addresses=todynamic(events.Addresses),
+NodeName=tostring(events.NodeName),
+PodName=tostring(events.PodName),
+Comm=tostring(events.Comm),
+Gid=tostring(events.Gid),
+Uid=tostring(events.Uid),
+Ppid=tostring(events.Ppid),
+PID=tostring(events.PID),
+ContainerName=tostring(events.ContainerName),
+ContainerId=tostring(events.ContainerId),
+Digest=tostring(events.Digest),
+ImageName=tostring(events.ImageName),
+Region=tostring(events.Region),
+AzureResourceId=tostring(events.AzureResourceId),
+Namespace=tostring(events.Namespace),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table MDCDetectionDNSEvents policy update @'[{"Source": "MDCDetectionDNSEventsRaw", "Query": "MDCDetectionDNSEventsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

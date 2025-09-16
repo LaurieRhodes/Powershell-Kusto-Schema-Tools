@@ -1,0 +1,117 @@
+﻿{
+    "Name":  "SecurityRecommendation",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "StatusChangeDate",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "FirstEvaluationDate",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "RecommendationAdditionalData",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "IsSnapshot",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "RecommendationLink",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceRegion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AssessedResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AgentId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NotApplicableReason",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecommendationSeverity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PolicyDefinitionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResolvedTimeUTC",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "DiscoveredTimeUTC",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "RecommendationState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemediationDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Description",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProviderName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecommendationDisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecommendationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecommendationId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ResourceTenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Environment",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Properties",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

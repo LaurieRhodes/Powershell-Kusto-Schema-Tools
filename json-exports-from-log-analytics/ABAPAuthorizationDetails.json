@@ -1,0 +1,85 @@
+﻿{
+    "Name":  "ABAPAuthorizationDetails",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SystemUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SystemRole",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SystemId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ChildRole",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "High",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Low",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Field",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Object",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AuthorizationGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Authorization",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TypeOfChange",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UpdatedOn",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "RoleType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Role",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AgentId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

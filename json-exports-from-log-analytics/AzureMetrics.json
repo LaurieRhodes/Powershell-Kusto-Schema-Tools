@@ -1,0 +1,173 @@
+﻿{
+    "Name":  "AzureMetrics",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "AverageValue",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "TimeGrain",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UnitName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemoteIPCountry",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemoteIPLatitude",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "RemoteIPLongitude",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "MaliciousIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Minimum",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "IndicatorThreatType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TLPLevel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Confidence",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Severity",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "FirstReportedDateTime",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LastReportedDateTime",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsActive",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ReportReferenceLink",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Description",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AdditionalInformation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Maximum",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "Total",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultSignature",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Count",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "ResultDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CallerIpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Resource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceProvider",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SubscriptionId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "MetricName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DurationMs",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "Average",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

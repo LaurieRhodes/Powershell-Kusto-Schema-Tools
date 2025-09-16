@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_known_hosts_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:35
+// Generated: 2025-09-17 06:20:49
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 15, DCR columns: 12 (Type column filtered out)
+// Underscore columns included
+// Original columns: 15, DCR columns: 15 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_known_hosts_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -32,6 +33,18 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
         columns: [
           {
             name: 'TimeGenerated'
+            type: 'string'
+          }
+          {
+            name: '_path_s'
+            type: 'string'
+          }
+          {
+            name: '_system_name_s'
+            type: 'string'
+          }
+          {
+            name: '_write_ts_t'
             type: 'string'
           }
           {
@@ -94,7 +107,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_known_hosts_CL']
         destinations: ['Sentinel-Corelight_v2_known_hosts_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), duration_d = toreal(duration_d), kuid_s = tostring(kuid_s), host_ip_s = tostring(host_ip_s), conns_opened_d = toreal(conns_opened_d), conns_closed_d = toreal(conns_closed_d), conns_pending_d = toreal(conns_pending_d), long_conns_d = toreal(long_conns_d), annotations_s = tostring(annotations_s), last_active_session_s = tostring(last_active_session_s), last_active_interval_d = toreal(last_active_interval_d)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), _system_name_s = tostring(_system_name_s), _write_ts_t = todatetime(_write_ts_t), ts_t = todatetime(ts_t), duration_d = toreal(duration_d), kuid_s = tostring(kuid_s), host_ip_s = tostring(host_ip_s), conns_opened_d = toreal(conns_opened_d), conns_closed_d = toreal(conns_closed_d), conns_pending_d = toreal(conns_pending_d), long_conns_d = toreal(long_conns_d), annotations_s = tostring(annotations_s), last_active_session_s = tostring(last_active_session_s), last_active_interval_d = toreal(last_active_interval_d)'
         outputStream: 'Custom-Corelight_v2_known_hosts_CL'
       }
     ]

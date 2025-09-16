@@ -1,0 +1,125 @@
+﻿{
+    "Name":  "BehaviorAnalytics",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActivityInsights",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "DevicesInsights",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "UsersInsights",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Device",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TargetPrincipalName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TargetName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActorPrincipalName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActorName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventProductVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventVendor",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NativeTableName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationDevice",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationIPAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceDevice",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceIPLocation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceIPAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventSource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserPrincipalName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActionType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActivityType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TimeProcessed",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "SourceRecordId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "DestinationIPLocation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InvestigationPriority",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

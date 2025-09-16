@@ -1,0 +1,73 @@
+﻿{
+    "Name":  "ContainerImageInventory",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ImageID",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Repository",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Image",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ImageTag",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ImageSize",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VirtualSize",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Running",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Stopped",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Failed",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Paused",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "TotalContainer",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

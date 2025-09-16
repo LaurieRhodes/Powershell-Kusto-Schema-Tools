@@ -1,0 +1,613 @@
+﻿{
+    "Name":  "OfficeActivity",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "AzureActiveDirectory_EventType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AADTarget",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Start_Time",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "OfficeTenantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OfficeTenantId_",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TargetUserOrGroupName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceRecordId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "TargetUserOrGroupType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Members",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "TeamName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TeamGuid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ChannelType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ChannelName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ChannelGuid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MessageId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OfficeId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "GenericInfo",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Actor",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActorContextId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActorIpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InterSystemsId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "IntraSystemId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SupportTicketId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TargetContextId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "DataCenterSecurityEventType",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "EffectiveOrganization",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ElevationTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ElevationApprover",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ElevationApprovedTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ElevationRequestId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ElevationRole",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ElevationDuration",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ExtraProperties",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "AddOnType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AddonName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TabType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SRRuleMatchDetails",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "IsManagedDevice",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "AppPoolName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UniqueTokenId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IssuedAtTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "AppAccessContext",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Attendees",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "ArtifactsShared",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "IsJoinedFromLobby",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "JoinTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "LeaveTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "DeviceInformation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MeetingDetailId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ListItemUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SensitivityLabelId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SRPolicyName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LoginStatus",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SRPolicyId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientAppId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Name",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OldValue",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NewValue",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ItemName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ChatThreadId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ChatName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CommunicationType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AADGroupId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "AddOnGuid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AppDistributionMode",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TargetUserId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationScope",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureADAppId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationProperties",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "AppId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ApplicationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UniqueSharingId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Client",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SendonBehalfOfUserMailboxGuid",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Site_",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ItemType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventSource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Source_Name",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MachineDomainInfo",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MachineId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Scope",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Site_Url",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceRelativeUrl",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceRelativeUrl_",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceFileName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceFileName_",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceFileExtension",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationRelativeUrl",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Site_Url_",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientIP_",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserId_",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Application",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserDomain",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Activity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserAgent",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecordType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Operation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OrganizationId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "OrganizationId_",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "UserType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserKey",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OfficeWorkload",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultReasonType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OfficeObjectId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationFileName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationFileExtension",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserSharedWith",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SharingType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Folder",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CrossMailboxOperations",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "DestMailboxId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "DestMailboxOwnerUPN",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestMailboxOwnerSid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestMailboxOwnerMasterAccountSid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestFolder",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Folders",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AffectedItems",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Item",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ModifiedProperties",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SendAsUserSmtp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SendAsUserMailboxGuid",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SendOnBehalfOfUserSmtp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientProcessName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExtendedProperties",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientMachineName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientInfoString",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CustomEvent",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Event_Data",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ModifiedObjectResolvedName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Parameters",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExternalAccess",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OriginatingServer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OrganizationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Logon_Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InternalLogonType",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "MailboxGuid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MailboxOwnerUPN",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MailboxOwnerSid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MailboxOwnerMasterAccountSid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LogonUserSid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LogonUserDisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Client_IPAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActorContextId_",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

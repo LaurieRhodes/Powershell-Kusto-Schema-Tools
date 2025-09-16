@@ -1,0 +1,69 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for OEPAuditLogs - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:27:44
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 17, Final columns: 17
+// ============================================================================
+
+.create-merge table OEPAuditLogsRaw (records:dynamic)
+
+.alter-merge table OEPAuditLogsRaw policy retention softdelete = 1d
+
+.alter table OEPAuditLogsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table OEPAuditLogsRaw ingestion json mapping 'OEPAuditLogsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table OEPAuditLogs(
+TimeGenerated:datetime,
+TenantId:guid,
+Category:string,
+Location:string,
+ServiceName:string,
+OperationName:string,
+DataPartitionId:string,
+Action:string,
+ActionId:string,
+Puid:string,
+ResultType:string,
+OperationDescription:string,
+RequestId:string,
+Message:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table OEPAuditLogs policy caching hot = 1d
+
+.create-or-alter function OEPAuditLogsExpand() {
+OEPAuditLogsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Category=tostring(events.Category),
+Location=tostring(events.Location),
+ServiceName=tostring(events.ServiceName),
+OperationName=tostring(events.OperationName),
+DataPartitionId=tostring(events.DataPartitionId),
+Action=tostring(events.Action),
+ActionId=tostring(events.ActionId),
+Puid=tostring(events.Puid),
+ResultType=tostring(events.ResultType),
+OperationDescription=tostring(events.OperationDescription),
+RequestId=tostring(events.RequestId),
+Message=tostring(events.Message),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table OEPAuditLogs policy update @'[{"Source": "OEPAuditLogsRaw", "Query": "OEPAuditLogsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

@@ -1,0 +1,213 @@
+﻿{
+    "Name":  "HDInsightSparkTaskEvents",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "PeakExecutionMemory",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "SchedulerDelay",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "RecordsRead",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "BytesRead",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "RecordsWritten",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "BytesWritten",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ShuffleFetchWaitTime",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ShuffleTotalBytesRead",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ShuffleTotalBlocksFetched",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ShuffleLocalBlocksFetched",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ShuffleRemoteBlocksFetched",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ShuffleWriteTime",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ShuffleBytesWritten",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ShuffleRecordsWritten",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "NumUpdatedBlockStatuses",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ClusterTenantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Role",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Host",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClusterDnsName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Region",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UpdatedBlocks",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "UserSubscriptionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OutputMetrics",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ShuffleWriteMetrics",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ApplicationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "StageId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TaskId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AttemptId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExecutorId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LaunchTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "FinishTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Failed",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "Killed",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "EndReason",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TaskType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DiskBytesSpilled",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ExecutorCPUTime",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ExecutorDeserializeCPUTime",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ExecutorDeserializeTime",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ExecutorRunTime",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "JvmGcTime",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "MemoryBytesSpilled",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ResultSerializationTime",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ResultSize",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ShuffleReadMetrics",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "InputMetrics",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

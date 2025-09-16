@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:33
+// Generated: 2025-09-17 06:20:46
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 12, DCR columns: 10 (Type column filtered out)
+// Underscore columns included
+// Original columns: 12, DCR columns: 11 (Type column always filtered)
 // Output stream: Custom-Corelight_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -70,6 +71,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             name: 'hostname_s'
             type: 'string'
           }
+          {
+            name: '_ResourceId'
+            type: 'string'
+          }
         ]
       }
     }
@@ -86,7 +91,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_CL']
         destinations: ['Sentinel-Corelight_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), Message = tostring(Message), log_file_s = tostring(log_file_s), hostname_s = tostring(hostname_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), Message = tostring(Message), log_file_s = tostring(log_file_s), hostname_s = tostring(hostname_s), _ResourceId = tostring(_ResourceId)'
         outputStream: 'Custom-Corelight_CL'
       }
     ]

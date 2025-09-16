@@ -1,0 +1,245 @@
+﻿{
+    "Name":  "CDBControlPlaneRequests",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "AcledSubnets",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VnetLocation",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VnetArmUrl",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SqlQueryTextTraceType",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "EnableDataPlaneRequestsTrace",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "EnableControlPlaneRequestsTrace",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "EnableMongoRequestsTrace",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "EnableCassandraRequestsTrace",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "EnableGremlinRequestsTrace",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "DurationMs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "RoleDefinitionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RoleDefinitionName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RoleDefinitionType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RoleDefinitionAssignableScopes",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RoleDefinitionPermissions",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RoleAssignmentId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AssociatedRoleDefinitionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RoleAssignmentPrincipalId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RoleAssignmentPrincipalType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RoleAssignmentScope",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ApiKind",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ApiKindResourceType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceUri",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceDetails",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VnetDatabaseAccountEntries",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsServiceManagedFailover",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "VirtualNetworkName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TargetContinuousTier",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AccountName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActivityId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "HttpStatusCode",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "Result",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RegionName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "HttpMethod",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CurrentWriteRegion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NewWriteRegion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IpRangeFilter",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EnableVirtualNetworkFilter",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "VirtualNetworkResourceEntries",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EnablePrivateEndpointConnection",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "PrivateEndpointConnections",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PrivateEndpointArmUrl",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DefaultConsistencyLevel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EnableAutomaticFailover",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "MaxStalenessIntervalInSeconds",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "MaxStalenessPrefix",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MultipleWriteLocations",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "Cors",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackupIntervalInMinutes",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "BackupRetentionIntervalInHours",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "BackupStorageRedundancy",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TargetBackupMode",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VnetResourceGroupName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

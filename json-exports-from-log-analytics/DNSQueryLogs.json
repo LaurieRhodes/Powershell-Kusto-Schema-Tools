@@ -1,0 +1,121 @@
+﻿{
+    "Name":  "DNSQueryLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "DnsForwardingRulesetId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResolverPolicyDomainListId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResolverPolicyRuleAction",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResolverPolicyId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResolutionPath",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "QueryResponseTime",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "PrivateResolverEndpointId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Transport",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DestinationPort",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "DestinationIpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourcePort",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SourceIpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AdditionalRecords",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Authority",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Answer",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "ResponseCode",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "QueryClass",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "QueryType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "QueryName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VirtualNetworkId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Region",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Version",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DnsForwardingRulesetDomain",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

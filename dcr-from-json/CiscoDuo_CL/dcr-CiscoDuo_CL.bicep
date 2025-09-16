@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for CiscoDuo_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:31
+// Generated: 2025-09-17 06:20:45
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 82, DCR columns: 82 (Type column filtered out)
+// Underscore columns included
+// Original columns: 82, DCR columns: 82 (Type column always filtered)
 // Output stream: Custom-CiscoDuo_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================

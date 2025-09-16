@@ -1,0 +1,75 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for KubePVInventory - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:26:21
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 20, Final columns: 20
+// ============================================================================
+
+.create-merge table KubePVInventoryRaw (records:dynamic)
+
+.alter-merge table KubePVInventoryRaw policy retention softdelete = 1d
+
+.alter table KubePVInventoryRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table KubePVInventoryRaw ingestion json mapping 'KubePVInventoryRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table KubePVInventory(
+TimeGenerated:datetime,
+TenantId:guid,
+PVStorageClassName:string,
+PVStatus:string,
+PVCNamespace:string,
+PVCName:string,
+PVName:string,
+PVCreationTimeStamp:datetime,
+PVType:string,
+PVCapacityBytes:real,
+ClusterName:string,
+ClusterId:string,
+SourceSystem:string,
+KubePVInventoryProperties:string,
+AgentId:string,
+TimeIngested:datetime,
+PVAccessModes:string,
+PVTypeInfo:dynamic,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table KubePVInventory policy caching hot = 1d
+
+.create-or-alter function KubePVInventoryExpand() {
+KubePVInventoryRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+PVStorageClassName=tostring(events.PVStorageClassName),
+PVStatus=tostring(events.PVStatus),
+PVCNamespace=tostring(events.PVCNamespace),
+PVCName=tostring(events.PVCName),
+PVName=tostring(events.PVName),
+PVCreationTimeStamp=todatetime(events.PVCreationTimeStamp),
+PVType=tostring(events.PVType),
+PVCapacityBytes=toreal(events.PVCapacityBytes),
+ClusterName=tostring(events.ClusterName),
+ClusterId=tostring(events.ClusterId),
+SourceSystem=tostring(events.SourceSystem),
+KubePVInventoryProperties=tostring(events.KubePVInventoryProperties),
+AgentId=tostring(events.AgentId),
+TimeIngested=todatetime(events.TimeIngested),
+PVAccessModes=tostring(events.PVAccessModes),
+PVTypeInfo=todynamic(events.PVTypeInfo),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table KubePVInventory policy update @'[{"Source": "KubePVInventoryRaw", "Query": "KubePVInventoryExpand()", "IsEnabled": "True", "IsTransactional": true}]'

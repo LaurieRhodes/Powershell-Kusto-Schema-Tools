@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for TrendMicro_XDR_RCA_Result_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:52
+// Generated: 2025-09-17 06:21:05
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 26, DCR columns: 24 (Type column filtered out)
+// Underscore columns included
+// Original columns: 26, DCR columns: 25 (Type column always filtered)
 // Output stream: Custom-TrendMicro_XDR_RCA_Result_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -40,6 +41,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
+            type: 'string'
+          }
+          {
+            name: 'objectEvent_s'
             type: 'string'
           }
           {
@@ -75,11 +80,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'agentEntity_guid_g'
+            name: '_ResourceId'
             type: 'string'
           }
           {
-            name: 'agentEntity_hostname_s'
+            name: 'agentEntity_guid_g'
             type: 'string'
           }
           {
@@ -119,7 +124,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'objectEvent_s'
+            name: 'agentEntity_hostname_s'
             type: 'string'
           }
           {
@@ -142,7 +147,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-TrendMicro_XDR_RCA_Result_CL']
         destinations: ['Sentinel-TrendMicro_XDR_RCA_Result_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), objectMeta_s = tostring(objectMeta_s), parentObjectId_s = tostring(parentObjectId_s), isMatched_b = tobool(isMatched_b), objectName_s = tostring(objectName_s), eventId_d = toreal(eventId_d), objectHashId_s = tostring(objectHashId_s), workbenchId_s = tostring(workbenchId_s), agentEntity_ip_s = tostring(agentEntity_ip_s), agentEntity_guid_g = tostring(agentEntity_guid_g), agentEntity_hostname_s = tostring(agentEntity_hostname_s), taskName_s = tostring(taskName_s), taskId_g = tostring(taskId_g), xdrCustomerID_g = tostring(xdrCustomerID_g), agentEntity_host_s = tostring(agentEntity_host_s), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), objectEvent_s = tostring(objectEvent_s), workbenchId_s = tostring(workbenchId_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), objectEvent_s = tostring(objectEvent_s), objectMeta_s = tostring(objectMeta_s), parentObjectId_s = tostring(parentObjectId_s), isMatched_b = tobool(isMatched_b), objectName_s = tostring(objectName_s), eventId_d = toreal(eventId_d), objectHashId_s = tostring(objectHashId_s), workbenchId_s = tostring(workbenchId_s), agentEntity_ip_s = tostring(agentEntity_ip_s), _ResourceId = tostring(_ResourceId), agentEntity_guid_g = tostring(agentEntity_guid_g), taskName_s = tostring(taskName_s), taskId_g = tostring(taskId_g), xdrCustomerID_g = tostring(xdrCustomerID_g), agentEntity_host_s = tostring(agentEntity_host_s), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), agentEntity_hostname_s = tostring(agentEntity_hostname_s), workbenchId_s = tostring(workbenchId_s)'
         outputStream: 'Custom-TrendMicro_XDR_RCA_Result_CL'
       }
     ]

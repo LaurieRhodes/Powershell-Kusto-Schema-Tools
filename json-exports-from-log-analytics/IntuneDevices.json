@@ -1,0 +1,193 @@
+﻿{
+    "Name":  "IntuneDevices",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ManagedDeviceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "GraphDeviceIsManaged",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "CategoryName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EncryptionStatusString",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SubscriberCarrierNetwork",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "JoinType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SupervisedStatusString",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "WifiMacAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "StorageTotal",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "StorageFree",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "AndroidPatchLevel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MEID",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "InGracePeriodUntil",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "JailBroken",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SkuFamily",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EasID",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PrimaryUser",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BatchId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "IntuneAccountId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ReferenceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AADTenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "DeviceRegistrationState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IMEI",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Result",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UPN",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LastContact",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OSVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OS",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CompliantState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Ownership",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ManagedBy",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Model",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SerialNumber",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Manufacturer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CreatedDate",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DeviceState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserEmail",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PhoneNumber",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Stats",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

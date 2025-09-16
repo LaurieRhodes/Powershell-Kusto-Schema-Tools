@@ -20,7 +20,13 @@ $resourceGroupName = 'YOUR-RESOURCE-GROUP-NAME'
 $subscriptionId = 'YOUR-SUBSCRIPTION-ID'
 $tenantId = ''  # Optional - leave empty to use current context
 
-# Tables to export - alter to suit (excludes underscored tables automatically)
+# Export Configuration
+$ExportAll = $false                    # Set to $true to export ALL workspace tables
+
+# Column filtering options
+$FilterUnderscoreColumns = $false     # Set to $false to include underscore columns in DCR
+
+# Specific tables to export (ignored if ExportAll is $true)
 $tablesToExport = @(
     'Anomalies',
     'ASimAuditEventLogs',
@@ -42,13 +48,12 @@ $tablesToExport = @(
     'GoogleCloudSCC',
     'SecurityEvent',
     'Syslog',
-    'WindowsEvent',
-    'OktaV2_CL'
+    'WindowsEvent'
 )
 
 # Output directories
 $outputDirectory = $PSScriptRoot
-$dcrDirectory = Join-Path $outputDirectory "dcr"
+$dcrDirectory = Join-Path $outputDirectory "dcr-from-log-analytics"
 
 # Bicep template configuration
 $bicepConfig = @{
@@ -66,15 +71,94 @@ $ErrorActionPreference = "Stop"
 # FUNCTIONS
 # ============================================================================
 
+function Get-AllWorkspaceTables {
+    <#
+    .SYNOPSIS
+    Gets all table names from the workspace
+    #>
+    param([hashtable]$authHeaders, [string]$subscriptionId, [string]$resourceGroupName, [string]$workspaceName)
+    
+    try {
+        Write-Host "  Discovering all workspace tables..." -ForegroundColor Gray
+        $apiUri = "https://management.azure.com/subscriptions/$subscriptionId/resourcegroups/$resourceGroupName/providers/microsoft.operationalinsights/workspaces/$workspaceName/tables?api-version=2023-09-01"
+        $response = Invoke-RestMethod -Method Get -Headers $authHeaders -Uri $apiUri -UseBasicParsing
+        
+        $tableNames = @()
+        if ($response.value) {
+            foreach ($table in $response.value) {
+                if ($table.name) {
+                    $tableNames += $table.name
+                }
+            }
+        }
+        
+        Write-Host "  Found $($tableNames.Count) tables in workspace" -ForegroundColor Gray
+        return $tableNames | Sort-Object
+    } catch {
+        Write-Warning "Failed to get all workspace tables: $($_.Exception.Message)"
+        return @()
+    }
+}
+
+function Filter-DCRReservedColumns {
+    <#
+    .SYNOPSIS
+    Filters out reserved columns that cannot be included in DCR schemas
+    
+    .DESCRIPTION
+    'Type' column is always filtered as it's reserved for DCRs and causes deployment failures.
+    Underscore columns filtering is controlled by $FilterUnderscoreColumns variable.
+    
+    .PARAMETER columns
+    Array of column definitions
+    
+    .PARAMETER filterUnderscore
+    Whether to filter out underscore columns
+    #>
+    param([array]$columns, [bool]$filterUnderscore)
+    
+    # DCR reserved columns (always filtered - confirmed through testing)
+    $dcrReservedColumns = @(
+        'Type'  # Confirmed reserved for DCRs - deployment fails with this column
+    )
+    
+    # Apply filtering based on parameters
+    $filteredColumns = $columns | Where-Object { 
+        # Always filter reserved columns
+        $_.name -notin $dcrReservedColumns -and
+        # Conditionally filter underscore columns
+        (-not $filterUnderscore -or -not $_.name.StartsWith("_"))
+    }
+    
+    $removedCount = $columns.Count - $filteredColumns.Count
+    if ($removedCount -gt 0) {
+        Write-Host "    Filtered out $removedCount columns for DCR:" -ForegroundColor Yellow
+        $removedColumns = $columns | Where-Object { 
+            $_.name -in $dcrReservedColumns -or ($filterUnderscore -and $_.name.StartsWith("_"))
+        }
+        foreach ($col in $removedColumns) {
+            if ($col.name -in $dcrReservedColumns) {
+                Write-Host "      - $($col.name) (reserved for DCR)" -ForegroundColor Gray
+            } else {
+                Write-Host "      - $($col.name) (underscore column)" -ForegroundColor Gray
+            }
+        }
+    }
+    
+    return $filteredColumns
+}
+
 function Generate-BicepDCR {
     param(
         [string]$tableName, 
         [array]$columnDefinitions, 
         [string]$tableType = "Unknown", 
-        [bool]$isHybrid = $false
+        [bool]$isHybrid = $false,
+        [bool]$filterUnderscore = $false
     )
     
-    $filteredColumns = Filter-NonUnderscoreColumns -columns $columnDefinitions
+    # Filter out reserved columns for DCR (Type always filtered, underscore based on parameter)
+    $filteredColumns = Filter-DCRReservedColumns -columns $columnDefinitions -filterUnderscore $filterUnderscore
     
     # Sort columns following Microsoft's convention
     $timeGeneratedCol = $filteredColumns | Where-Object { $_.name -eq "TimeGenerated" }
@@ -113,12 +197,14 @@ function Generate-BicepDCR {
     $bicepColumnsText = $bicepColumns -join "`n"
     $transformProjectText = $transformProjectColumns -join ", "
     
-    # CRITICAL FIX: Get correct output stream name based on table type
+    # CRITICAL FIX: Get correct output stream name and input stream name based on table type
     $outputStreamName = Get-DCROutputStreamName -tableName $tableName -tableType $tableType
-    Write-Host "    Output stream: $outputStreamName" -ForegroundColor Cyan
+    $inputStreamName = "Custom-$tableName"  # Input streams are always Custom- regardless of table type
+    Write-Host "    Input stream: $inputStreamName -> Output stream: $outputStreamName" -ForegroundColor Cyan
     
     $discoveryComment = if ($isHybrid) { "// Schema discovered using hybrid approach (Management API + getschema)" } else { "// Schema discovered using Management API only" }
     $tableTypeComment = "// Table type: $tableType"
+    $filterComment = if ($filterUnderscore) { "// Underscore columns filtered out" } else { "// Underscore columns included" }
     
     # Build template using string concatenation to avoid here-string issues
     $template = "@description('The location of the resources')`n"
@@ -138,8 +224,10 @@ function Generate-BicepDCR {
     $template += "// Generated: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')`n"
     $template += "$tableTypeComment`n"
     $template += "$discoveryComment`n"
-    $template += "// Input columns: $($sortedColumns.Count) (JSON-compatible types only)`n"
-    $template += "// Output stream: $outputStreamName`n"
+    $template += "$filterComment`n"
+    $template += "// Original columns: $($columnDefinitions.Count), DCR columns: $($sortedColumns.Count) (Type column always filtered)`n"
+    $template += "// Input stream: $inputStreamName (always Custom- for JSON ingestion)`n"
+    $template += "// Output stream: $outputStreamName (based on table type)`n"
     $template += "// Note: Input stream uses string/dynamic only. Type conversions in transform.`n"
     $template += "// ============================================================================`n`n"
     
@@ -151,7 +239,7 @@ function Generate-BicepDCR {
     $template += "  properties: {`n"
     $template += "    dataCollectionEndpointId: dataCollectionEndpointId`n"
     $template += "    streamDeclarations: {`n"
-    $template += "      'Custom-$tableName': {`n"
+    $template += "      '$inputStreamName': {`n"
     $template += "        columns: [`n"
     $template += "$bicepColumnsText`n"
     $template += "        ]`n"
@@ -168,7 +256,7 @@ function Generate-BicepDCR {
     $template += "    }`n"
     $template += "    dataFlows: [`n"
     $template += "      {`n"
-    $template += "        streams: ['Custom-$tableName']`n"
+    $template += "        streams: ['$inputStreamName']`n"
     $template += "        destinations: ['Sentinel-$tableName']`n"
     $template += "        transformKql: 'source | project $transformProjectText'`n"
     $template += "        outputStream: '$outputStreamName'`n"
@@ -268,7 +356,8 @@ Write-Host "`nConfiguration:" -ForegroundColor Yellow
 Write-Host "  Workspace: $workspaceName"
 Write-Host "  Resource Group: $resourceGroupName"
 Write-Host "  Subscription: $subscriptionId"
-Write-Host "  Tables to Export: $($tablesToExport.Count) tables"
+Write-Host "  Export All Tables: $ExportAll"
+Write-Host "  Filter Underscore Columns: $FilterUnderscoreColumns"
 Write-Host "  Output Directory: $dcrDirectory"
 Write-Host "  Hybrid Discovery: $useHybridDiscovery"
 
@@ -303,9 +392,33 @@ if ($useHybridDiscovery) {
     Write-Host "SUCCESS: Workspace GUID: $workspaceGuid" -ForegroundColor Green
 }
 
+# Determine which tables to export
+if ($ExportAll) {
+    Write-Host "`nDiscovering all workspace tables..." -ForegroundColor Yellow
+    $allTables = Get-AllWorkspaceTables -authHeaders $managementHeaders -subscriptionId $subscriptionId -resourceGroupName $resourceGroupName -workspaceName $workspaceName
+    
+    if ($allTables.Count -eq 0) {
+        throw "ERROR: No tables found in workspace or failed to enumerate tables"
+    }
+    
+    $finalTablesToExport = $allTables
+    Write-Host "SUCCESS: Found $($finalTablesToExport.Count) tables to export" -ForegroundColor Green
+} else {
+    # Use the configured table list
+    Write-Host "`nUsing configured table list..." -ForegroundColor Yellow
+    $finalTablesToExport = $tablesToExport
+    Write-Host "SUCCESS: $($finalTablesToExport.Count) configured tables to export" -ForegroundColor Green
+}
+
 # Show tables to export
-Write-Host "`nTables to Export:" -ForegroundColor Cyan
-$tablesToExport | ForEach-Object { Write-Host "  * $_" -ForegroundColor White }
+if ($finalTablesToExport.Count -le 15) {
+    Write-Host "`nTables to Export:" -ForegroundColor Cyan
+    $finalTablesToExport | ForEach-Object { Write-Host "  * $_" -ForegroundColor White }
+} else {
+    Write-Host "`nExporting $($finalTablesToExport.Count) tables (showing first 15):" -ForegroundColor Cyan
+    $finalTablesToExport | Select-Object -First 15 | ForEach-Object { Write-Host "  * $_" -ForegroundColor White }
+    Write-Host "  ... and $($finalTablesToExport.Count - 15) more" -ForegroundColor Gray
+}
 
 # Export DCR templates
 Write-Host "`nGenerating DCR files..." -ForegroundColor Yellow
@@ -313,7 +426,7 @@ $exportResults = @()
 $successCount = 0
 $failureCount = 0
 
-foreach ($tableName in $tablesToExport) {
+foreach ($tableName in $finalTablesToExport) {
     try {
         Write-Host "Processing: $tableName" -ForegroundColor Cyan
         
@@ -344,17 +457,21 @@ foreach ($tableName in $tablesToExport) {
         
         if ($finalColumns.Count -eq 0) { throw "No columns found" }
         
-        $bicepTemplate = Generate-BicepDCR -tableName $tableName -columnDefinitions $finalColumns -tableType $tableType -isHybrid $useHybridDiscovery
+        $bicepTemplate = Generate-BicepDCR -tableName $tableName -columnDefinitions $finalColumns -tableType $tableType -isHybrid $useHybridDiscovery -filterUnderscore $FilterUnderscoreColumns
         $savedFiles = Save-DCRFiles -tableName $tableName -bicepTemplate $bicepTemplate -columnDefinitions $finalColumns -tableType $tableType -isHybrid $useHybridDiscovery
+        
+        # Calculate filtered column count for reporting
+        $filteredColumns = Filter-DCRReservedColumns -columns $finalColumns -filterUnderscore $FilterUnderscoreColumns
         
         $mgmtCount = ($finalColumns | Where-Object { $_.source -eq "ManagementAPI" }).Count
         $schemaCount = $actualAdditionalCount
         
-        Write-Host "  SUCCESS: $($finalColumns.Count) columns ($mgmtCount mgmt, $schemaCount additional) -> DCR files" -ForegroundColor Green
+        Write-Host "  SUCCESS: $($finalColumns.Count) total columns -> $($filteredColumns.Count) DCR columns" -ForegroundColor Green
         
         $exportResults += [PSCustomObject]@{
             TableName = $tableName
             ColumnCount = $finalColumns.Count
+            DCRColumns = $filteredColumns.Count
             ManagementAPICount = $mgmtCount
             GetSchemaCount = $schemaCount
             TableType = $tableType
@@ -379,7 +496,7 @@ foreach ($tableName in $tablesToExport) {
 # Summary
 Write-Host "`nExport Summary:" -ForegroundColor Magenta
 Write-Host "===============" -ForegroundColor Magenta
-Write-Host "SUCCESS: $successCount/$($tablesToExport.Count) tables exported" -ForegroundColor Green
+Write-Host "SUCCESS: $successCount/$($finalTablesToExport.Count) tables exported" -ForegroundColor Green
 
 if ($failureCount -gt 0) {
     Write-Host "FAILED: $failureCount tables failed" -ForegroundColor Red
@@ -389,7 +506,7 @@ if ($successCount -gt 0) {
     Write-Host "`nSuccessful Exports:" -ForegroundColor Green
     $exportResults | Where-Object { $_.Status -eq "Success" } | Sort-Object TableName | ForEach-Object {
         $additionalInfo = if ($_.GetSchemaCount -gt 0) { " (+$($_.GetSchemaCount) additional)" } else { "" }
-        Write-Host "  * $($_.TableName): $($_.ColumnCount) columns$additionalInfo ($($_.TableType))" -ForegroundColor White
+        Write-Host "  * $($_.TableName): $($_.DCRColumns) DCR columns (was $($_.ColumnCount))$additionalInfo ($($_.TableType))" -ForegroundColor White
     }
 }
 
@@ -398,6 +515,21 @@ if ($failureCount -gt 0) {
     $exportResults | Where-Object { $_.Status -eq "Failed" } | ForEach-Object {
         Write-Host "  * $($_.TableName): $($_.Error)" -ForegroundColor Red
     }
+}
+
+Write-Host "`nConfiguration Options:" -ForegroundColor Cyan
+Write-Host "- Set `$ExportAll = `$true to export all workspace tables" -ForegroundColor White
+Write-Host "- Set `$ExportAll = `$false to use the configured table list" -ForegroundColor White
+Write-Host "- Set `$FilterUnderscoreColumns = `$false to include underscore columns" -ForegroundColor White
+
+Write-Host "`nDCR Design Summary:" -ForegroundColor Cyan
+Write-Host "- Input streams use JSON-compatible types only (string/dynamic)" -ForegroundColor White
+Write-Host "- Type conversions handled in KQL transform layer" -ForegroundColor White
+Write-Host "- Type column always filtered out (reserved for DCRs)" -ForegroundColor White
+if ($FilterUnderscoreColumns) {
+    Write-Host "- Underscore columns filtered out" -ForegroundColor White
+} else {
+    Write-Host "- Underscore columns included in DCR" -ForegroundColor White
 }
 
 Write-Host "`nDCR files created in dcr\ directory with complete deployment packages." -ForegroundColor White

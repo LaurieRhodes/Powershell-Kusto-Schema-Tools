@@ -12,10 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for ForcepointDLPEvents_CL
 // ============================================================================
-// Generated: 2025-09-13 20:13:42
+// Generated: 2025-09-17 06:20:55
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Original columns: 29, DCR columns: 27 (Type column filtered out)
+// Underscore columns included
+// Original columns: 29, DCR columns: 28 (Type column always filtered)
 // Output stream: Custom-ForcepointDLPEvents_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -83,11 +84,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'RuleName_1_s'
+            name: 'UpdatedBy'
             type: 'string'
           }
           {
-            name: 'Id'
+            name: 'RuleName_1_s'
             type: 'string'
           }
           {
@@ -111,6 +112,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
+            name: '_ResourceId'
+            type: 'string'
+          }
+          {
             name: 'RawData'
             type: 'string'
           }
@@ -131,7 +136,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'UpdatedBy'
+            name: 'Id'
             type: 'string'
           }
           {
@@ -154,7 +159,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-ForcepointDLPEvents_CL']
         destinations: ['Sentinel-ForcepointDLPEvents_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), ForcepointDLPSourceIP = tostring(ForcepointDLPSourceIP), Title = tostring(Title), SourceDomain = tostring(SourceDomain), DestinationIpV4 = toreal(DestinationIpV4), DestinationCommonName = toreal(DestinationCommonName), Text = toreal(Text), SourceIpV4_s = tostring(SourceIpV4_s), ExternalId = tostring(ExternalId), DestinationHostname = tostring(DestinationHostname), UpdatedAt = tostring(UpdatedAt), Severity_s = tostring(Severity_s), RuleName_1_s = tostring(RuleName_1_s), Id = tostring(Id), GeneratorId = tostring(GeneratorId), PolicyCategoryId = tostring(PolicyCategoryId), Protocol = tostring(Protocol), CreatedAt_t = todatetime(CreatedAt_t), DestinationDomain = tostring(DestinationDomain), RawData = tostring(RawData), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), Computer = tostring(Computer), SourceSystem = tostring(SourceSystem), UpdatedBy = tostring(UpdatedBy), Description = toreal(Description)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), ForcepointDLPSourceIP = tostring(ForcepointDLPSourceIP), Title = tostring(Title), SourceDomain = tostring(SourceDomain), DestinationIpV4 = toreal(DestinationIpV4), DestinationCommonName = toreal(DestinationCommonName), Text = toreal(Text), SourceIpV4_s = tostring(SourceIpV4_s), ExternalId = tostring(ExternalId), DestinationHostname = tostring(DestinationHostname), UpdatedAt = tostring(UpdatedAt), Severity_s = tostring(Severity_s), UpdatedBy = tostring(UpdatedBy), RuleName_1_s = tostring(RuleName_1_s), GeneratorId = tostring(GeneratorId), PolicyCategoryId = tostring(PolicyCategoryId), Protocol = tostring(Protocol), CreatedAt_t = todatetime(CreatedAt_t), DestinationDomain = tostring(DestinationDomain), _ResourceId = tostring(_ResourceId), RawData = tostring(RawData), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), Computer = tostring(Computer), SourceSystem = tostring(SourceSystem), Id = tostring(Id), Description = toreal(Description)'
         outputStream: 'Custom-ForcepointDLPEvents_CL'
       }
     ]

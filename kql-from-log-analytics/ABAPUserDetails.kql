@@ -1,0 +1,79 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ABAPUserDetails - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:14:52
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 22, Final columns: 22
+// ============================================================================
+
+.create-merge table ABAPUserDetailsRaw (records:dynamic)
+
+.alter-merge table ABAPUserDetailsRaw policy retention softdelete = 1d
+
+.alter table ABAPUserDetailsRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ABAPUserDetailsRaw ingestion json mapping 'ABAPUserDetailsRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ABAPUserDetails(
+TimeGenerated:datetime,
+TenantId:guid,
+SystemUniqueId:string,
+SystemRole:string,
+ClientId:string,
+SystemId:string,
+Roles:dynamic,
+Profiles:dynamic,
+LastChangedBy:string,
+ValidityDate:datetime,
+ChangedOn:datetime,
+CreatedOn:datetime,
+LastSeen:datetime,
+LockedStatus:string,
+Timezone:string,
+UserType:string,
+Email:string,
+UserGroup:string,
+User:string,
+AgentId:string,
+SourceSystem:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table ABAPUserDetails policy caching hot = 1d
+
+.create-or-alter function ABAPUserDetailsExpand() {
+ABAPUserDetailsRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+SystemUniqueId=tostring(events.SystemUniqueId),
+SystemRole=tostring(events.SystemRole),
+ClientId=tostring(events.ClientId),
+SystemId=tostring(events.SystemId),
+Roles=todynamic(events.Roles),
+Profiles=todynamic(events.Profiles),
+LastChangedBy=tostring(events.LastChangedBy),
+ValidityDate=todatetime(events.ValidityDate),
+ChangedOn=todatetime(events.ChangedOn),
+CreatedOn=todatetime(events.CreatedOn),
+LastSeen=todatetime(events.LastSeen),
+LockedStatus=tostring(events.LockedStatus),
+Timezone=tostring(events.Timezone),
+UserType=tostring(events.UserType),
+Email=tostring(events.Email),
+UserGroup=tostring(events.UserGroup),
+User=tostring(events.User),
+AgentId=tostring(events.AgentId),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ABAPUserDetails policy update @'[{"Source": "ABAPUserDetailsRaw", "Query": "ABAPUserDetailsExpand()", "IsEnabled": "True", "IsTransactional": true}]'

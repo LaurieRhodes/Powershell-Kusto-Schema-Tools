@@ -1,0 +1,89 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for ServiceFabricOperationalEvent - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:29:01
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 27, Final columns: 27
+// ============================================================================
+
+.create-merge table ServiceFabricOperationalEventRaw (records:dynamic)
+
+.alter-merge table ServiceFabricOperationalEventRaw policy retention softdelete = 1d
+
+.alter table ServiceFabricOperationalEventRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table ServiceFabricOperationalEventRaw ingestion json mapping 'ServiceFabricOperationalEventRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table ServiceFabricOperationalEvent(
+TimeGenerated:datetime,
+TenantId:guid,
+ServiceName:string,
+UpgradeDomains:string,
+ApplicationTypeVersion:string,
+ApplicationTypeName:string,
+ApplicationName:string,
+EventMessage:string,
+Role:string,
+AzureDeploymentID:string,
+RowKey:string,
+ChannelName:string,
+ServiceTypeName:string,
+TaskName:string,
+OpcodeName:string,
+Tid:int,
+Pid:int,
+EventId:int,
+EventSourceName:string,
+ProviderGuid:guid,
+Level:string,
+Computer:string,
+PartitionKey:string,
+SourceSystem:string,
+KeywordName:string,
+PartitionId:string,
+Type:string,
+_TimeReceived:datetime)
+
+.alter table ServiceFabricOperationalEvent policy caching hot = 1d
+
+.create-or-alter function ServiceFabricOperationalEventExpand() {
+ServiceFabricOperationalEventRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+ServiceName=tostring(events.ServiceName),
+UpgradeDomains=tostring(events.UpgradeDomains),
+ApplicationTypeVersion=tostring(events.ApplicationTypeVersion),
+ApplicationTypeName=tostring(events.ApplicationTypeName),
+ApplicationName=tostring(events.ApplicationName),
+EventMessage=tostring(events.EventMessage),
+Role=tostring(events.Role),
+AzureDeploymentID=tostring(events.AzureDeploymentID),
+RowKey=tostring(events.RowKey),
+ChannelName=tostring(events.ChannelName),
+ServiceTypeName=tostring(events.ServiceTypeName),
+TaskName=tostring(events.TaskName),
+OpcodeName=tostring(events.OpcodeName),
+Tid=toint(events.Tid),
+Pid=toint(events.Pid),
+EventId=toint(events.EventId),
+EventSourceName=tostring(events.EventSourceName),
+ProviderGuid=toguid(events.ProviderGuid),
+Level=tostring(events.Level),
+Computer=tostring(events.Computer),
+PartitionKey=tostring(events.PartitionKey),
+SourceSystem=tostring(events.SourceSystem),
+KeywordName=tostring(events.KeywordName),
+PartitionId=tostring(events.PartitionId),
+Type=tostring(events.Type),
+_TimeReceived=todatetime(now())
+}
+
+.alter table ServiceFabricOperationalEvent policy update @'[{"Source": "ServiceFabricOperationalEventRaw", "Query": "ServiceFabricOperationalEventExpand()", "IsEnabled": "True", "IsTransactional": true}]'

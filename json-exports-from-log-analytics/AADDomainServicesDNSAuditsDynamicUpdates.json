@@ -1,0 +1,73 @@
+﻿{
+    "Name":  "AADDomainServicesDNSAuditsDynamicUpdates",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "operationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "operationVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "resultDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Name",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Ttl",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "BufferSize",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "RData",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Zone",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ZoneScope",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Source",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RecordId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

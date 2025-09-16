@@ -1,0 +1,469 @@
+﻿{
+    "Name":  "Alert",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "AlertRuleId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemediationRunbookName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemediationJobId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Query",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "QueryExecutionEndTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "QueryExecutionStartTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "Expression",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Description",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ValueFlags",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ValueFlagsDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Flags",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "AlertRuleInstanceId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "FlagsDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Comments",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AlertValue",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ValueDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Url",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TriggerId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AlertStatus",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "StatusDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AlertError",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AlertTypeNumber",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "AlertTypeDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProblemId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TemplateId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ThresholdOperator",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ThresholdValue",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "LinkToSearchResults",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Workload",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ParentObjectName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ParentObjectId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ObjectType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ObjectDisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RootObjectName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RootObjectId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "WorkflowName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "WorkflowDisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ObjectFullName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TimeStateChanged",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OldHealthState",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "NewHealthState",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "EventOriginId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ObjectId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Severity",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "UpdateType",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ResourceValue",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServiceDeskWorkItemType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServiceDeskWorkItemLink",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServiceDeskId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ServiceDeskConnectionName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PriorityNumber",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "HostName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AlertUniqueId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ManagementGroupName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResolvedBy",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AlertState",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResolutionState",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "AlertParams",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AlertStringId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RepeatCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "AlertProblemId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "WorkflowId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "IsMonitorAlert",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "AlertOwner",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AlertDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LastModifiedBy",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AlertName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourcePath",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceFullName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceDisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "AlertCategory",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AlertSeverity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AlertPriority",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SubscriptionProperty",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SubscriptionType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceHealthServiceId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "AlertId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SiteName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "QueryExecutionTimeSpan",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DataItemCreateTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TimeCollected",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "MG",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Custom10",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Custom9",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Custom8",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Custom7",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Custom6",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Custom5",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Custom4",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Custom3",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Custom2",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Custom1",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TfsWorkItemOwner",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TfsWorkItemId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ConnectorId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "TicketId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AlertContext",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResolutionStateLastModifiedInDB",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ResolutionStateLastModified",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "LastModifiedByNonConnector",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "LastModifiedExceptRepeatCount",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TimeLastModified",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TimeResolved",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TimeRaised",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TimeAdded",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "StateType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

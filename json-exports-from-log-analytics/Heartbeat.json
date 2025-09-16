@@ -1,0 +1,129 @@
+﻿{
+    "Name":  "Heartbeat",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Solutions",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ComputerEnvironment",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Resource",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceProvider",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SubscriptionId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "RemoteIPCountry",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "RemoteIPLatitude",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "RemoteIPLongitude",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "IsGatewayInstalled",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "SCAgentChannel",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Version",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OSMinorVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OSMajorVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OSName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OSType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Computer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ComputerIP",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceComputerId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ManagementGroupName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MG",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VMUUID",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ComputerPrivateIPs",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

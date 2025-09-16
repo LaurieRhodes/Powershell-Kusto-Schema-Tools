@@ -1,0 +1,81 @@
+﻿{
+    "Name":  "ACSCallClientOperations",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "CallClientTimeStamp",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CallId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ParticipantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DurationMs",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "ResultType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultSignature",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SdkVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserAgent",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientInstanceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EndpointId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationPayload",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

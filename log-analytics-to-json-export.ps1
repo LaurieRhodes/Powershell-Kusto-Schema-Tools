@@ -28,7 +28,9 @@ $tenantId = ''  # Optional - leave empty to use current context
 
 # Export Configuration
 $ExportAll = $true                    # Set to $true to export ALL workspace tables
-$FilterUnderscoreTables = $false      # Set to $false to include underscore tables/columns
+
+# Column filtering options
+$FilterUnderscoreColumns = $false     # Set to $false to include underscore columns in JSON
 
 # Specific tables to export (ignored if ExportAll is $true)
 $tablesToExport = @(
@@ -52,15 +54,12 @@ $tablesToExport = @(
     'GoogleCloudSCC',
     'SecurityEvent',
     'Syslog',
-    'WindowsEvent',
-    'OktaV2_CL',
-    'GCP_DNS_CL',
-    'ZeroFoxAlertPoller_CL'
+    'WindowsEvent'
 )
 
 # Output directories
 $outputDirectory = $PSScriptRoot
-$jsonDirectory = Join-Path $outputDirectory "json-exports"
+$jsonDirectory = Join-Path $outputDirectory "json-exports-from-log-analytics"
 
 # Enhanced discovery settings
 $useHybridDiscovery = $true
@@ -98,11 +97,15 @@ function New-OrderedJSONSchema {
     .SYNOPSIS
     Creates ordered JSON schema following Microsoft conventions
     #>
-    param([string]$tableName, [array]$columnDefinitions)
+    param([string]$tableName, [array]$columnDefinitions, [bool]$filterUnderscore = $false)
     
-    # Apply column filtering based on FilterUnderscoreTables setting
-    if ($FilterUnderscoreTables) {
+    # Apply column filtering based on FilterUnderscoreColumns setting
+    if ($filterUnderscore) {
         $filteredColumns = $columnDefinitions | Where-Object { -not $_.name.StartsWith("_") }
+        $removedCount = $columnDefinitions.Count - $filteredColumns.Count
+        if ($removedCount -gt 0) {
+            Write-Host "    Filtered out $removedCount underscore columns" -ForegroundColor Yellow
+        }
     } else {
         $filteredColumns = $columnDefinitions
     }
@@ -148,7 +151,7 @@ function Get-AllWorkspaceTables {
     .SYNOPSIS
     Gets all table names from the workspace
     #>
-    param([hashtable]$authHeaders, [string]$subscriptionId, [string]$resourceGroupName, [string]$workspaceName, [bool]$filterUnderscore = $true)
+    param([hashtable]$authHeaders, [string]$subscriptionId, [string]$resourceGroupName, [string]$workspaceName)
     
     try {
         Write-Host "  Discovering all workspace tables..." -ForegroundColor Gray
@@ -159,49 +162,17 @@ function Get-AllWorkspaceTables {
         if ($response.value) {
             foreach ($table in $response.value) {
                 if ($table.name) {
-                    if ($filterUnderscore) {
-                        if (-not $table.name.StartsWith("_")) {
-                            $tableNames += $table.name
-                        }
-                    } else {
-                        $tableNames += $table.name
-                    }
+                    $tableNames += $table.name
                 }
             }
         }
         
-        $filterMsg = if ($filterUnderscore) { "non-underscore" } else { "all" }
-        Write-Host "  Found $($tableNames.Count) $filterMsg tables in workspace" -ForegroundColor Gray
+        Write-Host "  Found $($tableNames.Count) tables in workspace" -ForegroundColor Gray
         return $tableNames | Sort-Object
     } catch {
         Write-Warning "Failed to get all workspace tables: $($_.Exception.Message)"
         return @()
     }
-}
-
-function Apply-UnderscoreTableFiltering {
-    <#
-    .SYNOPSIS
-    Applies consistent underscore table filtering
-    #>
-    param([array]$tableList, [bool]$filterUnderscore, [string]$context = "tables")
-    
-    if (-not $filterUnderscore) {
-        return $tableList
-    }
-    
-    $filteredTables = $tableList | Where-Object { -not $_.StartsWith("_") }
-    $excludedCount = $tableList.Count - $filteredTables.Count
-    
-    if ($excludedCount -gt 0) {
-        Write-Host "  Filtered out $excludedCount underscore $context" -ForegroundColor Yellow
-        $excludedTables = $tableList | Where-Object { $_.StartsWith("_") }
-        foreach ($table in $excludedTables) {
-            Write-Host "    - $table" -ForegroundColor Gray
-        }
-    }
-    
-    return $filteredTables
 }
 
 # ============================================================================
@@ -216,7 +187,7 @@ Write-Host "  Workspace: $workspaceName"
 Write-Host "  Resource Group: $resourceGroupName"
 Write-Host "  Subscription: $subscriptionId"
 Write-Host "  Export All Tables: $ExportAll"
-Write-Host "  Filter Underscore Tables: $FilterUnderscoreTables"
+Write-Host "  Filter Underscore Columns: $FilterUnderscoreColumns"
 Write-Host "  Hybrid Discovery: $useHybridDiscovery"
 
 # Validate and prepare
@@ -250,26 +221,22 @@ if ($useHybridDiscovery) {
     Write-Host "SUCCESS: Workspace GUID: $workspaceGuid" -ForegroundColor Green
 }
 
-# Determine which tables to export with consistent underscore filtering
+# Determine which tables to export
 if ($ExportAll) {
     Write-Host "`nDiscovering all workspace tables..." -ForegroundColor Yellow
-    $allTables = Get-AllWorkspaceTables -authHeaders $managementHeaders -subscriptionId $subscriptionId -resourceGroupName $resourceGroupName -workspaceName $workspaceName -filterUnderscore $FilterUnderscoreTables
+    $allTables = Get-AllWorkspaceTables -authHeaders $managementHeaders -subscriptionId $subscriptionId -resourceGroupName $resourceGroupName -workspaceName $workspaceName
     
     if ($allTables.Count -eq 0) {
-        $tableTypeMsg = if ($FilterUnderscoreTables) { "non-underscore tables" } else { "tables" }
-        throw "ERROR: No $tableTypeMsg found in workspace or failed to enumerate tables"
+        throw "ERROR: No tables found in workspace or failed to enumerate tables"
     }
     
     $finalTablesToExport = $allTables
-    $tableTypeMsg = if ($FilterUnderscoreTables) { "non-underscore tables" } else { "tables" }
-    Write-Host "SUCCESS: Found $($finalTablesToExport.Count) $tableTypeMsg to export" -ForegroundColor Green
+    Write-Host "SUCCESS: Found $($finalTablesToExport.Count) tables to export" -ForegroundColor Green
 } else {
-    # Apply consistent underscore filtering to the configured list
-    Write-Host "`nApplying table filtering to configured list..." -ForegroundColor Yellow
-    $finalTablesToExport = Apply-UnderscoreTableFiltering -tableList $tablesToExport -filterUnderscore $FilterUnderscoreTables -context "tables from configured list"
-    
-    $filterMsg = if ($FilterUnderscoreTables) { "filtered" } else { "unfiltered" }
-    Write-Host "SUCCESS: $($finalTablesToExport.Count) $filterMsg configured tables to export" -ForegroundColor Green
+    # Use the configured table list
+    Write-Host "`nUsing configured table list..." -ForegroundColor Yellow
+    $finalTablesToExport = $tablesToExport
+    Write-Host "SUCCESS: $($finalTablesToExport.Count) configured tables to export" -ForegroundColor Green
 }
 
 # Show tables to export
@@ -319,19 +286,23 @@ foreach ($tableName in $finalTablesToExport) {
         
         if ($finalColumns.Count -eq 0) { throw "No columns found" }
         
-        $jsonSchema = New-OrderedJSONSchema -tableName $tableName -columnDefinitions $finalColumns
+        $jsonSchema = New-OrderedJSONSchema -tableName $tableName -columnDefinitions $finalColumns -filterUnderscore $FilterUnderscoreColumns
         $jsonFile = Join-Path $jsonDirectory "$tableName.json"
         $jsonSchema | ConvertTo-Json -Depth 10 | Out-File -FilePath $jsonFile -Encoding UTF8 -Force
         
         $mgmtCount = ($finalColumns | Where-Object { $_.source -eq "ManagementAPI" }).Count
         $schemaCount = $actualAdditionalCount
         
-        $columnFilterMsg = if ($FilterUnderscoreTables) { "filtered" } else { "unfiltered" }
-        Write-Host "  SUCCESS: $($finalColumns.Count) columns ($mgmtCount mgmt, $schemaCount additional) -> $tableName.json ($columnFilterMsg)" -ForegroundColor Green
+        # Calculate final column count after filtering
+        $finalColumnCount = $jsonSchema.Properties.Count
+        
+        $columnFilterMsg = if ($FilterUnderscoreColumns) { "filtered" } else { "unfiltered" }
+        Write-Host "  SUCCESS: $($finalColumns.Count) total columns -> $finalColumnCount JSON columns ($mgmtCount mgmt, $schemaCount additional) -> $tableName.json ($columnFilterMsg)" -ForegroundColor Green
         
         $exportResults += [PSCustomObject]@{
             TableName = $tableName
-            ColumnCount = $finalColumns.Count
+            TotalColumnCount = $finalColumns.Count
+            JSONColumnCount = $finalColumnCount
             ManagementAPICount = $mgmtCount
             GetSchemaCount = $schemaCount
             TableType = $tableType
@@ -370,7 +341,8 @@ if ($successCount -gt 0) {
     Write-Host "`nSuccessful Exports:" -ForegroundColor Green
     $exportResults | Where-Object { $_.Status -eq "Success" } | Sort-Object TableName | ForEach-Object {
         $additionalInfo = if ($_.GetSchemaCount -gt 0) { " (+$($_.GetSchemaCount) additional)" } else { "" }
-        Write-Host "  * $($_.TableName): $($_.ColumnCount) columns$additionalInfo" -ForegroundColor White
+        $filterInfo = if ($_.JSONColumnCount -ne $_.TotalColumnCount) { " -> $($_.JSONColumnCount) JSON columns" } else { "" }
+        Write-Host "  * $($_.TableName): $($_.TotalColumnCount) total columns$filterInfo$additionalInfo" -ForegroundColor White
     }
 }
 
@@ -383,8 +355,8 @@ if ($failureCount -gt 0) {
 
 Write-Host "`nConfiguration Options:" -ForegroundColor Cyan
 Write-Host "- Set `$ExportAll = `$true to export all workspace tables" -ForegroundColor White
-Write-Host "- Set `$FilterUnderscoreTables = `$false to include underscore tables/columns" -ForegroundColor White
-Write-Host "- Both settings work together for flexible export control" -ForegroundColor White
+Write-Host "- Set `$ExportAll = `$false to use the configured table list" -ForegroundColor White
+Write-Host "- Set `$FilterUnderscoreColumns = `$false to include underscore columns" -ForegroundColor White
 
 Write-Host "`nJSON files created in json-exports\ directory for use with json-to-* scripts." -ForegroundColor White
 Write-Host "JSON Export completed with enhanced discovery capabilities." -ForegroundColor White

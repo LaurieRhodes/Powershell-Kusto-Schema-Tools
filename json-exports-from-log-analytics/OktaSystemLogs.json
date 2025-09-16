@@ -1,0 +1,245 @@
+﻿{
+    "Name":  "OktaSystemLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "OriginalSeverity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OriginalTarget",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "OriginalUserId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OriginalUserType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Request",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SecurityContextAsNumber",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SecurityContextAsOrg",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SecurityContextDomain",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SecurityContextIsProxy",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "SrcDeviceType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SrcDvcId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SrcDvcOs",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SrcGeoCity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SrcGeoCountry",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SrcGeoLatitude",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "SrcGeoLongtitude",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "SrcGeoPostalCode",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SrcGeoRegion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SrcIpAddr",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SrcIsp",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SrcZone",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TransactionDetail",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "TransactionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "TransactionType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Version",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OriginalOutcomeResult",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OriginalClientDevice",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OriginalActorAlternateId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LogonMethod",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActingAppName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActingAppType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActorDetailEntry",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "ActorDisplayName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActorSessionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActorUserId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActorUserIdType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActorUsername",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActorUsernameType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActorUserType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AuthenticationContextAuthenticationProvider",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AuthenticationContextAuthenticationStep",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SrcDvcIdType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AuthenticationContextCredentialProvider",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AuthenticationContextIssuerId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AuthenticationContextIssuerType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DebugData",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "DvcAction",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventMessage",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventOriginalResultDetails",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventOriginalType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventOriginalUid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventResult",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventSeverity",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "HttpUserAgent",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LegacyEventType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AuthenticationContextInterface",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

@@ -1,0 +1,137 @@
+﻿{
+    "Name":  "MDCDetectionDNSEvents",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Exe",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Cwd",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "EventGuid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AdditionalData",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "DataPipelineMetadata",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Domain",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Tid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Rcode",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Qtype",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "QR",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "NameServer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Latency",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PacketId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Pcomm",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Addresses",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "NodeName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PodName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Comm",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Gid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Uid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Ppid",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PID",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ContainerName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ContainerId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Digest",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ImageName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Region",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AzureResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Namespace",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}

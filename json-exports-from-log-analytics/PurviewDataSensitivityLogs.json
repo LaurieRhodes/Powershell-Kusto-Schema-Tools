@@ -1,0 +1,125 @@
+﻿{
+    "Name":  "PurviewDataSensitivityLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SensitivityLabel",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "SensitivityLabelTrigger",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClassificationDetails",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Classification",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "ClassificationTrigger",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ActivityType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FileSize",
+                           "Type":  "Long"
+                       },
+                       {
+                           "Name":  "FileExtension",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AssetLastScanTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "AssetModifiedTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "AssetCreationTime",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "SensitivityLabelDetails",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "AssetType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AssetName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceScanId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceCollectionName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceRegion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSubscriptionId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourcePath",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PurviewRegion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PurviewAccountName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PurviewTenantId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AssetPath",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

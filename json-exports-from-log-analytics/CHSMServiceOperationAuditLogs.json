@@ -1,0 +1,65 @@
+﻿{
+    "Name":  "CHSMServiceOperationAuditLogs",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "ResultType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CallerIpAddress",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientSdkPackageVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "MemberId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Opcode",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientInfo",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Sku",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "PoolType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultSignature",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResultDescription",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "DurationMs",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       }
+                   ]
+}

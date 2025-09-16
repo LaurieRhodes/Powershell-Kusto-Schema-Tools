@@ -1,0 +1,89 @@
+﻿// ============================================================================
+// Azure Data Explorer KQL Script for CIEventsAudit - UPDATED VERSION
+// ============================================================================
+// Generated: 2025-09-17 07:21:13
+// Table type: Microsoft
+// Schema discovered using hybrid approach (Management API + getschema)
+// Data type corrections applied: TenantId->guid, Double->real (empirical fixes)
+// All columns including underscore columns included
+// Original columns: 27, Final columns: 27
+// ============================================================================
+
+.create-merge table CIEventsAuditRaw (records:dynamic)
+
+.alter-merge table CIEventsAuditRaw policy retention softdelete = 1d
+
+.alter table CIEventsAuditRaw policy caching hot = 1h
+
+// JSON mapping - choose appropriate option based on data structure
+.create-or-alter table CIEventsAuditRaw ingestion json mapping 'CIEventsAuditRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+// Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
+
+.create-merge table CIEventsAudit(
+TimeGenerated:datetime,
+TenantId:guid,
+Level:string,
+Audience:string,
+UserPrincipalName:string,
+Claims:string,
+RequiredRoles:string,
+UserRole:string,
+InstanceId:string,
+CallerObjectId:string,
+OperationStatus:string,
+Origin:string,
+Path:string,
+Method:string,
+UserAgent:string,
+CallerIPAddress:string,
+DurationMs:long,
+ResultSignature:string,
+ResultType:string,
+Category:string,
+CorrelationId:string,
+OperationName:string,
+EventType:string,
+Uri:string,
+SourceSystem:string,
+Type:string,
+_ResourceId:string,
+_TimeReceived:datetime)
+
+.alter table CIEventsAudit policy caching hot = 1d
+
+.create-or-alter function CIEventsAuditExpand() {
+CIEventsAuditRaw
+| mv-expand events = records
+// Alternative for non-nested: | extend events = records
+| project
+TimeGenerated=todatetime(events.TimeGenerated),
+TenantId=toguid(events.TenantId),
+Level=tostring(events.Level),
+Audience=tostring(events.Audience),
+UserPrincipalName=tostring(events.UserPrincipalName),
+Claims=tostring(events.Claims),
+RequiredRoles=tostring(events.RequiredRoles),
+UserRole=tostring(events.UserRole),
+InstanceId=tostring(events.InstanceId),
+CallerObjectId=tostring(events.CallerObjectId),
+OperationStatus=tostring(events.OperationStatus),
+Origin=tostring(events.Origin),
+Path=tostring(events.Path),
+Method=tostring(events.Method),
+UserAgent=tostring(events.UserAgent),
+CallerIPAddress=tostring(events.CallerIPAddress),
+DurationMs=tolong(events.DurationMs),
+ResultSignature=tostring(events.ResultSignature),
+ResultType=tostring(events.ResultType),
+Category=tostring(events.Category),
+CorrelationId=tostring(events.CorrelationId),
+OperationName=tostring(events.OperationName),
+EventType=tostring(events.EventType),
+Uri=tostring(events.Uri),
+SourceSystem=tostring(events.SourceSystem),
+Type=tostring(events.Type),
+_ResourceId=tostring(events._ResourceId),
+_TimeReceived=todatetime(now())
+}
+
+.alter table CIEventsAudit policy update @'[{"Source": "CIEventsAuditRaw", "Query": "CIEventsAuditExpand()", "IsEnabled": "True", "IsTransactional": true}]'

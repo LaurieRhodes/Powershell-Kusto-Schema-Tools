@@ -1,0 +1,105 @@
+﻿{
+    "Name":  "AddonAzureBackupStorage",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "VolumeFriendlyName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "VaultUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "StorageUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "StorageType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "StorageTotalSizeInGBs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "StorageName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "StorageConsumedInMBs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "StorageAllocatedInMBs",
+                           "Type":  "Double"
+                       },
+                       {
+                           "Name":  "State",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SchemaVersion",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProtectedContainerUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "PreferredWorkloadOnVolume",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackupManagementType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackupManagementServerUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "BackupItemUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Category",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "OperationName",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ResourceId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ArchiveTierStorageConsumedInMBs",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ExtendedProperties",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

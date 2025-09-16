@@ -1,0 +1,89 @@
+﻿{
+    "Name":  "WVDSessionHostManagement",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "UpdateStartWindowInMinutes",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "UpdateMethod",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ToSessionHostConfigVer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ToInstanceCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "ScheduledDateTimeZone",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ScheduledDateTime",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProvisioningCanaryPolicy",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProvisioningType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ProvisioningStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UpdateMaxVmsRemoved",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "FromSessionHostConfigVer",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "FromInstanceCount",
+                           "Type":  "Int"
+                       },
+                       {
+                           "Name":  "FailedSessionHostCleanupPolicy",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "CorrelationId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UpdateDeleteOriginalVm",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

@@ -1,0 +1,57 @@
+﻿{
+    "Name":  "ThreatIntelObjects",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "WorkspaceId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "AzureTenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "Id",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "StixType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "LastUpdateMethod",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "IsDeleted",
+                           "Type":  "Boolean"
+                       },
+                       {
+                           "Name":  "AdditionalFields",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Data",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "_ResourceId",
+                           "Type":  "String"
+                       }
+                   ]
+}

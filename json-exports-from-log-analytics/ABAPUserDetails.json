@@ -1,0 +1,93 @@
+﻿{
+    "Name":  "ABAPUserDetails",
+    "Properties":  [
+                       {
+                           "Name":  "TimeGenerated",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "TenantId",
+                           "Type":  "Guid"
+                       },
+                       {
+                           "Name":  "SystemUniqueId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SystemRole",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ClientId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SystemId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Roles",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "Profiles",
+                           "Type":  "Dynamic"
+                       },
+                       {
+                           "Name":  "LastChangedBy",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "ValidityDate",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "ChangedOn",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "CreatedOn",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "LastSeen",
+                           "Type":  "DateTime"
+                       },
+                       {
+                           "Name":  "LockedStatus",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Timezone",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserType",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Email",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "UserGroup",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "User",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "AgentId",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "SourceSystem",
+                           "Type":  "String"
+                       },
+                       {
+                           "Name":  "Type",
+                           "Type":  "String"
+                       }
+                   ]
+}
