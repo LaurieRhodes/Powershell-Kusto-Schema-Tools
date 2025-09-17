@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for SecurityScorecardIssues_CL
 // ============================================================================
-// Generated: 2025-09-17 06:21:02
+// Generated: 2025-09-18 08:37:36
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 25, DCR columns: 24 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 25, DCR columns: 23 (Type column always filtered)
 // Output stream: Custom-SecurityScorecardIssues_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -37,10 +37,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
-            type: 'string'
-          }
-          {
-            name: 'industry_s'
             type: 'string'
           }
           {
@@ -76,11 +72,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'severity_s'
+            name: 'subject_s'
             type: 'string'
           }
           {
-            name: 'subject_s'
+            name: 'eventID_s'
             type: 'string'
           }
           {
@@ -120,11 +116,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'eventID_s'
+            name: 'industry_s'
             type: 'string'
           }
           {
-            name: '_ResourceId'
+            name: 'severity_s'
             type: 'string'
           }
         ]
@@ -143,7 +139,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-SecurityScorecardIssues_CL']
         destinations: ['Sentinel-SecurityScorecardIssues_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), industry_s = tostring(industry_s), detail_url_s = tostring(detail_url_s), severity_value_s = tostring(severity_value_s), totalScoreImpact_d = tostring(totalScoreImpact_d), issueName_s = tostring(issueName_s), groupStatus_s = tostring(groupStatus_s), findingsCount_d = tostring(findingsCount_d), issueType_s = tostring(issueType_s), date_t = tostring(date_t), severity_s = tostring(severity_s), subject_s = tostring(subject_s), Factor_s = tostring(Factor_s), body_s = tostring(body_s), portfolioName_s = tostring(portfolioName_s), portfolioId_g = tostring(portfolioId_g), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), eventID_s = tostring(eventID_s), _ResourceId = tostring(_ResourceId)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), detail_url_s = tostring(detail_url_s), severity_value_s = tostring(severity_value_s), totalScoreImpact_d = tostring(totalScoreImpact_d), issueName_s = tostring(issueName_s), groupStatus_s = tostring(groupStatus_s), findingsCount_d = tostring(findingsCount_d), issueType_s = tostring(issueType_s), date_t = tostring(date_t), subject_s = tostring(subject_s), eventID_s = tostring(eventID_s), Factor_s = tostring(Factor_s), body_s = tostring(body_s), portfolioName_s = tostring(portfolioName_s), portfolioId_g = tostring(portfolioId_g), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), industry_s = tostring(industry_s), severity_s = tostring(severity_s)'
         outputStream: 'Custom-SecurityScorecardIssues_CL'
       }
     ]

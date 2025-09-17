@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Detections_Data_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:53
+// Generated: 2025-09-18 08:37:28
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 33, DCR columns: 32 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 33, DCR columns: 31 (Type column always filtered)
 // Output stream: Custom-Detections_Data_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -37,10 +37,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
-            type: 'string'
-          }
-          {
-            name: 'summary_s'
             type: 'string'
           }
           {
@@ -92,11 +88,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'grouped_details_s'
+            name: 'entity_type_s'
             type: 'string'
           }
           {
-            name: 'entity_type_s'
+            name: 'entity_id_d'
             type: 'string'
           }
           {
@@ -152,11 +148,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'entity_id_d'
+            name: 'summary_s'
             type: 'string'
           }
           {
-            name: '_ResourceId'
+            name: 'grouped_details_s'
             type: 'string'
           }
         ]
@@ -175,7 +171,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Detections_Data_CL']
         destinations: ['Sentinel-Detections_Data_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), summary_s = tostring(summary_s), src_ip_s = tostring(src_ip_s), normal_domains_s = tostring(normal_domains_s), src_host_s = tostring(src_host_s), is_targeting_key_asset_s = tostring(is_targeting_key_asset_s), d_detection_details_s = tostring(d_detection_details_s), detail_s = tostring(detail_s), entity_uid_s = tostring(entity_uid_s), detection_id_d = toreal(detection_id_d), event_timestamp_t = todatetime(event_timestamp_t), Severity = toint(Severity), url_s = tostring(url_s), type_s = tostring(type_s), grouped_details_s = tostring(grouped_details_s), entity_type_s = tostring(entity_type_s), detection_href_s = tostring(detection_href_s), d_type_vname_s = tostring(d_type_vname_s), detection_type_s = tostring(detection_type_s), triaged_b = tobool(triaged_b), certainty_d = toreal(certainty_d), threat_d = toreal(threat_d), Category = tostring(Category), id_d = toreal(id_d), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), entity_id_d = toreal(entity_id_d), _ResourceId = tostring(_ResourceId)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), src_ip_s = tostring(src_ip_s), normal_domains_s = tostring(normal_domains_s), src_host_s = tostring(src_host_s), is_targeting_key_asset_s = tostring(is_targeting_key_asset_s), d_detection_details_s = tostring(d_detection_details_s), detail_s = tostring(detail_s), entity_uid_s = tostring(entity_uid_s), detection_id_d = toreal(detection_id_d), event_timestamp_t = todatetime(event_timestamp_t), Severity = toint(Severity), url_s = tostring(url_s), type_s = tostring(type_s), entity_type_s = tostring(entity_type_s), entity_id_d = toreal(entity_id_d), detection_href_s = tostring(detection_href_s), d_type_vname_s = tostring(d_type_vname_s), detection_type_s = tostring(detection_type_s), triaged_b = tobool(triaged_b), certainty_d = toreal(certainty_d), threat_d = toreal(threat_d), Category = tostring(Category), id_d = toreal(id_d), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), summary_s = tostring(summary_s), grouped_details_s = tostring(grouped_details_s)'
         outputStream: 'Custom-Detections_Data_CL'
       }
     ]

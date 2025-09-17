@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for TrendMicro_XDR_RCA_Task_CL
 // ============================================================================
-// Generated: 2025-09-17 06:21:05
+// Generated: 2025-09-18 08:37:39
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 27, DCR columns: 26 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 27, DCR columns: 25 (Type column always filtered)
 // Output stream: Custom-TrendMicro_XDR_RCA_Task_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -56,10 +56,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: '_ResourceId'
-            type: 'string'
-          }
-          {
             name: 'targets'
             type: 'string'
           }
@@ -84,11 +80,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'status'
+            name: 'xdrCustomerID_g'
             type: 'string'
           }
           {
-            name: 'description'
+            name: 'status'
             type: 'string'
           }
           {
@@ -128,7 +124,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'xdrCustomerID_g'
+            name: 'description'
             type: 'string'
           }
           {
@@ -151,7 +147,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-TrendMicro_XDR_RCA_Task_CL']
         destinations: ['Sentinel-TrendMicro_XDR_RCA_Task_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), name_s = tostring(name_s), id_g = tostring(id_g), workbenchId_s = tostring(workbenchId_s), _ResourceId = tostring(_ResourceId), targets = tostring(targets), completedTimestamp = toreal(completedTimestamp), lastUpdateTimestamp = toreal(lastUpdateTimestamp), createdTimestamp = toreal(createdTimestamp), criteria_conditions = tostring(criteria_conditions), criteria_operator = tostring(criteria_operator), status = tostring(status), description = tostring(description), workbenchId = tostring(workbenchId), name = tostring(name), id = tostring(id), xdrCustomerID = tostring(xdrCustomerID), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), xdrCustomerID_g = tostring(xdrCustomerID_g), targets_s = tostring(targets_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), name_s = tostring(name_s), id_g = tostring(id_g), workbenchId_s = tostring(workbenchId_s), targets = tostring(targets), completedTimestamp = toreal(completedTimestamp), lastUpdateTimestamp = toreal(lastUpdateTimestamp), createdTimestamp = toreal(createdTimestamp), criteria_conditions = tostring(criteria_conditions), criteria_operator = tostring(criteria_operator), xdrCustomerID_g = tostring(xdrCustomerID_g), status = tostring(status), workbenchId = tostring(workbenchId), name = tostring(name), id = tostring(id), xdrCustomerID = tostring(xdrCustomerID), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), description = tostring(description), targets_s = tostring(targets_s)'
         outputStream: 'Custom-TrendMicro_XDR_RCA_Task_CL'
       }
     ]

@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for ESIExchangeOnlineConfig_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:54
+// Generated: 2025-09-18 08:37:29
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 23, DCR columns: 22 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 23, DCR columns: 21 (Type column always filtered)
 // Output stream: Custom-ESIExchangeOnlineConfig_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -37,10 +37,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
-            type: 'string'
-          }
-          {
-            name: 'rawData_s'
             type: 'string'
           }
           {
@@ -72,11 +68,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'IdentityString_s'
+            name: 'PSCmdL_s'
             type: 'string'
           }
           {
-            name: 'PSCmdL_s'
+            name: 'Section_s'
             type: 'string'
           }
           {
@@ -112,11 +108,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'Section_s'
+            name: 'rawData_s'
             type: 'string'
           }
           {
-            name: '_ResourceId'
+            name: 'IdentityString_s'
             type: 'string'
           }
         ]
@@ -135,7 +131,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-ESIExchangeOnlineConfig_CL']
         destinations: ['Sentinel-ESIExchangeOnlineConfig_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), rawData_s = tostring(rawData_s), ExecutionResult_s = tostring(ExecutionResult_s), WhenChanged_t = todatetime(WhenChanged_t), WhenCreated_t = todatetime(WhenCreated_t), WhenChanged_s = tostring(WhenChanged_s), WhenCreated_s = tostring(WhenCreated_s), Identity_s = tostring(Identity_s), Name_s = tostring(Name_s), IdentityString_s = tostring(IdentityString_s), PSCmdL_s = tostring(PSCmdL_s), EntryDate_s = tostring(EntryDate_s), ESIEnvironment_s = tostring(ESIEnvironment_s), GenerationInstanceID_g = tostring(GenerationInstanceID_g), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), Section_s = tostring(Section_s), _ResourceId = tostring(_ResourceId)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), ExecutionResult_s = tostring(ExecutionResult_s), WhenChanged_t = todatetime(WhenChanged_t), WhenCreated_t = todatetime(WhenCreated_t), WhenChanged_s = tostring(WhenChanged_s), WhenCreated_s = tostring(WhenCreated_s), Identity_s = tostring(Identity_s), Name_s = tostring(Name_s), PSCmdL_s = tostring(PSCmdL_s), Section_s = tostring(Section_s), EntryDate_s = tostring(EntryDate_s), ESIEnvironment_s = tostring(ESIEnvironment_s), GenerationInstanceID_g = tostring(GenerationInstanceID_g), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), rawData_s = tostring(rawData_s), IdentityString_s = tostring(IdentityString_s)'
         outputStream: 'Custom-ESIExchangeOnlineConfig_CL'
       }
     ]

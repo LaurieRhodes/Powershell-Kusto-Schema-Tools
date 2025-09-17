@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_notice_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:50
+// Generated: 2025-09-18 08:37:23
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 31, DCR columns: 31 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 31, DCR columns: 28 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_notice_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -36,7 +36,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: '_path_s'
+            name: 'ts_t'
             type: 'string'
           }
           {
@@ -84,11 +84,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'src_s'
+            name: 'severity_level_d'
             type: 'string'
           }
           {
-            name: 'sub_s'
+            name: 'src_s'
             type: 'string'
           }
           {
@@ -136,19 +136,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ts_t'
-            type: 'string'
-          }
-          {
-            name: '_write_ts_t'
-            type: 'string'
-          }
-          {
-            name: '_system_name_s'
-            type: 'string'
-          }
-          {
-            name: 'severity_level_d'
+            name: 'sub_s'
             type: 'string'
           }
           {
@@ -171,7 +159,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_notice_CL']
         destinations: ['Sentinel-Corelight_v2_notice_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), remote_location_longitude_d = toreal(remote_location_longitude_d), remote_location_latitude_d = toreal(remote_location_latitude_d), remote_location_city_s = tostring(remote_location_city_s), remote_location_region_s = tostring(remote_location_region_s), remote_location_country_code_s = tostring(remote_location_country_code_s), suppress_for_d = toreal(suppress_for_d), actions_s = tostring(actions_s), peer_descr_s = tostring(peer_descr_s), n_d = toreal(n_d), p_d = toreal(p_d), dst_s = tostring(dst_s), src_s = tostring(src_s), sub_s = tostring(sub_s), msg_s = tostring(msg_s), note_s = tostring(note_s), proto_s = tostring(proto_s), file_desc_s = tostring(file_desc_s), file_mime_type_s = tostring(file_mime_type_s), fuid_s = tostring(fuid_s), id_resp_p_d = toreal(id_resp_p_d), id_resp_h_s = tostring(id_resp_h_s), id_orig_p_d = toreal(id_orig_p_d), id_orig_h_s = tostring(id_orig_h_s), uid_s = tostring(uid_s), ts_t = todatetime(ts_t), _write_ts_t = todatetime(_write_ts_t), _system_name_s = tostring(_system_name_s), severity_level_d = toreal(severity_level_d), severity_name_s = tostring(severity_name_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), remote_location_longitude_d = toreal(remote_location_longitude_d), remote_location_latitude_d = toreal(remote_location_latitude_d), remote_location_city_s = tostring(remote_location_city_s), remote_location_region_s = tostring(remote_location_region_s), remote_location_country_code_s = tostring(remote_location_country_code_s), suppress_for_d = toreal(suppress_for_d), actions_s = tostring(actions_s), peer_descr_s = tostring(peer_descr_s), n_d = toreal(n_d), p_d = toreal(p_d), dst_s = tostring(dst_s), severity_level_d = toreal(severity_level_d), src_s = tostring(src_s), msg_s = tostring(msg_s), note_s = tostring(note_s), proto_s = tostring(proto_s), file_desc_s = tostring(file_desc_s), file_mime_type_s = tostring(file_mime_type_s), fuid_s = tostring(fuid_s), id_resp_p_d = toreal(id_resp_p_d), id_resp_h_s = tostring(id_resp_h_s), id_orig_p_d = toreal(id_orig_p_d), id_orig_h_s = tostring(id_orig_h_s), uid_s = tostring(uid_s), sub_s = tostring(sub_s), severity_name_s = tostring(severity_name_s)'
         outputStream: 'Custom-Corelight_v2_notice_CL'
       }
     ]

@@ -12,10 +12,10 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for GWorkspace_ReportsAPI_calendar_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:55
+// Generated: 2025-09-18 08:37:30
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
+// Underscore columns filtered out
 // Original columns: 33, DCR columns: 33 (Type column always filtered)
 // Output stream: Custom-GWorkspace_ReportsAPI_calendar_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.

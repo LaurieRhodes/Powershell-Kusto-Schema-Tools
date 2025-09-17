@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_ipsec_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:49
+// Generated: 2025-09-18 08:37:22
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 34, DCR columns: 34 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 34, DCR columns: 31 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_ipsec_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -36,7 +36,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: '_path_s'
+            name: 'ts_t'
             type: 'string'
           }
           {
@@ -96,11 +96,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'doi_d'
+            name: 'flag_c_b'
             type: 'string'
           }
           {
-            name: 'flag_c_b'
+            name: 'flag_e_b'
             type: 'string'
           }
           {
@@ -148,19 +148,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ts_t'
-            type: 'string'
-          }
-          {
-            name: '_write_ts_t'
-            type: 'string'
-          }
-          {
-            name: '_system_name_s'
-            type: 'string'
-          }
-          {
-            name: 'flag_e_b'
+            name: 'doi_d'
             type: 'string'
           }
           {
@@ -183,7 +171,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_ipsec_CL']
         destinations: ['Sentinel-Corelight_v2_ipsec_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), length_d = toreal(length_d), transform_attributes_s = tostring(transform_attributes_s), certificates_s = tostring(certificates_s), protocol_id_d = toreal(protocol_id_d), proposals_s = tostring(proposals_s), ke_dh_groups_s = tostring(ke_dh_groups_s), transforms_s = tostring(transforms_s), notify_messages_s = tostring(notify_messages_s), vendor_ids_s = tostring(vendor_ids_s), message_id_d = toreal(message_id_d), flag_r_b = tobool(flag_r_b), flag_v_b = tobool(flag_v_b), flag_i_b = tobool(flag_i_b), flag_a_b = tobool(flag_a_b), doi_d = toreal(doi_d), flag_c_b = tobool(flag_c_b), exchange_type_d = toreal(exchange_type_d), min_ver_d = toreal(min_ver_d), maj_ver_d = toreal(maj_ver_d), responder_spi_s = tostring(responder_spi_s), initiator_spi_s = tostring(initiator_spi_s), is_orig_b = tobool(is_orig_b), id_resp_p_d = toreal(id_resp_p_d), id_resp_h_s = tostring(id_resp_h_s), id_orig_p_d = toreal(id_orig_p_d), id_orig_h_s = tostring(id_orig_h_s), uid_s = tostring(uid_s), ts_t = todatetime(ts_t), _write_ts_t = todatetime(_write_ts_t), _system_name_s = tostring(_system_name_s), flag_e_b = tobool(flag_e_b), situation_s = tostring(situation_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), length_d = toreal(length_d), transform_attributes_s = tostring(transform_attributes_s), certificates_s = tostring(certificates_s), protocol_id_d = toreal(protocol_id_d), proposals_s = tostring(proposals_s), ke_dh_groups_s = tostring(ke_dh_groups_s), transforms_s = tostring(transforms_s), notify_messages_s = tostring(notify_messages_s), vendor_ids_s = tostring(vendor_ids_s), message_id_d = toreal(message_id_d), flag_r_b = tobool(flag_r_b), flag_v_b = tobool(flag_v_b), flag_i_b = tobool(flag_i_b), flag_a_b = tobool(flag_a_b), flag_c_b = tobool(flag_c_b), flag_e_b = tobool(flag_e_b), exchange_type_d = toreal(exchange_type_d), min_ver_d = toreal(min_ver_d), maj_ver_d = toreal(maj_ver_d), responder_spi_s = tostring(responder_spi_s), initiator_spi_s = tostring(initiator_spi_s), is_orig_b = tobool(is_orig_b), id_resp_p_d = toreal(id_resp_p_d), id_resp_h_s = tostring(id_resp_h_s), id_orig_p_d = toreal(id_orig_p_d), id_orig_h_s = tostring(id_orig_h_s), uid_s = tostring(uid_s), doi_d = toreal(doi_d), situation_s = tostring(situation_s)'
         outputStream: 'Custom-Corelight_v2_ipsec_CL'
       }
     ]

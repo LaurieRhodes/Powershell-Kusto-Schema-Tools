@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for InfobloxInsight_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:57
+// Generated: 2025-09-18 08:37:31
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 29, DCR columns: 28 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 29, DCR columns: 27 (Type column always filtered)
 // Output stream: Custom-InfobloxInsight_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -37,10 +37,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
-            type: 'string'
-          }
-          {
-            name: 'priorityText_s'
             type: 'string'
           }
           {
@@ -84,11 +80,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: '_ResourceId'
+            name: 'tFamily_s'
             type: 'string'
           }
           {
-            name: 'tFamily_s'
+            name: 'tClass_s'
             type: 'string'
           }
           {
@@ -136,7 +132,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'tClass_s'
+            name: 'priorityText_s'
             type: 'string'
           }
           {
@@ -159,7 +155,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-InfobloxInsight_CL']
         destinations: ['Sentinel-InfobloxInsight_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), priorityText_s = tostring(priorityText_s), dateChanged_t = todatetime(dateChanged_t), eventsBlockedCount_s = tostring(eventsBlockedCount_s), mostRecentAt_t = todatetime(mostRecentAt_t), numEvents_s = tostring(numEvents_s), persistentDate_t = todatetime(persistentDate_t), status_s = tostring(status_s), threatType_s = tostring(threatType_s), startedAt_t = todatetime(startedAt_t), feedSource_s = tostring(feedSource_s), insightId_g = toguid(insightId_g), _ResourceId = tostring(_ResourceId), tFamily_s = tostring(tFamily_s), hello_s = tostring(hello_s), InfobloxInsightLogType_s = tostring(InfobloxInsightLogType_s), eventsNotBlockedCount_s = tostring(eventsNotBlockedCount_s), userComment_s = tostring(userComment_s), changer_s = tostring(changer_s), spreadingDate_t = todatetime(spreadingDate_t), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), tClass_s = tostring(tClass_s), InfobloxInsightID = tostring(InfobloxInsightID)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), dateChanged_t = todatetime(dateChanged_t), eventsBlockedCount_s = tostring(eventsBlockedCount_s), mostRecentAt_t = todatetime(mostRecentAt_t), numEvents_s = tostring(numEvents_s), persistentDate_t = todatetime(persistentDate_t), status_s = tostring(status_s), threatType_s = tostring(threatType_s), startedAt_t = todatetime(startedAt_t), feedSource_s = tostring(feedSource_s), insightId_g = toguid(insightId_g), tFamily_s = tostring(tFamily_s), tClass_s = tostring(tClass_s), hello_s = tostring(hello_s), InfobloxInsightLogType_s = tostring(InfobloxInsightLogType_s), eventsNotBlockedCount_s = tostring(eventsNotBlockedCount_s), userComment_s = tostring(userComment_s), changer_s = tostring(changer_s), spreadingDate_t = todatetime(spreadingDate_t), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), priorityText_s = tostring(priorityText_s), InfobloxInsightID = tostring(InfobloxInsightID)'
         outputStream: 'Custom-InfobloxInsight_CL'
       }
     ]

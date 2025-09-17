@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for CyberSixgill_Alerts_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:53
+// Generated: 2025-09-18 08:37:28
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 30, DCR columns: 29 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 30, DCR columns: 28 (Type column always filtered)
 // Output stream: Custom-CyberSixgill_Alerts_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -37,10 +37,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
-            type: 'string'
-          }
-          {
-            name: 'threatource'
             type: 'string'
           }
           {
@@ -88,11 +84,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'langcode'
+            name: 'threatource'
             type: 'string'
           }
           {
-            name: 'lang'
+            name: 'langcode'
             type: 'string'
           }
           {
@@ -140,11 +136,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'portal_url'
+            name: 'lang'
             type: 'string'
           }
           {
-            name: '_ResourceId'
+            name: 'portal_url'
             type: 'string'
           }
         ]
@@ -163,7 +159,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-CyberSixgill_Alerts_CL']
         destinations: ['Sentinel-CyberSixgill_Alerts_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), threatource = tostring(threatource), threat_actor = tostring(threat_actor), assets = tostring(assets), user_id = tostring(user_id), title = tostring(title), threats = tostring(threats), threat_level = tostring(threat_level), sub_alertsize = toreal(sub_alertsize), sub_alerts = tostring(sub_alerts), status_name = tostring(status_name), Severity = toint(Severity), read = tobool(read), langcode = tostring(langcode), lang = tostring(lang), id = tostring(id), date = tostring(date), content = tostring(content), Category = tostring(Category), alert_type_id = tostring(alert_type_id), alert_name = tostring(alert_name), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), portal_url = tostring(portal_url), _ResourceId = tostring(_ResourceId)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), threat_actor = tostring(threat_actor), assets = tostring(assets), user_id = tostring(user_id), title = tostring(title), threats = tostring(threats), threat_level = tostring(threat_level), sub_alertsize = toreal(sub_alertsize), sub_alerts = tostring(sub_alerts), status_name = tostring(status_name), Severity = toint(Severity), read = tobool(read), threatource = tostring(threatource), langcode = tostring(langcode), id = tostring(id), date = tostring(date), content = tostring(content), Category = tostring(Category), alert_type_id = tostring(alert_type_id), alert_name = tostring(alert_name), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), lang = tostring(lang), portal_url = tostring(portal_url)'
         outputStream: 'Custom-CyberSixgill_Alerts_CL'
       }
     ]

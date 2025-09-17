@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for DataminrPulse_Alerts_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:53
+// Generated: 2025-09-18 08:37:28
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 19, DCR columns: 19 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 19, DCR columns: 18 (Type column always filtered)
 // Output stream: Custom-DataminrPulse_Alerts_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -52,10 +52,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: '_embedded_labels_s'
-            type: 'string'
-          }
-          {
             name: 'EventVolume'
             type: 'string'
           }
@@ -68,11 +64,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'location_latitude_d'
+            name: 'watchlistsMatchedByType_s'
             type: 'string'
           }
           {
-            name: 'categories_s'
+            name: 'location_latitude_d'
             type: 'string'
           }
           {
@@ -100,7 +96,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'watchlistsMatchedByType_s'
+            name: 'categories_s'
             type: 'string'
           }
           {
@@ -123,7 +119,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-DataminrPulse_Alerts_CL']
         destinations: ['Sentinel-DataminrPulse_Alerts_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), EventVendor = tostring(EventVendor), odsStatus_timestamp_d = toreal(odsStatus_timestamp_d), dataMap_headlineMds_content_s = tostring(dataMap_headlineMds_content_s), relatedAlerts_s = tostring(relatedAlerts_s), _embedded_labels_s = tostring(_embedded_labels_s), EventVolume = toreal(EventVolume), timestamp_d = toreal(timestamp_d), location_longitude_d = toreal(location_longitude_d), location_latitude_d = toreal(location_latitude_d), categories_s = tostring(categories_s), companies_s = tostring(companies_s), headline_s = tostring(headline_s), availableRelatedAlerts_d = toreal(availableRelatedAlerts_d), alertType_name_s = tostring(alertType_name_s), index_s = tostring(index_s), EventProduct = tostring(EventProduct), watchlistsMatchedByType_s = tostring(watchlistsMatchedByType_s), location_name_s = tostring(location_name_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), EventVendor = tostring(EventVendor), odsStatus_timestamp_d = toreal(odsStatus_timestamp_d), dataMap_headlineMds_content_s = tostring(dataMap_headlineMds_content_s), relatedAlerts_s = tostring(relatedAlerts_s), EventVolume = toreal(EventVolume), timestamp_d = toreal(timestamp_d), location_longitude_d = toreal(location_longitude_d), watchlistsMatchedByType_s = tostring(watchlistsMatchedByType_s), location_latitude_d = toreal(location_latitude_d), companies_s = tostring(companies_s), headline_s = tostring(headline_s), availableRelatedAlerts_d = toreal(availableRelatedAlerts_d), alertType_name_s = tostring(alertType_name_s), index_s = tostring(index_s), EventProduct = tostring(EventProduct), categories_s = tostring(categories_s), location_name_s = tostring(location_name_s)'
         outputStream: 'Custom-DataminrPulse_Alerts_CL'
       }
     ]

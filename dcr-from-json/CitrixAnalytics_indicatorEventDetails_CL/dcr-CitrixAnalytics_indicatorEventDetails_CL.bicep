@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for CitrixAnalytics_indicatorEventDetails_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:46
+// Generated: 2025-09-18 08:37:19
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 89, DCR columns: 89 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 89, DCR columns: 88 (Type column always filtered)
 // Output stream: Custom-CitrixAnalytics_indicatorEventDetails_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -37,10 +37,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'entity_id_s'
-            type: 'string'
-          }
-          {
-            name: 'os_extra_info_s'
             type: 'string'
           }
           {
@@ -72,15 +68,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'os_major_version_s'
-            type: 'string'
-          }
-          {
             name: 'lifetime_unique_user_count_d'
             type: 'string'
           }
           {
-            name: 'lifetime_num_times_downloaded_d'
+            name: 'os_extra_info_s'
+            type: 'string'
+          }
+          {
+            name: 'lifetime_total_download_size_in_bytes_d'
             type: 'string'
           }
           {
@@ -112,23 +108,23 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'lifetime_total_download_size_in_bytes_d'
-            type: 'string'
-          }
-          {
             name: 'indicator_vector_name_s'
             type: 'string'
           }
           {
-            name: 'os_minor_version_s'
+            name: 'lifetime_num_times_downloaded_d'
             type: 'string'
           }
           {
-            name: 'os_version_s'
+            name: 'indicator_vector_id_d'
             type: 'string'
           }
           {
-            name: 'vpn_vserver_name_s'
+            name: 'os_major_version_s'
+            type: 'string'
+          }
+          {
+            name: 'os_name_s'
             type: 'string'
           }
           {
@@ -160,15 +156,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'os_name_s'
-            type: 'string'
-          }
-          {
             name: 'server_name_s'
             type: 'string'
           }
           {
-            name: 'resource_type_s'
+            name: 'os_minor_version_s'
+            type: 'string'
+          }
+          {
+            name: 'security_expression_s'
             type: 'string'
           }
           {
@@ -200,11 +196,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'security_expression_s'
+            name: 'os_version_s'
             type: 'string'
           }
           {
-            name: 'indicator_vector_id_d'
+            name: 'resource_type_s'
+            type: 'string'
+          }
+          {
+            name: 'vpn_vserver_name_s'
             type: 'string'
           }
           {
@@ -212,7 +212,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'indicator_id_s'
+            name: 'indicator_category_id_d'
             type: 'string'
           }
           {
@@ -292,19 +292,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
+            name: 'indicator_id_s'
+            type: 'string'
+          }
+          {
             name: 'device_os_s'
             type: 'string'
           }
           {
-            name: 'device_type_s'
-            type: 'string'
-          }
-          {
             name: 'domain_category_group_s'
-            type: 'string'
-          }
-          {
-            name: 'indicator_category_id_d'
             type: 'string'
           }
           {
@@ -340,11 +336,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'file_download_file_path_s'
+            name: 'device_type_s'
             type: 'string'
           }
           {
-            name: 'file_download_file_name_s'
+            name: 'file_download_file_path_s'
             type: 'string'
           }
           {
@@ -380,11 +376,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'vserver_fqdn_s'
+            name: 'file_download_file_name_s'
             type: 'string'
           }
           {
-            name: '_timestamp_t'
+            name: 'vserver_fqdn_s'
             type: 'string'
           }
         ]
@@ -403,7 +399,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-CitrixAnalytics_indicatorEventDetails_CL']
         destinations: ['Sentinel-CitrixAnalytics_indicatorEventDetails_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), entity_id_s = tostring(entity_id_s), os_extra_info_s = tostring(os_extra_info_s), os_extra_details_s = tostring(os_extra_details_s), operation_name_s = tostring(operation_name_s), occurrence_event_type_s = tostring(occurrence_event_type_s), nth_failure_d = toreal(nth_failure_d), module_file_path_s = tostring(module_file_path_s), longitude_s = tostring(longitude_s), lifetime_unique_user_emails_s = tostring(lifetime_unique_user_emails_s), os_major_version_s = tostring(os_major_version_s), lifetime_unique_user_count_d = toreal(lifetime_unique_user_count_d), lifetime_num_times_downloaded_d = toreal(lifetime_num_times_downloaded_d), lifetime_first_event_time_t = todatetime(lifetime_first_event_time_t), launch_type_s = tostring(launch_type_s), latitude_s = tostring(latitude_s), job_details_size_in_bytes_s = tostring(job_details_size_in_bytes_s), job_details_format_s = tostring(job_details_format_s), job_details_filename_s = tostring(job_details_filename_s), is_risky_s = tostring(is_risky_s), lifetime_total_download_size_in_bytes_d = toreal(lifetime_total_download_size_in_bytes_d), indicator_vector_name_s = tostring(indicator_vector_name_s), os_minor_version_s = tostring(os_minor_version_s), os_version_s = tostring(os_version_s), vpn_vserver_name_s = tostring(vpn_vserver_name_s), virus_name_s = tostring(virus_name_s), user_email_s = tostring(user_email_s), transaction_count_d = toreal(transaction_count_d), tool_name_s = tostring(tool_name_s), share_id_s = tostring(share_id_s), session_user_name_s = tostring(session_user_name_s), session_guid_s = tostring(session_guid_s), os_name_s = tostring(os_name_s), server_name_s = tostring(server_name_s), resource_type_s = tostring(resource_type_s), resource_name_s = tostring(resource_name_s), region_s = tostring(region_s), receiver_type_s = tostring(receiver_type_s), reason_for_action_s = tostring(reason_for_action_s), product_s = tostring(product_s), printer_name_s = tostring(printer_name_s), policy_name_s = tostring(policy_name_s), security_expression_s = tostring(security_expression_s), indicator_vector_id_d = toreal(indicator_vector_id_d), indicator_uuid_g = tostring(indicator_uuid_g), indicator_id_s = tostring(indicator_id_s), device_browser_s = tostring(device_browser_s), data_source_id_d = toreal(data_source_id_d), cs_vserver_name_s = tostring(cs_vserver_name_s), country_s = tostring(country_s), connector_type_s = tostring(connector_type_s), component_name_s = tostring(component_name_s), client_ip_s = tostring(client_ip_s), city_s = tostring(city_s), device_id_s = tostring(device_id_s), browser_s = tostring(browser_s), authentication_type_s = tostring(authentication_type_s), authentication_stage_s = tostring(authentication_stage_s), app_url_s = tostring(app_url_s), app_name_s = tostring(app_name_s), version_d = toreal(version_d), tenant_id_s = tostring(tenant_id_s), event_type_s = tostring(event_type_s), entity_type_s = tostring(entity_type_s), auth_server_ip_s = tostring(auth_server_ip_s), device_os_s = tostring(device_os_s), device_type_s = tostring(device_type_s), domain_category_group_s = tostring(domain_category_group_s), indicator_category_id_d = toreal(indicator_category_id_d), gateway_ip_s = tostring(gateway_ip_s), gateway_domain_name_s = tostring(gateway_domain_name_s), folder_name_s = tostring(folder_name_s), file_type_s = tostring(file_type_s), file_size_in_bytes_d = toreal(file_size_in_bytes_d), file_path_s = tostring(file_path_s), file_name_s = tostring(file_name_s), file_hash_g = tostring(file_hash_g), file_download_file_path_s = tostring(file_download_file_path_s), file_download_file_name_s = tostring(file_download_file_name_s), executed_action_s = tostring(executed_action_s), event_id_s = tostring(event_id_s), event_description_s = tostring(event_description_s), entity_time_zone_s = tostring(entity_time_zone_s), domain_s = tostring(domain_s), domain_reputation_d = tostring(domain_reputation_d), domain_name_s = tostring(domain_name_s), domain_category_s = tostring(domain_category_s), vserver_fqdn_s = tostring(vserver_fqdn_s), _timestamp_t = todatetime(_timestamp_t)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), entity_id_s = tostring(entity_id_s), os_extra_details_s = tostring(os_extra_details_s), operation_name_s = tostring(operation_name_s), occurrence_event_type_s = tostring(occurrence_event_type_s), nth_failure_d = toreal(nth_failure_d), module_file_path_s = tostring(module_file_path_s), longitude_s = tostring(longitude_s), lifetime_unique_user_emails_s = tostring(lifetime_unique_user_emails_s), lifetime_unique_user_count_d = toreal(lifetime_unique_user_count_d), os_extra_info_s = tostring(os_extra_info_s), lifetime_total_download_size_in_bytes_d = toreal(lifetime_total_download_size_in_bytes_d), lifetime_first_event_time_t = todatetime(lifetime_first_event_time_t), launch_type_s = tostring(launch_type_s), latitude_s = tostring(latitude_s), job_details_size_in_bytes_s = tostring(job_details_size_in_bytes_s), job_details_format_s = tostring(job_details_format_s), job_details_filename_s = tostring(job_details_filename_s), is_risky_s = tostring(is_risky_s), indicator_vector_name_s = tostring(indicator_vector_name_s), lifetime_num_times_downloaded_d = toreal(lifetime_num_times_downloaded_d), indicator_vector_id_d = toreal(indicator_vector_id_d), os_major_version_s = tostring(os_major_version_s), os_name_s = tostring(os_name_s), virus_name_s = tostring(virus_name_s), user_email_s = tostring(user_email_s), transaction_count_d = toreal(transaction_count_d), tool_name_s = tostring(tool_name_s), share_id_s = tostring(share_id_s), session_user_name_s = tostring(session_user_name_s), session_guid_s = tostring(session_guid_s), server_name_s = tostring(server_name_s), os_minor_version_s = tostring(os_minor_version_s), security_expression_s = tostring(security_expression_s), resource_name_s = tostring(resource_name_s), region_s = tostring(region_s), receiver_type_s = tostring(receiver_type_s), reason_for_action_s = tostring(reason_for_action_s), product_s = tostring(product_s), printer_name_s = tostring(printer_name_s), policy_name_s = tostring(policy_name_s), os_version_s = tostring(os_version_s), resource_type_s = tostring(resource_type_s), vpn_vserver_name_s = tostring(vpn_vserver_name_s), indicator_uuid_g = tostring(indicator_uuid_g), indicator_category_id_d = toreal(indicator_category_id_d), device_browser_s = tostring(device_browser_s), data_source_id_d = toreal(data_source_id_d), cs_vserver_name_s = tostring(cs_vserver_name_s), country_s = tostring(country_s), connector_type_s = tostring(connector_type_s), component_name_s = tostring(component_name_s), client_ip_s = tostring(client_ip_s), city_s = tostring(city_s), device_id_s = tostring(device_id_s), browser_s = tostring(browser_s), authentication_type_s = tostring(authentication_type_s), authentication_stage_s = tostring(authentication_stage_s), app_url_s = tostring(app_url_s), app_name_s = tostring(app_name_s), version_d = toreal(version_d), tenant_id_s = tostring(tenant_id_s), event_type_s = tostring(event_type_s), entity_type_s = tostring(entity_type_s), auth_server_ip_s = tostring(auth_server_ip_s), indicator_id_s = tostring(indicator_id_s), device_os_s = tostring(device_os_s), domain_category_group_s = tostring(domain_category_group_s), gateway_ip_s = tostring(gateway_ip_s), gateway_domain_name_s = tostring(gateway_domain_name_s), folder_name_s = tostring(folder_name_s), file_type_s = tostring(file_type_s), file_size_in_bytes_d = toreal(file_size_in_bytes_d), file_path_s = tostring(file_path_s), file_name_s = tostring(file_name_s), file_hash_g = tostring(file_hash_g), device_type_s = tostring(device_type_s), file_download_file_path_s = tostring(file_download_file_path_s), executed_action_s = tostring(executed_action_s), event_id_s = tostring(event_id_s), event_description_s = tostring(event_description_s), entity_time_zone_s = tostring(entity_time_zone_s), domain_s = tostring(domain_s), domain_reputation_d = tostring(domain_reputation_d), domain_name_s = tostring(domain_name_s), domain_category_s = tostring(domain_category_s), file_download_file_name_s = tostring(file_download_file_name_s), vserver_fqdn_s = tostring(vserver_fqdn_s)'
         outputStream: 'Custom-CitrixAnalytics_indicatorEventDetails_CL'
       }
     ]

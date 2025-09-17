@@ -12,13 +12,13 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for AWSCloudWatch
 // ============================================================================
-// Generated: 2025-09-17 08:12:44
+// Generated: 2025-09-18 07:50:16
 // Table type: Microsoft
 // Schema discovered using hybrid approach (Management API + getschema)
-// Underscore columns included
+// Underscore columns filtered out
 // Original columns: 6, DCR columns: 5 (Type column always filtered)
 // Input stream: Custom-AWSCloudWatch (always Custom- for JSON ingestion)
-// Output stream: Custom-AWSCloudWatch (based on table type)
+// Output stream: Microsoft-AWSCloudWatch (based on table type)
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
 
@@ -69,7 +69,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
         streams: ['Custom-AWSCloudWatch']
         destinations: ['Sentinel-AWSCloudWatch']
         transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), ExtractedTime = todatetime(ExtractedTime), Message = tostring(Message), SourceSystem = tostring(SourceSystem)'
-        outputStream: 'Custom-AWSCloudWatch'
+        outputStream: 'Microsoft-AWSCloudWatch'
       }
     ]
   }

@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_software_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:51
+// Generated: 2025-09-18 08:37:25
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 15, DCR columns: 15 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 15, DCR columns: 12 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_software_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -33,18 +33,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
         columns: [
           {
             name: 'TimeGenerated'
-            type: 'string'
-          }
-          {
-            name: '_path_s'
-            type: 'string'
-          }
-          {
-            name: '_system_name_s'
-            type: 'string'
-          }
-          {
-            name: '_write_ts_t'
             type: 'string'
           }
           {
@@ -107,7 +95,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_software_CL']
         destinations: ['Sentinel-Corelight_v2_software_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), _system_name_s = tostring(_system_name_s), _write_ts_t = todatetime(_write_ts_t), ts_t = todatetime(ts_t), host_s = tostring(host_s), host_p_d = toreal(host_p_d), software_type_s = tostring(software_type_s), name_s = tostring(name_s), version_major_d = toreal(version_major_d), version_minor_d = toreal(version_minor_d), version_minor2_d = toreal(version_minor2_d), version_minor3_d = toreal(version_minor3_d), version_addl_s = tostring(version_addl_s), unparsed_version_s = tostring(unparsed_version_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), host_s = tostring(host_s), host_p_d = toreal(host_p_d), software_type_s = tostring(software_type_s), name_s = tostring(name_s), version_major_d = toreal(version_major_d), version_minor_d = toreal(version_minor_d), version_minor2_d = toreal(version_minor2_d), version_minor3_d = toreal(version_minor3_d), version_addl_s = tostring(version_addl_s), unparsed_version_s = tostring(unparsed_version_s)'
         outputStream: 'Custom-Corelight_v2_software_CL'
       }
     ]

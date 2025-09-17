@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_dhcp_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:48
+// Generated: 2025-09-18 08:37:20
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 19, DCR columns: 19 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 19, DCR columns: 16 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_dhcp_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -36,51 +36,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: '_path_s'
-            type: 'string'
-          }
-          {
-            name: 'server_message_s'
-            type: 'string'
-          }
-          {
-            name: 'client_message_s'
-            type: 'string'
-          }
-          {
-            name: 'lease_time_d'
-            type: 'string'
-          }
-          {
-            name: 'assigned_addr_s'
-            type: 'string'
-          }
-          {
-            name: 'requested_addr_s'
-            type: 'string'
-          }
-          {
-            name: 'domain_s'
-            type: 'string'
-          }
-          {
-            name: 'client_fqdn_s'
-            type: 'string'
-          }
-          {
-            name: 'host_name_s'
-            type: 'string'
-          }
-          {
-            name: 'mac_s'
-            type: 'string'
-          }
-          {
-            name: 'server_addr_s'
-            type: 'string'
-          }
-          {
-            name: 'client_addr_s'
+            name: 'ts_t'
             type: 'string'
           }
           {
@@ -88,15 +44,47 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ts_t'
+            name: 'client_addr_s'
             type: 'string'
           }
           {
-            name: '_write_ts_t'
+            name: 'server_addr_s'
             type: 'string'
           }
           {
-            name: '_system_name_s'
+            name: 'mac_s'
+            type: 'string'
+          }
+          {
+            name: 'host_name_s'
+            type: 'string'
+          }
+          {
+            name: 'client_fqdn_s'
+            type: 'string'
+          }
+          {
+            name: 'domain_s'
+            type: 'string'
+          }
+          {
+            name: 'requested_addr_s'
+            type: 'string'
+          }
+          {
+            name: 'assigned_addr_s'
+            type: 'string'
+          }
+          {
+            name: 'lease_time_d'
+            type: 'string'
+          }
+          {
+            name: 'client_message_s'
+            type: 'string'
+          }
+          {
+            name: 'server_message_s'
             type: 'string'
           }
           {
@@ -123,7 +111,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_dhcp_CL']
         destinations: ['Sentinel-Corelight_v2_dhcp_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), server_message_s = tostring(server_message_s), client_message_s = tostring(client_message_s), lease_time_d = toreal(lease_time_d), assigned_addr_s = tostring(assigned_addr_s), requested_addr_s = tostring(requested_addr_s), domain_s = tostring(domain_s), client_fqdn_s = tostring(client_fqdn_s), host_name_s = tostring(host_name_s), mac_s = tostring(mac_s), server_addr_s = tostring(server_addr_s), client_addr_s = tostring(client_addr_s), uids_s = tostring(uids_s), ts_t = todatetime(ts_t), _write_ts_t = todatetime(_write_ts_t), _system_name_s = tostring(_system_name_s), msg_types_s = tostring(msg_types_s), duration_d = toreal(duration_d)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), uids_s = tostring(uids_s), client_addr_s = tostring(client_addr_s), server_addr_s = tostring(server_addr_s), mac_s = tostring(mac_s), host_name_s = tostring(host_name_s), client_fqdn_s = tostring(client_fqdn_s), domain_s = tostring(domain_s), requested_addr_s = tostring(requested_addr_s), assigned_addr_s = tostring(assigned_addr_s), lease_time_d = toreal(lease_time_d), client_message_s = tostring(client_message_s), server_message_s = tostring(server_message_s), msg_types_s = tostring(msg_types_s), duration_d = toreal(duration_d)'
         outputStream: 'Custom-Corelight_v2_dhcp_CL'
       }
     ]

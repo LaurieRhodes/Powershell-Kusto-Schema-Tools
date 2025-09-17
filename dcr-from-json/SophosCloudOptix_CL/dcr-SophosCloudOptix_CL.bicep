@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for SophosCloudOptix_CL
 // ============================================================================
-// Generated: 2025-09-17 06:21:03
+// Generated: 2025-09-18 08:37:37
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 23, DCR columns: 22 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 23, DCR columns: 21 (Type column always filtered)
 // Output stream: Custom-SophosCloudOptix_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -37,10 +37,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
-            type: 'string'
-          }
-          {
-            name: 'policyTagName_s'
             type: 'string'
           }
           {
@@ -72,11 +68,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'severity_s'
+            name: 'alertId_s'
             type: 'string'
           }
           {
-            name: 'alertId_s'
+            name: 'alertDescription_s'
             type: 'string'
           }
           {
@@ -112,11 +108,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'alertDescription_s'
+            name: 'policyTagName_s'
             type: 'string'
           }
           {
-            name: '_ResourceId'
+            name: 'severity_s'
             type: 'string'
           }
         ]
@@ -135,7 +131,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-SophosCloudOptix_CL']
         destinations: ['Sentinel-SophosCloudOptix_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), policyTagName_s = tostring(policyTagName_s), lastSeen_s = tostring(lastSeen_s), firstSeen_s = tostring(firstSeen_s), alertType_s = tostring(alertType_s), alertSummary_s = tostring(alertSummary_s), alertState_s = tostring(alertState_s), alertRemediation_s = tostring(alertRemediation_s), alertLink_s = tostring(alertLink_s), severity_s = tostring(severity_s), alertId_s = tostring(alertId_s), affectedResources_s = tostring(affectedResources_s), accountName_s = tostring(accountName_s), accountId_s = tostring(accountId_s), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), alertDescription_s = tostring(alertDescription_s), _ResourceId = tostring(_ResourceId)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), lastSeen_s = tostring(lastSeen_s), firstSeen_s = tostring(firstSeen_s), alertType_s = tostring(alertType_s), alertSummary_s = tostring(alertSummary_s), alertState_s = tostring(alertState_s), alertRemediation_s = tostring(alertRemediation_s), alertLink_s = tostring(alertLink_s), alertId_s = tostring(alertId_s), alertDescription_s = tostring(alertDescription_s), affectedResources_s = tostring(affectedResources_s), accountName_s = tostring(accountName_s), accountId_s = tostring(accountId_s), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), policyTagName_s = tostring(policyTagName_s), severity_s = tostring(severity_s)'
         outputStream: 'Custom-SophosCloudOptix_CL'
       }
     ]

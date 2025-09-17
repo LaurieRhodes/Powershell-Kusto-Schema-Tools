@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_etc_viz_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:48
+// Generated: 2025-09-18 08:37:21
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 22, DCR columns: 22 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 22, DCR columns: 19 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_etc_viz_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -36,7 +36,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: '_path_s'
+            name: 'ts_t'
             type: 'string'
           }
           {
@@ -72,11 +72,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 's2c_viz_clr_frac_d'
+            name: 'c2s_viz_enc_dev_d'
             type: 'string'
           }
           {
-            name: 'c2s_viz_enc_dev_d'
+            name: 'c2s_viz_size_d'
             type: 'string'
           }
           {
@@ -100,19 +100,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ts_t'
-            type: 'string'
-          }
-          {
-            name: '_write_ts_t'
-            type: 'string'
-          }
-          {
-            name: '_system_name_s'
-            type: 'string'
-          }
-          {
-            name: 'c2s_viz_size_d'
+            name: 's2c_viz_clr_frac_d'
             type: 'string'
           }
           {
@@ -135,7 +123,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_etc_viz_CL']
         destinations: ['Sentinel-Corelight_v2_etc_viz_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), s2c_viz_pdu1_enc_b = tobool(s2c_viz_pdu1_enc_b), s2c_viz_enc_frac_d = toreal(s2c_viz_enc_frac_d), s2c_viz_enc_dev_d = toreal(s2c_viz_enc_dev_d), s2c_viz_size_d = toreal(s2c_viz_size_d), c2s_viz_clr_ex_s = tostring(c2s_viz_clr_ex_s), c2s_viz_clr_frac_d = toreal(c2s_viz_clr_frac_d), c2s_viz_pdu1_enc_b = tobool(c2s_viz_pdu1_enc_b), c2s_viz_enc_frac_d = toreal(c2s_viz_enc_frac_d), s2c_viz_clr_frac_d = toreal(s2c_viz_clr_frac_d), c2s_viz_enc_dev_d = toreal(c2s_viz_enc_dev_d), viz_stat_s = tostring(viz_stat_s), service_s = tostring(service_s), server_p_d = toreal(server_p_d), server_a_s = tostring(server_a_s), uid_s = tostring(uid_s), ts_t = todatetime(ts_t), _write_ts_t = todatetime(_write_ts_t), _system_name_s = tostring(_system_name_s), c2s_viz_size_d = toreal(c2s_viz_size_d), s2c_viz_clr_ex_s = tostring(s2c_viz_clr_ex_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), s2c_viz_pdu1_enc_b = tobool(s2c_viz_pdu1_enc_b), s2c_viz_enc_frac_d = toreal(s2c_viz_enc_frac_d), s2c_viz_enc_dev_d = toreal(s2c_viz_enc_dev_d), s2c_viz_size_d = toreal(s2c_viz_size_d), c2s_viz_clr_ex_s = tostring(c2s_viz_clr_ex_s), c2s_viz_clr_frac_d = toreal(c2s_viz_clr_frac_d), c2s_viz_pdu1_enc_b = tobool(c2s_viz_pdu1_enc_b), c2s_viz_enc_frac_d = toreal(c2s_viz_enc_frac_d), c2s_viz_enc_dev_d = toreal(c2s_viz_enc_dev_d), c2s_viz_size_d = toreal(c2s_viz_size_d), viz_stat_s = tostring(viz_stat_s), service_s = tostring(service_s), server_p_d = toreal(server_p_d), server_a_s = tostring(server_a_s), uid_s = tostring(uid_s), s2c_viz_clr_frac_d = toreal(s2c_viz_clr_frac_d), s2c_viz_clr_ex_s = tostring(s2c_viz_clr_ex_s)'
         outputStream: 'Custom-Corelight_v2_etc_viz_CL'
       }
     ]

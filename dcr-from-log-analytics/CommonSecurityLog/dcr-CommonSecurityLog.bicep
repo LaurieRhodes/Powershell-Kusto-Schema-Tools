@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for CommonSecurityLog
 // ============================================================================
-// Generated: 2025-09-17 08:12:45
+// Generated: 2025-09-18 07:50:23
 // Table type: Microsoft
 // Schema discovered using hybrid approach (Management API + getschema)
-// Underscore columns included
-// Original columns: 160, DCR columns: 159 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 160, DCR columns: 158 (Type column always filtered)
 // Input stream: Custom-CommonSecurityLog (always Custom- for JSON ingestion)
 // Output stream: Microsoft-CommonSecurityLog (based on table type)
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
@@ -38,6 +38,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
+            type: 'string'
+          }
+          {
+            name: 'DeviceCustomFloatingPoint1Label'
             type: 'string'
           }
           {
@@ -97,14 +101,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'DeviceCustomNumber3Label'
-            type: 'string'
-          }
-          {
-            name: 'DeviceCustomFloatingPoint1Label'
-            type: 'string'
-          }
-          {
             name: 'DeviceCustomFloatingPoint1'
             type: 'string'
           }
@@ -114,6 +110,14 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'DeviceCustomIPv6Address4'
+            type: 'string'
+          }
+          {
+            name: 'DeviceCustomIPv6Address3Label'
+            type: 'string'
+          }
+          {
+            name: 'SourceTranslatedPort'
             type: 'string'
           }
           {
@@ -141,15 +145,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
+            name: 'DeviceCustomNumber3Label'
+            type: 'string'
+          }
+          {
             name: 'SourceUserID'
             type: 'string'
           }
           {
-            name: 'DeviceCustomString1'
-            type: 'string'
-          }
-          {
-            name: 'SourceUserName'
+            name: 'EventType'
             type: 'string'
           }
           {
@@ -177,11 +181,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'DeviceCustomIPv6Address3Label'
+            name: 'SourceUserName'
             type: 'string'
           }
           {
-            name: 'EventType'
+            name: 'DeviceCustomString1'
             type: 'string'
           }
           {
@@ -193,7 +197,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'DeviceCustomString2Label'
+            name: 'FlexString1Label'
             type: 'string'
           }
           {
@@ -221,15 +225,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
+            name: 'FlexString1'
+            type: 'string'
+          }
+          {
             name: 'IndicatorThreatType'
             type: 'string'
           }
           {
-            name: 'FlexString1Label'
-            type: 'string'
-          }
-          {
-            name: 'ThreatDescription'
+            name: 'ThreatConfidence'
             type: 'string'
           }
           {
@@ -257,23 +261,23 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'SimplifiedDeviceAction'
+            name: 'ThreatDescription'
             type: 'string'
           }
           {
-            name: 'ThreatConfidence'
+            name: 'SourceTranslatedAddress'
             type: 'string'
           }
           {
-            name: 'SourceTranslatedPort'
+            name: 'FlexNumber2Label'
             type: 'string'
           }
           {
-            name: 'FlexString1'
+            name: 'FlexNumber1Label'
             type: 'string'
           }
           {
-            name: 'FlexNumber2'
+            name: 'DeviceCustomString2Label'
             type: 'string'
           }
           {
@@ -301,15 +305,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
+            name: 'FlexNumber2'
+            type: 'string'
+          }
+          {
             name: 'DeviceCustomString6'
             type: 'string'
           }
           {
-            name: 'FlexNumber2Label'
-            type: 'string'
-          }
-          {
-            name: 'DeviceCustomString6Label'
+            name: 'DeviceCustomDate1'
             type: 'string'
           }
           {
@@ -337,15 +341,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'FlexNumber1Label'
+            name: 'DeviceCustomString6Label'
             type: 'string'
           }
           {
-            name: 'DeviceCustomDate1'
-            type: 'string'
-          }
-          {
-            name: 'SourceTranslatedAddress'
+            name: 'SimplifiedDeviceAction'
             type: 'string'
           }
           {
@@ -353,7 +353,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'SourceDnsDomain'
+            name: 'SourceNTDomain'
             type: 'string'
           }
           {
@@ -385,11 +385,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'DeviceInboundInterface'
+            name: 'DestinationNTDomain'
             type: 'string'
           }
           {
-            name: 'DestinationNTDomain'
+            name: 'DestinationProcessId'
             type: 'string'
           }
           {
@@ -417,19 +417,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'DestinationUserName'
-            type: 'string'
-          }
-          {
-            name: 'DestinationProcessId'
-            type: 'string'
-          }
-          {
-            name: 'DeviceAddress'
+            name: 'DeviceInboundInterface'
             type: 'string'
           }
           {
             name: 'DeviceFacility'
+            type: 'string'
+          }
+          {
+            name: 'DeviceExternalID'
             type: 'string'
           }
           {
@@ -465,7 +461,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'DeviceExternalID'
+            name: 'DestinationUserName'
             type: 'string'
           }
           {
@@ -505,7 +501,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'CollectorHostName'
+            name: 'DeviceAddress'
             type: 'string'
           }
           {
@@ -513,7 +509,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ProcessID'
+            name: 'DeviceMacAddress'
+            type: 'string'
+          }
+          {
+            name: 'OldFilePath'
             type: 'string'
           }
           {
@@ -541,15 +541,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
+            name: 'OldFileName'
+            type: 'string'
+          }
+          {
             name: 'Reason'
             type: 'string'
           }
           {
-            name: 'OldFilePath'
-            type: 'string'
-          }
-          {
-            name: 'RequestURL'
+            name: 'RequestClientApplication'
             type: 'string'
           }
           {
@@ -577,23 +577,23 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'SourceNTDomain'
+            name: 'RequestURL'
             type: 'string'
           }
           {
-            name: 'RequestClientApplication'
+            name: 'SourceDnsDomain'
             type: 'string'
           }
           {
-            name: 'DeviceMacAddress'
+            name: 'OldFileModificationTime'
             type: 'string'
           }
           {
-            name: 'OldFileName'
+            name: 'OldFileHash'
             type: 'string'
           }
           {
-            name: 'OldFileID'
+            name: 'ProcessID'
             type: 'string'
           }
           {
@@ -621,15 +621,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
+            name: 'OldFileID'
+            type: 'string'
+          }
+          {
             name: 'FileModificationTime'
             type: 'string'
           }
           {
-            name: 'OldFileModificationTime'
-            type: 'string'
-          }
-          {
-            name: 'FilePath'
+            name: 'FilePermission'
             type: 'string'
           }
           {
@@ -657,15 +657,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'OldFileHash'
+            name: 'FilePath'
             type: 'string'
           }
           {
-            name: 'FilePermission'
-            type: 'string'
-          }
-          {
-            name: '_ResourceId'
+            name: 'CollectorHostName'
             type: 'string'
           }
         ]
@@ -684,7 +680,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-CommonSecurityLog']
         destinations: ['Sentinel-CommonSecurityLog']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), DeviceCustomFloatingPoint2 = toreal(DeviceCustomFloatingPoint2), DeviceCustomFloatingPoint2Label = tostring(DeviceCustomFloatingPoint2Label), DeviceCustomFloatingPoint3 = toreal(DeviceCustomFloatingPoint3), DeviceCustomFloatingPoint3Label = tostring(DeviceCustomFloatingPoint3Label), DeviceCustomFloatingPoint4 = toreal(DeviceCustomFloatingPoint4), DeviceCustomFloatingPoint4Label = tostring(DeviceCustomFloatingPoint4Label), DeviceCustomNumber1 = toint(DeviceCustomNumber1), FieldDeviceCustomNumber1 = tolong(FieldDeviceCustomNumber1), DeviceCustomNumber1Label = tostring(DeviceCustomNumber1Label), DeviceCustomNumber2 = toint(DeviceCustomNumber2), FieldDeviceCustomNumber2 = tolong(FieldDeviceCustomNumber2), DeviceCustomNumber2Label = tostring(DeviceCustomNumber2Label), DeviceCustomNumber3 = toint(DeviceCustomNumber3), FieldDeviceCustomNumber3 = tolong(FieldDeviceCustomNumber3), DeviceCustomNumber3Label = tostring(DeviceCustomNumber3Label), DeviceCustomFloatingPoint1Label = tostring(DeviceCustomFloatingPoint1Label), DeviceCustomFloatingPoint1 = toreal(DeviceCustomFloatingPoint1), DeviceCustomIPv6Address4Label = tostring(DeviceCustomIPv6Address4Label), DeviceCustomIPv6Address4 = tostring(DeviceCustomIPv6Address4), SourceProcessId = toint(SourceProcessId), SourceUserPrivileges = tostring(SourceUserPrivileges), SourceProcessName = tostring(SourceProcessName), SourcePort = toint(SourcePort), SourceIP = tostring(SourceIP), StartTime = todatetime(StartTime), SourceUserID = tostring(SourceUserID), DeviceCustomString1 = tostring(DeviceCustomString1), SourceUserName = tostring(SourceUserName), DeviceEventCategory = tostring(DeviceEventCategory), DeviceCustomIPv6Address1 = tostring(DeviceCustomIPv6Address1), DeviceCustomIPv6Address1Label = tostring(DeviceCustomIPv6Address1Label), DeviceCustomIPv6Address2 = tostring(DeviceCustomIPv6Address2), DeviceCustomIPv6Address2Label = tostring(DeviceCustomIPv6Address2Label), DeviceCustomIPv6Address3 = tostring(DeviceCustomIPv6Address3), DeviceCustomIPv6Address3Label = tostring(DeviceCustomIPv6Address3Label), EventType = toint(EventType), DeviceCustomString1Label = tostring(DeviceCustomString1Label), DeviceCustomString2 = tostring(DeviceCustomString2), DeviceCustomString2Label = tostring(DeviceCustomString2Label), FlexString2 = tostring(FlexString2), FlexString2Label = tostring(FlexString2Label), RemoteIP = tostring(RemoteIP), RemotePort = tostring(RemotePort), MaliciousIP = tostring(MaliciousIP), ThreatSeverity = toint(ThreatSeverity), IndicatorThreatType = tostring(IndicatorThreatType), FlexString1Label = tostring(FlexString1Label), ThreatDescription = tostring(ThreatDescription), ReportReferenceLink = tostring(ReportReferenceLink), MaliciousIPLongitude = toreal(MaliciousIPLongitude), MaliciousIPLatitude = toreal(MaliciousIPLatitude), MaliciousIPCountry = tostring(MaliciousIPCountry), Computer = tostring(Computer), SourceSystem = tostring(SourceSystem), SimplifiedDeviceAction = tostring(SimplifiedDeviceAction), ThreatConfidence = tostring(ThreatConfidence), SourceTranslatedPort = toint(SourceTranslatedPort), FlexString1 = tostring(FlexString1), FlexNumber2 = toint(FlexNumber2), DeviceCustomString3 = tostring(DeviceCustomString3), DeviceCustomString3Label = tostring(DeviceCustomString3Label), DeviceCustomString4 = tostring(DeviceCustomString4), DeviceCustomString4Label = tostring(DeviceCustomString4Label), DeviceCustomString5 = tostring(DeviceCustomString5), DeviceCustomString5Label = tostring(DeviceCustomString5Label), DeviceCustomString6 = tostring(DeviceCustomString6), FlexNumber2Label = tostring(FlexNumber2Label), DeviceCustomString6Label = tostring(DeviceCustomString6Label), DeviceCustomDate1Label = tostring(DeviceCustomDate1Label), DeviceCustomDate2 = tostring(DeviceCustomDate2), DeviceCustomDate2Label = tostring(DeviceCustomDate2Label), FlexDate1 = tostring(FlexDate1), FlexDate1Label = tostring(FlexDate1Label), FlexNumber1 = toint(FlexNumber1), FlexNumber1Label = tostring(FlexNumber1Label), DeviceCustomDate1 = tostring(DeviceCustomDate1), SourceTranslatedAddress = tostring(SourceTranslatedAddress), SourceServiceName = tostring(SourceServiceName), SourceDnsDomain = tostring(SourceDnsDomain), DeviceNtDomain = tostring(DeviceNtDomain), DeviceOutboundInterface = tostring(DeviceOutboundInterface), DevicePayloadId = tostring(DevicePayloadId), ProcessName = tostring(ProcessName), DeviceTranslatedAddress = tostring(DeviceTranslatedAddress), DestinationHostName = tostring(DestinationHostName), DestinationMACAddress = tostring(DestinationMACAddress), DeviceInboundInterface = tostring(DeviceInboundInterface), DestinationNTDomain = tostring(DestinationNTDomain), DestinationUserPrivileges = tostring(DestinationUserPrivileges), DestinationProcessName = tostring(DestinationProcessName), DestinationPort = toint(DestinationPort), DestinationIP = tostring(DestinationIP), DeviceTimeZone = tostring(DeviceTimeZone), DestinationUserID = tostring(DestinationUserID), DestinationUserName = tostring(DestinationUserName), DestinationProcessId = toint(DestinationProcessId), DeviceAddress = tostring(DeviceAddress), DeviceFacility = tostring(DeviceFacility), DeviceDnsDomain = tostring(DeviceDnsDomain), DeviceVendor = tostring(DeviceVendor), DeviceProduct = tostring(DeviceProduct), DeviceVersion = tostring(DeviceVersion), DeviceEventClassID = tostring(DeviceEventClassID), Activity = tostring(Activity), LogSeverity = tostring(LogSeverity), OriginalLogSeverity = tostring(OriginalLogSeverity), DeviceExternalID = tostring(DeviceExternalID), AdditionalExtensions = tostring(AdditionalExtensions), ApplicationProtocol = tostring(ApplicationProtocol), EventCount = toint(EventCount), DestinationDnsDomain = tostring(DestinationDnsDomain), DestinationServiceName = tostring(DestinationServiceName), DestinationTranslatedAddress = tostring(DestinationTranslatedAddress), DestinationTranslatedPort = toint(DestinationTranslatedPort), CommunicationDirection = tostring(CommunicationDirection), DeviceAction = tostring(DeviceAction), CollectorHostName = tostring(CollectorHostName), DeviceName = tostring(DeviceName), ProcessID = toint(ProcessID), OldFilePermission = tostring(OldFilePermission), OldFileSize = toint(OldFileSize), OldFileType = tostring(OldFileType), SentBytes = tolong(SentBytes), EventOutcome = tostring(EventOutcome), Protocol = tostring(Protocol), Reason = tostring(Reason), OldFilePath = tostring(OldFilePath), RequestURL = tostring(RequestURL), RequestContext = tostring(RequestContext), RequestCookies = tostring(RequestCookies), RequestMethod = tostring(RequestMethod), ReceiptTime = tostring(ReceiptTime), SourceHostName = tostring(SourceHostName), SourceMACAddress = tostring(SourceMACAddress), SourceNTDomain = tostring(SourceNTDomain), RequestClientApplication = tostring(RequestClientApplication), DeviceMacAddress = tostring(DeviceMacAddress), OldFileName = tostring(OldFileName), OldFileID = tostring(OldFileID), EndTime = todatetime(EndTime), ExternalID = toint(ExternalID), ExtID = tostring(ExtID), FileCreateTime = tostring(FileCreateTime), FileHash = tostring(FileHash), FileID = tostring(FileID), FileModificationTime = tostring(FileModificationTime), OldFileModificationTime = tostring(OldFileModificationTime), FilePath = tostring(FilePath), FileType = tostring(FileType), FileName = tostring(FileName), FileSize = toint(FileSize), ReceivedBytes = tolong(ReceivedBytes), Message = tostring(Message), OldFileCreateTime = tostring(OldFileCreateTime), OldFileHash = tostring(OldFileHash), FilePermission = tostring(FilePermission), _ResourceId = tostring(_ResourceId)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), DeviceCustomFloatingPoint1Label = tostring(DeviceCustomFloatingPoint1Label), DeviceCustomFloatingPoint2 = toreal(DeviceCustomFloatingPoint2), DeviceCustomFloatingPoint2Label = tostring(DeviceCustomFloatingPoint2Label), DeviceCustomFloatingPoint3 = toreal(DeviceCustomFloatingPoint3), DeviceCustomFloatingPoint3Label = tostring(DeviceCustomFloatingPoint3Label), DeviceCustomFloatingPoint4 = toreal(DeviceCustomFloatingPoint4), DeviceCustomFloatingPoint4Label = tostring(DeviceCustomFloatingPoint4Label), DeviceCustomNumber1 = toint(DeviceCustomNumber1), FieldDeviceCustomNumber1 = tolong(FieldDeviceCustomNumber1), DeviceCustomNumber1Label = tostring(DeviceCustomNumber1Label), DeviceCustomNumber2 = toint(DeviceCustomNumber2), FieldDeviceCustomNumber2 = tolong(FieldDeviceCustomNumber2), DeviceCustomNumber2Label = tostring(DeviceCustomNumber2Label), DeviceCustomNumber3 = toint(DeviceCustomNumber3), FieldDeviceCustomNumber3 = tolong(FieldDeviceCustomNumber3), DeviceCustomFloatingPoint1 = toreal(DeviceCustomFloatingPoint1), DeviceCustomIPv6Address4Label = tostring(DeviceCustomIPv6Address4Label), DeviceCustomIPv6Address4 = tostring(DeviceCustomIPv6Address4), DeviceCustomIPv6Address3Label = tostring(DeviceCustomIPv6Address3Label), SourceTranslatedPort = toint(SourceTranslatedPort), SourceProcessId = toint(SourceProcessId), SourceUserPrivileges = tostring(SourceUserPrivileges), SourceProcessName = tostring(SourceProcessName), SourcePort = toint(SourcePort), SourceIP = tostring(SourceIP), StartTime = todatetime(StartTime), DeviceCustomNumber3Label = tostring(DeviceCustomNumber3Label), SourceUserID = tostring(SourceUserID), EventType = toint(EventType), DeviceEventCategory = tostring(DeviceEventCategory), DeviceCustomIPv6Address1 = tostring(DeviceCustomIPv6Address1), DeviceCustomIPv6Address1Label = tostring(DeviceCustomIPv6Address1Label), DeviceCustomIPv6Address2 = tostring(DeviceCustomIPv6Address2), DeviceCustomIPv6Address2Label = tostring(DeviceCustomIPv6Address2Label), DeviceCustomIPv6Address3 = tostring(DeviceCustomIPv6Address3), SourceUserName = tostring(SourceUserName), DeviceCustomString1 = tostring(DeviceCustomString1), DeviceCustomString1Label = tostring(DeviceCustomString1Label), DeviceCustomString2 = tostring(DeviceCustomString2), FlexString1Label = tostring(FlexString1Label), FlexString2 = tostring(FlexString2), FlexString2Label = tostring(FlexString2Label), RemoteIP = tostring(RemoteIP), RemotePort = tostring(RemotePort), MaliciousIP = tostring(MaliciousIP), ThreatSeverity = toint(ThreatSeverity), FlexString1 = tostring(FlexString1), IndicatorThreatType = tostring(IndicatorThreatType), ThreatConfidence = tostring(ThreatConfidence), ReportReferenceLink = tostring(ReportReferenceLink), MaliciousIPLongitude = toreal(MaliciousIPLongitude), MaliciousIPLatitude = toreal(MaliciousIPLatitude), MaliciousIPCountry = tostring(MaliciousIPCountry), Computer = tostring(Computer), SourceSystem = tostring(SourceSystem), ThreatDescription = tostring(ThreatDescription), SourceTranslatedAddress = tostring(SourceTranslatedAddress), FlexNumber2Label = tostring(FlexNumber2Label), FlexNumber1Label = tostring(FlexNumber1Label), DeviceCustomString2Label = tostring(DeviceCustomString2Label), DeviceCustomString3 = tostring(DeviceCustomString3), DeviceCustomString3Label = tostring(DeviceCustomString3Label), DeviceCustomString4 = tostring(DeviceCustomString4), DeviceCustomString4Label = tostring(DeviceCustomString4Label), DeviceCustomString5 = tostring(DeviceCustomString5), DeviceCustomString5Label = tostring(DeviceCustomString5Label), FlexNumber2 = toint(FlexNumber2), DeviceCustomString6 = tostring(DeviceCustomString6), DeviceCustomDate1 = tostring(DeviceCustomDate1), DeviceCustomDate1Label = tostring(DeviceCustomDate1Label), DeviceCustomDate2 = tostring(DeviceCustomDate2), DeviceCustomDate2Label = tostring(DeviceCustomDate2Label), FlexDate1 = tostring(FlexDate1), FlexDate1Label = tostring(FlexDate1Label), FlexNumber1 = toint(FlexNumber1), DeviceCustomString6Label = tostring(DeviceCustomString6Label), SimplifiedDeviceAction = tostring(SimplifiedDeviceAction), SourceServiceName = tostring(SourceServiceName), SourceNTDomain = tostring(SourceNTDomain), DeviceNtDomain = tostring(DeviceNtDomain), DeviceOutboundInterface = tostring(DeviceOutboundInterface), DevicePayloadId = tostring(DevicePayloadId), ProcessName = tostring(ProcessName), DeviceTranslatedAddress = tostring(DeviceTranslatedAddress), DestinationHostName = tostring(DestinationHostName), DestinationMACAddress = tostring(DestinationMACAddress), DestinationNTDomain = tostring(DestinationNTDomain), DestinationProcessId = toint(DestinationProcessId), DestinationUserPrivileges = tostring(DestinationUserPrivileges), DestinationProcessName = tostring(DestinationProcessName), DestinationPort = toint(DestinationPort), DestinationIP = tostring(DestinationIP), DeviceTimeZone = tostring(DeviceTimeZone), DestinationUserID = tostring(DestinationUserID), DeviceInboundInterface = tostring(DeviceInboundInterface), DeviceFacility = tostring(DeviceFacility), DeviceExternalID = tostring(DeviceExternalID), DeviceDnsDomain = tostring(DeviceDnsDomain), DeviceVendor = tostring(DeviceVendor), DeviceProduct = tostring(DeviceProduct), DeviceVersion = tostring(DeviceVersion), DeviceEventClassID = tostring(DeviceEventClassID), Activity = tostring(Activity), LogSeverity = tostring(LogSeverity), OriginalLogSeverity = tostring(OriginalLogSeverity), DestinationUserName = tostring(DestinationUserName), AdditionalExtensions = tostring(AdditionalExtensions), ApplicationProtocol = tostring(ApplicationProtocol), EventCount = toint(EventCount), DestinationDnsDomain = tostring(DestinationDnsDomain), DestinationServiceName = tostring(DestinationServiceName), DestinationTranslatedAddress = tostring(DestinationTranslatedAddress), DestinationTranslatedPort = toint(DestinationTranslatedPort), CommunicationDirection = tostring(CommunicationDirection), DeviceAction = tostring(DeviceAction), DeviceAddress = tostring(DeviceAddress), DeviceName = tostring(DeviceName), DeviceMacAddress = tostring(DeviceMacAddress), OldFilePath = tostring(OldFilePath), OldFilePermission = tostring(OldFilePermission), OldFileSize = toint(OldFileSize), OldFileType = tostring(OldFileType), SentBytes = tolong(SentBytes), EventOutcome = tostring(EventOutcome), Protocol = tostring(Protocol), OldFileName = tostring(OldFileName), Reason = tostring(Reason), RequestClientApplication = tostring(RequestClientApplication), RequestContext = tostring(RequestContext), RequestCookies = tostring(RequestCookies), RequestMethod = tostring(RequestMethod), ReceiptTime = tostring(ReceiptTime), SourceHostName = tostring(SourceHostName), SourceMACAddress = tostring(SourceMACAddress), RequestURL = tostring(RequestURL), SourceDnsDomain = tostring(SourceDnsDomain), OldFileModificationTime = tostring(OldFileModificationTime), OldFileHash = tostring(OldFileHash), ProcessID = toint(ProcessID), EndTime = todatetime(EndTime), ExternalID = toint(ExternalID), ExtID = tostring(ExtID), FileCreateTime = tostring(FileCreateTime), FileHash = tostring(FileHash), FileID = tostring(FileID), OldFileID = tostring(OldFileID), FileModificationTime = tostring(FileModificationTime), FilePermission = tostring(FilePermission), FileType = tostring(FileType), FileName = tostring(FileName), FileSize = toint(FileSize), ReceivedBytes = tolong(ReceivedBytes), Message = tostring(Message), OldFileCreateTime = tostring(OldFileCreateTime), FilePath = tostring(FilePath), CollectorHostName = tostring(CollectorHostName)'
         outputStream: 'Microsoft-CommonSecurityLog'
       }
     ]

@@ -12,10 +12,10 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for ZeroFox_CTI_national_ids_CL
 // ============================================================================
-// Generated: 2025-09-17 06:21:07
+// Generated: 2025-09-18 08:37:41
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
+// Underscore columns filtered out
 // Original columns: 9, DCR columns: 9 (Type column always filtered)
 // Output stream: Custom-ZeroFox_CTI_national_ids_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.

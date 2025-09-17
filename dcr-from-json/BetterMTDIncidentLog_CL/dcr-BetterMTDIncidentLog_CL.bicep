@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for BetterMTDIncidentLog_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:44
+// Generated: 2025-09-18 08:37:16
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 25, DCR columns: 23 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 25, DCR columns: 22 (Type column always filtered)
 // Output stream: Custom-BetterMTDIncidentLog_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -37,10 +37,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
-            type: 'string'
-          }
-          {
-            name: 'EventTimeStamp'
             type: 'string'
           }
           {
@@ -76,11 +72,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ThreatCategory'
+            name: 'EventTimeStamp'
             type: 'string'
           }
           {
-            name: 'ThreatSeverity'
+            name: 'ThreatCategory'
             type: 'string'
           }
           {
@@ -116,11 +112,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'LogTimeStamp'
+            name: 'ThreatSeverity'
             type: 'string'
           }
           {
-            name: '_ResourceId'
+            name: 'LogTimeStamp'
             type: 'string'
           }
         ]
@@ -139,7 +135,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-BetterMTDIncidentLog_CL']
         destinations: ['Sentinel-BetterMTDIncidentLog_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), EventTimeStamp = todatetime(EventTimeStamp), Status = tostring(Status), UserEmail = tostring(UserEmail), DevicePlatform = tostring(DevicePlatform), DeviceId = tostring(DeviceId), DeviceOS = tostring(DeviceOS), CompanyName = tostring(CompanyName), CompanyId = toreal(CompanyId), ThreatDescription = tostring(ThreatDescription), ThreatCategory = tostring(ThreatCategory), ThreatSeverity = tostring(ThreatSeverity), ThreatTitle = tostring(ThreatTitle), ThreatType = tostring(ThreatType), ThreatId = toreal(ThreatId), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), LogTimeStamp = todatetime(LogTimeStamp), _ResourceId = tostring(_ResourceId)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), Status = tostring(Status), UserEmail = tostring(UserEmail), DevicePlatform = tostring(DevicePlatform), DeviceId = tostring(DeviceId), DeviceOS = tostring(DeviceOS), CompanyName = tostring(CompanyName), CompanyId = toreal(CompanyId), ThreatDescription = tostring(ThreatDescription), EventTimeStamp = todatetime(EventTimeStamp), ThreatCategory = tostring(ThreatCategory), ThreatTitle = tostring(ThreatTitle), ThreatType = tostring(ThreatType), ThreatId = toreal(ThreatId), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), ThreatSeverity = tostring(ThreatSeverity), LogTimeStamp = todatetime(LogTimeStamp)'
         outputStream: 'Custom-BetterMTDIncidentLog_CL'
       }
     ]

@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for SquidProxy_CL
 // ============================================================================
-// Generated: 2025-09-17 06:21:03
+// Generated: 2025-09-18 08:37:37
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 26, DCR columns: 25 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 26, DCR columns: 23 (Type column always filtered)
 // Output stream: Custom-SquidProxy_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -37,10 +37,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
-            type: 'string'
-          }
-          {
-            name: 'EventTime_UTC__s'
             type: 'string'
           }
           {
@@ -88,10 +84,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: '_ResourceId_s'
-            type: 'string'
-          }
-          {
             name: 'Type_s'
             type: 'string'
           }
@@ -124,11 +116,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'Description_s'
+            name: 'EventTime_UTC__s'
             type: 'string'
           }
           {
-            name: '_ResourceId'
+            name: 'Description_s'
             type: 'string'
           }
         ]
@@ -147,7 +139,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-SquidProxy_CL']
         destinations: ['Sentinel-SquidProxy_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), EventTime_UTC__s = tostring(EventTime_UTC__s), ContentType_s = tostring(ContentType_s), PeerHost = tostring(PeerHost), PeerStatus_s = tostring(PeerStatus_s), Username_s = tostring(Username_s), Url_s = tostring(Url_s), RequstMethod_s = tostring(RequstMethod_s), Bytes_s = tostring(Bytes_s), StatusCode_s = tostring(StatusCode_s), ResultCode = tostring(ResultCode), SrcIpAddr_s = tostring(SrcIpAddr_s), Duration_s = tostring(Duration_s), _ResourceId_s = tostring(_ResourceId_s), Type_s = tostring(Type_s), MG_s = tostring(MG_s), TenantId_s = tostring(TenantId_s), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), Description_s = tostring(Description_s), _ResourceId = tostring(_ResourceId)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), ContentType_s = tostring(ContentType_s), PeerHost = tostring(PeerHost), PeerStatus_s = tostring(PeerStatus_s), Username_s = tostring(Username_s), Url_s = tostring(Url_s), RequstMethod_s = tostring(RequstMethod_s), Bytes_s = tostring(Bytes_s), StatusCode_s = tostring(StatusCode_s), ResultCode = tostring(ResultCode), SrcIpAddr_s = tostring(SrcIpAddr_s), Duration_s = tostring(Duration_s), Type_s = tostring(Type_s), MG_s = tostring(MG_s), TenantId_s = tostring(TenantId_s), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), EventTime_UTC__s = tostring(EventTime_UTC__s), Description_s = tostring(Description_s)'
         outputStream: 'Custom-SquidProxy_CL'
       }
     ]

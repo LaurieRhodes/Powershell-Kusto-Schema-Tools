@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_iso_cotp_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:49
+// Generated: 2025-09-18 08:37:22
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 11, DCR columns: 11 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 11, DCR columns: 8 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_iso_cotp_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -33,18 +33,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
         columns: [
           {
             name: 'TimeGenerated'
-            type: 'string'
-          }
-          {
-            name: '_path_s'
-            type: 'string'
-          }
-          {
-            name: '_system_name_s'
-            type: 'string'
-          }
-          {
-            name: '_write_ts_t'
             type: 'string'
           }
           {
@@ -91,7 +79,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_iso_cotp_CL']
         destinations: ['Sentinel-Corelight_v2_iso_cotp_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), _system_name_s = tostring(_system_name_s), _write_ts_t = todatetime(_write_ts_t), ts_t = todatetime(ts_t), uid_s = tostring(uid_s), id_orig_h_s = tostring(id_orig_h_s), id_orig_p_d = toreal(id_orig_p_d), id_resp_h_s = tostring(id_resp_h_s), id_resp_p_d = toreal(id_resp_p_d), pdu_type_s = tostring(pdu_type_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), uid_s = tostring(uid_s), id_orig_h_s = tostring(id_orig_h_s), id_orig_p_d = toreal(id_orig_p_d), id_resp_h_s = tostring(id_resp_h_s), id_resp_p_d = toreal(id_resp_p_d), pdu_type_s = tostring(pdu_type_s)'
         outputStream: 'Custom-Corelight_v2_iso_cotp_CL'
       }
     ]

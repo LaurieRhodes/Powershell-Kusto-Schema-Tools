@@ -12,10 +12,10 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for AWSGuardDuty
 // ============================================================================
-// Generated: 2025-09-17 06:20:43
+// Generated: 2025-09-18 08:37:15
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
+// Underscore columns filtered out
 // Original columns: 17, DCR columns: 16 (Type column always filtered)
 // Output stream: Custom-AWSGuardDuty
 // Note: Input stream uses string/dynamic only. Type conversions in transform.

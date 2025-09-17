@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for feedly_indicators_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:55
+// Generated: 2025-09-18 08:37:29
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 14, DCR columns: 13 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 14, DCR columns: 12 (Type column always filtered)
 // Output stream: Custom-feedly_indicators_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -79,10 +79,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             name: 'value_s'
             type: 'string'
           }
-          {
-            name: '_ResourceId'
-            type: 'string'
-          }
         ]
       }
     }
@@ -99,7 +95,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-feedly_indicators_CL']
         destinations: ['Sentinel-feedly_indicators_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), articleTitle_s = tostring(articleTitle_s), articleUrl_s = tostring(articleUrl_s), source_s = tostring(source_s), type_s = tostring(type_s), value_s = tostring(value_s), _ResourceId = tostring(_ResourceId)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), articleTitle_s = tostring(articleTitle_s), articleUrl_s = tostring(articleUrl_s), source_s = tostring(source_s), type_s = tostring(type_s), value_s = tostring(value_s)'
         outputStream: 'Custom-feedly_indicators_CL'
       }
     ]

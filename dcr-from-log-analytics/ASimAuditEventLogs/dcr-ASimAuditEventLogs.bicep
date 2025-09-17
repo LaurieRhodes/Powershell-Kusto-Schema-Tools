@@ -12,13 +12,13 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for ASimAuditEventLogs
 // ============================================================================
-// Generated: 2025-09-17 08:12:39
+// Generated: 2025-09-18 07:49:58
 // Table type: Microsoft
 // Schema discovered using hybrid approach (Management API + getschema)
-// Underscore columns included
-// Original columns: 125, DCR columns: 124 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 125, DCR columns: 123 (Type column always filtered)
 // Input stream: Custom-ASimAuditEventLogs (always Custom- for JSON ingestion)
-// Output stream: Custom-ASimAuditEventLogs (based on table type)
+// Output stream: Microsoft-ASimAuditEventLogs (based on table type)
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
 
@@ -38,10 +38,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
-            type: 'string'
-          }
-          {
-            name: 'SrcGeoRegion'
             type: 'string'
           }
           {
@@ -93,11 +89,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'SrcHostname'
+            name: 'SrcGeoRegion'
             type: 'string'
           }
           {
-            name: 'SrcPortNumber'
+            name: 'SrcHostname'
             type: 'string'
           }
           {
@@ -149,11 +145,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'SrcGeoCity'
+            name: 'SrcPortNumber'
             type: 'string'
           }
           {
-            name: 'ActorOriginalUserType'
+            name: 'SrcGeoCity'
             type: 'string'
           }
           {
@@ -161,11 +157,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'TargetIpAddr'
-            type: 'string'
-          }
-          {
-            name: 'ValueType'
+            name: 'SrcOriginalRiskLevel'
             type: 'string'
           }
           {
@@ -273,15 +265,19 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'SrcOriginalRiskLevel'
+            name: 'TargetIpAddr'
             type: 'string'
           }
           {
-            name: 'SourceSystem'
+            name: 'ActorOriginalUserType'
             type: 'string'
           }
           {
             name: 'ActorUserType'
+            type: 'string'
+          }
+          {
+            name: 'ActorUsernameType'
             type: 'string'
           }
           {
@@ -401,7 +397,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ActorUsernameType'
+            name: 'ValueType'
             type: 'string'
           }
           {
@@ -525,7 +521,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: '_ResourceId'
+            name: 'SourceSystem'
             type: 'string'
           }
         ]
@@ -544,8 +540,8 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-ASimAuditEventLogs']
         destinations: ['Sentinel-ASimAuditEventLogs']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SrcGeoRegion = tostring(SrcGeoRegion), SrcGeoLongitude = toreal(SrcGeoLongitude), SrcGeoLatitude = toreal(SrcGeoLatitude), SrcGeoCountry = tostring(SrcGeoCountry), SrcDeviceType = tostring(SrcDeviceType), SrcDvcScope = tostring(SrcDvcScope), SrcDvcScopeId = tostring(SrcDvcScopeId), SrcDvcIdType = tostring(SrcDvcIdType), SrcDvcId = tostring(SrcDvcId), SrcDescription = tostring(SrcDescription), SrcFQDN = tostring(SrcFQDN), SrcDomainType = tostring(SrcDomainType), SrcDomain = tostring(SrcDomain), SrcHostname = tostring(SrcHostname), SrcPortNumber = toint(SrcPortNumber), SrcIpAddr = tostring(SrcIpAddr), HttpUserAgent = tostring(HttpUserAgent), ActingOriginalAppType = tostring(ActingOriginalAppType), ActingAppType = tostring(ActingAppType), ActingAppName = tostring(ActingAppName), ActingAppId = tostring(ActingAppId), TargetUrl = tostring(TargetUrl), TargetOriginalAppType = tostring(TargetOriginalAppType), TargetAppType = tostring(TargetAppType), TargetAppName = tostring(TargetAppName), TargetAppId = tostring(TargetAppId), ActorSessionId = tostring(ActorSessionId), SrcGeoCity = tostring(SrcGeoCity), ActorOriginalUserType = tostring(ActorOriginalUserType), SrcRiskLevel = toint(SrcRiskLevel), TargetIpAddr = tostring(TargetIpAddr), ValueType = tostring(ValueType), NewValue = tostring(NewValue), OldValue = tostring(OldValue), OriginalObjectType = tostring(OriginalObjectType), ObjectType = tostring(ObjectType), Object = tostring(Object), ObjectId = tostring(ObjectId), Operation = tostring(Operation), TargetDvcOs = tostring(TargetDvcOs), TargetOriginalRiskLevel = tostring(TargetOriginalRiskLevel), TargetRiskLevel = toint(TargetRiskLevel), TargetGeoCity = tostring(TargetGeoCity), TargetGeoRegion = tostring(TargetGeoRegion), TargetGeoLongitude = toreal(TargetGeoLongitude), TargetGeoLatitude = toreal(TargetGeoLatitude), TargetGeoCountry = tostring(TargetGeoCountry), TargetDeviceType = tostring(TargetDeviceType), TargetDvcScope = tostring(TargetDvcScope), TargetDvcScopeId = tostring(TargetDvcScopeId), TargetDvcIdType = tostring(TargetDvcIdType), TargetDvcId = tostring(TargetDvcId), TargetDescription = tostring(TargetDescription), TargetFQDN = tostring(TargetFQDN), TargetDomainType = tostring(TargetDomainType), TargetDomain = tostring(TargetDomain), TargetHostname = tostring(TargetHostname), TargetPortNumber = toint(TargetPortNumber), SrcOriginalRiskLevel = tostring(SrcOriginalRiskLevel), SourceSystem = tostring(SourceSystem), ActorUserType = tostring(ActorUserType), ActorUsername = tostring(ActorUsername), ThreatRiskLevel = toint(ThreatRiskLevel), ThreatCategory = tostring(ThreatCategory), ThreatName = tostring(ThreatName), ThreatId = tostring(ThreatId), RuleNumber = toint(RuleNumber), RuleName = tostring(RuleName), EventReportUrl = tostring(EventReportUrl), EventOwner = tostring(EventOwner), EventSchemaVersion = tostring(EventSchemaVersion), EventVendor = tostring(EventVendor), EventProductVersion = tostring(EventProductVersion), EventProduct = tostring(EventProduct), EventOriginalSeverity = tostring(EventOriginalSeverity), EventSeverity = tostring(EventSeverity), EventOriginalResultDetails = tostring(EventOriginalResultDetails), EventOriginalSubType = tostring(EventOriginalSubType), EventOriginalType = tostring(EventOriginalType), EventOriginalUid = tostring(EventOriginalUid), EventResultDetails = tostring(EventResultDetails), EventResult = tostring(EventResult), EventSubType = tostring(EventSubType), EventType = tostring(EventType), EventEndTime = todatetime(EventEndTime), EventStartTime = todatetime(EventStartTime), EventCount = toint(EventCount), EventMessage = tostring(EventMessage), AdditionalFields = todynamic(AdditionalFields), ThreatOriginalRiskLevel = tostring(ThreatOriginalRiskLevel), ActorUsernameType = tostring(ActorUsernameType), ThreatConfidence = toint(ThreatConfidence), ThreatIsActive = tobool(ThreatIsActive), ActorScope = tostring(ActorScope), ActorScopeId = tostring(ActorScopeId), ActorUserIdType = tostring(ActorUserIdType), ActorUserSid = tostring(ActorUserSid), ActorUserAadId = tostring(ActorUserAadId), ActorUserId = tostring(ActorUserId), DvcScope = tostring(DvcScope), DvcScopeId = tostring(DvcScopeId), DvcInterface = tostring(DvcInterface), DvcOriginalAction = tostring(DvcOriginalAction), DvcAction = tostring(DvcAction), DvcOsVersion = tostring(DvcOsVersion), DvcOs = tostring(DvcOs), DvcZone = tostring(DvcZone), DvcMacAddr = tostring(DvcMacAddr), DvcIdType = tostring(DvcIdType), DvcId = tostring(DvcId), DvcDescription = tostring(DvcDescription), DvcFQDN = tostring(DvcFQDN), DvcDomainType = tostring(DvcDomainType), DvcDomain = tostring(DvcDomain), DvcHostname = tostring(DvcHostname), DvcIpAddr = tostring(DvcIpAddr), ThreatIpAddr = tostring(ThreatIpAddr), ThreatField = tostring(ThreatField), ThreatLastReportedTime = todatetime(ThreatLastReportedTime), ThreatFirstReportedTime = todatetime(ThreatFirstReportedTime), ThreatOriginalConfidence = tostring(ThreatOriginalConfidence), _ResourceId = tostring(_ResourceId)'
-        outputStream: 'Custom-ASimAuditEventLogs'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SrcGeoLongitude = toreal(SrcGeoLongitude), SrcGeoLatitude = toreal(SrcGeoLatitude), SrcGeoCountry = tostring(SrcGeoCountry), SrcDeviceType = tostring(SrcDeviceType), SrcDvcScope = tostring(SrcDvcScope), SrcDvcScopeId = tostring(SrcDvcScopeId), SrcDvcIdType = tostring(SrcDvcIdType), SrcDvcId = tostring(SrcDvcId), SrcDescription = tostring(SrcDescription), SrcFQDN = tostring(SrcFQDN), SrcDomainType = tostring(SrcDomainType), SrcDomain = tostring(SrcDomain), SrcGeoRegion = tostring(SrcGeoRegion), SrcHostname = tostring(SrcHostname), SrcIpAddr = tostring(SrcIpAddr), HttpUserAgent = tostring(HttpUserAgent), ActingOriginalAppType = tostring(ActingOriginalAppType), ActingAppType = tostring(ActingAppType), ActingAppName = tostring(ActingAppName), ActingAppId = tostring(ActingAppId), TargetUrl = tostring(TargetUrl), TargetOriginalAppType = tostring(TargetOriginalAppType), TargetAppType = tostring(TargetAppType), TargetAppName = tostring(TargetAppName), TargetAppId = tostring(TargetAppId), ActorSessionId = tostring(ActorSessionId), SrcPortNumber = toint(SrcPortNumber), SrcGeoCity = tostring(SrcGeoCity), SrcRiskLevel = toint(SrcRiskLevel), SrcOriginalRiskLevel = tostring(SrcOriginalRiskLevel), NewValue = tostring(NewValue), OldValue = tostring(OldValue), OriginalObjectType = tostring(OriginalObjectType), ObjectType = tostring(ObjectType), Object = tostring(Object), ObjectId = tostring(ObjectId), Operation = tostring(Operation), TargetDvcOs = tostring(TargetDvcOs), TargetOriginalRiskLevel = tostring(TargetOriginalRiskLevel), TargetRiskLevel = toint(TargetRiskLevel), TargetGeoCity = tostring(TargetGeoCity), TargetGeoRegion = tostring(TargetGeoRegion), TargetGeoLongitude = toreal(TargetGeoLongitude), TargetGeoLatitude = toreal(TargetGeoLatitude), TargetGeoCountry = tostring(TargetGeoCountry), TargetDeviceType = tostring(TargetDeviceType), TargetDvcScope = tostring(TargetDvcScope), TargetDvcScopeId = tostring(TargetDvcScopeId), TargetDvcIdType = tostring(TargetDvcIdType), TargetDvcId = tostring(TargetDvcId), TargetDescription = tostring(TargetDescription), TargetFQDN = tostring(TargetFQDN), TargetDomainType = tostring(TargetDomainType), TargetDomain = tostring(TargetDomain), TargetHostname = tostring(TargetHostname), TargetPortNumber = toint(TargetPortNumber), TargetIpAddr = tostring(TargetIpAddr), ActorOriginalUserType = tostring(ActorOriginalUserType), ActorUserType = tostring(ActorUserType), ActorUsernameType = tostring(ActorUsernameType), ActorUsername = tostring(ActorUsername), ThreatRiskLevel = toint(ThreatRiskLevel), ThreatCategory = tostring(ThreatCategory), ThreatName = tostring(ThreatName), ThreatId = tostring(ThreatId), RuleNumber = toint(RuleNumber), RuleName = tostring(RuleName), EventReportUrl = tostring(EventReportUrl), EventOwner = tostring(EventOwner), EventSchemaVersion = tostring(EventSchemaVersion), EventVendor = tostring(EventVendor), EventProductVersion = tostring(EventProductVersion), EventProduct = tostring(EventProduct), EventOriginalSeverity = tostring(EventOriginalSeverity), EventSeverity = tostring(EventSeverity), EventOriginalResultDetails = tostring(EventOriginalResultDetails), EventOriginalSubType = tostring(EventOriginalSubType), EventOriginalType = tostring(EventOriginalType), EventOriginalUid = tostring(EventOriginalUid), EventResultDetails = tostring(EventResultDetails), EventResult = tostring(EventResult), EventSubType = tostring(EventSubType), EventType = tostring(EventType), EventEndTime = todatetime(EventEndTime), EventStartTime = todatetime(EventStartTime), EventCount = toint(EventCount), EventMessage = tostring(EventMessage), AdditionalFields = todynamic(AdditionalFields), ThreatOriginalRiskLevel = tostring(ThreatOriginalRiskLevel), ValueType = tostring(ValueType), ThreatConfidence = toint(ThreatConfidence), ThreatIsActive = tobool(ThreatIsActive), ActorScope = tostring(ActorScope), ActorScopeId = tostring(ActorScopeId), ActorUserIdType = tostring(ActorUserIdType), ActorUserSid = tostring(ActorUserSid), ActorUserAadId = tostring(ActorUserAadId), ActorUserId = tostring(ActorUserId), DvcScope = tostring(DvcScope), DvcScopeId = tostring(DvcScopeId), DvcInterface = tostring(DvcInterface), DvcOriginalAction = tostring(DvcOriginalAction), DvcAction = tostring(DvcAction), DvcOsVersion = tostring(DvcOsVersion), DvcOs = tostring(DvcOs), DvcZone = tostring(DvcZone), DvcMacAddr = tostring(DvcMacAddr), DvcIdType = tostring(DvcIdType), DvcId = tostring(DvcId), DvcDescription = tostring(DvcDescription), DvcFQDN = tostring(DvcFQDN), DvcDomainType = tostring(DvcDomainType), DvcDomain = tostring(DvcDomain), DvcHostname = tostring(DvcHostname), DvcIpAddr = tostring(DvcIpAddr), ThreatIpAddr = tostring(ThreatIpAddr), ThreatField = tostring(ThreatField), ThreatLastReportedTime = todatetime(ThreatLastReportedTime), ThreatFirstReportedTime = todatetime(ThreatFirstReportedTime), ThreatOriginalConfidence = tostring(ThreatOriginalConfidence), SourceSystem = tostring(SourceSystem)'
+        outputStream: 'Microsoft-ASimAuditEventLogs'
       }
     ]
   }

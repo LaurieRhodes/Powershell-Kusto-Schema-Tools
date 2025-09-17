@@ -12,13 +12,13 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for GoogleCloudSCC
 // ============================================================================
-// Generated: 2025-09-17 08:12:45
+// Generated: 2025-09-18 07:50:24
 // Table type: Microsoft
 // Schema discovered using hybrid approach (Management API + getschema)
-// Underscore columns included
+// Underscore columns filtered out
 // Original columns: 7, DCR columns: 6 (Type column always filtered)
 // Input stream: Custom-GoogleCloudSCC (always Custom- for JSON ingestion)
-// Output stream: Custom-GoogleCloudSCC (based on table type)
+// Output stream: Microsoft-GoogleCloudSCC (based on table type)
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
 
@@ -73,7 +73,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
         streams: ['Custom-GoogleCloudSCC']
         destinations: ['Sentinel-GoogleCloudSCC']
         transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), Findings = todynamic(Findings), FindingsResource = todynamic(FindingsResource), SourceProperties = todynamic(SourceProperties), SourceSystem = tostring(SourceSystem)'
-        outputStream: 'Custom-GoogleCloudSCC'
+        outputStream: 'Microsoft-GoogleCloudSCC'
       }
     ]
   }

@@ -12,13 +12,13 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for ASimFileEventLogs
 // ============================================================================
-// Generated: 2025-09-17 08:12:40
+// Generated: 2025-09-18 07:50:02
 // Table type: Microsoft
 // Schema discovered using hybrid approach (Management API + getschema)
-// Underscore columns included
-// Original columns: 125, DCR columns: 124 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 125, DCR columns: 123 (Type column always filtered)
 // Input stream: Custom-ASimFileEventLogs (always Custom- for JSON ingestion)
-// Output stream: Custom-ASimFileEventLogs (based on table type)
+// Output stream: Microsoft-ASimFileEventLogs (based on table type)
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
 
@@ -38,10 +38,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
-            type: 'string'
-          }
-          {
-            name: 'SrcDvcScope'
             type: 'string'
           }
           {
@@ -93,11 +89,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ActingProcessName'
+            name: 'SrcDvcScope'
             type: 'string'
           }
           {
-            name: 'ActingProcessCommandLine'
+            name: 'ActingProcessName'
             type: 'string'
           }
           {
@@ -149,11 +145,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'SrcDvcIdType'
+            name: 'ActingProcessCommandLine'
             type: 'string'
           }
           {
-            name: 'SrcFileSHA1'
+            name: 'SrcDvcIdType'
             type: 'string'
           }
           {
@@ -161,12 +157,8 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'SrcGeoRegion'
+            name: 'SrcGeoCountry'
             type: 'string'
-          }
-          {
-            name: 'AdditionalFields'
-            type: 'dynamic'
           }
           {
             name: 'EventEndTime'
@@ -273,15 +265,19 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'SrcGeoCountry'
+            name: 'SrcGeoRegion'
             type: 'string'
           }
           {
-            name: 'SourceSystem'
+            name: 'SrcFileSHA1'
             type: 'string'
           }
           {
             name: 'SrcFileMD5'
+            type: 'string'
+          }
+          {
+            name: 'SrcFileMimeType'
             type: 'string'
           }
           {
@@ -401,8 +397,8 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'SrcFileMimeType'
-            type: 'string'
+            name: 'AdditionalFields'
+            type: 'dynamic'
           }
           {
             name: 'EventCount'
@@ -525,7 +521,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: '_ResourceId'
+            name: 'SourceSystem'
             type: 'string'
           }
         ]
@@ -544,8 +540,8 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-ASimFileEventLogs']
         destinations: ['Sentinel-ASimFileEventLogs']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SrcDvcScope = tostring(SrcDvcScope), SrcDvcScopeId = tostring(SrcDvcScopeId), SrcDvcId = tostring(SrcDvcId), SrcDescription = tostring(SrcDescription), SrcFQDN = tostring(SrcFQDN), SrcDomainType = tostring(SrcDomainType), SrcRiskLevel = toint(SrcRiskLevel), SrcPortNumber = toint(SrcPortNumber), SrcOriginalRiskLevel = tostring(SrcOriginalRiskLevel), NetworkApplicationProtocol = tostring(NetworkApplicationProtocol), HttpUserAgent = tostring(HttpUserAgent), ActingProcessGuid = tostring(ActingProcessGuid), ActingProcessId = tostring(ActingProcessId), ActingProcessName = tostring(ActingProcessName), ActingProcessCommandLine = tostring(ActingProcessCommandLine), ActorOriginalUserType = tostring(ActorOriginalUserType), ActorUserType = tostring(ActorUserType), ActorSessionId = tostring(ActorSessionId), ActorUsernameType = tostring(ActorUsernameType), ActorUserIdType = tostring(ActorUserIdType), ActorScopeId = tostring(ActorScopeId), ActorScope = tostring(ActorScope), ActorUserSid = tostring(ActorUserSid), ActorUserAadId = tostring(ActorUserAadId), SrcFileSize = tolong(SrcFileSize), SrcFileSHA512 = tostring(SrcFileSHA512), SrcFileSHA256 = tostring(SrcFileSHA256), SrcDvcIdType = tostring(SrcDvcIdType), SrcFileSHA1 = tostring(SrcFileSHA1), SrcDeviceType = tostring(SrcDeviceType), SrcGeoRegion = tostring(SrcGeoRegion), AdditionalFields = todynamic(AdditionalFields), EventEndTime = todatetime(EventEndTime), EventStartTime = todatetime(EventStartTime), EventSchemaVersion = tostring(EventSchemaVersion), EventSchema = tostring(EventSchema), ThreatLastReportedTime = todatetime(ThreatLastReportedTime), ThreatFirstReportedTime = todatetime(ThreatFirstReportedTime), ThreatIsActive = tobool(ThreatIsActive), ThreatOriginalConfidence = tostring(ThreatOriginalConfidence), ThreatConfidence = toint(ThreatConfidence), ThreatField = tostring(ThreatField), ThreatFilePath = tostring(ThreatFilePath), ThreatOriginalRiskLevel = tostring(ThreatOriginalRiskLevel), ThreatRiskLevel = toint(ThreatRiskLevel), ThreatCategory = tostring(ThreatCategory), ThreatName = tostring(ThreatName), ThreatId = tostring(ThreatId), RuleNumber = toint(RuleNumber), RuleName = tostring(RuleName), TargetUrl = tostring(TargetUrl), TargetOriginalAppType = tostring(TargetOriginalAppType), TargetAppType = tostring(TargetAppType), TargetAppId = tostring(TargetAppId), TargetAppName = tostring(TargetAppName), SrcGeoLongitude = toreal(SrcGeoLongitude), SrcGeoLatitude = toreal(SrcGeoLatitude), SrcGeoCity = tostring(SrcGeoCity), SrcGeoCountry = tostring(SrcGeoCountry), SourceSystem = tostring(SourceSystem), SrcFileMD5 = tostring(SrcFileMD5), SrcFileExtension = tostring(SrcFileExtension), SrcDomain = tostring(SrcDomain), SrcMacAddr = tostring(SrcMacAddr), SrcHostname = tostring(SrcHostname), SrcIpAddr = tostring(SrcIpAddr), ActorUserId = tostring(ActorUserId), SrcFilePathType = tostring(SrcFilePathType), SrcFilePath = tostring(SrcFilePath), SrcFileName = tostring(SrcFileName), HashType = tostring(HashType), TargetFileName = tostring(TargetFileName), DvcAction = tostring(DvcAction), DvcIdType = tostring(DvcIdType), DvcId = tostring(DvcId), DvcFQDN = tostring(DvcFQDN), DvcDomainType = tostring(DvcDomainType), DvcDomain = tostring(DvcDomain), DvcHostname = tostring(DvcHostname), DvcIpAddr = tostring(DvcIpAddr), EventResultDetails = tostring(EventResultDetails), ActorUsername = tostring(ActorUsername), TargetFilePathType = tostring(TargetFilePathType), TargetFilePath = tostring(TargetFilePath), EventType = tostring(EventType), EventSeverity = tostring(EventSeverity), EventResult = tostring(EventResult), EventVendor = tostring(EventVendor), EventProduct = tostring(EventProduct), EventMessage = tostring(EventMessage), SrcFileMimeType = tostring(SrcFileMimeType), EventCount = toint(EventCount), EventOriginalUid = tostring(EventOriginalUid), SrcFileDirectory = tostring(SrcFileDirectory), SrcFileCreationTime = todatetime(SrcFileCreationTime), TargetFileSize = tolong(TargetFileSize), TargetFileSHA512 = tostring(TargetFileSHA512), TargetFileSHA256 = tostring(TargetFileSHA256), TargetFileSHA1 = tostring(TargetFileSHA1), TargetFileMD5 = tostring(TargetFileMD5), TargetFileMimeType = tostring(TargetFileMimeType), TargetFileExtension = tostring(TargetFileExtension), TargetFileDirectory = tostring(TargetFileDirectory), TargetFileCreationTime = todatetime(TargetFileCreationTime), DvcScope = tostring(DvcScope), DvcScopeId = tostring(DvcScopeId), DvcInterface = tostring(DvcInterface), DvcOriginalAction = tostring(DvcOriginalAction), DvcOsVersion = tostring(DvcOsVersion), DvcOs = tostring(DvcOs), DvcZone = tostring(DvcZone), DvcMacAddr = tostring(DvcMacAddr), DvcDescription = tostring(DvcDescription), EventOwner = tostring(EventOwner), EventReportUrl = tostring(EventReportUrl), EventProductVersion = tostring(EventProductVersion), EventOriginalSeverity = tostring(EventOriginalSeverity), EventOriginalResultDetails = tostring(EventOriginalResultDetails), EventOriginalSubType = tostring(EventOriginalSubType), EventOriginalType = tostring(EventOriginalType), EventSubType = tostring(EventSubType), _ResourceId = tostring(_ResourceId)'
-        outputStream: 'Custom-ASimFileEventLogs'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SrcDvcScopeId = tostring(SrcDvcScopeId), SrcDvcId = tostring(SrcDvcId), SrcDescription = tostring(SrcDescription), SrcFQDN = tostring(SrcFQDN), SrcDomainType = tostring(SrcDomainType), SrcRiskLevel = toint(SrcRiskLevel), SrcPortNumber = toint(SrcPortNumber), SrcOriginalRiskLevel = tostring(SrcOriginalRiskLevel), NetworkApplicationProtocol = tostring(NetworkApplicationProtocol), HttpUserAgent = tostring(HttpUserAgent), ActingProcessGuid = tostring(ActingProcessGuid), ActingProcessId = tostring(ActingProcessId), SrcDvcScope = tostring(SrcDvcScope), ActingProcessName = tostring(ActingProcessName), ActorOriginalUserType = tostring(ActorOriginalUserType), ActorUserType = tostring(ActorUserType), ActorSessionId = tostring(ActorSessionId), ActorUsernameType = tostring(ActorUsernameType), ActorUserIdType = tostring(ActorUserIdType), ActorScopeId = tostring(ActorScopeId), ActorScope = tostring(ActorScope), ActorUserSid = tostring(ActorUserSid), ActorUserAadId = tostring(ActorUserAadId), SrcFileSize = tolong(SrcFileSize), SrcFileSHA512 = tostring(SrcFileSHA512), SrcFileSHA256 = tostring(SrcFileSHA256), ActingProcessCommandLine = tostring(ActingProcessCommandLine), SrcDvcIdType = tostring(SrcDvcIdType), SrcDeviceType = tostring(SrcDeviceType), SrcGeoCountry = tostring(SrcGeoCountry), EventEndTime = todatetime(EventEndTime), EventStartTime = todatetime(EventStartTime), EventSchemaVersion = tostring(EventSchemaVersion), EventSchema = tostring(EventSchema), ThreatLastReportedTime = todatetime(ThreatLastReportedTime), ThreatFirstReportedTime = todatetime(ThreatFirstReportedTime), ThreatIsActive = tobool(ThreatIsActive), ThreatOriginalConfidence = tostring(ThreatOriginalConfidence), ThreatConfidence = toint(ThreatConfidence), ThreatField = tostring(ThreatField), ThreatFilePath = tostring(ThreatFilePath), ThreatOriginalRiskLevel = tostring(ThreatOriginalRiskLevel), ThreatRiskLevel = toint(ThreatRiskLevel), ThreatCategory = tostring(ThreatCategory), ThreatName = tostring(ThreatName), ThreatId = tostring(ThreatId), RuleNumber = toint(RuleNumber), RuleName = tostring(RuleName), TargetUrl = tostring(TargetUrl), TargetOriginalAppType = tostring(TargetOriginalAppType), TargetAppType = tostring(TargetAppType), TargetAppId = tostring(TargetAppId), TargetAppName = tostring(TargetAppName), SrcGeoLongitude = toreal(SrcGeoLongitude), SrcGeoLatitude = toreal(SrcGeoLatitude), SrcGeoCity = tostring(SrcGeoCity), SrcGeoRegion = tostring(SrcGeoRegion), SrcFileSHA1 = tostring(SrcFileSHA1), SrcFileMD5 = tostring(SrcFileMD5), SrcFileMimeType = tostring(SrcFileMimeType), SrcFileExtension = tostring(SrcFileExtension), SrcDomain = tostring(SrcDomain), SrcMacAddr = tostring(SrcMacAddr), SrcHostname = tostring(SrcHostname), SrcIpAddr = tostring(SrcIpAddr), ActorUserId = tostring(ActorUserId), SrcFilePathType = tostring(SrcFilePathType), SrcFilePath = tostring(SrcFilePath), SrcFileName = tostring(SrcFileName), HashType = tostring(HashType), TargetFileName = tostring(TargetFileName), DvcAction = tostring(DvcAction), DvcIdType = tostring(DvcIdType), DvcId = tostring(DvcId), DvcFQDN = tostring(DvcFQDN), DvcDomainType = tostring(DvcDomainType), DvcDomain = tostring(DvcDomain), DvcHostname = tostring(DvcHostname), DvcIpAddr = tostring(DvcIpAddr), EventResultDetails = tostring(EventResultDetails), ActorUsername = tostring(ActorUsername), TargetFilePathType = tostring(TargetFilePathType), TargetFilePath = tostring(TargetFilePath), EventType = tostring(EventType), EventSeverity = tostring(EventSeverity), EventResult = tostring(EventResult), EventVendor = tostring(EventVendor), EventProduct = tostring(EventProduct), EventMessage = tostring(EventMessage), AdditionalFields = todynamic(AdditionalFields), EventCount = toint(EventCount), EventOriginalUid = tostring(EventOriginalUid), SrcFileDirectory = tostring(SrcFileDirectory), SrcFileCreationTime = todatetime(SrcFileCreationTime), TargetFileSize = tolong(TargetFileSize), TargetFileSHA512 = tostring(TargetFileSHA512), TargetFileSHA256 = tostring(TargetFileSHA256), TargetFileSHA1 = tostring(TargetFileSHA1), TargetFileMD5 = tostring(TargetFileMD5), TargetFileMimeType = tostring(TargetFileMimeType), TargetFileExtension = tostring(TargetFileExtension), TargetFileDirectory = tostring(TargetFileDirectory), TargetFileCreationTime = todatetime(TargetFileCreationTime), DvcScope = tostring(DvcScope), DvcScopeId = tostring(DvcScopeId), DvcInterface = tostring(DvcInterface), DvcOriginalAction = tostring(DvcOriginalAction), DvcOsVersion = tostring(DvcOsVersion), DvcOs = tostring(DvcOs), DvcZone = tostring(DvcZone), DvcMacAddr = tostring(DvcMacAddr), DvcDescription = tostring(DvcDescription), EventOwner = tostring(EventOwner), EventReportUrl = tostring(EventReportUrl), EventProductVersion = tostring(EventProductVersion), EventOriginalSeverity = tostring(EventOriginalSeverity), EventOriginalResultDetails = tostring(EventOriginalResultDetails), EventOriginalSubType = tostring(EventOriginalSubType), EventOriginalType = tostring(EventOriginalType), EventSubType = tostring(EventSubType), SourceSystem = tostring(SourceSystem)'
+        outputStream: 'Microsoft-ASimFileEventLogs'
       }
     ]
   }

@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_sip_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:51
+// Generated: 2025-09-18 08:37:24
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 31, DCR columns: 31 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 31, DCR columns: 28 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_sip_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -36,7 +36,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: '_path_s'
+            name: 'ts_t'
             type: 'string'
           }
           {
@@ -84,11 +84,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'response_to_s'
+            name: 'response_body_len_d'
             type: 'string'
           }
           {
-            name: 'response_from_s'
+            name: 'response_to_s'
             type: 'string'
           }
           {
@@ -136,19 +136,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ts_t'
-            type: 'string'
-          }
-          {
-            name: '_write_ts_t'
-            type: 'string'
-          }
-          {
-            name: '_system_name_s'
-            type: 'string'
-          }
-          {
-            name: 'response_body_len_d'
+            name: 'response_from_s'
             type: 'string'
           }
           {
@@ -171,7 +159,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_sip_CL']
         destinations: ['Sentinel-Corelight_v2_sip_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), request_body_len_d = toreal(request_body_len_d), warning_s = tostring(warning_s), status_msg_s = tostring(status_msg_s), status_code_d = toreal(status_code_d), user_agent_s = tostring(user_agent_s), response_path_s = tostring(response_path_s), request_path_s = tostring(request_path_s), subject_s = tostring(subject_s), seq_s = tostring(seq_s), call_id_s = tostring(call_id_s), reply_to_s = tostring(reply_to_s), response_to_s = tostring(response_to_s), response_from_s = tostring(response_from_s), request_to_s = tostring(request_to_s), request_from_s = tostring(request_from_s), date_s = tostring(date_s), uri_s = tostring(uri_s), method_s = tostring(method_s), trans_depth_d = toreal(trans_depth_d), id_resp_p_d = toreal(id_resp_p_d), id_resp_h_s = tostring(id_resp_h_s), id_orig_p_d = toreal(id_orig_p_d), id_orig_h_s = tostring(id_orig_h_s), uid_s = tostring(uid_s), ts_t = todatetime(ts_t), _write_ts_t = todatetime(_write_ts_t), _system_name_s = tostring(_system_name_s), response_body_len_d = toreal(response_body_len_d), content_type_s = tostring(content_type_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), request_body_len_d = toreal(request_body_len_d), warning_s = tostring(warning_s), status_msg_s = tostring(status_msg_s), status_code_d = toreal(status_code_d), user_agent_s = tostring(user_agent_s), response_path_s = tostring(response_path_s), request_path_s = tostring(request_path_s), subject_s = tostring(subject_s), seq_s = tostring(seq_s), call_id_s = tostring(call_id_s), reply_to_s = tostring(reply_to_s), response_body_len_d = toreal(response_body_len_d), response_to_s = tostring(response_to_s), request_to_s = tostring(request_to_s), request_from_s = tostring(request_from_s), date_s = tostring(date_s), uri_s = tostring(uri_s), method_s = tostring(method_s), trans_depth_d = toreal(trans_depth_d), id_resp_p_d = toreal(id_resp_p_d), id_resp_h_s = tostring(id_resp_h_s), id_orig_p_d = toreal(id_orig_p_d), id_orig_h_s = tostring(id_orig_h_s), uid_s = tostring(uid_s), response_from_s = tostring(response_from_s), content_type_s = tostring(content_type_s)'
         outputStream: 'Custom-Corelight_v2_sip_CL'
       }
     ]

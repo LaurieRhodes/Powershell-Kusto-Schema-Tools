@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_dga_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:48
+// Generated: 2025-09-18 08:37:20
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 15, DCR columns: 15 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 15, DCR columns: 12 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_dga_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -33,18 +33,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
         columns: [
           {
             name: 'TimeGenerated'
-            type: 'string'
-          }
-          {
-            name: '_path_s'
-            type: 'string'
-          }
-          {
-            name: '_system_name_s'
-            type: 'string'
-          }
-          {
-            name: '_write_ts_t'
             type: 'string'
           }
           {
@@ -107,7 +95,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_dga_CL']
         destinations: ['Sentinel-Corelight_v2_dga_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), _system_name_s = tostring(_system_name_s), _write_ts_t = todatetime(_write_ts_t), ts_t = todatetime(ts_t), id_orig_h_s = tostring(id_orig_h_s), id_orig_p_d = toreal(id_orig_p_d), id_resp_h_s = tostring(id_resp_h_s), id_resp_p_d = toreal(id_resp_p_d), query_s = tostring(query_s), family_s = tostring(family_s), qtype_name_s = tostring(qtype_name_s), rcode_d = toreal(rcode_d), is_collision_heavy_b = tobool(is_collision_heavy_b), ruse_b = tobool(ruse_b)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), id_orig_h_s = tostring(id_orig_h_s), id_orig_p_d = toreal(id_orig_p_d), id_resp_h_s = tostring(id_resp_h_s), id_resp_p_d = toreal(id_resp_p_d), query_s = tostring(query_s), family_s = tostring(family_s), qtype_name_s = tostring(qtype_name_s), rcode_d = toreal(rcode_d), is_collision_heavy_b = tobool(is_collision_heavy_b), ruse_b = tobool(ruse_b)'
         outputStream: 'Custom-Corelight_v2_dga_CL'
       }
     ]

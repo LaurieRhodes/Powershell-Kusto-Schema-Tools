@@ -12,13 +12,13 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for ASimWebSessionLogs
 // ============================================================================
-// Generated: 2025-09-17 08:12:43
+// Generated: 2025-09-18 07:50:14
 // Table type: Microsoft
 // Schema discovered using hybrid approach (Management API + getschema)
-// Underscore columns included
-// Original columns: 147, DCR columns: 146 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 147, DCR columns: 145 (Type column always filtered)
 // Input stream: Custom-ASimWebSessionLogs (always Custom- for JSON ingestion)
-// Output stream: Custom-ASimWebSessionLogs (based on table type)
+// Output stream: Microsoft-ASimWebSessionLogs (based on table type)
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
 
@@ -173,15 +173,19 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
+            name: 'ThreatOriginalConfidence'
+            type: 'string'
+          }
+          {
             name: 'HttpVersion'
             type: 'string'
           }
           {
-            name: 'HttpRequestMethod'
+            name: 'HttpContentType'
             type: 'string'
           }
           {
-            name: 'HttpContentType'
+            name: 'ThreatCategory'
             type: 'string'
           }
           {
@@ -205,15 +209,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
+            name: 'ThreatName'
+            type: 'string'
+          }
+          {
             name: 'SrcProcessGuid'
             type: 'string'
           }
           {
-            name: 'ThreatCategory'
-            type: 'string'
-          }
-          {
-            name: 'SrcUserScope'
+            name: 'SrcUserScopeId'
             type: 'string'
           }
           {
@@ -237,15 +241,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'DstMacAddr'
+            name: 'SrcUserScope'
             type: 'string'
           }
           {
-            name: 'SrcUserScopeId'
-            type: 'string'
-          }
-          {
-            name: 'ThreatName'
+            name: 'HttpRequestMethod'
             type: 'string'
           }
           {
@@ -253,7 +253,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'Rule'
+            name: 'RuleNumber'
             type: 'string'
           }
           {
@@ -281,11 +281,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'FileName'
+            name: 'Rule'
             type: 'string'
           }
           {
-            name: 'FileMD5'
+            name: 'FileName'
             type: 'string'
           }
           {
@@ -313,19 +313,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'RuleNumber'
-            type: 'string'
-          }
-          {
-            name: 'ThreatOriginalConfidence'
-            type: 'string'
-          }
-          {
-            name: 'SourceSystem'
+            name: 'FileMD5'
             type: 'string'
           }
           {
             name: 'ThreatConfidence'
+            type: 'string'
+          }
+          {
+            name: 'ThreatField'
             type: 'string'
           }
           {
@@ -609,11 +605,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ThreatField'
+            name: 'DstMacAddr'
             type: 'string'
           }
           {
-            name: '_ResourceId'
+            name: 'SourceSystem'
             type: 'string'
           }
         ]
@@ -632,8 +628,8 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-ASimWebSessionLogs']
         destinations: ['Sentinel-ASimWebSessionLogs']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SrcDeviceType = tostring(SrcDeviceType), SrcGeoCountry = tostring(SrcGeoCountry), SrcGeoRegion = tostring(SrcGeoRegion), SrcGeoCity = tostring(SrcGeoCity), SrcGeoLatitude = toreal(SrcGeoLatitude), SrcGeoLongitude = toreal(SrcGeoLongitude), SrcDvcIdType = tostring(SrcDvcIdType), SrcUserId = tostring(SrcUserId), SrcUsername = tostring(SrcUsername), SrcUsernameType = tostring(SrcUsernameType), SrcUserType = tostring(SrcUserType), SrcOriginalUserType = tostring(SrcOriginalUserType), Url = tostring(Url), UrlCategory = tostring(UrlCategory), SrcUserIdType = tostring(SrcUserIdType), UrlOriginal = tostring(UrlOriginal), SrcDvcId = tostring(SrcDvcId), SrcDomainType = tostring(SrcDomainType), ThreatIsActive = tobool(ThreatIsActive), ThreatFirstReportedTime = todatetime(ThreatFirstReportedTime), ThreatLastReportedTime = todatetime(ThreatLastReportedTime), DstNatIpAddr = tostring(DstNatIpAddr), DstNatPortNumber = toint(DstNatPortNumber), SrcNatIpAddr = tostring(SrcNatIpAddr), SrcFQDN = tostring(SrcFQDN), SrcNatPortNumber = toint(SrcNatPortNumber), SrcAppId = tostring(SrcAppId), SrcAppType = tostring(SrcAppType), SrcIpAddr = tostring(SrcIpAddr), SrcPortNumber = toint(SrcPortNumber), SrcHostname = tostring(SrcHostname), SrcDomain = tostring(SrcDomain), SrcAppName = tostring(SrcAppName), HttpVersion = tostring(HttpVersion), HttpRequestMethod = tostring(HttpRequestMethod), HttpContentType = tostring(HttpContentType), ThreatRiskLevel = toint(ThreatRiskLevel), HttpHost = tostring(HttpHost), EventOwner = tostring(EventOwner), SrcProcessName = tostring(SrcProcessName), SrcProcessId = tostring(SrcProcessId), SrcProcessGuid = tostring(SrcProcessGuid), ThreatCategory = tostring(ThreatCategory), SrcUserScope = tostring(SrcUserScope), SrcDvcScopeId = tostring(SrcDvcScopeId), SrcDvcScope = tostring(SrcDvcScope), DstDvcScopeId = tostring(DstDvcScopeId), DstDvcScope = tostring(DstDvcScope), SrcMacAddr = tostring(SrcMacAddr), DstMacAddr = tostring(DstMacAddr), SrcUserScopeId = tostring(SrcUserScopeId), ThreatName = tostring(ThreatName), ThreatId = tostring(ThreatId), Rule = tostring(Rule), HttpContentFormat = tostring(HttpContentFormat), HttpReferrer = tostring(HttpReferrer), HttpUserAgent = tostring(HttpUserAgent), HttpRequestXff = tostring(HttpRequestXff), HttpRequestTime = toint(HttpRequestTime), HttpResponseTime = toint(HttpResponseTime), FileName = tostring(FileName), FileMD5 = tostring(FileMD5), FileSHA1 = tostring(FileSHA1), FileSHA256 = tostring(FileSHA256), FileSHA512 = tostring(FileSHA512), FileSize = toint(FileSize), FileContentType = tostring(FileContentType), RuleName = tostring(RuleName), RuleNumber = toint(RuleNumber), ThreatOriginalConfidence = tostring(ThreatOriginalConfidence), SourceSystem = tostring(SourceSystem), ThreatConfidence = toint(ThreatConfidence), ThreatIpAddr = tostring(ThreatIpAddr), EventOriginalUid = tostring(EventOriginalUid), EventOriginalType = tostring(EventOriginalType), EventOriginalSubType = tostring(EventOriginalSubType), EventOriginalResultDetails = tostring(EventOriginalResultDetails), EventSeverity = tostring(EventSeverity), EventOriginalSeverity = tostring(EventOriginalSeverity), EventResultDetails = tostring(EventResultDetails), EventProduct = tostring(EventProduct), EventVendor = tostring(EventVendor), EventSchemaVersion = tostring(EventSchemaVersion), EventReportUrl = tostring(EventReportUrl), AdditionalFields = todynamic(AdditionalFields), DstAppName = tostring(DstAppName), DstAppId = tostring(DstAppId), EventProductVersion = tostring(EventProductVersion), DstAppType = tostring(DstAppType), EventResult = tostring(EventResult), EventType = tostring(EventType), Dvc = tostring(Dvc), DvcIpAddr = tostring(DvcIpAddr), DvcHostname = tostring(DvcHostname), DvcDomain = tostring(DvcDomain), DvcDomainType = tostring(DvcDomainType), DvcFQDN = tostring(DvcFQDN), EventSubType = tostring(EventSubType), DvcId = tostring(DvcId), DvcAction = tostring(DvcAction), DvcOriginalAction = tostring(DvcOriginalAction), EventMessage = tostring(EventMessage), EventCount = toint(EventCount), EventStartTime = todatetime(EventStartTime), EventEndTime = todatetime(EventEndTime), DvcIdType = tostring(DvcIdType), DstIpAddr = tostring(DstIpAddr), DstPortNumber = toint(DstPortNumber), DstHostname = tostring(DstHostname), NetworkProtocolVersion = tostring(NetworkProtocolVersion), NetworkDirection = tostring(NetworkDirection), NetworkDuration = toint(NetworkDuration), NetworkIcmpType = tostring(NetworkIcmpType), NetworkIcmpCode = toint(NetworkIcmpCode), NetworkConnectionHistory = tostring(NetworkConnectionHistory), NetworkProtocol = tostring(NetworkProtocol), DstBytes = tolong(DstBytes), NetworkBytes = tolong(NetworkBytes), DstPackets = tolong(DstPackets), SrcPackets = tolong(SrcPackets), NetworkPackets = tolong(NetworkPackets), NetworkSessionId = tostring(NetworkSessionId), ThreatOriginalRiskLevel = tostring(ThreatOriginalRiskLevel), SrcBytes = tolong(SrcBytes), NetworkApplicationProtocol = tostring(NetworkApplicationProtocol), DstOriginalUserType = tostring(DstOriginalUserType), DstUserType = tostring(DstUserType), DstDomain = tostring(DstDomain), DstDomainType = tostring(DstDomainType), DstFQDN = tostring(DstFQDN), DstDvcId = tostring(DstDvcId), DstDvcIdType = tostring(DstDvcIdType), DstDeviceType = tostring(DstDeviceType), DstGeoCountry = tostring(DstGeoCountry), DstGeoRegion = tostring(DstGeoRegion), DstGeoCity = tostring(DstGeoCity), DstGeoLatitude = toreal(DstGeoLatitude), DstGeoLongitude = toreal(DstGeoLongitude), DstUserId = tostring(DstUserId), DstUserIdType = tostring(DstUserIdType), DstUsername = tostring(DstUsername), DstUsernameType = tostring(DstUsernameType), ThreatField = tostring(ThreatField), _ResourceId = tostring(_ResourceId)'
-        outputStream: 'Custom-ASimWebSessionLogs'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SrcDeviceType = tostring(SrcDeviceType), SrcGeoCountry = tostring(SrcGeoCountry), SrcGeoRegion = tostring(SrcGeoRegion), SrcGeoCity = tostring(SrcGeoCity), SrcGeoLatitude = toreal(SrcGeoLatitude), SrcGeoLongitude = toreal(SrcGeoLongitude), SrcDvcIdType = tostring(SrcDvcIdType), SrcUserId = tostring(SrcUserId), SrcUsername = tostring(SrcUsername), SrcUsernameType = tostring(SrcUsernameType), SrcUserType = tostring(SrcUserType), SrcOriginalUserType = tostring(SrcOriginalUserType), Url = tostring(Url), UrlCategory = tostring(UrlCategory), SrcUserIdType = tostring(SrcUserIdType), UrlOriginal = tostring(UrlOriginal), SrcDvcId = tostring(SrcDvcId), SrcDomainType = tostring(SrcDomainType), ThreatIsActive = tobool(ThreatIsActive), ThreatFirstReportedTime = todatetime(ThreatFirstReportedTime), ThreatLastReportedTime = todatetime(ThreatLastReportedTime), DstNatIpAddr = tostring(DstNatIpAddr), DstNatPortNumber = toint(DstNatPortNumber), SrcNatIpAddr = tostring(SrcNatIpAddr), SrcFQDN = tostring(SrcFQDN), SrcNatPortNumber = toint(SrcNatPortNumber), SrcAppId = tostring(SrcAppId), SrcAppType = tostring(SrcAppType), SrcIpAddr = tostring(SrcIpAddr), SrcPortNumber = toint(SrcPortNumber), SrcHostname = tostring(SrcHostname), SrcDomain = tostring(SrcDomain), SrcAppName = tostring(SrcAppName), ThreatOriginalConfidence = tostring(ThreatOriginalConfidence), HttpVersion = tostring(HttpVersion), HttpContentType = tostring(HttpContentType), ThreatCategory = tostring(ThreatCategory), ThreatRiskLevel = toint(ThreatRiskLevel), HttpHost = tostring(HttpHost), EventOwner = tostring(EventOwner), SrcProcessName = tostring(SrcProcessName), SrcProcessId = tostring(SrcProcessId), ThreatName = tostring(ThreatName), SrcProcessGuid = tostring(SrcProcessGuid), SrcUserScopeId = tostring(SrcUserScopeId), SrcDvcScopeId = tostring(SrcDvcScopeId), SrcDvcScope = tostring(SrcDvcScope), DstDvcScopeId = tostring(DstDvcScopeId), DstDvcScope = tostring(DstDvcScope), SrcMacAddr = tostring(SrcMacAddr), SrcUserScope = tostring(SrcUserScope), HttpRequestMethod = tostring(HttpRequestMethod), ThreatId = tostring(ThreatId), RuleNumber = toint(RuleNumber), HttpContentFormat = tostring(HttpContentFormat), HttpReferrer = tostring(HttpReferrer), HttpUserAgent = tostring(HttpUserAgent), HttpRequestXff = tostring(HttpRequestXff), HttpRequestTime = toint(HttpRequestTime), HttpResponseTime = toint(HttpResponseTime), Rule = tostring(Rule), FileName = tostring(FileName), FileSHA1 = tostring(FileSHA1), FileSHA256 = tostring(FileSHA256), FileSHA512 = tostring(FileSHA512), FileSize = toint(FileSize), FileContentType = tostring(FileContentType), RuleName = tostring(RuleName), FileMD5 = tostring(FileMD5), ThreatConfidence = toint(ThreatConfidence), ThreatField = tostring(ThreatField), ThreatIpAddr = tostring(ThreatIpAddr), EventOriginalUid = tostring(EventOriginalUid), EventOriginalType = tostring(EventOriginalType), EventOriginalSubType = tostring(EventOriginalSubType), EventOriginalResultDetails = tostring(EventOriginalResultDetails), EventSeverity = tostring(EventSeverity), EventOriginalSeverity = tostring(EventOriginalSeverity), EventResultDetails = tostring(EventResultDetails), EventProduct = tostring(EventProduct), EventVendor = tostring(EventVendor), EventSchemaVersion = tostring(EventSchemaVersion), EventReportUrl = tostring(EventReportUrl), AdditionalFields = todynamic(AdditionalFields), DstAppName = tostring(DstAppName), DstAppId = tostring(DstAppId), EventProductVersion = tostring(EventProductVersion), DstAppType = tostring(DstAppType), EventResult = tostring(EventResult), EventType = tostring(EventType), Dvc = tostring(Dvc), DvcIpAddr = tostring(DvcIpAddr), DvcHostname = tostring(DvcHostname), DvcDomain = tostring(DvcDomain), DvcDomainType = tostring(DvcDomainType), DvcFQDN = tostring(DvcFQDN), EventSubType = tostring(EventSubType), DvcId = tostring(DvcId), DvcAction = tostring(DvcAction), DvcOriginalAction = tostring(DvcOriginalAction), EventMessage = tostring(EventMessage), EventCount = toint(EventCount), EventStartTime = todatetime(EventStartTime), EventEndTime = todatetime(EventEndTime), DvcIdType = tostring(DvcIdType), DstIpAddr = tostring(DstIpAddr), DstPortNumber = toint(DstPortNumber), DstHostname = tostring(DstHostname), NetworkProtocolVersion = tostring(NetworkProtocolVersion), NetworkDirection = tostring(NetworkDirection), NetworkDuration = toint(NetworkDuration), NetworkIcmpType = tostring(NetworkIcmpType), NetworkIcmpCode = toint(NetworkIcmpCode), NetworkConnectionHistory = tostring(NetworkConnectionHistory), NetworkProtocol = tostring(NetworkProtocol), DstBytes = tolong(DstBytes), NetworkBytes = tolong(NetworkBytes), DstPackets = tolong(DstPackets), SrcPackets = tolong(SrcPackets), NetworkPackets = tolong(NetworkPackets), NetworkSessionId = tostring(NetworkSessionId), ThreatOriginalRiskLevel = tostring(ThreatOriginalRiskLevel), SrcBytes = tolong(SrcBytes), NetworkApplicationProtocol = tostring(NetworkApplicationProtocol), DstOriginalUserType = tostring(DstOriginalUserType), DstUserType = tostring(DstUserType), DstDomain = tostring(DstDomain), DstDomainType = tostring(DstDomainType), DstFQDN = tostring(DstFQDN), DstDvcId = tostring(DstDvcId), DstDvcIdType = tostring(DstDvcIdType), DstDeviceType = tostring(DstDeviceType), DstGeoCountry = tostring(DstGeoCountry), DstGeoRegion = tostring(DstGeoRegion), DstGeoCity = tostring(DstGeoCity), DstGeoLatitude = toreal(DstGeoLatitude), DstGeoLongitude = toreal(DstGeoLongitude), DstUserId = tostring(DstUserId), DstUserIdType = tostring(DstUserIdType), DstUsername = tostring(DstUsername), DstUsernameType = tostring(DstUsernameType), DstMacAddr = tostring(DstMacAddr), SourceSystem = tostring(SourceSystem)'
+        outputStream: 'Microsoft-ASimWebSessionLogs'
       }
     ]
   }

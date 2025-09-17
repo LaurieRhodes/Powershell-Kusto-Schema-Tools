@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Snowflake_CL
 // ============================================================================
-// Generated: 2025-09-17 06:21:02
+// Generated: 2025-09-18 08:37:37
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 75, DCR columns: 74 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 75, DCR columns: 73 (Type column always filtered)
 // Output stream: Custom-Snowflake_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -36,7 +36,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: '_ResourceId'
+            name: 'BYTES_DELETED_d'
+            type: 'string'
+          }
+          {
+            name: 'REPORTED_CLIENT_VERSION_s'
             type: 'string'
           }
           {
@@ -60,15 +64,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
+            name: 'ROLE_NAME_s'
+            type: 'string'
+          }
+          {
             name: 'QUEUED_PROVISIONING_TIME_d'
             type: 'string'
           }
           {
-            name: 'REPORTED_CLIENT_VERSION_s'
-            type: 'string'
-          }
-          {
-            name: 'QUEUED_OVERLOAD_TIME_d'
+            name: 'QUERY_TYPE_s'
             type: 'string'
           }
           {
@@ -92,15 +96,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
+            name: 'QUEUED_OVERLOAD_TIME_d'
+            type: 'string'
+          }
+          {
             name: 'PARTITIONS_TOTAL_d'
-            type: 'string'
-          }
-          {
-            name: 'QUERY_TYPE_s'
-            type: 'string'
-          }
-          {
-            name: 'ROLE_NAME_s'
             type: 'string'
           }
           {
@@ -108,7 +108,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ROWS_INSERTED_d'
+            name: 'ROWS_PRODUCED_d'
             type: 'string'
           }
           {
@@ -136,11 +136,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'START_TIME_t'
+            name: 'ROWS_INSERTED_d'
             type: 'string'
           }
           {
-            name: 'SourceSystem'
+            name: 'START_TIME_t'
             type: 'string'
           }
           {
@@ -168,7 +168,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ROWS_PRODUCED_d'
+            name: 'SourceSystem'
             type: 'string'
           }
           {
@@ -176,15 +176,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'WAREHOUSE_SIZE_s'
-            type: 'string'
-          }
-          {
             name: 'OUTBOUND_DATA_TRANSFER_BYTES_d'
             type: 'string'
           }
           {
-            name: 'ManagementGroupName'
+            name: 'MG'
+            type: 'string'
+          }
+          {
+            name: 'DATABASE_NAME_s'
             type: 'string'
           }
           {
@@ -208,15 +208,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
+            name: 'END_TIME_t'
+            type: 'string'
+          }
+          {
             name: 'CLIENT_IP_s'
             type: 'string'
           }
           {
-            name: 'DATABASE_NAME_s'
-            type: 'string'
-          }
-          {
-            name: 'BYTES_WRITTEN_TO_RESULT_d'
+            name: 'BYTES_WRITTEN_d'
             type: 'string'
           }
           {
@@ -240,15 +240,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'BYTES_DELETED_d'
-            type: 'string'
-          }
-          {
-            name: 'BYTES_WRITTEN_d'
-            type: 'string'
-          }
-          {
-            name: 'END_TIME_t'
+            name: 'BYTES_WRITTEN_TO_RESULT_d'
             type: 'string'
           }
           {
@@ -257,6 +249,14 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'ERROR_MESSAGE_s'
+            type: 'string'
+          }
+          {
+            name: 'EVENT_ID_d'
+            type: 'string'
+          }
+          {
+            name: 'ManagementGroupName'
             type: 'string'
           }
           {
@@ -316,11 +316,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'EVENT_ID_d'
-            type: 'string'
-          }
-          {
-            name: 'MG'
+            name: 'WAREHOUSE_SIZE_s'
             type: 'string'
           }
           {
@@ -343,7 +339,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Snowflake_CL']
         destinations: ['Sentinel-Snowflake_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _ResourceId = tostring(_ResourceId), REPORTED_CLIENT_TYPE_s = tostring(REPORTED_CLIENT_TYPE_s), RELEASE_VERSION_s = tostring(RELEASE_VERSION_s), RELATED_EVENT_ID_s = tostring(RELATED_EVENT_ID_s), RawData = tostring(RawData), QUEUED_REPAIR_TIME_d = toreal(QUEUED_REPAIR_TIME_d), QUEUED_PROVISIONING_TIME_d = toreal(QUEUED_PROVISIONING_TIME_d), REPORTED_CLIENT_VERSION_s = tostring(REPORTED_CLIENT_VERSION_s), QUEUED_OVERLOAD_TIME_d = toreal(QUEUED_OVERLOAD_TIME_d), QUERY_TEXT_s = tostring(QUERY_TEXT_s), QUERY_TAG_s = tostring(QUERY_TAG_s), QUERY_LOAD_PERCENT_d = toreal(QUERY_LOAD_PERCENT_d), QUERY_ID_g = tostring(QUERY_ID_g), PERCENTAGE_SCANNED_FROM_CACHE_d = toreal(PERCENTAGE_SCANNED_FROM_CACHE_d), PARTITIONS_TOTAL_d = toreal(PARTITIONS_TOTAL_d), QUERY_TYPE_s = tostring(QUERY_TYPE_s), ROLE_NAME_s = tostring(ROLE_NAME_s), ROWS_DELETED_d = toreal(ROWS_DELETED_d), ROWS_INSERTED_d = toreal(ROWS_INSERTED_d), WAREHOUSE_NAME_s = tostring(WAREHOUSE_NAME_s), WAREHOUSE_ID_s = tostring(WAREHOUSE_ID_s), USER_NAME_s = tostring(USER_NAME_s), TRANSACTION_BLOCKED_TIME_s = tostring(TRANSACTION_BLOCKED_TIME_s), TOTAL_ELAPSED_TIME_s = tostring(TOTAL_ELAPSED_TIME_s), TenantId = toguid(TenantId), START_TIME_t = todatetime(START_TIME_t), SourceSystem = tostring(SourceSystem), source_table_s = tostring(source_table_s), SESSION_ID_d = toreal(SESSION_ID_d), SCHEMA_NAME_s = tostring(SCHEMA_NAME_s), SCHEMA_ID_s = tostring(SCHEMA_ID_s), ROWS_UPDATED_s = tostring(ROWS_UPDATED_s), ROWS_UNLOADED_s = tostring(ROWS_UNLOADED_s), ROWS_PRODUCED_d = toreal(ROWS_PRODUCED_d), PARTITIONS_SCANNED_s = tostring(PARTITIONS_SCANNED_s), WAREHOUSE_SIZE_s = tostring(WAREHOUSE_SIZE_s), OUTBOUND_DATA_TRANSFER_BYTES_d = toreal(OUTBOUND_DATA_TRANSFER_BYTES_d), ManagementGroupName = tostring(ManagementGroupName), DATABASE_ID_d = toreal(DATABASE_ID_d), CREDITS_USED_CLOUD_SERVICES_d = toreal(CREDITS_USED_CLOUD_SERVICES_d), Computer = tostring(Computer), COMPILATION_TIME_d = toreal(COMPILATION_TIME_d), CLUSTER_NUMBER_d = toreal(CLUSTER_NUMBER_d), CLIENT_IP_s = tostring(CLIENT_IP_s), DATABASE_NAME_s = tostring(DATABASE_NAME_s), BYTES_WRITTEN_TO_RESULT_d = toreal(BYTES_WRITTEN_TO_RESULT_d), BYTES_SPILLED_TO_REMOTE_STORAGE_d = toreal(BYTES_SPILLED_TO_REMOTE_STORAGE_d), BYTES_SPILLED_TO_LOCAL_STORAGE_d = toreal(BYTES_SPILLED_TO_LOCAL_STORAGE_d), BYTES_SENT_OVER_THE_NETWORK_d = toreal(BYTES_SENT_OVER_THE_NETWORK_d), BYTES_SCANNED_d = toreal(BYTES_SCANNED_d), BYTES_READ_FROM_RESULT_d = toreal(BYTES_READ_FROM_RESULT_d), BYTES_DELETED_d = toreal(BYTES_DELETED_d), BYTES_WRITTEN_d = toreal(BYTES_WRITTEN_d), END_TIME_t = todatetime(END_TIME_t), ERROR_CODE_s = tostring(ERROR_CODE_s), ERROR_MESSAGE_s = tostring(ERROR_MESSAGE_s), LIST_EXTERNAL_FILES_TIME_t = todatetime(LIST_EXTERNAL_FILES_TIME_t), IS_SUCCESS_s = tostring(IS_SUCCESS_s), IS_CLIENT_GENERATED_STATEMENT_b = tobool(IS_CLIENT_GENERATED_STATEMENT_b), INBOUND_DATA_TRANSFER_BYTES_s = tostring(INBOUND_DATA_TRANSFER_BYTES_s), FIRST_AUTHENTICATION_FACTOR_s = tostring(FIRST_AUTHENTICATION_FACTOR_s), EXTERNAL_FUNCTION_TOTAL_SENT_ROWS_s = tostring(EXTERNAL_FUNCTION_TOTAL_SENT_ROWS_s), EXTERNAL_FUNCTION_TOTAL_SENT_BYTES_s = tostring(EXTERNAL_FUNCTION_TOTAL_SENT_BYTES_s), EXTERNAL_FUNCTION_TOTAL_RECEIVED_ROWS_s = tostring(EXTERNAL_FUNCTION_TOTAL_RECEIVED_ROWS_s), EXTERNAL_FUNCTION_TOTAL_RECEIVED_BYTES_s = tostring(EXTERNAL_FUNCTION_TOTAL_RECEIVED_BYTES_s), EXTERNAL_FUNCTION_TOTAL_INVOCATIONS_s = tostring(EXTERNAL_FUNCTION_TOTAL_INVOCATIONS_s), EXECUTION_TIME_s = tostring(EXECUTION_TIME_s), EXECUTION_STATUS_s = tostring(EXECUTION_STATUS_s), EVENT_TYPE_s = tostring(EVENT_TYPE_s), EVENT_TIMESTAMP_t = todatetime(EVENT_TIMESTAMP_t), EVENT_ID_d = toreal(EVENT_ID_d), MG = tostring(MG), WAREHOUSE_TYPE_s = tostring(WAREHOUSE_TYPE_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), BYTES_DELETED_d = toreal(BYTES_DELETED_d), REPORTED_CLIENT_VERSION_s = tostring(REPORTED_CLIENT_VERSION_s), REPORTED_CLIENT_TYPE_s = tostring(REPORTED_CLIENT_TYPE_s), RELEASE_VERSION_s = tostring(RELEASE_VERSION_s), RELATED_EVENT_ID_s = tostring(RELATED_EVENT_ID_s), RawData = tostring(RawData), QUEUED_REPAIR_TIME_d = toreal(QUEUED_REPAIR_TIME_d), ROLE_NAME_s = tostring(ROLE_NAME_s), QUEUED_PROVISIONING_TIME_d = toreal(QUEUED_PROVISIONING_TIME_d), QUERY_TYPE_s = tostring(QUERY_TYPE_s), QUERY_TEXT_s = tostring(QUERY_TEXT_s), QUERY_TAG_s = tostring(QUERY_TAG_s), QUERY_LOAD_PERCENT_d = toreal(QUERY_LOAD_PERCENT_d), QUERY_ID_g = tostring(QUERY_ID_g), PERCENTAGE_SCANNED_FROM_CACHE_d = toreal(PERCENTAGE_SCANNED_FROM_CACHE_d), QUEUED_OVERLOAD_TIME_d = toreal(QUEUED_OVERLOAD_TIME_d), PARTITIONS_TOTAL_d = toreal(PARTITIONS_TOTAL_d), ROWS_DELETED_d = toreal(ROWS_DELETED_d), ROWS_PRODUCED_d = toreal(ROWS_PRODUCED_d), WAREHOUSE_NAME_s = tostring(WAREHOUSE_NAME_s), WAREHOUSE_ID_s = tostring(WAREHOUSE_ID_s), USER_NAME_s = tostring(USER_NAME_s), TRANSACTION_BLOCKED_TIME_s = tostring(TRANSACTION_BLOCKED_TIME_s), TOTAL_ELAPSED_TIME_s = tostring(TOTAL_ELAPSED_TIME_s), TenantId = toguid(TenantId), ROWS_INSERTED_d = toreal(ROWS_INSERTED_d), START_TIME_t = todatetime(START_TIME_t), source_table_s = tostring(source_table_s), SESSION_ID_d = toreal(SESSION_ID_d), SCHEMA_NAME_s = tostring(SCHEMA_NAME_s), SCHEMA_ID_s = tostring(SCHEMA_ID_s), ROWS_UPDATED_s = tostring(ROWS_UPDATED_s), ROWS_UNLOADED_s = tostring(ROWS_UNLOADED_s), SourceSystem = tostring(SourceSystem), PARTITIONS_SCANNED_s = tostring(PARTITIONS_SCANNED_s), OUTBOUND_DATA_TRANSFER_BYTES_d = toreal(OUTBOUND_DATA_TRANSFER_BYTES_d), MG = tostring(MG), DATABASE_NAME_s = tostring(DATABASE_NAME_s), DATABASE_ID_d = toreal(DATABASE_ID_d), CREDITS_USED_CLOUD_SERVICES_d = toreal(CREDITS_USED_CLOUD_SERVICES_d), Computer = tostring(Computer), COMPILATION_TIME_d = toreal(COMPILATION_TIME_d), CLUSTER_NUMBER_d = toreal(CLUSTER_NUMBER_d), END_TIME_t = todatetime(END_TIME_t), CLIENT_IP_s = tostring(CLIENT_IP_s), BYTES_WRITTEN_d = toreal(BYTES_WRITTEN_d), BYTES_SPILLED_TO_REMOTE_STORAGE_d = toreal(BYTES_SPILLED_TO_REMOTE_STORAGE_d), BYTES_SPILLED_TO_LOCAL_STORAGE_d = toreal(BYTES_SPILLED_TO_LOCAL_STORAGE_d), BYTES_SENT_OVER_THE_NETWORK_d = toreal(BYTES_SENT_OVER_THE_NETWORK_d), BYTES_SCANNED_d = toreal(BYTES_SCANNED_d), BYTES_READ_FROM_RESULT_d = toreal(BYTES_READ_FROM_RESULT_d), BYTES_WRITTEN_TO_RESULT_d = toreal(BYTES_WRITTEN_TO_RESULT_d), ERROR_CODE_s = tostring(ERROR_CODE_s), ERROR_MESSAGE_s = tostring(ERROR_MESSAGE_s), EVENT_ID_d = toreal(EVENT_ID_d), ManagementGroupName = tostring(ManagementGroupName), LIST_EXTERNAL_FILES_TIME_t = todatetime(LIST_EXTERNAL_FILES_TIME_t), IS_SUCCESS_s = tostring(IS_SUCCESS_s), IS_CLIENT_GENERATED_STATEMENT_b = tobool(IS_CLIENT_GENERATED_STATEMENT_b), INBOUND_DATA_TRANSFER_BYTES_s = tostring(INBOUND_DATA_TRANSFER_BYTES_s), FIRST_AUTHENTICATION_FACTOR_s = tostring(FIRST_AUTHENTICATION_FACTOR_s), EXTERNAL_FUNCTION_TOTAL_SENT_ROWS_s = tostring(EXTERNAL_FUNCTION_TOTAL_SENT_ROWS_s), EXTERNAL_FUNCTION_TOTAL_SENT_BYTES_s = tostring(EXTERNAL_FUNCTION_TOTAL_SENT_BYTES_s), EXTERNAL_FUNCTION_TOTAL_RECEIVED_ROWS_s = tostring(EXTERNAL_FUNCTION_TOTAL_RECEIVED_ROWS_s), EXTERNAL_FUNCTION_TOTAL_RECEIVED_BYTES_s = tostring(EXTERNAL_FUNCTION_TOTAL_RECEIVED_BYTES_s), EXTERNAL_FUNCTION_TOTAL_INVOCATIONS_s = tostring(EXTERNAL_FUNCTION_TOTAL_INVOCATIONS_s), EXECUTION_TIME_s = tostring(EXECUTION_TIME_s), EXECUTION_STATUS_s = tostring(EXECUTION_STATUS_s), EVENT_TYPE_s = tostring(EVENT_TYPE_s), EVENT_TIMESTAMP_t = todatetime(EVENT_TIMESTAMP_t), WAREHOUSE_SIZE_s = tostring(WAREHOUSE_SIZE_s), WAREHOUSE_TYPE_s = tostring(WAREHOUSE_TYPE_s)'
         outputStream: 'Custom-Snowflake_CL'
       }
     ]

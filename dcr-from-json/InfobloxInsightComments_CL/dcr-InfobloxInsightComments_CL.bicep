@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for InfobloxInsightComments_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:57
+// Generated: 2025-09-18 08:37:31
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 15, DCR columns: 14 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 15, DCR columns: 13 (Type column always filtered)
 // Output stream: Custom-InfobloxInsightComments_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -83,10 +83,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             name: 'InfobloxInsightLogType_s'
             type: 'string'
           }
-          {
-            name: '_ResourceId'
-            type: 'string'
-          }
         ]
       }
     }
@@ -103,7 +99,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-InfobloxInsightComments_CL']
         destinations: ['Sentinel-InfobloxInsightComments_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), commentsChanger_s = tostring(commentsChanger_s), newComment_s = tostring(newComment_s), dateChanged_t = todatetime(dateChanged_t), status_s = tostring(status_s), InfobloxInsightID_g = tostring(InfobloxInsightID_g), InfobloxInsightLogType_s = tostring(InfobloxInsightLogType_s), _ResourceId = tostring(_ResourceId)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), commentsChanger_s = tostring(commentsChanger_s), newComment_s = tostring(newComment_s), dateChanged_t = todatetime(dateChanged_t), status_s = tostring(status_s), InfobloxInsightID_g = tostring(InfobloxInsightID_g), InfobloxInsightLogType_s = tostring(InfobloxInsightLogType_s)'
         outputStream: 'Custom-InfobloxInsightComments_CL'
       }
     ]

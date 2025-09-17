@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Armis_Alerts_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:41
+// Generated: 2025-09-18 08:37:13
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 20, DCR columns: 18 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 20, DCR columns: 17 (Type column always filtered)
 // Output stream: Custom-Armis_Alerts_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -40,51 +40,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'Time'
-            type: 'string'
-          }
-          {
-            name: 'Status'
-            type: 'string'
-          }
-          {
-            name: 'Severity'
-            type: 'string'
-          }
-          {
-            name: 'DeviceIds'
-            type: 'string'
-          }
-          {
-            name: 'Description'
-            type: 'string'
-          }
-          {
-            name: 'AlertId'
-            type: 'string'
-          }
-          {
-            name: 'Title'
-            type: 'string'
-          }
-          {
-            name: 'ActivityUUIDs'
-            type: 'string'
-          }
-          {
-            name: 'EventVendor'
-            type: 'string'
-          }
-          {
-            name: 'RawData'
-            type: 'string'
-          }
-          {
-            name: 'Computer'
-            type: 'string'
-          }
-          {
-            name: 'ManagementGroupName'
+            name: 'SourceSystem'
             type: 'string'
           }
           {
@@ -92,7 +48,19 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'SourceSystem'
+            name: 'ManagementGroupName'
+            type: 'string'
+          }
+          {
+            name: 'Computer'
+            type: 'string'
+          }
+          {
+            name: 'RawData'
+            type: 'string'
+          }
+          {
+            name: 'EventVendor'
             type: 'string'
           }
           {
@@ -100,7 +68,35 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: '_ResourceId'
+            name: 'ActivityUUIDs'
+            type: 'string'
+          }
+          {
+            name: 'AlertId'
+            type: 'string'
+          }
+          {
+            name: 'Description'
+            type: 'string'
+          }
+          {
+            name: 'DeviceIds'
+            type: 'string'
+          }
+          {
+            name: 'Severity'
+            type: 'string'
+          }
+          {
+            name: 'Status'
+            type: 'string'
+          }
+          {
+            name: 'Time'
+            type: 'string'
+          }
+          {
+            name: 'Title'
             type: 'string'
           }
         ]
@@ -119,7 +115,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Armis_Alerts_CL']
         destinations: ['Sentinel-Armis_Alerts_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), Time = tostring(Time), Status = tostring(Status), Severity = tostring(Severity), DeviceIds = tostring(DeviceIds), Description = tostring(Description), AlertId = tostring(AlertId), Title = tostring(Title), ActivityUUIDs = tostring(ActivityUUIDs), EventVendor = tostring(EventVendor), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), EventProduct = tostring(EventProduct), _ResourceId = tostring(_ResourceId)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), EventVendor = tostring(EventVendor), EventProduct = tostring(EventProduct), ActivityUUIDs = tostring(ActivityUUIDs), AlertId = tostring(AlertId), Description = tostring(Description), DeviceIds = tostring(DeviceIds), Severity = tostring(Severity), Status = tostring(Status), Time = tostring(Time), Title = tostring(Title)'
         outputStream: 'Custom-Armis_Alerts_CL'
       }
     ]

@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for SecurityEvent
 // ============================================================================
-// Generated: 2025-09-17 08:12:46
+// Generated: 2025-09-18 07:50:27
 // Table type: Microsoft
 // Schema discovered using hybrid approach (Management API + getschema)
-// Underscore columns included
-// Original columns: 234, DCR columns: 233 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 234, DCR columns: 232 (Type column always filtered)
 // Input stream: Custom-SecurityEvent (always Custom- for JSON ingestion)
 // Output stream: Microsoft-SecurityEvent (based on table type)
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
@@ -38,6 +38,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
+            type: 'string'
+          }
+          {
+            name: 'PrimaryGroupId'
             type: 'string'
           }
           {
@@ -137,23 +141,23 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ServiceAccount'
-            type: 'string'
-          }
-          {
-            name: 'PrimaryGroupId'
-            type: 'string'
-          }
-          {
-            name: 'ServiceFileName'
-            type: 'string'
-          }
-          {
             name: 'PreviousTime'
             type: 'string'
           }
           {
-            name: 'PasswordProperties'
+            name: 'ServiceAccount'
+            type: 'string'
+          }
+          {
+            name: 'PreviousDate'
+            type: 'string'
+          }
+          {
+            name: 'PasswordLastSet'
+            type: 'string'
+          }
+          {
+            name: 'NewDate'
             type: 'string'
           }
           {
@@ -253,23 +257,23 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'PasswordLastSet'
+            name: 'PasswordProperties'
             type: 'string'
           }
           {
-            name: 'PreviousDate'
+            name: 'NetworkPolicyName'
             type: 'string'
           }
           {
-            name: 'NewDate'
+            name: 'ServiceFileName'
             type: 'string'
           }
           {
-            name: 'ServiceName'
+            name: 'ServiceStartType'
             type: 'string'
           }
           {
-            name: 'ServiceType'
+            name: 'TargetUser'
             type: 'string'
           }
           {
@@ -369,23 +373,23 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'SystemThreadId'
-            type: 'string'
-          }
-          {
-            name: 'TargetUser'
-            type: 'string'
-          }
-          {
-            name: 'ServiceStartType'
-            type: 'string'
-          }
-          {
             name: 'TargetSid'
             type: 'string'
           }
           {
-            name: 'TargetOutboundUserName'
+            name: 'ServiceName'
+            type: 'string'
+          }
+          {
+            name: 'TargetServerName'
+            type: 'string'
+          }
+          {
+            name: 'TargetOutboundDomainName'
+            type: 'string'
+          }
+          {
+            name: 'ServiceType'
             type: 'string'
           }
           {
@@ -485,15 +489,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'TargetOutboundDomainName'
+            name: 'TargetOutboundUserName'
             type: 'string'
           }
           {
-            name: 'TargetServerName'
-            type: 'string'
-          }
-          {
-            name: 'NetworkPolicyName'
+            name: 'SystemThreadId'
             type: 'string'
           }
           {
@@ -501,7 +501,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'NASPort'
+            name: 'NASIPv6Address'
             type: 'string'
           }
           {
@@ -725,15 +725,19 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
+            name: 'NASPort'
+            type: 'string'
+          }
+          {
             name: 'CompatibleIds'
             type: 'string'
           }
           {
-            name: 'DCDNSName'
+            name: 'DeviceDescription'
             type: 'string'
           }
           {
-            name: 'DeviceDescription'
+            name: 'KeyLength'
             type: 'string'
           }
           {
@@ -833,15 +837,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'NASIPv6Address'
-            type: 'string'
-          }
-          {
-            name: 'KeyLength'
-            type: 'string'
-          }
-          {
             name: 'IpPort'
+            type: 'string'
+          }
+          {
+            name: 'DCDNSName'
             type: 'string'
           }
           {
@@ -849,7 +849,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'InterfaceUuid'
+            name: 'ImpersonationLevel'
             type: 'string'
           }
           {
@@ -901,11 +901,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'EventRecordId'
+            name: 'FileHash'
             type: 'string'
           }
           {
-            name: 'FileHash'
+            name: 'FilePath'
             type: 'string'
           }
           {
@@ -953,15 +953,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ImpersonationLevel'
+            name: 'InterfaceUuid'
             type: 'string'
           }
           {
-            name: 'FilePath'
-            type: 'string'
-          }
-          {
-            name: '_ResourceId'
+            name: 'EventRecordId'
             type: 'string'
           }
         ]
@@ -980,7 +976,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-SecurityEvent']
         destinations: ['Sentinel-SecurityEvent']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), PrivateKeyUsageCount = tostring(PrivateKeyUsageCount), PrivilegeList = tostring(PrivilegeList), Process = tostring(Process), ProcessId = tostring(ProcessId), ProcessName = tostring(ProcessName), Properties = tostring(Properties), ProfilePath = tostring(ProfilePath), ProtocolSequence = tostring(ProtocolSequence), ProxyPolicyName = tostring(ProxyPolicyName), QuarantineHelpURL = tostring(QuarantineHelpURL), QuarantineSessionID = tostring(QuarantineSessionID), QuarantineSessionIdentifier = tostring(QuarantineSessionIdentifier), QuarantineState = tostring(QuarantineState), QuarantineSystemHealthResult = tostring(QuarantineSystemHealthResult), RelativeTargetName = tostring(RelativeTargetName), RemoteIpAddress = tostring(RemoteIpAddress), RemotePort = tostring(RemotePort), Requester = tostring(Requester), RequestId = tostring(RequestId), RestrictedAdminMode = tostring(RestrictedAdminMode), RowsDeleted = tostring(RowsDeleted), SamAccountName = tostring(SamAccountName), ScriptPath = tostring(ScriptPath), SecurityDescriptor = tostring(SecurityDescriptor), ServiceAccount = tostring(ServiceAccount), PrimaryGroupId = tostring(PrimaryGroupId), ServiceFileName = tostring(ServiceFileName), PreviousTime = tostring(PreviousTime), PasswordProperties = tostring(PasswordProperties), NewMaxUsers = tostring(NewMaxUsers), NewProcessId = tostring(NewProcessId), NewProcessName = tostring(NewProcessName), NewRemark = tostring(NewRemark), NewShareFlags = tostring(NewShareFlags), NewTime = tostring(NewTime), NewUacValue = tostring(NewUacValue), NewValue = tostring(NewValue), NewValueType = tostring(NewValueType), ObjectName = tostring(ObjectName), ObjectServer = tostring(ObjectServer), ObjectType = tostring(ObjectType), ObjectValueName = tostring(ObjectValueName), OemInformation = tostring(OemInformation), OldMaxUsers = tostring(OldMaxUsers), OldRemark = tostring(OldRemark), OldShareFlags = tostring(OldShareFlags), OldUacValue = tostring(OldUacValue), OldValue = tostring(OldValue), OldValueType = tostring(OldValueType), OperationType = tostring(OperationType), PackageName = tostring(PackageName), ParentProcessName = tostring(ParentProcessName), PasswordHistoryLength = tostring(PasswordHistoryLength), PasswordLastSet = tostring(PasswordLastSet), PreviousDate = tostring(PreviousDate), NewDate = tostring(NewDate), ServiceName = tostring(ServiceName), ServiceType = tostring(ServiceType), TargetUserName = tostring(TargetUserName), TargetUserSid = tostring(TargetUserSid), TemplateContent = tostring(TemplateContent), TemplateDSObjectFQDN = tostring(TemplateDSObjectFQDN), TemplateInternalName = tostring(TemplateInternalName), TemplateOID = tostring(TemplateOID), TemplateSchemaVersion = tostring(TemplateSchemaVersion), TemplateVersion = tostring(TemplateVersion), TokenElevationType = tostring(TokenElevationType), TransmittedServices = tostring(TransmittedServices), UserAccountControl = tostring(UserAccountControl), UserParameters = tostring(UserParameters), UserPrincipalName = tostring(UserPrincipalName), UserWorkstations = tostring(UserWorkstations), VirtualAccount = tostring(VirtualAccount), VendorIds = tostring(VendorIds), Workstation = tostring(Workstation), WorkstationName = tostring(WorkstationName), SystemUserId = tostring(SystemUserId), Version = toint(Version), Opcode = tostring(Opcode), Keywords = tostring(Keywords), Correlation = tostring(Correlation), SystemProcessId = toint(SystemProcessId), SystemThreadId = toint(SystemThreadId), TargetUser = tostring(TargetUser), ServiceStartType = toint(ServiceStartType), TargetSid = tostring(TargetSid), TargetOutboundUserName = tostring(TargetOutboundUserName), SessionName = tostring(SessionName), ShareLocalPath = tostring(ShareLocalPath), ShareName = tostring(ShareName), SidHistory = tostring(SidHistory), Status = tostring(Status), SubjectAccount = tostring(SubjectAccount), SubcategoryGuid = toguid(SubcategoryGuid), SubcategoryId = tostring(SubcategoryId), Subject = tostring(Subject), SubjectDomainName = tostring(SubjectDomainName), SubjectKeyIdentifier = tostring(SubjectKeyIdentifier), SubjectLogonId = tostring(SubjectLogonId), SubjectMachineName = tostring(SubjectMachineName), SubjectMachineSID = tostring(SubjectMachineSID), SubjectUserName = tostring(SubjectUserName), SubjectUserSid = tostring(SubjectUserSid), SubStatus = tostring(SubStatus), TableId = tostring(TableId), TargetAccount = tostring(TargetAccount), TargetDomainName = tostring(TargetDomainName), TargetInfo = tostring(TargetInfo), TargetLinkedLogonId = tostring(TargetLinkedLogonId), TargetLogonGuid = toguid(TargetLogonGuid), TargetLogonId = tostring(TargetLogonId), TargetOutboundDomainName = tostring(TargetOutboundDomainName), TargetServerName = tostring(TargetServerName), NetworkPolicyName = tostring(NetworkPolicyName), NASPortType = tostring(NASPortType), NASPort = tostring(NASPort), AdditionalInfo = tostring(AdditionalInfo), AdditionalInfo2 = tostring(AdditionalInfo2), AllowedToDelegateTo = tostring(AllowedToDelegateTo), Attributes = tostring(Attributes), AuditPolicyChanges = tostring(AuditPolicyChanges), AuditsDiscarded = toint(AuditsDiscarded), AuthenticationLevel = toint(AuthenticationLevel), AuthenticationPackageName = tostring(AuthenticationPackageName), AuthenticationProvider = tostring(AuthenticationProvider), AuthenticationServer = tostring(AuthenticationServer), AuthenticationService = toint(AuthenticationService), AuthenticationType = tostring(AuthenticationType), CACertificateHash = tostring(CACertificateHash), CalledStationID = tostring(CalledStationID), CallerProcessId = tostring(CallerProcessId), CallerProcessName = tostring(CallerProcessName), CallingStationID = tostring(CallingStationID), CAPublicKeyHash = tostring(CAPublicKeyHash), CategoryId = tostring(CategoryId), CertificateDatabaseHash = tostring(CertificateDatabaseHash), ClassId = tostring(ClassId), ClassName = tostring(ClassName), ClientAddress = tostring(ClientAddress), ClientIPAddress = tostring(ClientIPAddress), ClientName = tostring(ClientName), AccountSessionIdentifier = tostring(AccountSessionIdentifier), CommandLine = tostring(CommandLine), AccountName = tostring(AccountName), AccountDomain = tostring(AccountDomain), SourceSystem = tostring(SourceSystem), Account = tostring(Account), AccountType = tostring(AccountType), Computer = tostring(Computer), EventSourceName = tostring(EventSourceName), Channel = tostring(Channel), Task = toint(Task), Level = tostring(Level), EventLevelName = tostring(EventLevelName), EventData = tostring(EventData), EventID = toint(EventID), Activity = tostring(Activity), SourceComputerId = toguid(SourceComputerId), EventOriginId = tostring(EventOriginId), MG = toguid(MG), TimeCollected = todatetime(TimeCollected), ManagementGroupName = tostring(ManagementGroupName), PartitionKey = tostring(PartitionKey), RowKey = tostring(RowKey), StorageAccount = tostring(StorageAccount), AzureDeploymentID = tostring(AzureDeploymentID), AzureTableName = tostring(AzureTableName), AccessList = tostring(AccessList), AccessMask = tostring(AccessMask), AccessReason = tostring(AccessReason), AccountExpires = tostring(AccountExpires), CompatibleIds = tostring(CompatibleIds), DCDNSName = tostring(DCDNSName), DeviceDescription = tostring(DeviceDescription), LmPackageName = tostring(LmPackageName), LocationInformation = tostring(LocationInformation), LockoutDuration = tostring(LockoutDuration), LockoutObservationWindow = tostring(LockoutObservationWindow), LockoutThreshold = tostring(LockoutThreshold), LoggingResult = tostring(LoggingResult), LogonGuid = toguid(LogonGuid), LogonHours = tostring(LogonHours), LogonID = tostring(LogonID), LogonProcessName = tostring(LogonProcessName), LogonType = toint(LogonType), LogonTypeName = tostring(LogonTypeName), MachineAccountQuota = tostring(MachineAccountQuota), MachineInventory = tostring(MachineInventory), MachineLogon = tostring(MachineLogon), MandatoryLabel = tostring(MandatoryLabel), MaxPasswordAge = tostring(MaxPasswordAge), MemberName = tostring(MemberName), MemberSid = tostring(MemberSid), MinPasswordAge = tostring(MinPasswordAge), MinPasswordLength = tostring(MinPasswordLength), MixedDomainMode = tostring(MixedDomainMode), NASIdentifier = tostring(NASIdentifier), NASIPv4Address = tostring(NASIPv4Address), NASIPv6Address = tostring(NASIPv6Address), KeyLength = toint(KeyLength), IpPort = tostring(IpPort), IpAddress = tostring(IpAddress), InterfaceUuid = toguid(InterfaceUuid), DeviceId = tostring(DeviceId), DisplayName = tostring(DisplayName), Disposition = tostring(Disposition), DomainBehaviorVersion = tostring(DomainBehaviorVersion), DomainName = tostring(DomainName), DomainPolicyChanged = tostring(DomainPolicyChanged), DomainSid = tostring(DomainSid), EAPType = tostring(EAPType), ElevatedToken = tostring(ElevatedToken), ErrorCode = toint(ErrorCode), ExtendedQuarantineState = tostring(ExtendedQuarantineState), FailureReason = tostring(FailureReason), EventRecordId = tostring(EventRecordId), FileHash = tostring(FileHash), FilePathNoUser = tostring(FilePathNoUser), Filter = tostring(Filter), ForceLogoff = tostring(ForceLogoff), Fqbn = tostring(Fqbn), FullyQualifiedSubjectMachineName = tostring(FullyQualifiedSubjectMachineName), FullyQualifiedSubjectUserName = tostring(FullyQualifiedSubjectUserName), GroupMembership = tostring(GroupMembership), HandleId = tostring(HandleId), HardwareIds = tostring(HardwareIds), HomeDirectory = tostring(HomeDirectory), HomePath = tostring(HomePath), ImpersonationLevel = tostring(ImpersonationLevel), FilePath = tostring(FilePath), _ResourceId = tostring(_ResourceId)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), PrimaryGroupId = tostring(PrimaryGroupId), PrivateKeyUsageCount = tostring(PrivateKeyUsageCount), PrivilegeList = tostring(PrivilegeList), Process = tostring(Process), ProcessId = tostring(ProcessId), ProcessName = tostring(ProcessName), Properties = tostring(Properties), ProfilePath = tostring(ProfilePath), ProtocolSequence = tostring(ProtocolSequence), ProxyPolicyName = tostring(ProxyPolicyName), QuarantineHelpURL = tostring(QuarantineHelpURL), QuarantineSessionID = tostring(QuarantineSessionID), QuarantineSessionIdentifier = tostring(QuarantineSessionIdentifier), QuarantineState = tostring(QuarantineState), QuarantineSystemHealthResult = tostring(QuarantineSystemHealthResult), RelativeTargetName = tostring(RelativeTargetName), RemoteIpAddress = tostring(RemoteIpAddress), RemotePort = tostring(RemotePort), Requester = tostring(Requester), RequestId = tostring(RequestId), RestrictedAdminMode = tostring(RestrictedAdminMode), RowsDeleted = tostring(RowsDeleted), SamAccountName = tostring(SamAccountName), ScriptPath = tostring(ScriptPath), SecurityDescriptor = tostring(SecurityDescriptor), PreviousTime = tostring(PreviousTime), ServiceAccount = tostring(ServiceAccount), PreviousDate = tostring(PreviousDate), PasswordLastSet = tostring(PasswordLastSet), NewDate = tostring(NewDate), NewMaxUsers = tostring(NewMaxUsers), NewProcessId = tostring(NewProcessId), NewProcessName = tostring(NewProcessName), NewRemark = tostring(NewRemark), NewShareFlags = tostring(NewShareFlags), NewTime = tostring(NewTime), NewUacValue = tostring(NewUacValue), NewValue = tostring(NewValue), NewValueType = tostring(NewValueType), ObjectName = tostring(ObjectName), ObjectServer = tostring(ObjectServer), ObjectType = tostring(ObjectType), ObjectValueName = tostring(ObjectValueName), OemInformation = tostring(OemInformation), OldMaxUsers = tostring(OldMaxUsers), OldRemark = tostring(OldRemark), OldShareFlags = tostring(OldShareFlags), OldUacValue = tostring(OldUacValue), OldValue = tostring(OldValue), OldValueType = tostring(OldValueType), OperationType = tostring(OperationType), PackageName = tostring(PackageName), ParentProcessName = tostring(ParentProcessName), PasswordHistoryLength = tostring(PasswordHistoryLength), PasswordProperties = tostring(PasswordProperties), NetworkPolicyName = tostring(NetworkPolicyName), ServiceFileName = tostring(ServiceFileName), ServiceStartType = toint(ServiceStartType), TargetUser = tostring(TargetUser), TargetUserName = tostring(TargetUserName), TargetUserSid = tostring(TargetUserSid), TemplateContent = tostring(TemplateContent), TemplateDSObjectFQDN = tostring(TemplateDSObjectFQDN), TemplateInternalName = tostring(TemplateInternalName), TemplateOID = tostring(TemplateOID), TemplateSchemaVersion = tostring(TemplateSchemaVersion), TemplateVersion = tostring(TemplateVersion), TokenElevationType = tostring(TokenElevationType), TransmittedServices = tostring(TransmittedServices), UserAccountControl = tostring(UserAccountControl), UserParameters = tostring(UserParameters), UserPrincipalName = tostring(UserPrincipalName), UserWorkstations = tostring(UserWorkstations), VirtualAccount = tostring(VirtualAccount), VendorIds = tostring(VendorIds), Workstation = tostring(Workstation), WorkstationName = tostring(WorkstationName), SystemUserId = tostring(SystemUserId), Version = toint(Version), Opcode = tostring(Opcode), Keywords = tostring(Keywords), Correlation = tostring(Correlation), SystemProcessId = toint(SystemProcessId), TargetSid = tostring(TargetSid), ServiceName = tostring(ServiceName), TargetServerName = tostring(TargetServerName), TargetOutboundDomainName = tostring(TargetOutboundDomainName), ServiceType = tostring(ServiceType), SessionName = tostring(SessionName), ShareLocalPath = tostring(ShareLocalPath), ShareName = tostring(ShareName), SidHistory = tostring(SidHistory), Status = tostring(Status), SubjectAccount = tostring(SubjectAccount), SubcategoryGuid = toguid(SubcategoryGuid), SubcategoryId = tostring(SubcategoryId), Subject = tostring(Subject), SubjectDomainName = tostring(SubjectDomainName), SubjectKeyIdentifier = tostring(SubjectKeyIdentifier), SubjectLogonId = tostring(SubjectLogonId), SubjectMachineName = tostring(SubjectMachineName), SubjectMachineSID = tostring(SubjectMachineSID), SubjectUserName = tostring(SubjectUserName), SubjectUserSid = tostring(SubjectUserSid), SubStatus = tostring(SubStatus), TableId = tostring(TableId), TargetAccount = tostring(TargetAccount), TargetDomainName = tostring(TargetDomainName), TargetInfo = tostring(TargetInfo), TargetLinkedLogonId = tostring(TargetLinkedLogonId), TargetLogonGuid = toguid(TargetLogonGuid), TargetLogonId = tostring(TargetLogonId), TargetOutboundUserName = tostring(TargetOutboundUserName), SystemThreadId = toint(SystemThreadId), NASPortType = tostring(NASPortType), NASIPv6Address = tostring(NASIPv6Address), AdditionalInfo = tostring(AdditionalInfo), AdditionalInfo2 = tostring(AdditionalInfo2), AllowedToDelegateTo = tostring(AllowedToDelegateTo), Attributes = tostring(Attributes), AuditPolicyChanges = tostring(AuditPolicyChanges), AuditsDiscarded = toint(AuditsDiscarded), AuthenticationLevel = toint(AuthenticationLevel), AuthenticationPackageName = tostring(AuthenticationPackageName), AuthenticationProvider = tostring(AuthenticationProvider), AuthenticationServer = tostring(AuthenticationServer), AuthenticationService = toint(AuthenticationService), AuthenticationType = tostring(AuthenticationType), CACertificateHash = tostring(CACertificateHash), CalledStationID = tostring(CalledStationID), CallerProcessId = tostring(CallerProcessId), CallerProcessName = tostring(CallerProcessName), CallingStationID = tostring(CallingStationID), CAPublicKeyHash = tostring(CAPublicKeyHash), CategoryId = tostring(CategoryId), CertificateDatabaseHash = tostring(CertificateDatabaseHash), ClassId = tostring(ClassId), ClassName = tostring(ClassName), ClientAddress = tostring(ClientAddress), ClientIPAddress = tostring(ClientIPAddress), ClientName = tostring(ClientName), AccountSessionIdentifier = tostring(AccountSessionIdentifier), CommandLine = tostring(CommandLine), AccountName = tostring(AccountName), AccountDomain = tostring(AccountDomain), SourceSystem = tostring(SourceSystem), Account = tostring(Account), AccountType = tostring(AccountType), Computer = tostring(Computer), EventSourceName = tostring(EventSourceName), Channel = tostring(Channel), Task = toint(Task), Level = tostring(Level), EventLevelName = tostring(EventLevelName), EventData = tostring(EventData), EventID = toint(EventID), Activity = tostring(Activity), SourceComputerId = toguid(SourceComputerId), EventOriginId = tostring(EventOriginId), MG = toguid(MG), TimeCollected = todatetime(TimeCollected), ManagementGroupName = tostring(ManagementGroupName), PartitionKey = tostring(PartitionKey), RowKey = tostring(RowKey), StorageAccount = tostring(StorageAccount), AzureDeploymentID = tostring(AzureDeploymentID), AzureTableName = tostring(AzureTableName), AccessList = tostring(AccessList), AccessMask = tostring(AccessMask), AccessReason = tostring(AccessReason), AccountExpires = tostring(AccountExpires), NASPort = tostring(NASPort), CompatibleIds = tostring(CompatibleIds), DeviceDescription = tostring(DeviceDescription), KeyLength = toint(KeyLength), LmPackageName = tostring(LmPackageName), LocationInformation = tostring(LocationInformation), LockoutDuration = tostring(LockoutDuration), LockoutObservationWindow = tostring(LockoutObservationWindow), LockoutThreshold = tostring(LockoutThreshold), LoggingResult = tostring(LoggingResult), LogonGuid = toguid(LogonGuid), LogonHours = tostring(LogonHours), LogonID = tostring(LogonID), LogonProcessName = tostring(LogonProcessName), LogonType = toint(LogonType), LogonTypeName = tostring(LogonTypeName), MachineAccountQuota = tostring(MachineAccountQuota), MachineInventory = tostring(MachineInventory), MachineLogon = tostring(MachineLogon), MandatoryLabel = tostring(MandatoryLabel), MaxPasswordAge = tostring(MaxPasswordAge), MemberName = tostring(MemberName), MemberSid = tostring(MemberSid), MinPasswordAge = tostring(MinPasswordAge), MinPasswordLength = tostring(MinPasswordLength), MixedDomainMode = tostring(MixedDomainMode), NASIdentifier = tostring(NASIdentifier), NASIPv4Address = tostring(NASIPv4Address), IpPort = tostring(IpPort), DCDNSName = tostring(DCDNSName), IpAddress = tostring(IpAddress), ImpersonationLevel = tostring(ImpersonationLevel), DeviceId = tostring(DeviceId), DisplayName = tostring(DisplayName), Disposition = tostring(Disposition), DomainBehaviorVersion = tostring(DomainBehaviorVersion), DomainName = tostring(DomainName), DomainPolicyChanged = tostring(DomainPolicyChanged), DomainSid = tostring(DomainSid), EAPType = tostring(EAPType), ElevatedToken = tostring(ElevatedToken), ErrorCode = toint(ErrorCode), ExtendedQuarantineState = tostring(ExtendedQuarantineState), FailureReason = tostring(FailureReason), FileHash = tostring(FileHash), FilePath = tostring(FilePath), FilePathNoUser = tostring(FilePathNoUser), Filter = tostring(Filter), ForceLogoff = tostring(ForceLogoff), Fqbn = tostring(Fqbn), FullyQualifiedSubjectMachineName = tostring(FullyQualifiedSubjectMachineName), FullyQualifiedSubjectUserName = tostring(FullyQualifiedSubjectUserName), GroupMembership = tostring(GroupMembership), HandleId = tostring(HandleId), HardwareIds = tostring(HardwareIds), HomeDirectory = tostring(HomeDirectory), HomePath = tostring(HomePath), InterfaceUuid = toguid(InterfaceUuid), EventRecordId = tostring(EventRecordId)'
         outputStream: 'Microsoft-SecurityEvent'
       }
     ]

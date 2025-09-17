@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_ssl_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:51
+// Generated: 2025-09-18 08:37:25
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 23, DCR columns: 23 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 23, DCR columns: 20 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_ssl_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -36,7 +36,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: '_path_s'
+            name: 'ts_t'
             type: 'string'
           }
           {
@@ -68,11 +68,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'server_name_s'
+            name: 'sni_matches_cert_b'
             type: 'string'
           }
           {
-            name: 'curve_s'
+            name: 'server_name_s'
             type: 'string'
           }
           {
@@ -104,19 +104,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ts_t'
-            type: 'string'
-          }
-          {
-            name: '_write_ts_t'
-            type: 'string'
-          }
-          {
-            name: '_system_name_s'
-            type: 'string'
-          }
-          {
-            name: 'sni_matches_cert_b'
+            name: 'curve_s'
             type: 'string'
           }
           {
@@ -139,7 +127,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_ssl_CL']
         destinations: ['Sentinel-Corelight_v2_ssl_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), client_cert_chain_fps_s = tostring(client_cert_chain_fps_s), cert_chain_fps_s = tostring(cert_chain_fps_s), ssl_history_s = tostring(ssl_history_s), established_b = tobool(established_b), next_protocol_s = tostring(next_protocol_s), last_alert_s = tostring(last_alert_s), resumed_b = tobool(resumed_b), server_name_s = tostring(server_name_s), curve_s = tostring(curve_s), cipher_s = tostring(cipher_s), version_s = tostring(version_s), id_resp_p_d = toreal(id_resp_p_d), id_resp_h_s = tostring(id_resp_h_s), id_orig_p_d = toreal(id_orig_p_d), id_orig_h_s = tostring(id_orig_h_s), uid_s = tostring(uid_s), ts_t = todatetime(ts_t), _write_ts_t = todatetime(_write_ts_t), _system_name_s = tostring(_system_name_s), sni_matches_cert_b = tobool(sni_matches_cert_b), validation_status_s = tostring(validation_status_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), client_cert_chain_fps_s = tostring(client_cert_chain_fps_s), cert_chain_fps_s = tostring(cert_chain_fps_s), ssl_history_s = tostring(ssl_history_s), established_b = tobool(established_b), next_protocol_s = tostring(next_protocol_s), last_alert_s = tostring(last_alert_s), resumed_b = tobool(resumed_b), sni_matches_cert_b = tobool(sni_matches_cert_b), server_name_s = tostring(server_name_s), cipher_s = tostring(cipher_s), version_s = tostring(version_s), id_resp_p_d = toreal(id_resp_p_d), id_resp_h_s = tostring(id_resp_h_s), id_orig_p_d = toreal(id_orig_p_d), id_orig_h_s = tostring(id_orig_h_s), uid_s = tostring(uid_s), curve_s = tostring(curve_s), validation_status_s = tostring(validation_status_s)'
         outputStream: 'Custom-Corelight_v2_ssl_CL'
       }
     ]

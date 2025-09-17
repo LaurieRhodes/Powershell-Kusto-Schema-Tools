@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for ApacheHTTPServer_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:41
+// Generated: 2025-09-18 08:37:13
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 8, DCR columns: 7 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 8, DCR columns: 5 (Type column always filtered)
 // Output stream: Custom-ApacheHTTPServer_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -51,14 +51,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             name: 'ItemId'
             type: 'string'
           }
-          {
-            name: '_ResourceId'
-            type: 'string'
-          }
-          {
-            name: '_ItemId'
-            type: 'string'
-          }
         ]
       }
     }
@@ -75,7 +67,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-ApacheHTTPServer_CL']
         destinations: ['Sentinel-ApacheHTTPServer_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), RawData = tostring(RawData), Computer = tostring(Computer), ResourceId = tostring(ResourceId), ItemId = tostring(ItemId), _ResourceId = tostring(_ResourceId), _ItemId = tostring(_ItemId)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), RawData = tostring(RawData), Computer = tostring(Computer), ResourceId = tostring(ResourceId), ItemId = tostring(ItemId)'
         outputStream: 'Custom-ApacheHTTPServer_CL'
       }
     ]

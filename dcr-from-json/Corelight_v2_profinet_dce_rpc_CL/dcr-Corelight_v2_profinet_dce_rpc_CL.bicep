@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_profinet_dce_rpc_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:50
+// Generated: 2025-09-18 08:37:24
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 17, DCR columns: 17 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 17, DCR columns: 14 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_profinet_dce_rpc_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -33,18 +33,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
         columns: [
           {
             name: 'TimeGenerated'
-            type: 'string'
-          }
-          {
-            name: '_path_s'
-            type: 'string'
-          }
-          {
-            name: '_system_name_s'
-            type: 'string'
-          }
-          {
-            name: '_write_ts_t'
             type: 'string'
           }
           {
@@ -115,7 +103,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_profinet_dce_rpc_CL']
         destinations: ['Sentinel-Corelight_v2_profinet_dce_rpc_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), _system_name_s = tostring(_system_name_s), _write_ts_t = todatetime(_write_ts_t), ts_t = todatetime(ts_t), uid_s = tostring(uid_s), id_orig_h_s = tostring(id_orig_h_s), id_orig_p_d = toreal(id_orig_p_d), id_resp_h_s = tostring(id_resp_h_s), id_resp_p_d = toreal(id_resp_p_d), version_d = toreal(version_d), packet_type_d = toreal(packet_type_d), object_uuid_s = tostring(object_uuid_s), interface_uuid_s = tostring(interface_uuid_s), activity_uuid_s = tostring(activity_uuid_s), server_boot_time_d = toreal(server_boot_time_d), operation_s = tostring(operation_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), uid_s = tostring(uid_s), id_orig_h_s = tostring(id_orig_h_s), id_orig_p_d = toreal(id_orig_p_d), id_resp_h_s = tostring(id_resp_h_s), id_resp_p_d = toreal(id_resp_p_d), version_d = toreal(version_d), packet_type_d = toreal(packet_type_d), object_uuid_s = tostring(object_uuid_s), interface_uuid_s = tostring(interface_uuid_s), activity_uuid_s = tostring(activity_uuid_s), server_boot_time_d = toreal(server_boot_time_d), operation_s = tostring(operation_s)'
         outputStream: 'Custom-Corelight_v2_profinet_dce_rpc_CL'
       }
     ]

@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Rubrik_Ransomware_Data_CL
 // ============================================================================
-// Generated: 2025-09-17 06:21:01
+// Generated: 2025-09-18 08:37:35
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 20, DCR columns: 19 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 20, DCR columns: 18 (Type column always filtered)
 // Output stream: Custom-Rubrik_Ransomware_Data_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -37,10 +37,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
-            type: 'string'
-          }
-          {
-            name: 'custom_details_status_s'
             type: 'string'
           }
           {
@@ -68,11 +64,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'source_s'
+            name: 'custom_details_status_s'
             type: 'string'
           }
           {
-            name: 'summary_s'
+            name: 'source_s'
             type: 'string'
           }
           {
@@ -100,11 +96,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'custom_details_clusterId_g'
+            name: 'summary_s'
             type: 'string'
           }
           {
-            name: '_ResourceId'
+            name: 'custom_details_clusterId_g'
             type: 'string'
           }
         ]
@@ -123,7 +119,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Rubrik_Ransomware_Data_CL']
         destinations: ['Sentinel-Rubrik_Ransomware_Data_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), custom_details_status_s = tostring(custom_details_status_s), custom_details_objectType_s = tostring(custom_details_objectType_s), custom_details_objectName_s = tostring(custom_details_objectName_s), custom_details_type_s = tostring(custom_details_type_s), custom_details_id_g = tostring(custom_details_id_g), class_s = tostring(class_s), severity_s = tostring(severity_s), source_s = tostring(source_s), summary_s = tostring(summary_s), custom_details_objectId_g = tostring(custom_details_objectId_g), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), custom_details_clusterId_g = tostring(custom_details_clusterId_g), _ResourceId = tostring(_ResourceId)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), custom_details_objectType_s = tostring(custom_details_objectType_s), custom_details_objectName_s = tostring(custom_details_objectName_s), custom_details_type_s = tostring(custom_details_type_s), custom_details_id_g = tostring(custom_details_id_g), class_s = tostring(class_s), severity_s = tostring(severity_s), custom_details_status_s = tostring(custom_details_status_s), source_s = tostring(source_s), custom_details_objectId_g = tostring(custom_details_objectId_g), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), summary_s = tostring(summary_s), custom_details_clusterId_g = tostring(custom_details_clusterId_g)'
         outputStream: 'Custom-Rubrik_Ransomware_Data_CL'
       }
     ]

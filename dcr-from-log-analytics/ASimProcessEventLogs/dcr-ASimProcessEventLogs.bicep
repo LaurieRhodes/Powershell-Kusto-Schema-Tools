@@ -12,13 +12,13 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for ASimProcessEventLogs
 // ============================================================================
-// Generated: 2025-09-17 08:12:42
+// Generated: 2025-09-18 07:50:09
 // Table type: Microsoft
 // Schema discovered using hybrid approach (Management API + getschema)
-// Underscore columns included
-// Original columns: 138, DCR columns: 137 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 138, DCR columns: 136 (Type column always filtered)
 // Input stream: Custom-ASimProcessEventLogs (always Custom- for JSON ingestion)
-// Output stream: Custom-ASimProcessEventLogs (based on table type)
+// Output stream: Microsoft-ASimProcessEventLogs (based on table type)
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
 
@@ -38,10 +38,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
-            type: 'string'
-          }
-          {
-            name: 'TargetProcessFileCompany'
             type: 'string'
           }
           {
@@ -97,15 +93,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'TargetProcessFileDescription'
-            type: 'string'
-          }
-          {
             name: 'ParentProcessIsHidden'
             type: 'string'
           }
           {
-            name: 'ParentProcessFileProduct'
+            name: 'TargetProcessFileCompany'
+            type: 'string'
+          }
+          {
+            name: 'ParentProcessFileVersion'
             type: 'string'
           }
           {
@@ -161,23 +157,23 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ParentProcessFileVersion'
-            type: 'string'
-          }
-          {
             name: 'ActingProcessId'
             type: 'string'
           }
           {
-            name: 'TargetProcessFileProduct'
+            name: 'ParentProcessFileProduct'
             type: 'string'
           }
           {
-            name: 'TargetProcessFileInternalName'
+            name: 'ActingProcessInjectedAddress'
             type: 'string'
           }
           {
-            name: 'ThreatLastReportedTime'
+            name: 'TargetProcessFileDescription'
+            type: 'string'
+          }
+          {
+            name: 'TargetProcessFileVersion'
             type: 'string'
           }
           {
@@ -233,15 +229,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'TargetProcessFileVersion'
-            type: 'string'
-          }
-          {
             name: 'TargetProcessCurrentDirectory'
             type: 'string'
           }
           {
-            name: 'TargetProcessTokenElevation'
+            name: 'TargetProcessFileProduct'
+            type: 'string'
+          }
+          {
+            name: 'TargetProcessFileSize'
             type: 'string'
           }
           {
@@ -297,11 +293,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'TargetProcessFileSize'
+            name: 'TargetProcessFileInternalName'
             type: 'string'
           }
           {
-            name: 'ActingProcessInjectedAddress'
+            name: 'TargetProcessTokenElevation'
+            type: 'string'
+          }
+          {
+            name: 'ThreatLastReportedTime'
             type: 'string'
           }
           {
@@ -309,7 +309,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ActingProcessFilename'
+            name: 'ActingProcessFileOriginalName'
             type: 'string'
           }
           {
@@ -437,19 +437,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
+            name: 'ActingProcessFilename'
+            type: 'string'
+          }
+          {
             name: 'DvcOs'
             type: 'string'
           }
           {
-            name: 'DvcOsVersion'
-            type: 'string'
-          }
-          {
             name: 'DvcAction'
-            type: 'string'
-          }
-          {
-            name: 'ActingProcessFileOriginalName'
             type: 'string'
           }
           {
@@ -509,63 +505,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
+            name: 'DvcOsVersion'
+            type: 'string'
+          }
+          {
             name: 'TargetScopeId'
-            type: 'string'
-          }
-          {
-            name: 'TargetUserIdType'
-            type: 'string'
-          }
-          {
-            name: 'DvcOriginalAction'
-            type: 'string'
-          }
-          {
-            name: 'DvcInterface'
-            type: 'string'
-          }
-          {
-            name: 'DvcScopeId'
-            type: 'string'
-          }
-          {
-            name: 'DvcScope'
-            type: 'string'
-          }
-          {
-            name: 'ActorUserId'
-            type: 'string'
-          }
-          {
-            name: 'ActorUserIdType'
-            type: 'string'
-          }
-          {
-            name: 'SourceSystem'
-            type: 'string'
-          }
-          {
-            name: 'ActorScopeId'
-            type: 'string'
-          }
-          {
-            name: 'ActorUsername'
-            type: 'string'
-          }
-          {
-            name: 'ActorUsernameType'
-            type: 'string'
-          }
-          {
-            name: 'ActorUserType'
-            type: 'string'
-          }
-          {
-            name: 'ActorOriginalUserType'
-            type: 'string'
-          }
-          {
-            name: 'ActorSessionId'
             type: 'string'
           }
           {
@@ -573,11 +517,63 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
+            name: 'ActorSessionId'
+            type: 'string'
+          }
+          {
+            name: 'ActorOriginalUserType'
+            type: 'string'
+          }
+          {
+            name: 'ActorUserType'
+            type: 'string'
+          }
+          {
+            name: 'ActorUsernameType'
+            type: 'string'
+          }
+          {
+            name: 'ActorUsername'
+            type: 'string'
+          }
+          {
             name: 'ActorScope'
             type: 'string'
           }
           {
-            name: '_ResourceId'
+            name: 'ActorScopeId'
+            type: 'string'
+          }
+          {
+            name: 'ActorUserIdType'
+            type: 'string'
+          }
+          {
+            name: 'ActorUserId'
+            type: 'string'
+          }
+          {
+            name: 'DvcScope'
+            type: 'string'
+          }
+          {
+            name: 'DvcScopeId'
+            type: 'string'
+          }
+          {
+            name: 'DvcInterface'
+            type: 'string'
+          }
+          {
+            name: 'DvcOriginalAction'
+            type: 'string'
+          }
+          {
+            name: 'TargetUserIdType'
+            type: 'string'
+          }
+          {
+            name: 'SourceSystem'
             type: 'string'
           }
         ]
@@ -596,8 +592,8 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-ASimProcessEventLogs']
         destinations: ['Sentinel-ASimProcessEventLogs']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), TargetProcessFileCompany = tostring(TargetProcessFileCompany), TargetProcessName = tostring(TargetProcessName), TargetProcessCommandLine = tostring(TargetProcessCommandLine), ParentProcessTokenElevation = tostring(ParentProcessTokenElevation), ParentProcessCreationTime = todatetime(ParentProcessCreationTime), ParentProcessIMPHASH = tostring(ParentProcessIMPHASH), ParentProcessSHA512 = tostring(ParentProcessSHA512), ParentProcessSHA256 = tostring(ParentProcessSHA256), ParentProcessSHA1 = tostring(ParentProcessSHA1), ParentProcessMD5 = tostring(ParentProcessMD5), ParentProcessIntegrityLevel = tostring(ParentProcessIntegrityLevel), ParentProcessGuid = tostring(ParentProcessGuid), ParentProcessId = tostring(ParentProcessId), ParentProcessInjectedAddress = tostring(ParentProcessInjectedAddress), TargetProcessFileDescription = tostring(TargetProcessFileDescription), ParentProcessIsHidden = tobool(ParentProcessIsHidden), ParentProcessFileProduct = tostring(ParentProcessFileProduct), ParentProcessFileDescription = tostring(ParentProcessFileDescription), ParentProcessFileCompany = tostring(ParentProcessFileCompany), ParentProcessName = tostring(ParentProcessName), ActingProcessFileSize = tolong(ActingProcessFileSize), ActingProcessTokenElevation = tostring(ActingProcessTokenElevation), ActingProcessCreationTime = todatetime(ActingProcessCreationTime), ActingProcessIMPHASH = tostring(ActingProcessIMPHASH), ActingProcessSHA512 = tostring(ActingProcessSHA512), ActingProcessSHA256 = tostring(ActingProcessSHA256), ActingProcessSHA1 = tostring(ActingProcessSHA1), ActingProcessMD5 = tostring(ActingProcessMD5), ActingProcessIntegrityLevel = tostring(ActingProcessIntegrityLevel), ActingProcessGuid = tostring(ActingProcessGuid), ParentProcessFileVersion = tostring(ParentProcessFileVersion), ActingProcessId = tostring(ActingProcessId), TargetProcessFileProduct = tostring(TargetProcessFileProduct), TargetProcessFileInternalName = tostring(TargetProcessFileInternalName), ThreatLastReportedTime = todatetime(ThreatLastReportedTime), ThreatFirstReportedTime = todatetime(ThreatFirstReportedTime), ThreatIsActive = tobool(ThreatIsActive), ThreatOriginalConfidence = tostring(ThreatOriginalConfidence), ThreatConfidence = toint(ThreatConfidence), ThreatField = tostring(ThreatField), ThreatOriginalRiskLevel = tostring(ThreatOriginalRiskLevel), ThreatRiskLevel = toint(ThreatRiskLevel), ThreatCategory = tostring(ThreatCategory), ThreatName = tostring(ThreatName), ThreatId = tostring(ThreatId), RuleNumber = toint(RuleNumber), RuleName = tostring(RuleName), TargetProcessStatusCode = tostring(TargetProcessStatusCode), TargetProcessFileVersion = tostring(TargetProcessFileVersion), TargetProcessCurrentDirectory = tostring(TargetProcessCurrentDirectory), TargetProcessTokenElevation = tostring(TargetProcessTokenElevation), TargetProcessCreationTime = todatetime(TargetProcessCreationTime), TargetProcessIMPHASH = tostring(TargetProcessIMPHASH), TargetProcessSHA512 = tostring(TargetProcessSHA512), TargetProcessSHA256 = tostring(TargetProcessSHA256), TargetProcessSHA1 = tostring(TargetProcessSHA1), TargetProcessMD5 = tostring(TargetProcessMD5), TargetProcessIntegrityLevel = tostring(TargetProcessIntegrityLevel), TargetProcessGuid = tostring(TargetProcessGuid), TargetProcessId = tostring(TargetProcessId), TargetProcessInjectedAddress = tostring(TargetProcessInjectedAddress), TargetProcessIsHidden = tobool(TargetProcessIsHidden), TargetProcessFilename = tostring(TargetProcessFilename), TargetProcessFileOriginalName = tostring(TargetProcessFileOriginalName), TargetProcessFileSize = tolong(TargetProcessFileSize), ActingProcessInjectedAddress = tostring(ActingProcessInjectedAddress), ActingProcessIsHidden = tobool(ActingProcessIsHidden), ActingProcessFilename = tostring(ActingProcessFilename), DvcMacAddr = tostring(DvcMacAddr), DvcIdType = tostring(DvcIdType), DvcId = tostring(DvcId), DvcDescription = tostring(DvcDescription), DvcFQDN = tostring(DvcFQDN), DvcDomainType = tostring(DvcDomainType), DvcDomain = tostring(DvcDomain), DvcHostname = tostring(DvcHostname), DvcIpAddr = tostring(DvcIpAddr), EventReportUrl = tostring(EventReportUrl), EventOwner = tostring(EventOwner), EventSchemaVersion = tostring(EventSchemaVersion), EventVendor = tostring(EventVendor), EventProductVersion = tostring(EventProductVersion), DvcZone = tostring(DvcZone), EventProduct = tostring(EventProduct), EventSeverity = tostring(EventSeverity), EventOriginalResultDetails = tostring(EventOriginalResultDetails), EventOriginalSubType = tostring(EventOriginalSubType), EventOriginalType = tostring(EventOriginalType), EventOriginalUid = tostring(EventOriginalUid), EventResultDetails = tostring(EventResultDetails), EventResult = tostring(EventResult), EventSubType = tostring(EventSubType), EventType = tostring(EventType), EventEndTime = todatetime(EventEndTime), EventStartTime = todatetime(EventStartTime), EventCount = toint(EventCount), EventMessage = tostring(EventMessage), AdditionalFields = todynamic(AdditionalFields), EventOriginalSeverity = tostring(EventOriginalSeverity), DvcOs = tostring(DvcOs), DvcOsVersion = tostring(DvcOsVersion), DvcAction = tostring(DvcAction), ActingProcessFileOriginalName = tostring(ActingProcessFileOriginalName), ActingProcessFileInternalName = tostring(ActingProcessFileInternalName), ActingProcessFileVersion = tostring(ActingProcessFileVersion), ActingProcessFileProduct = tostring(ActingProcessFileProduct), ActingProcessFileDescription = tostring(ActingProcessFileDescription), ActingProcessFileCompany = tostring(ActingProcessFileCompany), ActingProcessName = tostring(ActingProcessName), ActingProcessCommandLine = tostring(ActingProcessCommandLine), TargetUserSessionGuid = tostring(TargetUserSessionGuid), TargetUserSessionId = tostring(TargetUserSessionId), TargetOriginalUserType = tostring(TargetOriginalUserType), TargetUserType = tostring(TargetUserType), TargetUsernameType = tostring(TargetUsernameType), TargetUsername = tostring(TargetUsername), TargetScope = tostring(TargetScope), TargetScopeId = tostring(TargetScopeId), TargetUserIdType = tostring(TargetUserIdType), DvcOriginalAction = tostring(DvcOriginalAction), DvcInterface = tostring(DvcInterface), DvcScopeId = tostring(DvcScopeId), DvcScope = tostring(DvcScope), ActorUserId = tostring(ActorUserId), ActorUserIdType = tostring(ActorUserIdType), SourceSystem = tostring(SourceSystem), ActorScopeId = tostring(ActorScopeId), ActorUsername = tostring(ActorUsername), ActorUsernameType = tostring(ActorUsernameType), ActorUserType = tostring(ActorUserType), ActorOriginalUserType = tostring(ActorOriginalUserType), ActorSessionId = tostring(ActorSessionId), TargetUserId = tostring(TargetUserId), ActorScope = tostring(ActorScope), _ResourceId = tostring(_ResourceId)'
-        outputStream: 'Custom-ASimProcessEventLogs'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), TargetProcessName = tostring(TargetProcessName), TargetProcessCommandLine = tostring(TargetProcessCommandLine), ParentProcessTokenElevation = tostring(ParentProcessTokenElevation), ParentProcessCreationTime = todatetime(ParentProcessCreationTime), ParentProcessIMPHASH = tostring(ParentProcessIMPHASH), ParentProcessSHA512 = tostring(ParentProcessSHA512), ParentProcessSHA256 = tostring(ParentProcessSHA256), ParentProcessSHA1 = tostring(ParentProcessSHA1), ParentProcessMD5 = tostring(ParentProcessMD5), ParentProcessIntegrityLevel = tostring(ParentProcessIntegrityLevel), ParentProcessGuid = tostring(ParentProcessGuid), ParentProcessId = tostring(ParentProcessId), ParentProcessInjectedAddress = tostring(ParentProcessInjectedAddress), ParentProcessIsHidden = tobool(ParentProcessIsHidden), TargetProcessFileCompany = tostring(TargetProcessFileCompany), ParentProcessFileVersion = tostring(ParentProcessFileVersion), ParentProcessFileDescription = tostring(ParentProcessFileDescription), ParentProcessFileCompany = tostring(ParentProcessFileCompany), ParentProcessName = tostring(ParentProcessName), ActingProcessFileSize = tolong(ActingProcessFileSize), ActingProcessTokenElevation = tostring(ActingProcessTokenElevation), ActingProcessCreationTime = todatetime(ActingProcessCreationTime), ActingProcessIMPHASH = tostring(ActingProcessIMPHASH), ActingProcessSHA512 = tostring(ActingProcessSHA512), ActingProcessSHA256 = tostring(ActingProcessSHA256), ActingProcessSHA1 = tostring(ActingProcessSHA1), ActingProcessMD5 = tostring(ActingProcessMD5), ActingProcessIntegrityLevel = tostring(ActingProcessIntegrityLevel), ActingProcessGuid = tostring(ActingProcessGuid), ActingProcessId = tostring(ActingProcessId), ParentProcessFileProduct = tostring(ParentProcessFileProduct), ActingProcessInjectedAddress = tostring(ActingProcessInjectedAddress), TargetProcessFileDescription = tostring(TargetProcessFileDescription), TargetProcessFileVersion = tostring(TargetProcessFileVersion), ThreatFirstReportedTime = todatetime(ThreatFirstReportedTime), ThreatIsActive = tobool(ThreatIsActive), ThreatOriginalConfidence = tostring(ThreatOriginalConfidence), ThreatConfidence = toint(ThreatConfidence), ThreatField = tostring(ThreatField), ThreatOriginalRiskLevel = tostring(ThreatOriginalRiskLevel), ThreatRiskLevel = toint(ThreatRiskLevel), ThreatCategory = tostring(ThreatCategory), ThreatName = tostring(ThreatName), ThreatId = tostring(ThreatId), RuleNumber = toint(RuleNumber), RuleName = tostring(RuleName), TargetProcessStatusCode = tostring(TargetProcessStatusCode), TargetProcessCurrentDirectory = tostring(TargetProcessCurrentDirectory), TargetProcessFileProduct = tostring(TargetProcessFileProduct), TargetProcessFileSize = tolong(TargetProcessFileSize), TargetProcessCreationTime = todatetime(TargetProcessCreationTime), TargetProcessIMPHASH = tostring(TargetProcessIMPHASH), TargetProcessSHA512 = tostring(TargetProcessSHA512), TargetProcessSHA256 = tostring(TargetProcessSHA256), TargetProcessSHA1 = tostring(TargetProcessSHA1), TargetProcessMD5 = tostring(TargetProcessMD5), TargetProcessIntegrityLevel = tostring(TargetProcessIntegrityLevel), TargetProcessGuid = tostring(TargetProcessGuid), TargetProcessId = tostring(TargetProcessId), TargetProcessInjectedAddress = tostring(TargetProcessInjectedAddress), TargetProcessIsHidden = tobool(TargetProcessIsHidden), TargetProcessFilename = tostring(TargetProcessFilename), TargetProcessFileOriginalName = tostring(TargetProcessFileOriginalName), TargetProcessFileInternalName = tostring(TargetProcessFileInternalName), TargetProcessTokenElevation = tostring(TargetProcessTokenElevation), ThreatLastReportedTime = todatetime(ThreatLastReportedTime), ActingProcessIsHidden = tobool(ActingProcessIsHidden), ActingProcessFileOriginalName = tostring(ActingProcessFileOriginalName), DvcMacAddr = tostring(DvcMacAddr), DvcIdType = tostring(DvcIdType), DvcId = tostring(DvcId), DvcDescription = tostring(DvcDescription), DvcFQDN = tostring(DvcFQDN), DvcDomainType = tostring(DvcDomainType), DvcDomain = tostring(DvcDomain), DvcHostname = tostring(DvcHostname), DvcIpAddr = tostring(DvcIpAddr), EventReportUrl = tostring(EventReportUrl), EventOwner = tostring(EventOwner), EventSchemaVersion = tostring(EventSchemaVersion), EventVendor = tostring(EventVendor), EventProductVersion = tostring(EventProductVersion), DvcZone = tostring(DvcZone), EventProduct = tostring(EventProduct), EventSeverity = tostring(EventSeverity), EventOriginalResultDetails = tostring(EventOriginalResultDetails), EventOriginalSubType = tostring(EventOriginalSubType), EventOriginalType = tostring(EventOriginalType), EventOriginalUid = tostring(EventOriginalUid), EventResultDetails = tostring(EventResultDetails), EventResult = tostring(EventResult), EventSubType = tostring(EventSubType), EventType = tostring(EventType), EventEndTime = todatetime(EventEndTime), EventStartTime = todatetime(EventStartTime), EventCount = toint(EventCount), EventMessage = tostring(EventMessage), AdditionalFields = todynamic(AdditionalFields), EventOriginalSeverity = tostring(EventOriginalSeverity), ActingProcessFilename = tostring(ActingProcessFilename), DvcOs = tostring(DvcOs), DvcAction = tostring(DvcAction), ActingProcessFileInternalName = tostring(ActingProcessFileInternalName), ActingProcessFileVersion = tostring(ActingProcessFileVersion), ActingProcessFileProduct = tostring(ActingProcessFileProduct), ActingProcessFileDescription = tostring(ActingProcessFileDescription), ActingProcessFileCompany = tostring(ActingProcessFileCompany), ActingProcessName = tostring(ActingProcessName), ActingProcessCommandLine = tostring(ActingProcessCommandLine), TargetUserSessionGuid = tostring(TargetUserSessionGuid), TargetUserSessionId = tostring(TargetUserSessionId), TargetOriginalUserType = tostring(TargetOriginalUserType), TargetUserType = tostring(TargetUserType), TargetUsernameType = tostring(TargetUsernameType), TargetUsername = tostring(TargetUsername), TargetScope = tostring(TargetScope), DvcOsVersion = tostring(DvcOsVersion), TargetScopeId = tostring(TargetScopeId), TargetUserId = tostring(TargetUserId), ActorSessionId = tostring(ActorSessionId), ActorOriginalUserType = tostring(ActorOriginalUserType), ActorUserType = tostring(ActorUserType), ActorUsernameType = tostring(ActorUsernameType), ActorUsername = tostring(ActorUsername), ActorScope = tostring(ActorScope), ActorScopeId = tostring(ActorScopeId), ActorUserIdType = tostring(ActorUserIdType), ActorUserId = tostring(ActorUserId), DvcScope = tostring(DvcScope), DvcScopeId = tostring(DvcScopeId), DvcInterface = tostring(DvcInterface), DvcOriginalAction = tostring(DvcOriginalAction), TargetUserIdType = tostring(TargetUserIdType), SourceSystem = tostring(SourceSystem)'
+        outputStream: 'Microsoft-ASimProcessEventLogs'
       }
     ]
   }

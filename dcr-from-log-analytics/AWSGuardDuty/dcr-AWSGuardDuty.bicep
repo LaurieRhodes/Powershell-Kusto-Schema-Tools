@@ -12,13 +12,13 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for AWSGuardDuty
 // ============================================================================
-// Generated: 2025-09-17 08:12:44
+// Generated: 2025-09-18 07:50:18
 // Table type: Microsoft
 // Schema discovered using hybrid approach (Management API + getschema)
-// Underscore columns included
+// Underscore columns filtered out
 // Original columns: 17, DCR columns: 16 (Type column always filtered)
 // Input stream: Custom-AWSGuardDuty (always Custom- for JSON ingestion)
-// Output stream: Custom-AWSGuardDuty (based on table type)
+// Output stream: Microsoft-AWSGuardDuty (based on table type)
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
 
@@ -113,7 +113,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
         streams: ['Custom-AWSGuardDuty']
         destinations: ['Sentinel-AWSGuardDuty']
         transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SchemaVersion = tostring(SchemaVersion), AccountId = tostring(AccountId), Region = tostring(Region), Partition = tostring(Partition), Id = tostring(Id), Arn = tostring(Arn), ActivityType = tostring(ActivityType), ResourceDetails = todynamic(ResourceDetails), ServiceDetails = todynamic(ServiceDetails), Severity = toint(Severity), TimeCreated = todatetime(TimeCreated), Title = tostring(Title), Description = tostring(Description), SourceSystem = tostring(SourceSystem)'
-        outputStream: 'Custom-AWSGuardDuty'
+        outputStream: 'Microsoft-AWSGuardDuty'
       }
     ]
   }

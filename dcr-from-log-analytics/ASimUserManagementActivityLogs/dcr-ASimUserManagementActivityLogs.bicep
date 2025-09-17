@@ -12,13 +12,13 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for ASimUserManagementActivityLogs
 // ============================================================================
-// Generated: 2025-09-17 08:12:42
+// Generated: 2025-09-18 07:50:11
 // Table type: Microsoft
 // Schema discovered using hybrid approach (Management API + getschema)
-// Underscore columns included
-// Original columns: 111, DCR columns: 110 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 111, DCR columns: 109 (Type column always filtered)
 // Input stream: Custom-ASimUserManagementActivityLogs (always Custom- for JSON ingestion)
-// Output stream: Custom-ASimUserManagementActivityLogs (based on table type)
+// Output stream: Microsoft-ASimUserManagementActivityLogs (based on table type)
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
 
@@ -137,20 +137,16 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'SrcRiskLevel'
+            name: 'TargetUserScopeId'
             type: 'string'
           }
           {
-            name: 'SrcOriginalRiskLevel'
+            name: 'SrcRiskLevel'
             type: 'string'
           }
           {
             name: 'ActingAppId'
             type: 'string'
-          }
-          {
-            name: 'AdditionalFields'
-            type: 'dynamic'
           }
           {
             name: 'EventEndTime'
@@ -193,11 +189,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'TargetUserScopeId'
+            name: 'ThreatOriginalRiskLevel'
             type: 'string'
           }
           {
-            name: 'ThreatOriginalRiskLevel'
+            name: 'ThreatRiskLevel'
             type: 'string'
           }
           {
@@ -245,15 +241,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ThreatRiskLevel'
-            type: 'string'
-          }
-          {
-            name: 'SourceSystem'
+            name: 'SrcOriginalRiskLevel'
             type: 'string'
           }
           {
             name: 'TargetUserIdType'
+            type: 'string'
+          }
+          {
+            name: 'TargetUserUid'
             type: 'string'
           }
           {
@@ -413,8 +409,8 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'TargetUserUid'
-            type: 'string'
+            name: 'AdditionalFields'
+            type: 'dynamic'
           }
           {
             name: 'DvcInterface'
@@ -469,7 +465,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: '_ResourceId'
+            name: 'SourceSystem'
             type: 'string'
           }
         ]
@@ -488,8 +484,8 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-ASimUserManagementActivityLogs']
         destinations: ['Sentinel-ASimUserManagementActivityLogs']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SrcGeoRegion = tostring(SrcGeoRegion), SrcGeoLongitude = toreal(SrcGeoLongitude), SrcGeoLatitude = toreal(SrcGeoLatitude), SrcGeoCountry = tostring(SrcGeoCountry), SrcDeviceType = tostring(SrcDeviceType), SrcDvcScope = tostring(SrcDvcScope), SrcDvcScopeId = tostring(SrcDvcScopeId), SrcDvcIdType = tostring(SrcDvcIdType), SrcDvcId = tostring(SrcDvcId), SrcDescription = tostring(SrcDescription), SrcFQDN = tostring(SrcFQDN), GroupOriginalType = tostring(GroupOriginalType), GroupType = tostring(GroupType), GroupNameType = tostring(GroupNameType), GroupName = tostring(GroupName), GroupIdType = tostring(GroupIdType), GroupId = tostring(GroupId), TargetOriginalUserType = tostring(TargetOriginalUserType), TargetUserSessionId = tostring(TargetUserSessionId), TargetUserType = tostring(TargetUserType), TargetUsernameType = tostring(TargetUsernameType), TargetUsername = tostring(TargetUsername), TargetUserScope = tostring(TargetUserScope), SrcGeoCity = tostring(SrcGeoCity), SrcRiskLevel = toint(SrcRiskLevel), SrcOriginalRiskLevel = tostring(SrcOriginalRiskLevel), ActingAppId = tostring(ActingAppId), AdditionalFields = todynamic(AdditionalFields), EventEndTime = todatetime(EventEndTime), EventStartTime = todatetime(EventStartTime), EventSchemaVersion = tostring(EventSchemaVersion), EventSchema = tostring(EventSchema), ThreatLastReportedTime = todatetime(ThreatLastReportedTime), ThreatFirstReportedTime = todatetime(ThreatFirstReportedTime), ThreatIsActive = tobool(ThreatIsActive), ThreatOriginalConfidence = tostring(ThreatOriginalConfidence), ThreatConfidence = toint(ThreatConfidence), ThreatField = tostring(ThreatField), TargetUserScopeId = tostring(TargetUserScopeId), ThreatOriginalRiskLevel = tostring(ThreatOriginalRiskLevel), ThreatCategory = tostring(ThreatCategory), ThreatName = tostring(ThreatName), ThreatId = tostring(ThreatId), RuleNumber = toint(RuleNumber), RuleName = tostring(RuleName), NewPropertyValue = tostring(NewPropertyValue), PreviousPropertyValue = tostring(PreviousPropertyValue), HttpUserAgent = tostring(HttpUserAgent), ActingOriginalAppType = tostring(ActingOriginalAppType), ActingAppType = tostring(ActingAppType), ActingAppName = tostring(ActingAppName), ThreatRiskLevel = toint(ThreatRiskLevel), SourceSystem = tostring(SourceSystem), TargetUserIdType = tostring(TargetUserIdType), TargetUserId = tostring(TargetUserId), EventMessage = tostring(EventMessage), SrcDomainType = tostring(SrcDomainType), SrcDomain = tostring(SrcDomain), SrcMacAddr = tostring(SrcMacAddr), SrcHostname = tostring(SrcHostname), SrcPortNumber = toint(SrcPortNumber), SrcIpAddr = tostring(SrcIpAddr), DvcAction = tostring(DvcAction), DvcIdType = tostring(DvcIdType), DvcId = tostring(DvcId), DvcFQDN = tostring(DvcFQDN), DvcDomainType = tostring(DvcDomainType), DvcDomain = tostring(DvcDomain), DvcHostname = tostring(DvcHostname), DvcIpAddr = tostring(DvcIpAddr), EventResultDetails = tostring(EventResultDetails), ActorUsernameType = tostring(ActorUsernameType), ActorUsername = tostring(ActorUsername), EventType = tostring(EventType), EventSeverity = tostring(EventSeverity), EventResult = tostring(EventResult), EventVendor = tostring(EventVendor), EventProduct = tostring(EventProduct), EventCount = toint(EventCount), EventSubType = tostring(EventSubType), EventOriginalUid = tostring(EventOriginalUid), EventOriginalType = tostring(EventOriginalType), ActorSessionId = tostring(ActorSessionId), ActorOriginalUserType = tostring(ActorOriginalUserType), ActorUserType = tostring(ActorUserType), ActorScope = tostring(ActorScope), ActorScopeId = tostring(ActorScopeId), ActorUserIdType = tostring(ActorUserIdType), ActorUserSid = tostring(ActorUserSid), ActorUserAadId = tostring(ActorUserAadId), ActorUserId = tostring(ActorUserId), DvcScope = tostring(DvcScope), DvcScopeId = tostring(DvcScopeId), TargetUserUid = tostring(TargetUserUid), DvcInterface = tostring(DvcInterface), DvcOsVersion = tostring(DvcOsVersion), DvcOs = tostring(DvcOs), DvcZone = tostring(DvcZone), DvcMacAddr = tostring(DvcMacAddr), DvcDescription = tostring(DvcDescription), EventReportUrl = tostring(EventReportUrl), EventOwner = tostring(EventOwner), EventProductVersion = tostring(EventProductVersion), EventOriginalSeverity = tostring(EventOriginalSeverity), EventOriginalResultDetails = tostring(EventOriginalResultDetails), EventOriginalSubType = tostring(EventOriginalSubType), DvcOriginalAction = tostring(DvcOriginalAction), _ResourceId = tostring(_ResourceId)'
-        outputStream: 'Custom-ASimUserManagementActivityLogs'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SrcGeoRegion = tostring(SrcGeoRegion), SrcGeoLongitude = toreal(SrcGeoLongitude), SrcGeoLatitude = toreal(SrcGeoLatitude), SrcGeoCountry = tostring(SrcGeoCountry), SrcDeviceType = tostring(SrcDeviceType), SrcDvcScope = tostring(SrcDvcScope), SrcDvcScopeId = tostring(SrcDvcScopeId), SrcDvcIdType = tostring(SrcDvcIdType), SrcDvcId = tostring(SrcDvcId), SrcDescription = tostring(SrcDescription), SrcFQDN = tostring(SrcFQDN), GroupOriginalType = tostring(GroupOriginalType), GroupType = tostring(GroupType), GroupNameType = tostring(GroupNameType), GroupName = tostring(GroupName), GroupIdType = tostring(GroupIdType), GroupId = tostring(GroupId), TargetOriginalUserType = tostring(TargetOriginalUserType), TargetUserSessionId = tostring(TargetUserSessionId), TargetUserType = tostring(TargetUserType), TargetUsernameType = tostring(TargetUsernameType), TargetUsername = tostring(TargetUsername), TargetUserScope = tostring(TargetUserScope), SrcGeoCity = tostring(SrcGeoCity), TargetUserScopeId = tostring(TargetUserScopeId), SrcRiskLevel = toint(SrcRiskLevel), ActingAppId = tostring(ActingAppId), EventEndTime = todatetime(EventEndTime), EventStartTime = todatetime(EventStartTime), EventSchemaVersion = tostring(EventSchemaVersion), EventSchema = tostring(EventSchema), ThreatLastReportedTime = todatetime(ThreatLastReportedTime), ThreatFirstReportedTime = todatetime(ThreatFirstReportedTime), ThreatIsActive = tobool(ThreatIsActive), ThreatOriginalConfidence = tostring(ThreatOriginalConfidence), ThreatConfidence = toint(ThreatConfidence), ThreatField = tostring(ThreatField), ThreatOriginalRiskLevel = tostring(ThreatOriginalRiskLevel), ThreatRiskLevel = toint(ThreatRiskLevel), ThreatCategory = tostring(ThreatCategory), ThreatName = tostring(ThreatName), ThreatId = tostring(ThreatId), RuleNumber = toint(RuleNumber), RuleName = tostring(RuleName), NewPropertyValue = tostring(NewPropertyValue), PreviousPropertyValue = tostring(PreviousPropertyValue), HttpUserAgent = tostring(HttpUserAgent), ActingOriginalAppType = tostring(ActingOriginalAppType), ActingAppType = tostring(ActingAppType), ActingAppName = tostring(ActingAppName), SrcOriginalRiskLevel = tostring(SrcOriginalRiskLevel), TargetUserIdType = tostring(TargetUserIdType), TargetUserUid = tostring(TargetUserUid), TargetUserId = tostring(TargetUserId), EventMessage = tostring(EventMessage), SrcDomainType = tostring(SrcDomainType), SrcDomain = tostring(SrcDomain), SrcMacAddr = tostring(SrcMacAddr), SrcHostname = tostring(SrcHostname), SrcPortNumber = toint(SrcPortNumber), SrcIpAddr = tostring(SrcIpAddr), DvcAction = tostring(DvcAction), DvcIdType = tostring(DvcIdType), DvcId = tostring(DvcId), DvcFQDN = tostring(DvcFQDN), DvcDomainType = tostring(DvcDomainType), DvcDomain = tostring(DvcDomain), DvcHostname = tostring(DvcHostname), DvcIpAddr = tostring(DvcIpAddr), EventResultDetails = tostring(EventResultDetails), ActorUsernameType = tostring(ActorUsernameType), ActorUsername = tostring(ActorUsername), EventType = tostring(EventType), EventSeverity = tostring(EventSeverity), EventResult = tostring(EventResult), EventVendor = tostring(EventVendor), EventProduct = tostring(EventProduct), EventCount = toint(EventCount), EventSubType = tostring(EventSubType), EventOriginalUid = tostring(EventOriginalUid), EventOriginalType = tostring(EventOriginalType), ActorSessionId = tostring(ActorSessionId), ActorOriginalUserType = tostring(ActorOriginalUserType), ActorUserType = tostring(ActorUserType), ActorScope = tostring(ActorScope), ActorScopeId = tostring(ActorScopeId), ActorUserIdType = tostring(ActorUserIdType), ActorUserSid = tostring(ActorUserSid), ActorUserAadId = tostring(ActorUserAadId), ActorUserId = tostring(ActorUserId), DvcScope = tostring(DvcScope), DvcScopeId = tostring(DvcScopeId), AdditionalFields = todynamic(AdditionalFields), DvcInterface = tostring(DvcInterface), DvcOsVersion = tostring(DvcOsVersion), DvcOs = tostring(DvcOs), DvcZone = tostring(DvcZone), DvcMacAddr = tostring(DvcMacAddr), DvcDescription = tostring(DvcDescription), EventReportUrl = tostring(EventReportUrl), EventOwner = tostring(EventOwner), EventProductVersion = tostring(EventProductVersion), EventOriginalSeverity = tostring(EventOriginalSeverity), EventOriginalResultDetails = tostring(EventOriginalResultDetails), EventOriginalSubType = tostring(EventOriginalSubType), DvcOriginalAction = tostring(DvcOriginalAction), SourceSystem = tostring(SourceSystem)'
+        outputStream: 'Microsoft-ASimUserManagementActivityLogs'
       }
     ]
   }

@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for LastPassNativePoller_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:57
+// Generated: 2025-09-18 08:37:32
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 12, DCR columns: 11 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 12, DCR columns: 10 (Type column always filtered)
 // Output stream: Custom-LastPassNativePoller_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -71,10 +71,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             name: 'Data_s'
             type: 'string'
           }
-          {
-            name: '_ResourceId'
-            type: 'string'
-          }
         ]
       }
     }
@@ -91,7 +87,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-LastPassNativePoller_CL']
         destinations: ['Sentinel-LastPassNativePoller_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), Time_s = tostring(Time_s), Username_s = tostring(Username_s), IP_Address_s = tostring(IP_Address_s), Action_s = tostring(Action_s), Data_s = tostring(Data_s), _ResourceId = tostring(_ResourceId)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), Time_s = tostring(Time_s), Username_s = tostring(Username_s), IP_Address_s = tostring(IP_Address_s), Action_s = tostring(Action_s), Data_s = tostring(Data_s)'
         outputStream: 'Custom-LastPassNativePoller_CL'
       }
     ]

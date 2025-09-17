@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for SophosEP_CL
 // ============================================================================
-// Generated: 2025-09-17 06:21:03
+// Generated: 2025-09-18 08:37:37
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 43, DCR columns: 42 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 43, DCR columns: 40 (Type column always filtered)
 // Output stream: Custom-SophosEP_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -37,6 +37,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
+            type: 'string'
+          }
+          {
+            name: 'amsi_threat_data_processPath_s'
             type: 'string'
           }
           {
@@ -64,11 +68,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'name_s'
+            name: 'when_t'
             type: 'string'
           }
           {
-            name: 'location_s'
+            name: 'name_s'
             type: 'string'
           }
           {
@@ -88,10 +92,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: '_ResourceId_s'
-            type: 'string'
-          }
-          {
             name: 'EventVendor_s'
             type: 'string'
           }
@@ -104,11 +104,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: '_ResourceId'
-            type: 'string'
-          }
-          {
-            name: 'amsi_threat_data_processPath_s'
+            name: 'location_s'
             type: 'string'
           }
           {
@@ -116,11 +112,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'when_t'
+            name: 'origin_s'
             type: 'string'
           }
           {
-            name: 'endpoint_type_s'
+            name: 'endpoint_id_g'
             type: 'string'
           }
           {
@@ -152,11 +148,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'amsi_threat_data_processName_s_s'
+            name: 'endpoint_type_s'
             type: 'string'
           }
           {
-            name: 'amsi_threat_data_parentProcessId_s_s'
+            name: 'amsi_threat_data_processName_s_s'
             type: 'string'
           }
           {
@@ -188,11 +184,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'endpoint_id_g'
-            type: 'string'
-          }
-          {
-            name: 'origin_s'
+            name: 'amsi_threat_data_parentProcessId_s_s'
             type: 'string'
           }
           {
@@ -215,7 +207,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-SophosEP_CL']
         destinations: ['Sentinel-SophosEP_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), amsi_threat_data_processId_s = tostring(amsi_threat_data_processId_s), amsi_threat_data_processName_s = tostring(amsi_threat_data_processName_s), amsi_threat_data_parentProcessId_s = tostring(amsi_threat_data_parentProcessId_s), amsi_threat_data_parentProcessPath_s = tostring(amsi_threat_data_parentProcessPath_s), source_s = tostring(source_s), type_s = tostring(type_s), name_s = tostring(name_s), location_s = tostring(location_s), id_g = tostring(id_g), group_s = tostring(group_s), datastream_s = tostring(datastream_s), Type_s = tostring(Type_s), _ResourceId_s = tostring(_ResourceId_s), EventVendor_s = tostring(EventVendor_s), EventProduct_s = tostring(EventProduct_s), TimeGenerated_s = tostring(TimeGenerated_s), _ResourceId = tostring(_ResourceId), amsi_threat_data_processPath_s = tostring(amsi_threat_data_processPath_s), EventEndTime = todatetime(EventEndTime), when_t = todatetime(when_t), endpoint_type_s = tostring(endpoint_type_s), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), amsi_threat_data_processPath_s_s = tostring(amsi_threat_data_processPath_s_s), amsi_threat_data_processId_s_s = tostring(amsi_threat_data_processId_s_s), amsi_threat_data_processName_s_s = tostring(amsi_threat_data_processName_s_s), amsi_threat_data_parentProcessId_s_s = tostring(amsi_threat_data_parentProcessId_s_s), amsi_threat_data_parentProcessPath_s_s = tostring(amsi_threat_data_parentProcessPath_s_s), user_id_s = tostring(user_id_s), customer_id_g = tostring(customer_id_g), severity_s = tostring(severity_s), created_at_t = todatetime(created_at_t), source_info_ip_s = tostring(source_info_ip_s), threat_s = tostring(threat_s), endpoint_id_g = tostring(endpoint_id_g), origin_s = tostring(origin_s), Created = todatetime(Created)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), amsi_threat_data_processPath_s = tostring(amsi_threat_data_processPath_s), amsi_threat_data_processId_s = tostring(amsi_threat_data_processId_s), amsi_threat_data_processName_s = tostring(amsi_threat_data_processName_s), amsi_threat_data_parentProcessId_s = tostring(amsi_threat_data_parentProcessId_s), amsi_threat_data_parentProcessPath_s = tostring(amsi_threat_data_parentProcessPath_s), source_s = tostring(source_s), type_s = tostring(type_s), when_t = todatetime(when_t), name_s = tostring(name_s), id_g = tostring(id_g), group_s = tostring(group_s), datastream_s = tostring(datastream_s), Type_s = tostring(Type_s), EventVendor_s = tostring(EventVendor_s), EventProduct_s = tostring(EventProduct_s), TimeGenerated_s = tostring(TimeGenerated_s), location_s = tostring(location_s), EventEndTime = todatetime(EventEndTime), origin_s = tostring(origin_s), endpoint_id_g = tostring(endpoint_id_g), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), amsi_threat_data_processPath_s_s = tostring(amsi_threat_data_processPath_s_s), amsi_threat_data_processId_s_s = tostring(amsi_threat_data_processId_s_s), endpoint_type_s = tostring(endpoint_type_s), amsi_threat_data_processName_s_s = tostring(amsi_threat_data_processName_s_s), amsi_threat_data_parentProcessPath_s_s = tostring(amsi_threat_data_parentProcessPath_s_s), user_id_s = tostring(user_id_s), customer_id_g = tostring(customer_id_g), severity_s = tostring(severity_s), created_at_t = todatetime(created_at_t), source_info_ip_s = tostring(source_info_ip_s), threat_s = tostring(threat_s), amsi_threat_data_parentProcessId_s_s = tostring(amsi_threat_data_parentProcessId_s_s), Created = todatetime(Created)'
         outputStream: 'Custom-SophosEP_CL'
       }
     ]

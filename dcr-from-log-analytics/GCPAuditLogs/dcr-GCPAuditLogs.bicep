@@ -12,13 +12,13 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for GCPAuditLogs
 // ============================================================================
-// Generated: 2025-09-17 08:12:45
+// Generated: 2025-09-18 07:50:24
 // Table type: Microsoft
 // Schema discovered using hybrid approach (Management API + getschema)
-// Underscore columns included
+// Underscore columns filtered out
 // Original columns: 27, DCR columns: 26 (Type column always filtered)
 // Input stream: Custom-GCPAuditLogs (always Custom- for JSON ingestion)
-// Output stream: Custom-GCPAuditLogs (based on table type)
+// Output stream: Microsoft-GCPAuditLogs (based on table type)
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
 
@@ -153,7 +153,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
         streams: ['Custom-GCPAuditLogs']
         destinations: ['Sentinel-GCPAuditLogs']
         transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), ServiceData = todynamic(ServiceData), ResourceOriginalState = todynamic(ResourceOriginalState), ResourceLocation = todynamic(ResourceLocation), Subscription = tostring(Subscription), GCPResourceType = tostring(GCPResourceType), Severity = tostring(Severity), ProjectId = tostring(ProjectId), Timestamp = todatetime(Timestamp), LogName = tostring(LogName), PrincipalEmail = tostring(PrincipalEmail), InsertId = tostring(InsertId), StatusMessage = tostring(StatusMessage), Response = todynamic(Response), Request = todynamic(Request), RequestMetadata = todynamic(RequestMetadata), AuthorizationInfo = todynamic(AuthorizationInfo), AuthenticationInfo = todynamic(AuthenticationInfo), Status = todynamic(Status), NumResponseItems = tostring(NumResponseItems), GCPResourceName = tostring(GCPResourceName), MethodName = tostring(MethodName), ServiceName = tostring(ServiceName), Metadata = todynamic(Metadata), SourceSystem = tostring(SourceSystem)'
-        outputStream: 'Custom-GCPAuditLogs'
+        outputStream: 'Microsoft-GCPAuditLogs'
       }
     ]
   }

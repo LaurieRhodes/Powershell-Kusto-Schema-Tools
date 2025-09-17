@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for F5Telemetry_ASM_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:55
+// Generated: 2025-09-18 08:37:29
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 12, DCR columns: 11 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 12, DCR columns: 10 (Type column always filtered)
 // Output stream: Custom-F5Telemetry_ASM_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -71,10 +71,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             name: 'geo_location_s'
             type: 'string'
           }
-          {
-            name: '_ResourceId'
-            type: 'string'
-          }
         ]
       }
     }
@@ -91,7 +87,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-F5Telemetry_ASM_CL']
         destinations: ['Sentinel-F5Telemetry_ASM_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), probability = toreal(probability), RawMessage = tostring(RawMessage), geo_location_s = tostring(geo_location_s), _ResourceId = tostring(_ResourceId)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), probability = toreal(probability), RawMessage = tostring(RawMessage), geo_location_s = tostring(geo_location_s)'
         outputStream: 'Custom-F5Telemetry_ASM_CL'
       }
     ]

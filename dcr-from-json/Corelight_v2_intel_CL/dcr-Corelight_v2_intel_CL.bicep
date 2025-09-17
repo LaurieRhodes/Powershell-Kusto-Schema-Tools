@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_intel_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:48
+// Generated: 2025-09-18 08:37:22
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 18, DCR columns: 18 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 18, DCR columns: 15 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_intel_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -36,47 +36,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: '_path_s'
-            type: 'string'
-          }
-          {
-            name: 'fuid_s'
-            type: 'string'
-          }
-          {
-            name: 'sources_s'
-            type: 'string'
-          }
-          {
-            name: 'matched_s'
-            type: 'string'
-          }
-          {
-            name: 'seen_where_s'
-            type: 'string'
-          }
-          {
-            name: 'seen_indicator_type_s'
-            type: 'string'
-          }
-          {
-            name: 'seen_indicator_s'
-            type: 'string'
-          }
-          {
-            name: 'file_mime_type_s'
-            type: 'string'
-          }
-          {
-            name: 'id_resp_p_d'
-            type: 'string'
-          }
-          {
-            name: 'id_orig_p_d'
-            type: 'string'
-          }
-          {
-            name: 'id_orig_h_s'
+            name: 'ts_t'
             type: 'string'
           }
           {
@@ -84,19 +44,47 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ts_t'
+            name: 'id_orig_h_s'
             type: 'string'
           }
           {
-            name: '_write_ts_t'
-            type: 'string'
-          }
-          {
-            name: '_system_name_s'
+            name: 'id_orig_p_d'
             type: 'string'
           }
           {
             name: 'id_resp_h_s'
+            type: 'string'
+          }
+          {
+            name: 'id_resp_p_d'
+            type: 'string'
+          }
+          {
+            name: 'seen_indicator_s'
+            type: 'string'
+          }
+          {
+            name: 'seen_indicator_type_s'
+            type: 'string'
+          }
+          {
+            name: 'seen_where_s'
+            type: 'string'
+          }
+          {
+            name: 'matched_s'
+            type: 'string'
+          }
+          {
+            name: 'sources_s'
+            type: 'string'
+          }
+          {
+            name: 'fuid_s'
+            type: 'string'
+          }
+          {
+            name: 'file_mime_type_s'
             type: 'string'
           }
           {
@@ -119,7 +107,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_intel_CL']
         destinations: ['Sentinel-Corelight_v2_intel_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), fuid_s = tostring(fuid_s), sources_s = tostring(sources_s), matched_s = tostring(matched_s), seen_where_s = tostring(seen_where_s), seen_indicator_type_s = tostring(seen_indicator_type_s), seen_indicator_s = tostring(seen_indicator_s), file_mime_type_s = tostring(file_mime_type_s), id_resp_p_d = toreal(id_resp_p_d), id_orig_p_d = toreal(id_orig_p_d), id_orig_h_s = tostring(id_orig_h_s), uid_s = tostring(uid_s), ts_t = todatetime(ts_t), _write_ts_t = todatetime(_write_ts_t), _system_name_s = tostring(_system_name_s), id_resp_h_s = tostring(id_resp_h_s), file_desc_s = tostring(file_desc_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), uid_s = tostring(uid_s), id_orig_h_s = tostring(id_orig_h_s), id_orig_p_d = toreal(id_orig_p_d), id_resp_h_s = tostring(id_resp_h_s), id_resp_p_d = toreal(id_resp_p_d), seen_indicator_s = tostring(seen_indicator_s), seen_indicator_type_s = tostring(seen_indicator_type_s), seen_where_s = tostring(seen_where_s), matched_s = tostring(matched_s), sources_s = tostring(sources_s), fuid_s = tostring(fuid_s), file_mime_type_s = tostring(file_mime_type_s), file_desc_s = tostring(file_desc_s)'
         outputStream: 'Custom-Corelight_v2_intel_CL'
       }
     ]

@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_smartpcap_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:51
+// Generated: 2025-09-18 08:37:24
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 5, DCR columns: 5 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 5, DCR columns: 2 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_smartpcap_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -33,18 +33,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
         columns: [
           {
             name: 'TimeGenerated'
-            type: 'string'
-          }
-          {
-            name: '_path_s'
-            type: 'string'
-          }
-          {
-            name: '_system_name_s'
-            type: 'string'
-          }
-          {
-            name: '_write_ts_t'
             type: 'string'
           }
           {
@@ -67,7 +55,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_smartpcap_CL']
         destinations: ['Sentinel-Corelight_v2_smartpcap_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), _system_name_s = tostring(_system_name_s), _write_ts_t = todatetime(_write_ts_t), logstr_s = tostring(logstr_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), logstr_s = tostring(logstr_s)'
         outputStream: 'Custom-Corelight_v2_smartpcap_CL'
       }
     ]

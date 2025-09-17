@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_x509_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:52
+// Generated: 2025-09-18 08:37:27
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 26, DCR columns: 26 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 26, DCR columns: 23 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_x509_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -36,7 +36,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: '_path_s'
+            name: 'ts_t'
             type: 'string'
           }
           {
@@ -80,11 +80,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'host_cert_b'
+            name: 'certificate_sig_alg_s'
             type: 'string'
           }
           {
-            name: 'certificate_sig_alg_s'
+            name: 'certificate_key_alg_s'
             type: 'string'
           }
           {
@@ -116,19 +116,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ts_t'
-            type: 'string'
-          }
-          {
-            name: '_write_ts_t'
-            type: 'string'
-          }
-          {
-            name: '_system_name_s'
-            type: 'string'
-          }
-          {
-            name: 'certificate_key_alg_s'
+            name: 'host_cert_b'
             type: 'string'
           }
           {
@@ -151,7 +139,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_x509_CL']
         destinations: ['Sentinel-Corelight_v2_x509_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), basic_constraints_path_len_d = toreal(basic_constraints_path_len_d), basic_constraints_ca_b = tobool(basic_constraints_ca_b), san_ip_s = tostring(san_ip_s), san_email_s = tostring(san_email_s), san_uri_s = tostring(san_uri_s), san_dns_s = tostring(san_dns_s), certificate_curve_s = tostring(certificate_curve_s), certificate_exponent_s = tostring(certificate_exponent_s), certificate_key_length_d = toreal(certificate_key_length_d), certificate_key_type_s = tostring(certificate_key_type_s), host_cert_b = tobool(host_cert_b), certificate_sig_alg_s = tostring(certificate_sig_alg_s), certificate_not_valid_after_t = todatetime(certificate_not_valid_after_t), certificate_not_valid_before_t = todatetime(certificate_not_valid_before_t), certificate_issuer_s = tostring(certificate_issuer_s), certificate_subject_s = tostring(certificate_subject_s), certificate_serial_s = tostring(certificate_serial_s), certificate_version_d = toreal(certificate_version_d), fingerprint_s = tostring(fingerprint_s), ts_t = todatetime(ts_t), _write_ts_t = todatetime(_write_ts_t), _system_name_s = tostring(_system_name_s), certificate_key_alg_s = tostring(certificate_key_alg_s), client_cert_b = tobool(client_cert_b)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), basic_constraints_path_len_d = toreal(basic_constraints_path_len_d), basic_constraints_ca_b = tobool(basic_constraints_ca_b), san_ip_s = tostring(san_ip_s), san_email_s = tostring(san_email_s), san_uri_s = tostring(san_uri_s), san_dns_s = tostring(san_dns_s), certificate_curve_s = tostring(certificate_curve_s), certificate_exponent_s = tostring(certificate_exponent_s), certificate_key_length_d = toreal(certificate_key_length_d), certificate_key_type_s = tostring(certificate_key_type_s), certificate_sig_alg_s = tostring(certificate_sig_alg_s), certificate_key_alg_s = tostring(certificate_key_alg_s), certificate_not_valid_after_t = todatetime(certificate_not_valid_after_t), certificate_not_valid_before_t = todatetime(certificate_not_valid_before_t), certificate_issuer_s = tostring(certificate_issuer_s), certificate_subject_s = tostring(certificate_subject_s), certificate_serial_s = tostring(certificate_serial_s), certificate_version_d = toreal(certificate_version_d), fingerprint_s = tostring(fingerprint_s), host_cert_b = tobool(host_cert_b), client_cert_b = tobool(client_cert_b)'
         outputStream: 'Custom-Corelight_v2_x509_CL'
       }
     ]

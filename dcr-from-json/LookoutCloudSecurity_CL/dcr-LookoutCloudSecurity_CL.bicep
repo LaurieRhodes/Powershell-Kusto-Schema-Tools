@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for LookoutCloudSecurity_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:57
+// Generated: 2025-09-18 08:37:32
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 35, DCR columns: 34 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 35, DCR columns: 33 (Type column always filtered)
 // Output stream: Custom-LookoutCloudSecurity_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -37,10 +37,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
-            type: 'string'
-          }
-          {
-            name: 'Message'
             type: 'string'
           }
           {
@@ -96,11 +92,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'data_s'
+            name: 'anomalyName_s'
             type: 'string'
           }
           {
-            name: 'anomalyName_s'
+            name: 'userEmail_s'
             type: 'string'
           }
           {
@@ -160,11 +156,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'userEmail_s'
+            name: 'Message'
             type: 'string'
           }
           {
-            name: '_ResourceId'
+            name: 'data_s'
             type: 'string'
           }
         ]
@@ -183,7 +179,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-LookoutCloudSecurity_CL']
         destinations: ['Sentinel-LookoutCloudSecurity_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), Message = tostring(Message), statusCode_d = toreal(statusCode_d), status_s = tostring(status_s), violation_s = tostring(violation_s), scanType_s = tostring(scanType_s), policyName_s = tostring(policyName_s), externalCollaborators_s = tostring(externalCollaborators_s), cloudType_s = tostring(cloudType_s), previousCity_s = tostring(previousCity_s), previousEventId_g = tostring(previousEventId_g), currentEventId_g = tostring(currentEventId_g), previousTimestamp_t = todatetime(previousTimestamp_t), currentTimestamp_t = todatetime(currentTimestamp_t), currentCity_s = tostring(currentCity_s), data_s = tostring(data_s), anomalyName_s = tostring(anomalyName_s), anomalyType_s = tostring(anomalyType_s), eventId_g = tostring(eventId_g), contentUrl_s = tostring(contentUrl_s), contentName_s = tostring(contentName_s), appName_s = tostring(appName_s), activityType_s = tostring(activityType_s), actionType_s = tostring(actionType_s), eventType_s = tostring(eventType_s), timeStamp_t = todatetime(timeStamp_t), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), userEmail_s = tostring(userEmail_s), _ResourceId = tostring(_ResourceId)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), statusCode_d = toreal(statusCode_d), status_s = tostring(status_s), violation_s = tostring(violation_s), scanType_s = tostring(scanType_s), policyName_s = tostring(policyName_s), externalCollaborators_s = tostring(externalCollaborators_s), cloudType_s = tostring(cloudType_s), previousCity_s = tostring(previousCity_s), previousEventId_g = tostring(previousEventId_g), currentEventId_g = tostring(currentEventId_g), previousTimestamp_t = todatetime(previousTimestamp_t), currentTimestamp_t = todatetime(currentTimestamp_t), currentCity_s = tostring(currentCity_s), anomalyName_s = tostring(anomalyName_s), userEmail_s = tostring(userEmail_s), anomalyType_s = tostring(anomalyType_s), eventId_g = tostring(eventId_g), contentUrl_s = tostring(contentUrl_s), contentName_s = tostring(contentName_s), appName_s = tostring(appName_s), activityType_s = tostring(activityType_s), actionType_s = tostring(actionType_s), eventType_s = tostring(eventType_s), timeStamp_t = todatetime(timeStamp_t), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), Message = tostring(Message), data_s = tostring(data_s)'
         outputStream: 'Custom-LookoutCloudSecurity_CL'
       }
     ]

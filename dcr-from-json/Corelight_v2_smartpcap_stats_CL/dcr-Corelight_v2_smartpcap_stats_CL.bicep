@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_smartpcap_stats_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:51
+// Generated: 2025-09-18 08:37:25
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 26, DCR columns: 26 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 26, DCR columns: 23 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_smartpcap_stats_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -36,7 +36,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: '_path_s'
+            name: 'ts_t'
             type: 'string'
           }
           {
@@ -80,11 +80,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'uncap_flows_closed_d'
+            name: 'flow_resumes_d'
             type: 'string'
           }
           {
-            name: 'flow_resumes_d'
+            name: 'flow_pauses_d'
             type: 'string'
           }
           {
@@ -116,19 +116,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ts_t'
-            type: 'string'
-          }
-          {
-            name: '_write_ts_t'
-            type: 'string'
-          }
-          {
-            name: '_system_name_s'
-            type: 'string'
-          }
-          {
-            name: 'flow_pauses_d'
+            name: 'uncap_flows_closed_d'
             type: 'string'
           }
           {
@@ -151,7 +139,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_smartpcap_stats_CL']
         destinations: ['Sentinel-Corelight_v2_smartpcap_stats_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), uncap_flows_buflimit_d = toreal(uncap_flows_buflimit_d), lever_failures_d = toreal(lever_failures_d), lever_triggers_d = toreal(lever_triggers_d), unknown_bytes_d = toreal(unknown_bytes_d), unknown_packets_d = toreal(unknown_packets_d), socket_connects_d = toreal(socket_connects_d), socket_writes_d = toreal(socket_writes_d), byte_writes_d = toreal(byte_writes_d), packet_writes_d = toreal(packet_writes_d), byte_drops_d = toreal(byte_drops_d), uncap_flows_closed_d = toreal(uncap_flows_closed_d), flow_resumes_d = toreal(flow_resumes_d), socket_closes_d = toreal(socket_closes_d), socket_timeouts_d = toreal(socket_timeouts_d), packet_drops_d = toreal(packet_drops_d), socket_errors_d = toreal(socket_errors_d), flows_buffered_d = toreal(flows_buffered_d), cap_flows_d = toreal(cap_flows_d), cap_bytes_d = toreal(cap_bytes_d), ts_t = todatetime(ts_t), _write_ts_t = todatetime(_write_ts_t), _system_name_s = tostring(_system_name_s), flow_pauses_d = toreal(flow_pauses_d), rule_stats_s = tostring(rule_stats_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), uncap_flows_buflimit_d = toreal(uncap_flows_buflimit_d), lever_failures_d = toreal(lever_failures_d), lever_triggers_d = toreal(lever_triggers_d), unknown_bytes_d = toreal(unknown_bytes_d), unknown_packets_d = toreal(unknown_packets_d), socket_connects_d = toreal(socket_connects_d), socket_writes_d = toreal(socket_writes_d), byte_writes_d = toreal(byte_writes_d), packet_writes_d = toreal(packet_writes_d), byte_drops_d = toreal(byte_drops_d), flow_resumes_d = toreal(flow_resumes_d), flow_pauses_d = toreal(flow_pauses_d), socket_closes_d = toreal(socket_closes_d), socket_timeouts_d = toreal(socket_timeouts_d), packet_drops_d = toreal(packet_drops_d), socket_errors_d = toreal(socket_errors_d), flows_buffered_d = toreal(flows_buffered_d), cap_flows_d = toreal(cap_flows_d), cap_bytes_d = toreal(cap_bytes_d), uncap_flows_closed_d = toreal(uncap_flows_closed_d), rule_stats_s = tostring(rule_stats_s)'
         outputStream: 'Custom-Corelight_v2_smartpcap_stats_CL'
       }
     ]

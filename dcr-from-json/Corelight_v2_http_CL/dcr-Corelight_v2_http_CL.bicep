@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_http_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:48
+// Generated: 2025-09-18 08:37:21
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 35, DCR columns: 35 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 35, DCR columns: 32 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_http_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -36,7 +36,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: '_path_s'
+            name: 'ts_t'
             type: 'string'
           }
           {
@@ -92,11 +92,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'response_body_len_d'
+            name: 'resp_mime_types_s'
             type: 'string'
           }
           {
-            name: 'request_body_len_d'
+            name: 'response_body_len_d'
             type: 'string'
           }
           {
@@ -108,51 +108,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: '_system_name_s'
-            type: 'string'
-          }
-          {
-            name: '_write_ts_t'
-            type: 'string'
-          }
-          {
-            name: 'ts_t'
-            type: 'string'
-          }
-          {
-            name: 'uid_s'
-            type: 'string'
-          }
-          {
-            name: 'id_orig_h_s'
-            type: 'string'
-          }
-          {
-            name: 'id_orig_p_d'
-            type: 'string'
-          }
-          {
-            name: 'resp_mime_types_s'
-            type: 'string'
-          }
-          {
-            name: 'id_resp_h_s'
-            type: 'string'
-          }
-          {
-            name: 'trans_depth_d'
-            type: 'string'
-          }
-          {
-            name: 'method_s'
-            type: 'string'
-          }
-          {
-            name: 'host_s'
-            type: 'string'
-          }
-          {
-            name: 'uri_s'
+            name: 'version_s'
             type: 'string'
           }
           {
@@ -160,11 +116,43 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'version_s'
+            name: 'uri_s'
+            type: 'string'
+          }
+          {
+            name: 'host_s'
+            type: 'string'
+          }
+          {
+            name: 'method_s'
+            type: 'string'
+          }
+          {
+            name: 'trans_depth_d'
             type: 'string'
           }
           {
             name: 'id_resp_p_d'
+            type: 'string'
+          }
+          {
+            name: 'id_resp_h_s'
+            type: 'string'
+          }
+          {
+            name: 'id_orig_p_d'
+            type: 'string'
+          }
+          {
+            name: 'id_orig_h_s'
+            type: 'string'
+          }
+          {
+            name: 'uid_s'
+            type: 'string'
+          }
+          {
+            name: 'request_body_len_d'
             type: 'string'
           }
           {
@@ -187,7 +175,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_http_CL']
         destinations: ['Sentinel-Corelight_v2_http_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), resp_filenames_s = tostring(resp_filenames_s), resp_fuids_s = tostring(resp_fuids_s), orig_mime_types_s = tostring(orig_mime_types_s), orig_filenames_s = tostring(orig_filenames_s), orig_fuids_s = tostring(orig_fuids_s), proxied_s = tostring(proxied_s), password_s = tostring(password_s), username_s = tostring(username_s), tags_s = tostring(tags_s), info_msg_s = tostring(info_msg_s), info_code_d = toreal(info_code_d), status_msg_s = tostring(status_msg_s), status_code_d = toreal(status_code_d), response_body_len_d = toreal(response_body_len_d), request_body_len_d = toreal(request_body_len_d), origin_s = tostring(origin_s), user_agent_s = tostring(user_agent_s), _system_name_s = tostring(_system_name_s), _write_ts_t = todatetime(_write_ts_t), ts_t = todatetime(ts_t), uid_s = tostring(uid_s), id_orig_h_s = tostring(id_orig_h_s), id_orig_p_d = toreal(id_orig_p_d), resp_mime_types_s = tostring(resp_mime_types_s), id_resp_h_s = tostring(id_resp_h_s), trans_depth_d = toreal(trans_depth_d), method_s = tostring(method_s), host_s = tostring(host_s), uri_s = tostring(uri_s), referrer_s = tostring(referrer_s), version_s = tostring(version_s), id_resp_p_d = toreal(id_resp_p_d), post_body_s = tostring(post_body_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), resp_filenames_s = tostring(resp_filenames_s), resp_fuids_s = tostring(resp_fuids_s), orig_mime_types_s = tostring(orig_mime_types_s), orig_filenames_s = tostring(orig_filenames_s), orig_fuids_s = tostring(orig_fuids_s), proxied_s = tostring(proxied_s), password_s = tostring(password_s), username_s = tostring(username_s), tags_s = tostring(tags_s), info_msg_s = tostring(info_msg_s), info_code_d = toreal(info_code_d), status_msg_s = tostring(status_msg_s), status_code_d = toreal(status_code_d), resp_mime_types_s = tostring(resp_mime_types_s), response_body_len_d = toreal(response_body_len_d), origin_s = tostring(origin_s), user_agent_s = tostring(user_agent_s), version_s = tostring(version_s), referrer_s = tostring(referrer_s), uri_s = tostring(uri_s), host_s = tostring(host_s), method_s = tostring(method_s), trans_depth_d = toreal(trans_depth_d), id_resp_p_d = toreal(id_resp_p_d), id_resp_h_s = tostring(id_resp_h_s), id_orig_p_d = toreal(id_orig_p_d), id_orig_h_s = tostring(id_orig_h_s), uid_s = tostring(uid_s), request_body_len_d = toreal(request_body_len_d), post_body_s = tostring(post_body_s)'
         outputStream: 'Custom-Corelight_v2_http_CL'
       }
     ]

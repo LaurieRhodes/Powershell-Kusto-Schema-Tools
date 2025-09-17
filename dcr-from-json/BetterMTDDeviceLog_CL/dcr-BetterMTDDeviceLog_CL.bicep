@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for BetterMTDDeviceLog_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:44
+// Generated: 2025-09-18 08:37:16
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 25, DCR columns: 24 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 25, DCR columns: 23 (Type column always filtered)
 // Output stream: Custom-BetterMTDDeviceLog_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -37,10 +37,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
-            type: 'string'
-          }
-          {
-            name: 'AgentVersion'
             type: 'string'
           }
           {
@@ -76,11 +72,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'DeviceUDID'
+            name: 'DevicePlatform'
             type: 'string'
           }
           {
-            name: 'DevicePlatform'
+            name: 'CompanyId'
             type: 'string'
           }
           {
@@ -120,11 +116,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'CompanyId'
+            name: 'AgentVersion'
             type: 'string'
           }
           {
-            name: '_ResourceId'
+            name: 'DeviceUDID'
             type: 'string'
           }
         ]
@@ -143,7 +139,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-BetterMTDDeviceLog_CL']
         destinations: ['Sentinel-BetterMTDDeviceLog_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), AgentVersion = tostring(AgentVersion), AddedDate = todatetime(AddedDate), ThreatScore = toreal(ThreatScore), ThreatLevel = tostring(ThreatLevel), IsDeleted = tobool(IsDeleted), UserEmail = tostring(UserEmail), CompanyName = tostring(CompanyName), LocationID = toreal(LocationID), LastReported = todatetime(LastReported), DeviceUDID = tostring(DeviceUDID), DevicePlatform = tostring(DevicePlatform), DeviceOS = tostring(DeviceOS), DeviceId = toreal(DeviceId), Manufacturer = tostring(Manufacturer), BuildNumber = tostring(BuildNumber), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), CompanyId = toreal(CompanyId), _ResourceId = tostring(_ResourceId)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), AddedDate = todatetime(AddedDate), ThreatScore = toreal(ThreatScore), ThreatLevel = tostring(ThreatLevel), IsDeleted = tobool(IsDeleted), UserEmail = tostring(UserEmail), CompanyName = tostring(CompanyName), LocationID = toreal(LocationID), LastReported = todatetime(LastReported), DevicePlatform = tostring(DevicePlatform), CompanyId = toreal(CompanyId), DeviceOS = tostring(DeviceOS), DeviceId = toreal(DeviceId), Manufacturer = tostring(Manufacturer), BuildNumber = tostring(BuildNumber), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), AgentVersion = tostring(AgentVersion), DeviceUDID = tostring(DeviceUDID)'
         outputStream: 'Custom-BetterMTDDeviceLog_CL'
       }
     ]

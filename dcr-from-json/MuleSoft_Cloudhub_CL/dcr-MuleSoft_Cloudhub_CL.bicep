@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for MuleSoft_Cloudhub_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:58
+// Generated: 2025-09-18 08:37:33
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 33, DCR columns: 32 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 33, DCR columns: 31 (Type column always filtered)
 // Output stream: Custom-MuleSoft_Cloudhub_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -37,10 +37,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
-            type: 'string'
-          }
-          {
-            name: 'event_message_s'
             type: 'string'
           }
           {
@@ -92,11 +88,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'event_priority_s'
+            name: 'actions_s'
             type: 'string'
           }
           {
-            name: 'actions_s'
+            name: 'productName_s'
             type: 'string'
           }
           {
@@ -152,11 +148,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'productName_s'
+            name: 'event_message_s'
             type: 'string'
           }
           {
-            name: '_ResourceId'
+            name: 'event_priority_s'
             type: 'string'
           }
         ]
@@ -175,7 +171,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-MuleSoft_Cloudhub_CL']
         destinations: ['Sentinel-MuleSoft_Cloudhub_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), event_message_s = tostring(event_message_s), event_timestamp_d = toreal(event_timestamp_d), event_threadName_s = tostring(event_threadName_s), event_loggerName_s = tostring(event_loggerName_s), line_d = toreal(line_d), instanceId_s = tostring(instanceId_s), deploymentId_s = tostring(deploymentId_s), recordId_s = tostring(recordId_s), event_type_s = tostring(event_type_s), createdAt_d = toreal(createdAt_d), isSystem_b = tobool(isSystem_b), lastModified_d = toreal(lastModified_d), enabled_b = tobool(enabled_b), event_priority_s = tostring(event_priority_s), actions_s = tostring(actions_s), id_g = tostring(id_g), environmentId_g = tostring(environmentId_g), organizationId_g = tostring(organizationId_g), condition_resourceType_s = tostring(condition_resourceType_s), condition_resources_s = tostring(condition_resources_s), condition_type_s = tostring(condition_type_s), severity_s = tostring(severity_s), name_s = tostring(name_s), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), productName_s = tostring(productName_s), _ResourceId = tostring(_ResourceId)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), event_timestamp_d = toreal(event_timestamp_d), event_threadName_s = tostring(event_threadName_s), event_loggerName_s = tostring(event_loggerName_s), line_d = toreal(line_d), instanceId_s = tostring(instanceId_s), deploymentId_s = tostring(deploymentId_s), recordId_s = tostring(recordId_s), event_type_s = tostring(event_type_s), createdAt_d = toreal(createdAt_d), isSystem_b = tobool(isSystem_b), lastModified_d = toreal(lastModified_d), enabled_b = tobool(enabled_b), actions_s = tostring(actions_s), productName_s = tostring(productName_s), id_g = tostring(id_g), environmentId_g = tostring(environmentId_g), organizationId_g = tostring(organizationId_g), condition_resourceType_s = tostring(condition_resourceType_s), condition_resources_s = tostring(condition_resources_s), condition_type_s = tostring(condition_type_s), severity_s = tostring(severity_s), name_s = tostring(name_s), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), event_message_s = tostring(event_message_s), event_priority_s = tostring(event_priority_s)'
         outputStream: 'Custom-MuleSoft_Cloudhub_CL'
       }
     ]

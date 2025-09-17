@@ -12,10 +12,10 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for WizAuditLogs_CL
 // ============================================================================
-// Generated: 2025-09-17 06:21:06
+// Generated: 2025-09-18 08:37:40
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
+// Underscore columns filtered out
 // Original columns: 6, DCR columns: 6 (Type column always filtered)
 // Output stream: Custom-WizAuditLogs_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.

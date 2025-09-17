@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for ProofPointTAPMessagesBlocked_CL
 // ============================================================================
-// Generated: 2025-09-17 06:21:01
+// Generated: 2025-09-18 08:37:35
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 37, DCR columns: 36 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 37, DCR columns: 35 (Type column always filtered)
 // Output stream: Custom-ProofPointTAPMessagesBlocked_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -40,47 +40,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'headerReplyTo_s'
-            type: 'string'
-          }
-          {
-            name: 'impostorScore_d'
-            type: 'string'
-          }
-          {
-            name: 'malwareScore_d'
-            type: 'string'
-          }
-          {
-            name: 'messageSize_d'
-            type: 'string'
-          }
-          {
-            name: 'headerFrom_s'
-            type: 'string'
-          }
-          {
-            name: 'phishScore_d'
-            type: 'string'
-          }
-          {
-            name: 'messageParts_s'
-            type: 'string'
-          }
-          {
-            name: 'policyRoutes_s'
-            type: 'string'
-          }
-          {
-            name: 'GUID_s'
-            type: 'string'
-          }
-          {
-            name: 'cluster_s'
-            type: 'string'
-          }
-          {
-            name: 'quarantineFolder_s'
+            name: 'ccAddresses_s'
             type: 'string'
           }
           {
@@ -88,11 +48,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ccAddresses_s'
+            name: 'quarantineFolder_s'
             type: 'string'
           }
           {
-            name: 'xmailer_s'
+            name: 'cluster_s'
+            type: 'string'
+          }
+          {
+            name: 'GUID_s'
             type: 'string'
           }
           {
@@ -100,11 +64,43 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'completelyRewritten_b'
+            name: 'policyRoutes_s'
+            type: 'string'
+          }
+          {
+            name: 'phishScore_d'
+            type: 'string'
+          }
+          {
+            name: 'headerFrom_s'
+            type: 'string'
+          }
+          {
+            name: 'messageSize_d'
+            type: 'string'
+          }
+          {
+            name: 'malwareScore_d'
+            type: 'string'
+          }
+          {
+            name: 'impostorScore_d'
+            type: 'string'
+          }
+          {
+            name: 'headerReplyTo_s'
+            type: 'string'
+          }
+          {
+            name: 'messageParts_s'
             type: 'string'
           }
           {
             name: 'messageID_s'
+            type: 'string'
+          }
+          {
+            name: 'senderIP_s'
             type: 'string'
           }
           {
@@ -136,7 +132,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'senderIP_s'
+            name: 'xmailer_s'
             type: 'string'
           }
           {
@@ -172,7 +168,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: '_ResourceId'
+            name: 'completelyRewritten_b'
             type: 'string'
           }
         ]
@@ -191,7 +187,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-ProofPointTAPMessagesBlocked_CL']
         destinations: ['Sentinel-ProofPointTAPMessagesBlocked_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), headerReplyTo_s = tostring(headerReplyTo_s), impostorScore_d = toreal(impostorScore_d), malwareScore_d = toreal(malwareScore_d), messageSize_d = toreal(messageSize_d), headerFrom_s = tostring(headerFrom_s), phishScore_d = toreal(phishScore_d), messageParts_s = tostring(messageParts_s), policyRoutes_s = tostring(policyRoutes_s), GUID_s = tostring(GUID_s), cluster_s = tostring(cluster_s), quarantineFolder_s = tostring(quarantineFolder_s), fromAddress_s = tostring(fromAddress_s), ccAddresses_s = tostring(ccAddresses_s), xmailer_s = tostring(xmailer_s), modulesRun_s = tostring(modulesRun_s), completelyRewritten_b = tobool(completelyRewritten_b), messageID_s = tostring(messageID_s), recipient_s = tostring(recipient_s), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), spamScore_d = toreal(spamScore_d), senderIP_s = tostring(senderIP_s), threatsInfoMap_s = tostring(threatsInfoMap_s), subject_s = tostring(subject_s), quarantineRule_s = tostring(quarantineRule_s), replyToAddress_s = tostring(replyToAddress_s), toAddresses_s = tostring(toAddresses_s), QID_s = tostring(QID_s), sender_s = tostring(sender_s), messageTime_t = todatetime(messageTime_t), _ResourceId = tostring(_ResourceId)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), ccAddresses_s = tostring(ccAddresses_s), fromAddress_s = tostring(fromAddress_s), quarantineFolder_s = tostring(quarantineFolder_s), cluster_s = tostring(cluster_s), GUID_s = tostring(GUID_s), modulesRun_s = tostring(modulesRun_s), policyRoutes_s = tostring(policyRoutes_s), phishScore_d = toreal(phishScore_d), headerFrom_s = tostring(headerFrom_s), messageSize_d = toreal(messageSize_d), malwareScore_d = toreal(malwareScore_d), impostorScore_d = toreal(impostorScore_d), headerReplyTo_s = tostring(headerReplyTo_s), messageParts_s = tostring(messageParts_s), messageID_s = tostring(messageID_s), senderIP_s = tostring(senderIP_s), recipient_s = tostring(recipient_s), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), spamScore_d = toreal(spamScore_d), xmailer_s = tostring(xmailer_s), threatsInfoMap_s = tostring(threatsInfoMap_s), subject_s = tostring(subject_s), quarantineRule_s = tostring(quarantineRule_s), replyToAddress_s = tostring(replyToAddress_s), toAddresses_s = tostring(toAddresses_s), QID_s = tostring(QID_s), sender_s = tostring(sender_s), messageTime_t = todatetime(messageTime_t), completelyRewritten_b = tobool(completelyRewritten_b)'
         outputStream: 'Custom-ProofPointTAPMessagesBlocked_CL'
       }
     ]

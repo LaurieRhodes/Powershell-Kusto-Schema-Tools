@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Syslog
 // ============================================================================
-// Generated: 2025-09-17 08:12:46
+// Generated: 2025-09-18 07:50:28
 // Table type: Microsoft
 // Schema discovered using hybrid approach (Management API + getschema)
-// Underscore columns included
-// Original columns: 18, DCR columns: 17 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 18, DCR columns: 16 (Type column always filtered)
 // Input stream: Custom-Syslog (always Custom- for JSON ingestion)
 // Output stream: Microsoft-Syslog (based on table type)
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
@@ -96,10 +96,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             name: 'CollectorHostName'
             type: 'string'
           }
-          {
-            name: '_ResourceId'
-            type: 'string'
-          }
         ]
       }
     }
@@ -116,7 +112,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Syslog']
         destinations: ['Sentinel-Syslog']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = toguid(MG), TimeCollected = todatetime(TimeCollected), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), EventTime = todatetime(EventTime), Facility = tostring(Facility), HostName = tostring(HostName), SeverityLevel = tostring(SeverityLevel), SyslogMessage = tostring(SyslogMessage), ProcessID = toint(ProcessID), HostIP = tostring(HostIP), ProcessName = tostring(ProcessName), CollectorHostName = tostring(CollectorHostName), _ResourceId = tostring(_ResourceId)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = toguid(MG), TimeCollected = todatetime(TimeCollected), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), EventTime = todatetime(EventTime), Facility = tostring(Facility), HostName = tostring(HostName), SeverityLevel = tostring(SeverityLevel), SyslogMessage = tostring(SyslogMessage), ProcessID = toint(ProcessID), HostIP = tostring(HostIP), ProcessName = tostring(ProcessName), CollectorHostName = tostring(CollectorHostName)'
         outputStream: 'Microsoft-Syslog'
       }
     ]

@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_stats_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:51
+// Generated: 2025-09-18 08:37:25
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 30, DCR columns: 30 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 30, DCR columns: 27 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_stats_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -36,7 +36,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: '_path_s'
+            name: 'ts_t'
             type: 'string'
           }
           {
@@ -88,11 +88,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'reassem_frag_size_d'
+            name: 'active_udp_conns_d'
             type: 'string'
           }
           {
-            name: 'active_udp_conns_d'
+            name: 'active_tcp_conns_d'
             type: 'string'
           }
           {
@@ -132,19 +132,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ts_t'
-            type: 'string'
-          }
-          {
-            name: '_write_ts_t'
-            type: 'string'
-          }
-          {
-            name: '_system_name_s'
-            type: 'string'
-          }
-          {
-            name: 'active_tcp_conns_d'
+            name: 'reassem_frag_size_d'
             type: 'string'
           }
           {
@@ -167,7 +155,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_stats_CL']
         destinations: ['Sentinel-Corelight_v2_stats_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), reassem_file_size_d = toreal(reassem_file_size_d), reassem_tcp_size_d = toreal(reassem_tcp_size_d), active_dns_requests_d = toreal(active_dns_requests_d), dns_requests_d = toreal(dns_requests_d), active_files_d = toreal(active_files_d), files_d = toreal(files_d), active_timers_d = toreal(active_timers_d), timers_d = toreal(timers_d), icmp_conns_d = toreal(icmp_conns_d), udp_conns_d = toreal(udp_conns_d), tcp_conns_d = toreal(tcp_conns_d), active_icmp_conns_d = toreal(active_icmp_conns_d), reassem_frag_size_d = toreal(reassem_frag_size_d), active_udp_conns_d = toreal(active_udp_conns_d), events_queued_d = toreal(events_queued_d), events_proc_d = toreal(events_proc_d), pkt_lag_d = toreal(pkt_lag_d), pkts_link_d = toreal(pkts_link_d), pkts_dropped_d = toreal(pkts_dropped_d), bytes_recv_d = toreal(bytes_recv_d), pkts_proc_d = toreal(pkts_proc_d), mem_d = toreal(mem_d), peer_s = tostring(peer_s), ts_t = todatetime(ts_t), _write_ts_t = todatetime(_write_ts_t), _system_name_s = tostring(_system_name_s), active_tcp_conns_d = toreal(active_tcp_conns_d), reassem_unknown_size_d = toreal(reassem_unknown_size_d)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), reassem_file_size_d = toreal(reassem_file_size_d), reassem_tcp_size_d = toreal(reassem_tcp_size_d), active_dns_requests_d = toreal(active_dns_requests_d), dns_requests_d = toreal(dns_requests_d), active_files_d = toreal(active_files_d), files_d = toreal(files_d), active_timers_d = toreal(active_timers_d), timers_d = toreal(timers_d), icmp_conns_d = toreal(icmp_conns_d), udp_conns_d = toreal(udp_conns_d), tcp_conns_d = toreal(tcp_conns_d), active_icmp_conns_d = toreal(active_icmp_conns_d), active_udp_conns_d = toreal(active_udp_conns_d), active_tcp_conns_d = toreal(active_tcp_conns_d), events_queued_d = toreal(events_queued_d), events_proc_d = toreal(events_proc_d), pkt_lag_d = toreal(pkt_lag_d), pkts_link_d = toreal(pkts_link_d), pkts_dropped_d = toreal(pkts_dropped_d), bytes_recv_d = toreal(bytes_recv_d), pkts_proc_d = toreal(pkts_proc_d), mem_d = toreal(mem_d), peer_s = tostring(peer_s), reassem_frag_size_d = toreal(reassem_frag_size_d), reassem_unknown_size_d = toreal(reassem_unknown_size_d)'
         outputStream: 'Custom-Corelight_v2_stats_CL'
       }
     ]

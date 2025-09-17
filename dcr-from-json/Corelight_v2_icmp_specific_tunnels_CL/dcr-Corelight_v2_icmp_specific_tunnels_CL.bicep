@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_icmp_specific_tunnels_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:48
+// Generated: 2025-09-18 08:37:22
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 15, DCR columns: 15 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 15, DCR columns: 12 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_icmp_specific_tunnels_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -33,18 +33,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
         columns: [
           {
             name: 'TimeGenerated'
-            type: 'string'
-          }
-          {
-            name: '_path_s'
-            type: 'string'
-          }
-          {
-            name: '_system_name_s'
-            type: 'string'
-          }
-          {
-            name: '_write_ts_t'
             type: 'string'
           }
           {
@@ -107,7 +95,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_icmp_specific_tunnels_CL']
         destinations: ['Sentinel-Corelight_v2_icmp_specific_tunnels_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), _system_name_s = tostring(_system_name_s), _write_ts_t = todatetime(_write_ts_t), ts_t = todatetime(ts_t), start_time_t = todatetime(start_time_t), duration_d = toreal(duration_d), id_orig_h_s = tostring(id_orig_h_s), id_orig_p_d = toreal(id_orig_p_d), id_resp_h_s = tostring(id_resp_h_s), id_resp_p_d = toreal(id_resp_p_d), tunnel_s = tostring(tunnel_s), seq_d = toreal(seq_d), icmp_id_d = toreal(icmp_id_d), payload_s = tostring(payload_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), start_time_t = todatetime(start_time_t), duration_d = toreal(duration_d), id_orig_h_s = tostring(id_orig_h_s), id_orig_p_d = toreal(id_orig_p_d), id_resp_h_s = tostring(id_resp_h_s), id_resp_p_d = toreal(id_resp_p_d), tunnel_s = tostring(tunnel_s), seq_d = toreal(seq_d), icmp_id_d = toreal(icmp_id_d), payload_s = tostring(payload_s)'
         outputStream: 'Custom-Corelight_v2_icmp_specific_tunnels_CL'
       }
     ]

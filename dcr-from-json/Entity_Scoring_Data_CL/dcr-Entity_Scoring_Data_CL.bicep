@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Entity_Scoring_Data_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:54
+// Generated: 2025-09-18 08:37:28
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 29, DCR columns: 28 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 29, DCR columns: 27 (Type column always filtered)
 // Output stream: Custom-Entity_Scoring_Data_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -37,10 +37,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
-            type: 'string'
-          }
-          {
-            name: 'last_detection_id_d'
             type: 'string'
           }
           {
@@ -84,11 +80,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'event_timestamp_t'
+            name: 'type_s'
             type: 'string'
           }
           {
-            name: 'type_s'
+            name: 'entity_type_s'
             type: 'string'
           }
           {
@@ -136,11 +132,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'entity_type_s'
+            name: 'last_detection_id_d'
             type: 'string'
           }
           {
-            name: '_ResourceId'
+            name: 'event_timestamp_t'
             type: 'string'
           }
         ]
@@ -159,7 +155,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Entity_Scoring_Data_CL']
         destinations: ['Sentinel-Entity_Scoring_Data_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), last_detection_id_d = toreal(last_detection_id_d), url_s = tostring(url_s), last_detection_type_s = tostring(last_detection_type_s), Category = tostring(Category), active_detection_types_s = tostring(active_detection_types_s), attack_rating_d = toreal(attack_rating_d), velocity_contrib_d = toreal(velocity_contrib_d), urgency_score_d = toreal(urgency_score_d), severity_s = tostring(severity_s), last_detection_url_s = tostring(last_detection_url_s), is_prioritized_b = tobool(is_prioritized_b), event_timestamp_t = todatetime(event_timestamp_t), type_s = tostring(type_s), importance_d = toreal(importance_d), entity_importance_d = toreal(entity_importance_d), breadth_contrib_d = toreal(breadth_contrib_d), name_s = tostring(name_s), entity_id_d = toreal(entity_id_d), id_d = toreal(id_d), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), entity_type_s = tostring(entity_type_s), _ResourceId = tostring(_ResourceId)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), url_s = tostring(url_s), last_detection_type_s = tostring(last_detection_type_s), Category = tostring(Category), active_detection_types_s = tostring(active_detection_types_s), attack_rating_d = toreal(attack_rating_d), velocity_contrib_d = toreal(velocity_contrib_d), urgency_score_d = toreal(urgency_score_d), severity_s = tostring(severity_s), last_detection_url_s = tostring(last_detection_url_s), is_prioritized_b = tobool(is_prioritized_b), type_s = tostring(type_s), entity_type_s = tostring(entity_type_s), importance_d = toreal(importance_d), entity_importance_d = toreal(entity_importance_d), breadth_contrib_d = toreal(breadth_contrib_d), name_s = tostring(name_s), entity_id_d = toreal(entity_id_d), id_d = toreal(id_d), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), last_detection_id_d = toreal(last_detection_id_d), event_timestamp_t = todatetime(event_timestamp_t)'
         outputStream: 'Custom-Entity_Scoring_Data_CL'
       }
     ]

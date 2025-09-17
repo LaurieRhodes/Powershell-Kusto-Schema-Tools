@@ -12,13 +12,13 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for ASimNetworkSessionLogs
 // ============================================================================
-// Generated: 2025-09-17 08:12:41
+// Generated: 2025-09-18 07:50:04
 // Table type: Microsoft
 // Schema discovered using hybrid approach (Management API + getschema)
-// Underscore columns included
-// Original columns: 143, DCR columns: 142 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 143, DCR columns: 141 (Type column always filtered)
 // Input stream: Custom-ASimNetworkSessionLogs (always Custom- for JSON ingestion)
-// Output stream: Custom-ASimNetworkSessionLogs (based on table type)
+// Output stream: Microsoft-ASimNetworkSessionLogs (based on table type)
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
 
@@ -169,11 +169,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'SrcDvcId'
+            name: 'NetworkRuleNumber'
             type: 'string'
           }
           {
-            name: 'SrcDvcIdType'
+            name: 'SrcDvcId'
             type: 'string'
           }
           {
@@ -181,47 +181,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'TcpFlagsRst'
-            type: 'string'
-          }
-          {
-            name: 'TcpFlagsUrg'
-            type: 'string'
-          }
-          {
-            name: 'TcpFlagsSyn'
-            type: 'string'
-          }
-          {
-            name: 'ThreatField'
-            type: 'string'
-          }
-          {
-            name: 'ThreatIsActive'
-            type: 'string'
-          }
-          {
-            name: 'ThreatConfidence'
-            type: 'string'
-          }
-          {
-            name: 'TcpFlagsPsh'
-            type: 'string'
-          }
-          {
-            name: 'NetworkDuration'
-            type: 'string'
-          }
-          {
-            name: 'EventOriginalResultDetails'
-            type: 'string'
-          }
-          {
-            name: 'ThreatFirstReportedTime'
-            type: 'string'
-          }
-          {
-            name: 'ThreatLastReportedTime'
+            name: 'DstDescription'
             type: 'string'
           }
           {
@@ -229,11 +189,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'DstDescription'
+            name: 'ThreatLastReportedTime'
             type: 'string'
           }
           {
-            name: 'SrcDescription'
+            name: 'ThreatFirstReportedTime'
+            type: 'string'
+          }
+          {
+            name: 'EventOriginalResultDetails'
             type: 'string'
           }
           {
@@ -241,11 +205,43 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'NetworkRuleNumber'
+            name: 'NetworkDuration'
+            type: 'string'
+          }
+          {
+            name: 'ThreatConfidence'
+            type: 'string'
+          }
+          {
+            name: 'ThreatIsActive'
+            type: 'string'
+          }
+          {
+            name: 'ThreatField'
+            type: 'string'
+          }
+          {
+            name: 'TcpFlagsSyn'
+            type: 'string'
+          }
+          {
+            name: 'TcpFlagsUrg'
+            type: 'string'
+          }
+          {
+            name: 'TcpFlagsRst'
+            type: 'string'
+          }
+          {
+            name: 'TcpFlagsPsh'
             type: 'string'
           }
           {
             name: 'TcpFlagsFin'
+            type: 'string'
+          }
+          {
+            name: 'TcpFlagsAck'
             type: 'string'
           }
           {
@@ -277,7 +273,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'TcpFlagsAck'
+            name: 'SrcDvcIdType'
             type: 'string'
           }
           {
@@ -313,11 +309,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'SourceSystem'
+            name: 'NetworkRuleName'
             type: 'string'
           }
           {
-            name: 'NetworkRuleName'
+            name: 'DvcOutboundInterface'
             type: 'string'
           }
           {
@@ -525,7 +521,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'DvcOutboundInterface'
+            name: 'SrcDescription'
             type: 'string'
           }
           {
@@ -597,7 +593,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: '_ResourceId'
+            name: 'SourceSystem'
             type: 'string'
           }
         ]
@@ -616,8 +612,8 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-ASimNetworkSessionLogs']
         destinations: ['Sentinel-ASimNetworkSessionLogs']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SrcDomainType = tostring(SrcDomainType), SrcDomain = tostring(SrcDomain), SrcHostname = tostring(SrcHostname), DvcIdType = tostring(DvcIdType), DvcId = tostring(DvcId), DvcFQDN = tostring(DvcFQDN), EventReportUrl = tostring(EventReportUrl), EventOriginalUid = tostring(EventOriginalUid), NetworkProtocol = tostring(NetworkProtocol), DstIpAddr = tostring(DstIpAddr), SrcPortNumber = toint(SrcPortNumber), SrcIpAddr = tostring(SrcIpAddr), AdditionalFields = todynamic(AdditionalFields), DvcOsVersion = tostring(DvcOsVersion), DvcOs = tostring(DvcOs), DvcDomainType = tostring(DvcDomainType), DvcDomain = tostring(DvcDomain), ThreatId = tostring(ThreatId), ThreatName = tostring(ThreatName), ThreatCategory = tostring(ThreatCategory), ThreatRiskLevel = toint(ThreatRiskLevel), ThreatOriginalRiskLevel = tostring(ThreatOriginalRiskLevel), EventType = tostring(EventType), SrcFQDN = tostring(SrcFQDN), EventSubType = tostring(EventSubType), EventResultDetails = tostring(EventResultDetails), EventOriginalType = tostring(EventOriginalType), EventProduct = tostring(EventProduct), EventVendor = tostring(EventVendor), DvcIpAddr = tostring(DvcIpAddr), DvcHostname = tostring(DvcHostname), EventResult = tostring(EventResult), SrcDvcId = tostring(SrcDvcId), SrcDvcIdType = tostring(SrcDvcIdType), ThreatIpAddr = tostring(ThreatIpAddr), TcpFlagsRst = tobool(TcpFlagsRst), TcpFlagsUrg = tobool(TcpFlagsUrg), TcpFlagsSyn = tobool(TcpFlagsSyn), ThreatField = tostring(ThreatField), ThreatIsActive = tobool(ThreatIsActive), ThreatConfidence = toint(ThreatConfidence), TcpFlagsPsh = tobool(TcpFlagsPsh), NetworkDuration = toint(NetworkDuration), EventOriginalResultDetails = tostring(EventOriginalResultDetails), ThreatFirstReportedTime = todatetime(ThreatFirstReportedTime), ThreatLastReportedTime = todatetime(ThreatLastReportedTime), ThreatOriginalConfidence = tostring(ThreatOriginalConfidence), DstDescription = tostring(DstDescription), SrcDescription = tostring(SrcDescription), DvcDescription = tostring(DvcDescription), NetworkRuleNumber = toint(NetworkRuleNumber), TcpFlagsFin = tobool(TcpFlagsFin), DstDeviceType = tostring(DstDeviceType), SrcDeviceType = tostring(SrcDeviceType), SrcUserId = tostring(SrcUserId), SrcUserIdType = tostring(SrcUserIdType), SrcUsername = tostring(SrcUsername), SrcUsernameType = tostring(SrcUsernameType), SrcUserType = tostring(SrcUserType), TcpFlagsAck = tobool(TcpFlagsAck), SrcOriginalUserType = tostring(SrcOriginalUserType), DstHostname = tostring(DstHostname), DstDomain = tostring(DstDomain), DstDomainType = tostring(DstDomainType), DstFQDN = tostring(DstFQDN), DstDvcId = tostring(DstDvcId), DstDvcIdType = tostring(DstDvcIdType), DstPortNumber = toint(DstPortNumber), SourceSystem = tostring(SourceSystem), NetworkRuleName = tostring(NetworkRuleName), DvcInboundInterface = tostring(DvcInboundInterface), DstInterfaceName = tostring(DstInterfaceName), DstZone = tostring(DstZone), NetworkSessionId = tostring(NetworkSessionId), NetworkPackets = tolong(NetworkPackets), SrcPackets = tolong(SrcPackets), DstPackets = tolong(DstPackets), NetworkBytes = tolong(NetworkBytes), SrcBytes = tolong(SrcBytes), DstBytes = tolong(DstBytes), NetworkConnectionHistory = tostring(NetworkConnectionHistory), NetworkIcmpType = tostring(NetworkIcmpType), NetworkIcmpCode = toint(NetworkIcmpCode), NetworkDirection = tostring(NetworkDirection), NetworkProtocolVersion = tostring(NetworkProtocolVersion), NetworkApplicationProtocol = tostring(NetworkApplicationProtocol), EventOriginalSubType = tostring(EventOriginalSubType), EventOriginalSeverity = tostring(EventOriginalSeverity), EventCount = toint(EventCount), EventSchemaVersion = tostring(EventSchemaVersion), DvcAction = tostring(DvcAction), EventMessage = tostring(EventMessage), EventSeverity = tostring(EventSeverity), EventStartTime = todatetime(EventStartTime), DstInterfaceGuid = tostring(DstInterfaceGuid), EventEndTime = todatetime(EventEndTime), Dvc = tostring(Dvc), DvcZone = tostring(DvcZone), EventProductVersion = tostring(EventProductVersion), DvcOriginalAction = tostring(DvcOriginalAction), DvcInterface = tostring(DvcInterface), DvcSubscriptionId = tostring(DvcSubscriptionId), DvcMacAddr = tostring(DvcMacAddr), DstMacAddr = tostring(DstMacAddr), DstVlanId = tostring(DstVlanId), DstSubscriptionId = tostring(DstSubscriptionId), SrcVlanId = tostring(SrcVlanId), SrcSubscriptionId = tostring(SrcSubscriptionId), SrcGeoCountry = tostring(SrcGeoCountry), SrcGeoRegion = tostring(SrcGeoRegion), SrcGeoCity = tostring(SrcGeoCity), SrcGeoLatitude = toreal(SrcGeoLatitude), SrcMacAddr = tostring(SrcMacAddr), SrcGeoLongitude = toreal(SrcGeoLongitude), SrcAppId = tostring(SrcAppId), SrcAppType = tostring(SrcAppType), DstNatIpAddr = tostring(DstNatIpAddr), DstNatPortNumber = toint(DstNatPortNumber), SrcNatIpAddr = tostring(SrcNatIpAddr), SrcNatPortNumber = toint(SrcNatPortNumber), SrcAppName = tostring(SrcAppName), DvcOutboundInterface = tostring(DvcOutboundInterface), SrcInterfaceGuid = tostring(SrcInterfaceGuid), SrcZone = tostring(SrcZone), DstGeoCountry = tostring(DstGeoCountry), DstGeoRegion = tostring(DstGeoRegion), DstGeoCity = tostring(DstGeoCity), DstGeoLatitude = toreal(DstGeoLatitude), DstGeoLongitude = toreal(DstGeoLongitude), DstUserId = tostring(DstUserId), SrcInterfaceName = tostring(SrcInterfaceName), DstUserIdType = tostring(DstUserIdType), DstUsernameType = tostring(DstUsernameType), DstUserType = tostring(DstUserType), DstOriginalUserType = tostring(DstOriginalUserType), DstAppName = tostring(DstAppName), DstAppId = tostring(DstAppId), DstAppType = tostring(DstAppType), DstUsername = tostring(DstUsername), _ResourceId = tostring(_ResourceId)'
-        outputStream: 'Custom-ASimNetworkSessionLogs'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SrcDomainType = tostring(SrcDomainType), SrcDomain = tostring(SrcDomain), SrcHostname = tostring(SrcHostname), DvcIdType = tostring(DvcIdType), DvcId = tostring(DvcId), DvcFQDN = tostring(DvcFQDN), EventReportUrl = tostring(EventReportUrl), EventOriginalUid = tostring(EventOriginalUid), NetworkProtocol = tostring(NetworkProtocol), DstIpAddr = tostring(DstIpAddr), SrcPortNumber = toint(SrcPortNumber), SrcIpAddr = tostring(SrcIpAddr), AdditionalFields = todynamic(AdditionalFields), DvcOsVersion = tostring(DvcOsVersion), DvcOs = tostring(DvcOs), DvcDomainType = tostring(DvcDomainType), DvcDomain = tostring(DvcDomain), ThreatId = tostring(ThreatId), ThreatName = tostring(ThreatName), ThreatCategory = tostring(ThreatCategory), ThreatRiskLevel = toint(ThreatRiskLevel), ThreatOriginalRiskLevel = tostring(ThreatOriginalRiskLevel), EventType = tostring(EventType), SrcFQDN = tostring(SrcFQDN), EventSubType = tostring(EventSubType), EventResultDetails = tostring(EventResultDetails), EventOriginalType = tostring(EventOriginalType), EventProduct = tostring(EventProduct), EventVendor = tostring(EventVendor), DvcIpAddr = tostring(DvcIpAddr), DvcHostname = tostring(DvcHostname), EventResult = tostring(EventResult), NetworkRuleNumber = toint(NetworkRuleNumber), SrcDvcId = tostring(SrcDvcId), ThreatIpAddr = tostring(ThreatIpAddr), DstDescription = tostring(DstDescription), ThreatOriginalConfidence = tostring(ThreatOriginalConfidence), ThreatLastReportedTime = todatetime(ThreatLastReportedTime), ThreatFirstReportedTime = todatetime(ThreatFirstReportedTime), EventOriginalResultDetails = tostring(EventOriginalResultDetails), DvcDescription = tostring(DvcDescription), NetworkDuration = toint(NetworkDuration), ThreatConfidence = toint(ThreatConfidence), ThreatIsActive = tobool(ThreatIsActive), ThreatField = tostring(ThreatField), TcpFlagsSyn = tobool(TcpFlagsSyn), TcpFlagsUrg = tobool(TcpFlagsUrg), TcpFlagsRst = tobool(TcpFlagsRst), TcpFlagsPsh = tobool(TcpFlagsPsh), TcpFlagsFin = tobool(TcpFlagsFin), TcpFlagsAck = tobool(TcpFlagsAck), DstDeviceType = tostring(DstDeviceType), SrcDeviceType = tostring(SrcDeviceType), SrcUserId = tostring(SrcUserId), SrcUserIdType = tostring(SrcUserIdType), SrcUsername = tostring(SrcUsername), SrcUsernameType = tostring(SrcUsernameType), SrcUserType = tostring(SrcUserType), SrcDvcIdType = tostring(SrcDvcIdType), SrcOriginalUserType = tostring(SrcOriginalUserType), DstHostname = tostring(DstHostname), DstDomain = tostring(DstDomain), DstDomainType = tostring(DstDomainType), DstFQDN = tostring(DstFQDN), DstDvcId = tostring(DstDvcId), DstDvcIdType = tostring(DstDvcIdType), DstPortNumber = toint(DstPortNumber), NetworkRuleName = tostring(NetworkRuleName), DvcOutboundInterface = tostring(DvcOutboundInterface), DvcInboundInterface = tostring(DvcInboundInterface), DstInterfaceName = tostring(DstInterfaceName), DstZone = tostring(DstZone), NetworkSessionId = tostring(NetworkSessionId), NetworkPackets = tolong(NetworkPackets), SrcPackets = tolong(SrcPackets), DstPackets = tolong(DstPackets), NetworkBytes = tolong(NetworkBytes), SrcBytes = tolong(SrcBytes), DstBytes = tolong(DstBytes), NetworkConnectionHistory = tostring(NetworkConnectionHistory), NetworkIcmpType = tostring(NetworkIcmpType), NetworkIcmpCode = toint(NetworkIcmpCode), NetworkDirection = tostring(NetworkDirection), NetworkProtocolVersion = tostring(NetworkProtocolVersion), NetworkApplicationProtocol = tostring(NetworkApplicationProtocol), EventOriginalSubType = tostring(EventOriginalSubType), EventOriginalSeverity = tostring(EventOriginalSeverity), EventCount = toint(EventCount), EventSchemaVersion = tostring(EventSchemaVersion), DvcAction = tostring(DvcAction), EventMessage = tostring(EventMessage), EventSeverity = tostring(EventSeverity), EventStartTime = todatetime(EventStartTime), DstInterfaceGuid = tostring(DstInterfaceGuid), EventEndTime = todatetime(EventEndTime), Dvc = tostring(Dvc), DvcZone = tostring(DvcZone), EventProductVersion = tostring(EventProductVersion), DvcOriginalAction = tostring(DvcOriginalAction), DvcInterface = tostring(DvcInterface), DvcSubscriptionId = tostring(DvcSubscriptionId), DvcMacAddr = tostring(DvcMacAddr), DstMacAddr = tostring(DstMacAddr), DstVlanId = tostring(DstVlanId), DstSubscriptionId = tostring(DstSubscriptionId), SrcVlanId = tostring(SrcVlanId), SrcSubscriptionId = tostring(SrcSubscriptionId), SrcGeoCountry = tostring(SrcGeoCountry), SrcGeoRegion = tostring(SrcGeoRegion), SrcGeoCity = tostring(SrcGeoCity), SrcGeoLatitude = toreal(SrcGeoLatitude), SrcMacAddr = tostring(SrcMacAddr), SrcGeoLongitude = toreal(SrcGeoLongitude), SrcAppId = tostring(SrcAppId), SrcAppType = tostring(SrcAppType), DstNatIpAddr = tostring(DstNatIpAddr), DstNatPortNumber = toint(DstNatPortNumber), SrcNatIpAddr = tostring(SrcNatIpAddr), SrcNatPortNumber = toint(SrcNatPortNumber), SrcAppName = tostring(SrcAppName), SrcDescription = tostring(SrcDescription), SrcInterfaceGuid = tostring(SrcInterfaceGuid), SrcZone = tostring(SrcZone), DstGeoCountry = tostring(DstGeoCountry), DstGeoRegion = tostring(DstGeoRegion), DstGeoCity = tostring(DstGeoCity), DstGeoLatitude = toreal(DstGeoLatitude), DstGeoLongitude = toreal(DstGeoLongitude), DstUserId = tostring(DstUserId), SrcInterfaceName = tostring(SrcInterfaceName), DstUserIdType = tostring(DstUserIdType), DstUsernameType = tostring(DstUsernameType), DstUserType = tostring(DstUserType), DstOriginalUserType = tostring(DstOriginalUserType), DstAppName = tostring(DstAppName), DstAppId = tostring(DstAppId), DstAppType = tostring(DstAppType), DstUsername = tostring(DstUsername), SourceSystem = tostring(SourceSystem)'
+        outputStream: 'Microsoft-ASimNetworkSessionLogs'
       }
     ]
   }

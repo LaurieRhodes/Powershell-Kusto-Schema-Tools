@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_capture_loss_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:46
+// Generated: 2025-09-18 08:37:20
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 10, DCR columns: 10 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 10, DCR columns: 7 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_capture_loss_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -33,18 +33,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
         columns: [
           {
             name: 'TimeGenerated'
-            type: 'string'
-          }
-          {
-            name: '_path_s'
-            type: 'string'
-          }
-          {
-            name: '_system_name_s'
-            type: 'string'
-          }
-          {
-            name: '_write_ts_t'
             type: 'string'
           }
           {
@@ -87,7 +75,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_capture_loss_CL']
         destinations: ['Sentinel-Corelight_v2_capture_loss_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), _system_name_s = tostring(_system_name_s), _write_ts_t = todatetime(_write_ts_t), ts_t = todatetime(ts_t), ts_delta_d = toreal(ts_delta_d), peer_s = tostring(peer_s), gaps_d = toreal(gaps_d), acks_d = toreal(acks_d), percent_lost_d = toreal(percent_lost_d)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), ts_delta_d = toreal(ts_delta_d), peer_s = tostring(peer_s), gaps_d = toreal(gaps_d), acks_d = toreal(acks_d), percent_lost_d = toreal(percent_lost_d)'
         outputStream: 'Custom-Corelight_v2_capture_loss_CL'
       }
     ]

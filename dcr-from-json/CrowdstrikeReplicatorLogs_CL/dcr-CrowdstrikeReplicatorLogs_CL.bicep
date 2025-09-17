@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for CrowdstrikeReplicatorLogs_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:53
+// Generated: 2025-09-18 08:37:27
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 46, DCR columns: 45 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 46, DCR columns: 44 (Type column always filtered)
 // Output stream: Custom-CrowdstrikeReplicatorLogs_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -116,11 +116,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'timestamp'
+            name: 'SignInfoFlags'
             type: 'string'
           }
           {
-            name: 'Tags'
+            name: 'timestamp'
             type: 'string'
           }
           {
@@ -160,15 +160,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
+            name: 'Tags'
+            type: 'string'
+          }
+          {
             name: 'UserSid'
-            type: 'string'
-          }
-          {
-            name: 'event_platform'
-            type: 'string'
-          }
-          {
-            name: '_ResourceId'
             type: 'string'
           }
           {
@@ -204,7 +200,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'SignInfoFlags'
+            name: 'event_platform'
             type: 'string'
           }
           {
@@ -227,7 +223,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-CrowdstrikeReplicatorLogs_CL']
         destinations: ['Sentinel-CrowdstrikeReplicatorLogs_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), RawProcessId = tostring(RawProcessId), ConfigStateHash = tostring(ConfigStateHash), MD5HashData = tostring(MD5HashData), SHA256HashData = tostring(SHA256HashData), ProcessSxsFlags = tostring(ProcessSxsFlags), AuthenticationId = tostring(AuthenticationId), ConfigBuild = tostring(ConfigBuild), WindowFlags = toreal(WindowFlags), event_simpleName = tostring(event_simpleName), CommandLine = tostring(CommandLine), TargetProcessId = tostring(TargetProcessId), ImageFileName = tostring(ImageFileName), SourceThreadId = tostring(SourceThreadId), Entitlements = tostring(Entitlements), name = tostring(name), ProcessStartTime = tostring(ProcessStartTime), ProcessParameterFlags = tostring(ProcessParameterFlags), aid = tostring(aid), ParentAuthenticationId = tostring(ParentAuthenticationId), timestamp = tostring(timestamp), Tags = tostring(Tags), SessionId = tostring(SessionId), SourceSystem = tostring(SourceSystem), Computer = tostring(Computer), ProcessCreateFlags = tostring(ProcessCreateFlags), IntegrityLevel = toreal(IntegrityLevel), ParentProcessId = tostring(ParentProcessId), SourceProcessId = tostring(SourceProcessId), aip = tostring(aip), SHA1HashData = tostring(SHA1HashData), UserSid = tostring(UserSid), event_platform = tostring(event_platform), _ResourceId = tostring(_ResourceId), TokenType = toreal(TokenType), ProcessEndTime = tostring(ProcessEndTime), AuthenticodeHashData = tostring(AuthenticodeHashData), ParentBaseFileName = tostring(ParentBaseFileName), RpcClientProcessId = tostring(RpcClientProcessId), ImageSubsystem = tostring(ImageSubsystem), id = tostring(id), EffectiveTransmissionClass = toreal(EffectiveTransmissionClass), SignInfoFlags = tostring(SignInfoFlags), cid = tostring(cid)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), RawProcessId = tostring(RawProcessId), ConfigStateHash = tostring(ConfigStateHash), MD5HashData = tostring(MD5HashData), SHA256HashData = tostring(SHA256HashData), ProcessSxsFlags = tostring(ProcessSxsFlags), AuthenticationId = tostring(AuthenticationId), ConfigBuild = tostring(ConfigBuild), WindowFlags = toreal(WindowFlags), event_simpleName = tostring(event_simpleName), CommandLine = tostring(CommandLine), TargetProcessId = tostring(TargetProcessId), ImageFileName = tostring(ImageFileName), SourceThreadId = tostring(SourceThreadId), Entitlements = tostring(Entitlements), name = tostring(name), ProcessStartTime = tostring(ProcessStartTime), ProcessParameterFlags = tostring(ProcessParameterFlags), aid = tostring(aid), ParentAuthenticationId = tostring(ParentAuthenticationId), SignInfoFlags = tostring(SignInfoFlags), timestamp = tostring(timestamp), SessionId = tostring(SessionId), SourceSystem = tostring(SourceSystem), Computer = tostring(Computer), ProcessCreateFlags = tostring(ProcessCreateFlags), IntegrityLevel = toreal(IntegrityLevel), ParentProcessId = tostring(ParentProcessId), SourceProcessId = tostring(SourceProcessId), aip = tostring(aip), SHA1HashData = tostring(SHA1HashData), Tags = tostring(Tags), UserSid = tostring(UserSid), TokenType = toreal(TokenType), ProcessEndTime = tostring(ProcessEndTime), AuthenticodeHashData = tostring(AuthenticodeHashData), ParentBaseFileName = tostring(ParentBaseFileName), RpcClientProcessId = tostring(RpcClientProcessId), ImageSubsystem = tostring(ImageSubsystem), id = tostring(id), EffectiveTransmissionClass = toreal(EffectiveTransmissionClass), event_platform = tostring(event_platform), cid = tostring(cid)'
         outputStream: 'Custom-CrowdstrikeReplicatorLogs_CL'
       }
     ]

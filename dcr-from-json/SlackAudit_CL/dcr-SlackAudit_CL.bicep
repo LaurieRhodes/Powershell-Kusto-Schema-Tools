@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for SlackAudit_CL
 // ============================================================================
-// Generated: 2025-09-17 06:21:02
+// Generated: 2025-09-18 08:37:37
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 30, DCR columns: 29 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 30, DCR columns: 28 (Type column always filtered)
 // Output stream: Custom-SlackAudit_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -37,10 +37,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
-            type: 'string'
-          }
-          {
-            name: 'context_session_id_d'
             type: 'string'
           }
           {
@@ -88,11 +84,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'actor_user_team_s'
+            name: 'context_session_id_d'
             type: 'string'
           }
           {
-            name: 'actor_user_email_s'
+            name: 'actor_user_team_s'
             type: 'string'
           }
           {
@@ -140,11 +136,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'action_description_s'
+            name: 'actor_user_email_s'
             type: 'string'
           }
           {
-            name: '_ResourceId'
+            name: 'action_description_s'
             type: 'string'
           }
         ]
@@ -163,7 +159,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-SlackAudit_CL']
         destinations: ['Sentinel-SlackAudit_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), context_session_id_d = toreal(context_session_id_d), context_ip_address_s = tostring(context_ip_address_s), context_ua_s = tostring(context_ua_s), context_location_domain_s = tostring(context_location_domain_s), context_location_name_s = tostring(context_location_name_s), context_location_id_s = tostring(context_location_id_s), context_location_type_s = tostring(context_location_type_s), entity_file_title_s = tostring(entity_file_title_s), entity_file_filetype_s = tostring(entity_file_filetype_s), entity_file_name_s = tostring(entity_file_name_s), entity_file_id_s = tostring(entity_file_id_s), entity_type_s = tostring(entity_type_s), actor_user_team_s = tostring(actor_user_team_s), actor_user_email_s = tostring(actor_user_email_s), actor_user_name_s = tostring(actor_user_name_s), actor_user_id_s = tostring(actor_user_id_s), actor_type_s = tostring(actor_type_s), action_s = tostring(action_s), date_create_d = toreal(date_create_d), id_g = tostring(id_g), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), action_description_s = tostring(action_description_s), _ResourceId = tostring(_ResourceId)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), context_ip_address_s = tostring(context_ip_address_s), context_ua_s = tostring(context_ua_s), context_location_domain_s = tostring(context_location_domain_s), context_location_name_s = tostring(context_location_name_s), context_location_id_s = tostring(context_location_id_s), context_location_type_s = tostring(context_location_type_s), entity_file_title_s = tostring(entity_file_title_s), entity_file_filetype_s = tostring(entity_file_filetype_s), entity_file_name_s = tostring(entity_file_name_s), entity_file_id_s = tostring(entity_file_id_s), entity_type_s = tostring(entity_type_s), context_session_id_d = toreal(context_session_id_d), actor_user_team_s = tostring(actor_user_team_s), actor_user_name_s = tostring(actor_user_name_s), actor_user_id_s = tostring(actor_user_id_s), actor_type_s = tostring(actor_type_s), action_s = tostring(action_s), date_create_d = toreal(date_create_d), id_g = tostring(id_g), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), actor_user_email_s = tostring(actor_user_email_s), action_description_s = tostring(action_description_s)'
         outputStream: 'Custom-SlackAudit_CL'
       }
     ]

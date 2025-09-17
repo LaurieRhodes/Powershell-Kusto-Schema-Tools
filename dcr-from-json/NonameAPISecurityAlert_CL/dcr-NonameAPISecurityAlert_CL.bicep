@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for NonameAPISecurityAlert_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:59
+// Generated: 2025-09-18 08:37:34
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 17, DCR columns: 16 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 17, DCR columns: 15 (Type column always filtered)
 // Output stream: Custom-NonameAPISecurityAlert_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -91,10 +91,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             name: 'type_s'
             type: 'string'
           }
-          {
-            name: '_ResourceId'
-            type: 'string'
-          }
         ]
       }
     }
@@ -111,7 +107,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-NonameAPISecurityAlert_CL']
         destinations: ['Sentinel-NonameAPISecurityAlert_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), data_host_s = tostring(data_host_s), data_id_s = tostring(data_id_s), data_method_s = tostring(data_method_s), data_path_s = tostring(data_path_s), data_self_s = tostring(data_self_s), data_ts_t = todatetime(data_ts_t), data_type_s = tostring(data_type_s), type_s = tostring(type_s), _ResourceId = tostring(_ResourceId)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), data_host_s = tostring(data_host_s), data_id_s = tostring(data_id_s), data_method_s = tostring(data_method_s), data_path_s = tostring(data_path_s), data_self_s = tostring(data_self_s), data_ts_t = todatetime(data_ts_t), data_type_s = tostring(data_type_s), type_s = tostring(type_s)'
         outputStream: 'Custom-NonameAPISecurityAlert_CL'
       }
     ]

@@ -12,10 +12,10 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for FncEventsDetections_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:55
+// Generated: 2025-09-18 08:37:29
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
+// Underscore columns filtered out
 // Original columns: 30, DCR columns: 29 (Type column always filtered)
 // Output stream: Custom-FncEventsDetections_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.

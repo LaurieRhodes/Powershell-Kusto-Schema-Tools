@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_suricata_zeek_stats_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:52
+// Generated: 2025-09-18 08:37:26
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 12, DCR columns: 12 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 12, DCR columns: 9 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_suricata_zeek_stats_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -33,18 +33,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
         columns: [
           {
             name: 'TimeGenerated'
-            type: 'string'
-          }
-          {
-            name: '_path_s'
-            type: 'string'
-          }
-          {
-            name: '_system_name_s'
-            type: 'string'
-          }
-          {
-            name: '_write_ts_t'
             type: 'string'
           }
           {
@@ -95,7 +83,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_suricata_zeek_stats_CL']
         destinations: ['Sentinel-Corelight_v2_suricata_zeek_stats_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), _system_name_s = tostring(_system_name_s), _write_ts_t = todatetime(_write_ts_t), ts_t = todatetime(ts_t), raised_alerts_d = toreal(raised_alerts_d), matched_conn_alerts_d = toreal(matched_conn_alerts_d), unparsed_alerts_d = toreal(unparsed_alerts_d), closed_conn_alerts_d = toreal(closed_conn_alerts_d), unmatched_conn_alerts_d = toreal(unmatched_conn_alerts_d), uniq_matched_conns_d = toreal(uniq_matched_conns_d), uniq_closed_conns_d = toreal(uniq_closed_conns_d)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), raised_alerts_d = toreal(raised_alerts_d), matched_conn_alerts_d = toreal(matched_conn_alerts_d), unparsed_alerts_d = toreal(unparsed_alerts_d), closed_conn_alerts_d = toreal(closed_conn_alerts_d), unmatched_conn_alerts_d = toreal(unmatched_conn_alerts_d), uniq_matched_conns_d = toreal(uniq_matched_conns_d), uniq_closed_conns_d = toreal(uniq_closed_conns_d)'
         outputStream: 'Custom-Corelight_v2_suricata_zeek_stats_CL'
       }
     ]

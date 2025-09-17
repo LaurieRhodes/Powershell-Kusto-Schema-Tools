@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_snmp_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:51
+// Generated: 2025-09-18 08:37:25
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 19, DCR columns: 19 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 19, DCR columns: 16 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_snmp_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -36,51 +36,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: '_path_s'
-            type: 'string'
-          }
-          {
-            name: 'set_requests_d'
-            type: 'string'
-          }
-          {
-            name: 'get_responses_d'
-            type: 'string'
-          }
-          {
-            name: 'get_bulk_requests_d'
-            type: 'string'
-          }
-          {
-            name: 'get_requests_d'
-            type: 'string'
-          }
-          {
-            name: 'community_s'
-            type: 'string'
-          }
-          {
-            name: 'version_s'
-            type: 'string'
-          }
-          {
-            name: 'duration_d'
-            type: 'string'
-          }
-          {
-            name: 'id_resp_p_d'
-            type: 'string'
-          }
-          {
-            name: 'id_resp_h_s'
-            type: 'string'
-          }
-          {
-            name: 'id_orig_p_d'
-            type: 'string'
-          }
-          {
-            name: 'id_orig_h_s'
+            name: 'ts_t'
             type: 'string'
           }
           {
@@ -88,15 +44,47 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ts_t'
+            name: 'id_orig_h_s'
             type: 'string'
           }
           {
-            name: '_write_ts_t'
+            name: 'id_orig_p_d'
             type: 'string'
           }
           {
-            name: '_system_name_s'
+            name: 'id_resp_h_s'
+            type: 'string'
+          }
+          {
+            name: 'id_resp_p_d'
+            type: 'string'
+          }
+          {
+            name: 'duration_d'
+            type: 'string'
+          }
+          {
+            name: 'version_s'
+            type: 'string'
+          }
+          {
+            name: 'community_s'
+            type: 'string'
+          }
+          {
+            name: 'get_requests_d'
+            type: 'string'
+          }
+          {
+            name: 'get_bulk_requests_d'
+            type: 'string'
+          }
+          {
+            name: 'get_responses_d'
+            type: 'string'
+          }
+          {
+            name: 'set_requests_d'
             type: 'string'
           }
           {
@@ -123,7 +111,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_snmp_CL']
         destinations: ['Sentinel-Corelight_v2_snmp_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), set_requests_d = toreal(set_requests_d), get_responses_d = toreal(get_responses_d), get_bulk_requests_d = toreal(get_bulk_requests_d), get_requests_d = toreal(get_requests_d), community_s = tostring(community_s), version_s = tostring(version_s), duration_d = toreal(duration_d), id_resp_p_d = toreal(id_resp_p_d), id_resp_h_s = tostring(id_resp_h_s), id_orig_p_d = toreal(id_orig_p_d), id_orig_h_s = tostring(id_orig_h_s), uid_s = tostring(uid_s), ts_t = todatetime(ts_t), _write_ts_t = todatetime(_write_ts_t), _system_name_s = tostring(_system_name_s), display_string_s = tostring(display_string_s), up_since_t = todatetime(up_since_t)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), uid_s = tostring(uid_s), id_orig_h_s = tostring(id_orig_h_s), id_orig_p_d = toreal(id_orig_p_d), id_resp_h_s = tostring(id_resp_h_s), id_resp_p_d = toreal(id_resp_p_d), duration_d = toreal(duration_d), version_s = tostring(version_s), community_s = tostring(community_s), get_requests_d = toreal(get_requests_d), get_bulk_requests_d = toreal(get_bulk_requests_d), get_responses_d = toreal(get_responses_d), set_requests_d = toreal(set_requests_d), display_string_s = tostring(display_string_s), up_since_t = todatetime(up_since_t)'
         outputStream: 'Custom-Corelight_v2_snmp_CL'
       }
     ]

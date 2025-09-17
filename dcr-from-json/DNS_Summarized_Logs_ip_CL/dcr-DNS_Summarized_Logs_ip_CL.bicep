@@ -12,10 +12,10 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for DNS_Summarized_Logs_ip_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:53
+// Generated: 2025-09-18 08:37:28
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
+// Underscore columns filtered out
 // Original columns: 7, DCR columns: 7 (Type column always filtered)
 // Output stream: Custom-DNS_Summarized_Logs_ip_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.

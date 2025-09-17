@@ -12,13 +12,13 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Anomalies
 // ============================================================================
-// Generated: 2025-09-17 08:12:38
+// Generated: 2025-09-18 07:49:56
 // Table type: Microsoft
 // Schema discovered using hybrid approach (Management API + getschema)
-// Underscore columns included
+// Underscore columns filtered out
 // Original columns: 36, DCR columns: 35 (Type column always filtered)
 // Input stream: Custom-Anomalies (always Custom- for JSON ingestion)
-// Output stream: Custom-Anomalies (based on table type)
+// Output stream: Microsoft-Anomalies (based on table type)
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
 
@@ -189,7 +189,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
         streams: ['Custom-Anomalies']
         destinations: ['Sentinel-Anomalies']
         transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), ExtendedProperties = todynamic(ExtendedProperties), Entities = todynamic(Entities), AnomalyReasons = todynamic(AnomalyReasons), UserInsights = todynamic(UserInsights), DeviceInsights = todynamic(DeviceInsights), ActivityInsights = todynamic(ActivityInsights), DestinationDevice = tostring(DestinationDevice), DestinationLocation = todynamic(DestinationLocation), DestinationIpAddress = tostring(DestinationIpAddress), SourceDevice = tostring(SourceDevice), SourceLocation = todynamic(SourceLocation), SourceIpAddress = tostring(SourceIpAddress), UserPrincipalName = tostring(UserPrincipalName), UserName = tostring(UserName), Techniques = tostring(Techniques), Tactics = tostring(Tactics), ExtendedLinks = todynamic(ExtendedLinks), Id = tostring(Id), WorkspaceId = tostring(WorkspaceId), VendorName = tostring(VendorName), AnomalyTemplateId = tostring(AnomalyTemplateId), AnomalyTemplateName = tostring(AnomalyTemplateName), AnomalyTemplateVersion = tostring(AnomalyTemplateVersion), AnomalyDetails = todynamic(AnomalyDetails), RuleId = tostring(RuleId), RuleName = tostring(RuleName), RuleConfigVersion = tostring(RuleConfigVersion), Score = toreal(Score), Description = tostring(Description), StartTime = todatetime(StartTime), EndTime = todatetime(EndTime), RuleStatus = tostring(RuleStatus), SourceSystem = tostring(SourceSystem)'
-        outputStream: 'Custom-Anomalies'
+        outputStream: 'Microsoft-Anomalies'
       }
     ]
   }

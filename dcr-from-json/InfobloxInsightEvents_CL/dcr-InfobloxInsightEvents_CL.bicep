@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for InfobloxInsightEvents_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:57
+// Generated: 2025-09-18 08:37:31
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 48, DCR columns: 47 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 48, DCR columns: 46 (Type column always filtered)
 // Output stream: Custom-InfobloxInsightEvents_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -37,6 +37,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
+            type: 'string'
+          }
+          {
+            name: 'response_s'
             type: 'string'
           }
           {
@@ -112,15 +116,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'InfobloxInsightLogType_s'
-            type: 'string'
-          }
-          {
-            name: 'response_s'
-            type: 'string'
-          }
-          {
             name: 'queryType_s'
+            type: 'string'
+          }
+          {
+            name: 'InfobloxInsightLogType_s'
             type: 'string'
           }
           {
@@ -128,7 +128,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'deviceIp_s'
+            name: 'policy_s'
             type: 'string'
           }
           {
@@ -168,11 +168,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'InsightID_g'
+            name: 'confidenceLevel_s'
             type: 'string'
           }
           {
-            name: 'confidenceLevel_s'
+            name: 'deviceCountry_s'
             type: 'string'
           }
           {
@@ -208,15 +208,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'policy_s'
+            name: 'deviceIp_s'
             type: 'string'
           }
           {
-            name: 'deviceCountry_s'
-            type: 'string'
-          }
-          {
-            name: '_ResourceId'
+            name: 'InsightID_g'
             type: 'string'
           }
         ]
@@ -235,7 +231,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-InfobloxInsightEvents_CL']
         destinations: ['Sentinel-InfobloxInsightEvents_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), class_s = tostring(class_s), threatFamily_s = tostring(threatFamily_s), threatIndicator_s = tostring(threatIndicator_s), detected_s = tostring(detected_s), property_s = tostring(property_s), user_s = tostring(user_s), threatLevel_s = tostring(threatLevel_s), properties_objectGuid_g = tostring(properties_objectGuid_g), properties_friendlyName_g = tostring(properties_friendlyName_g), id_s = tostring(id_s), name_g = tostring(name_g), type_s = tostring(type_s), kind_s = tostring(kind_s), properties_malwareName_s = tostring(properties_malwareName_s), properties_category_s = tostring(properties_category_s), properties_friendlyName_s = tostring(properties_friendlyName_s), InfobloxInsightID_g = tostring(InfobloxInsightID_g), InfobloxInsightfulID_s = tostring(InfobloxInsightfulID_s), InfobloxInsightLogType_s = tostring(InfobloxInsightLogType_s), response_s = tostring(response_s), queryType_s = tostring(queryType_s), query_s = tostring(query_s), deviceIp_s = tostring(deviceIp_s), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), responseCountry_s = tostring(responseCountry_s), responseRegion_s = tostring(responseRegion_s), deviceName_g = tostring(deviceName_g), osVersion_s = tostring(osVersion_s), InsightID_g = tostring(InsightID_g), confidenceLevel_s = tostring(confidenceLevel_s), deviceName_s = tostring(deviceName_s), deviceRegion_s = tostring(deviceRegion_s), dhcpFingerprint_s = tostring(dhcpFingerprint_s), dnsView_s = tostring(dnsView_s), feed_s = tostring(feed_s), macAddress_s = tostring(macAddress_s), source_s = tostring(source_s), action_s = tostring(action_s), policy_s = tostring(policy_s), deviceCountry_s = tostring(deviceCountry_s), _ResourceId = tostring(_ResourceId)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), response_s = tostring(response_s), class_s = tostring(class_s), threatFamily_s = tostring(threatFamily_s), threatIndicator_s = tostring(threatIndicator_s), detected_s = tostring(detected_s), property_s = tostring(property_s), user_s = tostring(user_s), threatLevel_s = tostring(threatLevel_s), properties_objectGuid_g = tostring(properties_objectGuid_g), properties_friendlyName_g = tostring(properties_friendlyName_g), id_s = tostring(id_s), name_g = tostring(name_g), type_s = tostring(type_s), kind_s = tostring(kind_s), properties_malwareName_s = tostring(properties_malwareName_s), properties_category_s = tostring(properties_category_s), properties_friendlyName_s = tostring(properties_friendlyName_s), InfobloxInsightID_g = tostring(InfobloxInsightID_g), InfobloxInsightfulID_s = tostring(InfobloxInsightfulID_s), queryType_s = tostring(queryType_s), InfobloxInsightLogType_s = tostring(InfobloxInsightLogType_s), query_s = tostring(query_s), policy_s = tostring(policy_s), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), responseCountry_s = tostring(responseCountry_s), responseRegion_s = tostring(responseRegion_s), deviceName_g = tostring(deviceName_g), osVersion_s = tostring(osVersion_s), confidenceLevel_s = tostring(confidenceLevel_s), deviceCountry_s = tostring(deviceCountry_s), deviceName_s = tostring(deviceName_s), deviceRegion_s = tostring(deviceRegion_s), dhcpFingerprint_s = tostring(dhcpFingerprint_s), dnsView_s = tostring(dnsView_s), feed_s = tostring(feed_s), macAddress_s = tostring(macAddress_s), source_s = tostring(source_s), action_s = tostring(action_s), deviceIp_s = tostring(deviceIp_s), InsightID_g = tostring(InsightID_g)'
         outputStream: 'Custom-InfobloxInsightEvents_CL'
       }
     ]

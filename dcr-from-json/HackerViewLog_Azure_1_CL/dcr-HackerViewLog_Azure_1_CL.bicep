@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for HackerViewLog_Azure_1_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:56
+// Generated: 2025-09-18 08:37:30
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 34, DCR columns: 34 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 34, DCR columns: 33 (Type column always filtered)
 // Output stream: Custom-HackerViewLog_Azure_1_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -96,11 +96,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'severity_s'
+            name: 'meta_domain_s'
             type: 'string'
           }
           {
-            name: 'meta_domain_s'
+            name: 'meta_discovery_source_s'
             type: 'string'
           }
           {
@@ -117,10 +117,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'meta_asset_s'
-            type: 'string'
-          }
-          {
-            name: '_ResourceId'
             type: 'string'
           }
           {
@@ -160,7 +156,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'meta_discovery_source_s'
+            name: 'severity_s'
             type: 'string'
           }
           {
@@ -183,7 +179,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-HackerViewLog_Azure_1_CL']
         destinations: ['Sentinel-HackerViewLog_Azure_1_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), MG = tostring(MG), progress_status_s = tostring(progress_status_s), potential_impact_s = tostring(potential_impact_s), potential_attack_type_s = tostring(potential_attack_type_s), meta_ticket_id_s = tostring(meta_ticket_id_s), meta_technologies_s = tostring(meta_technologies_s), meta_resolved_ip_s = tostring(meta_resolved_ip_s), meta_last_seen_s = tostring(meta_last_seen_s), meta_ip_type_s = tostring(meta_ip_type_s), meta_ip_s = tostring(meta_ip_s), meta_hosts_s = tostring(meta_hosts_s), meta_host_type_s = tostring(meta_host_type_s), meta_host_s = tostring(meta_host_s), meta_first_seen_s = tostring(meta_first_seen_s), meta_environments_s = tostring(meta_environments_s), severity_s = tostring(severity_s), meta_domain_s = tostring(meta_domain_s), meta_business_unit_s = tostring(meta_business_unit_s), meta_brand_s = tostring(meta_brand_s), meta_asset_type_s = tostring(meta_asset_type_s), meta_asset_s = tostring(meta_asset_s), _ResourceId = tostring(_ResourceId), issue_type_s = tostring(issue_type_s), issue_name_s = tostring(issue_name_s), issue_category_s = tostring(issue_category_s), hackerview_link_s = tostring(hackerview_link_s), fixing_effort_s = tostring(fixing_effort_s), detail_s = tostring(detail_s), cwe_s = tostring(cwe_s), assigned_to_s = tostring(assigned_to_s), ManagementGroupName = tostring(ManagementGroupName), meta_discovery_source_s = tostring(meta_discovery_source_s), status_s = tostring(status_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), MG = tostring(MG), progress_status_s = tostring(progress_status_s), potential_impact_s = tostring(potential_impact_s), potential_attack_type_s = tostring(potential_attack_type_s), meta_ticket_id_s = tostring(meta_ticket_id_s), meta_technologies_s = tostring(meta_technologies_s), meta_resolved_ip_s = tostring(meta_resolved_ip_s), meta_last_seen_s = tostring(meta_last_seen_s), meta_ip_type_s = tostring(meta_ip_type_s), meta_ip_s = tostring(meta_ip_s), meta_hosts_s = tostring(meta_hosts_s), meta_host_type_s = tostring(meta_host_type_s), meta_host_s = tostring(meta_host_s), meta_first_seen_s = tostring(meta_first_seen_s), meta_environments_s = tostring(meta_environments_s), meta_domain_s = tostring(meta_domain_s), meta_discovery_source_s = tostring(meta_discovery_source_s), meta_business_unit_s = tostring(meta_business_unit_s), meta_brand_s = tostring(meta_brand_s), meta_asset_type_s = tostring(meta_asset_type_s), meta_asset_s = tostring(meta_asset_s), issue_type_s = tostring(issue_type_s), issue_name_s = tostring(issue_name_s), issue_category_s = tostring(issue_category_s), hackerview_link_s = tostring(hackerview_link_s), fixing_effort_s = tostring(fixing_effort_s), detail_s = tostring(detail_s), cwe_s = tostring(cwe_s), assigned_to_s = tostring(assigned_to_s), ManagementGroupName = tostring(ManagementGroupName), severity_s = tostring(severity_s), status_s = tostring(status_s)'
         outputStream: 'Custom-HackerViewLog_Azure_1_CL'
       }
     ]

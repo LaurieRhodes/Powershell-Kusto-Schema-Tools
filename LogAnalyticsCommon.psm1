@@ -390,8 +390,7 @@ function Get-DCROutputStreamName {
     
     .DESCRIPTION
     Uses the tableType from Management API response to accurately determine the correct output stream.
-    CustomLog tables always use Custom- prefix.
-    Microsoft tables are mostly read-only, with only specific ones being writable via DCR.
+    Since we're querying the workspace directly, we can trust the Management API table type response.
     
     .PARAMETER tableName
     Name of the table
@@ -406,27 +405,15 @@ function Get-DCROutputStreamName {
     # Logic based on Management API tableType response
     switch ($tableType.ToLower()) {
         "customlog" {
-            # All custom logs use Custom- prefix (this is definitive from Management API)
+            # All custom logs use Custom- prefix (definitive from Management API)
+            Write-Host "      Using Custom- prefix for CustomLog table" -ForegroundColor Green
             return "Custom-$tableName"
         }
         "microsoft" {
-            # Microsoft managed tables - most are read-only, but some specific ones allow DCR writes
-            $writableMicrosoftTables = @(
-                'CommonSecurityLog',
-                'Syslog',
-                'SecurityEvent', 
-                'WindowsEvent'
-                # Add more as Microsoft confirms additional writable tables
-            )
-            
-            if ($tableName -in $writableMicrosoftTables) {
-                Write-Host "      Using Microsoft- prefix for known writable table" -ForegroundColor Green
-                return "Microsoft-$tableName"
-            } else {
-                # Most Microsoft tables are read-only, so new data ingestion via DCR uses Custom- 
-                Write-Host "      Microsoft table not in known writable list - using Custom- prefix (this is likely correct)" -ForegroundColor Cyan
-                return "Custom-$tableName"
-            }
+            # Microsoft managed tables - trust the Management API that this table exists and is accessible
+            # If it's in the workspace and we can query its schema, it should support Microsoft- output stream
+            Write-Host "      Using Microsoft- prefix for Microsoft table (from Management API)" -ForegroundColor Green
+            return "Microsoft-$tableName"
         }
         "searchresults" {
             # Search results tables are not writable via DCR
@@ -437,6 +424,7 @@ function Get-DCROutputStreamName {
             # For any unknown types, examine the table name for additional clues
             if ($tableName -match "_CL$") {
                 # Ends with _CL, definitely custom
+                Write-Host "      Table name ends with _CL - using Custom- prefix" -ForegroundColor Cyan
                 return "Custom-$tableName"
             } else {
                 # Unknown type, default to Custom- (safer for DCR ingestion)

@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Tenable_IE_CL
 // ============================================================================
-// Generated: 2025-09-17 06:21:03
+// Generated: 2025-09-18 08:37:38
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 10, DCR columns: 9 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 10, DCR columns: 7 (Type column always filtered)
 // Output stream: Custom-Tenable_IE_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -59,14 +59,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             name: 'RawData'
             type: 'string'
           }
-          {
-            name: '_ResourceId'
-            type: 'string'
-          }
-          {
-            name: '_SubscriptionId'
-            type: 'string'
-          }
         ]
       }
     }
@@ -83,7 +75,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Tenable_IE_CL']
         destinations: ['Sentinel-Tenable_IE_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), _ResourceId = tostring(_ResourceId), _SubscriptionId = tostring(_SubscriptionId)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData)'
         outputStream: 'Custom-Tenable_IE_CL'
       }
     ]

@@ -12,13 +12,13 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for ASimDnsActivityLogs
 // ============================================================================
-// Generated: 2025-09-17 08:12:40
+// Generated: 2025-09-18 07:50:02
 // Table type: Microsoft
 // Schema discovered using hybrid approach (Management API + getschema)
-// Underscore columns included
-// Original columns: 137, DCR columns: 136 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 137, DCR columns: 135 (Type column always filtered)
 // Input stream: Custom-ASimDnsActivityLogs (always Custom- for JSON ingestion)
-// Output stream: Custom-ASimDnsActivityLogs (based on table type)
+// Output stream: Microsoft-ASimDnsActivityLogs (based on table type)
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
 
@@ -38,10 +38,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
-            type: 'string'
-          }
-          {
-            name: 'EventSeverity'
             type: 'string'
           }
           {
@@ -97,11 +93,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'Src'
+            name: 'EventMessage'
             type: 'string'
           }
           {
-            name: 'EventMessage'
+            name: 'EventEndTime'
             type: 'string'
           }
           {
@@ -161,11 +157,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'EventEndTime'
+            name: 'EventSeverity'
             type: 'string'
           }
           {
-            name: 'ThreatField'
+            name: 'Src'
             type: 'string'
           }
           {
@@ -173,11 +169,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'SrcDomainType'
-            type: 'string'
-          }
-          {
-            name: 'DnsFlagsZ'
+            name: 'SrcDomain'
             type: 'string'
           }
           {
@@ -233,15 +225,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'SrcDomain'
-            type: 'string'
-          }
-          {
             name: 'DstPortNumber'
             type: 'string'
           }
           {
-            name: 'SrcProcessGuid'
+            name: 'ThreatField'
+            type: 'string'
+          }
+          {
+            name: 'Dst'
             type: 'string'
           }
           {
@@ -297,15 +289,19 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'Dst'
+            name: 'SrcDomainType'
             type: 'string'
           }
           {
-            name: 'SourceSystem'
+            name: 'SrcProcessGuid'
             type: 'string'
           }
           {
             name: 'ThreatIpAddr'
+            type: 'string'
+          }
+          {
+            name: 'ThreatId'
             type: 'string'
           }
           {
@@ -437,7 +433,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'dynamic'
           }
           {
-            name: 'ThreatId'
+            name: 'DnsFlagsZ'
             type: 'string'
           }
           {
@@ -573,7 +569,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: '_ResourceId'
+            name: 'SourceSystem'
             type: 'string'
           }
         ]
@@ -592,8 +588,8 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-ASimDnsActivityLogs']
         destinations: ['Sentinel-ASimDnsActivityLogs']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), EventSeverity = tostring(EventSeverity), EventProductVersion = tostring(EventProductVersion), EventOwner = tostring(EventOwner), DnsResponseIpRegion = tostring(DnsResponseIpRegion), DnsResponseIpCity = tostring(DnsResponseIpCity), DvcZone = tostring(DvcZone), DvcMacAddr = tostring(DvcMacAddr), DvcIdType = tostring(DvcIdType), DvcId = tostring(DvcId), DvcFQDN = tostring(DvcFQDN), Dvc = tostring(Dvc), EventSchemaVersion = tostring(EventSchemaVersion), EventReportUrl = tostring(EventReportUrl), EventOriginalUid = tostring(EventOriginalUid), Src = tostring(Src), EventMessage = tostring(EventMessage), EventStartTime = todatetime(EventStartTime), ThreatLastReportedTime_d = todatetime(ThreatLastReportedTime_d), ThreatLastReportedTime = tostring(ThreatLastReportedTime), ThreatFirstReportedTime_d = todatetime(ThreatFirstReportedTime_d), ThreatFirstReportedTime = tostring(ThreatFirstReportedTime), ThreatIsActive = tobool(ThreatIsActive), ThreatOriginalRiskLevel = toint(ThreatOriginalRiskLevel), ThreatOriginalRiskLevel_s = tostring(ThreatOriginalRiskLevel_s), ThreatRiskLevel = toint(ThreatRiskLevel), ThreatOriginalConfidence = tostring(ThreatOriginalConfidence), ThreatConfidence = toint(ThreatConfidence), ThreatName = tostring(ThreatName), ThreatCategory = tostring(ThreatCategory), UrlCategory = tostring(UrlCategory), EventEndTime = todatetime(EventEndTime), ThreatField = tostring(ThreatField), SrcHostname = tostring(SrcHostname), SrcDomainType = tostring(SrcDomainType), DnsFlagsZ = tobool(DnsFlagsZ), DnsFlagsTruncated = tobool(DnsFlagsTruncated), DnsFlagsRecursionAvailable = tobool(DnsFlagsRecursionAvailable), DnsFlagsCheckingDisabled = tobool(DnsFlagsCheckingDisabled), DnsFlags = tostring(DnsFlags), DvcAction = tostring(DvcAction), DstDeviceType = tostring(DstDeviceType), DstDvcIdType = tostring(DstDvcIdType), DstDvcScopeId = tostring(DstDvcScopeId), DstDvcId = tostring(DstDvcId), DstFQDN = tostring(DstFQDN), DstDomainType = tostring(DstDomainType), DstDomain = tostring(DstDomain), DstHostname = tostring(DstHostname), SrcDomain = tostring(SrcDomain), DstPortNumber = toint(DstPortNumber), SrcProcessGuid = tostring(SrcProcessGuid), SrcProcessId = tostring(SrcProcessId), SrcProcessName = tostring(SrcProcessName), SrcOriginalUserType = tostring(SrcOriginalUserType), SrcUserType = tostring(SrcUserType), SrcUsernameType = tostring(SrcUsernameType), SrcUsername = tostring(SrcUsername), SrcUserIdType = tostring(SrcUserIdType), SrcUserId = tostring(SrcUserId), SrcRiskLevel = toint(SrcRiskLevel), SrcDeviceType = tostring(SrcDeviceType), SrcDvcIdType = tostring(SrcDvcIdType), SrcDvcId = tostring(SrcDvcId), SrcFQDN = tostring(SrcFQDN), Dst = tostring(Dst), SourceSystem = tostring(SourceSystem), ThreatIpAddr = tostring(ThreatIpAddr), SrcUserSessionId = tostring(SrcUserSessionId), DnsQueryType = toint(DnsQueryType), DnsQuery = tostring(DnsQuery), DstGeoLongitude = toreal(DstGeoLongitude), DstGeoLatitude = toreal(DstGeoLatitude), DstGeoCity = tostring(DstGeoCity), DstGeoRegion = tostring(DstGeoRegion), DstGeoCountry = tostring(DstGeoCountry), DstIpAddr = tostring(DstIpAddr), SrcGeoLongitude = toreal(SrcGeoLongitude), SrcGeoLatitude = toreal(SrcGeoLatitude), SrcGeoCity = tostring(SrcGeoCity), SrcGeoRegion = tostring(SrcGeoRegion), SrcGeoCountry = tostring(SrcGeoCountry), SrcPortNumber = toint(SrcPortNumber), DnsQueryTypeName = tostring(DnsQueryTypeName), SrcIpAddr = tostring(SrcIpAddr), DvcOsVersion = tostring(DvcOsVersion), DvcOs = tostring(DvcOs), DvcDomainType = tostring(DvcDomainType), DvcDomain = tostring(DvcDomain), DvcHostname = tostring(DvcHostname), DvcIpAddr = tostring(DvcIpAddr), EventVendor = tostring(EventVendor), EventProduct = tostring(EventProduct), EventOriginalType = tostring(EventOriginalType), EventResultDetails = tostring(EventResultDetails), EventResult = tostring(EventResult), EventSubType = tostring(EventSubType), EventType = tostring(EventType), EventCount = toint(EventCount), AdditionalFields = todynamic(AdditionalFields), ThreatId = tostring(ThreatId), DnsResponseCode = toint(DnsResponseCode), TransactionIdHex = tostring(TransactionIdHex), SrcUserScopeId = tostring(SrcUserScopeId), SrcUserScope = tostring(SrcUserScope), SrcOriginalRiskLevel = tostring(SrcOriginalRiskLevel), SrcDvcScopeId = tostring(SrcDvcScopeId), SrcDvcScope = tostring(SrcDvcScope), SrcDescription = tostring(SrcDescription), DnsSessionId = tostring(DnsSessionId), DnsFlagsRecursionDesired = tobool(DnsFlagsRecursionDesired), DnsFlagsAuthoritative = tobool(DnsFlagsAuthoritative), DnsFlagsAuthenticated = tobool(DnsFlagsAuthenticated), DnsNetworkDuration = toint(DnsNetworkDuration), DnsQueryClassName = tostring(DnsQueryClassName), DnsQueryClass = toint(DnsQueryClass), NetworkProtocol = tostring(NetworkProtocol), DnsResponseName = tostring(DnsResponseName), DnsResponseIpLongitude = toreal(DnsResponseIpLongitude), DnsResponseIpCountry = tostring(DnsResponseIpCountry), RuleNumber = toint(RuleNumber), RuleName = tostring(RuleName), NetworkProtocolVersion = tostring(NetworkProtocolVersion), EventOriginalSeverity = tostring(EventOriginalSeverity), DvcScopeId = tostring(DvcScopeId), DvcScope = tostring(DvcScope), DvcOriginalAction = tostring(DvcOriginalAction), DvcInterface = tostring(DvcInterface), DvcDescription = tostring(DvcDescription), DstRiskLevel = toint(DstRiskLevel), DstOriginalRiskLevel = tostring(DstOriginalRiskLevel), DstDvcScope = tostring(DstDvcScope), DstDescription = tostring(DstDescription), DnsResponseIpLatitude = toreal(DnsResponseIpLatitude), _ResourceId = tostring(_ResourceId)'
-        outputStream: 'Custom-ASimDnsActivityLogs'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), EventProductVersion = tostring(EventProductVersion), EventOwner = tostring(EventOwner), DnsResponseIpRegion = tostring(DnsResponseIpRegion), DnsResponseIpCity = tostring(DnsResponseIpCity), DvcZone = tostring(DvcZone), DvcMacAddr = tostring(DvcMacAddr), DvcIdType = tostring(DvcIdType), DvcId = tostring(DvcId), DvcFQDN = tostring(DvcFQDN), Dvc = tostring(Dvc), EventSchemaVersion = tostring(EventSchemaVersion), EventReportUrl = tostring(EventReportUrl), EventOriginalUid = tostring(EventOriginalUid), EventMessage = tostring(EventMessage), EventEndTime = todatetime(EventEndTime), EventStartTime = todatetime(EventStartTime), ThreatLastReportedTime_d = todatetime(ThreatLastReportedTime_d), ThreatLastReportedTime = tostring(ThreatLastReportedTime), ThreatFirstReportedTime_d = todatetime(ThreatFirstReportedTime_d), ThreatFirstReportedTime = tostring(ThreatFirstReportedTime), ThreatIsActive = tobool(ThreatIsActive), ThreatOriginalRiskLevel = toint(ThreatOriginalRiskLevel), ThreatOriginalRiskLevel_s = tostring(ThreatOriginalRiskLevel_s), ThreatRiskLevel = toint(ThreatRiskLevel), ThreatOriginalConfidence = tostring(ThreatOriginalConfidence), ThreatConfidence = toint(ThreatConfidence), ThreatName = tostring(ThreatName), ThreatCategory = tostring(ThreatCategory), UrlCategory = tostring(UrlCategory), EventSeverity = tostring(EventSeverity), Src = tostring(Src), SrcHostname = tostring(SrcHostname), SrcDomain = tostring(SrcDomain), DnsFlagsTruncated = tobool(DnsFlagsTruncated), DnsFlagsRecursionAvailable = tobool(DnsFlagsRecursionAvailable), DnsFlagsCheckingDisabled = tobool(DnsFlagsCheckingDisabled), DnsFlags = tostring(DnsFlags), DvcAction = tostring(DvcAction), DstDeviceType = tostring(DstDeviceType), DstDvcIdType = tostring(DstDvcIdType), DstDvcScopeId = tostring(DstDvcScopeId), DstDvcId = tostring(DstDvcId), DstFQDN = tostring(DstFQDN), DstDomainType = tostring(DstDomainType), DstDomain = tostring(DstDomain), DstHostname = tostring(DstHostname), DstPortNumber = toint(DstPortNumber), ThreatField = tostring(ThreatField), Dst = tostring(Dst), SrcProcessId = tostring(SrcProcessId), SrcProcessName = tostring(SrcProcessName), SrcOriginalUserType = tostring(SrcOriginalUserType), SrcUserType = tostring(SrcUserType), SrcUsernameType = tostring(SrcUsernameType), SrcUsername = tostring(SrcUsername), SrcUserIdType = tostring(SrcUserIdType), SrcUserId = tostring(SrcUserId), SrcRiskLevel = toint(SrcRiskLevel), SrcDeviceType = tostring(SrcDeviceType), SrcDvcIdType = tostring(SrcDvcIdType), SrcDvcId = tostring(SrcDvcId), SrcFQDN = tostring(SrcFQDN), SrcDomainType = tostring(SrcDomainType), SrcProcessGuid = tostring(SrcProcessGuid), ThreatIpAddr = tostring(ThreatIpAddr), ThreatId = tostring(ThreatId), SrcUserSessionId = tostring(SrcUserSessionId), DnsQueryType = toint(DnsQueryType), DnsQuery = tostring(DnsQuery), DstGeoLongitude = toreal(DstGeoLongitude), DstGeoLatitude = toreal(DstGeoLatitude), DstGeoCity = tostring(DstGeoCity), DstGeoRegion = tostring(DstGeoRegion), DstGeoCountry = tostring(DstGeoCountry), DstIpAddr = tostring(DstIpAddr), SrcGeoLongitude = toreal(SrcGeoLongitude), SrcGeoLatitude = toreal(SrcGeoLatitude), SrcGeoCity = tostring(SrcGeoCity), SrcGeoRegion = tostring(SrcGeoRegion), SrcGeoCountry = tostring(SrcGeoCountry), SrcPortNumber = toint(SrcPortNumber), DnsQueryTypeName = tostring(DnsQueryTypeName), SrcIpAddr = tostring(SrcIpAddr), DvcOsVersion = tostring(DvcOsVersion), DvcOs = tostring(DvcOs), DvcDomainType = tostring(DvcDomainType), DvcDomain = tostring(DvcDomain), DvcHostname = tostring(DvcHostname), DvcIpAddr = tostring(DvcIpAddr), EventVendor = tostring(EventVendor), EventProduct = tostring(EventProduct), EventOriginalType = tostring(EventOriginalType), EventResultDetails = tostring(EventResultDetails), EventResult = tostring(EventResult), EventSubType = tostring(EventSubType), EventType = tostring(EventType), EventCount = toint(EventCount), AdditionalFields = todynamic(AdditionalFields), DnsFlagsZ = tobool(DnsFlagsZ), DnsResponseCode = toint(DnsResponseCode), TransactionIdHex = tostring(TransactionIdHex), SrcUserScopeId = tostring(SrcUserScopeId), SrcUserScope = tostring(SrcUserScope), SrcOriginalRiskLevel = tostring(SrcOriginalRiskLevel), SrcDvcScopeId = tostring(SrcDvcScopeId), SrcDvcScope = tostring(SrcDvcScope), SrcDescription = tostring(SrcDescription), DnsSessionId = tostring(DnsSessionId), DnsFlagsRecursionDesired = tobool(DnsFlagsRecursionDesired), DnsFlagsAuthoritative = tobool(DnsFlagsAuthoritative), DnsFlagsAuthenticated = tobool(DnsFlagsAuthenticated), DnsNetworkDuration = toint(DnsNetworkDuration), DnsQueryClassName = tostring(DnsQueryClassName), DnsQueryClass = toint(DnsQueryClass), NetworkProtocol = tostring(NetworkProtocol), DnsResponseName = tostring(DnsResponseName), DnsResponseIpLongitude = toreal(DnsResponseIpLongitude), DnsResponseIpCountry = tostring(DnsResponseIpCountry), RuleNumber = toint(RuleNumber), RuleName = tostring(RuleName), NetworkProtocolVersion = tostring(NetworkProtocolVersion), EventOriginalSeverity = tostring(EventOriginalSeverity), DvcScopeId = tostring(DvcScopeId), DvcScope = tostring(DvcScope), DvcOriginalAction = tostring(DvcOriginalAction), DvcInterface = tostring(DvcInterface), DvcDescription = tostring(DvcDescription), DstRiskLevel = toint(DstRiskLevel), DstOriginalRiskLevel = tostring(DstOriginalRiskLevel), DstDvcScope = tostring(DstDvcScope), DstDescription = tostring(DstDescription), DnsResponseIpLatitude = toreal(DnsResponseIpLatitude), SourceSystem = tostring(SourceSystem)'
+        outputStream: 'Microsoft-ASimDnsActivityLogs'
       }
     ]
   }

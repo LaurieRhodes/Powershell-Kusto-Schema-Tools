@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for NXLogFIM_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:59
+// Generated: 2025-09-18 08:37:34
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 27, DCR columns: 26 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 27, DCR columns: 22 (Type column always filtered)
 // Output stream: Custom-NXLogFIM_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -37,22 +37,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'Computer'
-            type: 'string'
-          }
-          {
-            name: '_IsBillable'
-            type: 'string'
-          }
-          {
-            name: '_BilledSize'
-            type: 'string'
-          }
-          {
-            name: 'SourceModuleType_s'
-            type: 'string'
-          }
-          {
-            name: 'SourceModuleName_s'
             type: 'string'
           }
           {
@@ -80,19 +64,19 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: '_ResourceId'
-            type: 'string'
-          }
-          {
             name: 'PrevDigest_s'
             type: 'string'
           }
           {
-            name: 'ModificationTime_t'
+            name: 'Object_s'
             type: 'string'
           }
           {
-            name: 'Hostname_s'
+            name: 'SourceModuleName_s'
+            type: 'string'
+          }
+          {
+            name: 'ModificationTime_t'
             type: 'string'
           }
           {
@@ -128,11 +112,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'Object_s'
+            name: 'Hostname_s'
             type: 'string'
           }
           {
-            name: '_SubscriptionId'
+            name: 'SourceModuleType_s'
             type: 'string'
           }
         ]
@@ -151,7 +135,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-NXLogFIM_CL']
         destinations: ['Sentinel-NXLogFIM_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), Computer = tostring(Computer), _IsBillable = tostring(_IsBillable), _BilledSize = toreal(_BilledSize), SourceModuleType_s = tostring(SourceModuleType_s), SourceModuleName_s = tostring(SourceModuleName_s), Severity_s = tostring(Severity_s), SeverityValue_d = toreal(SeverityValue_d), RawData = tostring(RawData), PrevModificationTime_t = todatetime(PrevModificationTime_t), PrevFileSize_d = toreal(PrevFileSize_d), PrevFileName_s = tostring(PrevFileName_s), _ResourceId = tostring(_ResourceId), PrevDigest_s = tostring(PrevDigest_s), ModificationTime_t = todatetime(ModificationTime_t), Hostname_s = tostring(Hostname_s), HostIP_s = tostring(HostIP_s), FileSize_d = toreal(FileSize_d), FileName_s = tostring(FileName_s), EventType_s = tostring(EventType_s), EventTime_t = todatetime(EventTime_t), EventReceivedTime_t = todatetime(EventReceivedTime_t), Digest_s = tostring(Digest_s), DigestName_s = tostring(DigestName_s), Object_s = tostring(Object_s), _SubscriptionId = tostring(_SubscriptionId)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), Computer = tostring(Computer), Severity_s = tostring(Severity_s), SeverityValue_d = toreal(SeverityValue_d), RawData = tostring(RawData), PrevModificationTime_t = todatetime(PrevModificationTime_t), PrevFileSize_d = toreal(PrevFileSize_d), PrevFileName_s = tostring(PrevFileName_s), PrevDigest_s = tostring(PrevDigest_s), Object_s = tostring(Object_s), SourceModuleName_s = tostring(SourceModuleName_s), ModificationTime_t = todatetime(ModificationTime_t), HostIP_s = tostring(HostIP_s), FileSize_d = toreal(FileSize_d), FileName_s = tostring(FileName_s), EventType_s = tostring(EventType_s), EventTime_t = todatetime(EventTime_t), EventReceivedTime_t = todatetime(EventReceivedTime_t), Digest_s = tostring(Digest_s), DigestName_s = tostring(DigestName_s), Hostname_s = tostring(Hostname_s), SourceModuleType_s = tostring(SourceModuleType_s)'
         outputStream: 'Custom-NXLogFIM_CL'
       }
     ]

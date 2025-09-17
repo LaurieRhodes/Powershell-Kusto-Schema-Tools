@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_local_subnets_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:49
+// Generated: 2025-09-18 08:37:23
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 13, DCR columns: 13 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 13, DCR columns: 10 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_local_subnets_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -33,18 +33,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
         columns: [
           {
             name: 'TimeGenerated'
-            type: 'string'
-          }
-          {
-            name: '_path_s'
-            type: 'string'
-          }
-          {
-            name: '_system_name_s'
-            type: 'string'
-          }
-          {
-            name: '_write_ts_t'
             type: 'string'
           }
           {
@@ -99,7 +87,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_local_subnets_CL']
         destinations: ['Sentinel-Corelight_v2_local_subnets_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), _system_name_s = tostring(_system_name_s), _write_ts_t = todatetime(_write_ts_t), round_d = toreal(round_d), ts_t = todatetime(ts_t), ip_version_d = toreal(ip_version_d), subnets_s = tostring(subnets_s), component_ids_s = tostring(component_ids_s), size_of_component_d = toreal(size_of_component_d), bipartite_b = tobool(bipartite_b), inferred_site_b = tobool(inferred_site_b), other_ips_s = tostring(other_ips_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), round_d = toreal(round_d), ts_t = todatetime(ts_t), ip_version_d = toreal(ip_version_d), subnets_s = tostring(subnets_s), component_ids_s = tostring(component_ids_s), size_of_component_d = toreal(size_of_component_d), bipartite_b = tobool(bipartite_b), inferred_site_b = tobool(inferred_site_b), other_ips_s = tostring(other_ips_s)'
         outputStream: 'Custom-Corelight_v2_local_subnets_CL'
       }
     ]

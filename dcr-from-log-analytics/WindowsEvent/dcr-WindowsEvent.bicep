@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for WindowsEvent
 // ============================================================================
-// Generated: 2025-09-17 08:12:47
+// Generated: 2025-09-18 07:50:29
 // Table type: Microsoft
 // Schema discovered using hybrid approach (Management API + getschema)
-// Underscore columns included
-// Original columns: 26, DCR columns: 25 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 26, DCR columns: 24 (Type column always filtered)
 // Input stream: Custom-WindowsEvent (always Custom- for JSON ingestion)
 // Output stream: Microsoft-WindowsEvent (based on table type)
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
@@ -38,10 +38,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
-            type: 'string'
-          }
-          {
-            name: 'ManagementGroupName'
             type: 'string'
           }
           {
@@ -81,11 +77,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'Keywords'
+            name: 'ManagementGroupName'
             type: 'string'
           }
           {
-            name: 'Opcode'
+            name: 'Keywords'
             type: 'string'
           }
           {
@@ -125,11 +121,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'TimeCreated'
+            name: 'Opcode'
             type: 'string'
           }
           {
-            name: '_ResourceId'
+            name: 'TimeCreated'
             type: 'string'
           }
         ]
@@ -148,7 +144,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-WindowsEvent']
         destinations: ['Sentinel-WindowsEvent']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), ManagementGroupName = tostring(ManagementGroupName), EventOriginId = tostring(EventOriginId), EventID = toint(EventID), RawEventData = tostring(RawEventData), EventData = todynamic(EventData), Data = todynamic(Data), EventRecordId = tostring(EventRecordId), SystemThreadId = toint(SystemThreadId), SystemProcessId = toint(SystemProcessId), Correlation = tostring(Correlation), Keywords = tostring(Keywords), Opcode = tostring(Opcode), Version = toint(Version), SystemUserId = tostring(SystemUserId), EventLevelName = tostring(EventLevelName), EventLevel = toint(EventLevel), Task = toint(Task), Computer = tostring(Computer), Channel = tostring(Channel), Provider = tostring(Provider), SourceSystem = tostring(SourceSystem), TimeCreated = todatetime(TimeCreated), _ResourceId = tostring(_ResourceId)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), EventOriginId = tostring(EventOriginId), EventID = toint(EventID), RawEventData = tostring(RawEventData), EventData = todynamic(EventData), Data = todynamic(Data), EventRecordId = tostring(EventRecordId), SystemThreadId = toint(SystemThreadId), SystemProcessId = toint(SystemProcessId), Correlation = tostring(Correlation), ManagementGroupName = tostring(ManagementGroupName), Keywords = tostring(Keywords), Version = toint(Version), SystemUserId = tostring(SystemUserId), EventLevelName = tostring(EventLevelName), EventLevel = toint(EventLevel), Task = toint(Task), Computer = tostring(Computer), Channel = tostring(Channel), Provider = tostring(Provider), SourceSystem = tostring(SourceSystem), Opcode = tostring(Opcode), TimeCreated = todatetime(TimeCreated)'
         outputStream: 'Microsoft-WindowsEvent'
       }
     ]

@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_dns_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:48
+// Generated: 2025-09-18 08:37:20
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 28, DCR columns: 28 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 28, DCR columns: 25 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_dns_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -36,7 +36,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: '_path_s'
+            name: 'ts_t'
             type: 'string'
           }
           {
@@ -84,11 +84,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'TTLs_s'
+            name: 'qclass_d'
             type: 'string'
           }
           {
-            name: 'qclass_d'
+            name: 'query_s'
             type: 'string'
           }
           {
@@ -124,19 +124,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ts_t'
-            type: 'string'
-          }
-          {
-            name: '_write_ts_t'
-            type: 'string'
-          }
-          {
-            name: '_system_name_s'
-            type: 'string'
-          }
-          {
-            name: 'query_s'
+            name: 'TTLs_s'
             type: 'string'
           }
           {
@@ -159,7 +147,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_dns_CL']
         destinations: ['Sentinel-Corelight_v2_dns_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), answers_s = tostring(answers_s), Z_d = toreal(Z_d), RA_b = tobool(RA_b), RD_b = tobool(RD_b), TC_b = tobool(TC_b), AA_b = tobool(AA_b), rcode_name_s = tostring(rcode_name_s), rcode_d = toreal(rcode_d), qtype_name_s = tostring(qtype_name_s), qtype_d = toreal(qtype_d), qclass_name_s = tostring(qclass_name_s), TTLs_s = tostring(TTLs_s), qclass_d = toreal(qclass_d), rtt_d = toreal(rtt_d), trans_id_d = toreal(trans_id_d), proto_s = tostring(proto_s), id_resp_p_d = toreal(id_resp_p_d), id_resp_h_s = tostring(id_resp_h_s), id_orig_p_d = toreal(id_orig_p_d), id_orig_h_s = tostring(id_orig_h_s), uid_s = tostring(uid_s), ts_t = todatetime(ts_t), _write_ts_t = todatetime(_write_ts_t), _system_name_s = tostring(_system_name_s), query_s = tostring(query_s), rejected_b = tobool(rejected_b)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), answers_s = tostring(answers_s), Z_d = toreal(Z_d), RA_b = tobool(RA_b), RD_b = tobool(RD_b), TC_b = tobool(TC_b), AA_b = tobool(AA_b), rcode_name_s = tostring(rcode_name_s), rcode_d = toreal(rcode_d), qtype_name_s = tostring(qtype_name_s), qtype_d = toreal(qtype_d), qclass_name_s = tostring(qclass_name_s), qclass_d = toreal(qclass_d), query_s = tostring(query_s), rtt_d = toreal(rtt_d), trans_id_d = toreal(trans_id_d), proto_s = tostring(proto_s), id_resp_p_d = toreal(id_resp_p_d), id_resp_h_s = tostring(id_resp_h_s), id_orig_p_d = toreal(id_orig_p_d), id_orig_h_s = tostring(id_orig_h_s), uid_s = tostring(uid_s), TTLs_s = tostring(TTLs_s), rejected_b = tobool(rejected_b)'
         outputStream: 'Custom-Corelight_v2_dns_CL'
       }
     ]

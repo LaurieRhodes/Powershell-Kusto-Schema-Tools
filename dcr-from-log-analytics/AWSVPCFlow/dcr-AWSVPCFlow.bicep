@@ -12,13 +12,13 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for AWSVPCFlow
 // ============================================================================
-// Generated: 2025-09-17 08:12:44
+// Generated: 2025-09-18 07:50:20
 // Table type: Microsoft
 // Schema discovered using hybrid approach (Management API + getschema)
-// Underscore columns included
+// Underscore columns filtered out
 // Original columns: 43, DCR columns: 42 (Type column always filtered)
 // Input stream: Custom-AWSVPCFlow (always Custom- for JSON ingestion)
-// Output stream: Custom-AWSVPCFlow (based on table type)
+// Output stream: Microsoft-AWSVPCFlow (based on table type)
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
 
@@ -217,7 +217,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
         streams: ['Custom-AWSVPCFlow']
         destinations: ['Sentinel-AWSVPCFlow']
         transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), AzId = tostring(AzId), SublocationType = tostring(SublocationType), SublocationId = tostring(SublocationId), PktSrcAwsService = tostring(PktSrcAwsService), PktDstAwsService = tostring(PktDstAwsService), FlowDirection = tostring(FlowDirection), TrafficPath = tostring(TrafficPath), Start = todatetime(Start), EcsClusterArn = tostring(EcsClusterArn), EcsClusterName = tostring(EcsClusterName), EcsContainerInstanceArn = tostring(EcsContainerInstanceArn), EcsContainerInstanceId = tostring(EcsContainerInstanceId), EcsContainerId = tostring(EcsContainerId), EcsSecondContainerId = tostring(EcsSecondContainerId), EcsServiceName = tostring(EcsServiceName), EcsTaskDefinitionArn = tostring(EcsTaskDefinitionArn), EcsTaskArn = tostring(EcsTaskArn), Region = tostring(Region), EcsTaskId = tostring(EcsTaskId), PktDstAddr = tostring(PktDstAddr), TrafficType = tostring(TrafficType), Version = toint(Version), AccountId = tostring(AccountId), InterfaceId = tostring(InterfaceId), SrcAddr = tostring(SrcAddr), DstAddr = tostring(DstAddr), SrcPort = toint(SrcPort), DstPort = toint(DstPort), Protocol = toint(Protocol), Packets = toint(Packets), Bytes = tolong(Bytes), End = todatetime(End), Action = tostring(Action), LogStatus = tostring(LogStatus), VpcId = tostring(VpcId), SubnetId = tostring(SubnetId), InstanceId = tostring(InstanceId), TcpFlags = toint(TcpFlags), PktSrcAddr = tostring(PktSrcAddr), SourceSystem = tostring(SourceSystem)'
-        outputStream: 'Custom-AWSVPCFlow'
+        outputStream: 'Microsoft-AWSVPCFlow'
       }
     ]
   }

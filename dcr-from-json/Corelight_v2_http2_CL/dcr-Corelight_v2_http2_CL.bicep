@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_http2_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:48
+// Generated: 2025-09-18 08:37:22
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 28, DCR columns: 28 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 28, DCR columns: 25 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_http2_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -36,7 +36,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: '_path_s'
+            name: 'ts_t'
             type: 'string'
           }
           {
@@ -84,11 +84,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'proxied_s'
+            name: 'referrer_s'
             type: 'string'
           }
           {
-            name: 'referrer_s'
+            name: 'uri_s'
             type: 'string'
           }
           {
@@ -124,19 +124,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'ts_t'
-            type: 'string'
-          }
-          {
-            name: '_write_ts_t'
-            type: 'string'
-          }
-          {
-            name: '_system_name_s'
-            type: 'string'
-          }
-          {
-            name: 'uri_s'
+            name: 'proxied_s'
             type: 'string'
           }
           {
@@ -159,7 +147,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_http2_CL']
         destinations: ['Sentinel-Corelight_v2_http2_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), password_s = tostring(password_s), username_s = tostring(username_s), encoding_s = tostring(encoding_s), info_msg_s = tostring(info_msg_s), info_code_d = toreal(info_code_d), status_msg_s = tostring(status_msg_s), status_code_d = toreal(status_code_d), response_body_len_d = toreal(response_body_len_d), request_body_len_d = toreal(request_body_len_d), user_agent_s = tostring(user_agent_s), version_s = tostring(version_s), proxied_s = tostring(proxied_s), referrer_s = tostring(referrer_s), host_s = tostring(host_s), method_s = tostring(method_s), stream_id_d = toreal(stream_id_d), id_resp_p_d = toreal(id_resp_p_d), id_resp_h_s = tostring(id_resp_h_s), id_orig_p_d = toreal(id_orig_p_d), id_orig_h_s = tostring(id_orig_h_s), uid_s = tostring(uid_s), ts_t = todatetime(ts_t), _write_ts_t = todatetime(_write_ts_t), _system_name_s = tostring(_system_name_s), uri_s = tostring(uri_s), push_b = tobool(push_b)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), password_s = tostring(password_s), username_s = tostring(username_s), encoding_s = tostring(encoding_s), info_msg_s = tostring(info_msg_s), info_code_d = toreal(info_code_d), status_msg_s = tostring(status_msg_s), status_code_d = toreal(status_code_d), response_body_len_d = toreal(response_body_len_d), request_body_len_d = toreal(request_body_len_d), user_agent_s = tostring(user_agent_s), version_s = tostring(version_s), referrer_s = tostring(referrer_s), uri_s = tostring(uri_s), host_s = tostring(host_s), method_s = tostring(method_s), stream_id_d = toreal(stream_id_d), id_resp_p_d = toreal(id_resp_p_d), id_resp_h_s = tostring(id_resp_h_s), id_orig_p_d = toreal(id_orig_p_d), id_orig_h_s = tostring(id_orig_h_s), uid_s = tostring(uid_s), proxied_s = tostring(proxied_s), push_b = tobool(push_b)'
         outputStream: 'Custom-Corelight_v2_http2_CL'
       }
     ]

@@ -12,13 +12,13 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for AWSCloudTrail
 // ============================================================================
-// Generated: 2025-09-17 08:12:43
+// Generated: 2025-09-18 07:50:15
 // Table type: Microsoft
 // Schema discovered using hybrid approach (Management API + getschema)
-// Underscore columns included
+// Underscore columns filtered out
 // Original columns: 51, DCR columns: 50 (Type column always filtered)
 // Input stream: Custom-AWSCloudTrail (always Custom- for JSON ingestion)
-// Output stream: Custom-AWSCloudTrail (based on table type)
+// Output stream: Microsoft-AWSCloudTrail (based on table type)
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
 
@@ -249,7 +249,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
         streams: ['Custom-AWSCloudTrail']
         destinations: ['Sentinel-AWSCloudTrail']
         transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), RequestParameters = tostring(RequestParameters), ResponseElements = tostring(ResponseElements), AdditionalEventData = tostring(AdditionalEventData), AwsRequestId = toguid(AwsRequestId), AwsRequestId_ = tostring(AwsRequestId_), Resources = tostring(Resources), APIVersion = tostring(APIVersion), ReadOnly = tobool(ReadOnly), RecipientAccountId = tostring(RecipientAccountId), ServiceEventDetails = tostring(ServiceEventDetails), SharedEventId = toguid(SharedEventId), VpcEndpointId = tostring(VpcEndpointId), ManagementEvent = tobool(ManagementEvent), SourceSystem = tostring(SourceSystem), OperationName = tostring(OperationName), Category = tostring(Category), TlsVersion = tostring(TlsVersion), CipherSuite = tostring(CipherSuite), ClientProvidedHostHeader = tostring(ClientProvidedHostHeader), IpProtocol = tostring(IpProtocol), SourcePort = tostring(SourcePort), ErrorMessage = tostring(ErrorMessage), DestinationPort = tostring(DestinationPort), ErrorCode = tostring(ErrorCode), SourceIpAddress = tostring(SourceIpAddress), AwsEventId = toguid(AwsEventId), EventVersion = tostring(EventVersion), EventSource = tostring(EventSource), EventTypeName = tostring(EventTypeName), EventName = tostring(EventName), UserIdentityType = tostring(UserIdentityType), UserIdentityPrincipalid = tostring(UserIdentityPrincipalid), UserIdentityArn = tostring(UserIdentityArn), UserIdentityAccountId = tostring(UserIdentityAccountId), UserIdentityInvokedBy = tostring(UserIdentityInvokedBy), UserIdentityAccessKeyId = tostring(UserIdentityAccessKeyId), UserIdentityUserName = tostring(UserIdentityUserName), SessionMfaAuthenticated = tobool(SessionMfaAuthenticated), SessionCreationDate = todatetime(SessionCreationDate), SessionIssuerType = tostring(SessionIssuerType), SessionIssuerPrincipalId = tostring(SessionIssuerPrincipalId), SessionIssuerArn = tostring(SessionIssuerArn), SessionIssuerAccountId = tostring(SessionIssuerAccountId), SessionIssuerUserName = tostring(SessionIssuerUserName), EC2RoleDelivery = tostring(EC2RoleDelivery), AWSRegion = tostring(AWSRegion), UserAgent = tostring(UserAgent), CidrIp = tostring(CidrIp)'
-        outputStream: 'Custom-AWSCloudTrail'
+        outputStream: 'Microsoft-AWSCloudTrail'
       }
     ]
   }

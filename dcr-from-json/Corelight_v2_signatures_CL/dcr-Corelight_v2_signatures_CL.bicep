@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_signatures_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:50
+// Generated: 2025-09-18 08:37:24
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 16, DCR columns: 16 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 16, DCR columns: 13 (Type column always filtered)
 // Output stream: Custom-Corelight_v2_signatures_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -33,18 +33,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
         columns: [
           {
             name: 'TimeGenerated'
-            type: 'string'
-          }
-          {
-            name: '_path_s'
-            type: 'string'
-          }
-          {
-            name: '_system_name_s'
-            type: 'string'
-          }
-          {
-            name: '_write_ts_t'
             type: 'string'
           }
           {
@@ -111,7 +99,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Corelight_v2_signatures_CL']
         destinations: ['Sentinel-Corelight_v2_signatures_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), _path_s = tostring(_path_s), _system_name_s = tostring(_system_name_s), _write_ts_t = todatetime(_write_ts_t), ts_t = todatetime(ts_t), uid_s = tostring(uid_s), src_addr_s = tostring(src_addr_s), src_port_d = toreal(src_port_d), dst_addr_s = tostring(dst_addr_s), dst_port_d = toreal(dst_port_d), note_s = tostring(note_s), sig_id_s = tostring(sig_id_s), event_msg_s = tostring(event_msg_s), sub_msg_s = tostring(sub_msg_s), sig_count_d = toreal(sig_count_d), host_count_d = toreal(host_count_d)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), ts_t = todatetime(ts_t), uid_s = tostring(uid_s), src_addr_s = tostring(src_addr_s), src_port_d = toreal(src_port_d), dst_addr_s = tostring(dst_addr_s), dst_port_d = toreal(dst_port_d), note_s = tostring(note_s), sig_id_s = tostring(sig_id_s), event_msg_s = tostring(event_msg_s), sub_msg_s = tostring(sub_msg_s), sig_count_d = toreal(sig_count_d), host_count_d = toreal(host_count_d)'
         outputStream: 'Custom-Corelight_v2_signatures_CL'
       }
     ]

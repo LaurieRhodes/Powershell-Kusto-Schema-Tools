@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for CognniIncidents_CL
 // ============================================================================
-// Generated: 2025-09-17 06:20:46
+// Generated: 2025-09-18 08:37:19
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 22, DCR columns: 21 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 22, DCR columns: 19 (Type column always filtered)
 // Output stream: Custom-CognniIncidents_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -37,14 +37,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'attachmentId_s'
-            type: 'string'
-          }
-          {
-            name: 'userId_s'
-            type: 'string'
-          }
-          {
-            name: 'sourceFileExtension_s'
             type: 'string'
           }
           {
@@ -108,11 +100,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: '_ResourceId'
+            name: 'sourceFileExtension_s'
             type: 'string'
           }
           {
-            name: '_SubscriptionId'
+            name: 'userId_s'
             type: 'string'
           }
         ]
@@ -131,7 +123,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-CognniIncidents_CL']
         destinations: ['Sentinel-CognniIncidents_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), attachmentId_s = tostring(attachmentId_s), userId_s = tostring(userId_s), sourceFileExtension_s = tostring(sourceFileExtension_s), siteId_g = tostring(siteId_g), Severity = toint(Severity), RawData = tostring(RawData), orgId_g = tostring(orgId_g), name_s = tostring(name_s), messageId_s = tostring(messageId_s), listItemUniqueId_g = tostring(listItemUniqueId_g), listId_g = tostring(listId_g), labels_s = tostring(labels_s), internalEventId_g = tostring(internalEventId_g), insights_s = tostring(insights_s), informationType_s = tostring(informationType_s), fileName_s = tostring(fileName_s), eventTime_t = todatetime(eventTime_t), Computer = tostring(Computer), _ResourceId = tostring(_ResourceId), _SubscriptionId = tostring(_SubscriptionId)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), attachmentId_s = tostring(attachmentId_s), siteId_g = tostring(siteId_g), Severity = toint(Severity), RawData = tostring(RawData), orgId_g = tostring(orgId_g), name_s = tostring(name_s), messageId_s = tostring(messageId_s), listItemUniqueId_g = tostring(listItemUniqueId_g), listId_g = tostring(listId_g), labels_s = tostring(labels_s), internalEventId_g = tostring(internalEventId_g), insights_s = tostring(insights_s), informationType_s = tostring(informationType_s), fileName_s = tostring(fileName_s), eventTime_t = todatetime(eventTime_t), Computer = tostring(Computer), sourceFileExtension_s = tostring(sourceFileExtension_s), userId_s = tostring(userId_s)'
         outputStream: 'Custom-CognniIncidents_CL'
       }
     ]

@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for SymantecICDx_CL
 // ============================================================================
-// Generated: 2025-09-17 06:21:03
+// Generated: 2025-09-18 08:37:37
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 11, DCR columns: 10 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 11, DCR columns: 9 (Type column always filtered)
 // Output stream: Custom-SymantecICDx_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -60,10 +60,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: '_ResourceId'
-            type: 'string'
-          }
-          {
             name: 'connection_src_ip_s'
             type: 'string'
           }
@@ -87,7 +83,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-SymantecICDx_CL']
         destinations: ['Sentinel-SymantecICDx_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), Computer = tostring(Computer), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), RawData = tostring(RawData), _ResourceId = tostring(_ResourceId), connection_src_ip_s = tostring(connection_src_ip_s), threat_id_d = tostring(threat_id_d)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), Computer = tostring(Computer), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), RawData = tostring(RawData), connection_src_ip_s = tostring(connection_src_ip_s), threat_id_d = tostring(threat_id_d)'
         outputStream: 'Custom-SymantecICDx_CL'
       }
     ]

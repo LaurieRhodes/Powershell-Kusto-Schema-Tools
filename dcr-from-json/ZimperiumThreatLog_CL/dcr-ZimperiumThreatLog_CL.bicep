@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for ZimperiumThreatLog_CL
 // ============================================================================
-// Generated: 2025-09-17 06:21:07
+// Generated: 2025-09-18 08:37:42
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
-// Underscore columns included
-// Original columns: 72, DCR columns: 71 (Type column always filtered)
+// Underscore columns filtered out
+// Original columns: 72, DCR columns: 70 (Type column always filtered)
 // Output stream: Custom-ZimperiumThreatLog_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -37,6 +37,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'TenantId'
+            type: 'string'
+          }
+          {
+            name: 'basetation_lac'
             type: 'string'
           }
           {
@@ -104,14 +108,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'suspected_url'
-            type: 'string'
-          }
-          {
-            name: 'stagefright_vulnerability_report'
-            type: 'string'
-          }
-          {
             name: 'basetation'
             type: 'string'
           }
@@ -132,15 +128,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'basetation_lac'
-            type: 'string'
-          }
-          {
             name: 'profile_identifier'
             type: 'string'
           }
           {
-            name: 'profile_name'
+            name: 'basetation_mcc'
+            type: 'string'
+          }
+          {
+            name: 'profileype'
             type: 'string'
           }
           {
@@ -164,11 +160,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'profileype'
+            name: 'suspected_url'
             type: 'string'
           }
           {
-            name: 'basetation_mcc'
+            name: 'profile_name'
+            type: 'string'
+          }
+          {
+            name: 'stagefright_vulnerability_report'
             type: 'string'
           }
           {
@@ -176,59 +176,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'basetationtype'
-            type: 'string'
-          }
-          {
-            name: 'devicetime'
-            type: 'string'
-          }
-          {
-            name: 'threat_vector_s'
-            type: 'string'
-          }
-          {
-            name: 'threat_uuid'
-            type: 'string'
-          }
-          {
-            name: 'threat_name'
-            type: 'string'
-          }
-          {
-            name: 'event_id'
-            type: 'string'
-          }
-          {
-            name: 'severity_name'
-            type: 'string'
-          }
-          {
-            name: 'device_id'
-            type: 'string'
-          }
-          {
-            name: 'account_id'
-            type: 'string'
-          }
-          {
-            name: 'systemtoken'
-            type: 'string'
-          }
-          {
-            name: 'RawData'
-            type: 'string'
-          }
-          {
-            name: 'Computer'
-            type: 'string'
-          }
-          {
-            name: 'ManagementGroupName'
-            type: 'string'
-          }
-          {
-            name: 'MG'
+            name: 'basetation_psc'
             type: 'string'
           }
           {
@@ -236,11 +184,59 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
+            name: 'MG'
+            type: 'string'
+          }
+          {
+            name: 'ManagementGroupName'
+            type: 'string'
+          }
+          {
+            name: 'Computer'
+            type: 'string'
+          }
+          {
+            name: 'RawData'
+            type: 'string'
+          }
+          {
+            name: 'systemtoken'
+            type: 'string'
+          }
+          {
             name: 'threatdetail'
             type: 'string'
           }
           {
-            name: '_ResourceId'
+            name: 'account_id'
+            type: 'string'
+          }
+          {
+            name: 'severity_name'
+            type: 'string'
+          }
+          {
+            name: 'event_id'
+            type: 'string'
+          }
+          {
+            name: 'threat_name'
+            type: 'string'
+          }
+          {
+            name: 'threat_uuid'
+            type: 'string'
+          }
+          {
+            name: 'threat_vector_s'
+            type: 'string'
+          }
+          {
+            name: 'devicetime'
+            type: 'string'
+          }
+          {
+            name: 'device_id'
             type: 'string'
           }
           {
@@ -248,11 +244,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'zdevice_id'
-            type: 'string'
-          }
-          {
-            name: 'basetation_psc'
+            name: 'device_jailbroken'
             type: 'string'
           }
           {
@@ -276,15 +268,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'device_jailbroken'
-            type: 'string'
-          }
-          {
             name: 'device_owner_last_name'
             type: 'string'
           }
           {
-            name: 'device_owner_email'
+            name: 'basetationtype'
+            type: 'string'
+          }
+          {
+            name: 'device_owner_first_name'
             type: 'string'
           }
           {
@@ -308,7 +300,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'device_owner_first_name'
+            name: 'zdevice_id'
+            type: 'string'
+          }
+          {
+            name: 'device_owner_email'
             type: 'string'
           }
           {
@@ -331,7 +327,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-ZimperiumThreatLog_CL']
         destinations: ['Sentinel-ZimperiumThreatLog_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), attacker_ip = tostring(attacker_ip), attacker_mac = tostring(attacker_mac), attacker_bssid = tostring(attacker_bssid), attackersid = tostring(attackersid), network = tostring(network), network_bssid = tostring(network_bssid), network_interface = tostring(network_interface), jailbreak_reasons = tostring(jailbreak_reasons), process = tostring(process), sideloaded_appeveloper = tostring(sideloaded_appeveloper), sideloaded_app_name = tostring(sideloaded_app_name), sideloaded_app_package = tostring(sideloaded_app_package), event = tostring(event), file_name = tostring(file_name), file_hash = tostring(file_hash), file_path = tostring(file_path), suspected_url = tostring(suspected_url), stagefright_vulnerability_report = tostring(stagefright_vulnerability_report), basetation = tostring(basetation), certificate = tostring(certificate), external_ip = tostring(external_ip), network_encryption = tostring(network_encryption), subnet_mask = tostring(subnet_mask), basetation_lac = toreal(basetation_lac), profile_identifier = tostring(profile_identifier), profile_name = tostring(profile_name), actionriggered = tostring(actionriggered), installerource = tostring(installerource), malware_family = tostring(malware_family), package_name = tostring(package_name), malware_list = tostring(malware_list), profileype = tostring(profileype), basetation_mcc = toreal(basetation_mcc), basetation_cid = toreal(basetation_cid), basetationtype = tostring(basetationtype), devicetime = todatetime(devicetime), threat_vector_s = tostring(threat_vector_s), threat_uuid = tostring(threat_uuid), threat_name = tostring(threat_name), event_id = tostring(event_id), severity_name = tostring(severity_name), device_id = tostring(device_id), account_id = tostring(account_id), systemtoken = tostring(systemtoken), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), threatdetail = tostring(threatdetail), _ResourceId = tostring(_ResourceId), device_model = tostring(device_model), zdevice_id = tostring(zdevice_id), basetation_psc = toreal(basetation_psc), basetation_mnc = toreal(basetation_mnc), gateway_mac = tostring(gateway_mac), gateway_ip = tostring(gateway_ip), device_mac = tostring(device_mac), device_ip = tostring(device_ip), device_jailbroken = tobool(device_jailbroken), device_owner_last_name = tostring(device_owner_last_name), device_owner_email = tostring(device_owner_email), device_owner_id = tostring(device_owner_id), device_os_version = tostring(device_os_version), device_os_s = tostring(device_os_s), detection_app_version = tostring(detection_app_version), detection_app_instance_id = tostring(detection_app_instance_id), device_owner_first_name = tostring(device_owner_first_name), event_timestamp_s = tostring(event_timestamp_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), basetation_lac = toreal(basetation_lac), attacker_ip = tostring(attacker_ip), attacker_mac = tostring(attacker_mac), attacker_bssid = tostring(attacker_bssid), attackersid = tostring(attackersid), network = tostring(network), network_bssid = tostring(network_bssid), network_interface = tostring(network_interface), jailbreak_reasons = tostring(jailbreak_reasons), process = tostring(process), sideloaded_appeveloper = tostring(sideloaded_appeveloper), sideloaded_app_name = tostring(sideloaded_app_name), sideloaded_app_package = tostring(sideloaded_app_package), event = tostring(event), file_name = tostring(file_name), file_hash = tostring(file_hash), file_path = tostring(file_path), basetation = tostring(basetation), certificate = tostring(certificate), external_ip = tostring(external_ip), network_encryption = tostring(network_encryption), subnet_mask = tostring(subnet_mask), profile_identifier = tostring(profile_identifier), basetation_mcc = toreal(basetation_mcc), profileype = tostring(profileype), actionriggered = tostring(actionriggered), installerource = tostring(installerource), malware_family = tostring(malware_family), package_name = tostring(package_name), malware_list = tostring(malware_list), suspected_url = tostring(suspected_url), profile_name = tostring(profile_name), stagefright_vulnerability_report = tostring(stagefright_vulnerability_report), basetation_cid = toreal(basetation_cid), basetation_psc = toreal(basetation_psc), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), systemtoken = tostring(systemtoken), threatdetail = tostring(threatdetail), account_id = tostring(account_id), severity_name = tostring(severity_name), event_id = tostring(event_id), threat_name = tostring(threat_name), threat_uuid = tostring(threat_uuid), threat_vector_s = tostring(threat_vector_s), devicetime = todatetime(devicetime), device_id = tostring(device_id), device_model = tostring(device_model), device_jailbroken = tobool(device_jailbroken), basetation_mnc = toreal(basetation_mnc), gateway_mac = tostring(gateway_mac), gateway_ip = tostring(gateway_ip), device_mac = tostring(device_mac), device_ip = tostring(device_ip), device_owner_last_name = tostring(device_owner_last_name), basetationtype = tostring(basetationtype), device_owner_first_name = tostring(device_owner_first_name), device_owner_id = tostring(device_owner_id), device_os_version = tostring(device_os_version), device_os_s = tostring(device_os_s), detection_app_version = tostring(detection_app_version), detection_app_instance_id = tostring(detection_app_instance_id), zdevice_id = tostring(zdevice_id), device_owner_email = tostring(device_owner_email), event_timestamp_s = tostring(event_timestamp_s)'
         outputStream: 'Custom-ZimperiumThreatLog_CL'
       }
     ]
