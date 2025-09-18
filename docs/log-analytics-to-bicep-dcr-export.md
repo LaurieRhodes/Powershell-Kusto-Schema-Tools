@@ -23,6 +23,7 @@ $resourceGroupName = 'YOUR-RESOURCE-GROUP-NAME'
 $subscriptionId = 'YOUR-SUBSCRIPTION-ID'
 $tenantId = ''  # Optional - leave empty to use current context
 ```
+
 Configure script parameters for the Log Analytics environment you wish to export.
 
 ### Export Configuration
@@ -35,12 +36,14 @@ $ExportAll = $true                    # Set to $true to export ALL workspace tab
 #### Export Modes
 
 **Export All Mode** (`$ExportAll = $true`):
+
 - Automatically discovers all tables in the workspace
 - Exports every table found
 - Ignores the `$tablesToExport` list
 - Ideal for comprehensive workspace exports
 
 **Specific Tables Mode** (`$ExportAll = $false`):
+
 - Uses the configured `$tablesToExport` list
 - Only exports explicitly listed tables
 - Better for targeted exports or testing
@@ -102,12 +105,14 @@ $preferManagementAPITypes = $true  # Prefer Management API types over getschema
 ## Usage Examples
 
 ### Export All Tables (Default Configuration)
+
 ```powershell
 # Export every table in the workspace
 $ExportAll = $true
 ```
 
 ### Export Specific Security Tables Only
+
 ```powershell
 # Export only the tables listed in $tablesToExport
 $ExportAll = $false
@@ -121,6 +126,7 @@ $tablesToExport = @(
 ```
 
 ### Export Custom Tables Only
+
 ```powershell
 # Export all custom tables (ending with _CL) by discovering and filtering
 $ExportAll = $true
@@ -161,12 +167,10 @@ This approach provides:
 
 The script uses Management API table type to determine correct output streams:
 
-| Table Type      | Table Name Pattern | Output Stream         | Notes                       |
-| --------------- | ------------------ | --------------------- | --------------------------- |
-| `CustomLog`     | `*_CL`             | `Custom-TableName`    | All custom logs             |
-| `Microsoft`     | Known writable     | `Microsoft-TableName` | Specific Microsoft tables   |
-| `Microsoft`     | Other              | `Custom-TableName`    | New data to existing tables |
-| `SearchResults` | Any                | `Custom-TableName`    | Search result tables        |
+| Table Type  | Table Name Pattern | Output Stream         | Notes                     |
+| ----------- | ------------------ | --------------------- | ------------------------- |
+| `CustomLog` | `*_CL`             | `Custom-TableName`    | All custom logs           |
+| `Microsoft` | Other              | `Microsoft-TableName` | Specific Microsoft tables |
 
 ### Bicep Template Features
 
@@ -215,6 +219,8 @@ resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
 }
 ```
 
+Tempates include permission assignments for writing to the DCR
+
 ### Parameter File Template
 
 ```json
@@ -239,38 +245,23 @@ The workspaceName parameter is simply an identifier used in naming the DCR.  It'
 
 ## Column Filtering
 
-### DCR Column Filtering Control
-
-Column filtering is handled by the `Filter-NonUnderscoreColumns` function within the DCR generation process. This is different from table selection - it controls which columns are included in each DCR.
-
 ### Always Filtered Columns
 
 - **Type**: Microsoft reserved column - **always** filtered out regardless of settings (causes DCR deployment failures)
-
-### Column Filtering Logic
-
-The script applies filtering at the column level during DCR generation:
-
-```powershell
-function Filter-NonUnderscoreColumns {
-    # Built-in column filtering for DCR compatibility
-    # Always excludes Type column (DCR reserved)
-    # May exclude underscore columns based on function implementation
-}
-```
+- **Underscore columns**: Microsoft reserved column - **always** filtered out regardless of settings (causes DCR deployment failures)
 
 This filtering ensures that:
+
 - DCR deployment succeeds by removing reserved columns
 - Column schemas are compatible with DCR requirements
-- Underscore columns (like `_ResourceId`, `_BilledSize`) may be filtered based on the function's logic
 
 ## Configuration Summary
 
-| Setting | Purpose | Default | Impact |
-|---------|---------|---------|---------|
-| `$ExportAll` | Export mode selection | `$true` | When true, discovers all workspace tables |
-| `$tablesToExport` | Specific table list | Predefined list | Used only when `$ExportAll = $false` |
-| `$useHybridDiscovery` | Schema discovery method | `$true` | Uses both Management API and getschema |
+| Setting               | Purpose                 | Default         | Impact                                    |
+| --------------------- | ----------------------- | --------------- | ----------------------------------------- |
+| `$ExportAll`          | Export mode selection   | `$true`         | When true, discovers all workspace tables |
+| `$tablesToExport`     | Specific table list     | Predefined list | Used only when `$ExportAll = $false`      |
+| `$useHybridDiscovery` | Schema discovery method | `$true`         | Uses both Management API and getschema    |
 
 ## Prerequisites
 
@@ -310,13 +301,9 @@ dcr/
 ```
 
 Each directory contains:
+
 - **Bicep template**: Complete DCR resource definition
 - **Parameters file**: Deployment parameter template
 - **PowerShell script**: Deployment automation script
 
-## Notes
-
-- Log Analytics table names do not start with underscores (unlike some other systems)
-- Custom tables have `_CL` suffix (e.g., `MyCustomTable_CL`)
-- Restored tables have `_RST` suffix (e.g., `SecurityEvent_RST`)
-- The script focuses on actual table filtering rather than naming pattern filtering
+# 

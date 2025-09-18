@@ -27,13 +27,6 @@ $dcrDirectory = Join-Path $outputDirectory "dcr-from-json"      # DCR output dir
 
 ### Column Filtering Options
 
-```powershell
-$FilterUnderscoreColumns = $true        # Set to $false to include underscore columns in DCR
-```
-
-**Default Behavior**: `$true` - Underscore columns are filtered out for DCR compatibility
-**Alternative**: `$false` - Include underscore columns (some vendors use underscore-prefixed columns)
-
 **Note**: The Microsoft reserved 'Type' column is **always** filtered out regardless of this setting, as it causes DCR deployment failures.
 
 ### Bicep Template Configuration
@@ -45,6 +38,7 @@ $bicepConfig = @{
     RoleDefinitionId = "3913510d-42f4-4e42-8a64-420c390055eb"  # Monitoring Metrics Publisher
 }
 ```
+
 The Bicep Template Configuration provides default examples for the Bicep files that are produced.  You are more likely to alter the Bicep Parameter files directly but this is useful to alter for large scale template creation.
 
 ## Input Requirements
@@ -94,7 +88,6 @@ dcr-from-json/
 ├── TableName_CL/
 │   ├── dcr-TableName_CL.bicep           # Main Bicep template
 │   ├── dcr-TableName_CL.parameters.json # Parameter file template
-
 ```
 
 ### Bicep Template Features
@@ -122,6 +115,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
   }
 }
 ```
+
 Notice that the stream declaration is always a 'Custom' stream.
 
 #### 2. Transform KQL Generation
@@ -159,13 +153,12 @@ resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   }
 }
 ```
+
 The example template produced expects that you will have pre-provisioned a Data Collection Endpoint and a User Defined Managed Identity that you will use for forwarding data to Log Analytics.  
 
 The Log Analytics Workspace you intend to receive events is specified by the workspaceResourceId parameter.
 
 The workspaceName parameter is simply an identifier used in naming the DCR.  It's likely that CI/CD pipelines will have Dev / Test / Prod targets for Data Collection Rules so incorporating the name of the destination Log Analytics Workspace is helpful in easily identifying where data to a particular DCR actually goes. 
-
-
 
 ## Reserved Column Filtering
 
@@ -191,17 +184,17 @@ $FilterUnderscoreColumns = $true        # Set to $false to include underscore co
 ```powershell
 function Filter-DCRReservedColumns {
     param([array]$columns, [bool]$filterUnderscore)
-    
+
     # DCR reserved columns (always filtered)
     $dcrReservedColumns = @('Type')
-    
+
     $filteredColumns = $columns | Where-Object { 
         # Always filter reserved columns
         $_.name -notin $dcrReservedColumns -and
         # Conditionally filter underscore columns
         (-not $filterUnderscore -or -not $_.name.StartsWith("_"))
     }
-    
+
     return $filteredColumns
 }
 ```
@@ -209,15 +202,19 @@ function Filter-DCRReservedColumns {
 ### Configuration Examples
 
 #### Standard Configuration (Default)
+
 ```powershell
 $FilterUnderscoreColumns = $true        # Filter underscore columns
 ```
+
 **Result**: Excludes `_ResourceId`, `_SubscriptionId`, `Type`, etc.
 
 #### Include Underscore Columns
+
 ```powershell
 $FilterUnderscoreColumns = $false       # Include underscore columns
 ```
+
 **Result**: Includes `_ResourceId`, `_SubscriptionId`, but still excludes `Type`
 
 ## Data Type Transformations
@@ -248,8 +245,6 @@ columns: [
 | `Boolean`  | `tobool()`         | Boolean     |
 | `Dynamic`  | `todynamic()`      | Dynamic     |
 
-
-
 ## Prerequisites
 
 ### Required Files
@@ -264,15 +259,18 @@ Log Analytics tables must contain the custom table for the Data Collection Rule 
 ## Production Considerations
 
 ### Reserved Column Safety
+
 - **Type column**: Always filtered to prevent DCR deployment failures
 - **Error prevention**: Script stops underscore column issues before deployment
 
 ### Vendor Compatibility
+
 - **Default safe**: Most environments should use `$FilterUnderscoreColumns = $true`
 - **Vendor support**: Set to `$false` if vendor uses underscore-prefixed columns
 - **Transparency**: Console output clearly shows what was filtered
 
 ### CI/CD Integration
+
 - **Parameter control**: Single variable controls filtering behavior
 - **Template consistency**: Generated templates include filtering approach comments
 - **Deployment safety**: Reserved columns never cause deployment failures
