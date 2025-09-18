@@ -1,29 +1,28 @@
-# PowerShell Kusto Schema Tools
+![](./docs/img/Banner.jpg) 
 
 <p align="center">
   <img src="https://img.shields.io/badge/PowerShell-5.1%2B-blue?style=for-the-badge&logo=powershell" alt="PowerShell Version"/>
   <img src="https://img.shields.io/badge/Azure-Data%20Platform-0078d4?style=for-the-badge&logo=microsoftazure" alt="Azure Platform"/>
   <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="MIT License"/>
-  <img src="https://img.shields.io/badge/Enterprise-Ready-orange?style=for-the-badge" alt="Enterprise Ready"/>
 </p>
 
 ---
 
-The tools in this repository are written to assist engineers with the fundamental data interchange problems when trying to managed data seamlessly between Azure Data Explorer (ADX) and Microsoft Sentinel. 
+## 🔨 **Purpose**
 
-The scripts and example output in this archive will be of help if you are tasked with:
+The tools in this repository are written to managing data interchange between Azure Data Explorer (ADX), EventHouse and Microsoft Sentinel. 
 
-* Recreating Sentinel and Log Analytics tables in Azure Data Explorer (ADX) and Eventhouse
+*The PowerShell scripts are used for:*
 
-* Creating Data Collection Rules to write to Log Analytics / Sentinel
+* Exporting Sentinel and Log Analytics table schemas to Azure Data Explorer (ADX) and Eventhouse KQL scripts
 
-* Extending Log Analytics to support new Custom Log (_CL_) tables.
+* Automating Data Collection Rule creation to write data to Log Analytics / Sentinel tables
 
-* Exporting custom tables from Azure Data Explorer for use in Log Analytics
+* Extending Log Analytics with new Custom Log (_CL_) tables
 
 * Testing writeable tables in Log Analytics / Sentinel
 
-* Maintaining a dedicated, maximum security Kusto powered Big Data Cluster for all your Technology environment needs. 
+* Creating Log Analytics / Sentinel tables and Data Collection Rules from JSON schemas
 
 ---
 
@@ -33,22 +32,13 @@ The scripts and example output in this archive will be of help if you are tasked
 - **400+ Bicep Table Definitions**: Infrastructure-as-code examples for extending Log Analytics custom tables  
 - **1000+ KQL Table Definitions**: KQL schema templates derived from Log Analytics and the Sentinel archive to serve as templates fore data engineering.  
 - **Hybrid Schema Discovery**: Combines Management API with runtime getschema queries for complete coverage
-- **PowerShell scripts**: The raw scripts for exporting schema and creatting Data Collection Rules when required.
+- **PowerShell scripts**: The raw scripts for exporting schema and creatting Data Collection Rules when required
 
 ---
 
-## 🏗️ **Schema-as-Code Pipeline**
+## 📚 **Documentation**
 
-```
-Data Source Schema → Standardised JSON → Multiple Deployment Targets
-                                    ↓
-            ┌─────────────────────────────────────────────────────┐
-            ↓                     ↓                             ↓
-    Azure Data Explorer      Data Collection Rules      Log Analytics Tables
-    (KQL Deployments)       (Bicep Templates)         (Bicep Definitions)
-```
-
-Simple JSON schema files are used for generating a complete Repo of artifacts for use with CI/CD pipelines.  These artifacts automate much of the frustrating work around Kusto schema and Data Collection Rule creation.
+- **[Complete Technical Documentation](docs/README.md)** - Detailed usage for all tools
 
 ---
 
@@ -87,13 +77,7 @@ This repository contains the **largest known collection** of production-ready Da
 | [`json-exports-from-log-analytics/`](json-exports-from-log-analytics) | **JSON Schema Files**              | Variable | Standardised JSON schema exports from Log Analytics                                                                                                          |
 | [`docs/`](docs)                                                       | **Technical Documentation**        | 8 files  | Comprehensive implementation guides for all scripts                                                                                                          |
 
----
 
-## 📚 **Documentation**
-
-- **[Complete Technical Documentation](docs/README.md)** - Detailed usage for all tools
-
----
 
 ## 📄 **License & Support**
 
