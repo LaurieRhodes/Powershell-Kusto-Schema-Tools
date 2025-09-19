@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Tomcat_CL
-// Generated on 2025-09-17 06:40:07 UTC
+// Generated on 2025-09-19 14:13:59 UTC
 // Source: JSON schema export
-// Original columns: 6, Deployed columns: 5 (Type column filtered)
-// Underscore columns included
+// Original columns: 6, Deployed columns: 3 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,15 +48,6 @@ resource tomcatclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02-
         }
         {
           name: 'RawData'
-          type: 'string'
-        }
-        {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
-        }
-        {
-          name: '_SubscriptionId'
           type: 'string'
         }
       ]

@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: TrendMicroCAS_CL
-// Generated on 2025-09-17 06:40:07 UTC
+// Generated on 2025-09-19 14:13:59 UTC
 // Source: JSON schema export
-// Original columns: 33, Deployed columns: 33 (Type column filtered)
-// Underscore columns included
+// Original columns: 30, Deployed columns: 30 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -47,19 +47,7 @@ resource trendmicrocasclTable 'Microsoft.OperationalInsights/workspaces/tables@2
           type: 'string'
         }
         {
-          name: 'message_file_sha256_s'
-          type: 'string'
-        }
-        {
           name: 'message_detection_type_s'
-          type: 'string'
-        }
-        {
-          name: 'message_risk_level_s'
-          type: 'string'
-        }
-        {
-          name: 'message_file_sha1_s'
           type: 'string'
         }
         {
@@ -108,12 +96,12 @@ resource trendmicrocasclTable 'Microsoft.OperationalInsights/workspaces/tables@2
           type: 'dateTime'
         }
         {
-          name: 'message_mail_message_submit_time_t'
-          type: 'dateTime'
+          name: 'message_ransomware_name_s'
+          type: 'string'
         }
         {
-          name: 'message_mail_message_recipient_d'
-          type: 'real'
+          name: 'message_mail_message_submit_time_t'
+          type: 'dateTime'
         }
         {
           name: 'message_mail_message_sender_s'
@@ -165,8 +153,8 @@ resource trendmicrocasclTable 'Microsoft.OperationalInsights/workspaces/tables@2
           type: 'string'
         }
         {
-          name: 'message_ransomware_name_s'
-          type: 'string'
+          name: 'message_mail_message_recipient_d'
+          type: 'real'
         }
         {
           name: 'message_triggered_dlp_template_d'

@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Armis_Activities_CL
-// Generated on 2025-09-17 06:39:55 UTC
+// Generated on 2025-09-19 14:13:48 UTC
 // Source: JSON schema export
-// Original columns: 20, Deployed columns: 18 (Type column filtered)
-// Underscore columns included
+// Original columns: 20, Deployed columns: 17 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,51 +48,7 @@ resource armisactivitiesclTable 'Microsoft.OperationalInsights/workspaces/tables
           dataTypeHint: 1
         }
         {
-          name: 'SiteName'
-          type: 'string'
-        }
-        {
-          name: 'SiteLocation'
-          type: 'string'
-        }
-        {
-          name: 'SensorType'
-          type: 'string'
-        }
-        {
-          name: 'SensorName'
-          type: 'string'
-        }
-        {
-          name: 'Protocol'
-          type: 'string'
-        }
-        {
-          name: 'Content'
-          type: 'string'
-        }
-        {
-          name: 'Title'
-          type: 'string'
-        }
-        {
-          name: 'ActivityUUID'
-          type: 'string'
-        }
-        {
-          name: 'EventVendor'
-          type: 'string'
-        }
-        {
-          name: 'RawData'
-          type: 'string'
-        }
-        {
-          name: 'Computer'
-          type: 'string'
-        }
-        {
-          name: 'ManagementGroupName'
+          name: 'SourceSystem'
           type: 'string'
         }
         {
@@ -100,7 +56,19 @@ resource armisactivitiesclTable 'Microsoft.OperationalInsights/workspaces/tables
           type: 'string'
         }
         {
-          name: 'SourceSystem'
+          name: 'ManagementGroupName'
+          type: 'string'
+        }
+        {
+          name: 'Computer'
+          type: 'string'
+        }
+        {
+          name: 'RawData'
+          type: 'string'
+        }
+        {
+          name: 'EventVendor'
           type: 'string'
         }
         {
@@ -108,9 +76,36 @@ resource armisactivitiesclTable 'Microsoft.OperationalInsights/workspaces/tables
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'ActivityUUID'
           type: 'string'
-          dataTypeHint: 2
+        }
+        {
+          name: 'Content'
+          type: 'string'
+        }
+        {
+          name: 'Protocol'
+          type: 'string'
+        }
+        {
+          name: 'SensorName'
+          type: 'string'
+        }
+        {
+          name: 'SensorType'
+          type: 'string'
+        }
+        {
+          name: 'SiteLocation'
+          type: 'string'
+        }
+        {
+          name: 'SiteName'
+          type: 'string'
+        }
+        {
+          name: 'Title'
+          type: 'string'
         }
       ]
     }

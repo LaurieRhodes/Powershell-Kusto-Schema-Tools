@@ -1,22 +1,22 @@
 ﻿// ============================================================================
-// Azure Data Explorer KQL Script for JuniperIDP
+// Azure Data Explorer KQL Script for JuniperIDP_CL
 // ============================================================================
-// Generated: 2025-09-17 06:16:04
+// Generated: 2025-09-19 14:23:06
 // Table type: Custom (presumed for JSON exports)
 // Schema imported from JSON export file
 // ============================================================================
 
-.create-merge table JuniperIDPRaw (records:dynamic)
+.create-merge table JuniperIDP_CLRaw (records:dynamic)
 
-.alter-merge table JuniperIDPRaw policy retention softdelete = 1d
+.alter-merge table JuniperIDP_CLRaw policy retention softdelete = 1d
 
-.alter table JuniperIDPRaw policy caching hot = 1h
+.alter table JuniperIDP_CLRaw policy caching hot = 1h
 
 // JSON mapping - choose appropriate option based on data structure
-.create-or-alter table JuniperIDPRaw ingestion json mapping 'JuniperIDPRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
+.create-or-alter table JuniperIDP_CLRaw ingestion json mapping 'JuniperIDP_CLRawMapping' '[{"column":"records","Properties":{"path":"$.records"}}]'
 // Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
 
-.create-merge table JuniperIDP(
+.create-merge table JuniperIDP_CL(
 TimeGenerated:datetime,
 EventVendor:string,
 SrcNatIpAddr:string,
@@ -60,10 +60,10 @@ Roles:string,
 EventMessage:string,
 _TimeReceived:datetime)
 
-.alter table JuniperIDP policy caching hot = 1d
+.alter table JuniperIDP_CL policy caching hot = 1d
 
-.create-or-alter function JuniperIDPExpand() {
-JuniperIDPRaw
+.create-or-alter function JuniperIDP_CLExpand() {
+JuniperIDP_CLRaw
 | mv-expand events = records
 // Alternative for non-nested: | extend events = records
 | project
@@ -111,4 +111,4 @@ EventMessage=tostring(events.EventMessage),
 _TimeReceived=todatetime(now())
 }
 
-.alter table JuniperIDP policy update @'[{"Source": "JuniperIDPRaw", "Query": "JuniperIDPExpand()", "IsEnabled": "True", "IsTransactional": true}]'
+.alter table JuniperIDP_CL policy update @'[{"Source": "JuniperIDP_CLRaw", "Query": "JuniperIDP_CLExpand()", "IsEnabled": "True", "IsTransactional": true}]'

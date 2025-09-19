@@ -106,19 +106,7 @@
                            "Type":  "String"
                        },
                        {
-                           "Name":  "message_file_sha1_s",
-                           "Type":  "String"
-                       },
-                       {
-                           "Name":  "message_risk_level_s",
-                           "Type":  "String"
-                       },
-                       {
                            "Name":  "message_detection_type_s",
-                           "Type":  "String"
-                       },
-                       {
-                           "Name":  "message_file_sha256_s",
                            "Type":  "String"
                        },
                        {

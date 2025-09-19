@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: DataminrPulse_Alerts_CL
-// Generated on 2025-09-17 06:40:02 UTC
+// Generated on 2025-09-19 14:13:54 UTC
 // Source: JSON schema export
-// Original columns: 19, Deployed columns: 19 (Type column filtered)
-// Underscore columns included
+// Original columns: 19, Deployed columns: 18 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -59,10 +59,6 @@ resource dataminrpulsealertsclTable 'Microsoft.OperationalInsights/workspaces/ta
           type: 'string'
         }
         {
-          name: '_embedded_labels_s'
-          type: 'string'
-        }
-        {
           name: 'EventVolume'
           type: 'real'
         }
@@ -75,12 +71,12 @@ resource dataminrpulsealertsclTable 'Microsoft.OperationalInsights/workspaces/ta
           type: 'real'
         }
         {
-          name: 'location_latitude_d'
-          type: 'real'
+          name: 'watchlistsMatchedByType_s'
+          type: 'string'
         }
         {
-          name: 'categories_s'
-          type: 'string'
+          name: 'location_latitude_d'
+          type: 'real'
         }
         {
           name: 'companies_s'
@@ -107,7 +103,7 @@ resource dataminrpulsealertsclTable 'Microsoft.OperationalInsights/workspaces/ta
           type: 'string'
         }
         {
-          name: 'watchlistsMatchedByType_s'
+          name: 'categories_s'
           type: 'string'
         }
         {

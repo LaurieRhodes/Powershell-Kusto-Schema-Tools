@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: NetskopeWebtxData_CL
-// Generated on 2025-09-17 06:40:05 UTC
+// Generated on 2025-09-19 14:13:57 UTC
 // Source: JSON schema export
-// Original columns: 159, Deployed columns: 158 (Type column filtered)
-// Underscore columns included
+// Original columns: 159, Deployed columns: 157 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -192,11 +192,11 @@ resource netskopewebtxdataclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'string'
         }
         {
-          name: 'x_cs_connect_port_s'
+          name: 'x_r_cert_revoked_s'
           type: 'string'
         }
         {
-          name: 'x_cs_connect_user_agent_s'
+          name: 'x_cs_connect_port_s'
           type: 'string'
         }
         {
@@ -233,11 +233,11 @@ resource netskopewebtxdataclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'string'
         }
         {
-          name: 'x_rs_file_language_s'
+          name: 'x_policy_src_ip_s'
           type: 'string'
         }
         {
-          name: 'x_policy_src_ip_s'
+          name: 'x_policy_dst_ip_s'
           type: 'string'
         }
         {
@@ -265,19 +265,15 @@ resource netskopewebtxdataclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'string'
         }
         {
-          name: 'x_cs_ssl_ja3_s'
-          type: 'string'
-        }
-        {
-          name: 'x_policy_dst_ip_s'
-          type: 'string'
-        }
-        {
-          name: 'x_r_cert_revoked_s'
+          name: 'x_rs_file_language_s'
           type: 'string'
         }
         {
           name: 'x_rs_file_category_s'
+          type: 'string'
+        }
+        {
+          name: 'x_rs_file_type_s'
           type: 'string'
         }
         {
@@ -314,7 +310,7 @@ resource netskopewebtxdataclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'string'
         }
         {
-          name: 'x_rs_file_type_s'
+          name: 'x_cs_connect_user_agent_s'
           type: 'string'
         }
         {
@@ -354,11 +350,11 @@ resource netskopewebtxdataclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'string'
         }
         {
-          name: 'x_rs_file_md5_g'
+          name: 'x_r_cert_self_signed_s'
           type: 'string'
         }
         {
-          name: 'x_r_cert_self_signed_s'
+          name: 'x_r_cert_incomplete_chain_s'
           type: 'string'
         }
         {
@@ -595,7 +591,7 @@ resource netskopewebtxdataclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'string'
         }
         {
-          name: 'x_r_cert_incomplete_chain_s'
+          name: 'x_cs_ssl_ja3_s'
           type: 'string'
         }
         {
@@ -675,9 +671,8 @@ resource netskopewebtxdataclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'x_rs_file_md5_g'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

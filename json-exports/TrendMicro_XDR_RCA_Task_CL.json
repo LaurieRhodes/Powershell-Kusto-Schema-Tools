@@ -104,10 +104,6 @@
                        {
                            "Name":  "targets_s",
                            "Type":  "string"
-                       },
-                       {
-                           "Name":  "TimeGenerated",
-                           "Type":  "DateTime"
                        }
                    ]
 }

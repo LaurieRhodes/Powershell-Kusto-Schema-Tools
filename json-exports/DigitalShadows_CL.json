@@ -18,10 +18,6 @@
       "Type": "String"
     },
     {
-      "Name": "classification_s",
-      "Type": "String"
-    },
-    {
       "Name": "Computer",
       "Type": "String"
     },

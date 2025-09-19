@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Talon_CL
-// Generated on 2025-09-17 06:40:06 UTC
+// Generated on 2025-09-19 14:13:58 UTC
 // Source: JSON schema export
-// Original columns: 44, Deployed columns: 43 (Type column filtered)
-// Underscore columns included
+// Original columns: 44, Deployed columns: 42 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -46,6 +46,10 @@ resource talonclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02-0
           name: 'TenantId'
           type: 'guid'
           dataTypeHint: 1
+        }
+        {
+          name: 'eventCategory_s'
+          type: 'string'
         }
         {
           name: 'eventType_s'
@@ -114,15 +118,11 @@ resource talonclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02-0
           type: 'string'
         }
         {
-          name: 'time_s'
-          type: 'string'
-        }
-        {
-          name: 'eventCategory_s'
-          type: 'string'
-        }
-        {
           name: 'id_s'
+          type: 'string'
+        }
+        {
+          name: 'time_s'
           type: 'string'
         }
         {
@@ -130,7 +130,7 @@ resource talonclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02-0
           type: 'string'
         }
         {
-          name: 'eventDetails_name_s'
+          name: 'eventDetails_path_s'
           type: 'string'
         }
         {
@@ -167,12 +167,12 @@ resource talonclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02-0
           type: 'string'
         }
         {
-          name: 'description_s'
+          name: 'eventDetails_reasons_s'
           type: 'string'
         }
         {
-          name: 'eventDetails_reasons_s'
-          type: 'string'
+          name: 'eventDetails_failedAttempts_d'
+          type: 'real'
         }
         {
           name: 'eventDetails_engine_s'
@@ -204,17 +204,12 @@ resource talonclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02-0
           type: 'string'
         }
         {
-          name: 'eventDetails_path_s'
+          name: 'eventDetails_name_s'
           type: 'string'
         }
         {
-          name: 'eventDetails_failedAttempts_d'
-          type: 'real'
-        }
-        {
-          name: '_ResourceId'
+          name: 'description_s'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

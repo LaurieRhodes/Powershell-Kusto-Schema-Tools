@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: NXLogFIM_CL
-// Generated on 2025-09-17 06:40:05 UTC
+// Generated on 2025-09-19 14:13:57 UTC
 // Source: JSON schema export
-// Original columns: 27, Deployed columns: 26 (Type column filtered)
-// Underscore columns included
+// Original columns: 27, Deployed columns: 22 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -47,22 +47,6 @@ resource nxlogfimclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'string'
         }
         {
-          name: '_IsBillable'
-          type: 'string'
-        }
-        {
-          name: '_BilledSize'
-          type: 'real'
-        }
-        {
-          name: 'SourceModuleType_s'
-          type: 'string'
-        }
-        {
-          name: 'SourceModuleName_s'
-          type: 'string'
-        }
-        {
           name: 'Severity_s'
           type: 'string'
         }
@@ -87,21 +71,20 @@ resource nxlogfimclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'PrevDigest_s'
           type: 'string'
-          dataTypeHint: 2
         }
         {
-          name: 'PrevDigest_s'
+          name: 'Object_s'
+          type: 'string'
+        }
+        {
+          name: 'SourceModuleName_s'
           type: 'string'
         }
         {
           name: 'ModificationTime_t'
           type: 'dateTime'
-        }
-        {
-          name: 'Hostname_s'
-          type: 'string'
         }
         {
           name: 'HostIP_s'
@@ -136,11 +119,11 @@ resource nxlogfimclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'string'
         }
         {
-          name: 'Object_s'
+          name: 'Hostname_s'
           type: 'string'
         }
         {
-          name: '_SubscriptionId'
+          name: 'SourceModuleType_s'
           type: 'string'
         }
       ]

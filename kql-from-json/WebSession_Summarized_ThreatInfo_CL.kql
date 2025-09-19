@@ -1,7 +1,7 @@
 ﻿// ============================================================================
 // Azure Data Explorer KQL Script for WebSession_Summarized_ThreatInfo_CL
 // ============================================================================
-// Generated: 2025-09-17 06:16:08
+// Generated: 2025-09-19 14:23:13
 // Table type: Custom (presumed for JSON exports)
 // Schema imported from JSON export file
 // ============================================================================
@@ -24,15 +24,12 @@ DstIpAddr_s:string,
 EventCount_d:string,
 EventResult_s:string,
 EventSeverity_s:string,
-SrcIpAddr_s:string,
 SrcUsername_s:string,
 ThreatCategory_s:string,
 ThreatField_s:string,
 ThreatName_s:string,
 ThreatOriginalConfidence_d:int,
 ThreatRiskLevel_d:int,
-SrcIpAddr_s:string,
-SrcIpAddr_s:string,
 SrcIpAddr_s:string,
 _TimeReceived:datetime)
 
@@ -50,15 +47,12 @@ DstIpAddr_s=tostring(events.DstIpAddr_s),
 EventCount_d=tostring(events.EventCount_d),
 EventResult_s=tostring(events.EventResult_s),
 EventSeverity_s=tostring(events.EventSeverity_s),
-SrcIpAddr_s=tostring(events.SrcIpAddr_s),
 SrcUsername_s=tostring(events.SrcUsername_s),
 ThreatCategory_s=tostring(events.ThreatCategory_s),
 ThreatField_s=tostring(events.ThreatField_s),
 ThreatName_s=tostring(events.ThreatName_s),
 ThreatOriginalConfidence_d=toint(events.ThreatOriginalConfidence_d),
 ThreatRiskLevel_d=toint(events.ThreatRiskLevel_d),
-SrcIpAddr_s=tostring(events.SrcIpAddr_s),
-SrcIpAddr_s=tostring(events.SrcIpAddr_s),
 SrcIpAddr_s=tostring(events.SrcIpAddr_s),
 _TimeReceived=todatetime(now())
 }

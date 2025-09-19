@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: MailRiskEmails_CL
-// Generated on 2025-09-17 06:40:04 UTC
+// Generated on 2025-09-19 14:13:56 UTC
 // Source: JSON schema export
-// Original columns: 39, Deployed columns: 38 (Type column filtered)
-// Underscore columns included
+// Original columns: 39, Deployed columns: 35 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,52 +48,7 @@ resource mailriskemailsclTable 'Microsoft.OperationalInsights/workspaces/tables@
           dataTypeHint: 1
         }
         {
-          name: 'links_s'
-          type: 'string'
-          dataTypeHint: 0
-        }
-        {
-          name: '_attachments_count_hard_s'
-          type: 'string'
-        }
-        {
-          name: 'attachments_s'
-          type: 'string'
-        }
-        {
-          name: 'reporter_domain_s'
-          type: 'string'
-        }
-        {
-          name: 'company_id_d'
-          type: 'real'
-        }
-        {
-          name: 'feedback_requested_b'
-          type: 'boolean'
-        }
-        {
-          name: 'feedback_provided_b'
-          type: 'boolean'
-        }
-        {
-          name: 'Category'
-          type: 'string'
-        }
-        {
-          name: 'risk_source_s'
-          type: 'string'
-        }
-        {
-          name: 'sent_at_s'
-          type: 'string'
-        }
-        {
-          name: 'assessed_at_s'
-          type: 'string'
-        }
-        {
-          name: 'content_status_s'
+          name: 'assessments_s'
           type: 'string'
         }
         {
@@ -101,29 +56,65 @@ resource mailriskemailsclTable 'Microsoft.OperationalInsights/workspaces/tables@
           type: 'string'
         }
         {
-          name: 'assessments_s'
+          name: 'content_status_s'
           type: 'string'
         }
         {
-          name: 'reported_risk_d'
+          name: 'assessed_at_s'
+          type: 'string'
+        }
+        {
+          name: 'sent_at_s'
+          type: 'string'
+        }
+        {
+          name: 'risk_source_s'
+          type: 'string'
+        }
+        {
+          name: 'Category'
+          type: 'string'
+        }
+        {
+          name: 'feedback_provided_b'
+          type: 'boolean'
+        }
+        {
+          name: 'feedback_requested_b'
+          type: 'boolean'
+        }
+        {
+          name: 'company_id_d'
           type: 'real'
         }
         {
-          name: '_links_count_hard_s'
+          name: 'reporter_domain_s'
           type: 'string'
-          dataTypeHint: 0
         }
         {
-          name: 'risk_s'
+          name: 'attachments_s'
           type: 'string'
+        }
+        {
+          name: 'links_s'
+          type: 'string'
+          dataTypeHint: 0
         }
         {
           name: 'originating_ip_s'
           type: 'string'
         }
         {
+          name: 'spf_s'
+          type: 'string'
+        }
+        {
           name: 'spam_score_d'
           type: 'real'
+        }
+        {
+          name: 'reply_to_s'
+          type: 'string'
         }
         {
           name: 'SourceSystem'
@@ -150,11 +141,11 @@ resource mailriskemailsclTable 'Microsoft.OperationalInsights/workspaces/tables@
           type: 'string'
         }
         {
-          name: 'event_type_s'
-          type: 'string'
+          name: 'reported_risk_d'
+          type: 'real'
         }
         {
-          name: 'reported_at_s'
+          name: 'event_type_s'
           type: 'string'
         }
         {
@@ -182,17 +173,12 @@ resource mailriskemailsclTable 'Microsoft.OperationalInsights/workspaces/tables@
           type: 'string'
         }
         {
-          name: 'reply_to_s'
+          name: 'reported_at_s'
           type: 'string'
         }
         {
-          name: 'spf_s'
+          name: 'risk_s'
           type: 'string'
-        }
-        {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

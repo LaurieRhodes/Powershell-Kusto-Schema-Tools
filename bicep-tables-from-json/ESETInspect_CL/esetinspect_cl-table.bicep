@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: ESETInspect_CL
-// Generated on 2025-09-17 06:40:02 UTC
+// Generated on 2025-09-19 14:13:55 UTC
 // Source: JSON schema export
-// Original columns: 40, Deployed columns: 39 (Type column filtered)
-// Underscore columns included
+// Original columns: 40, Deployed columns: 38 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -113,12 +113,12 @@ resource esetinspectclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'real'
         }
         {
-          name: 'moduleLgAge_d'
-          type: 'real'
+          name: 'type_s'
+          type: 'string'
         }
         {
-          name: 'moduleLastExecutedLocally_t'
-          type: 'string'
+          name: 'moduleLgAge_d'
+          type: 'real'
         }
         {
           name: 'moduleId_d'
@@ -145,21 +145,16 @@ resource esetinspectclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
-        }
-        {
           name: 'Severity'
-          type: 'string'
-        }
-        {
-          name: 'type_s'
           type: 'string'
         }
         {
           name: 'TableName'
           type: 'string'
+        }
+        {
+          name: 'computerId_d'
+          type: 'real'
         }
         {
           name: 'computerName_s'
@@ -191,8 +186,8 @@ resource esetinspectclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
-          name: 'computerId_d'
-          type: 'real'
+          name: 'moduleLastExecutedLocally_t'
+          type: 'string'
         }
         {
           name: 'uuid_g'

@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: ZimperiumMitigationLog_CL
-// Generated on 2025-09-17 06:40:08 UTC
+// Generated on 2025-09-19 14:14:00 UTC
 // Source: JSON schema export
-// Original columns: 17, Deployed columns: 16 (Type column filtered)
-// Underscore columns included
+// Original columns: 17, Deployed columns: 15 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -98,11 +98,6 @@ resource zimperiummitigationlogclTable 'Microsoft.OperationalInsights/workspaces
         {
           name: 'mitigated'
           type: 'boolean'
-        }
-        {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

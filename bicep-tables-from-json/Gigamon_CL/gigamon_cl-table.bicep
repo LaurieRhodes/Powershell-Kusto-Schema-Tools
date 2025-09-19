@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Gigamon_CL
-// Generated on 2025-09-17 06:40:03 UTC
+// Generated on 2025-09-19 14:13:55 UTC
 // Source: JSON schema export
-// Original columns: 52, Deployed columns: 51 (Type column filtered)
-// Underscore columns included
+// Original columns: 52, Deployed columns: 48 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,6 +48,11 @@ resource gigamonclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02
           dataTypeHint: 1
         }
         {
+          name: 'uri_fileextension_s'
+          type: 'string'
+          dataTypeHint: 0
+        }
+        {
           name: 'basic_constraints_subject_type_s'
           type: 'string'
         }
@@ -77,20 +82,16 @@ resource gigamonclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02
           dataTypeHint: 0
         }
         {
-          name: '_timestamp_t'
-          type: 'string'
-        }
-        {
           name: 'severity_ISG_PostQuantum_Security_s'
           type: 'string'
           dataTypeHint: 0
         }
         {
-          name: 'rank_s'
+          name: 'certificatenotbefore_t'
           type: 'string'
         }
         {
-          name: 'standard_cse_classification_s'
+          name: 'rank_s'
           type: 'string'
         }
         {
@@ -132,16 +133,11 @@ resource gigamonclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02
           type: 'string'
         }
         {
+          name: 'standard_cse_classification_s'
+          type: 'string'
+        }
+        {
           name: 'library_severity_description_s'
-          type: 'string'
-        }
-        {
-          name: 'uri_fileextension_s'
-          type: 'string'
-          dataTypeHint: 0
-        }
-        {
-          name: 'certificatenotbefore_t'
           type: 'string'
         }
         {
@@ -149,8 +145,8 @@ resource gigamonclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02
           type: 'string'
         }
         {
-          name: 'resultsscheme_s'
-          type: 'string'
+          name: 'certificatepublickeysize_d'
+          type: 'real'
         }
         {
           name: 'SourceSystem'
@@ -189,17 +185,12 @@ resource gigamonclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02
           type: 'string'
         }
         {
+          name: 'resultsscheme_s'
+          type: 'string'
+        }
+        {
           name: 'certificatekeyusage_s'
           type: 'string'
-        }
-        {
-          name: '_version_s'
-          type: 'string'
-        }
-        {
-          name: 'uri_filetype_s'
-          type: 'string'
-          dataTypeHint: 0
         }
         {
           name: 'severity_score_s'
@@ -238,13 +229,9 @@ resource gigamonclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02
           type: 'real'
         }
         {
-          name: 'certificatepublickeysize_d'
-          type: 'real'
-        }
-        {
-          name: '_ResourceId'
+          name: 'uri_filetype_s'
           type: 'string'
-          dataTypeHint: 2
+          dataTypeHint: 0
         }
         {
           name: 'keyid_s'

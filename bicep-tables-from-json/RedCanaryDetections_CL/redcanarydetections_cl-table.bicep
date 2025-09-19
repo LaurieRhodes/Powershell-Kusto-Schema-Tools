@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: RedCanaryDetections_CL
-// Generated on 2025-09-17 06:40:06 UTC
+// Generated on 2025-09-19 14:13:57 UTC
 // Source: JSON schema export
-// Original columns: 23, Deployed columns: 22 (Type column filtered)
-// Underscore columns included
+// Original columns: 23, Deployed columns: 20 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -47,14 +47,6 @@ resource redcanarydetectionsclTable 'Microsoft.OperationalInsights/workspaces/ta
           type: 'string'
         }
         {
-          name: 'tactics_s'
-          type: 'string'
-        }
-        {
-          name: 'registry_modification_iocs_s'
-          type: 'string'
-        }
-        {
           name: 'RawData'
           type: 'string'
         }
@@ -79,16 +71,15 @@ resource redcanarydetectionsclTable 'Microsoft.OperationalInsights/workspaces/ta
           type: 'string'
         }
         {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
-        }
-        {
           name: 'host_name_s'
           type: 'string'
         }
         {
-          name: 'file_modification_iocs_s'
+          name: 'registry_modification_iocs_s'
+          type: 'string'
+        }
+        {
+          name: 'host_full_name_s'
           type: 'string'
         }
         {
@@ -121,11 +112,11 @@ resource redcanarydetectionsclTable 'Microsoft.OperationalInsights/workspaces/ta
           type: 'string'
         }
         {
-          name: 'host_full_name_s'
+          name: 'file_modification_iocs_s'
           type: 'string'
         }
         {
-          name: '_SubscriptionId'
+          name: 'tactics_s'
           type: 'string'
         }
       ]

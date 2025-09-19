@@ -1,7 +1,7 @@
 ﻿// ============================================================================
 // Azure Data Explorer KQL Script for SailPointIDN_Events_CL
 // ============================================================================
-// Generated: 2025-09-17 06:16:06
+// Generated: 2025-09-19 14:23:10
 // Table type: Custom (presumed for JSON exports)
 // Schema imported from JSON export file
 // ============================================================================
@@ -52,7 +52,7 @@ attributes_previousValue_s:string,
 trackingNumber_g:string,
 attributes_preventativeSODResultsJSON_s:string,
 attributes_org_s:string,
-actor_name_g :string,
+actor_name_g:string,
 actor_name_s:string,
 attributes_accessItemId_g:string,
 attributes_accessItemName_s:string,
@@ -127,7 +127,7 @@ attributes_previousValue_s=tostring(events.attributes_previousValue_s),
 trackingNumber_g=tostring(events.trackingNumber_g),
 attributes_preventativeSODResultsJSON_s=tostring(events.attributes_preventativeSODResultsJSON_s),
 attributes_org_s=tostring(events.attributes_org_s),
-actor_name_g =tostring(events.actor_name_g ),
+actor_name_g=tostring(events.actor_name_g),
 actor_name_s=tostring(events.actor_name_s),
 attributes_accessItemId_g=tostring(events.attributes_accessItemId_g),
 attributes_accessItemName_s=tostring(events.attributes_accessItemName_s),

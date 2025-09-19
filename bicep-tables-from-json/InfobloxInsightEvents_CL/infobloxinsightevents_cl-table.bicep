@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: InfobloxInsightEvents_CL
-// Generated on 2025-09-17 06:40:03 UTC
+// Generated on 2025-09-19 14:13:56 UTC
 // Source: JSON schema export
-// Original columns: 48, Deployed columns: 47 (Type column filtered)
-// Underscore columns included
+// Original columns: 48, Deployed columns: 46 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -46,6 +46,10 @@ resource infobloxinsighteventsclTable 'Microsoft.OperationalInsights/workspaces/
           name: 'TenantId'
           type: 'guid'
           dataTypeHint: 1
+        }
+        {
+          name: 'response_s'
+          type: 'string'
         }
         {
           name: 'class_s'
@@ -120,15 +124,11 @@ resource infobloxinsighteventsclTable 'Microsoft.OperationalInsights/workspaces/
           type: 'string'
         }
         {
-          name: 'InfobloxInsightLogType_s'
-          type: 'string'
-        }
-        {
-          name: 'response_s'
-          type: 'string'
-        }
-        {
           name: 'queryType_s'
+          type: 'string'
+        }
+        {
+          name: 'InfobloxInsightLogType_s'
           type: 'string'
         }
         {
@@ -136,7 +136,7 @@ resource infobloxinsighteventsclTable 'Microsoft.OperationalInsights/workspaces/
           type: 'string'
         }
         {
-          name: 'deviceIp_s'
+          name: 'policy_s'
           type: 'string'
         }
         {
@@ -176,11 +176,11 @@ resource infobloxinsighteventsclTable 'Microsoft.OperationalInsights/workspaces/
           type: 'string'
         }
         {
-          name: 'InsightID_g'
+          name: 'confidenceLevel_s'
           type: 'string'
         }
         {
-          name: 'confidenceLevel_s'
+          name: 'deviceCountry_s'
           type: 'string'
         }
         {
@@ -216,17 +216,12 @@ resource infobloxinsighteventsclTable 'Microsoft.OperationalInsights/workspaces/
           type: 'string'
         }
         {
-          name: 'policy_s'
+          name: 'deviceIp_s'
           type: 'string'
         }
         {
-          name: 'deviceCountry_s'
+          name: 'InsightID_g'
           type: 'string'
-        }
-        {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

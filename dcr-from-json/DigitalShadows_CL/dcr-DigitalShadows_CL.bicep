@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for DigitalShadows_CL
 // ============================================================================
-// Generated: 2025-09-18 08:37:28
+// Generated: 2025-09-19 14:20:16
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
 // Underscore columns filtered out
-// Original columns: 23, DCR columns: 23 (Type column always filtered)
+// Original columns: 22, DCR columns: 22 (Type column always filtered)
 // Output stream: Custom-DigitalShadows_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -72,11 +72,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'portal_id_s'
+            name: 'triage_updated_time_t'
             type: 'string'
           }
           {
-            name: 'mitigation_s'
+            name: 'portal_id_s'
             type: 'string'
           }
           {
@@ -100,10 +100,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'classification_s'
-            type: 'string'
-          }
-          {
             name: 'comments_s'
             type: 'string'
           }
@@ -116,7 +112,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'triage_updated_time_t'
+            name: 'mitigation_s'
             type: 'string'
           }
           {
@@ -139,7 +135,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-DigitalShadows_CL']
         destinations: ['Sentinel-DigitalShadows_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), app_s = tostring(app_s), triage_raised_time_t = todatetime(triage_raised_time_t), triage_id_g = tostring(triage_id_g), title_s = todatetime(title_s), status_s = tostring(status_s), risk_level_s = tostring(risk_level_s), risk_factors_s = tostring(risk_factors_s), risk_assessment_risk_level_s = tostring(risk_assessment_risk_level_s), raised_t = todatetime(raised_t), portal_id_s = tostring(portal_id_s), mitigation_s = tostring(mitigation_s), impact_description_s = tostring(impact_description_s), id_g = tostring(id_g), id_d = toreal(id_d), description_s = tostring(description_s), Computer = tostring(Computer), classification_s = tostring(classification_s), comments_s = tostring(comments_s), classification_s = tostring(classification_s), assets_s = tostring(assets_s), triage_updated_time_t = todatetime(triage_updated_time_t), updated_t = todatetime(updated_t)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), app_s = tostring(app_s), triage_raised_time_t = todatetime(triage_raised_time_t), triage_id_g = tostring(triage_id_g), title_s = todatetime(title_s), status_s = tostring(status_s), risk_level_s = tostring(risk_level_s), risk_factors_s = tostring(risk_factors_s), risk_assessment_risk_level_s = tostring(risk_assessment_risk_level_s), raised_t = todatetime(raised_t), triage_updated_time_t = todatetime(triage_updated_time_t), portal_id_s = tostring(portal_id_s), impact_description_s = tostring(impact_description_s), id_g = tostring(id_g), id_d = toreal(id_d), description_s = tostring(description_s), Computer = tostring(Computer), comments_s = tostring(comments_s), classification_s = tostring(classification_s), assets_s = tostring(assets_s), mitigation_s = tostring(mitigation_s), updated_t = todatetime(updated_t)'
         outputStream: 'Custom-DigitalShadows_CL'
       }
     ]

@@ -1,6 +1,10 @@
 {
     "name": "ZNAccessOrchestratorAuditNativePoller_CL",
     "Properties": [
+         {
+             "Name":  "TimeGenerated",
+             "Type":  "datetime"
+         },
         {
           "Name": "timestamp_d",
           "Type": "real"

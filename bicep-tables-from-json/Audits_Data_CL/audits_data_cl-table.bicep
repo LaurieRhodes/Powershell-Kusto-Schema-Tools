@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Audits_Data_CL
-// Generated on 2025-09-17 06:39:56 UTC
+// Generated on 2025-09-19 14:13:49 UTC
 // Source: JSON schema export
-// Original columns: 23, Deployed columns: 22 (Type column filtered)
-// Underscore columns included
+// Original columns: 23, Deployed columns: 21 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,10 +48,6 @@ resource auditsdataclTable 'Microsoft.OperationalInsights/workspaces/tables@2025
           dataTypeHint: 1
         }
         {
-          name: 'event_action_s'
-          type: 'string'
-        }
-        {
           name: 'event_object_s'
           type: 'string'
         }
@@ -80,11 +76,11 @@ resource auditsdataclTable 'Microsoft.OperationalInsights/workspaces/tables@2025
           type: 'string'
         }
         {
-          name: 'api_client_id_g'
+          name: 'user_role_s'
           type: 'string'
         }
         {
-          name: 'user_role_s'
+          name: 'user_type_s'
           type: 'string'
         }
         {
@@ -120,13 +116,12 @@ resource auditsdataclTable 'Microsoft.OperationalInsights/workspaces/tables@2025
           type: 'string'
         }
         {
-          name: 'user_type_s'
+          name: 'event_action_s'
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'api_client_id_g'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

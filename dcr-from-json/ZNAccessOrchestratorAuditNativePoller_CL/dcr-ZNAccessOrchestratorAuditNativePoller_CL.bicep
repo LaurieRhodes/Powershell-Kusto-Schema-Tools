@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for ZNAccessOrchestratorAuditNativePoller_CL
 // ============================================================================
-// Generated: 2025-09-18 08:37:42
+// Generated: 2025-09-19 14:20:41
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
 // Underscore columns filtered out
-// Original columns: 11, DCR columns: 11 (Type column always filtered)
+// Original columns: 12, DCR columns: 12 (Type column always filtered)
 // Output stream: Custom-ZNAccessOrchestratorAuditNativePoller_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -31,6 +31,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
     streamDeclarations: {
       'Custom-ZNAccessOrchestratorAuditNativePoller_CL': {
         columns: [
+          {
+            name: 'TimeGenerated'
+            type: 'string'
+          }
           {
             name: 'timestamp_d'
             type: 'string'
@@ -91,7 +95,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-ZNAccessOrchestratorAuditNativePoller_CL']
         destinations: ['Sentinel-ZNAccessOrchestratorAuditNativePoller_CL']
-        transformKql: 'source | project timestamp_d = toreal(timestamp_d), auditType_d = toreal(auditType_d), enforcementSource_d = toreal(enforcementSource_d), userRole_d = toreal(userRole_d), destinationEntitiesList_s = tostring(destinationEntitiesList_s), details_s = tostring(details_s), reportedObjectId_g = tostring(reportedObjectId_g), performedBy_id_s = tostring(performedBy_id_s), performedBy_name_s = tostring(performedBy_name_s), performedBy_id_g = tostring(performedBy_id_g), reportedObjectId_s = tostring(reportedObjectId_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), timestamp_d = toreal(timestamp_d), auditType_d = toreal(auditType_d), enforcementSource_d = toreal(enforcementSource_d), userRole_d = toreal(userRole_d), destinationEntitiesList_s = tostring(destinationEntitiesList_s), details_s = tostring(details_s), reportedObjectId_g = tostring(reportedObjectId_g), performedBy_id_s = tostring(performedBy_id_s), performedBy_name_s = tostring(performedBy_name_s), performedBy_id_g = tostring(performedBy_id_g), reportedObjectId_s = tostring(reportedObjectId_s)'
         outputStream: 'Custom-ZNAccessOrchestratorAuditNativePoller_CL'
       }
     ]

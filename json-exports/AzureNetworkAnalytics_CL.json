@@ -114,10 +114,6 @@
                            "Type":  "String"
                        },
                        {
-                           "Name":  "DestPort_d",
-                           "Type":  "real"
-                       },
-                       {
                            "Name":  "L4Protocol_s",
                            "Type":  "String"
                        },

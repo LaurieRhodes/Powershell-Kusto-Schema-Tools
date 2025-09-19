@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Corelight_v2_socks_CL
-// Generated on 2025-09-17 06:40:01 UTC
+// Generated on 2025-09-19 14:13:53 UTC
 // Source: JSON schema export
-// Original columns: 20, Deployed columns: 20 (Type column filtered)
-// Underscore columns included
+// Original columns: 20, Deployed columns: 17 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -43,47 +43,15 @@ resource corelightv2socksclTable 'Microsoft.OperationalInsights/workspaces/table
           type: 'dateTime'
         }
         {
-          name: '_path_s'
+          name: 'ts_t'
+          type: 'dateTime'
+        }
+        {
+          name: 'uid_s'
           type: 'string'
         }
         {
-          name: 'bound_host_s'
-          type: 'string'
-        }
-        {
-          name: 'request_p_d'
-          type: 'real'
-        }
-        {
-          name: 'request_name_s'
-          type: 'string'
-        }
-        {
-          name: 'request_host_s'
-          type: 'string'
-        }
-        {
-          name: 'status_s'
-          type: 'string'
-        }
-        {
-          name: 'password_s'
-          type: 'string'
-        }
-        {
-          name: 'user_s'
-          type: 'string'
-        }
-        {
-          name: 'bound_name_s'
-          type: 'string'
-        }
-        {
-          name: 'version_d'
-          type: 'real'
-        }
-        {
-          name: 'id_resp_h_s'
+          name: 'id_orig_h_s'
           type: 'string'
         }
         {
@@ -91,28 +59,48 @@ resource corelightv2socksclTable 'Microsoft.OperationalInsights/workspaces/table
           type: 'real'
         }
         {
-          name: 'id_orig_h_s'
-          type: 'string'
-        }
-        {
-          name: 'uid_s'
-          type: 'string'
-        }
-        {
-          name: 'ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: '_write_ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: '_system_name_s'
+          name: 'id_resp_h_s'
           type: 'string'
         }
         {
           name: 'id_resp_p_d'
           type: 'real'
+        }
+        {
+          name: 'version_d'
+          type: 'real'
+        }
+        {
+          name: 'user_s'
+          type: 'string'
+        }
+        {
+          name: 'password_s'
+          type: 'string'
+        }
+        {
+          name: 'status_s'
+          type: 'string'
+        }
+        {
+          name: 'request_host_s'
+          type: 'string'
+        }
+        {
+          name: 'request_name_s'
+          type: 'string'
+        }
+        {
+          name: 'request_p_d'
+          type: 'real'
+        }
+        {
+          name: 'bound_host_s'
+          type: 'string'
+        }
+        {
+          name: 'bound_name_s'
+          type: 'string'
         }
         {
           name: 'bound_p_d'

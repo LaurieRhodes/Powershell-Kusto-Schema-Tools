@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Corelight_v2_suricata_corelight_CL
-// Generated on 2025-09-17 06:40:01 UTC
+// Generated on 2025-09-19 14:13:53 UTC
 // Source: JSON schema export
-// Original columns: 29, Deployed columns: 29 (Type column filtered)
-// Underscore columns included
+// Original columns: 29, Deployed columns: 26 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -43,8 +43,8 @@ resource corelightv2suricatacorelightclTable 'Microsoft.OperationalInsights/work
           type: 'dateTime'
         }
         {
-          name: '_path_s'
-          type: 'string'
+          name: 'ts_t'
+          type: 'dateTime'
         }
         {
           name: 'payload_s'
@@ -87,11 +87,11 @@ resource corelightv2suricatacorelightclTable 'Microsoft.OperationalInsights/work
           type: 'string'
         }
         {
-          name: 'pcap_cnt_d'
-          type: 'real'
+          name: 'packet_s'
+          type: 'string'
         }
         {
-          name: 'tx_id_d'
+          name: 'pcap_cnt_d'
           type: 'real'
         }
         {
@@ -136,20 +136,8 @@ resource corelightv2suricatacorelightclTable 'Microsoft.OperationalInsights/work
           type: 'string'
         }
         {
-          name: 'ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: '_write_ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: '_system_name_s'
-          type: 'string'
-        }
-        {
-          name: 'packet_s'
-          type: 'string'
+          name: 'tx_id_d'
+          type: 'real'
         }
         {
           name: 'metadata_s'

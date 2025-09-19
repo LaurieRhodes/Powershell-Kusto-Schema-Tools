@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Corelight_v2_intel_CL
-// Generated on 2025-09-17 06:39:59 UTC
+// Generated on 2025-09-19 14:13:52 UTC
 // Source: JSON schema export
-// Original columns: 18, Deployed columns: 18 (Type column filtered)
-// Underscore columns included
+// Original columns: 18, Deployed columns: 15 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -43,35 +43,23 @@ resource corelightv2intelclTable 'Microsoft.OperationalInsights/workspaces/table
           type: 'dateTime'
         }
         {
-          name: '_path_s'
+          name: 'ts_t'
+          type: 'dateTime'
+        }
+        {
+          name: 'uid_s'
           type: 'string'
         }
         {
-          name: 'fuid_s'
+          name: 'id_orig_h_s'
           type: 'string'
         }
         {
-          name: 'sources_s'
-          type: 'string'
+          name: 'id_orig_p_d'
+          type: 'real'
         }
         {
-          name: 'matched_s'
-          type: 'string'
-        }
-        {
-          name: 'seen_where_s'
-          type: 'string'
-        }
-        {
-          name: 'seen_indicator_type_s'
-          type: 'string'
-        }
-        {
-          name: 'seen_indicator_s'
-          type: 'string'
-        }
-        {
-          name: 'file_mime_type_s'
+          name: 'id_resp_h_s'
           type: 'string'
         }
         {
@@ -79,31 +67,31 @@ resource corelightv2intelclTable 'Microsoft.OperationalInsights/workspaces/table
           type: 'real'
         }
         {
-          name: 'id_orig_p_d'
-          type: 'real'
-        }
-        {
-          name: 'id_orig_h_s'
+          name: 'seen_indicator_s'
           type: 'string'
         }
         {
-          name: 'uid_s'
+          name: 'seen_indicator_type_s'
           type: 'string'
         }
         {
-          name: 'ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: '_write_ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: '_system_name_s'
+          name: 'seen_where_s'
           type: 'string'
         }
         {
-          name: 'id_resp_h_s'
+          name: 'matched_s'
+          type: 'string'
+        }
+        {
+          name: 'sources_s'
+          type: 'string'
+        }
+        {
+          name: 'fuid_s'
+          type: 'string'
+        }
+        {
+          name: 'file_mime_type_s'
           type: 'string'
         }
         {

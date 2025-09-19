@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: CynerioEvent_CL
-// Generated on 2025-09-17 06:40:02 UTC
+// Generated on 2025-09-19 14:13:54 UTC
 // Source: JSON schema export
-// Original columns: 39, Deployed columns: 38 (Type column filtered)
-// Underscore columns included
+// Original columns: 39, Deployed columns: 37 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -72,11 +72,11 @@ resource cynerioeventclTable 'Microsoft.OperationalInsights/workspaces/tables@20
           type: 'string'
         }
         {
-          name: 'client_ip_s'
+          name: 'asset_asset_type_code_s'
           type: 'string'
         }
         {
-          name: 'details_s'
+          name: 'client_ip_s'
           type: 'string'
         }
         {
@@ -104,20 +104,16 @@ resource cynerioeventclTable 'Microsoft.OperationalInsights/workspaces/tables@20
           type: 'string'
         }
         {
-          name: 'timestamp_d'
-          type: 'real'
-        }
-        {
-          name: 'asset_asset_type_code_s'
-          type: 'string'
-        }
-        {
-          name: 'title_s'
+          name: 'details_s'
           type: 'string'
         }
         {
           name: 'status_code_s'
           type: 'string'
+        }
+        {
+          name: 'Severity'
+          type: 'int'
         }
         {
           name: 'host_s'
@@ -184,13 +180,12 @@ resource cynerioeventclTable 'Microsoft.OperationalInsights/workspaces/tables@20
           type: 'string'
         }
         {
-          name: 'Severity'
-          type: 'int'
+          name: 'timestamp_d'
+          type: 'real'
         }
         {
-          name: '_ResourceId'
+          name: 'title_s'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

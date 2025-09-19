@@ -1,7 +1,7 @@
 ﻿// ============================================================================
 // Azure Data Explorer KQL Script for CarbonBlackAuditLogs_CL
 // ============================================================================
-// Generated: 2025-09-17 06:15:57
+// Generated: 2025-09-19 14:23:00
 // Table type: Custom (presumed for JSON exports)
 // Schema imported from JSON export file
 // ============================================================================
@@ -28,9 +28,8 @@ flagged_b:bool,
 TenantId:guid,
 requestUrl:string,
 description:string,
-verbose:bool,
+orgName_s:string,
 clientIp:string,
-flagged:bool,
 orgName:string,
 loginName_s:string,
 eventId:string,
@@ -40,7 +39,7 @@ Computer:string,
 ManagementGroupName:string,
 MG:string,
 SourceSystem:string,
-orgName_s:string,
+flagged:bool,
 clientIp_s:string,
 Type:string,
 _ResourceId:string,
@@ -65,9 +64,8 @@ flagged_b=tobool(events.flagged_b),
 TenantId=toguid(events.TenantId),
 requestUrl=tostring(events.requestUrl),
 description=tostring(events.description),
-verbose=tobool(events.verbose),
+orgName_s=tostring(events.orgName_s),
 clientIp=tostring(events.clientIp),
-flagged=tobool(events.flagged),
 orgName=tostring(events.orgName),
 loginName_s=tostring(events.loginName_s),
 eventId=tostring(events.eventId),
@@ -77,7 +75,7 @@ Computer=tostring(events.Computer),
 ManagementGroupName=tostring(events.ManagementGroupName),
 MG=tostring(events.MG),
 SourceSystem=tostring(events.SourceSystem),
-orgName_s=tostring(events.orgName_s),
+flagged=tobool(events.flagged),
 clientIp_s=tostring(events.clientIp_s),
 Type=tostring(events.Type),
 _ResourceId=tostring(events._ResourceId),

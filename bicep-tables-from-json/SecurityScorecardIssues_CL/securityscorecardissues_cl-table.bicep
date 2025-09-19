@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: SecurityScorecardIssues_CL
-// Generated on 2025-09-17 06:40:06 UTC
+// Generated on 2025-09-19 14:13:58 UTC
 // Source: JSON schema export
-// Original columns: 25, Deployed columns: 24 (Type column filtered)
-// Underscore columns included
+// Original columns: 25, Deployed columns: 23 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,10 +48,6 @@ resource securityscorecardissuesclTable 'Microsoft.OperationalInsights/workspace
           dataTypeHint: 1
         }
         {
-          name: 'industry_s'
-          type: 'string'
-        }
-        {
           name: 'detail_url_s'
           type: 'string'
           dataTypeHint: 0
@@ -85,11 +81,11 @@ resource securityscorecardissuesclTable 'Microsoft.OperationalInsights/workspace
           type: 'string'
         }
         {
-          name: 'severity_s'
+          name: 'subject_s'
           type: 'string'
         }
         {
-          name: 'subject_s'
+          name: 'eventID_s'
           type: 'string'
         }
         {
@@ -129,13 +125,12 @@ resource securityscorecardissuesclTable 'Microsoft.OperationalInsights/workspace
           type: 'string'
         }
         {
-          name: 'eventID_s'
+          name: 'industry_s'
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'severity_s'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

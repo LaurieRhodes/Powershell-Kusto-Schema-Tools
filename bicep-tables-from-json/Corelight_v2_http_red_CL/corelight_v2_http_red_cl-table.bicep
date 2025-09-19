@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Corelight_v2_http_red_CL
-// Generated on 2025-09-17 06:39:59 UTC
+// Generated on 2025-09-19 14:13:52 UTC
 // Source: JSON schema export
-// Original columns: 35, Deployed columns: 35 (Type column filtered)
-// Underscore columns included
+// Original columns: 35, Deployed columns: 32 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -43,8 +43,8 @@ resource corelightv2httpredclTable 'Microsoft.OperationalInsights/workspaces/tab
           type: 'dateTime'
         }
         {
-          name: '_path_s'
-          type: 'string'
+          name: 'ts_t'
+          type: 'dateTime'
         }
         {
           name: 'resp_filenames_s'
@@ -99,11 +99,11 @@ resource corelightv2httpredclTable 'Microsoft.OperationalInsights/workspaces/tab
           type: 'real'
         }
         {
-          name: 'response_body_len_d'
-          type: 'real'
+          name: 'resp_mime_types_s'
+          type: 'string'
         }
         {
-          name: 'request_body_len_d'
+          name: 'response_body_len_d'
           type: 'real'
         }
         {
@@ -115,47 +115,11 @@ resource corelightv2httpredclTable 'Microsoft.OperationalInsights/workspaces/tab
           type: 'string'
         }
         {
-          name: '_system_name_s'
+          name: 'version_s'
           type: 'string'
         }
         {
-          name: '_write_ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: 'ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: 'uid_s'
-          type: 'string'
-        }
-        {
-          name: 'id_orig_h_s'
-          type: 'string'
-        }
-        {
-          name: 'id_orig_p_d'
-          type: 'real'
-        }
-        {
-          name: 'resp_mime_types_s'
-          type: 'string'
-        }
-        {
-          name: 'id_resp_h_s'
-          type: 'string'
-        }
-        {
-          name: 'trans_depth_d'
-          type: 'real'
-        }
-        {
-          name: 'method_s'
-          type: 'string'
-        }
-        {
-          name: 'host_s'
+          name: 'referrer_s'
           type: 'string'
         }
         {
@@ -164,15 +128,39 @@ resource corelightv2httpredclTable 'Microsoft.OperationalInsights/workspaces/tab
           dataTypeHint: 0
         }
         {
-          name: 'referrer_s'
+          name: 'host_s'
           type: 'string'
         }
         {
-          name: 'version_s'
+          name: 'method_s'
           type: 'string'
+        }
+        {
+          name: 'trans_depth_d'
+          type: 'real'
         }
         {
           name: 'id_resp_p_d'
+          type: 'real'
+        }
+        {
+          name: 'id_resp_h_s'
+          type: 'string'
+        }
+        {
+          name: 'id_orig_p_d'
+          type: 'real'
+        }
+        {
+          name: 'id_orig_h_s'
+          type: 'string'
+        }
+        {
+          name: 'uid_s'
+          type: 'string'
+        }
+        {
+          name: 'request_body_len_d'
           type: 'real'
         }
         {

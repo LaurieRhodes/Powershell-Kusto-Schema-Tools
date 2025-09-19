@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: fluentbit_CL
-// Generated on 2025-09-17 06:40:02 UTC
+// Generated on 2025-09-19 14:13:55 UTC
 // Source: JSON schema export
-// Original columns: 23, Deployed columns: 22 (Type column filtered)
-// Underscore columns included
+// Original columns: 23, Deployed columns: 17 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,64 +48,7 @@ resource fluentbitclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-
           dataTypeHint: 1
         }
         {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
-        }
-        {
-          name: '_IsBillable'
-          type: 'string'
-        }
-        {
-          name: '_BilledSize'
-          type: 'string'
-        }
-        {
-          name: 'RawData'
-          type: 'string'
-        }
-        {
-          name: 'FirewallName_s'
-          type: 'string'
-        }
-        {
-          name: 'Message'
-          type: 'string'
-        }
-        {
-          name: 'Sec_s'
-          type: 'string'
-        }
-        {
-          name: 'Min_s'
-          type: 'string'
-        }
-        {
-          name: '_SubscriptionId'
-          type: 'string'
-        }
-        {
-          name: 'Hour_s'
-          type: 'string'
-        }
-        {
-          name: 'Month_s'
-          type: 'string'
-        }
-        {
-          name: 'Year_s'
-          type: 'string'
-        }
-        {
-          name: 'ident_s'
-          type: 'string'
-        }
-        {
-          name: 'host_s'
-          type: 'string'
-        }
-        {
-          name: 'time_s'
+          name: 'SourceSystem'
           type: 'string'
         }
         {
@@ -113,15 +56,51 @@ resource fluentbitclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-
           type: 'string'
         }
         {
-          name: '_timestamp_d'
-          type: 'real'
+          name: 'time_s'
+          type: 'string'
         }
         {
-          name: 'SourceSystem'
+          name: 'host_s'
+          type: 'string'
+        }
+        {
+          name: 'ident_s'
+          type: 'string'
+        }
+        {
+          name: 'Year_s'
+          type: 'string'
+        }
+        {
+          name: 'Month_s'
           type: 'string'
         }
         {
           name: 'Day_s'
+          type: 'string'
+        }
+        {
+          name: 'Hour_s'
+          type: 'string'
+        }
+        {
+          name: 'Min_s'
+          type: 'string'
+        }
+        {
+          name: 'Sec_s'
+          type: 'string'
+        }
+        {
+          name: 'Message'
+          type: 'string'
+        }
+        {
+          name: 'FirewallName_s'
+          type: 'string'
+        }
+        {
+          name: 'RawData'
           type: 'string'
         }
         {

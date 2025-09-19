@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Corelight_v2_smartpcap_stats_CL
-// Generated on 2025-09-17 06:40:00 UTC
+// Generated on 2025-09-19 14:13:53 UTC
 // Source: JSON schema export
-// Original columns: 26, Deployed columns: 26 (Type column filtered)
-// Underscore columns included
+// Original columns: 26, Deployed columns: 23 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -43,8 +43,8 @@ resource corelightv2smartpcapstatsclTable 'Microsoft.OperationalInsights/workspa
           type: 'dateTime'
         }
         {
-          name: '_path_s'
-          type: 'string'
+          name: 'ts_t'
+          type: 'dateTime'
         }
         {
           name: 'uncap_flows_buflimit_d'
@@ -87,11 +87,11 @@ resource corelightv2smartpcapstatsclTable 'Microsoft.OperationalInsights/workspa
           type: 'real'
         }
         {
-          name: 'uncap_flows_closed_d'
+          name: 'flow_resumes_d'
           type: 'real'
         }
         {
-          name: 'flow_resumes_d'
+          name: 'flow_pauses_d'
           type: 'real'
         }
         {
@@ -123,19 +123,7 @@ resource corelightv2smartpcapstatsclTable 'Microsoft.OperationalInsights/workspa
           type: 'real'
         }
         {
-          name: 'ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: '_write_ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: '_system_name_s'
-          type: 'string'
-        }
-        {
-          name: 'flow_pauses_d'
+          name: 'uncap_flows_closed_d'
           type: 'real'
         }
         {

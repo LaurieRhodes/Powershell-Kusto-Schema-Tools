@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: InfoSecAnalytics_CL
-// Generated on 2025-09-17 06:40:04 UTC
+// Generated on 2025-09-19 14:13:56 UTC
 // Source: JSON schema export
-// Original columns: 53, Deployed columns: 52 (Type column filtered)
-// Underscore columns included
+// Original columns: 53, Deployed columns: 49 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -82,10 +82,6 @@ resource infosecanalyticsclTable 'Microsoft.OperationalInsights/workspaces/table
           dataTypeHint: 0
         }
         {
-          name: '_timestamp_t'
-          type: 'string'
-        }
-        {
           name: 'severity_ISG_PostQuantum_Security_s'
           type: 'string'
           dataTypeHint: 0
@@ -137,19 +133,15 @@ resource infosecanalyticsclTable 'Microsoft.OperationalInsights/workspaces/table
           type: 'string'
         }
         {
-          name: 'library_severity_description_s'
-          type: 'string'
-        }
-        {
           name: 'standard_cse_classification_s'
           type: 'string'
         }
         {
-          name: '_version_s'
+          name: 'severity_description_s'
           type: 'string'
         }
         {
-          name: 'severity_description_s'
+          name: 'resultsscheme_s'
           type: 'string'
         }
         {
@@ -197,17 +189,13 @@ resource infosecanalyticsclTable 'Microsoft.OperationalInsights/workspaces/table
           type: 'string'
         }
         {
-          name: 'resultsscheme_s'
-          type: 'string'
-        }
-        {
           name: 'certificatekeyusage_s'
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'uri_filetype_s'
           type: 'string'
-          dataTypeHint: 2
+          dataTypeHint: 0
         }
         {
           name: 'severity_score_s'
@@ -246,9 +234,8 @@ resource infosecanalyticsclTable 'Microsoft.OperationalInsights/workspaces/table
           type: 'real'
         }
         {
-          name: 'uri_filetype_s'
+          name: 'library_severity_description_s'
           type: 'string'
-          dataTypeHint: 0
         }
         {
           name: 'keyid_s'

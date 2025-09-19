@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: BetterMTDIncidentLog_CL
-// Generated on 2025-09-17 06:39:57 UTC
+// Generated on 2025-09-19 14:13:50 UTC
 // Source: JSON schema export
-// Original columns: 25, Deployed columns: 23 (Type column filtered)
-// Underscore columns included
+// Original columns: 25, Deployed columns: 22 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,10 +48,6 @@ resource bettermtdincidentlogclTable 'Microsoft.OperationalInsights/workspaces/t
           dataTypeHint: 1
         }
         {
-          name: 'EventTimeStamp'
-          type: 'dateTime'
-        }
-        {
           name: 'Status'
           type: 'string'
         }
@@ -84,11 +80,11 @@ resource bettermtdincidentlogclTable 'Microsoft.OperationalInsights/workspaces/t
           type: 'string'
         }
         {
-          name: 'ThreatCategory'
-          type: 'string'
+          name: 'EventTimeStamp'
+          type: 'dateTime'
         }
         {
-          name: 'ThreatSeverity'
+          name: 'ThreatCategory'
           type: 'string'
         }
         {
@@ -124,13 +120,12 @@ resource bettermtdincidentlogclTable 'Microsoft.OperationalInsights/workspaces/t
           type: 'string'
         }
         {
-          name: 'LogTimeStamp'
-          type: 'dateTime'
+          name: 'ThreatSeverity'
+          type: 'string'
         }
         {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
+          name: 'LogTimeStamp'
+          type: 'dateTime'
         }
       ]
     }

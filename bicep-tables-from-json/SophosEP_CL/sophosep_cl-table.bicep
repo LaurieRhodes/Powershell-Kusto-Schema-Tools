@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: SophosEP_CL
-// Generated on 2025-09-17 06:40:06 UTC
+// Generated on 2025-09-19 14:13:58 UTC
 // Source: JSON schema export
-// Original columns: 43, Deployed columns: 42 (Type column filtered)
-// Underscore columns included
+// Original columns: 43, Deployed columns: 40 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,6 +48,10 @@ resource sophosepclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           dataTypeHint: 1
         }
         {
+          name: 'amsi_threat_data_processPath_s'
+          type: 'string'
+        }
+        {
           name: 'amsi_threat_data_processId_s'
           type: 'string'
         }
@@ -72,11 +76,11 @@ resource sophosepclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'string'
         }
         {
-          name: 'name_s'
-          type: 'string'
+          name: 'when_t'
+          type: 'dateTime'
         }
         {
-          name: 'location_s'
+          name: 'name_s'
           type: 'string'
         }
         {
@@ -96,11 +100,6 @@ resource sophosepclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'string'
         }
         {
-          name: '_ResourceId_s'
-          type: 'string'
-          dataTypeHint: 2
-        }
-        {
           name: 'EventVendor_s'
           type: 'string'
         }
@@ -113,12 +112,7 @@ resource sophosepclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'string'
         }
         {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
-        }
-        {
-          name: 'amsi_threat_data_processPath_s'
+          name: 'location_s'
           type: 'string'
         }
         {
@@ -126,11 +120,11 @@ resource sophosepclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'dateTime'
         }
         {
-          name: 'when_t'
-          type: 'dateTime'
+          name: 'origin_s'
+          type: 'string'
         }
         {
-          name: 'endpoint_type_s'
+          name: 'endpoint_id_g'
           type: 'string'
         }
         {
@@ -162,11 +156,11 @@ resource sophosepclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'string'
         }
         {
-          name: 'amsi_threat_data_processName_s_s'
+          name: 'endpoint_type_s'
           type: 'string'
         }
         {
-          name: 'amsi_threat_data_parentProcessId_s_s'
+          name: 'amsi_threat_data_processName_s_s'
           type: 'string'
         }
         {
@@ -198,11 +192,7 @@ resource sophosepclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'string'
         }
         {
-          name: 'endpoint_id_g'
-          type: 'string'
-        }
-        {
-          name: 'origin_s'
+          name: 'amsi_threat_data_parentProcessId_s_s'
           type: 'string'
         }
         {

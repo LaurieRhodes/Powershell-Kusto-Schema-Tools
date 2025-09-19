@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for TrendMicro_XDR_RCA_Result_CL
 // ============================================================================
-// Generated: 2025-09-18 08:37:39
+// Generated: 2025-09-19 14:20:35
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
 // Underscore columns filtered out
-// Original columns: 26, DCR columns: 24 (Type column always filtered)
+// Original columns: 24, DCR columns: 22 (Type column always filtered)
 // Output stream: Custom-TrendMicro_XDR_RCA_Result_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -36,15 +36,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'TimeGenerated'
-            type: 'string'
-          }
-          {
             name: 'TenantId'
-            type: 'string'
-          }
-          {
-            name: 'objectMeta_s'
             type: 'string'
           }
           {
@@ -80,11 +72,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'agentEntity_hostname_s'
+            name: 'objectMeta_s'
             type: 'string'
           }
           {
-            name: 'taskName_s'
+            name: 'agentEntity_hostname_s'
             type: 'string'
           }
           {
@@ -120,11 +112,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'objectEvent_s'
+            name: 'taskName_s'
             type: 'string'
           }
           {
-            name: 'workbenchId_s'
+            name: 'objectEvent_s'
             type: 'string'
           }
         ]
@@ -143,7 +135,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-TrendMicro_XDR_RCA_Result_CL']
         destinations: ['Sentinel-TrendMicro_XDR_RCA_Result_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), objectMeta_s = tostring(objectMeta_s), parentObjectId_s = tostring(parentObjectId_s), isMatched_b = tobool(isMatched_b), objectName_s = tostring(objectName_s), eventId_d = toreal(eventId_d), objectHashId_s = tostring(objectHashId_s), workbenchId_s = tostring(workbenchId_s), agentEntity_ip_s = tostring(agentEntity_ip_s), agentEntity_guid_g = tostring(agentEntity_guid_g), agentEntity_hostname_s = tostring(agentEntity_hostname_s), taskName_s = tostring(taskName_s), taskId_g = tostring(taskId_g), xdrCustomerID_g = tostring(xdrCustomerID_g), agentEntity_host_s = tostring(agentEntity_host_s), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), objectEvent_s = tostring(objectEvent_s), workbenchId_s = tostring(workbenchId_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), parentObjectId_s = tostring(parentObjectId_s), isMatched_b = tobool(isMatched_b), objectName_s = tostring(objectName_s), eventId_d = toreal(eventId_d), objectHashId_s = tostring(objectHashId_s), workbenchId_s = tostring(workbenchId_s), agentEntity_ip_s = tostring(agentEntity_ip_s), agentEntity_guid_g = tostring(agentEntity_guid_g), objectMeta_s = tostring(objectMeta_s), agentEntity_hostname_s = tostring(agentEntity_hostname_s), taskId_g = tostring(taskId_g), xdrCustomerID_g = tostring(xdrCustomerID_g), agentEntity_host_s = tostring(agentEntity_host_s), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), taskName_s = tostring(taskName_s), objectEvent_s = tostring(objectEvent_s)'
         outputStream: 'Custom-TrendMicro_XDR_RCA_Result_CL'
       }
     ]

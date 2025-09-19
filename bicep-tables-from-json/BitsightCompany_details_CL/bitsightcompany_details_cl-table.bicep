@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: BitsightCompany_details_CL
-// Generated on 2025-09-17 06:39:57 UTC
+// Generated on 2025-09-19 14:13:50 UTC
 // Source: JSON schema export
-// Original columns: 51, Deployed columns: 49 (Type column filtered)
-// Underscore columns included
+// Original columns: 50, Deployed columns: 48 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -47,6 +47,10 @@ resource bitsightcompanydetailsclTable 'Microsoft.OperationalInsights/workspaces
           type: 'string'
         }
         {
+          name: 'Name'
+          type: 'string'
+        }
+        {
           name: 'PeopleCount'
           type: 'real'
         }
@@ -79,15 +83,11 @@ resource bitsightcompanydetailsclTable 'Microsoft.OperationalInsights/workspaces
           type: 'boolean'
         }
         {
-          name: 'PermissionCanViewServiceProviders'
+          name: 'IsUnsampledAllowed'
           type: 'boolean'
         }
         {
-          name: 'Name'
-          type: 'string'
-        }
-        {
-          name: 'PermissionsHasControl'
+          name: 'PermissionCanViewServiceProviders'
           type: 'boolean'
         }
         {
@@ -127,19 +127,19 @@ resource bitsightcompanydetailsclTable 'Microsoft.OperationalInsights/workspaces
           type: 'string'
         }
         {
-          name: 'PrimaryDomain'
-          type: 'string'
+          name: 'PermissionsHasControl'
+          type: 'boolean'
         }
         {
-          name: 'IsUnsampledAllowed'
-          type: 'boolean'
+          name: 'SubscriptionType'
+          type: 'string'
         }
         {
           name: 'IsPrimary'
           type: 'boolean'
         }
         {
-          name: 'IsMycompMysubsBundle'
+          name: 'IsCsp'
           type: 'boolean'
         }
         {
@@ -179,13 +179,12 @@ resource bitsightcompanydetailsclTable 'Microsoft.OperationalInsights/workspaces
           type: 'real'
         }
         {
-          name: 'Description'
-          type: 'string'
+          name: 'IsMycompMysubsBundle'
+          type: 'boolean'
         }
         {
-          name: 'DisplayURL'
+          name: 'Description'
           type: 'string'
-          dataTypeHint: 0
         }
         {
           name: 'GUID'
@@ -224,12 +223,9 @@ resource bitsightcompanydetailsclTable 'Microsoft.OperationalInsights/workspaces
           type: 'boolean'
         }
         {
-          name: 'IsCsp'
-          type: 'boolean'
-        }
-        {
-          name: 'SubscriptionType'
+          name: 'DisplayURL'
           type: 'string'
+          dataTypeHint: 0
         }
         {
           name: 'SubscriptionTypeKey'

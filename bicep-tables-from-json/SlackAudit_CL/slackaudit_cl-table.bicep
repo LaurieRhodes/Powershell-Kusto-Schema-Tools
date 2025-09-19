@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: SlackAudit_CL
-// Generated on 2025-09-17 06:40:06 UTC
+// Generated on 2025-09-19 14:13:58 UTC
 // Source: JSON schema export
-// Original columns: 30, Deployed columns: 29 (Type column filtered)
-// Underscore columns included
+// Original columns: 30, Deployed columns: 28 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -46,10 +46,6 @@ resource slackauditclTable 'Microsoft.OperationalInsights/workspaces/tables@2025
           name: 'TenantId'
           type: 'guid'
           dataTypeHint: 1
-        }
-        {
-          name: 'context_session_id_d'
-          type: 'real'
         }
         {
           name: 'context_ip_address_s'
@@ -96,11 +92,11 @@ resource slackauditclTable 'Microsoft.OperationalInsights/workspaces/tables@2025
           type: 'string'
         }
         {
-          name: 'actor_user_team_s'
-          type: 'string'
+          name: 'context_session_id_d'
+          type: 'real'
         }
         {
-          name: 'actor_user_email_s'
+          name: 'actor_user_team_s'
           type: 'string'
         }
         {
@@ -148,13 +144,12 @@ resource slackauditclTable 'Microsoft.OperationalInsights/workspaces/tables@2025
           type: 'string'
         }
         {
-          name: 'action_description_s'
+          name: 'actor_user_email_s'
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'action_description_s'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

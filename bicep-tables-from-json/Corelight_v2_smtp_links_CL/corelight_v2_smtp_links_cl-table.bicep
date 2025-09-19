@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Corelight_v2_smtp_links_CL
-// Generated on 2025-09-17 06:40:01 UTC
+// Generated on 2025-09-19 14:13:53 UTC
 // Source: JSON schema export
-// Original columns: 13, Deployed columns: 13 (Type column filtered)
-// Underscore columns included
+// Original columns: 13, Deployed columns: 10 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -40,18 +40,6 @@ resource corelightv2smtplinksclTable 'Microsoft.OperationalInsights/workspaces/t
       columns: [
         {
           name: 'TimeGenerated'
-          type: 'dateTime'
-        }
-        {
-          name: '_path_s'
-          type: 'string'
-        }
-        {
-          name: '_system_name_s'
-          type: 'string'
-        }
-        {
-          name: '_write_ts_t'
           type: 'dateTime'
         }
         {

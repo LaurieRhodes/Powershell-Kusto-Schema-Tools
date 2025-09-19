@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Corelight_v2_kerberos_CL
-// Generated on 2025-09-17 06:39:59 UTC
+// Generated on 2025-09-19 14:13:52 UTC
 // Source: JSON schema export
-// Original columns: 24, Deployed columns: 24 (Type column filtered)
-// Underscore columns included
+// Original columns: 24, Deployed columns: 21 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -43,8 +43,8 @@ resource corelightv2kerberosclTable 'Microsoft.OperationalInsights/workspaces/ta
           type: 'dateTime'
         }
         {
-          name: '_path_s'
-          type: 'string'
+          name: 'ts_t'
+          type: 'dateTime'
         }
         {
           name: 'client_cert_fuid_s'
@@ -83,11 +83,11 @@ resource corelightv2kerberosclTable 'Microsoft.OperationalInsights/workspaces/ta
           type: 'boolean'
         }
         {
-          name: 'server_cert_subject_s'
+          name: 'service_s'
           type: 'string'
         }
         {
-          name: 'service_s'
+          name: 'client_s'
           type: 'string'
         }
         {
@@ -115,19 +115,7 @@ resource corelightv2kerberosclTable 'Microsoft.OperationalInsights/workspaces/ta
           type: 'string'
         }
         {
-          name: 'ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: '_write_ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: '_system_name_s'
-          type: 'string'
-        }
-        {
-          name: 'client_s'
+          name: 'server_cert_subject_s'
           type: 'string'
         }
         {

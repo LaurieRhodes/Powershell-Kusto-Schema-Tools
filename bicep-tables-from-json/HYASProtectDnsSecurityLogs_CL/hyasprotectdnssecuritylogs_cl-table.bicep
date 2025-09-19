@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: HYASProtectDnsSecurityLogs_CL
-// Generated on 2025-09-17 06:40:03 UTC
+// Generated on 2025-09-19 14:13:55 UTC
 // Source: JSON schema export
-// Original columns: 57, Deployed columns: 56 (Type column filtered)
-// Underscore columns included
+// Original columns: 57, Deployed columns: 55 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -93,12 +93,12 @@ resource hyasprotectdnssecuritylogsclTable 'Microsoft.OperationalInsights/worksp
           type: 'string'
         }
         {
-          name: 'DomainTLD_s'
-          type: 'string'
-        }
-        {
           name: 'ResponseCode_d'
           type: 'real'
+        }
+        {
+          name: 'ResponseName_s'
+          type: 'string'
         }
         {
           name: 'ResponseDescription_s'
@@ -141,20 +141,17 @@ resource hyasprotectdnssecuritylogsclTable 'Microsoft.OperationalInsights/worksp
           type: 'string'
         }
         {
-          name: 'FQDNVerdict_s'
-          type: 'string'
-        }
-        {
-          name: 'ResponseName_s'
-          type: 'string'
-        }
-        {
-          name: 'DomainVerdict_s'
+          name: 'DomainTLD_s'
           type: 'string'
         }
         {
           name: 'Domain2TLD_s'
           type: 'string'
+        }
+        {
+          name: 'ClientIP_s'
+          type: 'string'
+          dataTypeHint: 3
         }
         {
           name: 'ClientName_s'
@@ -205,9 +202,8 @@ resource hyasprotectdnssecuritylogsclTable 'Microsoft.OperationalInsights/worksp
           type: 'string'
         }
         {
-          name: 'ClientIP_s'
+          name: 'FQDNVerdict_s'
           type: 'string'
-          dataTypeHint: 3
         }
         {
           name: 'ProcessName_s'
@@ -262,9 +258,8 @@ resource hyasprotectdnssecuritylogsclTable 'Microsoft.OperationalInsights/worksp
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'DomainVerdict_s'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: ProofPointTAPClicksBlocked_CL
-// Generated on 2025-09-17 06:40:05 UTC
+// Generated on 2025-09-19 14:13:57 UTC
 // Source: JSON schema export
-// Original columns: 24, Deployed columns: 23 (Type column filtered)
-// Underscore columns included
+// Original columns: 24, Deployed columns: 22 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,11 +48,6 @@ resource proofpointtapclicksblockedclTable 'Microsoft.OperationalInsights/worksp
           dataTypeHint: 1
         }
         {
-          name: 'threatURL_s'
-          type: 'string'
-          dataTypeHint: 0
-        }
-        {
           name: 'threatID_s'
           type: 'string'
         }
@@ -86,11 +81,12 @@ resource proofpointtapclicksblockedclTable 'Microsoft.OperationalInsights/worksp
           type: 'real'
         }
         {
-          name: 'messageID_s'
+          name: 'threatURL_s'
           type: 'string'
+          dataTypeHint: 0
         }
         {
-          name: 'senderIP_s'
+          name: 'messageID_s'
           type: 'string'
         }
         {
@@ -126,13 +122,12 @@ resource proofpointtapclicksblockedclTable 'Microsoft.OperationalInsights/worksp
           type: 'string'
         }
         {
-          name: 'threatStatus_s'
+          name: 'senderIP_s'
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'threatStatus_s'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Corelight_v2_dhcp_CL
-// Generated on 2025-09-17 06:39:59 UTC
+// Generated on 2025-09-19 14:13:51 UTC
 // Source: JSON schema export
-// Original columns: 19, Deployed columns: 19 (Type column filtered)
-// Underscore columns included
+// Original columns: 19, Deployed columns: 16 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -43,47 +43,11 @@ resource corelightv2dhcpclTable 'Microsoft.OperationalInsights/workspaces/tables
           type: 'dateTime'
         }
         {
-          name: '_path_s'
-          type: 'string'
+          name: 'ts_t'
+          type: 'dateTime'
         }
         {
-          name: 'server_message_s'
-          type: 'string'
-        }
-        {
-          name: 'client_message_s'
-          type: 'string'
-        }
-        {
-          name: 'lease_time_d'
-          type: 'real'
-        }
-        {
-          name: 'assigned_addr_s'
-          type: 'string'
-        }
-        {
-          name: 'requested_addr_s'
-          type: 'string'
-        }
-        {
-          name: 'domain_s'
-          type: 'string'
-        }
-        {
-          name: 'client_fqdn_s'
-          type: 'string'
-        }
-        {
-          name: 'host_name_s'
-          type: 'string'
-        }
-        {
-          name: 'mac_s'
-          type: 'string'
-        }
-        {
-          name: 'server_addr_s'
+          name: 'uids_s'
           type: 'string'
         }
         {
@@ -91,19 +55,43 @@ resource corelightv2dhcpclTable 'Microsoft.OperationalInsights/workspaces/tables
           type: 'string'
         }
         {
-          name: 'uids_s'
+          name: 'server_addr_s'
           type: 'string'
         }
         {
-          name: 'ts_t'
-          type: 'dateTime'
+          name: 'mac_s'
+          type: 'string'
         }
         {
-          name: '_write_ts_t'
-          type: 'dateTime'
+          name: 'host_name_s'
+          type: 'string'
         }
         {
-          name: '_system_name_s'
+          name: 'client_fqdn_s'
+          type: 'string'
+        }
+        {
+          name: 'domain_s'
+          type: 'string'
+        }
+        {
+          name: 'requested_addr_s'
+          type: 'string'
+        }
+        {
+          name: 'assigned_addr_s'
+          type: 'string'
+        }
+        {
+          name: 'lease_time_d'
+          type: 'real'
+        }
+        {
+          name: 'client_message_s'
+          type: 'string'
+        }
+        {
+          name: 'server_message_s'
           type: 'string'
         }
         {

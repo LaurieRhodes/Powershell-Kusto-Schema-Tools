@@ -1,6 +1,10 @@
 ﻿{
     "Name":  "NetBackupAlerts_CL",
     "Properties":  [
+                        {
+                          "Name": "TimeGenerated",
+                          "Type": "DateTime"
+                        },
                        {
                            "Name":  "TenantId",
                            "Type":  "Guid"
@@ -16,10 +20,6 @@
                        {
                            "Name":  "ManagementGroupName",
                            "Type":  "string"
-                       },
-                       {
-                           "Name":  "TimeGenerated [UTC]",
-                           "Type":  "datetime"
                        },
                        {
                            "Name":  "Computer",
@@ -54,7 +54,7 @@
                            "Type":  "string"
                        },
                        {
-                           "Name":  "auditDateTime_t [UTC]",
+                           "Name":  "auditDateTime_t",
                            "Type":  "datetime"
                        },
                        {

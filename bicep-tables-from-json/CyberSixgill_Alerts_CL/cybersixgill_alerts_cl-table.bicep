@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: CyberSixgill_Alerts_CL
-// Generated on 2025-09-17 06:40:02 UTC
+// Generated on 2025-09-19 14:13:54 UTC
 // Source: JSON schema export
-// Original columns: 30, Deployed columns: 29 (Type column filtered)
-// Underscore columns included
+// Original columns: 30, Deployed columns: 28 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,10 +48,6 @@ resource cybersixgillalertsclTable 'Microsoft.OperationalInsights/workspaces/tab
           dataTypeHint: 1
         }
         {
-          name: 'threatource'
-          type: 'string'
-        }
-        {
           name: 'threat_actor'
           type: 'string'
         }
@@ -64,7 +60,7 @@ resource cybersixgillalertsclTable 'Microsoft.OperationalInsights/workspaces/tab
           type: 'string'
         }
         {
-          name: 'title'
+          name: 'title_s'
           type: 'string'
         }
         {
@@ -96,11 +92,11 @@ resource cybersixgillalertsclTable 'Microsoft.OperationalInsights/workspaces/tab
           type: 'boolean'
         }
         {
-          name: 'langcode'
+          name: 'threatource'
           type: 'string'
         }
         {
-          name: 'lang'
+          name: 'langcode'
           type: 'string'
         }
         {
@@ -108,7 +104,7 @@ resource cybersixgillalertsclTable 'Microsoft.OperationalInsights/workspaces/tab
           type: 'string'
         }
         {
-          name: 'date'
+          name: 'date_s'
           type: 'string'
         }
         {
@@ -148,14 +144,13 @@ resource cybersixgillalertsclTable 'Microsoft.OperationalInsights/workspaces/tab
           type: 'string'
         }
         {
+          name: 'lang'
+          type: 'string'
+        }
+        {
           name: 'portal_url'
           type: 'string'
           dataTypeHint: 0
-        }
-        {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

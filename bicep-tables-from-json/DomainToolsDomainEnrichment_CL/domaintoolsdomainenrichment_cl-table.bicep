@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: DomainToolsDomainEnrichment_CL
-// Generated on 2025-09-17 06:40:02 UTC
+// Generated on 2025-09-19 14:13:54 UTC
 // Source: JSON schema export
-// Original columns: 70, Deployed columns: 69 (Type column filtered)
-// Underscore columns included
+// Original columns: 70, Deployed columns: 68 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -46,6 +46,10 @@ resource domaintoolsdomainenrichmentclTable 'Microsoft.OperationalInsights/works
           name: 'TenantId'
           type: 'guid'
           dataTypeHint: 1
+        }
+        {
+          name: 'IP_ASN_s'
+          type: 'string'
         }
         {
           name: 'IP_Country_s'
@@ -100,15 +104,15 @@ resource domaintoolsdomainenrichmentclTable 'Microsoft.OperationalInsights/works
           type: 'string'
         }
         {
+          name: 'IP_Address_s'
+          type: 'string'
+        }
+        {
           name: 'SSL_Alt_Names_s'
           type: 'string'
         }
         {
-          name: 'IP_ASN_s'
-          type: 'string'
-        }
-        {
-          name: 'SSL_Duration_s'
+          name: 'SSL_Email_s'
           type: 'string'
         }
         {
@@ -164,15 +168,11 @@ resource domaintoolsdomainenrichmentclTable 'Microsoft.OperationalInsights/works
           type: 'real'
         }
         {
+          name: 'SSL_Duration_s'
+          type: 'string'
+        }
+        {
           name: 'Popularity_Rank_s'
-          type: 'string'
-        }
-        {
-          name: 'SSL_Email_s'
-          type: 'string'
-        }
-        {
-          name: 'IP_Address_s'
           type: 'string'
         }
         {
@@ -181,7 +181,7 @@ resource domaintoolsdomainenrichmentclTable 'Microsoft.OperationalInsights/works
           dataTypeHint: 0
         }
         {
-          name: 'Statcounter_Project_Codes_s'
+          name: 'Matomo_Codes_s'
           type: 'string'
         }
         {
@@ -241,11 +241,11 @@ resource domaintoolsdomainenrichmentclTable 'Microsoft.OperationalInsights/works
           type: 'string'
         }
         {
-          name: 'Admin_Contact_Email_s'
+          name: 'Statcounter_Project_Codes_s'
           type: 'string'
         }
         {
-          name: 'Billing_Contact_Email_s'
+          name: 'Admin_Contact_Email_s'
           type: 'string'
         }
         {
@@ -253,52 +253,7 @@ resource domaintoolsdomainenrichmentclTable 'Microsoft.OperationalInsights/works
           type: 'string'
         }
         {
-          name: 'Matomo_Codes_s'
-          type: 'string'
-        }
-        {
-          name: 'Yandex_Codes_s'
-          type: 'string'
-        }
-        {
-          name: 'Baidu_Codes_s'
-          type: 'string'
-        }
-        {
-          name: 'Hotjar_Codes_s'
-          type: 'string'
-        }
-        {
-          name: 'Facebook_Codes_s'
-          type: 'string'
-        }
-        {
-          name: 'GTM_Codes_s'
-          type: 'string'
-        }
-        {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
-        }
-        {
-          name: 'Google_Analytics_4_s'
-          type: 'string'
-        }
-        {
-          name: 'First_Seen_t'
-          type: 'dateTime'
-        }
-        {
-          name: 'Expiration_Date_s'
-          type: 'string'
-        }
-        {
-          name: 'Email_Domain_s'
-          type: 'string'
-        }
-        {
-          name: 'Whois_Email_s'
+          name: 'Registrant_Contact_Email_s'
           type: 'string'
         }
         {
@@ -306,11 +261,51 @@ resource domaintoolsdomainenrichmentclTable 'Microsoft.OperationalInsights/works
           type: 'string'
         }
         {
-          name: 'Registrant_Contact_Email_s'
+          name: 'Whois_Email_s'
           type: 'string'
         }
         {
+          name: 'Email_Domain_s'
+          type: 'string'
+        }
+        {
+          name: 'Expiration_Date_s'
+          type: 'string'
+        }
+        {
+          name: 'First_Seen_t'
+          type: 'dateTime'
+        }
+        {
           name: 'Google_Analytics_s'
+          type: 'string'
+        }
+        {
+          name: 'Google_Analytics_4_s'
+          type: 'string'
+        }
+        {
+          name: 'GTM_Codes_s'
+          type: 'string'
+        }
+        {
+          name: 'Facebook_Codes_s'
+          type: 'string'
+        }
+        {
+          name: 'Hotjar_Codes_s'
+          type: 'string'
+        }
+        {
+          name: 'Baidu_Codes_s'
+          type: 'string'
+        }
+        {
+          name: 'Yandex_Codes_s'
+          type: 'string'
+        }
+        {
+          name: 'Billing_Contact_Email_s'
           type: 'string'
         }
         {

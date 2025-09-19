@@ -12,7 +12,7 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for HackerViewLog_Azure_1_CL
 // ============================================================================
-// Generated: 2025-09-18 08:37:30
+// Generated: 2025-09-19 14:20:21
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
 // Underscore columns filtered out

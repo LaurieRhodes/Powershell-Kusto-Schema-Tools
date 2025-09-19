@@ -1,7 +1,7 @@
 ﻿// ============================================================================
 // Azure Data Explorer KQL Script for TrendMicro_XDR_RCA_Task_CL
 // ============================================================================
-// Generated: 2025-09-17 06:16:08
+// Generated: 2025-09-19 14:23:12
 // Table type: Custom (presumed for JSON exports)
 // Schema imported from JSON export file
 // ============================================================================
@@ -17,7 +17,6 @@
 // Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
 
 .create-merge table TrendMicro_XDR_RCA_Task_CL(
-TimeGenerated:datetime,
 TimeGenerated:datetime,
 TenantId:guid,
 name_s:string,
@@ -53,7 +52,6 @@ TrendMicro_XDR_RCA_Task_CLRaw
 | mv-expand events = records
 // Alternative for non-nested: | extend events = records
 | project
-TimeGenerated=todatetime(events.TimeGenerated),
 TimeGenerated=todatetime(events.TimeGenerated),
 TenantId=toguid(events.TenantId),
 name_s=tostring(events.name_s),

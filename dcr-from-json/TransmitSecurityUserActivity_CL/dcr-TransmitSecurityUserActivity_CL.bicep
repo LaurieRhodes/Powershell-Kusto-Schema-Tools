@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for TransmitSecurityUserActivity_CL
 // ============================================================================
-// Generated: 2025-09-18 08:37:38
+// Generated: 2025-09-19 14:20:35
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
 // Underscore columns filtered out
-// Original columns: 6, DCR columns: 6 (Type column always filtered)
+// Original columns: 7, DCR columns: 7 (Type column always filtered)
 // Output stream: Custom-TransmitSecurityUserActivity_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -31,6 +31,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
     streamDeclarations: {
       'Custom-TransmitSecurityUserActivity_CL': {
         columns: [
+          {
+            name: 'TimeGenerated'
+            type: 'string'
+          }
           {
             name: 'activity'
             type: 'string'
@@ -71,7 +75,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-TransmitSecurityUserActivity_CL']
         destinations: ['Sentinel-TransmitSecurityUserActivity_CL']
-        transformKql: 'source | project activity = tostring(activity), app_id = tostring(app_id), ip = tostring(ip), timestamp = todatetime(timestamp), user_agent = tostring(user_agent), user_id = tostring(user_id)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), activity = tostring(activity), app_id = tostring(app_id), ip = tostring(ip), timestamp = todatetime(timestamp), user_agent = tostring(user_agent), user_id = tostring(user_id)'
         outputStream: 'Custom-TransmitSecurityUserActivity_CL'
       }
     ]

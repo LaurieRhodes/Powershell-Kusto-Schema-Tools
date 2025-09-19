@@ -1,7 +1,7 @@
 ﻿// ============================================================================
 // Azure Data Explorer KQL Script for Firework_CL
 // ============================================================================
-// Generated: 2025-09-17 06:16:03
+// Generated: 2025-09-19 14:23:04
 // Table type: Custom (presumed for JSON exports)
 // Schema imported from JSON export file
 // ============================================================================
@@ -21,7 +21,7 @@ TimeGenerated:datetime,
 source_s:string,
 data_new_leaks_s:string,
 risk_score_d:string,
-last_crawled_at_t[Local Time]:string,
+last_crawled_at_t:string,
 category_name_s:string,
 risk_reasons_s:string,
 _TimeReceived:datetime)
@@ -37,7 +37,7 @@ TimeGenerated=todatetime(events.TimeGenerated),
 source_s=tostring(events.source_s),
 data_new_leaks_s=tostring(events.data_new_leaks_s),
 risk_score_d=tostring(events.risk_score_d),
-last_crawled_at_t[Local Time]=tostring(events.last_crawled_at_t[Local Time]),
+last_crawled_at_t=tostring(events.last_crawled_at_t),
 category_name_s=tostring(events.category_name_s),
 risk_reasons_s=tostring(events.risk_reasons_s),
 _TimeReceived=todatetime(now())

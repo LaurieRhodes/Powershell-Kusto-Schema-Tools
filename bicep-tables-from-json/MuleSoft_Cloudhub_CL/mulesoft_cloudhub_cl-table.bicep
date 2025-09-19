@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: MuleSoft_Cloudhub_CL
-// Generated on 2025-09-17 06:40:04 UTC
+// Generated on 2025-09-19 14:13:56 UTC
 // Source: JSON schema export
-// Original columns: 33, Deployed columns: 32 (Type column filtered)
-// Underscore columns included
+// Original columns: 33, Deployed columns: 31 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -46,10 +46,6 @@ resource mulesoftcloudhubclTable 'Microsoft.OperationalInsights/workspaces/table
           name: 'TenantId'
           type: 'guid'
           dataTypeHint: 1
-        }
-        {
-          name: 'event_message_s'
-          type: 'string'
         }
         {
           name: 'event_timestamp_d'
@@ -100,11 +96,11 @@ resource mulesoftcloudhubclTable 'Microsoft.OperationalInsights/workspaces/table
           type: 'boolean'
         }
         {
-          name: 'event_priority_s'
+          name: 'actions_s'
           type: 'string'
         }
         {
-          name: 'actions_s'
+          name: 'productName_s'
           type: 'string'
         }
         {
@@ -160,13 +156,12 @@ resource mulesoftcloudhubclTable 'Microsoft.OperationalInsights/workspaces/table
           type: 'string'
         }
         {
-          name: 'productName_s'
+          name: 'event_message_s'
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'event_priority_s'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

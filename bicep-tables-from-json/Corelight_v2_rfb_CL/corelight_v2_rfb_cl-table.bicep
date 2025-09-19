@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Corelight_v2_rfb_CL
-// Generated on 2025-09-17 06:40:00 UTC
+// Generated on 2025-09-19 14:13:53 UTC
 // Source: JSON schema export
-// Original columns: 20, Deployed columns: 20 (Type column filtered)
-// Underscore columns included
+// Original columns: 20, Deployed columns: 17 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -43,47 +43,15 @@ resource corelightv2rfbclTable 'Microsoft.OperationalInsights/workspaces/tables@
           type: 'dateTime'
         }
         {
-          name: '_path_s'
+          name: 'ts_t'
+          type: 'dateTime'
+        }
+        {
+          name: 'uid_s'
           type: 'string'
         }
         {
-          name: 'desktop_name_s'
-          type: 'string'
-        }
-        {
-          name: 'share_flag_b'
-          type: 'boolean'
-        }
-        {
-          name: 'auth_b'
-          type: 'boolean'
-        }
-        {
-          name: 'authentication_method_s'
-          type: 'string'
-        }
-        {
-          name: 'server_minor_version_s'
-          type: 'string'
-        }
-        {
-          name: 'server_major_version_s'
-          type: 'string'
-        }
-        {
-          name: 'client_minor_version_s'
-          type: 'string'
-        }
-        {
-          name: 'width_d'
-          type: 'real'
-        }
-        {
-          name: 'client_major_version_s'
-          type: 'string'
-        }
-        {
-          name: 'id_resp_h_s'
+          name: 'id_orig_h_s'
           type: 'string'
         }
         {
@@ -91,27 +59,47 @@ resource corelightv2rfbclTable 'Microsoft.OperationalInsights/workspaces/tables@
           type: 'real'
         }
         {
-          name: 'id_orig_h_s'
-          type: 'string'
-        }
-        {
-          name: 'uid_s'
-          type: 'string'
-        }
-        {
-          name: 'ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: '_write_ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: '_system_name_s'
+          name: 'id_resp_h_s'
           type: 'string'
         }
         {
           name: 'id_resp_p_d'
+          type: 'real'
+        }
+        {
+          name: 'client_major_version_s'
+          type: 'string'
+        }
+        {
+          name: 'client_minor_version_s'
+          type: 'string'
+        }
+        {
+          name: 'server_major_version_s'
+          type: 'string'
+        }
+        {
+          name: 'server_minor_version_s'
+          type: 'string'
+        }
+        {
+          name: 'authentication_method_s'
+          type: 'string'
+        }
+        {
+          name: 'auth_b'
+          type: 'boolean'
+        }
+        {
+          name: 'share_flag_b'
+          type: 'boolean'
+        }
+        {
+          name: 'desktop_name_s'
+          type: 'string'
+        }
+        {
+          name: 'width_d'
           type: 'real'
         }
         {

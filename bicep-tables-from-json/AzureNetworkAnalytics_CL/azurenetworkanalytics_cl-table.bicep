@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: AzureNetworkAnalytics_CL
-// Generated on 2025-09-17 06:39:57 UTC
+// Generated on 2025-09-19 14:13:49 UTC
 // Source: JSON schema export
-// Original columns: 179, Deployed columns: 178 (Type column filtered)
-// Underscore columns included
+// Original columns: 178, Deployed columns: 176 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -216,16 +216,20 @@ resource azurenetworkanalyticsclTable 'Microsoft.OperationalInsights/workspaces/
           type: 'string'
         }
         {
-          name: 'Subnet1_s'
+          name: 'EnableIPForwarding_b'
           type: 'string'
         }
         {
-          name: 'Subnet2_s'
+          name: 'Subnet1_s'
           type: 'string'
         }
         {
           name: 'SubnetRegion1_s'
           type: 'string'
+        }
+        {
+          name: 'SecondarybytesIn_d'
+          type: 'real'
         }
         {
           name: 'SecondarybytesOut_d'
@@ -256,16 +260,16 @@ resource azurenetworkanalyticsclTable 'Microsoft.OperationalInsights/workspaces/
           type: 'string'
         }
         {
+          name: 'SecondaryPeerAddressPrefix_s'
+          type: 'string'
+        }
+        {
           name: 'PrimaryNextHop_s'
           type: 'string'
         }
         {
-          name: 'SecondarybytesIn_d'
+          name: 'Weight_d'
           type: 'real'
-        }
-        {
-          name: 'SecondaryNextHop_s'
-          type: 'string'
         }
         {
           name: 'ComponentType_s'
@@ -296,15 +300,11 @@ resource azurenetworkanalyticsclTable 'Microsoft.OperationalInsights/workspaces/
           type: 'string'
         }
         {
-          name: 'TimeProcessed_t'
-          type: 'dateTime'
+          name: 'SecondaryNextHop_s'
+          type: 'string'
         }
         {
-          name: 'Weight_d'
-          type: 'real'
-        }
-        {
-          name: 'SecondaryPeerAddressPrefix_s'
+          name: 'Subnet2_s'
           type: 'string'
         }
         {
@@ -312,7 +312,7 @@ resource azurenetworkanalyticsclTable 'Microsoft.OperationalInsights/workspaces/
           type: 'string'
         }
         {
-          name: 'PrimarybytesOut_d'
+          name: 'PrimarybytesIn_d'
           type: 'real'
         }
         {
@@ -350,11 +350,11 @@ resource azurenetworkanalyticsclTable 'Microsoft.OperationalInsights/workspaces/
           type: 'real'
         }
         {
-          name: 'Protocol_s'
-          type: 'string'
+          name: 'PrimarybytesOut_d'
+          type: 'real'
         }
         {
-          name: 'CircuitProvisioningState_s'
+          name: 'Protocol_s'
           type: 'string'
         }
         {
@@ -390,16 +390,12 @@ resource azurenetworkanalyticsclTable 'Microsoft.OperationalInsights/workspaces/
           type: 'string'
         }
         {
-          name: 'PrimarybytesIn_d'
-          type: 'real'
-        }
-        {
-          name: 'EnableIPForwarding_b'
+          name: 'CircuitProvisioningState_s'
           type: 'string'
         }
         {
-          name: 'TopologyVersion_s'
-          type: 'string'
+          name: 'TimeProcessed_t'
+          type: 'dateTime'
         }
         {
           name: 'ApplicationGatewayBackendPools_s'
@@ -427,10 +423,6 @@ resource azurenetworkanalyticsclTable 'Microsoft.OperationalInsights/workspaces/
           type: 'string'
         }
         {
-          name: 'DestPort_d'
-          type: 'real'
-        }
-        {
           name: 'L4Protocol_s'
           type: 'string'
         }
@@ -443,15 +435,15 @@ resource azurenetworkanalyticsclTable 'Microsoft.OperationalInsights/workspaces/
           type: 'string'
         }
         {
-          name: 'FlowEndTime_t'
-          type: 'dateTime'
-        }
-        {
           name: 'NSGRules_s'
           type: 'string'
         }
         {
-          name: 'NSGRuleType_s'
+          name: 'FlowEndTime_t'
+          type: 'dateTime'
+        }
+        {
+          name: 'NSGRule_s'
           type: 'string'
         }
         {
@@ -483,11 +475,15 @@ resource azurenetworkanalyticsclTable 'Microsoft.OperationalInsights/workspaces/
           type: 'string'
         }
         {
-          name: 'NSGRule_s'
+          name: 'VM_s'
           type: 'string'
         }
         {
-          name: 'VM_s'
+          name: 'NSGRuleType_s'
+          type: 'string'
+        }
+        {
+          name: 'VM1_s'
           type: 'string'
         }
         {
@@ -575,7 +571,7 @@ resource azurenetworkanalyticsclTable 'Microsoft.OperationalInsights/workspaces/
           type: 'string'
         }
         {
-          name: 'VM1_s'
+          name: 'SourcePortRange_s'
           type: 'string'
         }
         {
@@ -583,7 +579,7 @@ resource azurenetworkanalyticsclTable 'Microsoft.OperationalInsights/workspaces/
           type: 'string'
         }
         {
-          name: 'Subnet_s'
+          name: 'Routes_s'
           type: 'string'
         }
         {
@@ -663,20 +659,16 @@ resource azurenetworkanalyticsclTable 'Microsoft.OperationalInsights/workspaces/
           type: 'string'
         }
         {
-          name: 'InboundBytes_d'
-          type: 'real'
+          name: 'Subnet_s'
+          type: 'string'
         }
         {
-          name: 'OutboundPackets_d'
+          name: 'InboundBytes_d'
           type: 'real'
         }
         {
           name: 'InboundPackets_d'
           type: 'real'
-        }
-        {
-          name: 'Routes_s'
-          type: 'string'
         }
         {
           name: 'ApplicationGateway1_s'
@@ -711,11 +703,11 @@ resource azurenetworkanalyticsclTable 'Microsoft.OperationalInsights/workspaces/
           type: 'string'
         }
         {
-          name: 'ExpressRouteCircuitPeeringType_s'
-          type: 'string'
+          name: 'OutboundPackets_d'
+          type: 'real'
         }
         {
-          name: 'ConnectionName_s'
+          name: 'ExpressRouteCircuitPeeringType_s'
           type: 'string'
         }
         {
@@ -751,13 +743,12 @@ resource azurenetworkanalyticsclTable 'Microsoft.OperationalInsights/workspaces/
           type: 'real'
         }
         {
-          name: 'SourcePortRange_s'
+          name: 'ConnectionName_s'
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'TopologyVersion_s'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Health_Data_CL
-// Generated on 2025-09-17 06:40:03 UTC
+// Generated on 2025-09-19 14:13:55 UTC
 // Source: JSON schema export
-// Original columns: 79, Deployed columns: 78 (Type column filtered)
-// Underscore columns included
+// Original columns: 79, Deployed columns: 77 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -112,20 +112,16 @@ resource healthdataclTable 'Microsoft.OperationalInsights/workspaces/tables@2025
           type: 'real'
         }
         {
-          name: 'hostid_artifact_counts_zpa_user_d'
+          name: 'hostid_artifact_counts_idle_end_d'
           type: 'real'
         }
         {
-          name: 'hostid_ip_always_percent_d'
+          name: 'hostid_artifact_counts_zpa_user_d'
           type: 'real'
         }
         {
           name: 'hostid_ip_sometimes_percent_d'
           type: 'real'
-        }
-        {
-          name: 'connectivity_sensors_s'
-          type: 'string'
         }
         {
           name: 'cpu_updated_at_s'
@@ -152,11 +148,11 @@ resource healthdataclTable 'Microsoft.OperationalInsights/workspaces/tables@2025
           type: 'string'
         }
         {
-          name: 'hostid_artifact_counts_idle_end_d'
-          type: 'real'
+          name: 'power_error_s'
+          type: 'string'
         }
         {
-          name: 'power_error_s'
+          name: 'power_status_s'
           type: 'string'
         }
         {
@@ -188,15 +184,15 @@ resource healthdataclTable 'Microsoft.OperationalInsights/workspaces/tables@2025
           type: 'real'
         }
         {
-          name: 'power_status_s'
-          type: 'string'
-        }
-        {
-          name: 'connectivity_updated_at_s'
-          type: 'string'
+          name: 'hostid_ip_always_percent_d'
+          type: 'real'
         }
         {
           name: 'hostid_artifact_counts_generic_edr_d'
+          type: 'real'
+        }
+        {
+          name: 'hostid_artifact_counts_fireeye_d'
           type: 'real'
         }
         {
@@ -308,8 +304,8 @@ resource healthdataclTable 'Microsoft.OperationalInsights/workspaces/tables@2025
           type: 'real'
         }
         {
-          name: 'hostid_artifact_counts_fireeye_d'
-          type: 'real'
+          name: 'connectivity_sensors_s'
+          type: 'string'
         }
         {
           name: 'hostid_artifact_counts_carbon_black_d'
@@ -348,9 +344,8 @@ resource healthdataclTable 'Microsoft.OperationalInsights/workspaces/tables@2025
           type: 'real'
         }
         {
-          name: '_ResourceId'
+          name: 'connectivity_updated_at_s'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for BitsightCompany_details_CL
 // ============================================================================
-// Generated: 2025-09-18 08:37:16
+// Generated: 2025-09-19 14:19:56
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
 // Underscore columns filtered out
-// Original columns: 51, DCR columns: 49 (Type column always filtered)
+// Original columns: 50, DCR columns: 48 (Type column always filtered)
 // Output stream: Custom-BitsightCompany_details_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -37,6 +37,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'EventVendor'
+            type: 'string'
+          }
+          {
+            name: 'Name'
             type: 'string'
           }
           {
@@ -72,15 +76,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
+            name: 'IsUnsampledAllowed'
+            type: 'string'
+          }
+          {
             name: 'PermissionCanViewServiceProviders'
-            type: 'string'
-          }
-          {
-            name: 'Name'
-            type: 'string'
-          }
-          {
-            name: 'PermissionsHasControl'
             type: 'string'
           }
           {
@@ -120,11 +120,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'PrimaryDomain'
+            name: 'PermissionsHasControl'
             type: 'string'
           }
           {
-            name: 'IsUnsampledAllowed'
+            name: 'SubscriptionType'
             type: 'string'
           }
           {
@@ -132,7 +132,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'IsMycompMysubsBundle'
+            name: 'IsCsp'
             type: 'string'
           }
           {
@@ -172,11 +172,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'Description'
+            name: 'IsMycompMysubsBundle'
             type: 'string'
           }
           {
-            name: 'DisplayURL'
+            name: 'Description'
             type: 'string'
           }
           {
@@ -216,11 +216,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'IsCsp'
-            type: 'string'
-          }
-          {
-            name: 'SubscriptionType'
+            name: 'DisplayURL'
             type: 'string'
           }
           {
@@ -243,7 +239,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-BitsightCompany_details_CL']
         destinations: ['Sentinel-BitsightCompany_details_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), EventVendor = tostring(EventVendor), PeopleCount = toreal(PeopleCount), PermissionCanAnnotate = tobool(PermissionCanAnnotate), PermissionCanDownloadCompanyReport = tobool(PermissionCanDownloadCompanyReport), PermissionCanEnableVendorAccess = tobool(PermissionCanEnableVendorAccess), PermissionCanViewCompanyReports = tobool(PermissionCanViewCompanyReports), PermissionCanViewForensics = tobool(PermissionCanViewForensics), PermissionCanViewInfrastructure = tobool(PermissionCanViewInfrastructure), PermissionCanViewIpAttributions = tobool(PermissionCanViewIpAttributions), PermissionCanViewServiceProviders = tobool(PermissionCanViewServiceProviders), Name = tostring(Name), PermissionsHasControl = tobool(PermissionsHasControl), RatingIndustryMedian = tostring(RatingIndustryMedian), Ratings = tostring(Ratings), RelatedCompanies = tostring(RelatedCompanies), SearchCount = toreal(SearchCount), ServiceProvider = tobool(ServiceProvider), Shortname = tostring(Shortname), Sparkline = tostring(Sparkline), SubIndustry = tostring(SubIndustry), SubIndustrySlug = tostring(SubIndustrySlug), PrimaryDomain = tostring(PrimaryDomain), IsUnsampledAllowed = tobool(IsUnsampledAllowed), IsPrimary = tobool(IsPrimary), IsMycompMysubsBundle = tobool(IsMycompMysubsBundle), EventProduct = tostring(EventProduct), ComplianceClaimCertifications = tostring(ComplianceClaimCertifications), ComplianceClaimTrustPage = tostring(ComplianceClaimTrustPage), PrimaryDomain = tostring(PrimaryDomain), PrimaryCompanyName = tostring(PrimaryCompanyName), AvailableUpgradeTypes = tostring(AvailableUpgradeTypes), BulkEmailSenderStatus = tostring(BulkEmailSenderStatus), CompanyFeatures = tostring(CompanyFeatures), CustomerMonitoringCount = toreal(CustomerMonitoringCount), Description = tostring(Description), DisplayURL = tostring(DisplayURL), GUID = tostring(GUID), HasCompanyTree = tobool(HasCompanyTree), HasPreferredContact = tobool(HasPreferredContact), Hompage = tostring(Hompage), InSpmPortfolio = tobool(InSpmPortfolio), Industry = tostring(Industry), IndustrySlug = tostring(IndustrySlug), Ipv4Count = toreal(Ipv4Count), IsBundle = tobool(IsBundle), IsCsp = tobool(IsCsp), SubscriptionType = tostring(SubscriptionType), SubscriptionTypeKey = tostring(SubscriptionTypeKey)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), EventVendor = tostring(EventVendor), Name = tostring(Name), PeopleCount = toreal(PeopleCount), PermissionCanAnnotate = tobool(PermissionCanAnnotate), PermissionCanDownloadCompanyReport = tobool(PermissionCanDownloadCompanyReport), PermissionCanEnableVendorAccess = tobool(PermissionCanEnableVendorAccess), PermissionCanViewCompanyReports = tobool(PermissionCanViewCompanyReports), PermissionCanViewForensics = tobool(PermissionCanViewForensics), PermissionCanViewInfrastructure = tobool(PermissionCanViewInfrastructure), PermissionCanViewIpAttributions = tobool(PermissionCanViewIpAttributions), IsUnsampledAllowed = tobool(IsUnsampledAllowed), PermissionCanViewServiceProviders = tobool(PermissionCanViewServiceProviders), RatingIndustryMedian = tostring(RatingIndustryMedian), Ratings = tostring(Ratings), RelatedCompanies = tostring(RelatedCompanies), SearchCount = toreal(SearchCount), ServiceProvider = tobool(ServiceProvider), Shortname = tostring(Shortname), Sparkline = tostring(Sparkline), SubIndustry = tostring(SubIndustry), SubIndustrySlug = tostring(SubIndustrySlug), PermissionsHasControl = tobool(PermissionsHasControl), SubscriptionType = tostring(SubscriptionType), IsPrimary = tobool(IsPrimary), IsCsp = tobool(IsCsp), EventProduct = tostring(EventProduct), ComplianceClaimCertifications = tostring(ComplianceClaimCertifications), ComplianceClaimTrustPage = tostring(ComplianceClaimTrustPage), PrimaryDomain = tostring(PrimaryDomain), PrimaryCompanyName = tostring(PrimaryCompanyName), AvailableUpgradeTypes = tostring(AvailableUpgradeTypes), BulkEmailSenderStatus = tostring(BulkEmailSenderStatus), CompanyFeatures = tostring(CompanyFeatures), CustomerMonitoringCount = toreal(CustomerMonitoringCount), IsMycompMysubsBundle = tobool(IsMycompMysubsBundle), Description = tostring(Description), GUID = tostring(GUID), HasCompanyTree = tobool(HasCompanyTree), HasPreferredContact = tobool(HasPreferredContact), Hompage = tostring(Hompage), InSpmPortfolio = tobool(InSpmPortfolio), Industry = tostring(Industry), IndustrySlug = tostring(IndustrySlug), Ipv4Count = toreal(Ipv4Count), IsBundle = tobool(IsBundle), DisplayURL = tostring(DisplayURL), SubscriptionTypeKey = tostring(SubscriptionTypeKey)'
         outputStream: 'Custom-BitsightCompany_details_CL'
       }
     ]

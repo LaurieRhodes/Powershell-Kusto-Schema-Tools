@@ -12,7 +12,7 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for CyberSixgill_Alerts_CL
 // ============================================================================
-// Generated: 2025-09-18 08:37:28
+// Generated: 2025-09-19 14:20:16
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
 // Underscore columns filtered out
@@ -52,7 +52,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'title'
+            name: 'title_s'
             type: 'string'
           }
           {
@@ -96,7 +96,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'date'
+            name: 'date_s'
             type: 'string'
           }
           {
@@ -159,7 +159,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-CyberSixgill_Alerts_CL']
         destinations: ['Sentinel-CyberSixgill_Alerts_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), threat_actor = tostring(threat_actor), assets = tostring(assets), user_id = tostring(user_id), title = tostring(title), threats = tostring(threats), threat_level = tostring(threat_level), sub_alertsize = toreal(sub_alertsize), sub_alerts = tostring(sub_alerts), status_name = tostring(status_name), Severity = toint(Severity), read = tobool(read), threatource = tostring(threatource), langcode = tostring(langcode), id = tostring(id), date = tostring(date), content = tostring(content), Category = tostring(Category), alert_type_id = tostring(alert_type_id), alert_name = tostring(alert_name), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), lang = tostring(lang), portal_url = tostring(portal_url)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), threat_actor = tostring(threat_actor), assets = tostring(assets), user_id = tostring(user_id), title_s = tostring(title_s), threats = tostring(threats), threat_level = tostring(threat_level), sub_alertsize = toreal(sub_alertsize), sub_alerts = tostring(sub_alerts), status_name = tostring(status_name), Severity = toint(Severity), read = tobool(read), threatource = tostring(threatource), langcode = tostring(langcode), id = tostring(id), date_s = tostring(date_s), content = tostring(content), Category = tostring(Category), alert_type_id = tostring(alert_type_id), alert_name = tostring(alert_name), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), lang = tostring(lang), portal_url = tostring(portal_url)'
         outputStream: 'Custom-CyberSixgill_Alerts_CL'
       }
     ]

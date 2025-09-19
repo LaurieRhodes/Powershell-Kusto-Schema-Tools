@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: BitwardenMembers_CL
-// Generated on 2025-09-17 06:39:57 UTC
+// Generated on 2025-09-19 14:13:50 UTC
 // Source: JSON schema export
 // Original columns: 5, Deployed columns: 5 (Type column filtered)
-// Underscore columns included
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')

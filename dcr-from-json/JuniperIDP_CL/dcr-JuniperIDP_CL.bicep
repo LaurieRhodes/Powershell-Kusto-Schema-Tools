@@ -10,26 +10,26 @@ param workspaceName string = 'sentinel-workspace'
 param servicePrincipalObjectId string
 
 // ============================================================================
-// Data Collection Rule for JuniperIDP
+// Data Collection Rule for JuniperIDP_CL
 // ============================================================================
-// Generated: 2025-09-18 08:37:31
+// Generated: 2025-09-19 14:20:23
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
 // Underscore columns filtered out
 // Original columns: 41, DCR columns: 41 (Type column always filtered)
-// Output stream: Custom-JuniperIDP
+// Output stream: Custom-JuniperIDP_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
 
 var roleDefinitionResourceId = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '3913510d-42f4-4e42-8a64-420c390055eb')
 
 resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' = {
-  name: 'dcr-${workspaceName}-JuniperIDP'
+  name: 'dcr-${workspaceName}-JuniperIDP_CL'
   location: location
   properties: {
     dataCollectionEndpointId: dataCollectionEndpointId
     streamDeclarations: {
-      'Custom-JuniperIDP': {
+      'Custom-JuniperIDP_CL': {
         columns: [
           {
             name: 'TimeGenerated'
@@ -203,16 +203,16 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       logAnalytics: [
         {
           workspaceResourceId: workspaceResourceId
-          name: 'Sentinel-JuniperIDP'
+          name: 'Sentinel-JuniperIDP_CL'
         }
       ]
     }
     dataFlows: [
       {
-        streams: ['Custom-JuniperIDP']
-        destinations: ['Sentinel-JuniperIDP']
+        streams: ['Custom-JuniperIDP_CL']
+        destinations: ['Sentinel-JuniperIDP_CL']
         transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), EventVendor = tostring(EventVendor), SrcNatIpAddr = tostring(SrcNatIpAddr), SrcNatPortNumber = tostring(SrcNatPortNumber), DstNatIpAddr = tostring(DstNatIpAddr), DstNatPortNumber = tostring(DstNatPortNumber), NetworkDuration = tostring(NetworkDuration), DstBytes = tostring(DstBytes), SrcBytes = tostring(SrcBytes), ThreatName = tostring(ThreatName), DstPackets = tostring(DstPackets), SrcZone = tostring(SrcZone), SrcIntefaceName = tostring(SrcIntefaceName), DstZone = tostring(DstZone), DstInterfaceName = tostring(DstInterfaceName), PacketLogId = tostring(PacketLogId), IsAlert = tostring(IsAlert), DstUserName = tostring(DstUserName), SrcPackets = tostring(SrcPackets), EventSeverity = tostring(EventSeverity), DvcAction = tostring(DvcAction), RepeatCount = tostring(RepeatCount), EventProduct = tostring(EventProduct), DvcHostname = tostring(DvcHostname), SrcDvcType = tostring(SrcDvcType), EventType = tostring(EventType), SrcDvcOs = tostring(SrcDvcOs), EventEndTime = tostring(EventEndTime), MessageType = tostring(MessageType), SrcIpAddr = tostring(SrcIpAddr), DstIpAddr = tostring(DstIpAddr), DstPortNumber = tostring(DstPortNumber), NetworkProtocol = tostring(NetworkProtocol), ServiceName = tostring(ServiceName), NetworkApplicationProtocol = tostring(NetworkApplicationProtocol), NetworkRuleNumber = tostring(NetworkRuleNumber), NetworkRulebaseName = tostring(NetworkRulebaseName), PolicyName = tostring(PolicyName), ExportId = tostring(ExportId), Roles = tostring(Roles), EventMessage = tostring(EventMessage)'
-        outputStream: 'Custom-JuniperIDP'
+        outputStream: 'Custom-JuniperIDP_CL'
       }
     ]
   }

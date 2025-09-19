@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Corelight_v2_conn_CL
-// Generated on 2025-09-17 06:39:59 UTC
+// Generated on 2025-09-19 14:13:51 UTC
 // Source: JSON schema export
-// Original columns: 46, Deployed columns: 46 (Type column filtered)
-// Underscore columns included
+// Original columns: 46, Deployed columns: 43 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -43,16 +43,8 @@ resource corelightv2connclTable 'Microsoft.OperationalInsights/workspaces/tables
           type: 'dateTime'
         }
         {
-          name: '_path_s'
-          type: 'string'
-        }
-        {
-          name: 'orig_cc_s'
-          type: 'string'
-        }
-        {
-          name: 'resp_cc_s'
-          type: 'string'
+          name: 'ts_t'
+          type: 'dateTime'
         }
         {
           name: 'suri_ids_s'
@@ -125,32 +117,20 @@ resource corelightv2connclTable 'Microsoft.OperationalInsights/workspaces/tables
           type: 'real'
         }
         {
+          name: 'resp_cc_s'
+          type: 'string'
+        }
+        {
+          name: 'orig_cc_s'
+          type: 'string'
+        }
+        {
           name: 'tunnel_parents_s'
           type: 'string'
         }
         {
-          name: 'inner_vlan_d'
-          type: 'real'
-        }
-        {
           name: 'resp_ip_bytes_d'
           type: 'real'
-        }
-        {
-          name: 'orig_ip_bytes_d'
-          type: 'real'
-        }
-        {
-          name: '_system_name_s'
-          type: 'string'
-        }
-        {
-          name: '_write_ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: 'ts_t'
-          type: 'dateTime'
         }
         {
           name: 'uid_s'
@@ -185,11 +165,11 @@ resource corelightv2connclTable 'Microsoft.OperationalInsights/workspaces/tables
           type: 'real'
         }
         {
-          name: 'orig_bytes_d'
+          name: 'inner_vlan_d'
           type: 'real'
         }
         {
-          name: 'resp_bytes_d'
+          name: 'orig_bytes_d'
           type: 'real'
         }
         {
@@ -217,7 +197,15 @@ resource corelightv2connclTable 'Microsoft.OperationalInsights/workspaces/tables
           type: 'real'
         }
         {
+          name: 'orig_ip_bytes_d'
+          type: 'real'
+        }
+        {
           name: 'resp_pkts_d'
+          type: 'real'
+        }
+        {
+          name: 'resp_bytes_d'
           type: 'real'
         }
         {

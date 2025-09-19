@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: ZimperiumThreatLog_CL
-// Generated on 2025-09-17 06:40:08 UTC
+// Generated on 2025-09-19 14:14:00 UTC
 // Source: JSON schema export
-// Original columns: 72, Deployed columns: 71 (Type column filtered)
-// Underscore columns included
+// Original columns: 72, Deployed columns: 70 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -46,6 +46,10 @@ resource zimperiumthreatlogclTable 'Microsoft.OperationalInsights/workspaces/tab
           name: 'TenantId'
           type: 'guid'
           dataTypeHint: 1
+        }
+        {
+          name: 'basetation_lac'
+          type: 'real'
         }
         {
           name: 'attacker_ip'
@@ -113,15 +117,6 @@ resource zimperiumthreatlogclTable 'Microsoft.OperationalInsights/workspaces/tab
           type: 'string'
         }
         {
-          name: 'suspected_url'
-          type: 'string'
-          dataTypeHint: 0
-        }
-        {
-          name: 'stagefright_vulnerability_report'
-          type: 'string'
-        }
-        {
           name: 'basetation'
           type: 'string'
         }
@@ -143,15 +138,15 @@ resource zimperiumthreatlogclTable 'Microsoft.OperationalInsights/workspaces/tab
           type: 'string'
         }
         {
-          name: 'basetation_lac'
-          type: 'real'
-        }
-        {
           name: 'profile_identifier'
           type: 'string'
         }
         {
-          name: 'profile_name'
+          name: 'basetation_mcc'
+          type: 'real'
+        }
+        {
+          name: 'profileype'
           type: 'string'
         }
         {
@@ -175,67 +170,28 @@ resource zimperiumthreatlogclTable 'Microsoft.OperationalInsights/workspaces/tab
           type: 'string'
         }
         {
-          name: 'profileype'
+          name: 'suspected_url'
+          type: 'string'
+          dataTypeHint: 0
+        }
+        {
+          name: 'profile_name'
           type: 'string'
         }
         {
-          name: 'basetation_mcc'
-          type: 'real'
+          name: 'stagefright_vulnerability_report'
+          type: 'string'
         }
         {
           name: 'basetation_cid'
           type: 'real'
         }
         {
-          name: 'basetationtype'
-          type: 'string'
+          name: 'basetation_psc'
+          type: 'real'
         }
         {
-          name: 'devicetime'
-          type: 'dateTime'
-        }
-        {
-          name: 'threat_vector_s'
-          type: 'string'
-        }
-        {
-          name: 'threat_uuid'
-          type: 'string'
-        }
-        {
-          name: 'threat_name'
-          type: 'string'
-        }
-        {
-          name: 'event_id'
-          type: 'string'
-        }
-        {
-          name: 'severity_name'
-          type: 'string'
-        }
-        {
-          name: 'device_id'
-          type: 'string'
-        }
-        {
-          name: 'account_id'
-          type: 'string'
-        }
-        {
-          name: 'systemtoken'
-          type: 'string'
-        }
-        {
-          name: 'RawData'
-          type: 'string'
-        }
-        {
-          name: 'Computer'
-          type: 'string'
-        }
-        {
-          name: 'ManagementGroupName'
+          name: 'SourceSystem'
           type: 'string'
         }
         {
@@ -243,7 +199,19 @@ resource zimperiumthreatlogclTable 'Microsoft.OperationalInsights/workspaces/tab
           type: 'string'
         }
         {
-          name: 'SourceSystem'
+          name: 'ManagementGroupName'
+          type: 'string'
+        }
+        {
+          name: 'Computer'
+          type: 'string'
+        }
+        {
+          name: 'RawData'
+          type: 'string'
+        }
+        {
+          name: 'systemtoken'
           type: 'string'
         }
         {
@@ -251,21 +219,44 @@ resource zimperiumthreatlogclTable 'Microsoft.OperationalInsights/workspaces/tab
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'account_id'
           type: 'string'
-          dataTypeHint: 2
+        }
+        {
+          name: 'severity_name'
+          type: 'string'
+        }
+        {
+          name: 'event_id'
+          type: 'string'
+        }
+        {
+          name: 'threat_name'
+          type: 'string'
+        }
+        {
+          name: 'threat_uuid'
+          type: 'string'
+        }
+        {
+          name: 'threat_vector_s'
+          type: 'string'
+        }
+        {
+          name: 'devicetime'
+          type: 'dateTime'
+        }
+        {
+          name: 'device_id'
+          type: 'string'
         }
         {
           name: 'device_model'
           type: 'string'
         }
         {
-          name: 'zdevice_id'
-          type: 'string'
-        }
-        {
-          name: 'basetation_psc'
-          type: 'real'
+          name: 'device_jailbroken'
+          type: 'boolean'
         }
         {
           name: 'basetation_mnc'
@@ -290,15 +281,15 @@ resource zimperiumthreatlogclTable 'Microsoft.OperationalInsights/workspaces/tab
           dataTypeHint: 3
         }
         {
-          name: 'device_jailbroken'
-          type: 'boolean'
-        }
-        {
           name: 'device_owner_last_name'
           type: 'string'
         }
         {
-          name: 'device_owner_email'
+          name: 'basetationtype'
+          type: 'string'
+        }
+        {
+          name: 'device_owner_first_name'
           type: 'string'
         }
         {
@@ -322,7 +313,11 @@ resource zimperiumthreatlogclTable 'Microsoft.OperationalInsights/workspaces/tab
           type: 'string'
         }
         {
-          name: 'device_owner_first_name'
+          name: 'zdevice_id'
+          type: 'string'
+        }
+        {
+          name: 'device_owner_email'
           type: 'string'
         }
         {

@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: LinuxAudit_CL
-// Generated on 2025-09-17 06:40:04 UTC
+// Generated on 2025-09-19 14:13:56 UTC
 // Source: JSON schema export
-// Original columns: 53, Deployed columns: 52 (Type column filtered)
-// Underscore columns included
+// Original columns: 53, Deployed columns: 51 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -88,11 +88,11 @@ resource linuxauditclTable 'Microsoft.OperationalInsights/workspaces/tables@2025
           type: 'real'
         }
         {
-          name: 'argc_s'
-          type: 'string'
+          name: 'items_d'
+          type: 'real'
         }
         {
-          name: 'items_d'
+          name: 'ppid_d'
           type: 'real'
         }
         {
@@ -132,19 +132,15 @@ resource linuxauditclTable 'Microsoft.OperationalInsights/workspaces/tables@2025
           type: 'string'
         }
         {
-          name: 'comm_s'
-          type: 'string'
-        }
-        {
-          name: 'ppid_d'
-          type: 'real'
-        }
-        {
-          name: 'exe_s'
+          name: 'argc_s'
           type: 'string'
         }
         {
           name: 'SourceModuleType_s'
+          type: 'string'
+        }
+        {
+          name: 'SourceModuleName_s'
           type: 'string'
         }
         {
@@ -192,7 +188,7 @@ resource linuxauditclTable 'Microsoft.OperationalInsights/workspaces/tables@2025
           type: 'string'
         }
         {
-          name: 'SourceModuleName_s'
+          name: 'comm_s'
           type: 'string'
         }
         {
@@ -244,9 +240,8 @@ resource linuxauditclTable 'Microsoft.OperationalInsights/workspaces/tables@2025
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'exe_s'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

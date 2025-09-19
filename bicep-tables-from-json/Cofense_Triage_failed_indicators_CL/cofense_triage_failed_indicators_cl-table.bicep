@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Cofense_Triage_failed_indicators_CL
-// Generated on 2025-09-17 06:39:58 UTC
+// Generated on 2025-09-19 14:13:51 UTC
 // Source: JSON schema export
-// Original columns: 19, Deployed columns: 18 (Type column filtered)
-// Underscore columns included
+// Original columns: 19, Deployed columns: 17 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,52 +48,7 @@ resource cofensetriagefailedindicatorsclTable 'Microsoft.OperationalInsights/wor
           dataTypeHint: 1
         }
         {
-          name: 'properties_externalLastUpdatedTimeUtc_t'
-          type: 'dateTime'
-        }
-        {
-          name: 'properties_created_t'
-          type: 'dateTime'
-        }
-        {
-          name: 'properties_pattern_s'
-          type: 'string'
-        }
-        {
-          name: 'properties_threatTypes_s'
-          type: 'string'
-        }
-        {
-          name: 'properties_patternType_s'
-          type: 'string'
-        }
-        {
-          name: 'properties_confidence_d'
-          type: 'real'
-        }
-        {
-          name: 'report_link_s'
-          type: 'string'
-          dataTypeHint: 0
-        }
-        {
-          name: 'properties_displayName_s'
-          type: 'string'
-        }
-        {
-          name: 'kind_s'
-          type: 'string'
-        }
-        {
-          name: 'ManagementGroupName'
-          type: 'string'
-        }
-        {
-          name: 'RawData'
-          type: 'string'
-        }
-        {
-          name: 'Computer'
+          name: 'SourceSystem'
           type: 'string'
         }
         {
@@ -101,7 +56,19 @@ resource cofensetriagefailedindicatorsclTable 'Microsoft.OperationalInsights/wor
           type: 'string'
         }
         {
-          name: 'SourceSystem'
+          name: 'Computer'
+          type: 'string'
+        }
+        {
+          name: 'RawData'
+          type: 'string'
+        }
+        {
+          name: 'ManagementGroupName'
+          type: 'string'
+        }
+        {
+          name: 'kind_s'
           type: 'string'
         }
         {
@@ -109,9 +76,37 @@ resource cofensetriagefailedindicatorsclTable 'Microsoft.OperationalInsights/wor
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'properties_displayName_s'
           type: 'string'
-          dataTypeHint: 2
+        }
+        {
+          name: 'properties_confidence_d'
+          type: 'real'
+        }
+        {
+          name: 'properties_patternType_s'
+          type: 'string'
+        }
+        {
+          name: 'properties_threatTypes_s'
+          type: 'string'
+        }
+        {
+          name: 'properties_pattern_s'
+          type: 'string'
+        }
+        {
+          name: 'properties_created_t'
+          type: 'dateTime'
+        }
+        {
+          name: 'properties_externalLastUpdatedTimeUtc_t'
+          type: 'dateTime'
+        }
+        {
+          name: 'report_link_s'
+          type: 'string'
+          dataTypeHint: 0
         }
       ]
     }

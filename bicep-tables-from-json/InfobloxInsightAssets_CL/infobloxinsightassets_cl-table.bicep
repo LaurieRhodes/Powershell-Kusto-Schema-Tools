@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: InfobloxInsightAssets_CL
-// Generated on 2025-09-17 06:40:03 UTC
+// Generated on 2025-09-19 14:13:56 UTC
 // Source: JSON schema export
-// Original columns: 23, Deployed columns: 22 (Type column filtered)
-// Underscore columns included
+// Original columns: 23, Deployed columns: 21 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,10 +48,6 @@ resource infobloxinsightassetsclTable 'Microsoft.OperationalInsights/workspaces/
           dataTypeHint: 1
         }
         {
-          name: 'InfobloxInsightID_g'
-          type: 'string'
-        }
-        {
           name: 'user_s'
           type: 'string'
         }
@@ -80,12 +76,12 @@ resource infobloxinsightassetsclTable 'Microsoft.OperationalInsights/workspaces/
           type: 'string'
         }
         {
-          name: 'InfobloxInsightLogType_s'
+          name: 'qip_s'
           type: 'string'
         }
         {
-          name: 'qip_s'
-          type: 'string'
+          name: 'count_d'
+          type: 'real'
         }
         {
           name: 'cmac_s'
@@ -120,13 +116,12 @@ resource infobloxinsightassetsclTable 'Microsoft.OperationalInsights/workspaces/
           type: 'string'
         }
         {
-          name: 'count_d'
-          type: 'real'
+          name: 'InfobloxInsightID_g'
+          type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'InfobloxInsightLogType_s'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

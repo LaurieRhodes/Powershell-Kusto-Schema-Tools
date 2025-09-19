@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Armorblox_CL
-// Generated on 2025-09-17 06:39:56 UTC
+// Generated on 2025-09-19 14:13:49 UTC
 // Source: JSON schema export
-// Original columns: 28, Deployed columns: 27 (Type column filtered)
-// Underscore columns included
+// Original columns: 28, Deployed columns: 26 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,10 +48,6 @@ resource armorbloxclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-
           dataTypeHint: 1
         }
         {
-          name: 'status_counts_error_count_s'
-          type: 'string'
-        }
-        {
           name: 'status_counts_process_count_s'
           type: 'string'
         }
@@ -92,11 +88,11 @@ resource armorbloxclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-
           type: 'string'
         }
         {
-          name: 'remediation_actions_s'
+          name: 'status_counts_error_count_s'
           type: 'string'
         }
         {
-          name: 'title_s'
+          name: 'remediation_actions_s'
           type: 'string'
         }
         {
@@ -140,13 +136,12 @@ resource armorbloxclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-
           type: 'string'
         }
         {
-          name: 'attachment_list_s'
+          name: 'title_s'
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'attachment_list_s'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

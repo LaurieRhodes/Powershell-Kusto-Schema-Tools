@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: darktrace_model_alerts_CL
-// Generated on 2025-09-17 06:40:02 UTC
+// Generated on 2025-09-19 14:13:54 UTC
 // Source: JSON schema export
-// Original columns: 80, Deployed columns: 80 (Type column filtered)
-// Underscore columns included
+// Original columns: 79, Deployed columns: 79 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -75,13 +75,13 @@ resource darktracemodelalertsclTable 'Microsoft.OperationalInsights/workspaces/t
           type: 'string'
         }
         {
-          name: 'groupingId_s'
-          type: 'string'
-        }
-        {
           name: 'cSensorID_g'
           type: 'guid'
           dataTypeHint: 1
+        }
+        {
+          name: 'uuid_s'
+          type: 'string'
         }
         {
           name: 'timestamp_t'
@@ -109,20 +109,16 @@ resource darktracemodelalertsclTable 'Microsoft.OperationalInsights/workspaces/t
           type: 'string'
         }
         {
-          name: 'attachment_sha1s_s'
+          name: 'groupingId_s'
           type: 'string'
-        }
-        {
-          name: 'uuid_s'
-          type: 'string'
-        }
-        {
-          name: 'anomaly_score_d'
-          type: 'real'
         }
         {
           name: 'groupByActivity_b'
           type: 'boolean'
+        }
+        {
+          name: 'summaryFirstSentence_s'
+          type: 'string'
         }
         {
           name: 'newEvent_b'
@@ -158,7 +154,7 @@ resource darktracemodelalertsclTable 'Microsoft.OperationalInsights/workspaces/t
           type: 'string'
         }
         {
-          name: 'summaryFirstSentence_s'
+          name: 'attachment_sha1s_s'
           type: 'string'
         }
         {
@@ -198,7 +194,7 @@ resource darktracemodelalertsclTable 'Microsoft.OperationalInsights/workspaces/t
           type: 'string'
         }
         {
-          name: 'longitude_d'
+          name: 'anomaly_score_d'
           type: 'real'
         }
         {
@@ -206,7 +202,11 @@ resource darktracemodelalertsclTable 'Microsoft.OperationalInsights/workspaces/t
           type: 'string'
         }
         {
-          name: 'Category'
+          name: 'cSensorID_s'
+          type: 'string'
+        }
+        {
+          name: 'endTime_s'
           type: 'string'
         }
         {
@@ -235,25 +235,21 @@ resource darktracemodelalertsclTable 'Microsoft.OperationalInsights/workspaces/t
           dataTypeHint: 3
         }
         {
+          name: 'title_s'
+          type: 'string'
+        }
+        {
           name: 'sourcePort_s'
           type: 'string'
         }
         {
-          name: 'endTime_s'
-          type: 'string'
-        }
-        {
-          name: 'sourceMac_s'
+          name: 'sourceHost_s'
           type: 'string'
         }
         {
           name: 'SourceIP'
           type: 'string'
           dataTypeHint: 3
-        }
-        {
-          name: 'modelName_s'
-          type: 'string'
         }
         {
           name: 'threatID_d'
@@ -276,19 +272,25 @@ resource darktracemodelalertsclTable 'Microsoft.OperationalInsights/workspaces/t
           type: 'real'
         }
         {
-          name: 'sourceHost_s'
+          name: 'sourceMac_s'
           type: 'string'
         }
         {
-          name: 'cSensorID_s'
-          type: 'string'
+          name: 'longitude_d'
+          type: 'real'
         }
         {
-          name: 'title_s'
-          type: 'string'
+          name: 'externalId_g'
+          type: 'guid'
+          dataTypeHint: 1
         }
         {
-          name: 'hostname_s'
+          name: 'url_s'
+          type: 'string'
+          dataTypeHint: 0
+        }
+        {
+          name: 'Category'
           type: 'string'
         }
         {
@@ -316,17 +318,16 @@ resource darktracemodelalertsclTable 'Microsoft.OperationalInsights/workspaces/t
           type: 'string'
         }
         {
+          name: 'hostname_s'
+          type: 'string'
+        }
+        {
           name: 'priority_s'
           type: 'string'
         }
         {
-          name: 'externalId_g'
-          type: 'guid'
-          dataTypeHint: 1
-        }
-        {
-          name: 'priority_code_d'
-          type: 'real'
+          name: 'friendlyName_s'
+          type: 'string'
         }
         {
           name: 'bestDeviceName_s'
@@ -354,13 +355,8 @@ resource darktracemodelalertsclTable 'Microsoft.OperationalInsights/workspaces/t
           dataTypeHint: 0
         }
         {
-          name: 'url_s'
-          type: 'string'
-          dataTypeHint: 0
-        }
-        {
-          name: 'friendlyName_s'
-          type: 'string'
+          name: 'priority_code_d'
+          type: 'real'
         }
         {
           name: 'latitude_d'

@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Netclean_Incidents_CL
-// Generated on 2025-09-17 06:40:04 UTC
+// Generated on 2025-09-19 14:13:56 UTC
 // Source: JSON schema export
-// Original columns: 46, Deployed columns: 45 (Type column filtered)
-// Underscore columns included
+// Original columns: 46, Deployed columns: 44 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,6 +48,10 @@ resource netcleanincidentsclTable 'Microsoft.OperationalInsights/workspaces/tabl
           dataTypeHint: 1
         }
         {
+          name: 'size_s'
+          type: 'string'
+        }
+        {
           name: 'creationTime_t'
           type: 'dateTime'
         }
@@ -76,16 +80,17 @@ resource netcleanincidentsclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'string'
         }
         {
+          name: 'loggedOnUsers_s'
+          type: 'string'
+        }
+        {
           name: 'hasCollectedNearbyFiles_s'
           type: 'string'
         }
         {
-          name: 'size_s'
+          name: 'm365WebUrl_s'
           type: 'string'
-        }
-        {
-          name: 'filePath_s'
-          type: 'string'
+          dataTypeHint: 0
         }
         {
           name: 'm365CreatedBymail_s'
@@ -116,16 +121,11 @@ resource netcleanincidentsclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'string'
         }
         {
+          name: 'filePath_s'
+          type: 'string'
+        }
+        {
           name: 'm365sitename_s'
-          type: 'string'
-        }
-        {
-          name: 'm365WebUrl_s'
-          type: 'string'
-          dataTypeHint: 0
-        }
-        {
-          name: 'loggedOnUsers_s'
           type: 'string'
         }
         {
@@ -133,7 +133,7 @@ resource netcleanincidentsclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'string'
         }
         {
-          name: 'Agentversion_s'
+          name: 'domainname_s'
           type: 'string'
         }
         {
@@ -170,11 +170,11 @@ resource netcleanincidentsclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'string'
         }
         {
-          name: 'type_s'
+          name: 'Agentversion_s'
           type: 'string'
         }
         {
-          name: 'version_s'
+          name: 'type_s'
           type: 'string'
         }
         {
@@ -210,17 +210,12 @@ resource netcleanincidentsclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'string'
         }
         {
-          name: 'domainname_s'
+          name: 'version_s'
           type: 'string'
         }
         {
           name: 'countOfAllNearByFiles_s'
           type: 'string'
-        }
-        {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

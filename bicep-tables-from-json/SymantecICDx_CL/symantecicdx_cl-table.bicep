@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: SymantecICDx_CL
-// Generated on 2025-09-17 06:40:06 UTC
+// Generated on 2025-09-19 14:13:58 UTC
 // Source: JSON schema export
-// Original columns: 11, Deployed columns: 10 (Type column filtered)
-// Underscore columns included
+// Original columns: 11, Deployed columns: 9 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -66,11 +66,6 @@ resource symantecicdxclTable 'Microsoft.OperationalInsights/workspaces/tables@20
         {
           name: 'RawData'
           type: 'string'
-        }
-        {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
         }
         {
           name: 'connection_src_ip_s'

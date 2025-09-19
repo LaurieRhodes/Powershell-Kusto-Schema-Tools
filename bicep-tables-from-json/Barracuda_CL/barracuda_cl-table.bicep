@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Barracuda_CL
-// Generated on 2025-09-17 06:39:57 UTC
+// Generated on 2025-09-19 14:13:50 UTC
 // Source: JSON schema export
-// Original columns: 69, Deployed columns: 68 (Type column filtered)
-// Underscore columns included
+// Original columns: 69, Deployed columns: 66 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,6 +48,10 @@ resource barracudaclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-
           dataTypeHint: 1
         }
         {
+          name: 'DestinationIP_s'
+          type: 'string'
+        }
+        {
           name: 'DestinationPort_d'
           type: 'real'
         }
@@ -80,11 +84,6 @@ resource barracudaclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-
           type: 'string'
         }
         {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
-        }
-        {
           name: 'ServerIP_s'
           type: 'string'
           dataTypeHint: 3
@@ -107,11 +106,11 @@ resource barracudaclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-
           type: 'real'
         }
         {
-          name: 'DestinationIP_s'
-          type: 'string'
+          name: 'ServerPort_d'
+          type: 'real'
         }
         {
-          name: 'ServerPort_d'
+          name: 'ServicePort_d'
           type: 'real'
         }
         {
@@ -168,23 +167,20 @@ resource barracudaclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-
           type: 'real'
         }
         {
-          name: 'ProxyIP_s'
-          type: 'string'
-        }
-        {
-          name: 'ServicePort_d'
-          type: 'real'
-        }
-        {
-          name: 'ProxyPort_d'
-          type: 'real'
-        }
-        {
           name: 'SourcePort_d'
           type: 'real'
         }
         {
-          name: 'LogType_s'
+          name: 'ProxyIP_s'
+          type: 'string'
+        }
+        {
+          name: 'SourceIP'
+          type: 'string'
+          dataTypeHint: 3
+        }
+        {
+          name: 'Severity_s'
           type: 'string'
         }
         {
@@ -244,12 +240,11 @@ resource barracudaclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-
           type: 'real'
         }
         {
-          name: 'SourceIP'
+          name: 'NewValue_s'
           type: 'string'
-          dataTypeHint: 3
         }
         {
-          name: 'NewValue_s'
+          name: 'OldValue_s'
           type: 'string'
         }
         {
@@ -305,16 +300,12 @@ resource barracudaclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-
           type: 'string'
         }
         {
-          name: 'Severity_s'
+          name: 'LogType_s'
           type: 'string'
         }
         {
-          name: 'OldValue_s'
-          type: 'string'
-        }
-        {
-          name: '_ItemId'
-          type: 'string'
+          name: 'ProxyPort_d'
+          type: 'real'
         }
       ]
     }

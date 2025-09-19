@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: BetterMTDAppLog_CL
-// Generated on 2025-09-17 06:39:57 UTC
+// Generated on 2025-09-19 14:13:50 UTC
 // Source: JSON schema export
-// Original columns: 18, Deployed columns: 17 (Type column filtered)
-// Underscore columns included
+// Original columns: 18, Deployed columns: 16 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -102,11 +102,6 @@ resource bettermtdapplogclTable 'Microsoft.OperationalInsights/workspaces/tables
         {
           name: 'Version'
           type: 'real'
-        }
-        {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

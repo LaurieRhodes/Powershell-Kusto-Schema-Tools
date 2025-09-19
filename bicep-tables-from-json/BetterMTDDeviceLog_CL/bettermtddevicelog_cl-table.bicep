@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: BetterMTDDeviceLog_CL
-// Generated on 2025-09-17 06:39:57 UTC
+// Generated on 2025-09-19 14:13:50 UTC
 // Source: JSON schema export
-// Original columns: 25, Deployed columns: 24 (Type column filtered)
-// Underscore columns included
+// Original columns: 25, Deployed columns: 23 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,10 +48,6 @@ resource bettermtddevicelogclTable 'Microsoft.OperationalInsights/workspaces/tab
           dataTypeHint: 1
         }
         {
-          name: 'AgentVersion'
-          type: 'string'
-        }
-        {
           name: 'AddedDate'
           type: 'dateTime'
         }
@@ -84,12 +80,12 @@ resource bettermtddevicelogclTable 'Microsoft.OperationalInsights/workspaces/tab
           type: 'dateTime'
         }
         {
-          name: 'DeviceUDID'
+          name: 'DevicePlatform'
           type: 'string'
         }
         {
-          name: 'DevicePlatform'
-          type: 'string'
+          name: 'CompanyId'
+          type: 'real'
         }
         {
           name: 'DeviceOS'
@@ -128,13 +124,12 @@ resource bettermtddevicelogclTable 'Microsoft.OperationalInsights/workspaces/tab
           type: 'string'
         }
         {
-          name: 'CompanyId'
-          type: 'real'
+          name: 'AgentVersion'
+          type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'DeviceUDID'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

@@ -12,7 +12,7 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Firework_CL
 // ============================================================================
-// Generated: 2025-09-18 08:37:29
+// Generated: 2025-09-19 14:20:18
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
 // Underscore columns filtered out
@@ -48,7 +48,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'last_crawled_at_t[Local Time]'
+            name: 'last_crawled_at_t'
             type: 'string'
           }
           {
@@ -75,7 +75,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-Firework_CL']
         destinations: ['Sentinel-Firework_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), source_s = tostring(source_s), data_new_leaks_s = tostring(data_new_leaks_s), risk_score_d = tostring(risk_score_d), last_crawled_at_t[Local Time] = tostring(last_crawled_at_t[Local Time]), category_name_s = tostring(category_name_s), risk_reasons_s = tostring(risk_reasons_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), source_s = tostring(source_s), data_new_leaks_s = tostring(data_new_leaks_s), risk_score_d = tostring(risk_score_d), last_crawled_at_t = tostring(last_crawled_at_t), category_name_s = tostring(category_name_s), risk_reasons_s = tostring(risk_reasons_s)'
         outputStream: 'Custom-Firework_CL'
       }
     ]

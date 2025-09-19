@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Corelight_v2_rdp_CL
-// Generated on 2025-09-17 06:40:00 UTC
+// Generated on 2025-09-19 14:13:53 UTC
 // Source: JSON schema export
-// Original columns: 32, Deployed columns: 32 (Type column filtered)
-// Underscore columns included
+// Original columns: 32, Deployed columns: 29 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -43,8 +43,8 @@ resource corelightv2rdpclTable 'Microsoft.OperationalInsights/workspaces/tables@
           type: 'dateTime'
         }
         {
-          name: '_path_s'
-          type: 'string'
+          name: 'ts_t'
+          type: 'dateTime'
         }
         {
           name: 'rdpeudp_uid_s'
@@ -99,11 +99,11 @@ resource corelightv2rdpclTable 'Microsoft.OperationalInsights/workspaces/tables@
           type: 'string'
         }
         {
-          name: 'rdfp_string_s'
+          name: 'client_name_s'
           type: 'string'
         }
         {
-          name: 'client_name_s'
+          name: 'client_build_s'
           type: 'string'
         }
         {
@@ -148,19 +148,7 @@ resource corelightv2rdpclTable 'Microsoft.OperationalInsights/workspaces/tables@
           type: 'string'
         }
         {
-          name: 'ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: '_write_ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: '_system_name_s'
-          type: 'string'
-        }
-        {
-          name: 'client_build_s'
+          name: 'rdfp_string_s'
           type: 'string'
         }
         {

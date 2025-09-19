@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Corelight_v2_dns_CL
-// Generated on 2025-09-17 06:39:59 UTC
+// Generated on 2025-09-19 14:13:51 UTC
 // Source: JSON schema export
-// Original columns: 28, Deployed columns: 28 (Type column filtered)
-// Underscore columns included
+// Original columns: 28, Deployed columns: 25 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -43,8 +43,8 @@ resource corelightv2dnsclTable 'Microsoft.OperationalInsights/workspaces/tables@
           type: 'dateTime'
         }
         {
-          name: '_path_s'
-          type: 'string'
+          name: 'ts_t'
+          type: 'dateTime'
         }
         {
           name: 'answers_s'
@@ -91,12 +91,12 @@ resource corelightv2dnsclTable 'Microsoft.OperationalInsights/workspaces/tables@
           type: 'string'
         }
         {
-          name: 'TTLs_s'
-          type: 'string'
-        }
-        {
           name: 'qclass_d'
           type: 'real'
+        }
+        {
+          name: 'query_s'
+          type: 'string'
         }
         {
           name: 'rtt_d'
@@ -131,19 +131,7 @@ resource corelightv2dnsclTable 'Microsoft.OperationalInsights/workspaces/tables@
           type: 'string'
         }
         {
-          name: 'ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: '_write_ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: '_system_name_s'
-          type: 'string'
-        }
-        {
-          name: 'query_s'
+          name: 'TTLs_s'
           type: 'string'
         }
         {

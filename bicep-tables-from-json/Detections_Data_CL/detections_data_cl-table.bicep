@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Detections_Data_CL
-// Generated on 2025-09-17 06:40:02 UTC
+// Generated on 2025-09-19 14:13:54 UTC
 // Source: JSON schema export
-// Original columns: 33, Deployed columns: 32 (Type column filtered)
-// Underscore columns included
+// Original columns: 33, Deployed columns: 31 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -46,10 +46,6 @@ resource detectionsdataclTable 'Microsoft.OperationalInsights/workspaces/tables@
           name: 'TenantId'
           type: 'guid'
           dataTypeHint: 1
-        }
-        {
-          name: 'summary_s'
-          type: 'string'
         }
         {
           name: 'src_ip_s'
@@ -101,12 +97,12 @@ resource detectionsdataclTable 'Microsoft.OperationalInsights/workspaces/tables@
           type: 'string'
         }
         {
-          name: 'grouped_details_s'
+          name: 'entity_type_s'
           type: 'string'
         }
         {
-          name: 'entity_type_s'
-          type: 'string'
+          name: 'entity_id_d'
+          type: 'real'
         }
         {
           name: 'detection_href_s'
@@ -162,13 +158,12 @@ resource detectionsdataclTable 'Microsoft.OperationalInsights/workspaces/tables@
           type: 'string'
         }
         {
-          name: 'entity_id_d'
-          type: 'real'
+          name: 'summary_s'
+          type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'grouped_details_s'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

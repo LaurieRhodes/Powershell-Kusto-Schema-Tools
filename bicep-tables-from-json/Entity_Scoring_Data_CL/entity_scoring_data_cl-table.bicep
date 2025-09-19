@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Entity_Scoring_Data_CL
-// Generated on 2025-09-17 06:40:02 UTC
+// Generated on 2025-09-19 14:13:55 UTC
 // Source: JSON schema export
-// Original columns: 29, Deployed columns: 28 (Type column filtered)
-// Underscore columns included
+// Original columns: 29, Deployed columns: 27 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,10 +48,6 @@ resource entityscoringdataclTable 'Microsoft.OperationalInsights/workspaces/tabl
           dataTypeHint: 1
         }
         {
-          name: 'last_detection_id_d'
-          type: 'real'
-        }
-        {
           name: 'url_s'
           type: 'string'
           dataTypeHint: 0
@@ -94,11 +90,11 @@ resource entityscoringdataclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'boolean'
         }
         {
-          name: 'event_timestamp_t'
-          type: 'dateTime'
+          name: 'type_s'
+          type: 'string'
         }
         {
-          name: 'type_s'
+          name: 'entity_type_s'
           type: 'string'
         }
         {
@@ -146,13 +142,12 @@ resource entityscoringdataclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'string'
         }
         {
-          name: 'entity_type_s'
-          type: 'string'
+          name: 'last_detection_id_d'
+          type: 'real'
         }
         {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
+          name: 'event_timestamp_t'
+          type: 'dateTime'
         }
       ]
     }

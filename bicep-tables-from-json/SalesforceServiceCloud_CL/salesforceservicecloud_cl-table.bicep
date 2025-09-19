@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: SalesforceServiceCloud_CL
-// Generated on 2025-09-17 06:40:06 UTC
+// Generated on 2025-09-19 14:13:58 UTC
 // Source: JSON schema export
-// Original columns: 213, Deployed columns: 213 (Type column filtered)
-// Underscore columns included
+// Original columns: 213, Deployed columns: 211 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -47,6 +47,14 @@ resource salesforceservicecloudclTable 'Microsoft.OperationalInsights/workspaces
           type: 'string'
         }
         {
+          name: 'is_new_s'
+          type: 'string'
+        }
+        {
+          name: 'is_mobile_s'
+          type: 'string'
+        }
+        {
           name: 'is_long_running_request_s'
           type: 'string'
         }
@@ -79,19 +87,19 @@ resource salesforceservicecloudclTable 'Microsoft.OperationalInsights/workspaces
           type: 'string'
         }
         {
+          name: 'is_scheduled_s'
+          type: 'string'
+        }
+        {
           name: 'grandparent_ui_element_s'
           type: 'string'
         }
         {
-          name: 'file_type_s'
-          type: 'string'
-        }
-        {
-          name: 'is_mobile_s'
-          type: 'string'
-        }
-        {
           name: 'file_preview_type_s'
+          type: 'string'
+        }
+        {
+          name: 'exception_type_s'
           type: 'string'
         }
         {
@@ -127,27 +135,23 @@ resource salesforceservicecloudclTable 'Microsoft.OperationalInsights/workspaces
           type: 'string'
         }
         {
+          name: 'file_type_s'
+          type: 'string'
+        }
+        {
           name: 'duration_s'
           type: 'string'
         }
         {
-          name: 'document_id_derived_s'
-          type: 'string'
-        }
-        {
-          name: 'exception_type_s'
-          type: 'string'
-        }
-        {
-          name: 'is_new_s'
-          type: 'string'
-        }
-        {
-          name: 'is_scheduled_s'
-          type: 'string'
-        }
-        {
           name: 'is_secure_s'
+          type: 'string'
+        }
+        {
+          name: 'job_id_s'
+          type: 'string'
+        }
+        {
+          name: 'operation_type_s'
           type: 'string'
         }
         {
@@ -187,11 +191,11 @@ resource salesforceservicecloudclTable 'Microsoft.OperationalInsights/workspaces
           type: 'string'
         }
         {
-          name: 'name_s'
+          name: 'is_success_s'
           type: 'string'
         }
         {
-          name: 'method_name_s'
+          name: 'name_s'
           type: 'string'
         }
         {
@@ -235,11 +239,11 @@ resource salesforceservicecloudclTable 'Microsoft.OperationalInsights/workspaces
           type: 'string'
         }
         {
-          name: 'job_id_s'
+          name: 'method_name_s'
           type: 'string'
         }
         {
-          name: 'is_success_s'
+          name: 'document_id_derived_s'
           type: 'string'
         }
         {
@@ -247,15 +251,15 @@ resource salesforceservicecloudclTable 'Microsoft.OperationalInsights/workspaces
           type: 'string'
         }
         {
-          name: 'operation_type_s'
-          type: 'string'
-        }
-        {
           name: 'display_type_s'
           type: 'string'
         }
         {
-          name: 'device_platform_s'
+          name: 'callout_time_s'
+          type: 'string'
+        }
+        {
+          name: 'browser_version_s'
           type: 'string'
         }
         {
@@ -291,15 +295,11 @@ resource salesforceservicecloudclTable 'Microsoft.OperationalInsights/workspaces
           type: 'string'
         }
         {
+          name: 'cipher_suite_s'
+          type: 'string'
+        }
+        {
           name: 'app_name_s'
-          type: 'string'
-        }
-        {
-          name: 'api_version_s'
-          type: 'string'
-        }
-        {
-          name: 'browser_version_s'
           type: 'string'
         }
         {
@@ -307,7 +307,7 @@ resource salesforceservicecloudclTable 'Microsoft.OperationalInsights/workspaces
           type: 'string'
         }
         {
-          name: '_ItemId'
+          name: 'analytics_mode_s'
           type: 'string'
         }
         {
@@ -343,23 +343,27 @@ resource salesforceservicecloudclTable 'Microsoft.OperationalInsights/workspaces
           type: 'string'
         }
         {
-          name: 'RawData'
-          type: 'string'
-        }
-        {
-          name: 'analytics_mode_s'
-          type: 'string'
-        }
-        {
-          name: 'callout_time_s'
-          type: 'string'
-        }
-        {
-          name: 'cipher_suite_s'
+          name: 'api_version_s'
           type: 'string'
         }
         {
           name: 'class_name_s'
+          type: 'string'
+        }
+        {
+          name: 'clicked_record_id_s'
+          type: 'string'
+        }
+        {
+          name: 'client_id_s'
+          type: 'string'
+        }
+        {
+          name: 'device_session_id_s'
+          type: 'string'
+        }
+        {
+          name: 'device_platform_s'
           type: 'string'
         }
         {
@@ -447,18 +451,6 @@ resource salesforceservicecloudclTable 'Microsoft.OperationalInsights/workspaces
           type: 'string'
         }
         {
-          name: 'client_id_s'
-          type: 'string'
-        }
-        {
-          name: 'clicked_record_id_s'
-          type: 'string'
-        }
-        {
-          name: 'device_session_id_s'
-          type: 'string'
-        }
-        {
           name: 'organization_id_s'
           type: 'string'
         }
@@ -468,6 +460,10 @@ resource salesforceservicecloudclTable 'Microsoft.OperationalInsights/workspaces
         }
         {
           name: 'page_app_name_s'
+          type: 'string'
+        }
+        {
+          name: 'page_context_s'
           type: 'string'
         }
         {
@@ -675,12 +671,12 @@ resource salesforceservicecloudclTable 'Microsoft.OperationalInsights/workspaces
           type: 'string'
         }
         {
-          name: 'tls_protocol_s'
+          name: 'RawData'
           type: 'string'
         }
         {
-          name: 'timestamp_derived_t'
-          type: 'dateTime'
+          name: 'tls_protocol_s'
+          type: 'string'
         }
         {
           name: 'target_ui_element_s'
@@ -727,13 +723,13 @@ resource salesforceservicecloudclTable 'Microsoft.OperationalInsights/workspaces
           type: 'string'
         }
         {
+          name: 'rendering_type_s'
+          type: 'string'
+        }
+        {
           name: 'prevpage_url_s'
           type: 'string'
           dataTypeHint: 0
-        }
-        {
-          name: 'prevpage_entity_type_s'
-          type: 'string'
         }
         {
           name: 'prevpage_entity_id_s'
@@ -777,20 +773,15 @@ resource salesforceservicecloudclTable 'Microsoft.OperationalInsights/workspaces
           type: 'string'
         }
         {
-          name: 'page_context_s'
+          name: 'prevpage_entity_type_s'
           type: 'string'
-        }
-        {
-          name: 'rendering_type_s'
-          type: 'string'
-        }
-        {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
         }
         {
           name: 'reopen_count_s'
+          type: 'string'
+        }
+        {
+          name: 'report_description_s'
           type: 'string'
         }
         {
@@ -890,8 +881,8 @@ resource salesforceservicecloudclTable 'Microsoft.OperationalInsights/workspaces
           type: 'string'
         }
         {
-          name: 'report_description_s'
-          type: 'string'
+          name: 'timestamp_derived_t'
+          type: 'dateTime'
         }
         {
           name: 'TenantId'

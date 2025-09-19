@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Corelight_v2_ssl_red_CL
-// Generated on 2025-09-17 06:40:01 UTC
+// Generated on 2025-09-19 14:13:53 UTC
 // Source: JSON schema export
-// Original columns: 25, Deployed columns: 25 (Type column filtered)
-// Underscore columns included
+// Original columns: 25, Deployed columns: 22 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -43,8 +43,8 @@ resource corelightv2sslredclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'dateTime'
         }
         {
-          name: '_path_s'
-          type: 'string'
+          name: 'ts_t'
+          type: 'dateTime'
         }
         {
           name: 'validation_status_s'
@@ -79,12 +79,12 @@ resource corelightv2sslredclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'string'
         }
         {
-          name: 'resumed_b'
-          type: 'boolean'
+          name: 'ja3_s'
+          type: 'string'
         }
         {
-          name: 'server_name_s'
-          type: 'string'
+          name: 'resumed_b'
+          type: 'boolean'
         }
         {
           name: 'curve_s'
@@ -119,19 +119,7 @@ resource corelightv2sslredclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'string'
         }
         {
-          name: 'ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: '_write_ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: '_system_name_s'
-          type: 'string'
-        }
-        {
-          name: 'ja3_s'
+          name: 'server_name_s'
           type: 'string'
         }
         {

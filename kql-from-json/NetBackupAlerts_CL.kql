@@ -1,7 +1,7 @@
 ﻿// ============================================================================
 // Azure Data Explorer KQL Script for NetBackupAlerts_CL
 // ============================================================================
-// Generated: 2025-09-17 06:16:05
+// Generated: 2025-09-19 14:23:07
 // Table type: Custom (presumed for JSON exports)
 // Schema imported from JSON export file
 // ============================================================================
@@ -17,11 +17,11 @@
 // Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
 
 .create-merge table NetBackupAlerts_CL(
+TimeGenerated:datetime,
 TenantId:guid,
 SourceSystem:string,
 MG:string,
 ManagementGroupName:string,
-TimeGenerated [UTC]:datetime,
 Computer:string,
 RawData:string,
 tenantId_g:string,
@@ -30,7 +30,7 @@ Category:string,
 operation_s:string,
 Message:string,
 userName_s:string,
-auditDateTime_t [UTC]:datetime,
+auditDateTime_t:datetime,
 reason_s:string,
 auditAttributes_s:string,
 Type:string,
@@ -44,11 +44,11 @@ NetBackupAlerts_CLRaw
 | mv-expand events = records
 // Alternative for non-nested: | extend events = records
 | project
+TimeGenerated=todatetime(events.TimeGenerated),
 TenantId=toguid(events.TenantId),
 SourceSystem=tostring(events.SourceSystem),
 MG=tostring(events.MG),
 ManagementGroupName=tostring(events.ManagementGroupName),
-TimeGenerated [UTC]=todatetime(events.TimeGenerated [UTC]),
 Computer=tostring(events.Computer),
 RawData=tostring(events.RawData),
 tenantId_g=tostring(events.tenantId_g),
@@ -57,7 +57,7 @@ Category=tostring(events.Category),
 operation_s=tostring(events.operation_s),
 Message=tostring(events.Message),
 userName_s=tostring(events.userName_s),
-auditDateTime_t [UTC]=todatetime(events.auditDateTime_t [UTC]),
+auditDateTime_t=todatetime(events.auditDateTime_t),
 reason_s=tostring(events.reason_s),
 auditAttributes_s=tostring(events.auditAttributes_s),
 Type=tostring(events.Type),

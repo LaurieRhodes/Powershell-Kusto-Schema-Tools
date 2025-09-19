@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Corelight_v2_irc_CL
-// Generated on 2025-09-17 06:39:59 UTC
+// Generated on 2025-09-19 14:13:52 UTC
 // Source: JSON schema export
-// Original columns: 19, Deployed columns: 19 (Type column filtered)
-// Underscore columns included
+// Original columns: 19, Deployed columns: 16 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -43,43 +43,15 @@ resource corelightv2ircclTable 'Microsoft.OperationalInsights/workspaces/tables@
           type: 'dateTime'
         }
         {
-          name: '_path_s'
+          name: 'ts_t'
+          type: 'dateTime'
+        }
+        {
+          name: 'uid_s'
           type: 'string'
         }
         {
-          name: 'dcc_file_size_d'
-          type: 'real'
-        }
-        {
-          name: 'dcc_file_name_s'
-          type: 'string'
-        }
-        {
-          name: 'addl_s'
-          type: 'string'
-        }
-        {
-          name: 'value_s'
-          type: 'string'
-        }
-        {
-          name: 'command_s'
-          type: 'string'
-        }
-        {
-          name: 'user_s'
-          type: 'string'
-        }
-        {
-          name: 'nick_s'
-          type: 'string'
-        }
-        {
-          name: 'id_resp_p_d'
-          type: 'real'
-        }
-        {
-          name: 'id_resp_h_s'
+          name: 'id_orig_h_s'
           type: 'string'
         }
         {
@@ -87,24 +59,40 @@ resource corelightv2ircclTable 'Microsoft.OperationalInsights/workspaces/tables@
           type: 'real'
         }
         {
-          name: 'id_orig_h_s'
+          name: 'id_resp_h_s'
           type: 'string'
         }
         {
-          name: 'uid_s'
+          name: 'id_resp_p_d'
+          type: 'real'
+        }
+        {
+          name: 'nick_s'
           type: 'string'
         }
         {
-          name: 'ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: '_write_ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: '_system_name_s'
+          name: 'user_s'
           type: 'string'
+        }
+        {
+          name: 'command_s'
+          type: 'string'
+        }
+        {
+          name: 'value_s'
+          type: 'string'
+        }
+        {
+          name: 'addl_s'
+          type: 'string'
+        }
+        {
+          name: 'dcc_file_name_s'
+          type: 'string'
+        }
+        {
+          name: 'dcc_file_size_d'
+          type: 'real'
         }
         {
           name: 'dcc_mime_type_s'

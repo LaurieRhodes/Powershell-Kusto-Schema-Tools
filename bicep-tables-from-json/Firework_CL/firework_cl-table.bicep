@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Firework_CL
-// Generated on 2025-09-17 06:40:02 UTC
+// Generated on 2025-09-19 14:13:55 UTC
 // Source: JSON schema export
 // Original columns: 7, Deployed columns: 7 (Type column filtered)
-// Underscore columns included
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -55,7 +55,7 @@ resource fireworkclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'string'
         }
         {
-          name: 'last_crawled_at_t[Local Time]'
+          name: 'last_crawled_at_t'
           type: 'string'
         }
         {

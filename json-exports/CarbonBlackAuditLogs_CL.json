@@ -54,10 +54,6 @@
                            "Type":  "string"
                        },
                        {
-                           "Name":  "verbose",
-                           "Type":  "bool"
-                       },
-                       {
                            "Name":  "description",
                            "Type":  "string"
                        },

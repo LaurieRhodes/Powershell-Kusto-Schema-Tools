@@ -1,7 +1,7 @@
 ﻿// ============================================================================
 // Azure Data Explorer KQL Script for TrendMicroCAS_CL
 // ============================================================================
-// Generated: 2025-09-17 06:16:08
+// Generated: 2025-09-19 14:23:12
 // Table type: Custom (presumed for JSON exports)
 // Schema imported from JSON export file
 // ============================================================================
@@ -19,10 +19,7 @@
 .create-merge table TrendMicroCAS_CL(
 TimeGenerated:datetime,
 log_item_id_g:string,
-message_file_sha256_s:string,
 message_detection_type_s:string,
-message_risk_level_s:string,
-message_file_sha1_s:string,
 message_virus_name_s:string,
 message_file_sha256_s:string,
 message_file_sha1_s:string,
@@ -34,8 +31,8 @@ message_file_name_s:string,
 message_mail_message_file_name_s:string,
 message_mail_message_subject_s:string,
 message_mail_message_delivery_time_t:datetime,
+message_ransomware_name_s:string,
 message_mail_message_submit_time_t:datetime,
-message_mail_message_recipient_d:real,
 message_mail_message_sender_s:string,
 message_mail_message_id_g:string,
 message_action_result_s:string,
@@ -48,7 +45,7 @@ message_affected_user_s:string,
 message_scan_type_s:string,
 event_s:string,
 service_s:string,
-message_ransomware_name_s:string,
+message_mail_message_recipient_d:real,
 message_triggered_dlp_template_d:real,
 _TimeReceived:datetime)
 
@@ -61,10 +58,7 @@ TrendMicroCAS_CLRaw
 | project
 TimeGenerated=todatetime(events.TimeGenerated),
 log_item_id_g=tostring(events.log_item_id_g),
-message_file_sha256_s=tostring(events.message_file_sha256_s),
 message_detection_type_s=tostring(events.message_detection_type_s),
-message_risk_level_s=tostring(events.message_risk_level_s),
-message_file_sha1_s=tostring(events.message_file_sha1_s),
 message_virus_name_s=tostring(events.message_virus_name_s),
 message_file_sha256_s=tostring(events.message_file_sha256_s),
 message_file_sha1_s=tostring(events.message_file_sha1_s),
@@ -76,8 +70,8 @@ message_file_name_s=tostring(events.message_file_name_s),
 message_mail_message_file_name_s=tostring(events.message_mail_message_file_name_s),
 message_mail_message_subject_s=tostring(events.message_mail_message_subject_s),
 message_mail_message_delivery_time_t=todatetime(events.message_mail_message_delivery_time_t),
+message_ransomware_name_s=tostring(events.message_ransomware_name_s),
 message_mail_message_submit_time_t=todatetime(events.message_mail_message_submit_time_t),
-message_mail_message_recipient_d=toreal(events.message_mail_message_recipient_d),
 message_mail_message_sender_s=tostring(events.message_mail_message_sender_s),
 message_mail_message_id_g=tostring(events.message_mail_message_id_g),
 message_action_result_s=tostring(events.message_action_result_s),
@@ -90,7 +84,7 @@ message_affected_user_s=tostring(events.message_affected_user_s),
 message_scan_type_s=tostring(events.message_scan_type_s),
 event_s=tostring(events.event_s),
 service_s=tostring(events.service_s),
-message_ransomware_name_s=tostring(events.message_ransomware_name_s),
+message_mail_message_recipient_d=toreal(events.message_mail_message_recipient_d),
 message_triggered_dlp_template_d=toreal(events.message_triggered_dlp_template_d),
 _TimeReceived=todatetime(now())
 }

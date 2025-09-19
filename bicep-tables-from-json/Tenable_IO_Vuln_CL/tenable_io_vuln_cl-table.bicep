@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Tenable_IO_Vuln_CL
-// Generated on 2025-09-17 06:40:07 UTC
+// Generated on 2025-09-19 14:13:59 UTC
 // Source: JSON schema export
-// Original columns: 65, Deployed columns: 64 (Type column filtered)
-// Underscore columns included
+// Original columns: 65, Deployed columns: 63 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -101,12 +101,12 @@ resource tenableiovulnclTable 'Microsoft.OperationalInsights/workspaces/tables@2
           type: 'string'
         }
         {
-          name: 'plugin_id_d'
-          type: 'real'
-        }
-        {
           name: 'plugin_vpr_drivers_product_coverage_s'
           type: 'string'
+        }
+        {
+          name: 'plugin_vpr_updated_t'
+          type: 'dateTime'
         }
         {
           name: 'port_port_d'
@@ -157,20 +157,16 @@ resource tenableiovulnclTable 'Microsoft.OperationalInsights/workspaces/tables@2
           type: 'dateTime'
         }
         {
-          name: 'indexed_at_s'
-          type: 'string'
-        }
-        {
-          name: 'plugin_vpr_updated_t'
-          type: 'dateTime'
-        }
-        {
-          name: 'state_s'
-          type: 'string'
+          name: 'plugin_id_d'
+          type: 'real'
         }
         {
           name: 'plugin_has_patch_b'
           type: 'boolean'
+        }
+        {
+          name: 'plugin_family_id_d'
+          type: 'real'
         }
         {
           name: 'plugin_family_s'
@@ -229,8 +225,8 @@ resource tenableiovulnclTable 'Microsoft.OperationalInsights/workspaces/tables@2
           type: 'string'
         }
         {
-          name: 'plugin_family_id_d'
-          type: 'real'
+          name: 'indexed_at_s'
+          type: 'string'
         }
         {
           name: 'plugin_cve_s'
@@ -293,9 +289,8 @@ resource tenableiovulnclTable 'Microsoft.OperationalInsights/workspaces/tables@2
           type: 'real'
         }
         {
-          name: '_ResourceId'
+          name: 'state_s'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Perimeter81_CL
-// Generated on 2025-09-17 06:40:05 UTC
+// Generated on 2025-09-19 14:13:57 UTC
 // Source: JSON schema export
-// Original columns: 72, Deployed columns: 71 (Type column filtered)
-// Underscore columns included
+// Original columns: 72, Deployed columns: 70 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -46,6 +46,10 @@ resource perimeter81clTable 'Microsoft.OperationalInsights/workspaces/tables@202
           name: 'TenantId'
           type: 'guid'
           dataTypeHint: 1
+        }
+        {
+          name: 'application_type_s'
+          type: 'string'
         }
         {
           name: 'application_endpoint_s'
@@ -112,14 +116,6 @@ resource perimeter81clTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
-          name: 'event_ip_s'
-          type: 'string'
-        }
-        {
-          name: 'integrationIdentifier_s'
-          type: 'string'
-        }
-        {
           name: 'ip_s'
           type: 'string'
         }
@@ -140,15 +136,15 @@ resource perimeter81clTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
-          name: 'application_type_s'
-          type: 'string'
-        }
-        {
           name: 'integrationName_s'
           type: 'string'
         }
         {
-          name: 'releasedBy_lastName_s'
+          name: 'application_name_s'
+          type: 'string'
+        }
+        {
+          name: 'releasedBy_firstName_s'
           type: 'string'
         }
         {
@@ -172,11 +168,15 @@ resource perimeter81clTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
-          name: 'releasedBy_firstName_s'
+          name: 'event_ip_s'
           type: 'string'
         }
         {
-          name: 'application_name_s'
+          name: 'releasedBy_lastName_s'
+          type: 'string'
+        }
+        {
+          name: 'integrationIdentifier_s'
           type: 'string'
         }
         {
@@ -184,59 +184,7 @@ resource perimeter81clTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
-          name: 'applicationName_s'
-          type: 'string'
-        }
-        {
-          name: 'error_message_s'
-          type: 'string'
-        }
-        {
-          name: 'planId_s'
-          type: 'string'
-        }
-        {
-          name: 'planName_s'
-          type: 'string'
-        }
-        {
-          name: 'oldRole_displayName_s'
-          type: 'string'
-        }
-        {
-          name: 'role_displayName_s'
-          type: 'string'
-        }
-        {
-          name: 'releasedBy_roleName_s'
-          type: 'string'
-        }
-        {
-          name: 'amount_d'
-          type: 'real'
-        }
-        {
-          name: 'installation_installationId_g'
-          type: 'string'
-        }
-        {
-          name: 'emails_s'
-          type: 'string'
-        }
-        {
-          name: 'RawData'
-          type: 'string'
-        }
-        {
-          name: 'Computer'
-          type: 'string'
-        }
-        {
-          name: 'ManagementGroupName'
-          type: 'string'
-        }
-        {
-          name: 'MG'
+          name: 'networkName_s'
           type: 'string'
         }
         {
@@ -244,23 +192,67 @@ resource perimeter81clTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
+          name: 'MG'
+          type: 'string'
+        }
+        {
+          name: 'ManagementGroupName'
+          type: 'string'
+        }
+        {
+          name: 'Computer'
+          type: 'string'
+        }
+        {
+          name: 'RawData'
+          type: 'string'
+        }
+        {
+          name: 'emails_s'
+          type: 'string'
+        }
+        {
           name: 'enabled_b'
           type: 'string'
         }
         {
-          name: 'eventVersion_s'
+          name: 'installation_installationId_g'
           type: 'string'
+        }
+        {
+          name: 'releasedBy_roleName_s'
+          type: 'string'
+        }
+        {
+          name: 'role_displayName_s'
+          type: 'string'
+        }
+        {
+          name: 'oldRole_displayName_s'
+          type: 'string'
+        }
+        {
+          name: 'planName_s'
+          type: 'string'
+        }
+        {
+          name: 'planId_s'
+          type: 'string'
+        }
+        {
+          name: 'error_message_s'
+          type: 'string'
+        }
+        {
+          name: 'amount_d'
+          type: 'real'
         }
         {
           name: 'vpnLocation_name_s'
           type: 'string'
         }
         {
-          name: 'account_name_s'
-          type: 'string'
-        }
-        {
-          name: 'networkName_s'
+          name: 'account_tenantId_s'
           type: 'string'
         }
         {
@@ -284,15 +276,15 @@ resource perimeter81clTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
-          name: 'account_tenantId_s'
-          type: 'string'
-        }
-        {
           name: 'user_email_s'
           type: 'string'
         }
         {
-          name: 'newPlan_name_s'
+          name: 'applicationName_s'
+          type: 'string'
+        }
+        {
+          name: 'user_tenantId_s'
           type: 'string'
         }
         {
@@ -316,13 +308,16 @@ resource perimeter81clTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
-          name: 'user_tenantId_s'
+          name: 'account_name_s'
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'newPlan_name_s'
           type: 'string'
-          dataTypeHint: 2
+        }
+        {
+          name: 'eventVersion_s'
+          type: 'string'
         }
       ]
     }

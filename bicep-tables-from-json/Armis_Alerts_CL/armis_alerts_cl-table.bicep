@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Armis_Alerts_CL
-// Generated on 2025-09-17 06:39:56 UTC
+// Generated on 2025-09-19 14:13:48 UTC
 // Source: JSON schema export
-// Original columns: 20, Deployed columns: 18 (Type column filtered)
-// Underscore columns included
+// Original columns: 20, Deployed columns: 17 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,51 +48,7 @@ resource armisalertsclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           dataTypeHint: 1
         }
         {
-          name: 'Time'
-          type: 'string'
-        }
-        {
-          name: 'Status'
-          type: 'string'
-        }
-        {
-          name: 'Severity'
-          type: 'string'
-        }
-        {
-          name: 'DeviceIds'
-          type: 'string'
-        }
-        {
-          name: 'Description'
-          type: 'string'
-        }
-        {
-          name: 'AlertId'
-          type: 'string'
-        }
-        {
-          name: 'Title'
-          type: 'string'
-        }
-        {
-          name: 'ActivityUUIDs'
-          type: 'string'
-        }
-        {
-          name: 'EventVendor'
-          type: 'string'
-        }
-        {
-          name: 'RawData'
-          type: 'string'
-        }
-        {
-          name: 'Computer'
-          type: 'string'
-        }
-        {
-          name: 'ManagementGroupName'
+          name: 'SourceSystem'
           type: 'string'
         }
         {
@@ -100,7 +56,19 @@ resource armisalertsclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
-          name: 'SourceSystem'
+          name: 'ManagementGroupName'
+          type: 'string'
+        }
+        {
+          name: 'Computer'
+          type: 'string'
+        }
+        {
+          name: 'RawData'
+          type: 'string'
+        }
+        {
+          name: 'EventVendor'
           type: 'string'
         }
         {
@@ -108,9 +76,36 @@ resource armisalertsclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'ActivityUUIDs'
           type: 'string'
-          dataTypeHint: 2
+        }
+        {
+          name: 'AlertId'
+          type: 'string'
+        }
+        {
+          name: 'Description'
+          type: 'string'
+        }
+        {
+          name: 'DeviceIds'
+          type: 'string'
+        }
+        {
+          name: 'Severity'
+          type: 'string'
+        }
+        {
+          name: 'Status'
+          type: 'string'
+        }
+        {
+          name: 'Time'
+          type: 'string'
+        }
+        {
+          name: 'Title'
+          type: 'string'
         }
       ]
     }

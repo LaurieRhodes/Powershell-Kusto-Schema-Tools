@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Corelight_v2_pe_CL
-// Generated on 2025-09-17 06:40:00 UTC
+// Generated on 2025-09-19 14:13:53 UTC
 // Source: JSON schema export
-// Original columns: 21, Deployed columns: 21 (Type column filtered)
-// Underscore columns included
+// Original columns: 21, Deployed columns: 18 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -43,8 +43,8 @@ resource corelightv2peclTable 'Microsoft.OperationalInsights/workspaces/tables@2
           type: 'dateTime'
         }
         {
-          name: '_path_s'
-          type: 'string'
+          name: 'ts_t'
+          type: 'dateTime'
         }
         {
           name: 'has_cert_table_b'
@@ -71,11 +71,11 @@ resource corelightv2peclTable 'Microsoft.OperationalInsights/workspaces/tables@2
           type: 'boolean'
         }
         {
-          name: 'uses_aslr_b'
+          name: 'has_debug_data_b'
           type: 'boolean'
         }
         {
-          name: 'is_64bit_b'
+          name: 'uses_aslr_b'
           type: 'boolean'
         }
         {
@@ -103,19 +103,7 @@ resource corelightv2peclTable 'Microsoft.OperationalInsights/workspaces/tables@2
           type: 'string'
         }
         {
-          name: 'ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: '_write_ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: '_system_name_s'
-          type: 'string'
-        }
-        {
-          name: 'has_debug_data_b'
+          name: 'is_64bit_b'
           type: 'boolean'
         }
         {

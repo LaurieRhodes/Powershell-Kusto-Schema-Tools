@@ -234,7 +234,7 @@
                            "Type":  "String"
                        },
                        {
-                           "Name":  "surfaced_auth_isotimestamp_t [UTC]",
+                           "Name":  "surfaced_auth_isotimestamp_t",
                            "Type":  "String"
                        },
                        {
@@ -306,7 +306,7 @@
                            "Type":  "real"
                        },
                        {
-                           "Name":  "isotimestamp_t [UTC]",
+                           "Name":  "isotimestamp_t",
                            "Type":  "String"
                        },
                        {

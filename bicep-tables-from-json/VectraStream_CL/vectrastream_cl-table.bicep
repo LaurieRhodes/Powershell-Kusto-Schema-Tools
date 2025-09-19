@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: VectraStream_CL
-// Generated on 2025-09-17 06:40:07 UTC
+// Generated on 2025-09-19 14:13:59 UTC
 // Source: JSON schema export
-// Original columns: 214, Deployed columns: 213 (Type column filtered)
-// Underscore columns included
+// Original columns: 214, Deployed columns: 211 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,6 +48,14 @@ resource vectrastreamclTable 'Microsoft.OperationalInsights/workspaces/tables@20
           dataTypeHint: 1
         }
         {
+          name: 'saw_query_b'
+          type: 'string'
+        }
+        {
+          name: 'saw_reply_b'
+          type: 'string'
+        }
+        {
           name: 'total_answers_d'
           type: 'real'
         }
@@ -80,19 +88,19 @@ resource vectrastreamclTable 'Microsoft.OperationalInsights/workspaces/tables@20
           type: 'real'
         }
         {
+          name: 'rejected_b'
+          type: 'string'
+        }
+        {
           name: 'certificate_cn_s'
           type: 'string'
         }
         {
-          name: 'certificate_exponent_s'
-          type: 'string'
-        }
-        {
-          name: 'saw_reply_b'
-          type: 'string'
-        }
-        {
           name: 'certificate_issuer_s'
+          type: 'string'
+        }
+        {
+          name: 'certificate_key_alg_s'
           type: 'string'
         }
         {
@@ -128,27 +136,23 @@ resource vectrastreamclTable 'Microsoft.OperationalInsights/workspaces/tables@20
           type: 'string'
         }
         {
+          name: 'certificate_exponent_s'
+          type: 'string'
+        }
+        {
           name: 'certificate_version_d'
           type: 'real'
         }
         {
-          name: 'san_dns_s'
-          type: 'string'
-        }
-        {
-          name: 'certificate_key_alg_s'
-          type: 'string'
-        }
-        {
-          name: 'saw_query_b'
-          type: 'string'
-        }
-        {
-          name: 'rejected_b'
-          type: 'string'
-        }
-        {
           name: 'rcode_name_s'
+          type: 'string'
+        }
+        {
+          name: 'query_s'
+          type: 'string'
+        }
+        {
+          name: 'host_multihomed_b'
           type: 'string'
         }
         {
@@ -189,11 +193,11 @@ resource vectrastreamclTable 'Microsoft.OperationalInsights/workspaces/tables@20
           dataTypeHint: 0
         }
         {
-          name: 'certificate_curve_s'
-          type: 'string'
+          name: 'rcode_d'
+          type: 'real'
         }
         {
-          name: 'AA_b'
+          name: 'certificate_curve_s'
           type: 'string'
         }
         {
@@ -237,19 +241,15 @@ resource vectrastreamclTable 'Microsoft.OperationalInsights/workspaces/tables@20
           type: 'string'
         }
         {
-          name: 'query_s'
+          name: 'AA_b'
           type: 'string'
         }
         {
-          name: 'rcode_d'
-          type: 'real'
+          name: 'san_dns_s'
+          type: 'string'
         }
         {
           name: 'san_other_fields_b'
-          type: 'string'
-        }
-        {
-          name: 'host_multihomed_b'
           type: 'string'
         }
         {
@@ -257,7 +257,11 @@ resource vectrastreamclTable 'Microsoft.OperationalInsights/workspaces/tables@20
           type: 'string'
         }
         {
-          name: 'duration_d'
+          name: 'resp_pkts_d'
+          type: 'real'
+        }
+        {
+          name: 'resp_vlan_id_d'
           type: 'real'
         }
         {
@@ -293,20 +297,20 @@ resource vectrastreamclTable 'Microsoft.OperationalInsights/workspaces/tables@20
           type: 'string'
         }
         {
+          name: 'resp_multihomed_b'
+          type: 'string'
+        }
+        {
           name: 'client_extension_s'
           type: 'string'
         }
         {
-          name: 'client_version_s'
-          type: 'string'
-        }
-        {
-          name: 'resp_vlan_id_d'
-          type: 'real'
-        }
-        {
           name: 'client_version_num_d'
           type: 'real'
+        }
+        {
+          name: 'curve_s'
+          type: 'string'
         }
         {
           name: 'established_b'
@@ -341,28 +345,28 @@ resource vectrastreamclTable 'Microsoft.OperationalInsights/workspaces/tables@20
           type: 'string'
         }
         {
-          name: 'resp_huid_s'
-          type: 'string'
-        }
-        {
-          name: 'resp_sluid_s'
-          type: 'string'
-        }
-        {
-          name: 'curve_s'
-          type: 'string'
-        }
-        {
-          name: 'resp_pkts_d'
-          type: 'real'
-        }
-        {
-          name: 'resp_multihomed_b'
+          name: 'client_version_s'
           type: 'string'
         }
         {
           name: 'resp_ip_bytes_s'
           type: 'string'
+        }
+        {
+          name: 'resp_domain_s'
+          type: 'string'
+        }
+        {
+          name: 'protoName_s'
+          type: 'string'
+        }
+        {
+          name: 'conn_state_s'
+          type: 'string'
+        }
+        {
+          name: 'duration_d'
+          type: 'real'
         }
         {
           name: 'first_orig_resp_data_pkt_s'
@@ -449,18 +453,6 @@ resource vectrastreamclTable 'Microsoft.OperationalInsights/workspaces/tables@20
           type: 'real'
         }
         {
-          name: 'protoName_s'
-          type: 'string'
-        }
-        {
-          name: 'resp_domain_s'
-          type: 'string'
-        }
-        {
-          name: 'conn_state_s'
-          type: 'string'
-        }
-        {
           name: 'host_s'
           type: 'string'
         }
@@ -470,6 +462,10 @@ resource vectrastreamclTable 'Microsoft.OperationalInsights/workspaces/tables@20
         }
         {
           name: 'user_agent_s'
+          type: 'string'
+        }
+        {
+          name: 'response_expires_s'
           type: 'string'
         }
         {
@@ -673,12 +669,12 @@ resource vectrastreamclTable 'Microsoft.OperationalInsights/workspaces/tables@20
           type: 'string'
         }
         {
-          name: 'status_d'
-          type: 'real'
+          name: 'resp_huid_s'
+          type: 'string'
         }
         {
-          name: 'username_s'
-          type: 'string'
+          name: 'status_d'
+          type: 'real'
         }
         {
           name: 'cipher_alg_s'
@@ -725,11 +721,11 @@ resource vectrastreamclTable 'Microsoft.OperationalInsights/workspaces/tables@20
           type: 'string'
         }
         {
-          name: 'hostname_s'
+          name: 'response_bytes_s'
           type: 'string'
         }
         {
-          name: 'client_issuer_s'
+          name: 'hostname_s'
           type: 'string'
         }
         {
@@ -773,20 +769,15 @@ resource vectrastreamclTable 'Microsoft.OperationalInsights/workspaces/tables@20
           type: 'string'
         }
         {
-          name: 'response_expires_s'
+          name: 'client_issuer_s'
           type: 'string'
-        }
-        {
-          name: 'response_bytes_s'
-          type: 'string'
-        }
-        {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
         }
         {
           name: 'request_bytes_s'
+          type: 'string'
+        }
+        {
+          name: 'query_scope_s'
           type: 'string'
         }
         {
@@ -886,11 +877,11 @@ resource vectrastreamclTable 'Microsoft.OperationalInsights/workspaces/tables@20
           type: 'real'
         }
         {
-          name: 'query_scope_s'
+          name: 'username_s'
           type: 'string'
         }
         {
-          name: '_ItemId'
+          name: 'resp_sluid_s'
           type: 'string'
         }
       ]

@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Corelight_v2_known_certs_CL
-// Generated on 2025-09-17 06:40:00 UTC
+// Generated on 2025-09-19 14:13:52 UTC
 // Source: JSON schema export
-// Original columns: 18, Deployed columns: 18 (Type column filtered)
-// Underscore columns included
+// Original columns: 18, Deployed columns: 15 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -43,35 +43,23 @@ resource corelightv2knowncertsclTable 'Microsoft.OperationalInsights/workspaces/
           type: 'dateTime'
         }
         {
-          name: '_path_s'
-          type: 'string'
+          name: 'ts_t'
+          type: 'dateTime'
         }
         {
-          name: 'annotations_s'
-          type: 'string'
-        }
-        {
-          name: 'num_conns_d'
+          name: 'duration_d'
           type: 'real'
         }
         {
-          name: 'issuer_subject_s'
+          name: 'kuid_s'
           type: 'string'
         }
         {
-          name: 'subject_s'
+          name: 'host_ip_s'
           type: 'string'
         }
         {
-          name: 'serial_s'
-          type: 'string'
-        }
-        {
-          name: 'protocol_s'
-          type: 'string'
-        }
-        {
-          name: 'last_active_session_s'
+          name: 'hash_s'
           type: 'string'
         }
         {
@@ -79,31 +67,31 @@ resource corelightv2knowncertsclTable 'Microsoft.OperationalInsights/workspaces/
           type: 'real'
         }
         {
-          name: 'host_ip_s'
+          name: 'protocol_s'
           type: 'string'
         }
         {
-          name: 'kuid_s'
+          name: 'serial_s'
           type: 'string'
         }
         {
-          name: 'duration_d'
+          name: 'subject_s'
+          type: 'string'
+        }
+        {
+          name: 'issuer_subject_s'
+          type: 'string'
+        }
+        {
+          name: 'num_conns_d'
           type: 'real'
         }
         {
-          name: 'ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: '_write_ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: '_system_name_s'
+          name: 'annotations_s'
           type: 'string'
         }
         {
-          name: 'hash_s'
+          name: 'last_active_session_s'
           type: 'string'
         }
         {

@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: CyberArkEPM_CL
-// Generated on 2025-09-17 06:40:02 UTC
+// Generated on 2025-09-19 14:13:54 UTC
 // Source: JSON schema export
-// Original columns: 85, Deployed columns: 84 (Type column filtered)
-// Underscore columns included
+// Original columns: 85, Deployed columns: 83 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,10 +48,6 @@ resource cyberarkepmclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           dataTypeHint: 1
         }
         {
-          name: 'productVersion_s'
-          type: 'string'
-        }
-        {
           name: 'productName_s'
           type: 'string'
         }
@@ -80,11 +76,11 @@ resource cyberarkepmclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
-          name: 'fileName_s'
+          name: 'productVersion_s'
           type: 'string'
         }
         {
-          name: 'userName_s'
+          name: 'fileName_s'
           type: 'string'
         }
         {
@@ -116,11 +112,11 @@ resource cyberarkepmclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'real'
         }
         {
-          name: 'fileVersion_s'
+          name: 'userName_s'
           type: 'string'
         }
         {
-          name: 'aggregatedBy_s'
+          name: 'fileVersion_s'
           type: 'string'
         }
         {
@@ -128,12 +124,8 @@ resource cyberarkepmclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'dateTime'
         }
         {
-          name: 'agentEventCount_d'
-          type: 'real'
-        }
-        {
-          name: 'evidences_s'
-          type: 'string'
+          name: 'userIsAdmin_b'
+          type: 'boolean'
         }
         {
           name: 'sourceProcessSigner_s'
@@ -200,16 +192,20 @@ resource cyberarkepmclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
-          name: 'userIsAdmin_b'
-          type: 'boolean'
+          name: 'agentEventCount_d'
+          type: 'real'
         }
         {
-          name: 'processCommandLine_g'
+          name: 'aggregatedBy_s'
           type: 'string'
         }
         {
           name: 'skipped_b'
           type: 'boolean'
+        }
+        {
+          name: 'skippedCount_d'
+          type: 'real'
         }
         {
           name: 'fileLocation_s'
@@ -288,8 +284,8 @@ resource cyberarkepmclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
-          name: 'skippedCount_d'
-          type: 'real'
+          name: 'evidences_s'
+          type: 'string'
         }
         {
           name: 'totalEvents_d'
@@ -373,9 +369,8 @@ resource cyberarkepmclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'processCommandLine_g'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

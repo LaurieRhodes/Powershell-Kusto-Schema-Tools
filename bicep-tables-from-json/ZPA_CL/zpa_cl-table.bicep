@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: ZPA_CL
-// Generated on 2025-09-17 06:40:09 UTC
+// Generated on 2025-09-19 14:14:00 UTC
 // Source: JSON schema export
-// Original columns: 7, Deployed columns: 6 (Type column filtered)
-// Underscore columns included
+// Original columns: 7, Deployed columns: 4 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -52,15 +52,6 @@ resource zpaclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02-01'
         }
         {
           name: 'Message'
-          type: 'string'
-        }
-        {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
-        }
-        {
-          name: '_SubscriptionId'
           type: 'string'
         }
       ]

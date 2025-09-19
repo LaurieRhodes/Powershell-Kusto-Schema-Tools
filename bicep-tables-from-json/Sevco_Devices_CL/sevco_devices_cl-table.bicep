@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Sevco_Devices_CL
-// Generated on 2025-09-17 06:40:06 UTC
+// Generated on 2025-09-19 14:13:58 UTC
 // Source: JSON schema export
-// Original columns: 61, Deployed columns: 60 (Type column filtered)
-// Underscore columns included
+// Original columns: 61, Deployed columns: 59 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -96,12 +96,12 @@ resource sevcodevicesclTable 'Microsoft.OperationalInsights/workspaces/tables@20
           type: 'string'
         }
         {
-          name: 'asset_attributes_serial_number_s'
+          name: 'asset_attributes_geo_ip_region_s'
           type: 'string'
         }
         {
-          name: 'asset_attributes_geo_ip_region_s'
-          type: 'string'
+          name: 'asset_attributes_geo_ip_latitude_d'
+          type: 'real'
         }
         {
           name: 'asset_attributes_geo_ip_longitude_d'
@@ -148,19 +148,15 @@ resource sevcodevicesclTable 'Microsoft.OperationalInsights/workspaces/tables@20
           type: 'string'
         }
         {
-          name: 'event_deleted_b'
-          type: 'boolean'
-        }
-        {
-          name: 'asset_attributes_geo_ip_latitude_d'
-          type: 'real'
-        }
-        {
-          name: 'event_updates_s'
+          name: 'asset_attributes_serial_number_s'
           type: 'string'
         }
         {
           name: 'asset_attributes_active_directory_domain_s'
+          type: 'string'
+        }
+        {
+          name: 'asset_attributes_additional_attributes_model_s'
           type: 'string'
         }
         {
@@ -216,8 +212,8 @@ resource sevcodevicesclTable 'Microsoft.OperationalInsights/workspaces/tables@20
           type: 'string'
         }
         {
-          name: 'asset_attributes_additional_attributes_model_s'
-          type: 'string'
+          name: 'event_deleted_b'
+          type: 'boolean'
         }
         {
           name: 'asset_attributes_imei_s'
@@ -276,9 +272,8 @@ resource sevcodevicesclTable 'Microsoft.OperationalInsights/workspaces/tables@20
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'event_updates_s'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

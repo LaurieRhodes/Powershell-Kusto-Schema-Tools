@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: CiscoSecureEndpoint_CL
-// Generated on 2025-09-17 06:39:58 UTC
+// Generated on 2025-09-19 14:13:51 UTC
 // Source: JSON schema export
-// Original columns: 86, Deployed columns: 85 (Type column filtered)
-// Underscore columns included
+// Original columns: 86, Deployed columns: 83 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -47,14 +47,6 @@ resource ciscosecureendpointclTable 'Microsoft.OperationalInsights/workspaces/ta
           type: 'string'
         }
         {
-          name: 'old_attributes_ip_external_s'
-          type: 'string'
-        }
-        {
-          name: 'old_attributes_hostname_s'
-          type: 'string'
-        }
-        {
           name: 'new_attributes_status_s'
           type: 'string'
         }
@@ -83,12 +75,12 @@ resource ciscosecureendpointclTable 'Microsoft.OperationalInsights/workspaces/ta
           type: 'string'
         }
         {
-          name: 'new_attributes_group_id_d'
-          type: 'real'
+          name: 'old_attributes_hostname_s'
+          type: 'string'
         }
         {
-          name: 'new_attributes_connector_guid_g'
-          type: 'string'
+          name: 'new_attributes_group_id_d'
+          type: 'real'
         }
         {
           name: 'id_d'
@@ -115,27 +107,23 @@ resource ciscosecureendpointclTable 'Microsoft.OperationalInsights/workspaces/ta
           type: 'string'
         }
         {
-          name: 'old_attributes_name_s'
-          type: 'string'
-        }
-        {
           name: 'file_parent_identity_sha1_s'
           type: 'string'
         }
         {
+          name: 'new_attributes_connector_guid_g'
+          type: 'string'
+        }
+        {
+          name: 'old_attributes_ip_external_s'
+          type: 'string'
+        }
+        {
+          name: 'old_attributes_name_s'
+          type: 'string'
+        }
+        {
           name: 'old_attributes_operating_system_id_d'
-          type: 'real'
-        }
-        {
-          name: 'old_attributes_status_s'
-          type: 'string'
-        }
-        {
-          name: 'vulnerabilities_s'
-          type: 'string'
-        }
-        {
-          name: 'timestamp_nanoseconds_d'
           type: 'real'
         }
         {
@@ -199,6 +187,10 @@ resource ciscosecureendpointclTable 'Microsoft.OperationalInsights/workspaces/ta
           type: 'string'
         }
         {
+          name: 'old_attributes_status_s'
+          type: 'string'
+        }
+        {
           name: 'old_attributes_product_version_id_d'
           type: 'real'
         }
@@ -212,6 +204,10 @@ resource ciscosecureendpointclTable 'Microsoft.OperationalInsights/workspaces/ta
         }
         {
           name: 'file_parent_disposition_s'
+          type: 'string'
+        }
+        {
+          name: 'file_identity_sha256_s'
           type: 'string'
         }
         {
@@ -290,20 +286,16 @@ resource ciscosecureendpointclTable 'Microsoft.OperationalInsights/workspaces/ta
           type: 'string'
         }
         {
-          name: 'computer_user_s'
-          type: 'string'
+          name: 'timestamp_nanoseconds_d'
+          type: 'real'
         }
         {
-          name: 'connector_guid_g'
+          name: 'computer_user_s'
           type: 'string'
         }
         {
           name: 'created_at_t'
           type: 'dateTime'
-        }
-        {
-          name: 'file_identity_sha256_s'
-          type: 'string'
         }
         {
           name: 'file_identity_sha1_s'
@@ -334,12 +326,11 @@ resource ciscosecureendpointclTable 'Microsoft.OperationalInsights/workspaces/ta
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'file_attack_details_attacked_module_s'
           type: 'string'
-          dataTypeHint: 2
         }
         {
-          name: 'file_attack_details_attacked_module_s'
+          name: 'file_attack_details_application_s'
           type: 'string'
         }
         {
@@ -375,11 +366,11 @@ resource ciscosecureendpointclTable 'Microsoft.OperationalInsights/workspaces/ta
           type: 'dateTime'
         }
         {
-          name: 'file_attack_details_application_s'
+          name: 'connector_guid_g'
           type: 'string'
         }
         {
-          name: '_SubscriptionId'
+          name: 'vulnerabilities_s'
           type: 'string'
         }
       ]

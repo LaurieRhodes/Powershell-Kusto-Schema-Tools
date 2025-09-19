@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: feedly_indicators_CL
-// Generated on 2025-09-17 06:40:02 UTC
+// Generated on 2025-09-19 14:13:55 UTC
 // Source: JSON schema export
-// Original columns: 14, Deployed columns: 13 (Type column filtered)
-// Underscore columns included
+// Original columns: 14, Deployed columns: 12 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -87,11 +87,6 @@ resource feedlyindicatorsclTable 'Microsoft.OperationalInsights/workspaces/table
         {
           name: 'value_s'
           type: 'string'
-        }
-        {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

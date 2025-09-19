@@ -1,7 +1,7 @@
 ﻿// ============================================================================
 // Azure Data Explorer KQL Script for DigitalShadows_CL
 // ============================================================================
-// Generated: 2025-09-17 06:16:02
+// Generated: 2025-09-19 14:23:04
 // Table type: Custom (presumed for JSON exports)
 // Schema imported from JSON export file
 // ============================================================================
@@ -27,18 +27,17 @@ risk_level_s:string,
 risk_factors_s:string,
 risk_assessment_risk_level_s:string,
 raised_t:datetime,
+triage_updated_time_t:datetime,
 portal_id_s:string,
-mitigation_s:string,
 impact_description_s:string,
 id_g:string,
 id_d:real,
 description_s:string,
 Computer:string,
-classification_s:string,
 comments_s:string,
 classification_s:string,
 assets_s:string,
-triage_updated_time_t:datetime,
+mitigation_s:string,
 updated_t:datetime,
 _TimeReceived:datetime)
 
@@ -59,18 +58,17 @@ risk_level_s=tostring(events.risk_level_s),
 risk_factors_s=tostring(events.risk_factors_s),
 risk_assessment_risk_level_s=tostring(events.risk_assessment_risk_level_s),
 raised_t=todatetime(events.raised_t),
+triage_updated_time_t=todatetime(events.triage_updated_time_t),
 portal_id_s=tostring(events.portal_id_s),
-mitigation_s=tostring(events.mitigation_s),
 impact_description_s=tostring(events.impact_description_s),
 id_g=tostring(events.id_g),
 id_d=toreal(events.id_d),
 description_s=tostring(events.description_s),
 Computer=tostring(events.Computer),
-classification_s=tostring(events.classification_s),
 comments_s=tostring(events.comments_s),
 classification_s=tostring(events.classification_s),
 assets_s=tostring(events.assets_s),
-triage_updated_time_t=todatetime(events.triage_updated_time_t),
+mitigation_s=tostring(events.mitigation_s),
 updated_t=todatetime(events.updated_t),
 _TimeReceived=todatetime(now())
 }

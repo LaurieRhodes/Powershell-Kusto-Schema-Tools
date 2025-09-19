@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Tenable_IO_Assets_CL
-// Generated on 2025-09-17 06:40:07 UTC
+// Generated on 2025-09-19 14:13:59 UTC
 // Source: JSON schema export
-// Original columns: 43, Deployed columns: 42 (Type column filtered)
-// Underscore columns included
+// Original columns: 43, Deployed columns: 41 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -76,11 +76,11 @@ resource tenableioassetsclTable 'Microsoft.OperationalInsights/workspaces/tables
           type: 'string'
         }
         {
-          name: 'qualys_asset_ids_s'
+          name: 'ipv6s_s'
           type: 'string'
         }
         {
-          name: 'qualys_host_ids_s'
+          name: 'qualys_asset_ids_s'
           type: 'string'
         }
         {
@@ -112,20 +112,15 @@ resource tenableioassetsclTable 'Microsoft.OperationalInsights/workspaces/tables
           type: 'string'
         }
         {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
-        }
-        {
-          name: 'ipv6s_s'
-          type: 'string'
-        }
-        {
-          name: 'azure_resource_id_s'
+          name: 'qualys_host_ids_s'
           type: 'string'
         }
         {
           name: 'ipv4s_s'
+          type: 'string'
+        }
+        {
+          name: 'installed_software_s'
           type: 'string'
         }
         {
@@ -201,7 +196,7 @@ resource tenableioassetsclTable 'Microsoft.OperationalInsights/workspaces/tables
           type: 'string'
         }
         {
-          name: 'installed_software_s'
+          name: 'azure_resource_id_s'
           type: 'string'
         }
         {

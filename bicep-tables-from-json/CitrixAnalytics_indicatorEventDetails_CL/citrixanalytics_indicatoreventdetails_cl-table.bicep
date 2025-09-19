@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: CitrixAnalytics_indicatorEventDetails_CL
-// Generated on 2025-09-17 06:39:58 UTC
+// Generated on 2025-09-19 14:13:51 UTC
 // Source: JSON schema export
-// Original columns: 89, Deployed columns: 89 (Type column filtered)
-// Underscore columns included
+// Original columns: 89, Deployed columns: 88 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -47,10 +47,6 @@ resource citrixanalyticsindicatoreventdetailsclTable 'Microsoft.OperationalInsig
           type: 'string'
         }
         {
-          name: 'os_extra_info_s'
-          type: 'string'
-        }
-        {
           name: 'os_extra_details_s'
           type: 'string'
         }
@@ -79,15 +75,15 @@ resource citrixanalyticsindicatoreventdetailsclTable 'Microsoft.OperationalInsig
           type: 'string'
         }
         {
-          name: 'os_major_version_s'
-          type: 'string'
-        }
-        {
           name: 'lifetime_unique_user_count_d'
           type: 'real'
         }
         {
-          name: 'lifetime_num_times_downloaded_d'
+          name: 'os_extra_info_s'
+          type: 'string'
+        }
+        {
+          name: 'lifetime_total_download_size_in_bytes_d'
           type: 'real'
         }
         {
@@ -119,23 +115,23 @@ resource citrixanalyticsindicatoreventdetailsclTable 'Microsoft.OperationalInsig
           type: 'string'
         }
         {
-          name: 'lifetime_total_download_size_in_bytes_d'
-          type: 'real'
-        }
-        {
           name: 'indicator_vector_name_s'
           type: 'string'
         }
         {
-          name: 'os_minor_version_s'
+          name: 'lifetime_num_times_downloaded_d'
+          type: 'real'
+        }
+        {
+          name: 'indicator_vector_id_d'
+          type: 'real'
+        }
+        {
+          name: 'os_major_version_s'
           type: 'string'
         }
         {
-          name: 'os_version_s'
-          type: 'string'
-        }
-        {
-          name: 'vpn_vserver_name_s'
+          name: 'os_name_s'
           type: 'string'
         }
         {
@@ -167,16 +163,17 @@ resource citrixanalyticsindicatoreventdetailsclTable 'Microsoft.OperationalInsig
           type: 'string'
         }
         {
-          name: 'os_name_s'
-          type: 'string'
-        }
-        {
           name: 'server_name_s'
           type: 'string'
         }
         {
-          name: 'resource_type_s'
+          name: 'os_minor_version_s'
           type: 'string'
+        }
+        {
+          name: 'security_expression_s'
+          type: 'string'
+          dataTypeHint: 0
         }
         {
           name: 'resource_name_s'
@@ -207,21 +204,24 @@ resource citrixanalyticsindicatoreventdetailsclTable 'Microsoft.OperationalInsig
           type: 'string'
         }
         {
-          name: 'security_expression_s'
+          name: 'os_version_s'
           type: 'string'
-          dataTypeHint: 0
         }
         {
-          name: 'indicator_vector_id_d'
-          type: 'real'
+          name: 'resource_type_s'
+          type: 'string'
+        }
+        {
+          name: 'vpn_vserver_name_s'
+          type: 'string'
         }
         {
           name: 'indicator_uuid_g'
           type: 'string'
         }
         {
-          name: 'indicator_id_s'
-          type: 'string'
+          name: 'indicator_category_id_d'
+          type: 'real'
         }
         {
           name: 'device_browser_s'
@@ -301,20 +301,16 @@ resource citrixanalyticsindicatoreventdetailsclTable 'Microsoft.OperationalInsig
           type: 'string'
         }
         {
-          name: 'device_os_s'
+          name: 'indicator_id_s'
           type: 'string'
         }
         {
-          name: 'device_type_s'
+          name: 'device_os_s'
           type: 'string'
         }
         {
           name: 'domain_category_group_s'
           type: 'string'
-        }
-        {
-          name: 'indicator_category_id_d'
-          type: 'real'
         }
         {
           name: 'gateway_ip_s'
@@ -349,11 +345,11 @@ resource citrixanalyticsindicatoreventdetailsclTable 'Microsoft.OperationalInsig
           type: 'string'
         }
         {
-          name: 'file_download_file_path_s'
+          name: 'device_type_s'
           type: 'string'
         }
         {
-          name: 'file_download_file_name_s'
+          name: 'file_download_file_path_s'
           type: 'string'
         }
         {
@@ -389,12 +385,12 @@ resource citrixanalyticsindicatoreventdetailsclTable 'Microsoft.OperationalInsig
           type: 'string'
         }
         {
-          name: 'vserver_fqdn_s'
+          name: 'file_download_file_name_s'
           type: 'string'
         }
         {
-          name: '_timestamp_t'
-          type: 'dateTime'
+          name: 'vserver_fqdn_s'
+          type: 'string'
         }
       ]
     }

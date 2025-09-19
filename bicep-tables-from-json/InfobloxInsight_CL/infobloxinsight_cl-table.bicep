@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: InfobloxInsight_CL
-// Generated on 2025-09-17 06:40:03 UTC
+// Generated on 2025-09-19 14:13:55 UTC
 // Source: JSON schema export
-// Original columns: 29, Deployed columns: 28 (Type column filtered)
-// Underscore columns included
+// Original columns: 29, Deployed columns: 27 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,10 +48,6 @@ resource infobloxinsightclTable 'Microsoft.OperationalInsights/workspaces/tables
           dataTypeHint: 1
         }
         {
-          name: 'priorityText_s'
-          type: 'string'
-        }
-        {
           name: 'dateChanged_t'
           type: 'dateTime'
         }
@@ -93,12 +89,11 @@ resource infobloxinsightclTable 'Microsoft.OperationalInsights/workspaces/tables
           dataTypeHint: 1
         }
         {
-          name: '_ResourceId'
+          name: 'tFamily_s'
           type: 'string'
-          dataTypeHint: 2
         }
         {
-          name: 'tFamily_s'
+          name: 'tClass_s'
           type: 'string'
         }
         {
@@ -146,7 +141,7 @@ resource infobloxinsightclTable 'Microsoft.OperationalInsights/workspaces/tables
           type: 'string'
         }
         {
-          name: 'tClass_s'
+          name: 'priorityText_s'
           type: 'string'
         }
         {

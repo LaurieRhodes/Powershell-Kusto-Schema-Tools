@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for TrendMicro_XDR_RCA_Task_CL
 // ============================================================================
-// Generated: 2025-09-18 08:37:39
+// Generated: 2025-09-19 14:20:35
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
 // Underscore columns filtered out
-// Original columns: 27, DCR columns: 25 (Type column always filtered)
+// Original columns: 26, DCR columns: 24 (Type column always filtered)
 // Output stream: Custom-TrendMicro_XDR_RCA_Task_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -31,10 +31,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
     streamDeclarations: {
       'Custom-TrendMicro_XDR_RCA_Task_CL': {
         columns: [
-          {
-            name: 'TimeGenerated'
-            type: 'string'
-          }
           {
             name: 'TimeGenerated'
             type: 'string'
@@ -147,7 +143,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-TrendMicro_XDR_RCA_Task_CL']
         destinations: ['Sentinel-TrendMicro_XDR_RCA_Task_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), name_s = tostring(name_s), id_g = tostring(id_g), workbenchId_s = tostring(workbenchId_s), targets = tostring(targets), completedTimestamp = toreal(completedTimestamp), lastUpdateTimestamp = toreal(lastUpdateTimestamp), createdTimestamp = toreal(createdTimestamp), criteria_conditions = tostring(criteria_conditions), criteria_operator = tostring(criteria_operator), xdrCustomerID_g = tostring(xdrCustomerID_g), status = tostring(status), workbenchId = tostring(workbenchId), name = tostring(name), id = tostring(id), xdrCustomerID = tostring(xdrCustomerID), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), description = tostring(description), targets_s = tostring(targets_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), name_s = tostring(name_s), id_g = tostring(id_g), workbenchId_s = tostring(workbenchId_s), targets = tostring(targets), completedTimestamp = toreal(completedTimestamp), lastUpdateTimestamp = toreal(lastUpdateTimestamp), createdTimestamp = toreal(createdTimestamp), criteria_conditions = tostring(criteria_conditions), criteria_operator = tostring(criteria_operator), xdrCustomerID_g = tostring(xdrCustomerID_g), status = tostring(status), workbenchId = tostring(workbenchId), name = tostring(name), id = tostring(id), xdrCustomerID = tostring(xdrCustomerID), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), description = tostring(description), targets_s = tostring(targets_s)'
         outputStream: 'Custom-TrendMicro_XDR_RCA_Task_CL'
       }
     ]

@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: InfobloxInsightIndicators_CL
-// Generated on 2025-09-17 06:40:03 UTC
+// Generated on 2025-09-19 14:13:56 UTC
 // Source: JSON schema export
-// Original columns: 29, Deployed columns: 28 (Type column filtered)
-// Underscore columns included
+// Original columns: 29, Deployed columns: 27 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,10 +48,6 @@ resource infobloxinsightindicatorsclTable 'Microsoft.OperationalInsights/workspa
           dataTypeHint: 1
         }
         {
-          name: 'InfobloxInsightID_g'
-          type: 'string'
-        }
-        {
           name: 'properties_friendlyName_s'
           type: 'string'
         }
@@ -92,11 +88,11 @@ resource infobloxinsightindicatorsclTable 'Microsoft.OperationalInsights/workspa
           type: 'string'
         }
         {
-          name: 'InfobloxInsightLogType_s'
-          type: 'string'
+          name: 'timeMin_t'
+          type: 'dateTime'
         }
         {
-          name: 'timeMin_t'
+          name: 'timeMax_t'
           type: 'dateTime'
         }
         {
@@ -144,13 +140,12 @@ resource infobloxinsightindicatorsclTable 'Microsoft.OperationalInsights/workspa
           type: 'string'
         }
         {
-          name: 'timeMax_t'
-          type: 'dateTime'
+          name: 'InfobloxInsightID_g'
+          type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'InfobloxInsightLogType_s'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

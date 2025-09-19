@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: BoxEvents_CL
-// Generated on 2025-09-17 06:39:57 UTC
+// Generated on 2025-09-19 14:13:50 UTC
 // Source: JSON schema export
-// Original columns: 72, Deployed columns: 71 (Type column filtered)
-// Underscore columns included
+// Original columns: 72, Deployed columns: 70 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -45,6 +45,10 @@ resource boxeventsclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-
         {
           name: 'additional_details_advancedFolderSettings_oldOwnerOnlyInvite_b'
           type: 'boolean'
+        }
+        {
+          name: 'source_owned_by_login_s'
+          type: 'string'
         }
         {
           name: 'created_by_type_s'
@@ -111,14 +115,6 @@ resource boxeventsclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-
           type: 'string'
         }
         {
-          name: 'source_name_s'
-          type: 'string'
-        }
-        {
-          name: 'additional_details_role_s'
-          type: 'string'
-        }
-        {
           name: 'additional_details_collab_id_s'
           type: 'string'
         }
@@ -139,15 +135,15 @@ resource boxeventsclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-
           type: 'string'
         }
         {
-          name: 'source_owned_by_login_s'
-          type: 'string'
-        }
-        {
           name: 'accessible_by_type_s'
           type: 'string'
         }
         {
-          name: 'source_user_id_s'
+          name: 'source_owned_by_name_s'
+          type: 'string'
+        }
+        {
+          name: 'source_user_name_s'
           type: 'string'
         }
         {
@@ -172,11 +168,15 @@ resource boxeventsclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-
           type: 'string'
         }
         {
-          name: 'source_user_name_s'
+          name: 'source_name_s'
           type: 'string'
         }
         {
-          name: 'source_owned_by_name_s'
+          name: 'source_user_id_s'
+          type: 'string'
+        }
+        {
+          name: 'additional_details_role_s'
           type: 'string'
         }
         {
@@ -184,59 +184,7 @@ resource boxeventsclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-
           type: 'string'
         }
         {
-          name: 'source_owned_by_type_s'
-          type: 'string'
-        }
-        {
-          name: 'additional_details_comment_id_d'
-          type: 'real'
-        }
-        {
-          name: 'source_user_email_s'
-          type: 'string'
-        }
-        {
-          name: 'additional_details_group_name_s'
-          type: 'string'
-        }
-        {
-          name: 'additional_details_group_id_s'
-          type: 'string'
-        }
-        {
-          name: 'additional_details_annotation_id_d'
-          type: 'real'
-        }
-        {
-          name: 'action_by_login_s'
-          type: 'string'
-        }
-        {
-          name: 'additional_details_message_s'
-          type: 'string'
-        }
-        {
-          name: 'action_by_name_s'
-          type: 'string'
-        }
-        {
-          name: 'action_by_type_s'
-          type: 'string'
-        }
-        {
-          name: 'additional_details_task_due_at_t'
-          type: 'dateTime'
-        }
-        {
-          name: 'additional_details_metadata_operationParams_s'
-          type: 'string'
-        }
-        {
-          name: 'additional_details_metadata_type_s'
-          type: 'string'
-        }
-        {
-          name: 'source_item_name_g'
+          name: 'source_parent_id_s'
           type: 'string'
         }
         {
@@ -244,23 +192,67 @@ resource boxeventsclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-
           type: 'boolean'
         }
         {
+          name: 'source_item_name_g'
+          type: 'string'
+        }
+        {
+          name: 'additional_details_metadata_type_s'
+          type: 'string'
+        }
+        {
+          name: 'additional_details_metadata_operationParams_s'
+          type: 'string'
+        }
+        {
+          name: 'additional_details_task_due_at_t'
+          type: 'dateTime'
+        }
+        {
+          name: 'action_by_type_s'
+          type: 'string'
+        }
+        {
           name: 'action_by_id_s'
           type: 'string'
         }
         {
-          name: 'additional_details_is_performed_by_admin_b'
-          type: 'boolean'
+          name: 'action_by_name_s'
+          type: 'string'
+        }
+        {
+          name: 'action_by_login_s'
+          type: 'string'
+        }
+        {
+          name: 'additional_details_annotation_id_d'
+          type: 'real'
+        }
+        {
+          name: 'additional_details_group_id_s'
+          type: 'string'
+        }
+        {
+          name: 'additional_details_group_name_s'
+          type: 'string'
+        }
+        {
+          name: 'source_user_email_s'
+          type: 'string'
+        }
+        {
+          name: 'additional_details_comment_id_d'
+          type: 'real'
+        }
+        {
+          name: 'additional_details_message_s'
+          type: 'string'
         }
         {
           name: 'additional_details_task_id_d'
           type: 'real'
         }
         {
-          name: 'additional_details_task_created_by_id_d'
-          type: 'real'
-        }
-        {
-          name: 'source_parent_id_s'
+          name: 'additional_details_task_message_s'
           type: 'string'
         }
         {
@@ -284,15 +276,15 @@ resource boxeventsclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-
           type: 'string'
         }
         {
-          name: 'additional_details_task_message_s'
-          type: 'string'
-        }
-        {
           name: 'source_parent_name_g'
           type: 'string'
         }
         {
-          name: 'source_file_id_s'
+          name: 'source_owned_by_type_s'
+          type: 'string'
+        }
+        {
+          name: 'source_file_name_s'
           type: 'string'
         }
         {
@@ -316,13 +308,16 @@ resource boxeventsclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-
           type: 'string'
         }
         {
-          name: 'source_file_name_s'
+          name: 'additional_details_task_created_by_id_d'
+          type: 'real'
+        }
+        {
+          name: 'source_file_id_s'
           type: 'string'
         }
         {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
+          name: 'additional_details_is_performed_by_admin_b'
+          type: 'boolean'
         }
       ]
     }

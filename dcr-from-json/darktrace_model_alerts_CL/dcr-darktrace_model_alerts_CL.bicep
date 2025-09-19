@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for darktrace_model_alerts_CL
 // ============================================================================
-// Generated: 2025-09-18 08:37:28
+// Generated: 2025-09-19 14:20:16
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
 // Underscore columns filtered out
-// Original columns: 80, DCR columns: 80 (Type column always filtered)
+// Original columns: 79, DCR columns: 79 (Type column always filtered)
 // Output stream: Custom-darktrace_model_alerts_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -68,11 +68,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'groupingId_s'
+            name: 'cSensorID_g'
             type: 'string'
           }
           {
-            name: 'cSensorID_g'
+            name: 'uuid_s'
             type: 'string'
           }
           {
@@ -100,19 +100,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'attachment_sha1s_s'
-            type: 'string'
-          }
-          {
-            name: 'uuid_s'
-            type: 'string'
-          }
-          {
-            name: 'anomaly_score_d'
+            name: 'groupingId_s'
             type: 'string'
           }
           {
             name: 'groupByActivity_b'
+            type: 'string'
+          }
+          {
+            name: 'summaryFirstSentence_s'
             type: 'string'
           }
           {
@@ -148,7 +144,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'summaryFirstSentence_s'
+            name: 'attachment_sha1s_s'
             type: 'string'
           }
           {
@@ -188,7 +184,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'longitude_d'
+            name: 'anomaly_score_d'
             type: 'string'
           }
           {
@@ -196,7 +192,11 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'Category'
+            name: 'cSensorID_s'
+            type: 'string'
+          }
+          {
+            name: 'endTime_s'
             type: 'string'
           }
           {
@@ -224,23 +224,19 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
+            name: 'title_s'
+            type: 'string'
+          }
+          {
             name: 'sourcePort_s'
             type: 'string'
           }
           {
-            name: 'endTime_s'
-            type: 'string'
-          }
-          {
-            name: 'sourceMac_s'
+            name: 'sourceHost_s'
             type: 'string'
           }
           {
             name: 'SourceIP'
-            type: 'string'
-          }
-          {
-            name: 'modelName_s'
             type: 'string'
           }
           {
@@ -264,19 +260,23 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'sourceHost_s'
+            name: 'sourceMac_s'
             type: 'string'
           }
           {
-            name: 'cSensorID_s'
+            name: 'longitude_d'
             type: 'string'
           }
           {
-            name: 'title_s'
+            name: 'externalId_g'
             type: 'string'
           }
           {
-            name: 'hostname_s'
+            name: 'url_s'
+            type: 'string'
+          }
+          {
+            name: 'Category'
             type: 'string'
           }
           {
@@ -304,15 +304,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
+            name: 'hostname_s'
+            type: 'string'
+          }
+          {
             name: 'priority_s'
             type: 'string'
           }
           {
-            name: 'externalId_g'
-            type: 'string'
-          }
-          {
-            name: 'priority_code_d'
+            name: 'friendlyName_s'
             type: 'string'
           }
           {
@@ -340,11 +340,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'url_s'
-            type: 'string'
-          }
-          {
-            name: 'friendlyName_s'
+            name: 'priority_code_d'
             type: 'string'
           }
           {
@@ -367,7 +363,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-darktrace_model_alerts_CL']
         destinations: ['Sentinel-darktrace_model_alerts_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), dtProduct_s = tostring(dtProduct_s), activityId_s = tostring(activityId_s), identifier_s = tostring(identifier_s), deviceId_d = toreal(deviceId_d), antigena_b = tobool(antigena_b), description_s = tostring(description_s), blocked_b = tobool(blocked_b), mac_s = tostring(mac_s), groupingId_s = tostring(groupingId_s), cSensorID_g = toguid(cSensorID_g), timestamp_t = tostring(timestamp_t), subject_s = tostring(subject_s), recipients_s = tostring(recipients_s), link_hosts_s = tostring(link_hosts_s), from_s = tostring(from_s), direction_s = tostring(direction_s), attachment_sha1s_s = tostring(attachment_sha1s_s), uuid_s = tostring(uuid_s), anomaly_score_d = toreal(anomaly_score_d), groupByActivity_b = tobool(groupByActivity_b), newEvent_b = tobool(newEvent_b), details_s = tostring(details_s), typeLabel_s = tostring(typeLabel_s), uuid_g = toguid(uuid_g), last_updated_status_d = toreal(last_updated_status_d), last_updated_d = toreal(last_updated_d), alert_name_s = tostring(alert_name_s), priority_level_s = tostring(priority_level_s), summaryFirstSentence_s = tostring(summaryFirstSentence_s), priority_d = toreal(priority_d), ip_address_s = tostring(ip_address_s), child_id_d = toreal(child_id_d), Severity = toreal(Severity), tags_s = tostring(tags_s), sid_d = toreal(sid_d), groupPreviousGroups_s = tostring(groupPreviousGroups_s), currentGroup_s = tostring(currentGroup_s), name_s = tostring(name_s), longitude_d = toreal(longitude_d), actions_s = tostring(actions_s), Category = tostring(Category), startTime_s = tostring(startTime_s), mitreTechniques_s = tostring(mitreTechniques_s), destMac_s = tostring(destMac_s), destHost_s = tostring(destHost_s), destPort_s = tostring(destPort_s), destIP_s = tostring(destIP_s), sourcePort_s = tostring(sourcePort_s), endTime_s = tostring(endTime_s), sourceMac_s = tostring(sourceMac_s), SourceIP = tostring(SourceIP), modelName_s = tostring(modelName_s), threatID_d = toreal(threatID_d), pid_d = toreal(pid_d), modelName_s = tostring(modelName_s), breachTime_s = tostring(breachTime_s), score_d = toreal(score_d), sourceHost_s = tostring(sourceHost_s), cSensorID_s = tostring(cSensorID_s), title_s = tostring(title_s), hostname_s = tostring(hostname_s), compliance_b = tobool(compliance_b), cSensor_b = tobool(cSensor_b), Message = tostring(Message), status_s = tostring(status_s), deviceIP_s = tostring(deviceIP_s), time_s = tostring(time_s), priority_s = tostring(priority_s), externalId_g = toguid(externalId_g), priority_code_d = toreal(priority_code_d), bestDeviceName_s = tostring(bestDeviceName_s), groupCategory_s = tostring(groupCategory_s), groupScore_d = tostring(groupScore_d), summary_s = tostring(summary_s), triggeredComponents_s = tostring(triggeredComponents_s), breachUrl_s = tostring(breachUrl_s), url_s = tostring(url_s), friendlyName_s = tostring(friendlyName_s), latitude_d = toreal(latitude_d)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), dtProduct_s = tostring(dtProduct_s), activityId_s = tostring(activityId_s), identifier_s = tostring(identifier_s), deviceId_d = toreal(deviceId_d), antigena_b = tobool(antigena_b), description_s = tostring(description_s), blocked_b = tobool(blocked_b), mac_s = tostring(mac_s), cSensorID_g = toguid(cSensorID_g), uuid_s = tostring(uuid_s), timestamp_t = tostring(timestamp_t), subject_s = tostring(subject_s), recipients_s = tostring(recipients_s), link_hosts_s = tostring(link_hosts_s), from_s = tostring(from_s), direction_s = tostring(direction_s), groupingId_s = tostring(groupingId_s), groupByActivity_b = tobool(groupByActivity_b), summaryFirstSentence_s = tostring(summaryFirstSentence_s), newEvent_b = tobool(newEvent_b), details_s = tostring(details_s), typeLabel_s = tostring(typeLabel_s), uuid_g = toguid(uuid_g), last_updated_status_d = toreal(last_updated_status_d), last_updated_d = toreal(last_updated_d), alert_name_s = tostring(alert_name_s), priority_level_s = tostring(priority_level_s), attachment_sha1s_s = tostring(attachment_sha1s_s), priority_d = toreal(priority_d), ip_address_s = tostring(ip_address_s), child_id_d = toreal(child_id_d), Severity = toreal(Severity), tags_s = tostring(tags_s), sid_d = toreal(sid_d), groupPreviousGroups_s = tostring(groupPreviousGroups_s), currentGroup_s = tostring(currentGroup_s), name_s = tostring(name_s), anomaly_score_d = toreal(anomaly_score_d), actions_s = tostring(actions_s), cSensorID_s = tostring(cSensorID_s), endTime_s = tostring(endTime_s), startTime_s = tostring(startTime_s), mitreTechniques_s = tostring(mitreTechniques_s), destMac_s = tostring(destMac_s), destHost_s = tostring(destHost_s), destPort_s = tostring(destPort_s), destIP_s = tostring(destIP_s), title_s = tostring(title_s), sourcePort_s = tostring(sourcePort_s), sourceHost_s = tostring(sourceHost_s), SourceIP = tostring(SourceIP), threatID_d = toreal(threatID_d), pid_d = toreal(pid_d), modelName_s = tostring(modelName_s), breachTime_s = tostring(breachTime_s), score_d = toreal(score_d), sourceMac_s = tostring(sourceMac_s), longitude_d = toreal(longitude_d), externalId_g = toguid(externalId_g), url_s = tostring(url_s), Category = tostring(Category), compliance_b = tobool(compliance_b), cSensor_b = tobool(cSensor_b), Message = tostring(Message), status_s = tostring(status_s), deviceIP_s = tostring(deviceIP_s), time_s = tostring(time_s), hostname_s = tostring(hostname_s), priority_s = tostring(priority_s), friendlyName_s = tostring(friendlyName_s), bestDeviceName_s = tostring(bestDeviceName_s), groupCategory_s = tostring(groupCategory_s), groupScore_d = tostring(groupScore_d), summary_s = tostring(summary_s), triggeredComponents_s = tostring(triggeredComponents_s), breachUrl_s = tostring(breachUrl_s), priority_code_d = toreal(priority_code_d), latitude_d = toreal(latitude_d)'
         outputStream: 'Custom-darktrace_model_alerts_CL'
       }
     ]

@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Okta_CL
-// Generated on 2025-09-17 06:40:05 UTC
+// Generated on 2025-09-19 14:13:57 UTC
 // Source: JSON schema export
-// Original columns: 74, Deployed columns: 73 (Type column filtered)
-// Underscore columns included
+// Original columns: 74, Deployed columns: 71 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,55 +48,7 @@ resource oktaclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02-01
           dataTypeHint: 1
         }
         {
-          name: 'displayMessage_s'
-          type: 'string'
-        }
-        {
-          name: 'authenticationContext_externalSessionId_s'
-          type: 'string'
-        }
-        {
-          name: 'authenticationContext_authenticationStep_d'
-          type: 'real'
-        }
-        {
-          name: 'actor_displayName_s'
-          type: 'string'
-        }
-        {
-          name: 'actor_alternateId_s'
-          type: 'string'
-        }
-        {
-          name: 'actor_type_s'
-          type: 'string'
-        }
-        {
-          name: 'eventType_s'
-          type: 'string'
-        }
-        {
-          name: 'actor_id_s'
-          type: 'string'
-        }
-        {
-          name: 'debugContext_debugData_transactionId_g'
-          type: 'string'
-        }
-        {
-          name: 'debugContext_debugData_smsProvider_s'
-          type: 'string'
-        }
-        {
-          name: 'debugContext_debugData_countryCallingCode_s'
-          type: 'string'
-        }
-        {
-          name: 'debugContext_debugData_factor_s'
-          type: 'string'
-        }
-        {
-          name: 'authenticationContext_credentialProvider_s'
+          name: 'debugContext_debugData_deviceFingerprint_g'
           type: 'string'
         }
         {
@@ -104,27 +56,63 @@ resource oktaclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02-01
           type: 'string'
         }
         {
+          name: 'authenticationContext_credentialProvider_s'
+          type: 'string'
+        }
+        {
+          name: 'debugContext_debugData_factor_s'
+          type: 'string'
+        }
+        {
+          name: 'debugContext_debugData_countryCallingCode_s'
+          type: 'string'
+        }
+        {
+          name: 'debugContext_debugData_smsProvider_s'
+          type: 'string'
+        }
+        {
+          name: 'debugContext_debugData_transactionId_g'
+          type: 'string'
+        }
+        {
           name: 'authenticationContext_credentialType_s'
           type: 'string'
         }
         {
-          name: 'debugContext_debugData_deviceFingerprint_g'
+          name: 'actor_id_s'
+          type: 'string'
+        }
+        {
+          name: 'actor_type_s'
+          type: 'string'
+        }
+        {
+          name: 'actor_alternateId_s'
+          type: 'string'
+        }
+        {
+          name: 'actor_displayName_s'
+          type: 'string'
+        }
+        {
+          name: 'authenticationContext_authenticationStep_d'
+          type: 'real'
+        }
+        {
+          name: 'authenticationContext_externalSessionId_s'
+          type: 'string'
+        }
+        {
+          name: 'displayMessage_s'
+          type: 'string'
+        }
+        {
+          name: 'eventType_s'
           type: 'string'
         }
         {
           name: 'outcome_result_s'
-          type: 'string'
-        }
-        {
-          name: 'severity_s'
-          type: 'string'
-        }
-        {
-          name: 'debugContext_debugData_detailedmessage_s'
-          type: 'string'
-        }
-        {
-          name: 'target_s'
           type: 'string'
         }
         {
@@ -144,19 +132,20 @@ resource oktaclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02-01
           type: 'string'
         }
         {
-          name: 'published_t'
-          type: 'dateTime'
-        }
-        {
           name: 'transaction_type_s'
           type: 'string'
         }
         {
-          name: 'debugContext_debugData_threatSuspected_s'
+          name: 'legacyEventType_s'
           type: 'string'
         }
         {
-          name: 'debugContext_debugData_importTrigger_s'
+          name: 'debugContext_debugData_url_s'
+          type: 'string'
+          dataTypeHint: 0
+        }
+        {
+          name: 'debugContext_debugData_threatSuspected_s'
           type: 'string'
         }
         {
@@ -176,13 +165,16 @@ resource oktaclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02-01
           type: 'string'
         }
         {
-          name: 'legacyEventType_s'
+          name: 'severity_s'
           type: 'string'
         }
         {
-          name: 'debugContext_debugData_url_s'
+          name: 'published_t'
+          type: 'dateTime'
+        }
+        {
+          name: 'debugContext_debugData_importTrigger_s'
           type: 'string'
-          dataTypeHint: 0
         }
         {
           name: 'debugContext_debugData_requestUri_s'
@@ -191,6 +183,10 @@ resource oktaclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02-01
         }
         {
           name: 'debugContext_debugData_requestId_s'
+          type: 'string'
+        }
+        {
+          name: 'debugContext_debugData_loginResult_s'
           type: 'string'
         }
         {
@@ -255,19 +251,15 @@ resource oktaclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02-01
           dataTypeHint: 0
         }
         {
+          name: 'target_s'
+          type: 'string'
+        }
+        {
           name: 'client_userAgent_os_s'
           type: 'string'
         }
         {
-          name: 'client_userAgent_browser_s'
-          type: 'string'
-        }
-        {
           name: 'client_zone_s'
-          type: 'string'
-        }
-        {
-          name: 'debugContext_debugData_loginResult_s'
           type: 'string'
         }
         {
@@ -298,11 +290,11 @@ resource oktaclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02-01
           type: 'string'
         }
         {
-          name: 'client_geographicalContext_geolocation_lon_d'
-          type: 'real'
+          name: 'client_userAgent_browser_s'
+          type: 'string'
         }
         {
-          name: 'client_geographicalContext_geolocation_lat_d'
+          name: 'client_geographicalContext_geolocation_lon_d'
           type: 'real'
         }
         {
@@ -331,12 +323,11 @@ resource oktaclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02-01
           type: 'string'
         }
         {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
+          name: 'client_geographicalContext_geolocation_lat_d'
+          type: 'real'
         }
         {
-          name: '_ItemId'
+          name: 'debugContext_debugData_detailedmessage_s'
           type: 'string'
         }
       ]

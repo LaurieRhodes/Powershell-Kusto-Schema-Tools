@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: InfobloxInsightComments_CL
-// Generated on 2025-09-17 06:40:03 UTC
+// Generated on 2025-09-19 14:13:56 UTC
 // Source: JSON schema export
-// Original columns: 15, Deployed columns: 14 (Type column filtered)
-// Underscore columns included
+// Original columns: 15, Deployed columns: 13 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -90,11 +90,6 @@ resource infobloxinsightcommentsclTable 'Microsoft.OperationalInsights/workspace
         {
           name: 'InfobloxInsightLogType_s'
           type: 'string'
-        }
-        {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

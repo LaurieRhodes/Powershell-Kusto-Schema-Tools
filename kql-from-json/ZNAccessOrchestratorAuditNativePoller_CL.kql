@@ -1,7 +1,7 @@
 ﻿// ============================================================================
 // Azure Data Explorer KQL Script for ZNAccessOrchestratorAuditNativePoller_CL
 // ============================================================================
-// Generated: 2025-09-17 06:16:10
+// Generated: 2025-09-19 14:23:14
 // Table type: Custom (presumed for JSON exports)
 // Schema imported from JSON export file
 // ============================================================================
@@ -17,6 +17,7 @@
 // Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
 
 .create-merge table ZNAccessOrchestratorAuditNativePoller_CL(
+TimeGenerated:datetime,
 timestamp_d:real,
 auditType_d:real,
 enforcementSource_d:real,
@@ -37,6 +38,7 @@ ZNAccessOrchestratorAuditNativePoller_CLRaw
 | mv-expand events = records
 // Alternative for non-nested: | extend events = records
 | project
+TimeGenerated=todatetime(events.TimeGenerated),
 timestamp_d=toreal(events.timestamp_d),
 auditType_d=toreal(events.auditType_d),
 enforcementSource_d=toreal(events.enforcementSource_d),

@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: CortexXDR_Incidents_CL
-// Generated on 2025-09-17 06:40:01 UTC
+// Generated on 2025-09-19 14:13:54 UTC
 // Source: JSON schema export
-// Original columns: 43, Deployed columns: 42 (Type column filtered)
-// Underscore columns included
+// Original columns: 43, Deployed columns: 41 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -76,13 +76,12 @@ resource cortexxdrincidentsclTable 'Microsoft.OperationalInsights/workspaces/tab
           type: 'real'
         }
         {
-          name: 'host_count_d'
-          type: 'real'
+          name: 'status_s'
+          type: 'string'
         }
         {
-          name: 'xdr_url_s'
-          type: 'string'
-          dataTypeHint: 0
+          name: 'host_count_d'
+          type: 'real'
         }
         {
           name: 'starred_b'
@@ -113,19 +112,16 @@ resource cortexxdrincidentsclTable 'Microsoft.OperationalInsights/workspaces/tab
           type: 'string'
         }
         {
-          name: 'mitre_techniques_ids_and_names_s'
+          name: 'xdr_url_s'
           type: 'string'
-        }
-        {
-          name: 'status_s'
-          type: 'string'
-        }
-        {
-          name: 'alert_categories_s'
-          type: 'string'
+          dataTypeHint: 0
         }
         {
           name: 'modification_time_d'
+          type: 'real'
+        }
+        {
+          name: 'creation_time_d'
           type: 'real'
         }
         {
@@ -201,13 +197,12 @@ resource cortexxdrincidentsclTable 'Microsoft.OperationalInsights/workspaces/tab
           type: 'real'
         }
         {
-          name: 'creation_time_d'
-          type: 'real'
+          name: 'mitre_techniques_ids_and_names_s'
+          type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'alert_categories_s'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

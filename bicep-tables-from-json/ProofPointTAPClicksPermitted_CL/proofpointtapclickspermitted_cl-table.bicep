@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: ProofPointTAPClicksPermitted_CL
-// Generated on 2025-09-17 06:40:05 UTC
+// Generated on 2025-09-19 14:13:57 UTC
 // Source: JSON schema export
 // Original columns: 10, Deployed columns: 10 (Type column filtered)
-// Underscore columns included
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')

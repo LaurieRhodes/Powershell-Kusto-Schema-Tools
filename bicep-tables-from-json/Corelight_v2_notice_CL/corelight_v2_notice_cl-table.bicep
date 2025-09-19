@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Corelight_v2_notice_CL
-// Generated on 2025-09-17 06:40:00 UTC
+// Generated on 2025-09-19 14:13:52 UTC
 // Source: JSON schema export
-// Original columns: 31, Deployed columns: 31 (Type column filtered)
-// Underscore columns included
+// Original columns: 31, Deployed columns: 28 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -43,8 +43,8 @@ resource corelightv2noticeclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'dateTime'
         }
         {
-          name: '_path_s'
-          type: 'string'
+          name: 'ts_t'
+          type: 'dateTime'
         }
         {
           name: 'remote_location_longitude_d'
@@ -91,11 +91,11 @@ resource corelightv2noticeclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'string'
         }
         {
-          name: 'src_s'
-          type: 'string'
+          name: 'severity_level_d'
+          type: 'real'
         }
         {
-          name: 'sub_s'
+          name: 'src_s'
           type: 'string'
         }
         {
@@ -143,20 +143,8 @@ resource corelightv2noticeclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'string'
         }
         {
-          name: 'ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: '_write_ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: '_system_name_s'
+          name: 'sub_s'
           type: 'string'
-        }
-        {
-          name: 'severity_level_d'
-          type: 'real'
         }
         {
           name: 'severity_name_s'

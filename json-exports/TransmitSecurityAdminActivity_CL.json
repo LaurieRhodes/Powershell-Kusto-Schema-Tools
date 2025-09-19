@@ -1,6 +1,10 @@
 {
     "Name": "TransmitSecurityAdminActivity_CL",
     "Properties": [
+        {
+            "Name": "TimeGenerated",
+            "Type": "DateTime"
+        },
       {
         "Name": "activity",
         "Type": "string"

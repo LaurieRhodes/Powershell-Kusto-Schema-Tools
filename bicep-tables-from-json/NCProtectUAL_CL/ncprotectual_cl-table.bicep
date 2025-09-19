@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: NCProtectUAL_CL
-// Generated on 2025-09-17 06:40:04 UTC
+// Generated on 2025-09-19 14:13:56 UTC
 // Source: JSON schema export
-// Original columns: 22, Deployed columns: 21 (Type column filtered)
-// Underscore columns included
+// Original columns: 22, Deployed columns: 19 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -44,15 +44,6 @@ resource ncprotectualclTable 'Microsoft.OperationalInsights/workspaces/tables@20
         }
         {
           name: 'Application_s'
-          type: 'string'
-        }
-        {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
-        }
-        {
-          name: 'UserLoginName_s'
           type: 'string'
         }
         {
@@ -118,7 +109,7 @@ resource ncprotectualclTable 'Microsoft.OperationalInsights/workspaces/tables@20
           type: 'string'
         }
         {
-          name: '_SubscriptionId'
+          name: 'UserLoginName_s'
           type: 'string'
         }
         {

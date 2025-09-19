@@ -138,10 +138,6 @@
                            "Type":  "string"
                        },
                        {
-                           "Name":  "payload_requestMetadata_requestAttributes_time",
-                           "Type":  "string"
-                       },
-                       {
                            "Name":  "payload_serviceName",
                            "Type":  "string"
                        },
@@ -162,10 +158,6 @@
                            "Type":  "string"
                        },
                        {
-                           "Name":  "payload_request_reportTime",
-                           "Type":  "string"
-                       },
-                       {
                            "Name":  "payload_request_instance",
                            "Type":  "string"
                        },
@@ -175,18 +167,6 @@
                        },
                        {
                            "Name":  "payload_request_resources",
-                           "Type":  "string"
-                       },
-                       {
-                           "Name":  "payload_request_reportTime",
-                           "Type":  "datetime"
-                       },
-                       {
-                           "Name":  "payload_request_name",
-                           "Type":  "string"
-                       },
-                       {
-                           "Name":  "payload_request_environment_apiProxyType",
                            "Type":  "string"
                        },
                        {
@@ -202,15 +182,7 @@
                            "Type":  "string"
                        },
                        {
-                           "Name":  "payload_request_environment_name",
-                           "Type":  "string"
-                       },
-                       {
                            "Name":  "payload_response_type",
-                           "Type":  "string"
-                       },
-                       {
-                           "Name":  "payload_response_name",
                            "Type":  "string"
                        },
                        {
@@ -222,10 +194,6 @@
                            "Type":  "string"
                        },
                        {
-                           "Name":  "payload_response_apiProxyType",
-                           "Type":  "string"
-                       },
-                       {
                            "Name":  "payloadtatus_code",
                            "Type":  "string"
                        },
@@ -234,35 +202,15 @@
                            "Type":  "string"
                        },
                        {
-                           "Name":  "payload_request_reportTime",
-                           "Type":  "string"
-                       },
-                       {
                            "Name":  "payload_requestMetadata_requestAttributesime",
                            "Type":  "datetime"
-                       },
-                       {
-                           "Name":  "log_name",
-                           "Type":  "string"
                        },
                        {
                            "Name":  "insert_id",
                            "Type":  "string"
                        },
                        {
-                           "Name":  "severity",
-                           "Type":  "string"
-                       },
-                       {
-                           "Name":  "timestamp",
-                           "Type":  "datetime"
-                       },
-                       {
                            "Name":  "resourceype",
-                           "Type":  "string"
-                       },
-                       {
-                           "Name":  "resource_labels_method",
                            "Type":  "string"
                        },
                        {
@@ -270,27 +218,7 @@
                            "Type":  "string"
                        },
                        {
-                           "Name":  "resource_labels_project_id",
-                           "Type":  "string"
-                       },
-                       {
                            "Name":  "payload_type",
-                           "Type":  "string"
-                       },
-                       {
-                           "Name":  "payload_authenticationInfo_principalEmail",
-                           "Type":  "string"
-                       },
-                       {
-                           "Name":  "payload_requestMetadata_callerIp",
-                           "Type":  "string"
-                       },
-                       {
-                           "Name":  "payload_requestMetadata_callerSuppliedUserAgent",
-                           "Type":  "string"
-                       },
-                       {
-                           "Name":  "payload_requestMetadata_requestAttributesime",
                            "Type":  "string"
                        },
                        {
@@ -298,36 +226,8 @@
                            "Type":  "string"
                        },
                        {
-                           "Name":  "payload_methodName",
-                           "Type":  "string"
-                       },
-                       {
-                           "Name":  "payload_authorizationInfo",
-                           "Type":  "string"
-                       },
-                       {
-                           "Name":  "payload_resourceName",
-                           "Type":  "string"
-                       },
-                       {
-                           "Name":  "payload_request_instanceUid",
-                           "Type":  "string"
-                       },
-                       {
-                           "Name":  "payload_request_instance",
-                           "Type":  "string"
-                       },
-                       {
                            "Name":  "payload_request_type",
                            "Type":  "string"
-                       },
-                       {
-                           "Name":  "payload_request_resources",
-                           "Type":  "string"
-                       },
-                       {
-                           "Name":  "payload_request_reportTime",
-                           "Type":  "datetime"
                        },
                        {
                            "Name":  "Type",

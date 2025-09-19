@@ -30,10 +30,6 @@
                            "Type":  "real"
                        },
                        {
-                           "Name":  "modelName_s",
-                           "Type":  "String"
-                       },
-                       {
                            "Name":  "SourceIP",
                            "Type":  "String"
                        },

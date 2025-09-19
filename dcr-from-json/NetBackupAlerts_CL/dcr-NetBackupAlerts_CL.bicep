@@ -12,7 +12,7 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for NetBackupAlerts_CL
 // ============================================================================
-// Generated: 2025-09-18 08:37:33
+// Generated: 2025-09-19 14:20:25
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
 // Underscore columns filtered out
@@ -32,6 +32,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       'Custom-NetBackupAlerts_CL': {
         columns: [
           {
+            name: 'TimeGenerated'
+            type: 'string'
+          }
+          {
             name: 'TenantId'
             type: 'string'
           }
@@ -45,10 +49,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
           }
           {
             name: 'ManagementGroupName'
-            type: 'string'
-          }
-          {
-            name: 'TimeGenerated [UTC]'
             type: 'string'
           }
           {
@@ -84,7 +84,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'auditDateTime_t [UTC]'
+            name: 'auditDateTime_t'
             type: 'string'
           }
           {
@@ -111,7 +111,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-NetBackupAlerts_CL']
         destinations: ['Sentinel-NetBackupAlerts_CL']
-        transformKql: 'source | project TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), TimeGenerated [UTC] = todatetime(TimeGenerated [UTC]), Computer = tostring(Computer), RawData = tostring(RawData), tenantId_g = tostring(tenantId_g), auditDateTime_d = tostring(auditDateTime_d), Category = tostring(Category), operation_s = tostring(operation_s), Message = tostring(Message), userName_s = tostring(userName_s), auditDateTime_t [UTC] = todatetime(auditDateTime_t [UTC]), reason_s = tostring(reason_s), auditAttributes_s = tostring(auditAttributes_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), SourceSystem = tostring(SourceSystem), MG = tostring(MG), ManagementGroupName = tostring(ManagementGroupName), Computer = tostring(Computer), RawData = tostring(RawData), tenantId_g = tostring(tenantId_g), auditDateTime_d = tostring(auditDateTime_d), Category = tostring(Category), operation_s = tostring(operation_s), Message = tostring(Message), userName_s = tostring(userName_s), auditDateTime_t = todatetime(auditDateTime_t), reason_s = tostring(reason_s), auditAttributes_s = tostring(auditAttributes_s)'
         outputStream: 'Custom-NetBackupAlerts_CL'
       }
     ]

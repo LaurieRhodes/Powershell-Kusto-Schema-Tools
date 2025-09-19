@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: SquidProxy_CL
-// Generated on 2025-09-17 06:40:06 UTC
+// Generated on 2025-09-19 14:13:58 UTC
 // Source: JSON schema export
-// Original columns: 26, Deployed columns: 25 (Type column filtered)
-// Underscore columns included
+// Original columns: 26, Deployed columns: 23 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -46,10 +46,6 @@ resource squidproxyclTable 'Microsoft.OperationalInsights/workspaces/tables@2025
           name: 'TenantId'
           type: 'guid'
           dataTypeHint: 1
-        }
-        {
-          name: 'EventTime_UTC__s'
-          type: 'string'
         }
         {
           name: 'ContentType_s'
@@ -98,11 +94,6 @@ resource squidproxyclTable 'Microsoft.OperationalInsights/workspaces/tables@2025
           type: 'string'
         }
         {
-          name: '_ResourceId_s'
-          type: 'string'
-          dataTypeHint: 2
-        }
-        {
           name: 'Type_s'
           type: 'string'
         }
@@ -135,13 +126,12 @@ resource squidproxyclTable 'Microsoft.OperationalInsights/workspaces/tables@2025
           type: 'string'
         }
         {
-          name: 'Description_s'
+          name: 'EventTime_UTC__s'
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'Description_s'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

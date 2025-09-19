@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: TrendMicro_XDR_RCA_Result_CL
-// Generated on 2025-09-17 06:40:07 UTC
+// Generated on 2025-09-19 14:13:59 UTC
 // Source: JSON schema export
-// Original columns: 26, Deployed columns: 25 (Type column filtered)
-// Underscore columns included
+// Original columns: 24, Deployed columns: 22 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -43,21 +43,9 @@ resource trendmicroxdrrcaresultclTable 'Microsoft.OperationalInsights/workspaces
           type: 'dateTime'
         }
         {
-          name: 'TimeGenerated'
-          type: 'dateTime'
-        }
-        {
           name: 'TenantId'
           type: 'guid'
           dataTypeHint: 1
-        }
-        {
-          name: 'objectEvent_s'
-          type: 'string'
-        }
-        {
-          name: 'objectMeta_s'
-          type: 'string'
         }
         {
           name: 'parentObjectId_s'
@@ -88,16 +76,15 @@ resource trendmicroxdrrcaresultclTable 'Microsoft.OperationalInsights/workspaces
           type: 'string'
         }
         {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
-        }
-        {
           name: 'agentEntity_guid_g'
           type: 'string'
         }
         {
-          name: 'taskName_s'
+          name: 'objectMeta_s'
+          type: 'string'
+        }
+        {
+          name: 'agentEntity_hostname_s'
           type: 'string'
         }
         {
@@ -133,11 +120,11 @@ resource trendmicroxdrrcaresultclTable 'Microsoft.OperationalInsights/workspaces
           type: 'string'
         }
         {
-          name: 'agentEntity_hostname_s'
+          name: 'taskName_s'
           type: 'string'
         }
         {
-          name: 'workbenchId_s'
+          name: 'objectEvent_s'
           type: 'string'
         }
       ]

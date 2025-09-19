@@ -12,7 +12,7 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for Corelight_v2_generic_icmp_tunnels_CL
 // ============================================================================
-// Generated: 2025-09-18 08:37:21
+// Generated: 2025-09-19 14:20:05
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
 // Underscore columns filtered out

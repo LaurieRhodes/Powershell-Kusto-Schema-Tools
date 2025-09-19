@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Armis_Devices_CL
-// Generated on 2025-09-17 06:39:56 UTC
+// Generated on 2025-09-19 14:13:49 UTC
 // Source: JSON schema export
-// Original columns: 33, Deployed columns: 31 (Type column filtered)
-// Underscore columns included
+// Original columns: 33, Deployed columns: 30 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -46,10 +46,6 @@ resource armisdevicesclTable 'Microsoft.OperationalInsights/workspaces/tables@20
           name: 'TenantId'
           type: 'guid'
           dataTypeHint: 1
-        }
-        {
-          name: 'Visibility'
-          type: 'string'
         }
         {
           name: 'Tags'
@@ -100,11 +96,11 @@ resource armisdevicesclTable 'Microsoft.OperationalInsights/workspaces/tables@20
           type: 'string'
         }
         {
-          name: 'MacAddress'
+          name: 'Visibility'
           type: 'string'
         }
         {
-          name: 'LastSeen'
+          name: 'MacAddress'
           type: 'string'
         }
         {
@@ -157,13 +153,12 @@ resource armisdevicesclTable 'Microsoft.OperationalInsights/workspaces/tables@20
           type: 'string'
         }
         {
-          name: 'Name'
+          name: 'LastSeen'
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'Name'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

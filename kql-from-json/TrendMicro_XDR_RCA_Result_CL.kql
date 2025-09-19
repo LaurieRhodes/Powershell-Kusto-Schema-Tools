@@ -1,7 +1,7 @@
 ﻿// ============================================================================
 // Azure Data Explorer KQL Script for TrendMicro_XDR_RCA_Result_CL
 // ============================================================================
-// Generated: 2025-09-17 06:16:08
+// Generated: 2025-09-19 14:23:12
 // Table type: Custom (presumed for JSON exports)
 // Schema imported from JSON export file
 // ============================================================================
@@ -18,9 +18,7 @@
 
 .create-merge table TrendMicro_XDR_RCA_Result_CL(
 TimeGenerated:datetime,
-TimeGenerated:datetime,
 TenantId:guid,
-objectMeta_s:string,
 parentObjectId_s:string,
 isMatched_b:bool,
 objectName_s:string,
@@ -29,8 +27,8 @@ objectHashId_s:string,
 workbenchId_s:string,
 agentEntity_ip_s:string,
 agentEntity_guid_g:string,
+objectMeta_s:string,
 agentEntity_hostname_s:string,
-taskName_s:string,
 taskId_g:string,
 xdrCustomerID_g:string,
 agentEntity_host_s:string,
@@ -39,8 +37,8 @@ Computer:string,
 ManagementGroupName:string,
 MG:string,
 SourceSystem:string,
+taskName_s:string,
 objectEvent_s:string,
-workbenchId_s:string,
 Type:string,
 _ResourceId:string,
 _TimeReceived:datetime)
@@ -53,9 +51,7 @@ TrendMicro_XDR_RCA_Result_CLRaw
 // Alternative for non-nested: | extend events = records
 | project
 TimeGenerated=todatetime(events.TimeGenerated),
-TimeGenerated=todatetime(events.TimeGenerated),
 TenantId=toguid(events.TenantId),
-objectMeta_s=tostring(events.objectMeta_s),
 parentObjectId_s=tostring(events.parentObjectId_s),
 isMatched_b=tobool(events.isMatched_b),
 objectName_s=tostring(events.objectName_s),
@@ -64,8 +60,8 @@ objectHashId_s=tostring(events.objectHashId_s),
 workbenchId_s=tostring(events.workbenchId_s),
 agentEntity_ip_s=tostring(events.agentEntity_ip_s),
 agentEntity_guid_g=tostring(events.agentEntity_guid_g),
+objectMeta_s=tostring(events.objectMeta_s),
 agentEntity_hostname_s=tostring(events.agentEntity_hostname_s),
-taskName_s=tostring(events.taskName_s),
 taskId_g=tostring(events.taskId_g),
 xdrCustomerID_g=tostring(events.xdrCustomerID_g),
 agentEntity_host_s=tostring(events.agentEntity_host_s),
@@ -74,8 +70,8 @@ Computer=tostring(events.Computer),
 ManagementGroupName=tostring(events.ManagementGroupName),
 MG=tostring(events.MG),
 SourceSystem=tostring(events.SourceSystem),
+taskName_s=tostring(events.taskName_s),
 objectEvent_s=tostring(events.objectEvent_s),
-workbenchId_s=tostring(events.workbenchId_s),
 Type=tostring(events.Type),
 _ResourceId=tostring(events._ResourceId),
 _TimeReceived=todatetime(now())

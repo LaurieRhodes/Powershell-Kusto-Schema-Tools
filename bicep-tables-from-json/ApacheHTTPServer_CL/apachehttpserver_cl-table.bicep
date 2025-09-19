@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: ApacheHTTPServer_CL
-// Generated on 2025-09-17 06:39:55 UTC
+// Generated on 2025-09-19 14:13:48 UTC
 // Source: JSON schema export
-// Original columns: 8, Deployed columns: 7 (Type column filtered)
-// Underscore columns included
+// Original columns: 8, Deployed columns: 5 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -57,15 +57,6 @@ resource apachehttpserverclTable 'Microsoft.OperationalInsights/workspaces/table
         }
         {
           name: 'ItemId'
-          type: 'string'
-        }
-        {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
-        }
-        {
-          name: '_ItemId'
           type: 'string'
         }
       ]

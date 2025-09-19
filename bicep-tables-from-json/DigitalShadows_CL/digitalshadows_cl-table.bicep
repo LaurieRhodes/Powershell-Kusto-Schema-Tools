@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: DigitalShadows_CL
-// Generated on 2025-09-17 06:40:02 UTC
+// Generated on 2025-09-19 14:13:54 UTC
 // Source: JSON schema export
-// Original columns: 23, Deployed columns: 23 (Type column filtered)
-// Underscore columns included
+// Original columns: 22, Deployed columns: 22 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -79,11 +79,11 @@ resource digitalshadowsclTable 'Microsoft.OperationalInsights/workspaces/tables@
           type: 'dateTime'
         }
         {
-          name: 'portal_id_s'
-          type: 'string'
+          name: 'triage_updated_time_t'
+          type: 'dateTime'
         }
         {
-          name: 'mitigation_s'
+          name: 'portal_id_s'
           type: 'string'
         }
         {
@@ -107,10 +107,6 @@ resource digitalshadowsclTable 'Microsoft.OperationalInsights/workspaces/tables@
           type: 'string'
         }
         {
-          name: 'classification_s'
-          type: 'string'
-        }
-        {
           name: 'comments_s'
           type: 'string'
         }
@@ -123,8 +119,8 @@ resource digitalshadowsclTable 'Microsoft.OperationalInsights/workspaces/tables@
           type: 'string'
         }
         {
-          name: 'triage_updated_time_t'
-          type: 'dateTime'
+          name: 'mitigation_s'
+          type: 'string'
         }
         {
           name: 'updated_t'

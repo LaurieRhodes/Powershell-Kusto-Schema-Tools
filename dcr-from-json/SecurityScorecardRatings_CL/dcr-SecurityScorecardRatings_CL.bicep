@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for SecurityScorecardRatings_CL
 // ============================================================================
-// Generated: 2025-09-18 08:37:36
+// Generated: 2025-09-19 14:20:31
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
 // Underscore columns filtered out
-// Original columns: 24, DCR columns: 22 (Type column always filtered)
+// Original columns: 23, DCR columns: 21 (Type column always filtered)
 // Output stream: Custom-SecurityScorecardRatings_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -31,10 +31,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
     streamDeclarations: {
       'Custom-SecurityScorecardRatings_CL': {
         columns: [
-          {
-            name: 'TimeGenerated'
-            type: 'string'
-          }
           {
             name: 'TimeGenerated'
             type: 'string'
@@ -135,7 +131,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-SecurityScorecardRatings_CL']
         destinations: ['Sentinel-SecurityScorecardRatings_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), portfolioId_g = tostring(portfolioId_g), severity_s = tostring(severity_s), industry_s = tostring(industry_s), scoreChange_d = toreal(scoreChange_d), scoreToday_d = toreal(scoreToday_d), scoreYesterday_d = toreal(scoreYesterday_d), dateToday_t = todatetime(dateToday_t), dateYesterday_t = todatetime(dateYesterday_t), subject_s = tostring(subject_s), src_s = tostring(src_s), body_s = tostring(body_s), portfolioId_s = tostring(portfolioId_s), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), portfolioName_s = tostring(portfolioName_s), portfolioId_g_s = tostring(portfolioId_g_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), portfolioId_g = tostring(portfolioId_g), severity_s = tostring(severity_s), industry_s = tostring(industry_s), scoreChange_d = toreal(scoreChange_d), scoreToday_d = toreal(scoreToday_d), scoreYesterday_d = toreal(scoreYesterday_d), dateToday_t = todatetime(dateToday_t), dateYesterday_t = todatetime(dateYesterday_t), subject_s = tostring(subject_s), src_s = tostring(src_s), body_s = tostring(body_s), portfolioId_s = tostring(portfolioId_s), RawData = tostring(RawData), Computer = tostring(Computer), ManagementGroupName = tostring(ManagementGroupName), MG = tostring(MG), SourceSystem = tostring(SourceSystem), portfolioName_s = tostring(portfolioName_s), portfolioId_g_s = tostring(portfolioId_g_s)'
         outputStream: 'Custom-SecurityScorecardRatings_CL'
       }
     ]

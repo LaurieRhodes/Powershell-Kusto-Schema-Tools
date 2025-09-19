@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: LookoutCloudSecurity_CL
-// Generated on 2025-09-17 06:40:04 UTC
+// Generated on 2025-09-19 14:13:56 UTC
 // Source: JSON schema export
-// Original columns: 35, Deployed columns: 34 (Type column filtered)
-// Underscore columns included
+// Original columns: 35, Deployed columns: 33 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -46,10 +46,6 @@ resource lookoutcloudsecurityclTable 'Microsoft.OperationalInsights/workspaces/t
           name: 'TenantId'
           type: 'guid'
           dataTypeHint: 1
-        }
-        {
-          name: 'Message'
-          type: 'string'
         }
         {
           name: 'statusCode_d'
@@ -104,11 +100,11 @@ resource lookoutcloudsecurityclTable 'Microsoft.OperationalInsights/workspaces/t
           type: 'string'
         }
         {
-          name: 'data_s'
+          name: 'anomalyName_s'
           type: 'string'
         }
         {
-          name: 'anomalyName_s'
+          name: 'userEmail_s'
           type: 'string'
         }
         {
@@ -169,13 +165,12 @@ resource lookoutcloudsecurityclTable 'Microsoft.OperationalInsights/workspaces/t
           type: 'string'
         }
         {
-          name: 'userEmail_s'
+          name: 'Message'
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'data_s'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

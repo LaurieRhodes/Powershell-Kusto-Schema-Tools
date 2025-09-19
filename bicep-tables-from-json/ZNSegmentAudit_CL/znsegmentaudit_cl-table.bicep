@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: ZNSegmentAudit_CL
-// Generated on 2025-09-17 06:40:09 UTC
+// Generated on 2025-09-19 14:14:00 UTC
 // Source: JSON schema export
-// Original columns: 22, Deployed columns: 21 (Type column filtered)
-// Underscore columns included
+// Original columns: 22, Deployed columns: 20 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -72,20 +72,15 @@ resource znsegmentauditclTable 'Microsoft.OperationalInsights/workspaces/tables@
           type: 'real'
         }
         {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
-        }
-        {
           name: 'auditType_d'
           type: 'real'
         }
         {
-          name: 'timestamp_d'
+          name: 'performedBy_id_g'
           type: 'string'
         }
         {
-          name: 'performedBy_id_s'
+          name: 'timestamp_d'
           type: 'string'
         }
         {
@@ -117,7 +112,7 @@ resource znsegmentauditclTable 'Microsoft.OperationalInsights/workspaces/tables@
           type: 'string'
         }
         {
-          name: 'performedBy_id_g'
+          name: 'performedBy_id_s'
           type: 'string'
         }
         {

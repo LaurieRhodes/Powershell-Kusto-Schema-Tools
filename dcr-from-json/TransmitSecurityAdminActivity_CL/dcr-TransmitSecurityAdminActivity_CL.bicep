@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for TransmitSecurityAdminActivity_CL
 // ============================================================================
-// Generated: 2025-09-18 08:37:38
+// Generated: 2025-09-19 14:20:35
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
 // Underscore columns filtered out
-// Original columns: 8, DCR columns: 8 (Type column always filtered)
+// Original columns: 9, DCR columns: 9 (Type column always filtered)
 // Output stream: Custom-TransmitSecurityAdminActivity_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -31,6 +31,10 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
     streamDeclarations: {
       'Custom-TransmitSecurityAdminActivity_CL': {
         columns: [
+          {
+            name: 'TimeGenerated'
+            type: 'string'
+          }
           {
             name: 'activity'
             type: 'string'
@@ -79,7 +83,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-TransmitSecurityAdminActivity_CL']
         destinations: ['Sentinel-TransmitSecurityAdminActivity_CL']
-        transformKql: 'source | project activity = tostring(activity), actor_id = tostring(actor_id), actor_type = tostring(actor_type), ip = tostring(ip), target_resource_id = tostring(target_resource_id), target_resource_type = tostring(target_resource_type), timestamp = todatetime(timestamp), user_agent = tostring(user_agent)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), activity = tostring(activity), actor_id = tostring(actor_id), actor_type = tostring(actor_type), ip = tostring(ip), target_resource_id = tostring(target_resource_id), target_resource_type = tostring(target_resource_type), timestamp = todatetime(timestamp), user_agent = tostring(user_agent)'
         outputStream: 'Custom-TransmitSecurityAdminActivity_CL'
       }
     ]

@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: CiscoDuo_CL
-// Generated on 2025-09-17 06:39:58 UTC
+// Generated on 2025-09-19 14:13:51 UTC
 // Source: JSON schema export
 // Original columns: 82, Deployed columns: 82 (Type column filtered)
-// Underscore columns included
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -47,7 +47,7 @@ resource ciscoduoclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'string'
         }
         {
-          name: 'surfaced_auth_isotimestamp_t [UTC]'
+          name: 'surfaced_auth_isotimestamp_t'
           type: 'string'
         }
         {
@@ -140,7 +140,7 @@ resource ciscoduoclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'string'
         }
         {
-          name: 'isotimestamp_t [UTC]'
+          name: 'isotimestamp_t'
           type: 'string'
         }
         {

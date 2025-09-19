@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: GCP_MONITORING_CL
-// Generated on 2025-09-17 06:40:03 UTC
+// Generated on 2025-09-19 14:13:55 UTC
 // Source: JSON schema export
-// Original columns: 25, Deployed columns: 24 (Type column filtered)
-// Underscore columns included
+// Original columns: 25, Deployed columns: 23 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,10 +48,6 @@ resource gcpmonitoringclTable 'Microsoft.OperationalInsights/workspaces/tables@2
           dataTypeHint: 1
         }
         {
-          name: 'interval_endTime_t'
-          type: 'dateTime'
-        }
-        {
           name: 'interval_startTime_t'
           type: 'dateTime'
         }
@@ -84,11 +80,11 @@ resource gcpmonitoringclTable 'Microsoft.OperationalInsights/workspaces/tables@2
           type: 'string'
         }
         {
-          name: 'value_int64Value_d'
-          type: 'real'
+          name: 'metric_labels_storage_type_s'
+          type: 'string'
         }
         {
-          name: 'metric_labels_storage_type_s'
+          name: 'metric_labels_device_name_s'
           type: 'string'
         }
         {
@@ -128,13 +124,12 @@ resource gcpmonitoringclTable 'Microsoft.OperationalInsights/workspaces/tables@2
           type: 'string'
         }
         {
-          name: 'metric_labels_device_name_s'
-          type: 'string'
+          name: 'interval_endTime_t'
+          type: 'dateTime'
         }
         {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
+          name: 'value_int64Value_d'
+          type: 'real'
         }
       ]
     }

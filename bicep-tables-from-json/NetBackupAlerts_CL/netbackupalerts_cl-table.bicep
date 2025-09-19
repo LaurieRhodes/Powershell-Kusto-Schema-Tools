@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: NetBackupAlerts_CL
-// Generated on 2025-09-17 06:40:04 UTC
+// Generated on 2025-09-19 14:13:56 UTC
 // Source: JSON schema export
-// Original columns: 18, Deployed columns: 17 (Type column filtered)
-// Underscore columns included
+// Original columns: 18, Deployed columns: 16 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -39,56 +39,16 @@ resource netbackupalertsclTable 'Microsoft.OperationalInsights/workspaces/tables
       displayName: 'NetBackupAlerts_CL'
       columns: [
         {
+          name: 'TimeGenerated'
+          type: 'dateTime'
+        }
+        {
           name: 'TenantId'
           type: 'guid'
           dataTypeHint: 1
         }
         {
-          name: 'reason_s'
-          type: 'string'
-        }
-        {
-          name: 'auditDateTime_t [UTC]'
-          type: 'dateTime'
-        }
-        {
-          name: 'userName_s'
-          type: 'string'
-        }
-        {
-          name: 'Message'
-          type: 'string'
-        }
-        {
-          name: 'operation_s'
-          type: 'string'
-        }
-        {
-          name: 'Category'
-          type: 'string'
-        }
-        {
-          name: 'auditAttributes_s'
-          type: 'string'
-        }
-        {
-          name: 'auditDateTime_d'
-          type: 'string'
-        }
-        {
-          name: 'RawData'
-          type: 'string'
-        }
-        {
-          name: 'Computer'
-          type: 'string'
-        }
-        {
-          name: 'TimeGenerated [UTC]'
-          type: 'dateTime'
-        }
-        {
-          name: 'ManagementGroupName'
+          name: 'SourceSystem'
           type: 'string'
         }
         {
@@ -96,7 +56,15 @@ resource netbackupalertsclTable 'Microsoft.OperationalInsights/workspaces/tables
           type: 'string'
         }
         {
-          name: 'SourceSystem'
+          name: 'ManagementGroupName'
+          type: 'string'
+        }
+        {
+          name: 'Computer'
+          type: 'string'
+        }
+        {
+          name: 'RawData'
           type: 'string'
         }
         {
@@ -104,9 +72,36 @@ resource netbackupalertsclTable 'Microsoft.OperationalInsights/workspaces/tables
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'auditDateTime_d'
           type: 'string'
-          dataTypeHint: 2
+        }
+        {
+          name: 'Category'
+          type: 'string'
+        }
+        {
+          name: 'operation_s'
+          type: 'string'
+        }
+        {
+          name: 'Message'
+          type: 'string'
+        }
+        {
+          name: 'userName_s'
+          type: 'string'
+        }
+        {
+          name: 'auditDateTime_t'
+          type: 'dateTime'
+        }
+        {
+          name: 'reason_s'
+          type: 'string'
+        }
+        {
+          name: 'auditAttributes_s'
+          type: 'string'
         }
       ]
     }

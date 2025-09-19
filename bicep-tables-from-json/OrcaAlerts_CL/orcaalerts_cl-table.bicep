@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: OrcaAlerts_CL
-// Generated on 2025-09-17 06:40:05 UTC
+// Generated on 2025-09-19 14:13:57 UTC
 // Source: JSON schema export
-// Original columns: 82, Deployed columns: 81 (Type column filtered)
-// Underscore columns included
+// Original columns: 82, Deployed columns: 79 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,10 +48,6 @@ resource orcaalertsclTable 'Microsoft.OperationalInsights/workspaces/tables@2025
           dataTypeHint: 1
         }
         {
-          name: 'findings_s_account_iam_policy_type_s'
-          type: 'string'
-        }
-        {
           name: 'findings_s_os_end_of_support_end_support_s'
           type: 'string'
         }
@@ -76,11 +72,11 @@ resource orcaalertsclTable 'Microsoft.OperationalInsights/workspaces/tables@2025
           type: 'string'
         }
         {
-          name: 'findings_s_account_iam_policy_user_s'
+          name: 'findings_s_weak_password_os_username_s'
           type: 'string'
         }
         {
-          name: 'findings_s_weak_password_os_username_s'
+          name: 'findings_s_weak_password_os_labels_s'
           type: 'string'
         }
         {
@@ -113,11 +109,11 @@ resource orcaalertsclTable 'Microsoft.OperationalInsights/workspaces/tables@2025
           type: 'string'
         }
         {
-          name: 'findings_s_weak_password_os_labels_s'
+          name: 'findings_s_account_iam_policy_type_s'
           type: 'string'
         }
         {
-          name: 'findings_s_cve_type_s'
+          name: 'findings_s_account_iam_policy_user_s'
           type: 'string'
         }
         {
@@ -125,12 +121,8 @@ resource orcaalertsclTable 'Microsoft.OperationalInsights/workspaces/tables@2025
           type: 'string'
         }
         {
-          name: 'findings_s_account_iam_policy_cis_aws_version_s'
-          type: 'string'
-        }
-        {
-          name: 'findings_s_non_corporate_auth_key_keys_s'
-          type: 'string'
+          name: 'findings_s_account_iam_policy_mfa_active_b'
+          type: 'boolean'
         }
         {
           name: 'findings_s_non_corporate_auth_key_file_s'
@@ -157,15 +149,15 @@ resource orcaalertsclTable 'Microsoft.OperationalInsights/workspaces/tables@2025
           type: 'string'
         }
         {
-          name: 'findings_s_account_iam_policy_mfa_active_b'
-          type: 'boolean'
-        }
-        {
           name: 'findings_s_account_iam_policy_cloudtrail_user_type_s'
           type: 'string'
         }
         {
-          name: 'findings_s_account_iam_policy_cloudtrail_source_ip_s'
+          name: 'findings_s_cve_type_s'
+          type: 'string'
+        }
+        {
+          name: 'findings_s_account_iam_policy_cloudtrail_user_agent_s'
           type: 'string'
         }
         {
@@ -193,7 +185,11 @@ resource orcaalertsclTable 'Microsoft.OperationalInsights/workspaces/tables@2025
           type: 'string'
         }
         {
-          name: 'findings_s_account_iam_policy_cloudtrail_user_agent_s'
+          name: 'findings_s_account_iam_policy_cis_aws_version_s'
+          type: 'string'
+        }
+        {
+          name: 'findings_s_account_iam_policy_cloudtrail_source_ip_s'
           type: 'string'
         }
         {
@@ -277,11 +273,11 @@ resource orcaalertsclTable 'Microsoft.OperationalInsights/workspaces/tables@2025
           type: 'string'
         }
         {
-          name: 'details_s'
+          name: 'findings_s_non_corporate_auth_key_keys_s'
           type: 'string'
         }
         {
-          name: 'recommendation_s'
+          name: 'details_s'
           type: 'string'
         }
         {
@@ -291,11 +287,6 @@ resource orcaalertsclTable 'Microsoft.OperationalInsights/workspaces/tables@2025
         {
           name: 'findings_s_cve_summary_s'
           type: 'string'
-        }
-        {
-          name: '_ResourceId_s'
-          type: 'string'
-          dataTypeHint: 2
         }
         {
           name: 'Type_s'
@@ -322,11 +313,11 @@ resource orcaalertsclTable 'Microsoft.OperationalInsights/workspaces/tables@2025
           type: 'dateTime'
         }
         {
-          name: 'findings_s_malware_type_s'
+          name: 'recommendation_s'
           type: 'string'
         }
         {
-          name: 'findings_s_malware_virus_names_s'
+          name: 'findings_s_malware_type_s'
           type: 'string'
         }
         {
@@ -358,13 +349,12 @@ resource orcaalertsclTable 'Microsoft.OperationalInsights/workspaces/tables@2025
           type: 'string'
         }
         {
-          name: 'findings_s_non_corporate_auth_key_description_s'
+          name: 'findings_s_malware_virus_names_s'
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'findings_s_non_corporate_auth_key_description_s'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

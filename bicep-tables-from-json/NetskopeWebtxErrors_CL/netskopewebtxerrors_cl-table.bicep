@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: NetskopeWebtxErrors_CL
-// Generated on 2025-09-17 06:40:05 UTC
+// Generated on 2025-09-19 14:13:57 UTC
 // Source: JSON schema export
-// Original columns: 10, Deployed columns: 9 (Type column filtered)
-// Underscore columns included
+// Original columns: 10, Deployed columns: 8 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -70,11 +70,6 @@ resource netskopewebtxerrorsclTable 'Microsoft.OperationalInsights/workspaces/ta
         {
           name: 'error_s'
           type: 'string'
-        }
-        {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

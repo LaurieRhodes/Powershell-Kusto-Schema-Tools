@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Auth0AM_CL
-// Generated on 2025-09-17 06:39:56 UTC
+// Generated on 2025-09-19 14:13:49 UTC
 // Source: JSON schema export
-// Original columns: 193, Deployed columns: 192 (Type column filtered)
-// Underscore columns included
+// Original columns: 193, Deployed columns: 189 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -47,6 +47,10 @@ resource auth0amclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02
           type: 'string'
         }
         {
+          name: 'details_response_body_flags_disable_clickjack_protection_headers_b'
+          type: 'boolean'
+        }
+        {
           name: 'details_response_body_flags_disable_impersonation_b'
           type: 'boolean'
         }
@@ -83,11 +87,11 @@ resource auth0amclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02
           type: 'string'
         }
         {
-          name: 'details_response_body_flags_disable_clickjack_protection_headers_b'
-          type: 'boolean'
+          name: 'details_response_body_identifier_s'
+          type: 'string'
         }
         {
-          name: 'details_response_body_identifier_s'
+          name: 'details_response_body_identities_s'
           type: 'string'
         }
         {
@@ -119,29 +123,25 @@ resource auth0amclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02
           type: 'string'
         }
         {
-          name: 'details_response_body_nickname_s'
-          type: 'string'
-        }
-        {
-          name: 'details_response_body_oidc_conformant_b'
+          name: 'details_response_body_flags_cannot_change_enforce_client_authentication_on_passwordless_start_b'
           type: 'boolean'
         }
         {
-          name: 'details_response_body_identities_s'
-          type: 'string'
-        }
-        {
-          name: 'details_response_body_picture_s'
-          type: 'string'
-        }
-        {
-          name: 'details_response_body_flags_cannot_change_enforce_client_authentication_on_passwordless_start_b'
+          name: 'details_response_body_flags_allow_changing_enable_sso_b'
           type: 'boolean'
         }
         {
           name: 'details_response_body_error_page_url_s'
           type: 'string'
           dataTypeHint: 0
+        }
+        {
+          name: 'details_response_body_enabled_locales_s'
+          type: 'string'
+        }
+        {
+          name: 'details_response_body_app_type_s'
+          type: 'string'
         }
         {
           name: 'details_response_body_audience_s'
@@ -176,16 +176,16 @@ resource auth0amclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02
           type: 'string'
         }
         {
+          name: 'details_response_body_nickname_s'
+          type: 'string'
+        }
+        {
           name: 'details_response_body_client_secret_s'
           type: 'string'
         }
         {
-          name: 'details_response_body_flags_allow_changing_enable_sso_b'
+          name: 'details_response_body_cross_origin_auth_b'
           type: 'boolean'
-        }
-        {
-          name: 'details_response_body_created_at_t'
-          type: 'dateTime'
         }
         {
           name: 'details_response_body_custom_login_page_on_b'
@@ -221,16 +221,16 @@ resource auth0amclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02
           type: 'string'
         }
         {
-          name: 'details_response_body_enabled_locales_s'
-          type: 'string'
+          name: 'details_response_body_created_at_t'
+          type: 'dateTime'
         }
         {
-          name: 'details_response_body_cross_origin_auth_b'
+          name: 'details_response_body_allow_offline_access_b'
           type: 'boolean'
         }
         {
-          name: 'details_response_body_app_type_s'
-          type: 'string'
+          name: 'details_response_body_oidc_conformant_b'
+          type: 'boolean'
         }
         {
           name: 'details_response_body_picture_url_s'
@@ -238,7 +238,11 @@ resource auth0amclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02
           dataTypeHint: 0
         }
         {
-          name: 'details_response_body_providers_auth0_s'
+          name: 'details_response_body_template_s'
+          type: 'string'
+        }
+        {
+          name: 'details_response_body_token_endpoint_auth_method_s'
           type: 'string'
         }
         {
@@ -278,11 +282,11 @@ resource auth0amclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02
           type: 'boolean'
         }
         {
-          name: 'details_response_body_token_endpoint_auth_method_s'
+          name: 'log_id_s'
           type: 'string'
         }
         {
-          name: 'log_id_s'
+          name: 'RawData'
           type: 'string'
         }
         {
@@ -310,20 +314,20 @@ resource auth0amclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02
           type: 'string'
         }
         {
-          name: 'user_name_s'
+          name: 'details_response_body_syntax_s'
           type: 'string'
         }
         {
-          name: '_id_s'
+          name: 'details_response_body_support_url_s'
+          type: 'string'
+          dataTypeHint: 0
+        }
+        {
+          name: 'details_response_body_support_email_s'
           type: 'string'
         }
         {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
-        }
-        {
-          name: 'RawData'
+          name: 'details_response_body_supported_triggers_s'
           type: 'string'
         }
         {
@@ -331,13 +335,8 @@ resource auth0amclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02
           type: 'string'
         }
         {
-          name: 'details_response_body_template_s'
+          name: 'details_response_body_providers_auth0_s'
           type: 'string'
-        }
-        {
-          name: 'details_response_body_support_url_s'
-          type: 'string'
-          dataTypeHint: 0
         }
         {
           name: 'details_response_body_providers_recaptcha_enterprise_s'
@@ -368,20 +367,20 @@ resource auth0amclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02
           type: 'boolean'
         }
         {
+          name: 'details_response_body_picture_s'
+          type: 'string'
+        }
+        {
           name: 'details_response_body_refresh_token_leeway_d'
           type: 'real'
         }
         {
-          name: 'details_response_body_refresh_token_rotation_type_s'
-          type: 'string'
-        }
-        {
-          name: 'details_response_body_syntax_s'
-          type: 'string'
-        }
-        {
           name: 'details_response_body_refresh_token_token_lifetime_d'
           type: 'real'
+        }
+        {
+          name: 'details_response_body_s'
+          type: 'string'
         }
         {
           name: 'details_response_body_sandbox_version_s'
@@ -412,28 +411,21 @@ resource auth0amclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02
           type: 'string'
         }
         {
-          name: 'details_response_body_supported_triggers_s'
+          name: 'details_response_body_refresh_token_rotation_type_s'
           type: 'string'
         }
         {
-          name: 'details_response_body_support_email_s'
+          name: 'details_response_body_allowed_logout_urls_s'
           type: 'string'
-        }
-        {
-          name: 'details_response_body_s'
-          type: 'string'
-        }
-        {
-          name: '_SubscriptionId'
-          type: 'string'
-        }
-        {
-          name: 'details_response_body_allow_offline_access_b'
-          type: 'boolean'
+          dataTypeHint: 0
         }
         {
           name: 'details_request_userAgent_s'
           type: 'string'
+        }
+        {
+          name: 'details_request_query_page_d'
+          type: 'real'
         }
         {
           name: 'details_query_tenant_s'
@@ -472,12 +464,13 @@ resource auth0amclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02
           type: 'string'
         }
         {
-          name: 'details_query_includeEmailInRedirect_b'
-          type: 'boolean'
-        }
-        {
           name: 'details_request_auth_user_user_id_s'
           type: 'string'
+        }
+        {
+          name: 'details_request_body_allowed_logout_urls_s'
+          type: 'string'
+          dataTypeHint: 0
         }
         {
           name: 'details_request_body_allow_offline_access_b'
@@ -512,20 +505,15 @@ resource auth0amclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02
           type: 'string'
         }
         {
-          name: 'details_request_body_client_ids_s'
-          type: 'string'
-        }
-        {
-          name: 'details_request_body_allowed_logout_urls_s'
-          type: 'string'
-          dataTypeHint: 0
-        }
-        {
-          name: 'details_request_body_client_id_s'
-          type: 'string'
+          name: 'details_query_includeEmailInRedirect_b'
+          type: 'boolean'
         }
         {
           name: 'details_query_email_s'
+          type: 'string'
+        }
+        {
+          name: 'details_query_connection_s'
           type: 'string'
         }
         {
@@ -569,7 +557,7 @@ resource auth0amclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02
           type: 'string'
         }
         {
-          name: 'details_query_connection_s'
+          name: 'details_request_body_client_ids_s'
           type: 'string'
         }
         {
@@ -617,18 +605,20 @@ resource auth0amclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02
           type: 'string'
         }
         {
-          name: 'details_response_body_allowed_logout_urls_s'
+          name: 'details_request_body_client_id_s'
           type: 'string'
-          dataTypeHint: 0
         }
         {
           name: 'details_request_body_connection_s'
           type: 'string'
         }
         {
-          name: 'details_request_body_default_redirection_uri_s'
+          name: 'details_request_body_default_from_address_s'
           type: 'string'
-          dataTypeHint: 0
+        }
+        {
+          name: 'details_request_body_state_s'
+          type: 'string'
         }
         {
           name: 'details_request_body_subject_s'
@@ -664,15 +654,15 @@ resource auth0amclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02
           type: 'real'
         }
         {
+          name: 'details_request_body_signing_alg_s'
+          type: 'string'
+        }
+        {
           name: 'details_request_body_token_lifetime_for_web_d'
           type: 'real'
         }
         {
-          name: 'details_request_body_state_s'
-          type: 'string'
-        }
-        {
-          name: 'details_request_body_users_s'
+          name: 'details_request_body_user_email_s'
           type: 'string'
         }
         {
@@ -708,24 +698,25 @@ resource auth0amclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02
           type: 'string'
         }
         {
-          name: 'details_request_query_page_d'
-          type: 'real'
-        }
-        {
-          name: 'details_request_body_user_email_s'
+          name: 'details_request_body_users_s'
           type: 'string'
         }
         {
-          name: 'details_request_body_default_from_address_s'
+          name: 'user_name_s'
           type: 'string'
         }
         {
-          name: 'details_request_body_signing_alg_s'
+          name: 'details_request_body_selected_s'
           type: 'string'
         }
         {
-          name: 'details_request_body_scope_s'
+          name: 'details_request_body_roles_s'
           type: 'string'
+        }
+        {
+          name: 'details_request_body_default_redirection_uri_s'
+          type: 'string'
+          dataTypeHint: 0
         }
         {
           name: 'details_request_body_description_s'
@@ -761,16 +752,16 @@ resource auth0amclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02
           type: 'string'
         }
         {
+          name: 'details_request_body_scope_s'
+          type: 'string'
+        }
+        {
           name: 'details_request_body_identifier_s'
           type: 'string'
         }
         {
-          name: 'details_request_body_selected_s'
+          name: 'details_request_body_jwt_configuration_alg_s'
           type: 'string'
-        }
-        {
-          name: 'details_request_body_is_first_party_b'
-          type: 'boolean'
         }
         {
           name: 'details_request_body_jwt_configuration_lifetime_in_seconds_d'
@@ -806,12 +797,8 @@ resource auth0amclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02
           type: 'string'
         }
         {
-          name: 'details_request_body_roles_s'
-          type: 'string'
-        }
-        {
-          name: 'details_request_body_jwt_configuration_alg_s'
-          type: 'string'
+          name: 'details_request_body_is_first_party_b'
+          type: 'boolean'
         }
         {
           name: 'geo_info_from_ip_address'

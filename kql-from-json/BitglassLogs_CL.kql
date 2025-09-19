@@ -1,7 +1,7 @@
 ﻿// ============================================================================
 // Azure Data Explorer KQL Script for BitglassLogs_CL
 // ============================================================================
-// Generated: 2025-09-17 06:15:56
+// Generated: 2025-09-19 14:22:59
 // Table type: Custom (presumed for JSON exports)
 // Schema imported from JSON export file
 // ============================================================================
@@ -56,7 +56,7 @@ protocol_s:string,
 syslogheader_s:string,
 details_s:string,
 url_s:string,
-patterns_s :string,
+patterns_s:string,
 fileid_g:string,
 folder_s:string,
 status_s:string,
@@ -140,7 +140,7 @@ protocol_s=tostring(events.protocol_s),
 syslogheader_s=tostring(events.syslogheader_s),
 details_s=tostring(events.details_s),
 url_s=tostring(events.url_s),
-patterns_s =tostring(events.patterns_s ),
+patterns_s=tostring(events.patterns_s),
 fileid_g=tostring(events.fileid_g),
 folder_s=tostring(events.folder_s),
 status_s=tostring(events.status_s),

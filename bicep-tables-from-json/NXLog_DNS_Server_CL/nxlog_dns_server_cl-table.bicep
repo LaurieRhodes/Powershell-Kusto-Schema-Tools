@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: NXLog_DNS_Server_CL
-// Generated on 2025-09-17 06:40:05 UTC
+// Generated on 2025-09-19 14:13:57 UTC
 // Source: JSON schema export
-// Original columns: 69, Deployed columns: 68 (Type column filtered)
-// Underscore columns included
+// Original columns: 69, Deployed columns: 66 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -43,8 +43,9 @@ resource nxlogdnsserverclTable 'Microsoft.OperationalInsights/workspaces/tables@
           type: 'dateTime'
         }
         {
-          name: '_ItemId'
-          type: 'string'
+          name: 'TenantId'
+          type: 'guid'
+          dataTypeHint: 1
         }
         {
           name: 'QNAME_s'
@@ -103,11 +104,11 @@ resource nxlogdnsserverclTable 'Microsoft.OperationalInsights/workspaces/tables@
           type: 'string'
         }
         {
-          name: 'AD_s'
+          name: 'HostIP_s'
           type: 'string'
         }
         {
-          name: 'HostIP_s'
+          name: 'Destination_s'
           type: 'string'
         }
         {
@@ -163,15 +164,11 @@ resource nxlogdnsserverclTable 'Microsoft.OperationalInsights/workspaces/tables@
           type: 'string'
         }
         {
+          name: 'AD_s'
+          type: 'string'
+        }
+        {
           name: 'VirtualizationID_s'
-          type: 'string'
-        }
-        {
-          name: 'Destination_s'
-          type: 'string'
-        }
-        {
-          name: 'Reason_s'
           type: 'string'
         }
         {
@@ -181,11 +178,6 @@ resource nxlogdnsserverclTable 'Microsoft.OperationalInsights/workspaces/tables@
         {
           name: 'Source_s'
           type: 'string'
-        }
-        {
-          name: 'TenantId'
-          type: 'guid'
-          dataTypeHint: 1
         }
         {
           name: 'SourceSystem'
@@ -240,11 +232,11 @@ resource nxlogdnsserverclTable 'Microsoft.OperationalInsights/workspaces/tables@
           type: 'real'
         }
         {
-          name: 'InterfaceIP_s'
-          type: 'string'
+          name: 'OpcodeValue_d'
+          type: 'real'
         }
         {
-          name: 'OpcodeValue_d'
+          name: 'TaskValue_d'
           type: 'real'
         }
         {
@@ -304,13 +296,12 @@ resource nxlogdnsserverclTable 'Microsoft.OperationalInsights/workspaces/tables@
           type: 'string'
         }
         {
-          name: 'TaskValue_d'
-          type: 'real'
+          name: 'InterfaceIP_s'
+          type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'Reason_s'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

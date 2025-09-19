@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: CiscoSDWANNetflow_CL
-// Generated on 2025-09-17 06:39:58 UTC
+// Generated on 2025-09-19 14:13:51 UTC
 // Source: JSON schema export
-// Original columns: 167, Deployed columns: 166 (Type column filtered)
-// Underscore columns included
+// Original columns: 167, Deployed columns: 163 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,6 +48,14 @@ resource ciscosdwannetflowclTable 'Microsoft.OperationalInsights/workspaces/tabl
           dataTypeHint: 1
         }
         {
+          name: 'netflow_flow_end_milliseconds_t'
+          type: 'dateTime'
+        }
+        {
+          name: 'netflow_fw_protocol_d'
+          type: 'real'
+        }
+        {
           name: 'flow_id_s'
           type: 'string'
         }
@@ -68,20 +76,20 @@ resource ciscosdwannetflowclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'real'
         }
         {
+          name: 'netflow_fw_dest_addr_ipv4_s'
+          type: 'string'
+        }
+        {
           name: 'netflow_options_fw_policy_type_s'
           type: 'string'
         }
         {
-          name: 'netflow_options_interface_name_s'
-          type: 'string'
-        }
-        {
-          name: 'netflow_fw_protocol_d'
-          type: 'real'
-        }
-        {
           name: 'netflow_options_interface_description_s'
           type: 'string'
+        }
+        {
+          name: 'netflow_scope_fw_action_d'
+          type: 'real'
         }
         {
           name: 'netflow_options_fw_action_rule_s'
@@ -104,27 +112,23 @@ resource ciscosdwannetflowclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'string'
         }
         {
+          name: 'netflow_options_interface_name_s'
+          type: 'string'
+        }
+        {
           name: 'netflow_options_tunnel_technology_s'
           type: 'string'
         }
         {
-          name: 'netflow_options_application_description_s'
-          type: 'string'
-        }
-        {
-          name: 'netflow_scope_fw_action_d'
+          name: 'netflow_packets_in_d'
           type: 'real'
         }
         {
-          name: 'netflow_flow_end_milliseconds_t'
-          type: 'dateTime'
+          name: 'netflow_post_ip_diff_serv_code_point_d'
+          type: 'real'
         }
         {
-          name: 'netflow_fw_dest_addr_ipv4_s'
-          type: 'string'
-        }
-        {
-          name: 'netflow_packets_in_d'
+          name: 'netflow_fw_src_port_d'
           type: 'real'
         }
         {
@@ -152,12 +156,12 @@ resource ciscosdwannetflowclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'real'
         }
         {
-          name: 'netflow_fw_xlate_src_addr_ipv4_s'
+          name: 'netflow_username_s'
           type: 'string'
         }
         {
-          name: 'netflow_src_tos_d'
-          type: 'real'
+          name: 'netflow_fw_xlate_src_addr_ipv4_s'
+          type: 'string'
         }
         {
           name: 'netflow_fw_dest_port_d'
@@ -188,11 +192,11 @@ resource ciscosdwannetflowclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'string'
         }
         {
-          name: 'netflow_post_ip_diff_serv_code_point_d'
+          name: 'netflow_src_tos_d'
           type: 'real'
         }
         {
-          name: 'netflow_username_s'
+          name: 'netflow_options_application_description_s'
           type: 'string'
         }
         {
@@ -204,12 +208,8 @@ resource ciscosdwannetflowclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'string'
         }
         {
-          name: 'netflow_options_application_tag_s'
+          name: 'host_os_codename_s'
           type: 'string'
-        }
-        {
-          name: 'netflow_options_fw_policy_d'
-          type: 'real'
         }
         {
           name: 'host_os_family_s'
@@ -236,12 +236,12 @@ resource ciscosdwannetflowclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'string'
         }
         {
-          name: 'host_id_g'
+          name: 'host_os_kernel_s'
           type: 'string'
         }
         {
-          name: 'host_containerized_b'
-          type: 'boolean'
+          name: 'host_id_g'
+          type: 'string'
         }
         {
           name: 'netflow_options_fw_zonepair_name_s'
@@ -272,28 +272,28 @@ resource ciscosdwannetflowclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'string'
         }
         {
-          name: 'netflow_type_s'
-          type: 'string'
+          name: 'host_containerized_b'
+          type: 'boolean'
         }
         {
-          name: '_timestamp_t'
-          type: 'dateTime'
-        }
-        {
-          name: 'host_os_codename_s'
-          type: 'string'
-        }
-        {
-          name: 'netflow_fw_src_port_d'
-          type: 'real'
-        }
-        {
-          name: 'host_os_kernel_s'
+          name: 'host_os_name_s'
           type: 'string'
         }
         {
           name: 'host_os_type_s'
           type: 'string'
+        }
+        {
+          name: 'host_os_version_s'
+          type: 'string'
+        }
+        {
+          name: 'netflow_options_application_tag_s'
+          type: 'string'
+        }
+        {
+          name: 'netflow_options_fw_policy_d'
+          type: 'real'
         }
         {
           name: 'netflow_options_fw_policy_rule_s'
@@ -321,10 +321,6 @@ resource ciscosdwannetflowclTable 'Microsoft.OperationalInsights/workspaces/tabl
         }
         {
           name: 'agent_name_s'
-          type: 'string'
-        }
-        {
-          name: '_version_s'
           type: 'string'
         }
         {
@@ -360,24 +356,20 @@ resource ciscosdwannetflowclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'string'
         }
         {
-          name: 'host_os_version_s'
-          type: 'string'
-        }
-        {
-          name: 'host_os_name_s'
-          type: 'string'
-        }
-        {
-          name: 'tags_s'
-          type: 'string'
-        }
-        {
           name: 'netflow_fw_xlate_src_port_d'
           type: 'real'
         }
         {
+          name: 'event_type_s'
+          type: 'string'
+        }
+        {
           name: 'netflow_fw_username_s'
           type: 'string'
+        }
+        {
+          name: 'netflow_fw_summary_pkt_cnt_d'
+          type: 'real'
         }
         {
           name: 'netflow_utd_urlf_url_hash_s'
@@ -537,13 +529,12 @@ resource ciscosdwannetflowclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'string'
         }
         {
-          name: 'netflow_scope_utd_drop_reason_id_s'
+          name: 'netflow_type_s'
           type: 'string'
         }
         {
-          name: 'netflow_options_utd_urlf_webfilter_name_s'
+          name: 'netflow_scope_utd_drop_reason_id_s'
           type: 'string'
-          dataTypeHint: 0
         }
         {
           name: 'netflow_scope_utd_urlf_reason_id_d'
@@ -578,11 +569,11 @@ resource ciscosdwannetflowclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'real'
         }
         {
-          name: 'netflow_flow_field_sgt_d'
+          name: 'netflow_fw_icmp_type_d'
           type: 'real'
         }
         {
-          name: 'netflow_output_snmpidx_d'
+          name: 'netflow_flow_field_sgt_d'
           type: 'real'
         }
         {
@@ -614,19 +605,15 @@ resource ciscosdwannetflowclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'real'
         }
         {
-          name: 'netflow_fw_summary_pkt_cnt_d'
+          name: 'netflow_output_snmpidx_d'
           type: 'real'
-        }
-        {
-          name: 'netflow_fw_icmp_type_d'
-          type: 'real'
-        }
-        {
-          name: 'event_type_s'
-          type: 'string'
         }
         {
           name: 'netflow_fw_icmp_code_d'
+          type: 'real'
+        }
+        {
+          name: 'netflow_bytes_in_but_not_coming_in_hsl_data_d'
           type: 'real'
         }
         {
@@ -702,13 +689,13 @@ resource ciscosdwannetflowclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'real'
         }
         {
-          name: 'netflow_bytes_in_but_not_coming_in_hsl_data_d'
-          type: 'real'
+          name: 'netflow_options_utd_urlf_webfilter_name_s'
+          type: 'string'
+          dataTypeHint: 0
         }
         {
-          name: '_ResourceId'
+          name: 'tags_s'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

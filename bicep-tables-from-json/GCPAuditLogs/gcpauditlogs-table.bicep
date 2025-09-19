@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: GCPAuditLogs
-// Generated on 2025-09-17 06:40:03 UTC
+// Generated on 2025-09-19 14:13:55 UTC
 // Source: JSON schema export
 // Original columns: 27, Deployed columns: 26 (Type column filtered)
-// Underscore columns included
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')

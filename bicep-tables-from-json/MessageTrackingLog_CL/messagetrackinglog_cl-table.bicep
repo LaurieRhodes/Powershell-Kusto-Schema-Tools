@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: MessageTrackingLog_CL
-// Generated on 2025-09-17 06:40:04 UTC
+// Generated on 2025-09-19 14:13:56 UTC
 // Source: JSON schema export
-// Original columns: 21, Deployed columns: 20 (Type column filtered)
-// Underscore columns included
+// Original columns: 21, Deployed columns: 19 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,10 +48,6 @@ resource messagetrackinglogclTable 'Microsoft.OperationalInsights/workspaces/tab
           dataTypeHint: 1
         }
         {
-          name: 'rawData_s'
-          type: 'string'
-        }
-        {
           name: 'ExecutionResult_s'
           type: 'string'
         }
@@ -76,11 +72,11 @@ resource messagetrackinglogclTable 'Microsoft.OperationalInsights/workspaces/tab
           type: 'string'
         }
         {
-          name: 'IdentityString_s'
+          name: 'Section_s'
           type: 'string'
         }
         {
-          name: 'Section_s'
+          name: 'EntryDate_s'
           type: 'string'
         }
         {
@@ -112,13 +108,12 @@ resource messagetrackinglogclTable 'Microsoft.OperationalInsights/workspaces/tab
           type: 'string'
         }
         {
-          name: 'EntryDate_s'
+          name: 'rawData_s'
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'IdentityString_s'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

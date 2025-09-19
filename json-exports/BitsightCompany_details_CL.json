@@ -146,10 +146,6 @@
           "Type": "bool"
         },
         {
-          "Name": "PrimaryDomain",
-          "Type": "string"
-        },
-        {
           "Name": "RatingIndustryMedian",
           "Type": "string"
         },

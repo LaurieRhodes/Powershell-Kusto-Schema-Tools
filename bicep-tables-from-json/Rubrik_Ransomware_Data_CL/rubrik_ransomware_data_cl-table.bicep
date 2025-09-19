@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Rubrik_Ransomware_Data_CL
-// Generated on 2025-09-17 06:40:06 UTC
+// Generated on 2025-09-19 14:13:57 UTC
 // Source: JSON schema export
-// Original columns: 20, Deployed columns: 19 (Type column filtered)
-// Underscore columns included
+// Original columns: 20, Deployed columns: 18 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,10 +48,6 @@ resource rubrikransomwaredataclTable 'Microsoft.OperationalInsights/workspaces/t
           dataTypeHint: 1
         }
         {
-          name: 'custom_details_status_s'
-          type: 'string'
-        }
-        {
           name: 'custom_details_objectType_s'
           type: 'string'
         }
@@ -76,11 +72,11 @@ resource rubrikransomwaredataclTable 'Microsoft.OperationalInsights/workspaces/t
           type: 'string'
         }
         {
-          name: 'source_s'
+          name: 'custom_details_status_s'
           type: 'string'
         }
         {
-          name: 'summary_s'
+          name: 'source_s'
           type: 'string'
         }
         {
@@ -108,13 +104,12 @@ resource rubrikransomwaredataclTable 'Microsoft.OperationalInsights/workspaces/t
           type: 'string'
         }
         {
-          name: 'custom_details_clusterId_g'
+          name: 'summary_s'
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'custom_details_clusterId_g'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

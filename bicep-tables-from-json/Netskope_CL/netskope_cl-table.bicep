@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Netskope_CL
-// Generated on 2025-09-17 06:40:05 UTC
+// Generated on 2025-09-19 14:13:56 UTC
 // Source: JSON schema export
-// Original columns: 339, Deployed columns: 338 (Type column filtered)
-// Underscore columns included
+// Original columns: 339, Deployed columns: 335 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -43,7 +43,11 @@ resource netskopeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'dateTime'
         }
         {
-          name: '_id_s'
+          name: 'access_method_s'
+          type: 'string'
+        }
+        {
+          name: 'RawData'
           type: 'string'
         }
         {
@@ -71,11 +75,11 @@ resource netskopeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'string'
         }
         {
-          name: 'q_original_filepath_s'
+          name: 'referer_s'
           type: 'string'
         }
         {
-          name: 'q_original_filename_s'
+          name: 'q_original_filepath_s'
           type: 'string'
         }
         {
@@ -107,27 +111,23 @@ resource netskopeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'string'
         }
         {
-          name: 'ProcessID_s'
+          name: 'q_original_filename_s'
           type: 'string'
         }
         {
-          name: 'pop_id_s'
-          type: 'string'
-        }
-        {
-          name: 'RawData'
-          type: 'string'
-        }
-        {
-          name: 'policy_s'
-          type: 'string'
-        }
-        {
-          name: 'referer_s'
+          name: 'region_id_s'
           type: 'string'
         }
         {
           name: 'region_name_s'
+          type: 'string'
+        }
+        {
+          name: 'request_id_d'
+          type: 'real'
+        }
+        {
+          name: 'scanner_result_s'
           type: 'string'
         }
         {
@@ -195,15 +195,15 @@ resource netskopeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'string'
         }
         {
-          name: 'request_id_d'
-          type: 'real'
-        }
-        {
-          name: 'region_id_s'
+          name: 'ProcessID_s'
           type: 'string'
         }
         {
-          name: 'scanner_result_s'
+          name: 'pop_id_s'
+          type: 'string'
+        }
+        {
+          name: 'policy_s'
           type: 'string'
         }
         {
@@ -211,7 +211,11 @@ resource netskopeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'string'
         }
         {
-          name: 'policy_actions_s'
+          name: 'nsdeviceuid_g'
+          type: 'string'
+        }
+        {
+          name: 'notify_template_s'
           type: 'string'
         }
         {
@@ -275,15 +279,19 @@ resource netskopeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'string'
         }
         {
-          name: 'malware_type_s'
-          type: 'string'
+          name: 'numbytes_d'
+          type: 'real'
         }
         {
-          name: 'malware_severity_s'
-          type: 'string'
+          name: 'score_d'
+          type: 'real'
         }
         {
-          name: 'notify_template_s'
+          name: 'object_count_d'
+          type: 'real'
+        }
+        {
+          name: 'object_s'
           type: 'string'
         }
         {
@@ -291,12 +299,8 @@ resource netskopeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'string'
         }
         {
-          name: 'nsdeviceuid_g'
+          name: 'policy_actions_s'
           type: 'string'
-        }
-        {
-          name: 'object_count_d'
-          type: 'real'
         }
         {
           name: 'path_id_s'
@@ -359,20 +363,8 @@ resource netskopeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'string'
         }
         {
-          name: 'object_s'
-          type: 'string'
-        }
-        {
           name: 'object_id_g'
           type: 'string'
-        }
-        {
-          name: 'numbytes_d'
-          type: 'real'
-        }
-        {
-          name: 'score_d'
-          type: 'real'
         }
         {
           name: 'server_bytes_d'
@@ -381,6 +373,10 @@ resource netskopeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
         {
           name: 'server_packets_d'
           type: 'real'
+        }
+        {
+          name: 'service_identifier_s'
+          type: 'string'
         }
         {
           name: 'tunnel_id_s'
@@ -541,15 +537,19 @@ resource netskopeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'string'
         }
         {
+          name: 'malware_type_s'
+          type: 'string'
+        }
+        {
           name: 'threshold_time_d'
           type: 'real'
         }
         {
-          name: 'threshold_d'
+          name: 'threat_source_id_d'
           type: 'real'
         }
         {
-          name: 'threat_source_id_d'
+          name: 'src_latitude_d'
           type: 'real'
         }
         {
@@ -617,23 +617,19 @@ resource netskopeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'real'
         }
         {
-          name: 'service_identifier_s'
-          type: 'string'
-        }
-        {
-          name: 'src_latitude_d'
-          type: 'real'
-        }
-        {
           name: 'src_location_s'
           type: 'string'
+        }
+        {
+          name: 'threshold_d'
+          type: 'real'
         }
         {
           name: 'src_longitude_d'
           type: 'real'
         }
         {
-          name: 'src_region_s'
+          name: 'src_time_s'
           type: 'string'
         }
         {
@@ -670,12 +666,12 @@ resource netskopeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'real'
         }
         {
-          name: 'malware_profile_s'
-          type: 'string'
-        }
-        {
           name: 'supporting_data_data_values_d'
           type: 'real'
+        }
+        {
+          name: 'supporting_data_data_type_s'
+          type: 'string'
         }
         {
           name: 'Sub_s'
@@ -706,15 +702,15 @@ resource netskopeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'string'
         }
         {
-          name: 'src_time_s'
+          name: 'src_region_s'
           type: 'string'
         }
         {
-          name: 'supporting_data_data_type_s'
+          name: 'malware_severity_s'
           type: 'string'
         }
         {
-          name: 'SrcUserName'
+          name: 'malware_profile_s'
           type: 'string'
         }
         {
@@ -722,8 +718,16 @@ resource netskopeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'string'
         }
         {
-          name: 'malsite_reputation_s'
-          type: 'string'
+          name: 'conn_starttime_d'
+          type: 'real'
+        }
+        {
+          name: 'conn_endtime_d'
+          type: 'real'
+        }
+        {
+          name: 'conn_duration_d'
+          type: 'real'
         }
         {
           name: 'Computer'
@@ -782,32 +786,32 @@ resource netskopeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'string'
         }
         {
+          name: 'connection_id_d'
+          type: 'real'
+        }
+        {
           name: 'breach_score_d'
           type: 'real'
         }
         {
-          name: 'breach_media_references_s'
+          name: 'connectionid_s'
           type: 'string'
         }
         {
-          name: 'breach_id_g'
+          name: 'createdTime_s'
           type: 'string'
         }
         {
-          name: 'conn_duration_d'
-          type: 'real'
-        }
-        {
-          name: 'breach_description_s'
+          name: 'dlp_rule_s'
           type: 'string'
         }
         {
-          name: 'conn_endtime_d'
+          name: 'dlp_rule_count_d'
           type: 'real'
         }
         {
-          name: 'connection_id_d'
-          type: 'real'
+          name: 'dlp_profile_s'
+          type: 'string'
         }
         {
           name: 'dlp_parent_id_d'
@@ -866,32 +870,32 @@ resource netskopeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'string'
         }
         {
-          name: 'createdTime_s'
-          type: 'string'
-        }
-        {
           name: 'count_d'
           type: 'real'
         }
         {
-          name: 'connectionid_s'
+          name: 'dlp_rule_severity_s'
           type: 'string'
         }
         {
-          name: 'conn_starttime_d'
+          name: 'breach_media_references_s'
+          type: 'string'
+        }
+        {
+          name: 'breach_description_s'
+          type: 'string'
+        }
+        {
+          name: 'anomalyData_histo_s'
+          type: 'string'
+        }
+        {
+          name: 'anomalyData_featureValue_s'
+          type: 'string'
+        }
+        {
+          name: 'anomalyData_convergenceFactor_d'
           type: 'real'
-        }
-        {
-          name: 'dlp_profile_s'
-          type: 'string'
-        }
-        {
-          name: 'breach_date_d'
-          type: 'real'
-        }
-        {
-          name: 'audit_category_s'
-          type: 'string'
         }
         {
           name: 'anomalyData_binCount_d'
@@ -950,20 +954,23 @@ resource netskopeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'string'
         }
         {
-          name: 'access_method_s'
+          name: 'anomalyData_modelId_s'
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'breach_id_g'
           type: 'string'
-          dataTypeHint: 2
         }
         {
-          name: '_insertion_epoch_timestamp_d'
+          name: 'anomalyData_observationCount_d'
           type: 'real'
         }
         {
-          name: 'anomalyData_convergenceFactor_d'
+          name: 'anomalyData_probability_d'
+          type: 'real'
+        }
+        {
+          name: 'breach_date_d'
           type: 'real'
         }
         {
@@ -971,11 +978,7 @@ resource netskopeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'string'
         }
         {
-          name: 'anomalyData_featureValue_s'
-          type: 'string'
-        }
-        {
-          name: 'anomalyData_modelId_s'
+          name: 'audit_category_s'
           type: 'string'
         }
         {
@@ -1035,31 +1038,27 @@ resource netskopeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'real'
         }
         {
-          name: 'anomalyData_probability_d'
-          type: 'real'
-        }
-        {
           name: 'anomalyData_percentileThresholdCount_d'
           type: 'real'
         }
         {
-          name: 'anomalyData_observationCount_d'
-          type: 'real'
-        }
-        {
-          name: 'anomalyData_histo_s'
+          name: 'SrcUserName'
           type: 'string'
         }
         {
-          name: 'dlp_rule_count_d'
-          type: 'real'
-        }
-        {
-          name: 'dlp_rule_s'
+          name: 'domain_s'
           type: 'string'
         }
         {
-          name: 'dlp_rule_severity_s'
+          name: 'dst_country_s'
+          type: 'string'
+        }
+        {
+          name: 'last_device_s'
+          type: 'string'
+        }
+        {
+          name: 'last_country_s'
           type: 'string'
         }
         {
@@ -1123,27 +1122,27 @@ resource netskopeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'string'
         }
         {
+          name: 'last_location_s'
+          type: 'string'
+        }
+        {
           name: 'HostIP_s'
           type: 'string'
         }
         {
-          name: 'home_pop_s'
-          type: 'string'
-        }
-        {
-          name: 'last_country_s'
-          type: 'string'
-        }
-        {
-          name: 'hold_until_proven_b'
-          type: 'boolean'
-        }
-        {
-          name: 'last_device_s'
-          type: 'string'
-        }
-        {
           name: 'last_region_s'
+          type: 'string'
+        }
+        {
+          name: 'logintype_s'
+          type: 'string'
+        }
+        {
+          name: 'malware_id_g'
+          type: 'string'
+        }
+        {
+          name: 'malsite_reputation_s'
           type: 'string'
         }
         {
@@ -1208,15 +1207,15 @@ resource netskopeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           dataTypeHint: 0
         }
         {
-          name: 'logintype_s'
-          type: 'string'
-        }
-        {
           name: 'last_timestamp_d'
           type: 'real'
         }
         {
-          name: 'last_location_s'
+          name: 'download_app_s'
+          type: 'string'
+        }
+        {
+          name: 'home_pop_s'
           type: 'string'
         }
         {
@@ -1224,11 +1223,15 @@ resource netskopeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'real'
         }
         {
-          name: 'from_user_s'
+          name: 'event_type_s'
           type: 'string'
         }
         {
-          name: 'from_user_category_s'
+          name: 'end_time_t'
+          type: 'dateTime'
+        }
+        {
+          name: 'encrypt_failure_s'
           type: 'string'
         }
         {
@@ -1288,31 +1291,27 @@ resource netskopeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'real'
         }
         {
-          name: 'dst_country_s'
-          type: 'string'
-        }
-        {
-          name: 'download_app_s'
-          type: 'string'
-        }
-        {
-          name: 'domain_s'
-          type: 'string'
-        }
-        {
-          name: 'encrypt_failure_s'
-          type: 'string'
-        }
-        {
-          name: 'end_time_t'
-          type: 'dateTime'
-        }
-        {
-          name: 'event_type_s'
-          type: 'string'
-        }
-        {
           name: 'EventTime_s'
+          type: 'string'
+        }
+        {
+          name: 'hold_until_proven_b'
+          type: 'boolean'
+        }
+        {
+          name: 'exposure_s'
+          type: 'string'
+        }
+        {
+          name: 'external_email_d'
+          type: 'real'
+        }
+        {
+          name: 'from_user_s'
+          type: 'string'
+        }
+        {
+          name: 'from_user_category_s'
           type: 'string'
         }
         {
@@ -1348,11 +1347,11 @@ resource netskopeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'string'
         }
         {
-          name: 'malware_id_g'
+          name: 'file_password_protected_s'
           type: 'string'
         }
         {
-          name: 'file_password_protected_s'
+          name: 'file_lang_s'
           type: 'string'
         }
         {
@@ -1376,20 +1375,8 @@ resource netskopeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'string'
         }
         {
-          name: 'external_email_d'
-          type: 'real'
-        }
-        {
           name: 'external_collaborator_count_d'
           type: 'real'
-        }
-        {
-          name: 'exposure_s'
-          type: 'string'
-        }
-        {
-          name: 'file_lang_s'
-          type: 'string'
         }
         {
           name: 'AlertName'

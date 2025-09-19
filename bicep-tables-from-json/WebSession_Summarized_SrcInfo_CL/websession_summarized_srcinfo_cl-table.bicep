@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: WebSession_Summarized_SrcInfo_CL
-// Generated on 2025-09-17 06:40:08 UTC
+// Generated on 2025-09-19 14:13:59 UTC
 // Source: JSON schema export
 // Original columns: 15, Deployed columns: 15 (Type column filtered)
-// Underscore columns included
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')

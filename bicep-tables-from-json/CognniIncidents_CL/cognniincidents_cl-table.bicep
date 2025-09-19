@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: CognniIncidents_CL
-// Generated on 2025-09-17 06:39:58 UTC
+// Generated on 2025-09-19 14:13:51 UTC
 // Source: JSON schema export
-// Original columns: 22, Deployed columns: 21 (Type column filtered)
-// Underscore columns included
+// Original columns: 22, Deployed columns: 19 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -44,14 +44,6 @@ resource cognniincidentsclTable 'Microsoft.OperationalInsights/workspaces/tables
         }
         {
           name: 'attachmentId_s'
-          type: 'string'
-        }
-        {
-          name: 'userId_s'
-          type: 'string'
-        }
-        {
-          name: 'sourceFileExtension_s'
           type: 'string'
         }
         {
@@ -115,12 +107,11 @@ resource cognniincidentsclTable 'Microsoft.OperationalInsights/workspaces/tables
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'sourceFileExtension_s'
           type: 'string'
-          dataTypeHint: 2
         }
         {
-          name: '_SubscriptionId'
+          name: 'userId_s'
           type: 'string'
         }
       ]

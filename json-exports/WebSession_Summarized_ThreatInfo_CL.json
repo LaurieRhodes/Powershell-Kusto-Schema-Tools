@@ -30,10 +30,6 @@
         "Type": "String"
       },
       {
-        "Name": "SrcIpAddr_s",
-        "Type": "String"
-      },
-      {
         "Name": "SrcUsername_s",
         "Type": "String"
       },
@@ -56,14 +52,6 @@
       {
         "Name": "ThreatRiskLevel_d",
         "Type": "int"
-      },
-      {
-        "Name": "SrcIpAddr_s",
-        "Type": "String"
-      },
-      {
-        "Name": "SrcIpAddr_s",
-        "Type": "String"
       },
       {
         "Name": "SrcIpAddr_s",

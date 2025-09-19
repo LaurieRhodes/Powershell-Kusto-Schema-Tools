@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: WebSession_Summarized_ThreatInfo_CL
-// Generated on 2025-09-17 06:40:08 UTC
+// Generated on 2025-09-19 14:13:59 UTC
 // Source: JSON schema export
-// Original columns: 17, Deployed columns: 17 (Type column filtered)
-// Underscore columns included
+// Original columns: 14, Deployed columns: 14 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -68,11 +68,6 @@ resource websessionsummarizedthreatinfoclTable 'Microsoft.OperationalInsights/wo
           type: 'string'
         }
         {
-          name: 'SrcIpAddr_s'
-          type: 'string'
-          dataTypeHint: 3
-        }
-        {
           name: 'SrcUsername_s'
           type: 'string'
         }
@@ -95,16 +90,6 @@ resource websessionsummarizedthreatinfoclTable 'Microsoft.OperationalInsights/wo
         {
           name: 'ThreatRiskLevel_d'
           type: 'int'
-        }
-        {
-          name: 'SrcIpAddr_s'
-          type: 'string'
-          dataTypeHint: 3
-        }
-        {
-          name: 'SrcIpAddr_s'
-          type: 'string'
-          dataTypeHint: 3
         }
         {
           name: 'SrcIpAddr_s'

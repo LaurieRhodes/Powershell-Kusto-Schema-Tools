@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: InformationProtectionLogs_CL
-// Generated on 2025-09-17 06:40:03 UTC
+// Generated on 2025-09-19 14:13:56 UTC
 // Source: JSON schema export
-// Original columns: 85, Deployed columns: 84 (Type column filtered)
-// Underscore columns included
+// Original columns: 85, Deployed columns: 83 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,10 +48,6 @@ resource informationprotectionlogsclTable 'Microsoft.OperationalInsights/workspa
           dataTypeHint: 1
         }
         {
-          name: 'ParentLabelName_s'
-          type: 'string'
-        }
-        {
           name: 'LabelName_s'
           type: 'string'
         }
@@ -80,11 +76,11 @@ resource informationprotectionlogsclTable 'Microsoft.OperationalInsights/workspa
           type: 'string'
         }
         {
-          name: 'InformationTypesAbove85_s'
+          name: 'ParentLabelName_s'
           type: 'string'
         }
         {
-          name: 'InformationTypesAbove75_s'
+          name: 'InformationTypesAbove85_s'
           type: 'string'
         }
         {
@@ -116,11 +112,11 @@ resource informationprotectionlogsclTable 'Microsoft.OperationalInsights/workspa
           type: 'dateTime'
         }
         {
-          name: 'UserId_s'
+          name: 'InformationTypesAbove75_s'
           type: 'string'
         }
         {
-          name: 'ContentId_g'
+          name: 'UserId_s'
           type: 'string'
         }
         {
@@ -128,11 +124,7 @@ resource informationprotectionlogsclTable 'Microsoft.OperationalInsights/workspa
           type: 'string'
         }
         {
-          name: 'Workload_s'
-          type: 'string'
-        }
-        {
-          name: 'ActionId_g'
+          name: 'Version_s'
           type: 'string'
         }
         {
@@ -200,15 +192,19 @@ resource informationprotectionlogsclTable 'Microsoft.OperationalInsights/workspa
           type: 'string'
         }
         {
-          name: 'Version_s'
+          name: 'Workload_s'
           type: 'string'
         }
         {
-          name: 'IPv4_s'
+          name: 'ContentId_g'
           type: 'string'
         }
         {
           name: 'ProtectionOwner_s'
+          type: 'string'
+        }
+        {
+          name: 'ProtectionType_s'
           type: 'string'
         }
         {
@@ -288,7 +284,7 @@ resource informationprotectionlogsclTable 'Microsoft.OperationalInsights/workspa
           type: 'string'
         }
         {
-          name: 'ProtectionType_s'
+          name: 'ActionId_g'
           type: 'string'
         }
         {
@@ -372,9 +368,8 @@ resource informationprotectionlogsclTable 'Microsoft.OperationalInsights/workspa
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'IPv4_s'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

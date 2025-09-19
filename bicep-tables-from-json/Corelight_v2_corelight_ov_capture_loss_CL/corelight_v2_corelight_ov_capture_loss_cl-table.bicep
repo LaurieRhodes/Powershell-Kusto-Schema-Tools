@@ -1,8 +1,8 @@
-﻿// Bicep template for Log Analytics custom table: Corelight_v2_corelight_overall_capture_loss_CL
-// Generated on 2025-09-17 06:39:59 UTC
+﻿// Bicep template for Log Analytics custom table: Corelight_v2_corelight_ov_capture_loss_CL
+// Generated on 2025-09-19 14:13:51 UTC
 // Source: JSON schema export
-// Original columns: 8, Deployed columns: 8 (Type column filtered)
-// Underscore columns included
+// Original columns: 8, Deployed columns: 5 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -26,32 +26,20 @@ resource workspace 'Microsoft.OperationalInsights/workspaces@2025-02-01' existin
   name: workspaceName
 }
 
-resource corelightv2corelightoverallcapturelossclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02-01' = {
+resource corelightv2corelightovcapturelossclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02-01' = {
   parent: workspace
-  name: 'Corelight_v2_corelight_overall_capture_loss_CL'
+  name: 'Corelight_v2_corelight_ov_capture_loss_CL'
   properties: {
     plan: tablePlan
     retentionInDays: retentionInDays
     totalRetentionInDays: totalRetentionInDays
     schema: {
-      name: 'Corelight_v2_corelight_overall_capture_loss_CL'
-      description: 'Custom table Corelight_v2_corelight_overall_capture_loss_CL - imported from JSON schema'
-      displayName: 'Corelight_v2_corelight_overall_capture_loss_CL'
+      name: 'Corelight_v2_corelight_ov_capture_loss_CL'
+      description: 'Custom table Corelight_v2_corelight_ov_capture_loss_CL - imported from JSON schema'
+      displayName: 'Corelight_v2_corelight_ov_capture_loss_CL'
       columns: [
         {
           name: 'TimeGenerated'
-          type: 'dateTime'
-        }
-        {
-          name: '_path_s'
-          type: 'string'
-        }
-        {
-          name: '_system_name_s'
-          type: 'string'
-        }
-        {
-          name: '_write_ts_t'
           type: 'dateTime'
         }
         {
@@ -75,6 +63,6 @@ resource corelightv2corelightoverallcapturelossclTable 'Microsoft.OperationalIns
   }
 }
 
-output tableName string = corelightv2corelightoverallcapturelossclTable.name
-output tableId string = corelightv2corelightoverallcapturelossclTable.id
-output provisioningState string = corelightv2corelightoverallcapturelossclTable.properties.provisioningState
+output tableName string = corelightv2corelightovcapturelossclTable.name
+output tableId string = corelightv2corelightovcapturelossclTable.id
+output provisioningState string = corelightv2corelightovcapturelossclTable.properties.provisioningState

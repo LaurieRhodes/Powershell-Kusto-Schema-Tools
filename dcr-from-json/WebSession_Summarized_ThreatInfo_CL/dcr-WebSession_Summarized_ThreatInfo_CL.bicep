@@ -12,11 +12,11 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for WebSession_Summarized_ThreatInfo_CL
 // ============================================================================
-// Generated: 2025-09-18 08:37:40
+// Generated: 2025-09-19 14:20:37
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
 // Underscore columns filtered out
-// Original columns: 17, DCR columns: 17 (Type column always filtered)
+// Original columns: 14, DCR columns: 14 (Type column always filtered)
 // Output stream: Custom-WebSession_Summarized_ThreatInfo_CL
 // Note: Input stream uses string/dynamic only. Type conversions in transform.
 // ============================================================================
@@ -60,10 +60,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             type: 'string'
           }
           {
-            name: 'SrcIpAddr_s'
-            type: 'string'
-          }
-          {
             name: 'SrcUsername_s'
             type: 'string'
           }
@@ -91,14 +87,6 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
             name: 'SrcIpAddr_s'
             type: 'string'
           }
-          {
-            name: 'SrcIpAddr_s'
-            type: 'string'
-          }
-          {
-            name: 'SrcIpAddr_s'
-            type: 'string'
-          }
         ]
       }
     }
@@ -115,7 +103,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
       {
         streams: ['Custom-WebSession_Summarized_ThreatInfo_CL']
         destinations: ['Sentinel-WebSession_Summarized_ThreatInfo_CL']
-        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), EventTime_t = todatetime(EventTime_t), DestDomain_s = tostring(DestDomain_s), DstIpAddr_s = tostring(DstIpAddr_s), EventCount_d = tostring(EventCount_d), EventResult_s = tostring(EventResult_s), EventSeverity_s = tostring(EventSeverity_s), SrcIpAddr_s = tostring(SrcIpAddr_s), SrcUsername_s = tostring(SrcUsername_s), ThreatCategory_s = tostring(ThreatCategory_s), ThreatField_s = tostring(ThreatField_s), ThreatName_s = tostring(ThreatName_s), ThreatOriginalConfidence_d = toint(ThreatOriginalConfidence_d), ThreatRiskLevel_d = toint(ThreatRiskLevel_d), SrcIpAddr_s = tostring(SrcIpAddr_s), SrcIpAddr_s = tostring(SrcIpAddr_s), SrcIpAddr_s = tostring(SrcIpAddr_s)'
+        transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), EventTime_t = todatetime(EventTime_t), DestDomain_s = tostring(DestDomain_s), DstIpAddr_s = tostring(DstIpAddr_s), EventCount_d = tostring(EventCount_d), EventResult_s = tostring(EventResult_s), EventSeverity_s = tostring(EventSeverity_s), SrcUsername_s = tostring(SrcUsername_s), ThreatCategory_s = tostring(ThreatCategory_s), ThreatField_s = tostring(ThreatField_s), ThreatName_s = tostring(ThreatName_s), ThreatOriginalConfidence_d = toint(ThreatOriginalConfidence_d), ThreatRiskLevel_d = toint(ThreatRiskLevel_d), SrcIpAddr_s = tostring(SrcIpAddr_s)'
         outputStream: 'Custom-WebSession_Summarized_ThreatInfo_CL'
       }
     ]

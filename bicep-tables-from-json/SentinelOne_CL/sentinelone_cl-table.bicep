@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: SentinelOne_CL
-// Generated on 2025-09-17 06:40:06 UTC
+// Generated on 2025-09-19 14:13:58 UTC
 // Source: JSON schema export
-// Original columns: 323, Deployed columns: 322 (Type column filtered)
-// Underscore columns included
+// Original columns: 323, Deployed columns: 319 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -76,11 +76,11 @@ resource sentineloneclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
-          name: 'agentDetectionInfo_agentIpV6_s'
+          name: 'hash_s'
           type: 'string'
         }
         {
-          name: 'hash_s'
+          name: 'agentId_s'
           type: 'string'
         }
         {
@@ -108,19 +108,15 @@ resource sentineloneclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
-          name: 'targetProcessInfo_tgtFileId_s'
-          type: 'string'
-        }
-        {
-          name: 'agentId_s'
-          type: 'string'
-        }
-        {
-          name: 'targetProcessInfo_tgtFileHashSha256_s'
+          name: 'agentDetectionInfo_agentIpV6_s'
           type: 'string'
         }
         {
           name: 'agentDetectionInfo_agentLastLoggedInUserName_s'
+          type: 'string'
+        }
+        {
+          name: 'agentDetectionInfo_agentMitigationMode_s'
           type: 'string'
         }
         {
@@ -156,7 +152,7 @@ resource sentineloneclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
-          name: 'agentDetectionInfo_agentMitigationMode_s'
+          name: 'targetProcessInfo_tgtFileId_s'
           type: 'string'
         }
         {
@@ -196,15 +192,19 @@ resource sentineloneclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
-          name: 'agentRealtimeInfo_agentIsActive_b'
-          type: 'boolean'
+          name: 'targetProcessInfo_tgtFileHashSha256_s'
+          type: 'string'
         }
         {
           name: 'targetProcessInfo_tgtFileHashSha1_s'
           type: 'string'
         }
         {
-          name: 'sourceProcessInfo_user_s'
+          name: 'targetProcessInfo_tgtFileCreatedAt_t'
+          type: 'dateTime'
+        }
+        {
+          name: 'sourceParentProcessInfo_name_s'
           type: 'string'
         }
         {
@@ -232,15 +232,15 @@ resource sentineloneclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
+          name: 'sourceParentProcessInfo_pid_s'
+          type: 'string'
+        }
+        {
           name: 'sourceParentProcessInfo_commandline_s'
           type: 'string'
         }
         {
-          name: 'sourceParentProcessInfo_name_s'
-          type: 'string'
-        }
-        {
-          name: 'ruleInfo_treatAsThreat_s'
+          name: 'ruleInfo_severity_s'
           type: 'string'
         }
         {
@@ -268,23 +268,23 @@ resource sentineloneclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
-          name: 'alertInfo_updatedAt_t'
-          type: 'dateTime'
-        }
-        {
-          name: 'ruleInfo_severity_s'
+          name: 'ruleInfo_treatAsThreat_s'
           type: 'string'
         }
         {
-          name: 'targetProcessInfo_tgtFileCreatedAt_t'
+          name: 'agentRealtimeInfo_agentIsActive_b'
+          type: 'boolean'
+        }
+        {
+          name: 'sourceParentProcessInfo_pidStarttime_t'
           type: 'dateTime'
         }
         {
-          name: 'sourceParentProcessInfo_pid_s'
+          name: 'sourceParentProcessInfo_subsystem_s'
           type: 'string'
         }
         {
-          name: 'sourceParentProcessInfo_storyline_s'
+          name: 'sourceProcessInfo_user_s'
           type: 'string'
         }
         {
@@ -312,15 +312,15 @@ resource sentineloneclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
+          name: 'sourceParentProcessInfo_storyline_s'
+          type: 'string'
+        }
+        {
           name: 'sourceProcessInfo_integrityLevel_s'
           type: 'string'
         }
         {
-          name: 'sourceParentProcessInfo_pidStarttime_t'
-          type: 'dateTime'
-        }
-        {
-          name: 'sourceProcessInfo_fileSignerIdentity_s'
+          name: 'sourceProcessInfo_filePath_s'
           type: 'string'
         }
         {
@@ -348,11 +348,7 @@ resource sentineloneclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
-          name: 'sourceParentProcessInfo_subsystem_s'
-          type: 'string'
-        }
-        {
-          name: 'sourceProcessInfo_filePath_s'
+          name: 'sourceProcessInfo_fileSignerIdentity_s'
           type: 'string'
         }
         {
@@ -365,10 +361,6 @@ resource sentineloneclTable 'Microsoft.OperationalInsights/workspaces/tables@202
         }
         {
           name: 'agentRealtimeInfo_agentMitigationMode_s'
-          type: 'string'
-        }
-        {
-          name: 'threatInfo_storyline_s'
           type: 'string'
         }
         {
@@ -396,15 +388,15 @@ resource sentineloneclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'boolean'
         }
         {
-          name: 'threatInfo_threatId_s'
-          type: 'string'
-        }
-        {
           name: 'threatInfo_originatorProcess_s'
           type: 'string'
         }
         {
-          name: 'threatInfo_mitigationStatus_s'
+          name: 'threatInfo_storyline_s'
+          type: 'string'
+        }
+        {
+          name: 'threatInfo_mitigationStatusDescription_s'
           type: 'string'
         }
         {
@@ -432,24 +424,24 @@ resource sentineloneclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
-          name: 'threatInfo_mitigationStatusDescription_s'
-          type: 'string'
-        }
-        {
           name: 'threatInfo_incidentStatus_s'
           type: 'string'
         }
         {
-          name: 'threatInfo_threatName_s'
+          name: 'threatInfo_mitigationStatus_s'
           type: 'string'
         }
         {
-          name: 'whiteningOptions_s'
+          name: 'threatInfo_identifiedAt_t'
+          type: 'dateTime'
+        }
+        {
+          name: 'threatInfo_threatId_s'
           type: 'string'
         }
         {
-          name: 'osUsername_s'
-          type: 'string'
+          name: 'threatInfo_updatedAt_t'
+          type: 'dateTime'
         }
         {
           name: 'tags_sentinelone_s'
@@ -476,15 +468,15 @@ resource sentineloneclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
-          name: 'threatInfo_updatedAt_t'
-          type: 'dateTime'
-        }
-        {
           name: 'comments_s'
           type: 'string'
         }
         {
-          name: 'DataFields_s'
+          name: 'threatInfo_threatName_s'
+          type: 'string'
+        }
+        {
+          name: 'description_s'
           type: 'string'
         }
         {
@@ -512,11 +504,15 @@ resource sentineloneclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
-          name: 'description_s'
+          name: 'whiteningOptions_s'
           type: 'string'
         }
         {
-          name: 'threatInfo_identifiedAt_t'
+          name: 'DataFields_s'
+          type: 'string'
+        }
+        {
+          name: 'alertInfo_updatedAt_t'
           type: 'dateTime'
         }
         {
@@ -524,8 +520,8 @@ resource sentineloneclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
-          name: 'threatInfo_fileSize_d'
-          type: 'real'
+          name: 'threatInfo_filePath_s'
+          type: 'string'
         }
         {
           name: 'agentRealtimeInfo_siteName_s'
@@ -596,19 +592,15 @@ resource sentineloneclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
+          name: 'threatInfo_fileSize_d'
+          type: 'real'
+        }
+        {
           name: 'indicators_s'
           type: 'string'
         }
         {
-          name: 'mitigationStatus_s'
-          type: 'string'
-        }
-        {
           name: 'threatInfo_analystVerdict_s'
-          type: 'string'
-        }
-        {
-          name: 'threatInfo_filePath_s'
           type: 'string'
         }
         {
@@ -640,12 +632,12 @@ resource sentineloneclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
-          name: 'threatInfo_createdAt_t'
-          type: 'dateTime'
+          name: 'mitigationStatus_s'
+          type: 'string'
         }
         {
-          name: 'threatInfo_confidenceLevel_s'
-          type: 'string'
+          name: 'threatInfo_createdAt_t'
+          type: 'dateTime'
         }
         {
           name: 'threatInfo_collectionId_s'
@@ -676,20 +668,20 @@ resource sentineloneclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
-          name: 'alertInfo_source_s'
+          name: 'threatInfo_confidenceLevel_s'
           type: 'string'
         }
         {
-          name: 'scanAbortedAt_t'
-          type: 'dateTime'
+          name: 'alertInfo_source_s'
+          type: 'string'
         }
         {
           name: 'alertInfo_reportedAt_t'
           type: 'dateTime'
         }
         {
-          name: 'alertInfo_incidentStatus_s'
-          type: 'string'
+          name: 'alertInfo_isEdr_b'
+          type: 'boolean'
         }
         {
           name: 'lastIpToMgmt_s'
@@ -1000,16 +992,20 @@ resource sentineloneclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
+          name: 'osUsername_s'
+          type: 'string'
+        }
+        {
           name: 'remoteProfilingState_s'
           type: 'string'
         }
         {
-          name: 'scanFinishedAt_t'
+          name: 'scanStartedAt_t'
           type: 'dateTime'
         }
         {
-          name: 'scanStartedAt_t'
-          type: 'dateTime'
+          name: 'agentDetectionInfo_name_s'
+          type: 'string'
         }
         {
           name: 'agentDetectionInfo_machineType_s'
@@ -1036,15 +1032,15 @@ resource sentineloneclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
+          name: 'agentDetectionInfo_osFamily_s'
+          type: 'string'
+        }
+        {
           name: 'sourceParentProcessInfo_storyline_g'
           type: 'string'
         }
         {
-          name: 'agentDetectionInfo_name_s'
-          type: 'string'
-        }
-        {
-          name: 'targetProcessInfo_tgtProcUid_s'
+          name: 'targetProcessInfo_tgtProcStorylineId_s'
           type: 'string'
         }
         {
@@ -1072,23 +1068,23 @@ resource sentineloneclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
+          name: 'targetProcessInfo_tgtProcUid_s'
+          type: 'string'
+        }
+        {
           name: 'alertInfo_loginsUserName_s'
           type: 'string'
         }
         {
-          name: 'targetProcessInfo_tgtProcStorylineId_s'
+          name: 'agentDetectionInfo_osName_s'
           type: 'string'
         }
         {
-          name: 'alertInfo_loginType_s'
+          name: 'agentDetectionInfo_uuid_g'
           type: 'string'
         }
         {
-          name: 'agentDetectionInfo_osFamily_s'
-          type: 'string'
-        }
-        {
-          name: 'agentDetectionInfo_osRevision_s'
+          name: 'alertInfo_incidentStatus_s'
           type: 'string'
         }
         {
@@ -1116,15 +1112,15 @@ resource sentineloneclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
+          name: 'agentDetectionInfo_osRevision_s'
+          type: 'string'
+        }
+        {
           name: 'agentRealtimeInfo_uuid_g'
           type: 'string'
         }
         {
-          name: 'agentDetectionInfo_osName_s'
-          type: 'string'
-        }
-        {
-          name: 'agentRealtimeInfo_os_s'
+          name: 'agentRealtimeInfo_name_s'
           type: 'string'
         }
         {
@@ -1152,15 +1148,15 @@ resource sentineloneclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
-          name: 'agentDetectionInfo_uuid_g'
+          name: 'agentRealtimeInfo_os_s'
           type: 'string'
         }
         {
-          name: 'agentRealtimeInfo_name_s'
-          type: 'string'
+          name: 'scanFinishedAt_t'
+          type: 'dateTime'
         }
         {
-          name: 'alertInfo_loginIsSuccessful_s'
+          name: 'alertInfo_loginType_s'
           type: 'string'
         }
         {
@@ -1168,21 +1164,16 @@ resource sentineloneclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
-          name: 'alertInfo_loginAccountSid_s'
+          name: 'targetProcessInfo_tgtFileOldPath_s'
+          type: 'string'
+        }
+        {
+          name: 'alertInfo_indicatorName_s'
           type: 'string'
         }
         {
           name: 'alertInfo_indicatorDescription_s'
           type: 'string'
-        }
-        {
-          name: '_ItemId'
-          type: 'string'
-        }
-        {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
         }
         {
           name: 'type_s'
@@ -1201,7 +1192,7 @@ resource sentineloneclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
-          name: 'alertInfo_indicatorName_s'
+          name: 'alertInfo_indicatorCategory_s'
           type: 'string'
         }
         {
@@ -1241,15 +1232,19 @@ resource sentineloneclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'boolean'
         }
         {
-          name: 'targetProcessInfo_tgtFileOldPath_s'
-          type: 'string'
-        }
-        {
-          name: 'alertInfo_indicatorCategory_s'
+          name: 'alertInfo_loginIsSuccessful_s'
           type: 'string'
         }
         {
           name: 'alertInfo_registryOldValue_g'
+          type: 'string'
+        }
+        {
+          name: 'alertInfo_dstPort_s'
+          type: 'string'
+        }
+        {
+          name: 'alertInfo_loginAccountSid_s'
           type: 'string'
         }
         {
@@ -1277,11 +1272,11 @@ resource sentineloneclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
-          name: 'alertInfo_dnsResponse_s'
+          name: 'alertInfo_dstIp_s'
           type: 'string'
         }
         {
-          name: 'alertInfo_dnsRequest_s'
+          name: 'alertInfo_dnsResponse_s'
           type: 'string'
         }
         {
@@ -1313,20 +1308,12 @@ resource sentineloneclTable 'Microsoft.OperationalInsights/workspaces/tables@202
           type: 'string'
         }
         {
-          name: 'alertInfo_dstPort_s'
+          name: 'alertInfo_dnsRequest_s'
           type: 'string'
         }
         {
-          name: 'alertInfo_dstIp_s'
-          type: 'string'
-        }
-        {
-          name: 'alertInfo_isEdr_b'
-          type: 'boolean'
-        }
-        {
-          name: '_ItemId'
-          type: 'string'
+          name: 'scanAbortedAt_t'
+          type: 'dateTime'
         }
       ]
     }

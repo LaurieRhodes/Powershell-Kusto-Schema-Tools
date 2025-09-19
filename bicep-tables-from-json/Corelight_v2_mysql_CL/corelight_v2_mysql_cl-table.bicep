@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Corelight_v2_mysql_CL
-// Generated on 2025-09-17 06:40:00 UTC
+// Generated on 2025-09-19 14:13:52 UTC
 // Source: JSON schema export
-// Original columns: 15, Deployed columns: 15 (Type column filtered)
-// Underscore columns included
+// Original columns: 15, Deployed columns: 12 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -40,18 +40,6 @@ resource corelightv2mysqlclTable 'Microsoft.OperationalInsights/workspaces/table
       columns: [
         {
           name: 'TimeGenerated'
-          type: 'dateTime'
-        }
-        {
-          name: '_path_s'
-          type: 'string'
-        }
-        {
-          name: '_system_name_s'
-          type: 'string'
-        }
-        {
-          name: '_write_ts_t'
           type: 'dateTime'
         }
         {

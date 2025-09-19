@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: BetterMTDNetflowLog_CL
-// Generated on 2025-09-17 06:39:57 UTC
+// Generated on 2025-09-19 14:13:50 UTC
 // Source: JSON schema export
-// Original columns: 36, Deployed columns: 35 (Type column filtered)
-// Underscore columns included
+// Original columns: 36, Deployed columns: 34 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -43,9 +43,8 @@ resource bettermtdnetflowlogclTable 'Microsoft.OperationalInsights/workspaces/ta
           type: 'dateTime'
         }
         {
-          name: '_ResourceId'
+          name: 'Account'
           type: 'string'
-          dataTypeHint: 2
         }
         {
           name: 'UrlStatus'
@@ -107,67 +106,15 @@ resource bettermtdnetflowlogclTable 'Microsoft.OperationalInsights/workspaces/ta
           type: 'string'
         }
         {
-          name: 'Port'
-          type: 'real'
-        }
-        {
-          name: 'Path'
-          type: 'string'
-        }
-        {
-          name: 'NetworkType'
-          type: 'string'
-        }
-        {
-          name: 'Account'
-          type: 'string'
-        }
-        {
-          name: 'AppIdentifier'
-          type: 'string'
-        }
-        {
-          name: 'AppName'
-          type: 'string'
-        }
-        {
-          name: 'Cid'
-          type: 'real'
-        }
-        {
-          name: 'Computer'
-          type: 'string'
-        }
-        {
-          name: 'Destination'
-          type: 'string'
-        }
-        {
           name: 'Username'
           type: 'string'
         }
         {
-          name: 'DestinationCountry'
-          type: 'string'
-        }
-        {
-          name: 'DestinationLat'
+          name: 'Port'
           type: 'real'
         }
         {
-          name: 'DestinationLon'
-          type: 'real'
-        }
-        {
-          name: 'DeviceName'
-          type: 'string'
-        }
-        {
-          name: 'Host'
-          type: 'string'
-        }
-        {
-          name: 'ManagementGroupName'
+          name: 'NetworkType'
           type: 'string'
         }
         {
@@ -175,7 +122,55 @@ resource bettermtdnetflowlogclTable 'Microsoft.OperationalInsights/workspaces/ta
           type: 'string'
         }
         {
+          name: 'ManagementGroupName'
+          type: 'string'
+        }
+        {
+          name: 'Host'
+          type: 'string'
+        }
+        {
+          name: 'DeviceName'
+          type: 'string'
+        }
+        {
+          name: 'DestinationLon'
+          type: 'real'
+        }
+        {
+          name: 'DestinationLat'
+          type: 'real'
+        }
+        {
           name: 'DestinationCountryCode'
+          type: 'string'
+        }
+        {
+          name: 'DestinationCountry'
+          type: 'string'
+        }
+        {
+          name: 'Destination'
+          type: 'string'
+        }
+        {
+          name: 'Computer'
+          type: 'string'
+        }
+        {
+          name: 'Cid'
+          type: 'real'
+        }
+        {
+          name: 'AppName'
+          type: 'string'
+        }
+        {
+          name: 'AppIdentifier'
+          type: 'string'
+        }
+        {
+          name: 'Path'
           type: 'string'
         }
         {

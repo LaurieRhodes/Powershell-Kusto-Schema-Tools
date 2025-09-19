@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: ProofPointTAPMessagesBlocked_CL
-// Generated on 2025-09-17 06:40:05 UTC
+// Generated on 2025-09-19 14:13:57 UTC
 // Source: JSON schema export
-// Original columns: 37, Deployed columns: 36 (Type column filtered)
-// Underscore columns included
+// Original columns: 37, Deployed columns: 35 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,47 +48,7 @@ resource proofpointtapmessagesblockedclTable 'Microsoft.OperationalInsights/work
           dataTypeHint: 1
         }
         {
-          name: 'headerReplyTo_s'
-          type: 'string'
-        }
-        {
-          name: 'impostorScore_d'
-          type: 'real'
-        }
-        {
-          name: 'malwareScore_d'
-          type: 'real'
-        }
-        {
-          name: 'messageSize_d'
-          type: 'real'
-        }
-        {
-          name: 'headerFrom_s'
-          type: 'string'
-        }
-        {
-          name: 'phishScore_d'
-          type: 'real'
-        }
-        {
-          name: 'messageParts_s'
-          type: 'string'
-        }
-        {
-          name: 'policyRoutes_s'
-          type: 'string'
-        }
-        {
-          name: 'GUID_s'
-          type: 'string'
-        }
-        {
-          name: 'cluster_s'
-          type: 'string'
-        }
-        {
-          name: 'quarantineFolder_s'
+          name: 'ccAddresses_s'
           type: 'string'
         }
         {
@@ -96,11 +56,15 @@ resource proofpointtapmessagesblockedclTable 'Microsoft.OperationalInsights/work
           type: 'string'
         }
         {
-          name: 'ccAddresses_s'
+          name: 'quarantineFolder_s'
           type: 'string'
         }
         {
-          name: 'xmailer_s'
+          name: 'cluster_s'
+          type: 'string'
+        }
+        {
+          name: 'GUID_s'
           type: 'string'
         }
         {
@@ -108,11 +72,43 @@ resource proofpointtapmessagesblockedclTable 'Microsoft.OperationalInsights/work
           type: 'string'
         }
         {
-          name: 'completelyRewritten_b'
-          type: 'boolean'
+          name: 'policyRoutes_s'
+          type: 'string'
+        }
+        {
+          name: 'phishScore_d'
+          type: 'real'
+        }
+        {
+          name: 'headerFrom_s'
+          type: 'string'
+        }
+        {
+          name: 'messageSize_d'
+          type: 'real'
+        }
+        {
+          name: 'malwareScore_d'
+          type: 'real'
+        }
+        {
+          name: 'impostorScore_d'
+          type: 'real'
+        }
+        {
+          name: 'headerReplyTo_s'
+          type: 'string'
+        }
+        {
+          name: 'messageParts_s'
+          type: 'string'
         }
         {
           name: 'messageID_s'
+          type: 'string'
+        }
+        {
+          name: 'senderIP_s'
           type: 'string'
         }
         {
@@ -144,7 +140,7 @@ resource proofpointtapmessagesblockedclTable 'Microsoft.OperationalInsights/work
           type: 'real'
         }
         {
-          name: 'senderIP_s'
+          name: 'xmailer_s'
           type: 'string'
         }
         {
@@ -180,9 +176,8 @@ resource proofpointtapmessagesblockedclTable 'Microsoft.OperationalInsights/work
           type: 'dateTime'
         }
         {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
+          name: 'completelyRewritten_b'
+          type: 'boolean'
         }
       ]
     }

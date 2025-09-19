@@ -12,7 +12,7 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for QualysKB_CL
 // ============================================================================
-// Generated: 2025-09-18 08:37:35
+// Generated: 2025-09-19 14:20:29
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
 // Underscore columns filtered out

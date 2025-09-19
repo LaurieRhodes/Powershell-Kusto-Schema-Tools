@@ -30,10 +30,6 @@
                            "Type":  "string"
                        },
                        {
-                           "Name":  "TimeGenerated",
-                           "Type":  "datetime"
-                       },
-                       {
                            "Name":  "portfolioId_s",
                            "Type":  "string"
                        },

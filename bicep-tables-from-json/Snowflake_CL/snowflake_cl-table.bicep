@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Snowflake_CL
-// Generated on 2025-09-17 06:40:06 UTC
+// Generated on 2025-09-19 14:13:58 UTC
 // Source: JSON schema export
-// Original columns: 75, Deployed columns: 74 (Type column filtered)
-// Underscore columns included
+// Original columns: 75, Deployed columns: 73 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -43,9 +43,12 @@ resource snowflakeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-
           type: 'dateTime'
         }
         {
-          name: '_ResourceId'
+          name: 'BYTES_DELETED_d'
+          type: 'real'
+        }
+        {
+          name: 'REPORTED_CLIENT_VERSION_s'
           type: 'string'
-          dataTypeHint: 2
         }
         {
           name: 'REPORTED_CLIENT_TYPE_s'
@@ -68,16 +71,16 @@ resource snowflakeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-
           type: 'real'
         }
         {
+          name: 'ROLE_NAME_s'
+          type: 'string'
+        }
+        {
           name: 'QUEUED_PROVISIONING_TIME_d'
           type: 'real'
         }
         {
-          name: 'REPORTED_CLIENT_VERSION_s'
+          name: 'QUERY_TYPE_s'
           type: 'string'
-        }
-        {
-          name: 'QUEUED_OVERLOAD_TIME_d'
-          type: 'real'
         }
         {
           name: 'QUERY_TEXT_s'
@@ -100,23 +103,19 @@ resource snowflakeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-
           type: 'real'
         }
         {
-          name: 'PARTITIONS_TOTAL_d'
+          name: 'QUEUED_OVERLOAD_TIME_d'
           type: 'real'
         }
         {
-          name: 'QUERY_TYPE_s'
-          type: 'string'
-        }
-        {
-          name: 'ROLE_NAME_s'
-          type: 'string'
+          name: 'PARTITIONS_TOTAL_d'
+          type: 'real'
         }
         {
           name: 'ROWS_DELETED_d'
           type: 'real'
         }
         {
-          name: 'ROWS_INSERTED_d'
+          name: 'ROWS_PRODUCED_d'
           type: 'real'
         }
         {
@@ -145,12 +144,12 @@ resource snowflakeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-
           dataTypeHint: 1
         }
         {
-          name: 'START_TIME_t'
-          type: 'dateTime'
+          name: 'ROWS_INSERTED_d'
+          type: 'real'
         }
         {
-          name: 'SourceSystem'
-          type: 'string'
+          name: 'START_TIME_t'
+          type: 'dateTime'
         }
         {
           name: 'source_table_s'
@@ -177,15 +176,11 @@ resource snowflakeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-
           type: 'string'
         }
         {
-          name: 'ROWS_PRODUCED_d'
-          type: 'real'
-        }
-        {
-          name: 'PARTITIONS_SCANNED_s'
+          name: 'SourceSystem'
           type: 'string'
         }
         {
-          name: 'WAREHOUSE_SIZE_s'
+          name: 'PARTITIONS_SCANNED_s'
           type: 'string'
         }
         {
@@ -193,7 +188,11 @@ resource snowflakeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-
           type: 'real'
         }
         {
-          name: 'ManagementGroupName'
+          name: 'MG'
+          type: 'string'
+        }
+        {
+          name: 'DATABASE_NAME_s'
           type: 'string'
         }
         {
@@ -217,15 +216,15 @@ resource snowflakeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-
           type: 'real'
         }
         {
+          name: 'END_TIME_t'
+          type: 'dateTime'
+        }
+        {
           name: 'CLIENT_IP_s'
           type: 'string'
         }
         {
-          name: 'DATABASE_NAME_s'
-          type: 'string'
-        }
-        {
-          name: 'BYTES_WRITTEN_TO_RESULT_d'
+          name: 'BYTES_WRITTEN_d'
           type: 'real'
         }
         {
@@ -249,16 +248,8 @@ resource snowflakeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-
           type: 'real'
         }
         {
-          name: 'BYTES_DELETED_d'
+          name: 'BYTES_WRITTEN_TO_RESULT_d'
           type: 'real'
-        }
-        {
-          name: 'BYTES_WRITTEN_d'
-          type: 'real'
-        }
-        {
-          name: 'END_TIME_t'
-          type: 'dateTime'
         }
         {
           name: 'ERROR_CODE_s'
@@ -266,6 +257,14 @@ resource snowflakeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-
         }
         {
           name: 'ERROR_MESSAGE_s'
+          type: 'string'
+        }
+        {
+          name: 'EVENT_ID_d'
+          type: 'real'
+        }
+        {
+          name: 'ManagementGroupName'
           type: 'string'
         }
         {
@@ -325,11 +324,7 @@ resource snowflakeclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-
           type: 'dateTime'
         }
         {
-          name: 'EVENT_ID_d'
-          type: 'real'
-        }
-        {
-          name: 'MG'
+          name: 'WAREHOUSE_SIZE_s'
           type: 'string'
         }
         {

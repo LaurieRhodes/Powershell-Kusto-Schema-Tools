@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Corelight_v2_enip_list_identity_CL
-// Generated on 2025-09-17 06:39:59 UTC
+// Generated on 2025-09-19 14:13:52 UTC
 // Source: JSON schema export
-// Original columns: 19, Deployed columns: 19 (Type column filtered)
-// Underscore columns included
+// Original columns: 19, Deployed columns: 16 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -43,43 +43,15 @@ resource corelightv2eniplistidentityclTable 'Microsoft.OperationalInsights/works
           type: 'dateTime'
         }
         {
-          name: '_path_s'
+          name: 'ts_t'
+          type: 'dateTime'
+        }
+        {
+          name: 'uid_s'
           type: 'string'
         }
         {
-          name: 'status_s'
-          type: 'string'
-        }
-        {
-          name: 'revision_d'
-          type: 'real'
-        }
-        {
-          name: 'product_code_d'
-          type: 'real'
-        }
-        {
-          name: 'serial_number_s'
-          type: 'string'
-        }
-        {
-          name: 'product_name_s'
-          type: 'string'
-        }
-        {
-          name: 'vendor_s'
-          type: 'string'
-        }
-        {
-          name: 'device_type_s'
-          type: 'string'
-        }
-        {
-          name: 'id_resp_p_d'
-          type: 'real'
-        }
-        {
-          name: 'id_resp_h_s'
+          name: 'id_orig_h_s'
           type: 'string'
         }
         {
@@ -87,23 +59,39 @@ resource corelightv2eniplistidentityclTable 'Microsoft.OperationalInsights/works
           type: 'real'
         }
         {
-          name: 'id_orig_h_s'
+          name: 'id_resp_h_s'
           type: 'string'
         }
         {
-          name: 'uid_s'
+          name: 'id_resp_p_d'
+          type: 'real'
+        }
+        {
+          name: 'device_type_s'
           type: 'string'
         }
         {
-          name: 'ts_t'
-          type: 'dateTime'
+          name: 'vendor_s'
+          type: 'string'
         }
         {
-          name: '_write_ts_t'
-          type: 'dateTime'
+          name: 'product_name_s'
+          type: 'string'
         }
         {
-          name: '_system_name_s'
+          name: 'serial_number_s'
+          type: 'string'
+        }
+        {
+          name: 'product_code_d'
+          type: 'real'
+        }
+        {
+          name: 'revision_d'
+          type: 'real'
+        }
+        {
+          name: 'status_s'
           type: 'string'
         }
         {

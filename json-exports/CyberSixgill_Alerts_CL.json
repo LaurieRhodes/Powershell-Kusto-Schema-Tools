@@ -46,7 +46,7 @@
                            "Type":  "string"
                        },
                        {
-                           "Name":  "date",
+                           "Name":  "date_s",
                            "Type":  "string"
                        },
                        {
@@ -90,7 +90,7 @@
                            "Type":  "string"
                        },
                        {
-                           "Name":  "title",
+                           "Name":  "title_s",
                            "Type":  "string"
                        },
                        {

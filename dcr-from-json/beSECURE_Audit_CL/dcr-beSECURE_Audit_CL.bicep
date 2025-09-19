@@ -12,7 +12,7 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for beSECURE_Audit_CL
 // ============================================================================
-// Generated: 2025-09-18 08:37:16
+// Generated: 2025-09-19 14:19:55
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
 // Underscore columns filtered out

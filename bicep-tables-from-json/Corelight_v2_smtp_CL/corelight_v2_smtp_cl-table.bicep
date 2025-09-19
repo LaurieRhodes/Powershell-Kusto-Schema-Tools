@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Corelight_v2_smtp_CL
-// Generated on 2025-09-17 06:40:01 UTC
+// Generated on 2025-09-19 14:13:53 UTC
 // Source: JSON schema export
-// Original columns: 33, Deployed columns: 33 (Type column filtered)
-// Underscore columns included
+// Original columns: 33, Deployed columns: 30 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -43,8 +43,8 @@ resource corelightv2smtpclTable 'Microsoft.OperationalInsights/workspaces/tables
           type: 'dateTime'
         }
         {
-          name: '_path_s'
-          type: 'string'
+          name: 'ts_t'
+          type: 'dateTime'
         }
         {
           name: 'is_webmail_b'
@@ -95,11 +95,12 @@ resource corelightv2smtpclTable 'Microsoft.OperationalInsights/workspaces/tables
           type: 'string'
         }
         {
-          name: 'reply_to_s'
+          name: 'urls_s'
           type: 'string'
+          dataTypeHint: 0
         }
         {
-          name: 'cc_s'
+          name: 'reply_to_s'
           type: 'string'
         }
         {
@@ -151,21 +152,8 @@ resource corelightv2smtpclTable 'Microsoft.OperationalInsights/workspaces/tables
           type: 'string'
         }
         {
-          name: 'ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: '_write_ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: '_system_name_s'
+          name: 'cc_s'
           type: 'string'
-        }
-        {
-          name: 'urls_s'
-          type: 'string'
-          dataTypeHint: 0
         }
         {
           name: 'domains_s'

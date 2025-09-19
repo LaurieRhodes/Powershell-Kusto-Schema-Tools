@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: CarbonBlackAuditLogs_CL
-// Generated on 2025-09-17 06:39:58 UTC
+// Generated on 2025-09-19 14:13:50 UTC
 // Source: JSON schema export
-// Original columns: 28, Deployed columns: 27 (Type column filtered)
-// Underscore columns included
+// Original columns: 27, Deployed columns: 24 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,10 +48,6 @@ resource carbonblackauditlogsclTable 'Microsoft.OperationalInsights/workspaces/t
           dataTypeHint: 1
         }
         {
-          name: 'orgName_s'
-          type: 'string'
-        }
-        {
           name: 'eventTime_d'
           type: 'real'
         }
@@ -77,11 +73,6 @@ resource carbonblackauditlogsclTable 'Microsoft.OperationalInsights/workspaces/t
           type: 'boolean'
         }
         {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
-        }
-        {
           name: 'TenantId'
           type: 'guid'
           dataTypeHint: 1
@@ -96,17 +87,13 @@ resource carbonblackauditlogsclTable 'Microsoft.OperationalInsights/workspaces/t
           type: 'string'
         }
         {
-          name: 'verbose'
-          type: 'boolean'
+          name: 'orgName_s'
+          type: 'string'
         }
         {
           name: 'clientIp'
           type: 'string'
           dataTypeHint: 3
-        }
-        {
-          name: 'flagged'
-          type: 'boolean'
         }
         {
           name: 'orgName'
@@ -145,13 +132,13 @@ resource carbonblackauditlogsclTable 'Microsoft.OperationalInsights/workspaces/t
           type: 'string'
         }
         {
+          name: 'flagged'
+          type: 'boolean'
+        }
+        {
           name: 'clientIp_s'
           type: 'string'
           dataTypeHint: 3
-        }
-        {
-          name: '_ItemId'
-          type: 'string'
         }
       ]
     }

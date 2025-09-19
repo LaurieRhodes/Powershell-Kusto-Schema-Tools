@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: GCP_DNS_CL
-// Generated on 2025-09-17 06:40:03 UTC
+// Generated on 2025-09-19 14:13:55 UTC
 // Source: JSON schema export
-// Original columns: 45, Deployed columns: 44 (Type column filtered)
-// Underscore columns included
+// Original columns: 45, Deployed columns: 43 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -80,12 +80,12 @@ resource gcpdnsclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02-
           type: 'string'
         }
         {
-          name: 'resource_type_s'
+          name: 'payload_rdata_s'
           type: 'string'
         }
         {
-          name: 'payload_rdata_s'
-          type: 'string'
+          name: 'payload_vmInstanceId_d'
+          type: 'real'
         }
         {
           name: 'payload_vmInstanceIdString_s'
@@ -116,21 +116,16 @@ resource gcpdnsclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02-
           type: 'string'
         }
         {
-          name: 'payload_serverLatency_d'
-          type: 'real'
-        }
-        {
-          name: 'payload_vmInstanceId_d'
-          type: 'real'
-        }
-        {
-          name: 'payload_sourceIP_s'
+          name: 'resource_type_s'
           type: 'string'
-          dataTypeHint: 3
         }
         {
           name: 'timestamp_t'
           type: 'dateTime'
+        }
+        {
+          name: 'severity_s'
+          type: 'string'
         }
         {
           name: 'insert_id_s'
@@ -169,8 +164,8 @@ resource gcpdnsclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02-
           type: 'string'
         }
         {
-          name: 'severity_s'
-          type: 'string'
+          name: 'payload_serverLatency_d'
+          type: 'real'
         }
         {
           name: 'payload_requestMetadata_requestAttributes_time_t'
@@ -214,9 +209,9 @@ resource gcpdnsclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02-
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'payload_sourceIP_s'
           type: 'string'
-          dataTypeHint: 2
+          dataTypeHint: 3
         }
       ]
     }

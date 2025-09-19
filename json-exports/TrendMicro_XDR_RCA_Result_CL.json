@@ -96,14 +96,6 @@
                        {
                            "Name":  "_ResourceId",
                            "Type":  "string"
-                       },
-                       {
-                           "Name":  "workbenchId_s",
-                           "Type":  "string"
-                       },
-                       {
-                           "Name":  "TimeGenerated",
-                           "Type":  "DateTime"
                        }
                    ]
 }

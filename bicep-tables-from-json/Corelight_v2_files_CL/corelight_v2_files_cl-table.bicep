@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Corelight_v2_files_CL
-// Generated on 2025-09-17 06:39:59 UTC
+// Generated on 2025-09-19 14:13:52 UTC
 // Source: JSON schema export
-// Original columns: 28, Deployed columns: 28 (Type column filtered)
-// Underscore columns included
+// Original columns: 28, Deployed columns: 25 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -43,8 +43,8 @@ resource corelightv2filesclTable 'Microsoft.OperationalInsights/workspaces/table
           type: 'dateTime'
         }
         {
-          name: '_path_s'
-          type: 'string'
+          name: 'ts_t'
+          type: 'dateTime'
         }
         {
           name: 'extracted_s'
@@ -91,12 +91,12 @@ resource corelightv2filesclTable 'Microsoft.OperationalInsights/workspaces/table
           type: 'boolean'
         }
         {
-          name: 'extracted_cutoff_b'
-          type: 'boolean'
-        }
-        {
           name: 'duration_d'
           type: 'real'
+        }
+        {
+          name: 'filename_s'
+          type: 'string'
         }
         {
           name: 'mime_type_s'
@@ -131,20 +131,8 @@ resource corelightv2filesclTable 'Microsoft.OperationalInsights/workspaces/table
           type: 'string'
         }
         {
-          name: 'ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: '_write_ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: '_system_name_s'
-          type: 'string'
-        }
-        {
-          name: 'filename_s'
-          type: 'string'
+          name: 'extracted_cutoff_b'
+          type: 'boolean'
         }
         {
           name: 'extracted_size_d'

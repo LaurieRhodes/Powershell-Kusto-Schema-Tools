@@ -10,7 +10,7 @@
             "Type": "DateTime"
         },
         {
-            "Name": "Body_attributes_customAttribute1_s ",
+            "Name": "Body_attributes_customAttribute1_s",
             "Type": "String"
         },
         {
@@ -130,7 +130,7 @@
             "Type": "String"
         },
         {
-            "Name": "Body_searchResults_Entitlement_noun_s ",
+            "Name": "Body_searchResults_Entitlement_noun_s",
             "Type": "String"
         },
         {

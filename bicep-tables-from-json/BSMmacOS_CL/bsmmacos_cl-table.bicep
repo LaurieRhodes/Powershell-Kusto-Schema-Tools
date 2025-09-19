@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: BSMmacOS_CL
-// Generated on 2025-09-17 06:39:57 UTC
+// Generated on 2025-09-19 14:13:50 UTC
 // Source: JSON schema export
-// Original columns: 38, Deployed columns: 37 (Type column filtered)
-// Underscore columns included
+// Original columns: 38, Deployed columns: 36 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,6 +48,10 @@ resource bsmmacosclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           dataTypeHint: 1
         }
         {
+          name: 'SubjectTerminal_Port_s'
+          type: 'string'
+        }
+        {
           name: 'SubjectTerminal_Host_s'
           type: 'string'
         }
@@ -68,15 +72,15 @@ resource bsmmacosclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'string'
         }
         {
+          name: 'SubjectTerminal_s'
+          type: 'string'
+        }
+        {
           name: 'Identity_SignerType_s'
           type: 'string'
         }
         {
-          name: 'SubjectTerminal_Port_s'
-          type: 'string'
-        }
-        {
-          name: 'Identity_SignerId_s'
+          name: 'Identity_SignerIdTruncated_s'
           type: 'string'
         }
         {
@@ -100,15 +104,11 @@ resource bsmmacosclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'dateTime'
         }
         {
+          name: 'Identity_SignerId_s'
+          type: 'string'
+        }
+        {
           name: 'SourceModuleName_s'
-          type: 'string'
-        }
-        {
-          name: 'Identity_SignerIdTruncated_s'
-          type: 'string'
-        }
-        {
-          name: 'SubjectTerminal_s'
           type: 'string'
         }
         {
@@ -116,7 +116,7 @@ resource bsmmacosclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'string'
         }
         {
-          name: 'SubjectPID_s'
+          name: 'SubjectRealGID_s'
           type: 'string'
         }
         {
@@ -144,11 +144,11 @@ resource bsmmacosclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'string'
         }
         {
-          name: 'EventType_s'
+          name: 'SubjectPID_s'
           type: 'string'
         }
         {
-          name: 'EventName_s'
+          name: 'EventType_s'
           type: 'string'
         }
         {
@@ -176,17 +176,12 @@ resource bsmmacosclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
           type: 'string'
         }
         {
-          name: 'SubjectRealGID_s'
+          name: 'EventName_s'
           type: 'string'
         }
         {
           name: 'SourceModuleType_s'
           type: 'string'
-        }
-        {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: SecurityScorecardFactor_CL
-// Generated on 2025-09-17 06:40:06 UTC
+// Generated on 2025-09-19 14:13:58 UTC
 // Source: JSON schema export
-// Original columns: 23, Deployed columns: 22 (Type column filtered)
-// Underscore columns included
+// Original columns: 23, Deployed columns: 21 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,10 +48,6 @@ resource securityscorecardfactorclTable 'Microsoft.OperationalInsights/workspace
           dataTypeHint: 1
         }
         {
-          name: 'industry_s'
-          type: 'string'
-        }
-        {
           name: 'factorDescription_s'
           type: 'string'
         }
@@ -80,11 +76,11 @@ resource securityscorecardfactorclTable 'Microsoft.OperationalInsights/workspace
           type: 'string'
         }
         {
-          name: 'severity_s'
+          name: 'Factor_Name_s'
           type: 'string'
         }
         {
-          name: 'Factor_Name_s'
+          name: 'Factor_s'
           type: 'string'
         }
         {
@@ -120,13 +116,12 @@ resource securityscorecardfactorclTable 'Microsoft.OperationalInsights/workspace
           type: 'string'
         }
         {
-          name: 'Factor_s'
+          name: 'industry_s'
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'severity_s'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

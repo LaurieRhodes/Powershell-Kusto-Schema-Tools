@@ -1,8 +1,8 @@
-﻿// Bicep template for Log Analytics custom table: JuniperIDP
-// Generated on 2025-09-17 06:40:04 UTC
+﻿// Bicep template for Log Analytics custom table: JuniperIDP_CL
+// Generated on 2025-09-19 14:13:56 UTC
 // Source: JSON schema export
 // Original columns: 41, Deployed columns: 41 (Type column filtered)
-// Underscore columns included
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -26,17 +26,17 @@ resource workspace 'Microsoft.OperationalInsights/workspaces@2025-02-01' existin
   name: workspaceName
 }
 
-resource juniperidpTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02-01' = {
+resource juniperidpclTable 'Microsoft.OperationalInsights/workspaces/tables@2025-02-01' = {
   parent: workspace
-  name: 'JuniperIDP'
+  name: 'JuniperIDP_CL'
   properties: {
     plan: tablePlan
     retentionInDays: retentionInDays
     totalRetentionInDays: totalRetentionInDays
     schema: {
-      name: 'JuniperIDP'
-      description: 'Custom table JuniperIDP - imported from JSON schema'
-      displayName: 'JuniperIDP'
+      name: 'JuniperIDP_CL'
+      description: 'Custom table JuniperIDP_CL - imported from JSON schema'
+      displayName: 'JuniperIDP_CL'
       columns: [
         {
           name: 'TimeGenerated'
@@ -211,6 +211,6 @@ resource juniperidpTable 'Microsoft.OperationalInsights/workspaces/tables@2025-0
   }
 }
 
-output tableName string = juniperidpTable.name
-output tableId string = juniperidpTable.id
-output provisioningState string = juniperidpTable.properties.provisioningState
+output tableName string = juniperidpclTable.name
+output tableId string = juniperidpclTable.id
+output provisioningState string = juniperidpclTable.properties.provisioningState

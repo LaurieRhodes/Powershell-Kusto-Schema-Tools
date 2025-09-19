@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: Corelight_v2_snmp_CL
-// Generated on 2025-09-17 06:40:01 UTC
+// Generated on 2025-09-19 14:13:53 UTC
 // Source: JSON schema export
-// Original columns: 19, Deployed columns: 19 (Type column filtered)
-// Underscore columns included
+// Original columns: 19, Deployed columns: 16 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -43,43 +43,15 @@ resource corelightv2snmpclTable 'Microsoft.OperationalInsights/workspaces/tables
           type: 'dateTime'
         }
         {
-          name: '_path_s'
+          name: 'ts_t'
+          type: 'dateTime'
+        }
+        {
+          name: 'uid_s'
           type: 'string'
         }
         {
-          name: 'set_requests_d'
-          type: 'real'
-        }
-        {
-          name: 'get_responses_d'
-          type: 'real'
-        }
-        {
-          name: 'get_bulk_requests_d'
-          type: 'real'
-        }
-        {
-          name: 'get_requests_d'
-          type: 'real'
-        }
-        {
-          name: 'community_s'
-          type: 'string'
-        }
-        {
-          name: 'version_s'
-          type: 'string'
-        }
-        {
-          name: 'duration_d'
-          type: 'real'
-        }
-        {
-          name: 'id_resp_p_d'
-          type: 'real'
-        }
-        {
-          name: 'id_resp_h_s'
+          name: 'id_orig_h_s'
           type: 'string'
         }
         {
@@ -87,24 +59,40 @@ resource corelightv2snmpclTable 'Microsoft.OperationalInsights/workspaces/tables
           type: 'real'
         }
         {
-          name: 'id_orig_h_s'
+          name: 'id_resp_h_s'
           type: 'string'
         }
         {
-          name: 'uid_s'
+          name: 'id_resp_p_d'
+          type: 'real'
+        }
+        {
+          name: 'duration_d'
+          type: 'real'
+        }
+        {
+          name: 'version_s'
           type: 'string'
         }
         {
-          name: 'ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: '_write_ts_t'
-          type: 'dateTime'
-        }
-        {
-          name: '_system_name_s'
+          name: 'community_s'
           type: 'string'
+        }
+        {
+          name: 'get_requests_d'
+          type: 'real'
+        }
+        {
+          name: 'get_bulk_requests_d'
+          type: 'real'
+        }
+        {
+          name: 'get_responses_d'
+          type: 'real'
+        }
+        {
+          name: 'set_requests_d'
+          type: 'real'
         }
         {
           name: 'display_string_s'

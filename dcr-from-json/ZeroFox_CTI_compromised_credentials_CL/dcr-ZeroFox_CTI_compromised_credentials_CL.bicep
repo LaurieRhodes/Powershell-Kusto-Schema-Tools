@@ -12,7 +12,7 @@ param servicePrincipalObjectId string
 // ============================================================================
 // Data Collection Rule for ZeroFox_CTI_compromised_credentials_CL
 // ============================================================================
-// Generated: 2025-09-18 08:37:41
+// Generated: 2025-09-19 14:20:39
 // Table type: Custom (presumed custom for JSON exports)
 // Schema imported from JSON export file
 // Underscore columns filtered out

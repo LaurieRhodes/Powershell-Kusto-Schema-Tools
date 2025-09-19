@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: PaloAltoPrismaCloudAlert_CL
-// Generated on 2025-09-17 06:40:05 UTC
+// Generated on 2025-09-19 14:13:57 UTC
 // Source: JSON schema export
-// Original columns: 74, Deployed columns: 73 (Type column filtered)
-// Underscore columns included
+// Original columns: 74, Deployed columns: 72 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,10 +48,6 @@ resource paloaltoprismacloudalertclTable 'Microsoft.OperationalInsights/workspac
           dataTypeHint: 1
         }
         {
-          name: 'resource_data_arn_s'
-          type: 'string'
-        }
-        {
           name: 'resource_url_s'
           type: 'string'
           dataTypeHint: 0
@@ -73,15 +69,15 @@ resource paloaltoprismacloudalertclTable 'Microsoft.OperationalInsights/workspac
           type: 'string'
         }
         {
-          name: 'resource_data_user_s'
-          type: 'string'
-        }
-        {
           name: 'resource_cloudAccountGroups_s'
           type: 'string'
         }
         {
-          name: 'resource_account_s'
+          name: 'resource_data_arn_s'
+          type: 'string'
+        }
+        {
+          name: 'resource_accountId_s'
           type: 'string'
         }
         {
@@ -105,23 +101,23 @@ resource paloaltoprismacloudalertclTable 'Microsoft.OperationalInsights/workspac
           type: 'string'
         }
         {
-          name: 'resource_accountId_s'
-          type: 'string'
-        }
-        {
           name: 'resource_data_access_key_2_last_used_region_s'
           type: 'string'
         }
         {
-          name: 'resource_additionalInfo_accessKeyAge_s'
+          name: 'resource_account_s'
           type: 'string'
         }
         {
-          name: 'resource_cloudType_s'
+          name: 'resource_data_access_key_1_last_used_region_s'
           type: 'string'
         }
         {
-          name: 'lastSeen_s'
+          name: 'resource_data_user_s'
+          type: 'string'
+        }
+        {
+          name: 'resource_additionalInfo_inactiveSinceTs_s'
           type: 'string'
         }
         {
@@ -145,15 +141,15 @@ resource paloaltoprismacloudalertclTable 'Microsoft.OperationalInsights/workspac
           type: 'string'
         }
         {
-          name: 'resource_additionalInfo_inactiveSinceTs_s'
-          type: 'string'
-        }
-        {
           name: 'riskDetail_riskScore_score_s'
           type: 'string'
         }
         {
-          name: 'policy_remediable_s'
+          name: 'resource_additionalInfo_accessKeyAge_s'
+          type: 'string'
+        }
+        {
+          name: 'alertRules_s'
           type: 'string'
         }
         {
@@ -177,11 +173,15 @@ resource paloaltoprismacloudalertclTable 'Microsoft.OperationalInsights/workspac
           type: 'string'
         }
         {
-          name: 'alertRules_s'
+          name: 'resource_cloudType_s'
           type: 'string'
         }
         {
-          name: 'resource_data_access_key_1_last_used_region_s'
+          name: 'policy_remediable_s'
+          type: 'string'
+        }
+        {
+          name: 'lastSeen_s'
           type: 'string'
         }
         {
@@ -189,7 +189,7 @@ resource paloaltoprismacloudalertclTable 'Microsoft.OperationalInsights/workspac
           type: 'string'
         }
         {
-          name: 'resource_data_access_key_1_last_used_date_s'
+          name: 'resource_data_access_key_2_last_rotated_s'
           type: 'string'
         }
         {
@@ -253,19 +253,15 @@ resource paloaltoprismacloudalertclTable 'Microsoft.OperationalInsights/workspac
           type: 'string'
         }
         {
+          name: 'resource_data_access_key_1_last_used_date_s'
+          type: 'string'
+        }
+        {
           name: 'policy_remediation_description_s'
           type: 'string'
         }
         {
-          name: 'policy_remediation_impact_s'
-          type: 'string'
-        }
-        {
           name: 'policy_remediation_cliScriptTemplate_s'
-          type: 'string'
-        }
-        {
-          name: 'resource_data_access_key_2_last_rotated_s'
           type: 'string'
         }
         {
@@ -293,11 +289,11 @@ resource paloaltoprismacloudalertclTable 'Microsoft.OperationalInsights/workspac
           type: 'string'
         }
         {
-          name: 'resource_data_access_key_1_active_s'
+          name: 'policy_remediation_impact_s'
           type: 'string'
         }
         {
-          name: 'resource_data_user_creation_time_s'
+          name: 'resource_data_access_key_1_active_s'
           type: 'string'
         }
         {
@@ -325,13 +321,12 @@ resource paloaltoprismacloudalertclTable 'Microsoft.OperationalInsights/workspac
           type: 'string'
         }
         {
-          name: 'alertTime_s'
+          name: 'resource_data_user_creation_time_s'
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'alertTime_s'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

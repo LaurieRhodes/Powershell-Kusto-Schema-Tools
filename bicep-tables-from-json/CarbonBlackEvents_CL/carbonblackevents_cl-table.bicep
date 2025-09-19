@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: CarbonBlackEvents_CL
-// Generated on 2025-09-17 06:39:58 UTC
+// Generated on 2025-09-19 14:13:50 UTC
 // Source: JSON schema export
-// Original columns: 115, Deployed columns: 114 (Type column filtered)
-// Underscore columns included
+// Original columns: 115, Deployed columns: 112 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -47,10 +47,6 @@ resource carbonblackeventsclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'dateTime'
         }
         {
-          name: 'sensor_action_s'
-          type: 'string'
-        }
-        {
           name: 'device_group_s'
           type: 'string'
         }
@@ -91,15 +87,15 @@ resource carbonblackeventsclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'real'
         }
         {
-          name: 'org_key_s'
-          type: 'string'
-        }
-        {
           name: 'parent_cmdline_s'
           type: 'string'
         }
         {
-          name: 'event_origin_s'
+          name: 'sensor_action_s'
+          type: 'string'
+        }
+        {
+          name: 'longDescription_s'
           type: 'string'
         }
         {
@@ -143,28 +139,23 @@ resource carbonblackeventsclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'string'
         }
         {
-          name: 'longDescription_s'
+          name: 'processDetails_targetCommandLine_s'
           type: 'string'
         }
         {
-          name: 'action_s'
+          name: 'event_origin_s'
+          type: 'string'
+        }
+        {
+          name: 'childproc_hash_s'
+          type: 'string'
+        }
+        {
+          name: 'org_key_s'
           type: 'string'
         }
         {
           name: 'remote_ip_s'
-          type: 'string'
-        }
-        {
-          name: 'processDetails_processId_d'
-          type: 'real'
-        }
-        {
-          name: 'netFlow_peerIpAddress_s'
-          type: 'string'
-          dataTypeHint: 3
-        }
-        {
-          name: 'parent_guid_s'
           type: 'string'
         }
         {
@@ -212,11 +203,11 @@ resource carbonblackeventsclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'string'
         }
         {
-          name: 'device_id_s'
+          name: 'action_s'
           type: 'string'
         }
         {
-          name: 'process_guid_s'
+          name: 'device_id_s'
           type: 'string'
         }
         {
@@ -260,20 +251,23 @@ resource carbonblackeventsclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'string'
         }
         {
-          name: 'processDetails_targetCommandLine_s'
+          name: 'processDetails_processId_d'
+          type: 'real'
+        }
+        {
+          name: 'process_guid_s'
           type: 'string'
         }
         {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
-        }
-        {
-          name: 'childproc_hash_s'
+          name: 'parent_guid_s'
           type: 'string'
         }
         {
-          name: 'childproc_reputation_s'
+          name: 'childproc_guid_s'
+          type: 'string'
+        }
+        {
+          name: 'childproc_name_s'
           type: 'string'
         }
         {
@@ -380,19 +374,15 @@ resource carbonblackeventsclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'string'
         }
         {
+          name: 'childproc_reputation_s'
+          type: 'string'
+        }
+        {
           name: 'scriptload_reputation_s'
           type: 'string'
         }
         {
-          name: 'scriptload_name_s'
-          type: 'string'
-        }
-        {
           name: 'childproc_publisher_s'
-          type: 'string'
-        }
-        {
-          name: 'childproc_name_s'
           type: 'string'
         }
         {
@@ -440,11 +430,11 @@ resource carbonblackeventsclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'string'
         }
         {
-          name: 'modload_publisher_s'
+          name: 'scriptload_name_s'
           type: 'string'
         }
         {
-          name: 'modload_md5_g'
+          name: 'modload_publisher_s'
           type: 'string'
         }
         {
@@ -492,12 +482,13 @@ resource carbonblackeventsclTable 'Microsoft.OperationalInsights/workspaces/tabl
           type: 'string'
         }
         {
-          name: 'childproc_guid_s'
+          name: 'modload_md5_g'
           type: 'string'
         }
         {
-          name: '_ItemId'
+          name: 'netFlow_peerIpAddress_s'
           type: 'string'
+          dataTypeHint: 3
         }
       ]
     }

@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: SailPointIDN_Triggers_CL
-// Generated on 2025-09-17 06:40:06 UTC
+// Generated on 2025-09-19 14:13:58 UTC
 // Source: JSON schema export
 // Original columns: 54, Deployed columns: 54 (Type column filtered)
-// Underscore columns included
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -59,7 +59,7 @@ resource sailpointidntriggersclTable 'Microsoft.OperationalInsights/workspaces/t
           type: 'string'
         }
         {
-          name: 'Body_searchResults_Entitlement_noun_s '
+          name: 'Body_searchResults_Entitlement_noun_s'
           type: 'string'
         }
         {
@@ -155,7 +155,7 @@ resource sailpointidntriggersclTable 'Microsoft.OperationalInsights/workspaces/t
           type: 'string'
         }
         {
-          name: 'Body_attributes_customAttribute1_s '
+          name: 'Body_attributes_customAttribute1_s'
           type: 'string'
         }
         {

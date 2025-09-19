@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: CarbonBlackNotifications_CL
-// Generated on 2025-09-17 06:39:58 UTC
+// Generated on 2025-09-19 14:13:50 UTC
 // Source: JSON schema export
-// Original columns: 170, Deployed columns: 169 (Type column filtered)
-// Underscore columns included
+// Original columns: 170, Deployed columns: 167 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,6 +48,10 @@ resource carbonblacknotificationsclTable 'Microsoft.OperationalInsights/workspac
           dataTypeHint: 1
         }
         {
+          name: 'threatInfo_threatCause_actor_s'
+          type: 'string'
+        }
+        {
           name: 'threatInfo_threatCause_actorName_s'
           type: 'string'
         }
@@ -72,11 +76,11 @@ resource carbonblacknotificationsclTable 'Microsoft.OperationalInsights/workspac
           type: 'string'
         }
         {
-          name: 'threatInfo_threatCause_parentGuid_s'
+          name: 'threatInfo_threatCause_reputation_s'
           type: 'string'
         }
         {
-          name: 'threatHunterInfo_incidentId_g'
+          name: 'threatInfo_threatCause_parentGuid_s'
           type: 'string'
         }
         {
@@ -108,27 +112,23 @@ resource carbonblacknotificationsclTable 'Microsoft.OperationalInsights/workspac
           type: 'real'
         }
         {
-          name: 'threatHunterInfo_dismissed_b'
-          type: 'boolean'
-        }
-        {
-          name: 'threatHunterInfo_documentGuid_s'
+          name: 'threatHunterInfo_incidentId_g'
           type: 'string'
         }
         {
-          name: 'threatInfo_threatCause_actor_s'
-          type: 'string'
-        }
-        {
-          name: 'threatHunterInfo_firstActivityTime_d'
-          type: 'real'
-        }
-        {
-          name: 'threatInfo_threatCause_reputation_s'
+          name: 'threatInfo_threatCause_reason_s'
           type: 'string'
         }
         {
           name: 'threatInfo_indicators_s'
+          type: 'string'
+        }
+        {
+          name: 'threatInfo_time_d'
+          type: 'real'
+        }
+        {
+          name: 'workflow_changed_by_type_s'
           type: 'string'
         }
         {
@@ -196,24 +196,28 @@ resource carbonblacknotificationsclTable 'Microsoft.OperationalInsights/workspac
           type: 'string'
         }
         {
-          name: 'threatInfo_time_d'
+          name: 'threatHunterInfo_dismissed_b'
+          type: 'boolean'
+        }
+        {
+          name: 'threatHunterInfo_documentGuid_s'
+          type: 'string'
+        }
+        {
+          name: 'threatHunterInfo_firstActivityTime_d'
           type: 'real'
-        }
-        {
-          name: 'threatInfo_threatCause_reason_s'
-          type: 'string'
-        }
-        {
-          name: 'workflow_changed_by_type_s'
-          type: 'string'
         }
         {
           name: 'threatHunterInfo_md5_g'
           type: 'string'
         }
         {
-          name: 'threatHunterInfo_processGuid_s'
+          name: 'threatHunterInfo_threatId_g'
           type: 'string'
+        }
+        {
+          name: 'threatHunterInfo_lastUpdatedTime_d'
+          type: 'real'
         }
         {
           name: 'threatHunterInfo_orgId_d'
@@ -279,27 +283,27 @@ resource carbonblacknotificationsclTable 'Microsoft.OperationalInsights/workspac
           type: 'string'
         }
         {
-          name: 'ruleName_s'
+          name: 'threatHunterInfo_threatCause_processGuid_s'
           type: 'string'
         }
         {
-          name: 'eventTime_d'
-          type: 'real'
+          name: 'workflow_change_timestamp_t'
+          type: 'dateTime'
         }
         {
-          name: 'threatHunterInfo_lastUpdatedTime_d'
-          type: 'real'
+          name: 'threatHunterInfo_threatCause_originSourceType_s'
+          type: 'string'
+        }
+        {
+          name: 'threatHunterInfo_threatCause_actorName_s'
+          type: 'string'
         }
         {
           name: 'threatHunterInfo_policyId_d'
           type: 'real'
         }
         {
-          name: 'threatHunterInfo_threatId_g'
-          type: 'string'
-        }
-        {
-          name: 'threatHunterInfo_threatCause_originSourceType_s'
+          name: 'threatHunterInfo_processGuid_s'
           type: 'string'
         }
         {
@@ -363,20 +367,8 @@ resource carbonblacknotificationsclTable 'Microsoft.OperationalInsights/workspac
           type: 'string'
         }
         {
-          name: 'threatHunterInfo_threatCause_actorName_s'
-          type: 'string'
-        }
-        {
           name: 'threatHunterInfo_threatCause_threatCategory_s'
           type: 'string'
-        }
-        {
-          name: 'threatHunterInfo_threatCause_processGuid_s'
-          type: 'string'
-        }
-        {
-          name: 'workflow_change_timestamp_t'
-          type: 'dateTime'
         }
         {
           name: 'workflow_status_s'
@@ -384,6 +376,10 @@ resource carbonblacknotificationsclTable 'Microsoft.OperationalInsights/workspac
         }
         {
           name: 'watchlists_s'
+          type: 'string'
+        }
+        {
+          name: 'org_key_s'
           type: 'string'
         }
         {
@@ -544,15 +540,19 @@ resource carbonblacknotificationsclTable 'Microsoft.OperationalInsights/workspac
           type: 'string'
         }
         {
+          name: 'ruleName_s'
+          type: 'string'
+        }
+        {
           name: 'process_guid_s'
           type: 'string'
         }
         {
-          name: 'parent_sha256_s'
+          name: 'report_tags_s'
           type: 'string'
         }
         {
-          name: 'report_tags_s'
+          name: 'parent_cmdline_s'
           type: 'string'
         }
         {
@@ -620,16 +620,12 @@ resource carbonblacknotificationsclTable 'Microsoft.OperationalInsights/workspac
           type: 'string'
         }
         {
-          name: 'org_key_s'
-          type: 'string'
-        }
-        {
-          name: 'parent_cmdline_s'
-          type: 'string'
-        }
-        {
           name: 'alert_notes_present_b'
           type: 'boolean'
+        }
+        {
+          name: 'parent_sha256_s'
+          type: 'string'
         }
         {
           name: 'report_link_s'
@@ -637,8 +633,8 @@ resource carbonblacknotificationsclTable 'Microsoft.OperationalInsights/workspac
           dataTypeHint: 0
         }
         {
-          name: 'backend_timestamp_t'
-          type: 'dateTime'
+          name: 'reason_code_s'
+          type: 'string'
         }
         {
           name: 'report_id_s'
@@ -673,13 +669,12 @@ resource carbonblacknotificationsclTable 'Microsoft.OperationalInsights/workspac
           type: 'real'
         }
         {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
-        }
-        {
           name: 'determination_value_s'
           type: 'string'
+        }
+        {
+          name: 'determination_change_timestamp_t'
+          type: 'dateTime'
         }
         {
           name: 'ioc_id_s'
@@ -710,16 +705,12 @@ resource carbonblacknotificationsclTable 'Microsoft.OperationalInsights/workspac
           type: 'string'
         }
         {
-          name: 'reason_code_s'
-          type: 'string'
-        }
-        {
-          name: 'determination_change_timestamp_t'
+          name: 'backend_timestamp_t'
           type: 'dateTime'
         }
         {
-          name: '_ItemId'
-          type: 'string'
+          name: 'eventTime_d'
+          type: 'real'
         }
       ]
     }

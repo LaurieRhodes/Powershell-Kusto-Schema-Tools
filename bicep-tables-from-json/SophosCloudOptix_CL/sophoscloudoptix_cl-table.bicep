@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: SophosCloudOptix_CL
-// Generated on 2025-09-17 06:40:06 UTC
+// Generated on 2025-09-19 14:13:58 UTC
 // Source: JSON schema export
-// Original columns: 23, Deployed columns: 22 (Type column filtered)
-// Underscore columns included
+// Original columns: 23, Deployed columns: 21 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -48,10 +48,6 @@ resource sophoscloudoptixclTable 'Microsoft.OperationalInsights/workspaces/table
           dataTypeHint: 1
         }
         {
-          name: 'policyTagName_s'
-          type: 'string'
-        }
-        {
           name: 'lastSeen_s'
           type: 'string'
         }
@@ -81,11 +77,11 @@ resource sophoscloudoptixclTable 'Microsoft.OperationalInsights/workspaces/table
           dataTypeHint: 0
         }
         {
-          name: 'severity_s'
+          name: 'alertId_s'
           type: 'string'
         }
         {
-          name: 'alertId_s'
+          name: 'alertDescription_s'
           type: 'string'
         }
         {
@@ -121,13 +117,12 @@ resource sophoscloudoptixclTable 'Microsoft.OperationalInsights/workspaces/table
           type: 'string'
         }
         {
-          name: 'alertDescription_s'
+          name: 'policyTagName_s'
           type: 'string'
         }
         {
-          name: '_ResourceId'
+          name: 'severity_s'
           type: 'string'
-          dataTypeHint: 2
         }
       ]
     }

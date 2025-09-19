@@ -1,7 +1,7 @@
 ﻿// ============================================================================
 // Azure Data Explorer KQL Script for TransmitSecurityUserActivity_CL
 // ============================================================================
-// Generated: 2025-09-17 06:16:08
+// Generated: 2025-09-19 14:23:12
 // Table type: Custom (presumed for JSON exports)
 // Schema imported from JSON export file
 // ============================================================================
@@ -17,6 +17,7 @@
 // Alternative for direct events: '[{"column":"records","Properties":{"path":"$"}}]'
 
 .create-merge table TransmitSecurityUserActivity_CL(
+TimeGenerated:datetime,
 activity:string,
 app_id:string,
 ip:string,
@@ -32,6 +33,7 @@ TransmitSecurityUserActivity_CLRaw
 | mv-expand events = records
 // Alternative for non-nested: | extend events = records
 | project
+TimeGenerated=todatetime(events.TimeGenerated),
 activity=tostring(events.activity),
 app_id=tostring(events.app_id),
 ip=tostring(events.ip),

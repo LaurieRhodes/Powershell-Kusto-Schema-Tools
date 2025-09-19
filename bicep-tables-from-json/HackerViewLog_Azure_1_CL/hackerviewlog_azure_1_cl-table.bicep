@@ -1,8 +1,8 @@
 ﻿// Bicep template for Log Analytics custom table: HackerViewLog_Azure_1_CL
-// Generated on 2025-09-17 06:40:03 UTC
+// Generated on 2025-09-19 14:13:55 UTC
 // Source: JSON schema export
-// Original columns: 34, Deployed columns: 34 (Type column filtered)
-// Underscore columns included
+// Original columns: 34, Deployed columns: 33 (Type column filtered)
+// Underscore columns filtered out
 // dataTypeHint values: 0=Uri, 1=Guid, 2=ArmPath, 3=IP
 
 @description('Log Analytics Workspace name')
@@ -103,11 +103,11 @@ resource hackerviewlogazure1clTable 'Microsoft.OperationalInsights/workspaces/ta
           type: 'string'
         }
         {
-          name: 'severity_s'
+          name: 'meta_domain_s'
           type: 'string'
         }
         {
-          name: 'meta_domain_s'
+          name: 'meta_discovery_source_s'
           type: 'string'
         }
         {
@@ -125,11 +125,6 @@ resource hackerviewlogazure1clTable 'Microsoft.OperationalInsights/workspaces/ta
         {
           name: 'meta_asset_s'
           type: 'string'
-        }
-        {
-          name: '_ResourceId'
-          type: 'string'
-          dataTypeHint: 2
         }
         {
           name: 'issue_type_s'
@@ -169,7 +164,7 @@ resource hackerviewlogazure1clTable 'Microsoft.OperationalInsights/workspaces/ta
           type: 'string'
         }
         {
-          name: 'meta_discovery_source_s'
+          name: 'severity_s'
           type: 'string'
         }
         {
