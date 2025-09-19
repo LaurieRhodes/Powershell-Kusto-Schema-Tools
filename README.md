@@ -79,6 +79,4 @@ This repository contains the **largest known collection** of production-ready Da
 
 - **License**: Shared under MIT License.
 
-
-
 For more tips, tools and projects related to using Kusto as a Big Data SIEM go to: https://laurierhodes.info/
