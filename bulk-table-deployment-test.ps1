@@ -28,7 +28,7 @@ $totalRetentionInDays = 30    # 4-4383 days
 $bicepTablesDirectory = Join-Path $PSScriptRoot "bicep-tables-from-json"
 $whatIfMode = $false          # Set to $true to validate templates without deploying
 $testMode = $false            # Set to $true to only test a few tables first
-$maxRetries = 3               # Number of retries for failed deployments
+$maxRetries = 1               # Number of retries for failed deployments
 $retryDelaySeconds = 30       # Delay between retries
 $cleanupAfterTest = $false    # Set to $true to delete tables after successful deployment
 
