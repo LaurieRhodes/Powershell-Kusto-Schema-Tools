@@ -160,63 +160,6 @@ The Log Analytics Workspace you intend to receive events is specified by the wor
 
 The workspaceName parameter is simply an identifier used in naming the DCR.  It's likely that CI/CD pipelines will have Dev / Test / Prod targets for Data Collection Rules so incorporating the name of the destination Log Analytics Workspace is helpful in easily identifying where data to a particular DCR actually goes. 
 
-## Reserved Column Filtering
-
-### Filtering Control
-
-```powershell
-# Column filtering options
-$FilterUnderscoreColumns = $true        # Set to $false to include underscore columns in DCR
-```
-
-### Always Filtered Columns
-
-- **Type**: Microsoft reserved column - **always** filtered out regardless of settings (causes DCR deployment failures)
-
-### Conditionally Filtered Columns
-
-- **Underscore columns** (starting with `_`): Filtered based on `$FilterUnderscoreColumns` setting
-  - `$true` (default): `_ResourceId`, `_SubscriptionId`, `_BilledSize`, etc. are filtered out
-  - `$false`: Underscore columns are included in DCR (useful for vendors that use underscore-prefixed columns)
-
-### Filtering Logic
-
-```powershell
-function Filter-DCRReservedColumns {
-    param([array]$columns, [bool]$filterUnderscore)
-
-    # DCR reserved columns (always filtered)
-    $dcrReservedColumns = @('Type')
-
-    $filteredColumns = $columns | Where-Object { 
-        # Always filter reserved columns
-        $_.name -notin $dcrReservedColumns -and
-        # Conditionally filter underscore columns
-        (-not $filterUnderscore -or -not $_.name.StartsWith("_"))
-    }
-
-    return $filteredColumns
-}
-```
-
-### Configuration Examples
-
-#### Standard Configuration (Default)
-
-```powershell
-$FilterUnderscoreColumns = $true        # Filter underscore columns
-```
-
-**Result**: Excludes `_ResourceId`, `_SubscriptionId`, `Type`, etc.
-
-#### Include Underscore Columns
-
-```powershell
-$FilterUnderscoreColumns = $false       # Include underscore columns
-```
-
-**Result**: Includes `_ResourceId`, `_SubscriptionId`, but still excludes `Type`
-
 ## Data Type Transformations
 
 ### Input Stream Types (JSON Compatible)
@@ -255,22 +198,3 @@ columns: [
 ### Log Analytics Table Expansion
 
 Log Analytics tables must contain the custom table for the Data Collection Rule custom data prior to the DCR being deployed.  See the use of the included json-to-bicep-table-export.ps1 script for this purpose.
-
-## Production Considerations
-
-### Reserved Column Safety
-
-- **Type column**: Always filtered to prevent DCR deployment failures
-- **Error prevention**: Script stops underscore column issues before deployment
-
-### Vendor Compatibility
-
-- **Default safe**: Most environments should use `$FilterUnderscoreColumns = $true`
-- **Vendor support**: Set to `$false` if vendor uses underscore-prefixed columns
-- **Transparency**: Console output clearly shows what was filtered
-
-### CI/CD Integration
-
-- **Parameter control**: Single variable controls filtering behavior
-- **Template consistency**: Generated templates include filtering approach comments
-- **Deployment safety**: Reserved columns never cause deployment failures
