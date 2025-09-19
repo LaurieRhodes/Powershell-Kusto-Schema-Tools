@@ -14,15 +14,13 @@ The tools in this repository are written to managing data interchange between Az
 
 *The PowerShell scripts are used for:*
 
-* Exporting Sentinel and Log Analytics table schemas to Azure Data Explorer (ADX) and Eventhouse KQL scripts
+- **Exporting Sentinel and Log Analytics table schemas** to Azure Data Explorer (ADX) and Eventhouse KQL scripts
 
-* Automating Data Collection Rule creation to write data to Log Analytics / Sentinel tables
+- **Automating Data Collection Rule creation** to write data to Log Analytics / Sentinel tables
 
-* Extending Log Analytics with new Custom Log (_CL_) tables
+- **Extending Log Analytics Workspaces** with new Custom Log (_CL_) tables
 
-* Testing writeable tables in Log Analytics / Sentinel
-
-* Creating Log Analytics / Sentinel tables and Data Collection Rules from JSON schemas
+- **Discovering writeable tables** in Log Analytics / Sentinel
 
 ---
 
@@ -70,7 +68,7 @@ This repository contains the **largest known collection** of production-ready Da
 | Directory                                                             | Contents                           | Count   | Description                                                                                                                                                                                             |
 | --------------------------------------------------------------------- | ---------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [`bicep-tables-from-json/`](bicep-tables-from-json)                   | **Bicep Table Definitions**        | 400+    | Complete Log Analytics custom table definitions with deployment automation for major security vendors (Corelight, CrowdStrike, SentinelOne, Palo Alto, etc.)                                            |
-| [`dcr-from-json/`](dcr-from-json)                                     | **Data Collection Rule Templates** | 400+    | DCR Bicep templates with parameters filesÂ? for enterprise security data sources                                                                                                                        |
+| [`dcr-from-json/`](dcr-from-json)                                     | **Data Collection Rule Templates** | 400+    | DCR Bicep templates with parameters files for enterprise security data sources                                                                                                                          |
 | [`kql-from-loganalytics/`](kql-from-loganalytics)                     | **KQL Table Creation Scripts**     | 700+    | Complete KQL table definitions extracted from Log Analytics for ADX and EventHouse deployment, covering Microsoft native and custom security tables                                                     |
 | [`kql-from-json/`](kql-from-json)                                     | **Generated KQL Scripts**          | 400+    | KQL table definitions generated from JSON schema exports                                                                                                                                                |
 | [`json-exports/`](json-exports)                                       | **JSON Schema Files**              | 400+    | Standardised JSON schema exports from the [Sentinel Github Repo](https://github.com/Azure/Azure-Sentinel/tree/b53b5f0e5837da2d747319349cd2e81385c22a38/.script/tests/KqlvalidationsTests/CustomTables). |
@@ -80,3 +78,7 @@ This repository contains the **largest known collection** of production-ready Da
 ## **License & Support**
 
 - **License**: Shared under MIT License.
+
+
+
+For more tips, tools and projects related to using Kusto as a Big Data SIEM go to: https://laurierhodes.info/
