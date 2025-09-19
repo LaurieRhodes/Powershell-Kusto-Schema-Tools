@@ -31,7 +31,7 @@ $dcrDirectory = Join-Path $outputDirectory "dcr-from-json"
 # Column filtering options
 $FilterUnderscoreColumns = $true        # Set to $false to include underscore columns in DCR
 
-# Bicep template configuration
+# Bicep properties configuration
 $bicepConfig = @{
     DefaultLocation = "Australia East"
     DefaultWorkspaceName = "sentinel-workspace"
