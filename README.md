@@ -8,7 +8,7 @@
 
 ---
 
-## ?î® **Purpose**
+## **Purpose**
 
 The tools in this repository are written to managing data interchange between Azure Data Explorer (ADX), EventHouse and Microsoft Sentinel. 
 
@@ -26,7 +26,7 @@ The tools in this repository are written to managing data interchange between Az
 
 ---
 
-## ?íé **Enterprise Assets Included**
+## **Enterprise Assets Included**
 
 - **400+ Production DCR Templates**: Bicep deployment packages for _CL definitions for most major security vendors
 - **400+ Bicep Table Definitions**: Infrastructure-as-code examples for extending Log Analytics custom tables  
@@ -36,13 +36,13 @@ The tools in this repository are written to managing data interchange between Az
 
 ---
 
-## ?ìö **Documentation**
+## **Documentation**
 
 - **[Complete Technical Documentation](docs/README.md)** - Detailed usage for all tools
 
 ---
 
-## ?ìÇ **Repository Structure**
+## **Repository Structure**
 
 ### Schema Export & Discovery
 
@@ -63,7 +63,7 @@ The tools in this repository are written to managing data interchange between Az
 
 ---
 
-## ?ìÅ **Production Example Archives**
+## **Production Example Archives**
 
 This repository contains the **largest known collection** of production-ready Data Collection Rules and Bicep table definitions for enterprise security platforms.
 
@@ -77,6 +77,6 @@ This repository contains the **largest known collection** of production-ready Da
 | [`json-exports-from-log-analytics/`](json-exports-from-log-analytics) | **JSON Schema Files**              | 700     | Standardised JSON schema exports from Log Analytics                                                                                                                                                     |
 | [`docs/`](docs)                                                       | **Technical Documentation**        | 8 files | Comprehensive implementation guides for all scripts                                                                                                                                                     |
 
-## ?ìÑ **License & Support**
+## **License & Support**
 
 - **License**: Shared under MIT License.
