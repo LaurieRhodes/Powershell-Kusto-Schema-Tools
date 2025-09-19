@@ -28,9 +28,7 @@ The tools in this repository are written to managing data interchange between Az
 
 - **400+ Production DCR Templates**: Bicep deployment packages for _CL definitions for most major security vendors
 - **400+ Bicep Table Definitions**: Infrastructure-as-code examples for extending Log Analytics custom tables  
-- **1000+ KQL Table Definitions**: KQL schema templates derived from Log Analytics and the Sentinel archive to serve as templates fore data engineering.  
-- **Hybrid Schema Discovery**: Combines Management API with runtime getschema queries for complete coverage
-- **PowerShell scripts**: The raw scripts for exporting schema and creatting Data Collection Rules when required
+- **1000+ KQL Table Definitions**: KQL schema templates derived from Log Analytics and the Sentinel archive to serve as templates for data engineering.  
 
 ---
 
