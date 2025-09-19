@@ -22,7 +22,12 @@ Documentation for the schema interchange tools. Each script has detailed configu
 
 ### Log Analytics Writeable Table validation
 
-- **[bulk-dcr-deployment-test.md](bulk-dcr-deployment-test.md)** - Test what Log Analytics tables may be written to
+- **[bulk-dcr-deployment-test.md](bulk-dcr-deployment-test.md)** - Test which Log Analytics tables may be written to
+
+### CI/CD Bulk Deployments
+
+- **[bulk-dcr-deployment-test.md](bulk-dcr-deployment-test.md)** - Bulk deployment of Data Collection Rules
+- **[bulk-table-deployment-test.md](bulk-table-deployment-test.md)** - Bulk deployment of Log Analytics Custom Log tables (_CL)
 
 ## Script Selection
 
