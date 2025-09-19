@@ -27,6 +27,7 @@ Documentation for the schema interchange tools. Each script has detailed configu
 ### CI/CD Bulk Deployments
 
 - **[bulk-dcr-deployment-test.md](bulk-dcr-deployment-test.md)** - Bulk deployment of Data Collection Rules
+
 - **[bulk-table-deployment-test.md](bulk-table-deployment-test.md)** - Bulk deployment of Log Analytics Custom Log tables (_CL)
 
 ## Script Selection
