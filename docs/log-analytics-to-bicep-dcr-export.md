@@ -72,9 +72,7 @@ $tablesToExport = @(
     'GCPAuditLogs',
     'GoogleCloudSCC',
     'SecurityEvent',
-    'Syslog',
-    'WindowsEvent',
-    'OktaV2_CL'
+    'Syslog'
 )
 ```
 
@@ -82,8 +80,10 @@ $tablesToExport = @(
 
 ```powershell
 $outputDirectory = $PSScriptRoot
-$dcrDirectory = Join-Path $outputDirectory "dcr"
+$dcrDirectory = Join-Path $outputDirectory "dcr-from-log-analytics"
 ```
+
+The produced output of this script will be in a subdirectory off the root of the script directory.
 
 ### Bicep Template Configuration
 
@@ -95,82 +95,7 @@ $bicepConfig = @{
 }
 ```
 
-### Discovery Settings
-
-```powershell
-$useHybridDiscovery = $true        # Use both Management API + getschema
-$preferManagementAPITypes = $true  # Prefer Management API types over getschema
-```
-
-## Usage Examples
-
-### Export All Tables (Default Configuration)
-
-```powershell
-# Export every table in the workspace
-$ExportAll = $true
-```
-
-### Export Specific Security Tables Only
-
-```powershell
-# Export only the tables listed in $tablesToExport
-$ExportAll = $false
-
-$tablesToExport = @(
-    'SecurityEvent',
-    'CommonSecurityLog',
-    'Syslog',
-    'WindowsEvent'
-)
-```
-
-### Export Custom Tables Only
-
-```powershell
-# Export all custom tables (ending with _CL) by discovering and filtering
-$ExportAll = $true
-# Then manually filter results or modify discovery logic for specific table patterns
-```
-
-## DCR Design Principles
-
-### JSON-Compatible Input Schema
-
-DCRs receiving JSON data can only handle limited input types:
-
-- **string**: Text data, dates, GUIDs (converted in transform)
-- **dynamic**: JSON objects and arrays
-- **int**: Integers (rarely used due to string conversion safety)
-
-**All other types** (datetime, guid, real, bool) are received as strings and converted via KQL transform for maximum resilience against data format variations.
-
-### Transform Layer Logic
-
-```kusto
-source | project 
-    TimeGenerated = todatetime(TimeGenerated),
-    TenantId = toguid(TenantId),
-    EventID = toint(EventID),
-    payload_count_d = toreal(payload_count_d)
-```
-
-This approach provides:
-
-- **Operator Error Protection**: Handles "123" vs 123 variations
-- **Type Safety**: Explicit conversions with error handling
-- **Data Validation**: Invalid data converts to null rather than failing ingestion
-
-## Output Stream Determination
-
-### Automatic Stream Selection
-
-The script uses Management API table type to determine correct output streams:
-
-| Table Type  | Table Name Pattern | Output Stream         | Notes                     |
-| ----------- | ------------------ | --------------------- | ------------------------- |
-| `CustomLog` | `*_CL`             | `Custom-TableName`    | All custom logs           |
-| `Microsoft` | Other              | `Microsoft-TableName` | Specific Microsoft tables |
+Example Bicep parameter file constructure may be defined within the script.  Note that the DefaultWorkspaceName parameter is used as part of a friendly name with the DCR created.
 
 ### Bicep Template Features
 
@@ -197,13 +122,15 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
 }
 ```
 
-Notice that the stream declaration is always a 'Custom' stream.
+Notice that the stream declaration is always a 'Custom' stream.  The primary output is a Data Collection Rule in Bicep.
 
 #### 2. Transform KQL Generation
 
 ```bicep
 transformKql: 'source | project TimeGenerated = todatetime(TimeGenerated), TenantId = toguid(TenantId), payload_vmInstanceId_d = toreal(payload_vmInstanceId_d)'
 ```
+
+The creation of Transform KQL statements is a huge labour saving advantage of generating Data Collection Rules by script.
 
 #### 3. Role Assignment
 
