@@ -4,7 +4,7 @@
 
 Exports Azure Data Explorer (ADX) table schemas to JSON format. Creates standardised JSON schema files compatible with other toolkit scripts for downstream processing into KQL, Bicep DCR, or Bicep table formats.
 
-Note that this script is hardcoded to skip underscore prefaced columns as part of an export as these are typically an indication of internal use only.  These may be re-inserted into JSON exports if required.
+Note that this script is hardcoded to skip underscore prefaced columns as part of an export, as these are typically an indication of internal use only.  These may be re-inserted into JSON exports if required.
 
 ## Purpose
 
@@ -62,6 +62,12 @@ The script converts ADX data types to Log Analytics-compatible JSON types:
 **Location**: `json-exports-from-adx\` directory
 **Naming**: `{TableName}.json`
 **Format**: JSON nested structure
+
+
+
+The nested JSON structure matches the format used by Microsoft Sentinel and their KQL Validation tests:  [Azure-Sentinel/.script/tests/KqlvalidationsTests/CustomTables at b53b5f0e5837da2d747319349cd2e81385c22a38 · Azure/Azure-Sentinel · GitHub](https://github.com/Azure/Azure-Sentinel/tree/b53b5f0e5837da2d747319349cd2e81385c22a38/.script/tests/KqlvalidationsTests/CustomTables)
+
+
 
 **Example Output**:
 

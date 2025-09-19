@@ -8,7 +8,7 @@
 
 ---
 
-## üî® **Purpose**
+## ?î® **Purpose**
 
 The tools in this repository are written to managing data interchange between Azure Data Explorer (ADX), EventHouse and Microsoft Sentinel. 
 
@@ -26,7 +26,7 @@ The tools in this repository are written to managing data interchange between Az
 
 ---
 
-## üíé **Enterprise Assets Included**
+## ?íé **Enterprise Assets Included**
 
 - **400+ Production DCR Templates**: Bicep deployment packages for _CL definitions for most major security vendors
 - **400+ Bicep Table Definitions**: Infrastructure-as-code examples for extending Log Analytics custom tables  
@@ -36,13 +36,13 @@ The tools in this repository are written to managing data interchange between Az
 
 ---
 
-## üìö **Documentation**
+## ?ìö **Documentation**
 
 - **[Complete Technical Documentation](docs/README.md)** - Detailed usage for all tools
 
 ---
 
-## üìÇ **Repository Structure**
+## ?ìÇ **Repository Structure**
 
 ### Schema Export & Discovery
 
@@ -63,20 +63,20 @@ The tools in this repository are written to managing data interchange between Az
 
 ---
 
-## üìÅ **Production Example Archives**
+## ?ìÅ **Production Example Archives**
 
 This repository contains the **largest known collection** of production-ready Data Collection Rules and Bicep table definitions for enterprise security platforms.
 
-| Directory                                                             | Contents                           | Count   | Description                                                                                                                                                  |
-| --------------------------------------------------------------------- | ---------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [`bicep-tables-from-json/`](bicep-tables-from-json)                   | **Bicep Table Definitions**        | 400+    | Complete Log Analytics custom table definitions with deployment automation for major security vendors (Corelight, CrowdStrike, SentinelOne, Palo Alto, etc.) |
-| [`dcr-from-json/`](dcr-from-json)                                     | **Data Collection Rule Templates** | 400+    | DCR Bicep templates with parameters files¬† for enterprise security data sources                                                                              |
-| [`kql-from-loganalytics/`](kql-from-loganalytics)                     | **KQL Table Creation Scripts**     | 700+    | Complete KQL table definitions extracted from Log Analytics for ADX and EventHouse deployment, covering Microsoft native and custom security tables          |
-| [`kql-from-json/`](kql-from-json)                                     | **Generated KQL Scripts**          | 400+    | KQL table definitions generated from JSON schema exports                                                                                                     |
-| [`json-exports/`](json-exports)                                       | **JSON Schema Files**              | 400+    | Standardised JSON schema exports from the Sentinel Github Repo                                                                                               |
-| [`json-exports-from-log-analytics/`](json-exports-from-log-analytics) | **JSON Schema Files**              | 700     | Standardised JSON schema exports from Log Analytics                                                                                                          |
-| [`docs/`](docs)                                                       | **Technical Documentation**        | 8 files | Comprehensive implementation guides for all scripts                                                                                                          |
+| Directory                                                             | Contents                           | Count   | Description                                                                                                                                                                                             |
+| --------------------------------------------------------------------- | ---------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`bicep-tables-from-json/`](bicep-tables-from-json)                   | **Bicep Table Definitions**        | 400+    | Complete Log Analytics custom table definitions with deployment automation for major security vendors (Corelight, CrowdStrike, SentinelOne, Palo Alto, etc.)                                            |
+| [`dcr-from-json/`](dcr-from-json)                                     | **Data Collection Rule Templates** | 400+    | DCR Bicep templates with parameters files¬? for enterprise security data sources                                                                                                                        |
+| [`kql-from-loganalytics/`](kql-from-loganalytics)                     | **KQL Table Creation Scripts**     | 700+    | Complete KQL table definitions extracted from Log Analytics for ADX and EventHouse deployment, covering Microsoft native and custom security tables                                                     |
+| [`kql-from-json/`](kql-from-json)                                     | **Generated KQL Scripts**          | 400+    | KQL table definitions generated from JSON schema exports                                                                                                                                                |
+| [`json-exports/`](json-exports)                                       | **JSON Schema Files**              | 400+    | Standardised JSON schema exports from the [Sentinel Github Repo](https://github.com/Azure/Azure-Sentinel/tree/b53b5f0e5837da2d747319349cd2e81385c22a38/.script/tests/KqlvalidationsTests/CustomTables). |
+| [`json-exports-from-log-analytics/`](json-exports-from-log-analytics) | **JSON Schema Files**              | 700     | Standardised JSON schema exports from Log Analytics                                                                                                                                                     |
+| [`docs/`](docs)                                                       | **Technical Documentation**        | 8 files | Comprehensive implementation guides for all scripts                                                                                                                                                     |
 
-## üìÑ **License & Support**
+## ?ìÑ **License & Support**
 
 - **License**: Shared under MIT License.

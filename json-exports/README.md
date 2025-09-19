@@ -1,6 +1,6 @@
 # Kusto JSON Custom Exports
 
-These JSON exports are sourced from the Microsoft Sentinel GitHub repo.
+These JSON exports are sourced from the Microsoft Sentinel GitHub repo.  [Azure-Sentinel/.script/tests/KqlvalidationsTests/CustomTables at b53b5f0e5837da2d747319349cd2e81385c22a38 · Azure/Azure-Sentinel · GitHub](https://github.com/Azure/Azure-Sentinel/tree/b53b5f0e5837da2d747319349cd2e81385c22a38/.script/tests/KqlvalidationsTests/CustomTables)
 
 
 
